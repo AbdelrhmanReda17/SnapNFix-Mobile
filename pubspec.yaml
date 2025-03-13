@@ -1,7 +1,7 @@
 name: snapnfix
 description: "SNAPNFIX"
 
-publish_to: 'none' 
+publish_to: 'none'
 
 
 version: 1.0.0+1
@@ -12,6 +12,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_native_splash: ^2.0.9
   flutter_localizations:
     sdk: flutter
   intl: ^0.19.0
@@ -32,3 +33,6 @@ flutter_gen:
 flutter:
   generate: true
   uses-material-design: true
+
+assets:
+  - assets/images/splashFrame.png
