@@ -6,6 +6,7 @@ import 'package:snapnfix/features/sign_up/presentation/screens/sign_up_screen.da
 
 class AppRouter {
   Route? generateRoute(RouteSettings settings) {
+
     // ignore: unused_local_variable
     final arguments = settings.arguments;
 
