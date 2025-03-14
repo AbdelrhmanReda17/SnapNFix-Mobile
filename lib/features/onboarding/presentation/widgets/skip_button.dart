@@ -28,7 +28,7 @@ class SkipButton extends StatelessWidget {
           );
         }
       },
-      textStyle: TextStyles.body2,
+      textStyle: TextStyles.font12Normal(TextColor.primaryColor),
       buttonWidth: 30.w,
     );
   }

@@ -59,7 +59,7 @@ class OnboardingScreenState extends State<OnboardingScreen> {
                     : BaseButton(
                       text: 'Get Started',
                       onPressed: () {},
-                      textStyle: TextStyles.body1.copyWith(color: Colors.white),
+                      textStyle: TextStyles.font12Normal(TextColor.quaternaryColor),
                     ),
           ),
         ],
