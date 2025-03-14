@@ -23,7 +23,11 @@ class NextButton extends StatelessWidget {
           );
         }
       },
-      child: Icon(Icons.arrow_forward, size: 32),
+      child: Icon(
+        Icons.arrow_forward,
+        size: 32,
+        color: ColorsManager.primaryColor,
+      ),
     );
   }
 }
