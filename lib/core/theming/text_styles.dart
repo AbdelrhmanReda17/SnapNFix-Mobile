@@ -28,6 +28,14 @@ class TextColorsManager {
         return ColorsManager.grayColor;
     }
   }
+
+  static LinearGradient getGradientColor(TextColor color1, TextColor color2) {
+    return LinearGradient(
+      begin: Alignment.topLeft,
+      end: Alignment.bottomRight,
+      colors: [getColor(color1), getColor(color2)],
+    );
+  }
 }
 
 class TextStyles {
@@ -39,9 +47,9 @@ class TextStyles {
     );
   }
 
-  static TextStyle font16Normal(TextColor color) {
+  static TextStyle font14Normal(TextColor color) {
     return TextStyle(
-      fontSize: 16.sp,
+      fontSize: 14.sp,
       fontWeight: FontWeight.w400,
       color: TextColorsManager.getColor(color),
     );

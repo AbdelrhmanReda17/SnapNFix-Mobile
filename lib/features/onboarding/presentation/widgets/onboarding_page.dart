@@ -20,19 +20,17 @@ class OnboardingPage extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Image.asset(image),
-        SizedBox(height: 20.w),
         Text(
           title,
           textAlign: TextAlign.center,
           style: TextStyles.font24Bold(TextColor.primaryColor),
         ),
-        SizedBox(height: 10.w),
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 10.h),
           child: Text(
             description,
             textAlign: TextAlign.center,
-            style: TextStyles.font12Normal(TextColor.secondaryColor),
+            style: TextStyles.font12Normal(TextColor.quaternaryColor),
           ),
         ),
       ],
