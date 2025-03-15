@@ -6,22 +6,22 @@ class Constants {
 
   static const List<Map<String, String>> onboardingContent = [
     {
-      'image': 'assets/images/onboarding_1.png',
-      'title': 'Keep Your City Clean and Safe!',
-      'description':
-          'Report overflowing trash bins and uncollected garbage instantly to ensure a cleaner, healthier environment.',
-    },
-    {
-      'image': 'assets/images/onboarding_2.png',
+      'image': 'assets/images/onboarding-1.png',
       'title': 'Prevent Accidents, Save Lives!',
       'description':
-          'Report open manholes and road hazards instantly to keep your city safe.',
+          'Report urban issues whether it’s road hazards, damaged infrastructure, or public safety concerns. ',
     },
     {
-      'image': 'assets/images/onboarding_3.png',
-      'title': 'Track and Monitor Reported Issues!',
+      'image': 'assets/images/onboarding-2.png',
+      'title': 'Snap & Report!',
       'description':
-          'Easily view reported problems on the map and follow up on their resolution in real time.',
+          'Capture issues in your city with a quick photo—AI helps detect and categorize them instantly.',
+    },
+    {
+      'image': 'assets/images/onboarding-3.png',
+      'title': 'Track & Stay Updated!',
+      'description':
+          'Stay informed with real-time updates on reported issues and their resolutions in your city.',
     },
   ];
 }

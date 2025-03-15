@@ -11,13 +11,18 @@ class PageIndicator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SmoothPageIndicator(
-      controller: _controller,
-      count: Constants.onboardingContent.length,
-      effect: WormEffect(
-        dotWidth: 10,
-        dotHeight: 10,
-        activeDotColor: ColorsManager.primaryColor,
+    return Center(
+      child: SmoothPageIndicator(
+        controller: _controller,
+        count: Constants.onboardingContent.length,
+        effect: ExpandingDotsEffect(
+          dotHeight: 8,
+          dotWidth: 8,
+          expansionFactor: 2.5, // Adjust expansion for the active dot
+          spacing: 8,
+          activeDotColor: ColorsManager.primaryColor,
+          dotColor: ColorsManager.quaternaryColor,
+        ),
       ),
     );
   }
