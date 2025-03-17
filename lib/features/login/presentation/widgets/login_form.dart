@@ -31,7 +31,7 @@ class LoginForm extends StatelessWidget {
         child: Column(
           children: [
             BaseTextField(hintText: AppLocalizations.of(context)!.phone),
-            verticalSpace(34),
+            verticalSpace(25),
             BaseTextField(
               hintText: AppLocalizations.of(context)!.password,
               isObscureText: isObscureText,
@@ -43,7 +43,7 @@ class LoginForm extends StatelessWidget {
                 ),
               ),
             ),
-            verticalSpace(34),
+            verticalSpace(25),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 4.h),
               child: Row(
@@ -57,21 +57,27 @@ class LoginForm extends StatelessWidget {
                           width: 20.w,
                           height: 20.h,
                           decoration: BoxDecoration(
-                            color: isRememberMe
-                                ? ColorsManager.primaryColor
-                                : ColorsManager.quaternaryColor,
+                            color:
+                                isRememberMe
+                                    ? ColorsManager.primaryColor
+                                    : ColorsManager.quaternaryColor,
                             borderRadius: BorderRadius.circular(3.r),
                           ),
-                          child: isRememberMe
-                              ? const Icon(Icons.check, color: Colors.white, size: 16)
-                              : null,
+                          child:
+                              isRememberMe
+                                  ? const Icon(
+                                    Icons.check,
+                                    color: Colors.white,
+                                    size: 16,
+                                  )
+                                  : null,
                         ),
                       ),
                       horizontalSpace(6),
                       Text(
                         AppLocalizations.of(context)!.rememberMe,
                         style: TextStyles.font14Normal(TextColor.primaryColor),
-                      )
+                      ),
                     ],
                   ),
                   GestureDetector(
@@ -82,7 +88,7 @@ class LoginForm extends StatelessWidget {
                       AppLocalizations.of(context)!.forgetPassword,
                       style: TextStyles.font14Normal(TextColor.primaryColor),
                     ),
-                  )
+                  ),
                 ],
               ),
             ),
