@@ -16,7 +16,12 @@ class BaseSocialAuthComponent extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Expanded(child: Divider(color: ColorsManager.lightGrayColor, thickness: 2.h,)),
+            Expanded(
+              child: Divider(
+                color: ColorsManager.lightGrayColor,
+                thickness: 2.h,
+              ),
+            ),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 8.w),
               child: Text(
@@ -24,7 +29,12 @@ class BaseSocialAuthComponent extends StatelessWidget {
                 style: TextStyles.font14Normal(TextColor.primaryColor),
               ),
             ),
-            Expanded(child: Divider(color: ColorsManager.lightGrayColor, thickness: 2.h,)),
+            Expanded(
+              child: Divider(
+                color: ColorsManager.lightGrayColor,
+                thickness: 2.h,
+              ),
+            ),
           ],
         ),
         verticalSpace(20.h),
@@ -38,7 +48,7 @@ class BaseSocialAuthComponent extends StatelessWidget {
                 // Handle Facebook login
               },
             ),
-            SizedBox(width: 16.w),
+            horizontalSpace(25),
             BaseSocialAuthButton(
               assetPath: 'assets/images/google_icon.png',
               backgroundColor: ColorsManager.googleContainerColor,
