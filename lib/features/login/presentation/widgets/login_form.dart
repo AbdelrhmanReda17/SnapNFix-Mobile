@@ -55,7 +55,7 @@ class LoginForm extends StatelessWidget {
                         onTap: () => toggleRememberMe(!isRememberMe),
                         child: Container(
                           width: 20.w,
-                          height: 20.w,
+                          height: 20.h,
                           decoration: BoxDecoration(
                             color: isRememberMe
                                 ? ColorsManager.primaryColor

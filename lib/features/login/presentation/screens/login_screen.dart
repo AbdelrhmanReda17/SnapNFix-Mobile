@@ -68,7 +68,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     verticalSpace(26),
                     BaseButton(
-                        text: localization.singIn,
+                        text: localization.signIn,
                         onPressed: (){
                           // To be done
                         },
