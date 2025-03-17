@@ -80,6 +80,14 @@ class TextStyles {
       color: TextColorsManager.getColor(color),
     );
   }
+  static TextStyle font14Medium(TextColor color) {
+    return TextStyle(
+      fontSize: 14.sp,
+      fontWeight: FontWeight.w500,
+      fontFamily: 'Poppins',
+      color: TextColorsManager.getColor(color),
+    );
+  }
 
   static TextStyle font12Normal(TextColor color) {
     return TextStyle(
