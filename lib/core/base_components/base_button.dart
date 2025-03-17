@@ -30,7 +30,7 @@ class BaseButton extends StatelessWidget {
     return ButtonStyle(
       shape: WidgetStateProperty.all<RoundedRectangleBorder>(
         RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(borderRadius ?? 16.0),
+          borderRadius: BorderRadius.circular(borderRadius ?? 10.0),
         ),
       ),
       backgroundColor: WidgetStatePropertyAll(

@@ -9,6 +9,8 @@ enum TextColor {
   quaternaryColor,
   quinaryColor,
   grayColor,
+  lightGrayColor,
+  whiteColor,
 }
 
 class TextColorsManager {
@@ -26,6 +28,10 @@ class TextColorsManager {
         return ColorsManager.quinaryColor;
       case TextColor.grayColor:
         return ColorsManager.grayColor;
+      case TextColor.lightGrayColor:
+        return ColorsManager.lightGrayColor;
+      case TextColor.whiteColor:
+        return ColorsManager.whiteColor;
     }
   }
 
@@ -43,6 +49,25 @@ class TextStyles {
     return TextStyle(
       fontSize: 24.sp,
       fontWeight: FontWeight.w700,
+      fontFamily: 'Poppins',
+      color: TextColorsManager.getColor(color),
+    );
+  }
+
+  static TextStyle font36Normal(TextColor color) {
+    return TextStyle(
+      fontSize: 36.sp,
+      fontWeight: FontWeight.w400,
+      fontFamily: 'Poppins',
+      color: TextColorsManager.getColor(color),
+    );
+  }
+
+  static TextStyle font16Normal(TextColor color) {
+    return TextStyle(
+      fontSize: 16.sp,
+      fontWeight: FontWeight.w400,
+      fontFamily: 'Poppins',
       color: TextColorsManager.getColor(color),
     );
   }
@@ -51,6 +76,7 @@ class TextStyles {
     return TextStyle(
       fontSize: 14.sp,
       fontWeight: FontWeight.w400,
+      fontFamily: 'Poppins',
       color: TextColorsManager.getColor(color),
     );
   }
@@ -59,6 +85,16 @@ class TextStyles {
     return TextStyle(
       fontSize: 12.sp,
       fontWeight: FontWeight.w400,
+      fontFamily: 'Poppins',
+      color: TextColorsManager.getColor(color),
+    );
+  }
+
+  static TextStyle font12Medium(TextColor color) {
+    return TextStyle(
+      fontSize: 12.sp,
+      fontWeight: FontWeight.w500,
+      fontFamily: 'Poppins',
       color: TextColorsManager.getColor(color),
     );
   }
