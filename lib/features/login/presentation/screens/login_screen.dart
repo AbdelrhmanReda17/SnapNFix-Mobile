@@ -10,7 +10,6 @@ import 'package:snapnfix/core/base_components/logo_and_name_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../../../core/routing/routes.dart';
 
-
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
@@ -23,13 +22,13 @@ class _LoginScreenState extends State<LoginScreen> {
   bool isObscureText = true;
   bool isRememberMe = false;
 
-  void toggleObscureText(){
+  void toggleObscureText() {
     setState(() {
       isObscureText = !isObscureText;
     });
   }
 
-  void toggleRememberMe(bool value){
+  void toggleRememberMe(bool value) {
     setState(() {
       isRememberMe = value;
     });
@@ -40,57 +39,50 @@ class _LoginScreenState extends State<LoginScreen> {
     final localization = AppLocalizations.of(context)!;
     return Scaffold(
       body: SafeArea(
-        child: Stack(
+        child: ListView(
+          padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 48.h),
           children: [
+            LogoAndNameWidget(),
+            verticalSpace(26),
+            Text(
+              localization.welcomeBack,
+              style: TextStyles.font36Normal(TextColor.primaryColor),
+            ),
+            Text(
+              localization.loginToContinue,
+              style: TextStyles.font16Normal(TextColor.primaryColor),
+            ),
+            verticalSpace(20),
+            LoginForm(
+              formKey: formKey,
+              isObscureText: isObscureText,
+              isRememberMe: isRememberMe,
+              toggleObscureText: toggleObscureText,
+              toggleRememberMe: toggleRememberMe,
+            ),
+            verticalSpace(26),
+            BaseButton(
+              text: localization.signIn,
+              onPressed: () {
+                // To be done
+              },
+              textStyle: TextStyles.font16Normal(TextColor.whiteColor),
+            ),
+            verticalSpace(35),
+            BaseSocialAuthComponent(),
+            verticalSpace(35),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 48.h),
-              child: SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    LogoAndNameWidget(),
-                    verticalSpace(40),
-                    Text(
-                      localization.welcomeBack,
-                      style: TextStyles.font36Normal(TextColor.primaryColor),
+              padding: EdgeInsets.only(bottom: 16.h),
+              child: BaseAuthFooter(
+                questionText: localization.notRegistered,
+                actionText: localization.createAccount,
+                onTap:
+                    () => Navigator.pushReplacementNamed(
+                      context,
+                      Routes.signUpScreen,
                     ),
-                    Text(
-                      localization.loginToContinue,
-                      style: TextStyles.font16Normal(TextColor.primaryColor),
-                    ),
-                    verticalSpace(28),
-                    LoginForm(
-                        formKey: formKey,
-                        isObscureText: isObscureText,
-                        isRememberMe: isRememberMe,
-                        toggleObscureText: toggleObscureText,
-                        toggleRememberMe: toggleRememberMe,
-                    ),
-                    verticalSpace(26),
-                    BaseButton(
-                        text: localization.signIn,
-                        onPressed: (){
-                          // To be done
-                        },
-                        textStyle: TextStyles.font16Normal(TextColor.whiteColor)),
-                    verticalSpace(40),
-                    BaseSocialAuthComponent(),
-                    verticalSpace(40.h),
-                  ],
-                ),
               ),
             ),
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: Padding(
-                padding: EdgeInsets.only(bottom: 16.h),
-                child: BaseAuthFooter(
-                  questionText: localization.notRegistered,
-                  actionText: localization.createAccount,
-                  onTap: () => Navigator.pushReplacementNamed(context, Routes.signUpScreen),
-                )
-              ),
-            )
           ],
         ),
       ),

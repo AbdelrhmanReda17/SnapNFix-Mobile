@@ -16,7 +16,6 @@ class SignUpForm extends StatelessWidget {
   final VoidCallback togglePasswordConfirmationObscureText;
   final ValueChanged<bool> toggleAgreeTermsAndPolicy;
 
-
   const SignUpForm({
     super.key,
     required this.isPasswordObscureText,
@@ -35,7 +34,7 @@ class SignUpForm extends StatelessWidget {
         child: Column(
           children: [
             BaseTextField(hintText: AppLocalizations.of(context)!.phone),
-            verticalSpace(26),
+            verticalSpace(25),
             BaseTextField(
               hintText: AppLocalizations.of(context)!.password,
               isObscureText: isPasswordObscureText,
@@ -43,11 +42,13 @@ class SignUpForm extends StatelessWidget {
                 onTap: togglePasswordObscureText,
                 child: Icon(
                   color: ColorsManager.primaryColor,
-                  isPasswordObscureText ? Icons.visibility_off : Icons.visibility,
+                  isPasswordObscureText
+                      ? Icons.visibility_off
+                      : Icons.visibility,
                 ),
               ),
             ),
-            verticalSpace(26),
+            verticalSpace(25),
             BaseTextField(
               hintText: AppLocalizations.of(context)!.repeatPassword,
               isObscureText: isPasswordConfirmationObscureText,
@@ -55,32 +56,41 @@ class SignUpForm extends StatelessWidget {
                 onTap: togglePasswordConfirmationObscureText,
                 child: Icon(
                   color: ColorsManager.primaryColor,
-                  isPasswordConfirmationObscureText ? Icons.visibility_off : Icons.visibility,
+                  isPasswordConfirmationObscureText
+                      ? Icons.visibility_off
+                      : Icons.visibility,
                 ),
               ),
             ),
-            verticalSpace(30),
+            verticalSpace(25),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 4.h),
               child: Row(
                 children: [
                   GestureDetector(
-                    onTap: () => toggleAgreeTermsAndPolicy(!isAgreeTermsAndPolicy),
+                    onTap:
+                        () => toggleAgreeTermsAndPolicy(!isAgreeTermsAndPolicy),
                     child: Container(
                       width: 20.w,
                       height: 20.h,
                       decoration: BoxDecoration(
-                        color: isAgreeTermsAndPolicy
-                            ? ColorsManager.primaryColor
-                            : ColorsManager.quaternaryColor,
+                        color:
+                            isAgreeTermsAndPolicy
+                                ? ColorsManager.primaryColor
+                                : ColorsManager.quaternaryColor,
                         borderRadius: BorderRadius.circular(3.r),
                       ),
-                      child: isAgreeTermsAndPolicy
-                          ? const Icon(Icons.check, color: Colors.white, size: 16)
-                          : null,
+                      child:
+                          isAgreeTermsAndPolicy
+                              ? const Icon(
+                                Icons.check,
+                                color: Colors.white,
+                                size: 16,
+                              )
+                              : null,
                     ),
                   ),
-                  horizontalSpace(6),
+                  horizontalSpace(4),
                   Expanded(
                     child: RichText(
                       text: TextSpan(
@@ -89,19 +99,23 @@ class SignUpForm extends StatelessWidget {
                         children: [
                           TextSpan(
                             text: AppLocalizations.of(context)!.termsOfServices,
-                            style: TextStyles.font14Medium(TextColor.secondaryColor),
-                            recognizer: TapGestureRecognizer()
-                              ..onTap = () {},
+                            style: TextStyles.font14Medium(
+                              TextColor.secondaryColor,
+                            ),
+                            recognizer: TapGestureRecognizer()..onTap = () {},
                           ),
                           TextSpan(
                             text: AppLocalizations.of(context)!.and,
-                            style: TextStyles.font14Normal(TextColor.primaryColor),
+                            style: TextStyles.font14Normal(
+                              TextColor.primaryColor,
+                            ),
                           ),
                           TextSpan(
                             text: AppLocalizations.of(context)!.privacyPolicy,
-                            style: TextStyles.font14Medium(TextColor.secondaryColor),
-                            recognizer: TapGestureRecognizer()
-                              ..onTap = () {},
+                            style: TextStyles.font14Medium(
+                              TextColor.secondaryColor,
+                            ),
+                            recognizer: TapGestureRecognizer()..onTap = () {},
                           ),
                         ],
                       ),
