@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+  <testsuite name="fastlane.lanes">
+    
+    
+    
+      
+      <testcase classname="fastlane.lanes" name="0: default_platform" time="0.0024905">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="1: flutter clean" time="5.0112296">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="2: flutter pub get" time="7.9854551">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="3: cd D:/Projects/SnapNFix-Mobile &amp;&amp; flutter gen-l10n" time="3.3774665">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="4: flutter build apk --release --flavor production --target lib/main_production.dart --no-tree-shake-icons" time="99.3048172">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="5: firebase_app_distribution" time="128.8533348">
+        
+      </testcase>
+    
+  </testsuite>
+</testsuites>
