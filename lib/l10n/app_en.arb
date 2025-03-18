@@ -1,0 +1,27 @@
+{
+  "@@locale": "en",
+  "hello": "Hello!",
+  "welcome": "Welcome to our app",
+
+  "welcomeBack": "Welcome Back!",
+  "loginToContinue": "Login to continue",
+  "phone": "Phone Number",
+  "password": "Password",
+  "rememberMe": "Remember me",
+  "forgetPassword": "Forget password?",
+  "signIn": "Sign In",
+  "orContinueWith": "Or continue with",
+  "notRegistered" : "Not Registered yet?",
+  "createAccount": "Create an Account",
+
+  "createAccountTitle": "Create Account",
+  "registerToContinue": "Register to continue",
+  "repeatPassword": "Repeat Password",
+  "agreeWith": "I agree with the ",
+  "termsOfServices": "Terms of Services ",
+  "and": "and ",
+  "privacyPolicy":  "Privacy Policy",
+  "signUp": "Sign Up",
+  "alreadyHaveAcc": "Already have an account?"
+
+}
