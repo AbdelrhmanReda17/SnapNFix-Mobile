@@ -1,38 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:snapnfix/core/base_components/base_auth_footer.dart';
 import 'package:snapnfix/core/base_components/base_button.dart';
 import 'package:snapnfix/core/base_components/base_social_auth_component.dart';
+import 'package:snapnfix/core/helpers/extensions.dart';
 import 'package:snapnfix/core/helpers/spacing.dart';
 import 'package:snapnfix/core/theming/text_styles.dart';
+import 'package:snapnfix/features/login/logic/cubit/login_cubit.dart';
+import 'package:snapnfix/features/login/presentation/widgets/login_bloc_listener.dart';
 import 'package:snapnfix/features/login/presentation/widgets/login_form.dart';
 import 'package:snapnfix/core/base_components/logo_and_name_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../../../core/routing/routes.dart';
 
-class LoginScreen extends StatefulWidget {
+class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
-
-  @override
-  State<LoginScreen> createState() => _LoginScreenState();
-}
-
-class _LoginScreenState extends State<LoginScreen> {
-  final formKey = GlobalKey<FormState>();
-  bool isObscureText = true;
-  bool isRememberMe = false;
-
-  void toggleObscureText() {
-    setState(() {
-      isObscureText = !isObscureText;
-    });
-  }
-
-  void toggleRememberMe(bool value) {
-    setState(() {
-      isRememberMe = value;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -53,18 +36,12 @@ class _LoginScreenState extends State<LoginScreen> {
               style: TextStyles.font16Normal(TextColor.primaryColor),
             ),
             verticalSpace(20),
-            LoginForm(
-              formKey: formKey,
-              isObscureText: isObscureText,
-              isRememberMe: isRememberMe,
-              toggleObscureText: toggleObscureText,
-              toggleRememberMe: toggleRememberMe,
-            ),
+            LoginForm(),
             verticalSpace(26),
             BaseButton(
               text: localization.signIn,
               onPressed: () {
-                // To be done
+                context.read<LoginCubit>().emitLoginStates();
               },
               textStyle: TextStyles.font16Normal(TextColor.whiteColor),
             ),
@@ -77,12 +54,13 @@ class _LoginScreenState extends State<LoginScreen> {
                 questionText: localization.notRegistered,
                 actionText: localization.createAccount,
                 onTap:
-                    () => Navigator.pushReplacementNamed(
-                      context,
+                    () => context.pushNamedAndRemoveUntil(
                       Routes.signUpScreen,
+                      predicate: (route) => false,
                     ),
               ),
             ),
+            const LoginBlocListener(),
           ],
         ),
       ),

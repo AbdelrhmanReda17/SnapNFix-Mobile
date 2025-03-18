@@ -33,34 +33,25 @@ class SignUpForm extends StatelessWidget {
         padding: EdgeInsets.only(left: 8.w),
         child: Column(
           children: [
-            BaseTextField(hintText: AppLocalizations.of(context)!.phone),
+            BaseTextField(
+              hintText: AppLocalizations.of(context)!.phone,
+              controller: TextEditingController(),
+            ),
             verticalSpace(25),
             BaseTextField(
               hintText: AppLocalizations.of(context)!.password,
+              controller: TextEditingController(),
               isObscureText: isPasswordObscureText,
-              suffixIcon: GestureDetector(
-                onTap: togglePasswordObscureText,
-                child: Icon(
-                  color: ColorsManager.primaryColor,
-                  isPasswordObscureText
-                      ? Icons.visibility_off
-                      : Icons.visibility,
-                ),
-              ),
+              isPassowrdTextField: true,
+              toggleObscureText: togglePasswordObscureText,
             ),
             verticalSpace(25),
             BaseTextField(
               hintText: AppLocalizations.of(context)!.repeatPassword,
+              controller: TextEditingController(),
               isObscureText: isPasswordConfirmationObscureText,
-              suffixIcon: GestureDetector(
-                onTap: togglePasswordConfirmationObscureText,
-                child: Icon(
-                  color: ColorsManager.primaryColor,
-                  isPasswordConfirmationObscureText
-                      ? Icons.visibility_off
-                      : Icons.visibility,
-                ),
-              ),
+              isPassowrdTextField: true,
+              toggleObscureText: togglePasswordConfirmationObscureText,
             ),
             verticalSpace(25),
             Padding(
