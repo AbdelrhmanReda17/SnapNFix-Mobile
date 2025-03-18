@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:snapnfix/core/base_components/logo_and_name_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:snapnfix/core/helpers/extensions.dart';
 import 'package:snapnfix/features/sign_up/presentation/widgets/sign_up_form.dart';
 import '../../../../core/base_components/base_auth_footer.dart';
 import '../../../../core/base_components/base_button.dart';
@@ -87,9 +88,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 questionText: localization.alreadyHaveAcc,
                 actionText: localization.signIn,
                 onTap:
-                    () => Navigator.pushReplacementNamed(
-                      context,
+                    () => context.pushNamedAndRemoveUntil(
                       Routes.loginScreen,
+                      predicate: (route) => false,
                     ),
               ),
             ),
