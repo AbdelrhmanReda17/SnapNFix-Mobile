@@ -5,7 +5,7 @@ platform :android do
   lane :firebase_distribution do
     sh "flutter clean"
     sh "flutter pub get"
-    sh "cd D:/Projects/SnapNFix-Mobile && flutter gen-l10n"
+    sh "cd #{Dir.pwd}/../.. && flutter gen-l10n"
     sh "flutter build apk --release --flavor production --target lib/main_production.dart --no-tree-shake-icons"
     firebase_app_distribution(
       app: "1:769076416298:android:af06beb46470b8f8979853",
@@ -13,7 +13,7 @@ platform :android do
       android_artifact_type: "APK",
       android_artifact_path: "../build/app/outputs/flutter-apk/app-production-release.apk",
       testers: "abdelrhmanrmuhammed@gmail.com, abdelrahmanatef45@gmail.com, abdelrahmanadel203@gmail.com, leewenhoek22@gmail.com, roaa20102002@gmail.com",   
-      release_notes: "First Fastlane Firebase Distribution"
+      release_notes: "First Fastlane Firebase Distribution from github actions"
     )
   end
 end
