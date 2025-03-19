@@ -59,5 +59,4 @@ class DefaultFirebaseOptions {
     projectId: 'snapnfix-mobile',
     storageBucket: 'snapnfix-mobile.firebasestorage.app',
   );
-
 }
