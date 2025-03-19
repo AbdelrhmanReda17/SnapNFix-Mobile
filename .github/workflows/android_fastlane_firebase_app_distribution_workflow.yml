@@ -12,10 +12,10 @@ jobs:
     - name: Checkout my repository code
       uses: actions/checkout@v2
     
-    - name: Set up JDK 21
+    - name: Set up JDK 23
       uses: actions/setup-java@v2
       with:
-        java-version: '21'
+        java-version: '23'
         distribution: 'temurin'
     
     - name: Install Flutter
