@@ -16,7 +16,7 @@ jobs:
       uses: actions/setup-java@v2
       with:
         distribution: 'temurin'
-        java-version: 'latest'
+        java-version: '21'
     
     - name: Install Flutter
       uses: subosito/flutter-action@v2
