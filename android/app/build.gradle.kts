@@ -46,7 +46,7 @@ android {
         create("development") {
             dimension = "default"
             applicationIdSuffix = ".development"
-            resValue(type = "string", name = "app_name", value = "SnapNFix Development")        
+            resValue(type = "string", name = "app_name", value = "SnapNFix Development")
         }
         create("production") {
             dimension = "default"
