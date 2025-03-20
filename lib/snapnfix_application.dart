@@ -11,7 +11,6 @@ class SnapNFixApplication extends StatelessWidget {
   final AppRouter appRouter;
   const SnapNFixApplication({super.key, required this.appRouter});
   final _currentLocale = const Locale('en', '');
-
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
@@ -38,7 +37,9 @@ class SnapNFixApplication extends StatelessWidget {
         ],
         locale: _currentLocale,
         onGenerateRoute: appRouter.generateRoute,
-        initialRoute: isLoggedInUser ? Routes.homeScreen : Routes.loginScreen,
+        initialRoute: firstTimeUser
+    ? Routes.onBoardingScreen
+    : (isLoggedInUser ? Routes.homeScreen : Routes.loginScreen),
       ),
     );
   }

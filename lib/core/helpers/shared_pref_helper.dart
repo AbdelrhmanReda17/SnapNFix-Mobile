@@ -46,9 +46,13 @@ class SharedPrefHelper {
   static getBool(String key) async {
     debugPrint('SharedPrefHelper : getBool with key : $key');
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    return sharedPreferences.getBool(key) ?? false;
+    return sharedPreferences.getBool(key) ??false;
   }
-
+static getFirtTimeBool(String key) async {
+    debugPrint('SharedPrefHelper : getBool with key : $key');
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    return sharedPreferences.getBool(key) ??true;
+  }
   /// Gets a double value from SharedPreferences with given [key].
   static getDouble(String key) async {
     debugPrint('SharedPrefHelper : getDouble with key : $key');
