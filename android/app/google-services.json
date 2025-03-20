@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "769076416298",
+    "project_id": "snapnfix-mobile",
+    "storage_bucket": "snapnfix-mobile.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:769076416298:android:af06beb46470b8f8979853",
+        "android_client_info": {
+          "package_name": "com.snapnfix.mobile"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDROofL_kBvqbbISeHkv4vI7KSjafnHgQk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:769076416298:android:74cedded0640f47e979853",
+        "android_client_info": {
+          "package_name": "com.snapnfix.mobile.development"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDROofL_kBvqbbISeHkv4vI7KSjafnHgQk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
