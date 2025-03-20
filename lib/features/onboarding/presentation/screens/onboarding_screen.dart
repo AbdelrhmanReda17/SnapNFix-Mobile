@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:snapnfix/core/constants/constants.dart';
+import 'package:snapnfix/core/helpers/extensions.dart';
+import 'package:snapnfix/core/routing/routes.dart';
 import 'package:snapnfix/features/onboarding/presentation/widgets/next_button.dart';
 import 'package:snapnfix/features/onboarding/presentation/widgets/onboarding_page.dart';
 import 'package:snapnfix/features/onboarding/presentation/widgets/page_indicator.dart';
@@ -46,10 +48,17 @@ class OnboardingScreenState extends State<OnboardingScreen> {
             NextButton(
               progress: currentPage / (Constants.onboardingContent.length - 1),
               onPressed: () {
-                _controller.nextPage(
-                  duration: const Duration(milliseconds: 500),
-                  curve: Curves.ease,
-                );
+                if (currentPage == Constants.onboardingContent.length - 1) {
+                  context.pushNamedAndRemoveUntil(
+                    Routes.loginScreen,
+                    predicate: (route) => false,
+                  );
+                } else {
+                  _controller.nextPage(
+                    duration: Duration(milliseconds: 500),
+                    curve: Curves.easeIn,
+                  );
+                }
               },
             ),
           ],

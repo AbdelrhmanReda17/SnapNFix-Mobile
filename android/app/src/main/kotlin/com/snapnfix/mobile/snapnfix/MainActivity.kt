@@ -1,4 +1,4 @@
-package com.snapnfix.mobile.snapnfix
+package com.snapnfix.mobile
 
 import io.flutter.embedding.android.FlutterActivity
 

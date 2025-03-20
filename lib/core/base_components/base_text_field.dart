@@ -10,8 +10,11 @@ class BaseTextField extends StatelessWidget {
   final TextStyle? inputTextStyle;
   final TextStyle? hintStyle;
   final String hintText;
-  final bool? isObscureText;
+  final bool isPassowrdTextField;
+  final VoidCallback? toggleObscureText;
+  final bool isObscureText;
   final Widget? suffixIcon;
+  final TextEditingController controller;
   final Color? backgroundColor;
 
   const BaseTextField({
@@ -20,16 +23,30 @@ class BaseTextField extends StatelessWidget {
     this.focusedBorder,
     this.enabledBorder,
     this.inputTextStyle,
+    this.isPassowrdTextField = false,
+    this.toggleObscureText,
     this.hintStyle,
     required this.hintText,
-    this.isObscureText,
+    required this.controller,
+    this.isObscureText = false,
     this.suffixIcon,
     this.backgroundColor,
   });
 
+  Widget passwordIcon() {
+    return GestureDetector(
+      onTap: toggleObscureText,
+      child: Icon(
+        color: ColorsManager.primaryColor,
+        isObscureText ? Icons.visibility_off : Icons.visibility,
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      controller: controller,
       decoration: InputDecoration(
         isDense: true,
         contentPadding:
@@ -55,11 +72,12 @@ class BaseTextField extends StatelessWidget {
             ),
         hintStyle: hintStyle ?? TextStyles.font14Normal(TextColor.primaryColor),
         hintText: hintText,
-        suffixIcon: suffixIcon,
+        suffixIcon:
+            isPassowrdTextField ? suffixIcon ?? passwordIcon() : suffixIcon,
         fillColor: backgroundColor ?? ColorsManager.whiteColor,
         filled: true,
       ),
-      obscureText: isObscureText ?? false,
+      obscureText: isObscureText,
       style: TextStyles.font14Normal(TextColor.primaryColor),
     );
   }

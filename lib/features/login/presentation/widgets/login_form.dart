@@ -1,49 +1,56 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:snapnfix/core/base_components/base_text_field.dart';
 import 'package:snapnfix/core/helpers/spacing.dart';
 import 'package:snapnfix/core/theming/colors.dart';
 import 'package:snapnfix/core/theming/text_styles.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:snapnfix/features/login/logic/cubit/login_cubit.dart';
 
-class LoginForm extends StatelessWidget {
-  final GlobalKey<FormState> formKey;
-  final bool isObscureText;
-  final bool isRememberMe;
-  final VoidCallback toggleObscureText;
-  final ValueChanged<bool> toggleRememberMe;
+class LoginForm extends StatefulWidget {
+  const LoginForm({super.key});
 
-  const LoginForm({
-    super.key,
-    required this.formKey,
-    required this.isObscureText,
-    required this.isRememberMe,
-    required this.toggleObscureText,
-    required this.toggleRememberMe,
-  });
+  @override
+  State<LoginForm> createState() => _LoginFormState();
+}
+
+class _LoginFormState extends State<LoginForm> {
+  bool isObscureText = true;
+  bool isRememberMe = false;
+  void toggleObscureText() {
+    setState(() {
+      isObscureText = !isObscureText;
+    });
+  }
+
+  void toggleRememberMe(bool value) {
+    setState(() {
+      isRememberMe = value;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Form(
-      key: formKey,
+      key: context.read<LoginCubit>().formKey,
       child: Padding(
         padding: EdgeInsets.only(left: 8.w),
         child: Column(
           children: [
-            BaseTextField(hintText: AppLocalizations.of(context)!.phone),
-            verticalSpace(34),
             BaseTextField(
+              hintText: AppLocalizations.of(context)!.phone,
+              controller: context.read<LoginCubit>().emailController,
+            ),
+            verticalSpace(25),
+            BaseTextField(
+              controller: context.read<LoginCubit>().passwordController,
               hintText: AppLocalizations.of(context)!.password,
               isObscureText: isObscureText,
-              suffixIcon: GestureDetector(
-                onTap: toggleObscureText,
-                child: Icon(
-                  color: ColorsManager.primaryColor,
-                  isObscureText ? Icons.visibility_off : Icons.visibility,
-                ),
-              ),
+              isPassowrdTextField: true,
+              toggleObscureText: toggleObscureText,
             ),
-            verticalSpace(34),
+            verticalSpace(25),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 4.h),
               child: Row(
@@ -57,21 +64,27 @@ class LoginForm extends StatelessWidget {
                           width: 20.w,
                           height: 20.h,
                           decoration: BoxDecoration(
-                            color: isRememberMe
-                                ? ColorsManager.primaryColor
-                                : ColorsManager.quaternaryColor,
+                            color:
+                                isRememberMe
+                                    ? ColorsManager.primaryColor
+                                    : ColorsManager.quaternaryColor,
                             borderRadius: BorderRadius.circular(3.r),
                           ),
-                          child: isRememberMe
-                              ? const Icon(Icons.check, color: Colors.white, size: 16)
-                              : null,
+                          child:
+                              isRememberMe
+                                  ? const Icon(
+                                    Icons.check,
+                                    color: Colors.white,
+                                    size: 16,
+                                  )
+                                  : null,
                         ),
                       ),
                       horizontalSpace(6),
                       Text(
                         AppLocalizations.of(context)!.rememberMe,
                         style: TextStyles.font14Normal(TextColor.primaryColor),
-                      )
+                      ),
                     ],
                   ),
                   GestureDetector(
@@ -82,7 +95,7 @@ class LoginForm extends StatelessWidget {
                       AppLocalizations.of(context)!.forgetPassword,
                       style: TextStyles.font14Normal(TextColor.primaryColor),
                     ),
-                  )
+                  ),
                 ],
               ),
             ),
