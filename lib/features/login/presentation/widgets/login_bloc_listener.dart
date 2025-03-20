@@ -46,7 +46,7 @@ class LoginBlocListener extends StatelessWidget {
       context: context,
       builder:
           (context) => AlertDialog(
-            icon: const Icon(Icons.error, color: Colors.red, size: 32),
+            icon: const Icon(Icons.error, color: ColorsManager.redColor, size: 32),
             content: Text(
               error,
               style: TextStyles.font24Bold(TextColor.primaryColor),

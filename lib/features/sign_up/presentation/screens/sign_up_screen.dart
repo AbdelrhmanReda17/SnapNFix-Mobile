@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:snapnfix/core/base_components/logo_and_name_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:snapnfix/core/helpers/extensions.dart';
+import 'package:snapnfix/features/sign_up/logic/cubit/sign_up_cubit.dart';
+import 'package:snapnfix/features/sign_up/presentation/widgets/sign_up_bloc_listener.dart';
 import 'package:snapnfix/features/sign_up/presentation/widgets/sign_up_form.dart';
 import '../../../../core/base_components/base_auth_footer.dart';
 import '../../../../core/base_components/base_button.dart';
@@ -11,35 +14,8 @@ import '../../../../core/helpers/spacing.dart';
 import '../../../../core/routing/routes.dart';
 import '../../../../core/theming/text_styles.dart';
 
-class SignUpScreen extends StatefulWidget {
+class SignUpScreen extends StatelessWidget {
   const SignUpScreen({super.key});
-
-  @override
-  State<SignUpScreen> createState() => _SignUpScreenState();
-}
-
-class _SignUpScreenState extends State<SignUpScreen> {
-  bool isPasswordObscureText = true;
-  bool isPasswordConfirmationObscureText = true;
-  bool isAgreeTermsAndPolicy = false;
-
-  void togglePasswordObscureText() {
-    setState(() {
-      isPasswordObscureText = !isPasswordObscureText;
-    });
-  }
-
-  void togglePasswordConfirmationObscureText() {
-    setState(() {
-      isPasswordConfirmationObscureText = !isPasswordConfirmationObscureText;
-    });
-  }
-
-  void toggleAgreeTermsAndPolicy(bool value) {
-    setState(() {
-      isAgreeTermsAndPolicy = value;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -61,21 +37,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
               style: TextStyles.font16Normal(TextColor.primaryColor),
             ),
             verticalSpace(20),
-            SignUpForm(
-              isPasswordObscureText: isPasswordObscureText,
-              isPasswordConfirmationObscureText:
-                  isPasswordConfirmationObscureText,
-              isAgreeTermsAndPolicy: isAgreeTermsAndPolicy,
-              togglePasswordObscureText: togglePasswordObscureText,
-              togglePasswordConfirmationObscureText:
-                  togglePasswordConfirmationObscureText,
-              toggleAgreeTermsAndPolicy: toggleAgreeTermsAndPolicy,
-            ),
+            SignUpForm(),
             verticalSpace(26),
             BaseButton(
               text: localization.signUp,
               onPressed: () {
-                // To be done
+                context.read<SignUpCubit>().emitSignUpStates();
               },
               textStyle: TextStyles.font16Normal(TextColor.whiteColor),
             ),
@@ -94,6 +61,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     ),
               ),
             ),
+            const SignUpBlocListener(),
           ],
         ),
       ),

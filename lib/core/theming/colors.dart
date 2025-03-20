@@ -9,6 +9,7 @@ class ColorsManager {
   static const Color grayColor = Color.fromRGBO(138, 137, 137, 1);
   static const Color lightGrayColor = Color(0xFFE0E0E0);
   static const Color whiteColor = Color.fromRGBO(255, 255, 255, 1);
+  static const Color redColor = Color(0xFFF44336);
 
   static const Color googleContainerColor = Color(0x19CC4B4B);
   static const Color facebookContainerColor = Color(0x164B8ECC);

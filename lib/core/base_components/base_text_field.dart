@@ -10,7 +10,7 @@ class BaseTextField extends StatelessWidget {
   final TextStyle? inputTextStyle;
   final TextStyle? hintStyle;
   final String hintText;
-  final bool isPassowrdTextField;
+  final bool isPasswordTextField;
   final VoidCallback? toggleObscureText;
   final bool isObscureText;
   final Widget? suffixIcon;
@@ -23,7 +23,7 @@ class BaseTextField extends StatelessWidget {
     this.focusedBorder,
     this.enabledBorder,
     this.inputTextStyle,
-    this.isPassowrdTextField = false,
+    this.isPasswordTextField = false,
     this.toggleObscureText,
     this.hintStyle,
     required this.hintText,
@@ -73,7 +73,7 @@ class BaseTextField extends StatelessWidget {
         hintStyle: hintStyle ?? TextStyles.font14Normal(TextColor.primaryColor),
         hintText: hintText,
         suffixIcon:
-            isPassowrdTextField ? suffixIcon ?? passwordIcon() : suffixIcon,
+            isPasswordTextField ? suffixIcon ?? passwordIcon() : suffixIcon,
         fillColor: backgroundColor ?? ColorsManager.whiteColor,
         filled: true,
       ),

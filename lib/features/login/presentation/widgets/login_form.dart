@@ -47,7 +47,7 @@ class _LoginFormState extends State<LoginForm> {
               controller: context.read<LoginCubit>().passwordController,
               hintText: AppLocalizations.of(context)!.password,
               isObscureText: isObscureText,
-              isPassowrdTextField: true,
+              isPasswordTextField: true,
               toggleObscureText: toggleObscureText,
             ),
             verticalSpace(25),
@@ -74,7 +74,7 @@ class _LoginFormState extends State<LoginForm> {
                               isRememberMe
                                   ? const Icon(
                                     Icons.check,
-                                    color: Colors.white,
+                                    color: ColorsManager.whiteColor,
                                     size: 16,
                                   )
                                   : null,
@@ -89,7 +89,7 @@ class _LoginFormState extends State<LoginForm> {
                   ),
                   GestureDetector(
                     onTap: () {
-                      // Forget Password Screen
+                      /// Forget Password Screen
                     },
                     child: Text(
                       AppLocalizations.of(context)!.forgetPassword,

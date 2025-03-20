@@ -1,56 +1,70 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:snapnfix/core/base_components/base_text_field.dart';
 import 'package:snapnfix/core/helpers/spacing.dart';
 import 'package:snapnfix/core/theming/colors.dart';
 import 'package:snapnfix/core/theming/text_styles.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import '../../logic/cubit/sign_up_cubit.dart';
 
-class SignUpForm extends StatelessWidget {
-  final bool isPasswordObscureText;
-  final bool isPasswordConfirmationObscureText;
-  final bool isAgreeTermsAndPolicy;
+class SignUpForm extends StatefulWidget {
+  const SignUpForm({super.key});
 
-  final VoidCallback togglePasswordObscureText;
-  final VoidCallback togglePasswordConfirmationObscureText;
-  final ValueChanged<bool> toggleAgreeTermsAndPolicy;
+  @override
+  State<SignUpForm> createState() => _SignUpFormState();
+}
 
-  const SignUpForm({
-    super.key,
-    required this.isPasswordObscureText,
-    required this.isPasswordConfirmationObscureText,
-    required this.isAgreeTermsAndPolicy,
-    required this.togglePasswordObscureText,
-    required this.togglePasswordConfirmationObscureText,
-    required this.toggleAgreeTermsAndPolicy,
-  });
+class _SignUpFormState extends State<SignUpForm> {
+  bool isPasswordObscureText = true;
+  bool isPasswordConfirmationObscureText = true;
+  bool isAgreeTermsAndPolicy = false;
+
+  void togglePasswordObscureText() {
+    setState(() {
+      isPasswordObscureText = !isPasswordObscureText;
+    });
+  }
+
+  void togglePasswordConfirmationObscureText() {
+    setState(() {
+      isPasswordConfirmationObscureText = !isPasswordConfirmationObscureText;
+    });
+  }
+
+  void toggleAgreeTermsAndPolicy(bool value) {
+    setState(() {
+      isAgreeTermsAndPolicy = value;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Form(
+      key: context.read<SignUpCubit>().formKey,
       child: Padding(
         padding: EdgeInsets.only(left: 8.w),
         child: Column(
           children: [
             BaseTextField(
               hintText: AppLocalizations.of(context)!.phone,
-              controller: TextEditingController(),
+              controller: context.read<SignUpCubit>().phoneController,
             ),
             verticalSpace(25),
             BaseTextField(
               hintText: AppLocalizations.of(context)!.password,
-              controller: TextEditingController(),
+              controller: context.read<SignUpCubit>().passwordController,
               isObscureText: isPasswordObscureText,
-              isPassowrdTextField: true,
+              isPasswordTextField: true,
               toggleObscureText: togglePasswordObscureText,
             ),
             verticalSpace(25),
             BaseTextField(
               hintText: AppLocalizations.of(context)!.repeatPassword,
-              controller: TextEditingController(),
+              controller: context.read<SignUpCubit>().passwordConfirmationController,
               isObscureText: isPasswordConfirmationObscureText,
-              isPassowrdTextField: true,
+              isPasswordTextField: true,
               toggleObscureText: togglePasswordConfirmationObscureText,
             ),
             verticalSpace(25),
@@ -75,7 +89,7 @@ class SignUpForm extends StatelessWidget {
                           isAgreeTermsAndPolicy
                               ? const Icon(
                                 Icons.check,
-                                color: Colors.white,
+                                color: ColorsManager.whiteColor,
                                 size: 16,
                               )
                               : null,
@@ -93,7 +107,9 @@ class SignUpForm extends StatelessWidget {
                             style: TextStyles.font14Medium(
                               TextColor.secondaryColor,
                             ),
-                            recognizer: TapGestureRecognizer()..onTap = () {},
+                            recognizer: TapGestureRecognizer()..onTap = () {
+                              /// Terms of services screen
+                            },
                           ),
                           TextSpan(
                             text: AppLocalizations.of(context)!.and,
@@ -106,7 +122,9 @@ class SignUpForm extends StatelessWidget {
                             style: TextStyles.font14Medium(
                               TextColor.secondaryColor,
                             ),
-                            recognizer: TapGestureRecognizer()..onTap = () {},
+                            recognizer: TapGestureRecognizer()..onTap = () {
+                              /// Privacy Policy Screen
+                            },
                           ),
                         ],
                       ),
