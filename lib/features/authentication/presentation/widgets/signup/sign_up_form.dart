@@ -1,12 +1,12 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:snapnfix/core/base_components/base_checkbox.dart';
+import 'package:snapnfix/core/base_components/base_password_text_field.dart';
 import 'package:snapnfix/core/base_components/base_text_field.dart';
 import 'package:snapnfix/core/helpers/spacing.dart';
-import 'package:snapnfix/core/theming/colors.dart';
-import 'package:snapnfix/core/theming/text_styles.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:snapnfix/features/authentication/presentation/widgets/signup/terms_and_privacy_policy.dart';
 import '../../../logic/cubit/sign_up_cubit.dart';
 
 class SignUpForm extends StatefulWidget {
@@ -33,7 +33,8 @@ class _SignUpFormState extends State<SignUpForm> {
     });
   }
 
-  void toggleAgreeTermsAndPolicy(bool value) {
+  void toggleAgreeTermsAndPolicy(bool? value) {
+    if (value == null) return;
     setState(() {
       isAgreeTermsAndPolicy = value;
     });
@@ -52,86 +53,34 @@ class _SignUpFormState extends State<SignUpForm> {
               controller: context.read<SignUpCubit>().phoneController,
             ),
             verticalSpace(25),
-            BaseTextField(
-              hintText: AppLocalizations.of(context)!.password,
+            BasePasswordTextField(
+              text: AppLocalizations.of(context)!.password,
+              isPasswordObscureText: isPasswordObscureText,
+              togglePasswordObscureText: togglePasswordObscureText,
               controller: context.read<SignUpCubit>().passwordController,
-              isObscureText: isPasswordObscureText,
-              isPasswordTextField: true,
-              toggleObscureText: togglePasswordObscureText,
             ),
             verticalSpace(25),
-            BaseTextField(
-              hintText: AppLocalizations.of(context)!.repeatPassword,
-              controller: context.read<SignUpCubit>().passwordConfirmationController,
-              isObscureText: isPasswordConfirmationObscureText,
-              isPasswordTextField: true,
-              toggleObscureText: togglePasswordConfirmationObscureText,
+            BasePasswordTextField(
+              text: AppLocalizations.of(context)!.repeatPassword,
+              isPasswordObscureText: isPasswordConfirmationObscureText,
+              togglePasswordObscureText: togglePasswordConfirmationObscureText,
+              controller:
+                  context.read<SignUpCubit>().passwordConfirmationController,
             ),
             verticalSpace(25),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 4.h),
-              child: Row(
-                children: [
-                  GestureDetector(
-                    onTap:
-                        () => toggleAgreeTermsAndPolicy(!isAgreeTermsAndPolicy),
-                    child: Container(
-                      width: 20.w,
-                      height: 20.h,
-                      decoration: BoxDecoration(
-                        color:
-                            isAgreeTermsAndPolicy
-                                ? ColorsManager.primaryColor
-                                : ColorsManager.quaternaryColor,
-                        borderRadius: BorderRadius.circular(3.r),
-                      ),
-                      child:
-                          isAgreeTermsAndPolicy
-                              ? const Icon(
-                                Icons.check,
-                                color: ColorsManager.whiteColor,
-                                size: 16,
-                              )
-                              : null,
-                    ),
-                  ),
-                  horizontalSpace(4),
-                  Expanded(
-                    child: RichText(
-                      text: TextSpan(
-                        text: AppLocalizations.of(context)!.agreeWith,
-                        style: TextStyles.font14Normal(TextColor.primaryColor),
-                        children: [
-                          TextSpan(
-                            text: AppLocalizations.of(context)!.termsOfServices,
-                            style: TextStyles.font14Medium(
-                              TextColor.secondaryColor,
-                            ),
-                            recognizer: TapGestureRecognizer()..onTap = () {
-                              /// Terms of services screen
-                            },
-                          ),
-                          TextSpan(
-                            text: AppLocalizations.of(context)!.and,
-                            style: TextStyles.font14Normal(
-                              TextColor.primaryColor,
-                            ),
-                          ),
-                          TextSpan(
-                            text: AppLocalizations.of(context)!.privacyPolicy,
-                            style: TextStyles.font14Medium(
-                              TextColor.secondaryColor,
-                            ),
-                            recognizer: TapGestureRecognizer()..onTap = () {
-                              /// Privacy Policy Screen
-                            },
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                BaseCheckbox(
+                  value: isAgreeTermsAndPolicy,
+                  onChanged: toggleAgreeTermsAndPolicy,
+                ),
+                horizontalSpace(4),
+                Expanded(
+                  child: TermsAndPrivacyPolicy(),
+                ),
+              ],
             ),
           ],
         ),
