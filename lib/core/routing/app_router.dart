@@ -3,10 +3,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:snapnfix/core/dependency_injection/dependency_injection.dart';
 import 'package:snapnfix/core/routing/routes.dart';
 import 'package:snapnfix/features/home/presentation/home_screen.dart';
-import 'package:snapnfix/features/login/logic/cubit/login_cubit.dart';
-import 'package:snapnfix/features/login/presentation/screens/login_screen.dart';
+import 'package:snapnfix/features/authentication/logic/cubit/login_cubit.dart';
+import 'package:snapnfix/features/authentication/presentation/screens/login_screen.dart';
 import 'package:snapnfix/features/onboarding/presentation/screens/onboarding_screen.dart';
-import 'package:snapnfix/features/sign_up/presentation/screens/sign_up_screen.dart';
+import 'package:snapnfix/features/authentication/logic/cubit/sign_up_cubit.dart';
+import 'package:snapnfix/features/authentication/presentation/screens/sign_up_screen.dart';
 
 class AppRouter {
   Route? generateRoute(RouteSettings settings) {
@@ -25,7 +26,13 @@ class AppRouter {
               ),
         );
       case Routes.signUpScreen:
-        return MaterialPageRoute(builder: (_) => const SignUpScreen());
+        return MaterialPageRoute(
+          builder:
+              (_) => BlocProvider(
+                create: (context) => getIt<SignUpCubit>(),
+                child: const SignUpScreen(),
+              ),
+        );
       case Routes.homeScreen:
         return MaterialPageRoute(builder: (_) => const HomeScreen());
       default:
