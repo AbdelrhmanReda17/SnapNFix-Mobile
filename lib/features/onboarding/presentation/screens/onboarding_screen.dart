@@ -1,11 +1,10 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:snapnfix/core/constants/constants.dart';
 import 'package:snapnfix/core/helpers/extensions.dart';
 import 'package:snapnfix/core/helpers/shared_pref_helper.dart';
-import 'package:snapnfix/core/routing/routes.dart';
+import 'package:snapnfix/core/helpers/shared_pref_keys.dart';
+import 'package:snapnfix/core/routes.dart';
 import 'package:snapnfix/features/onboarding/presentation/widgets/next_button.dart';
 import 'package:snapnfix/features/onboarding/presentation/widgets/onboarding_page.dart';
 import 'package:snapnfix/features/onboarding/presentation/widgets/page_indicator.dart';
@@ -21,6 +20,10 @@ class OnboardingScreen extends StatefulWidget {
 class OnboardingScreenState extends State<OnboardingScreen> {
   final PageController _controller = PageController();
   double currentPage = 0;
+
+  void setViewOnBoarding() async {
+    await SharedPrefHelper.setData(SharedPrefKeys.hasViewedOnboarding, true);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -47,25 +50,27 @@ class OnboardingScreenState extends State<OnboardingScreen> {
             SizedBox(height: 20.h),
             NextButton(
               progress: currentPage / (Constants.onboardingContent.length - 1),
-              onPressed: ()async {
-                if (currentPage == Constants.onboardingContent.length - 1) {
-                  context.pushNamedAndRemoveUntil(
-                    Routes.loginScreen,
-                    predicate: (route) => false,
-                  );
-                await SharedPrefHelper.setData('isFirstTime', false);
-                } else {
-                  _controller.nextPage(
-                    duration: Duration(milliseconds: 500),
-                    curve: Curves.easeIn,
-                  );
-                }
-              },
+              onPressed: () => nextButtonOnPressed(context),
             ),
           ],
         ),
       ),
     );
+  }
+
+  void nextButtonOnPressed(BuildContext context) {
+    if (currentPage == Constants.onboardingContent.length - 1) {
+      setViewOnBoarding();
+      context.pushNamedAndRemoveUntil(
+        Routes.loginScreen,
+        predicate: (route) => false,
+      );
+    } else {
+      _controller.nextPage(
+        duration: Duration(milliseconds: 500),
+        curve: Curves.easeIn,
+      );
+    }
   }
 
   Iterable<Widget> buildOnBoardingPages() {

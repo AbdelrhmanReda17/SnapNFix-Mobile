@@ -6,7 +6,7 @@ import 'package:snapnfix/features/authentication/logic/cubit/login_cubit.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:snapnfix/features/authentication/presentation/widgets/login/login_bloc_listener.dart';
 import 'package:snapnfix/features/authentication/presentation/widgets/login/login_form.dart';
-import '../../../../core/routing/routes.dart';
+import '../../../../core/routes.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});

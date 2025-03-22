@@ -18,7 +18,7 @@ class PageIndicator extends StatelessWidget {
         effect: ExpandingDotsEffect(
           dotHeight: 8,
           dotWidth: 8,
-          expansionFactor: 2.5, // Adjust expansion for the active dot
+          expansionFactor: 2.5, // Adjust expansion for the active dota
           spacing: 8,
           activeDotColor: ColorsManager.primaryColor,
           dotColor: ColorsManager.quaternaryColor,

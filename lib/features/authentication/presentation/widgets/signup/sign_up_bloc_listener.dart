@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:snapnfix/core/helpers/extensions.dart';
-import '../../../../../core/routing/routes.dart';
+import '../../../../../core/routes.dart';
 import '../../../../../core/theming/colors.dart';
 import '../../../../../core/theming/text_styles.dart';
 import '../../../logic/cubit/sign_up_cubit.dart';

@@ -6,7 +6,7 @@ import 'package:snapnfix/features/authentication/logic/cubit/sign_up_cubit.dart'
 import 'package:snapnfix/features/authentication/presentation/screens/auhentication_screen.dart';
 import 'package:snapnfix/features/authentication/presentation/widgets/signup/sign_up_bloc_listener.dart';
 import 'package:snapnfix/features/authentication/presentation/widgets/signup/sign_up_form.dart';
-import '../../../../core/routing/routes.dart';
+import '../../../../core/routes.dart';
 
 class SignUpScreen extends StatelessWidget {
   const SignUpScreen({super.key});

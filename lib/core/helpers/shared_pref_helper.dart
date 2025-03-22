@@ -74,6 +74,7 @@ static getFirtTimeBool(String key) async {
     return sharedPreferences.getString(key) ?? '';
   }
 
+
   /// Saves a [value] with a [key] in the FlutterSecureStorage.
   static setSecuredString(String key, String value) async {
     const flutterSecureStorage = FlutterSecureStorage();
