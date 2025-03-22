@@ -4,7 +4,7 @@ import 'package:snapnfix/core/helpers/extensions.dart';
 import 'package:snapnfix/core/routing/routes.dart';
 import 'package:snapnfix/core/theming/colors.dart';
 import 'package:snapnfix/core/theming/text_styles.dart';
-import 'package:snapnfix/features/login/logic/cubit/login_cubit.dart';
+import 'package:snapnfix/features/authentication/logic/cubit/login_cubit.dart';
 
 class LoginBlocListener extends StatelessWidget {
   const LoginBlocListener({super.key});
@@ -46,7 +46,11 @@ class LoginBlocListener extends StatelessWidget {
       context: context,
       builder:
           (context) => AlertDialog(
-            icon: const Icon(Icons.error, color: Colors.red, size: 32),
+            icon: const Icon(
+              Icons.error,
+              color: ColorsManager.redColor,
+              size: 32,
+            ),
             content: Text(
               error,
               style: TextStyles.font24Bold(TextColor.primaryColor),

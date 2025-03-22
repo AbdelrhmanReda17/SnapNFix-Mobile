@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class BaseSocialAuthButton extends StatelessWidget {
+class BaseIconButton extends StatelessWidget {
   final String assetPath;
   final Color backgroundColor;
   final VoidCallback onPressed;
 
-  const BaseSocialAuthButton({
+  const BaseIconButton({
     super.key,
     required this.assetPath,
     required this.backgroundColor,

@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../helpers/spacing.dart';
-import '../theming/text_styles.dart';
+import '../../../../core/helpers/spacing.dart';
+import '../../../../core/theming/text_styles.dart';
 
-class BaseAuthFooter extends StatelessWidget {
+class AuthenticationFooter extends StatelessWidget {
   final String questionText;
   final String actionText;
 
   final VoidCallback onTap;
 
-  const BaseAuthFooter({
+  const AuthenticationFooter({
     super.key,
     required this.questionText,
     required this.actionText,
