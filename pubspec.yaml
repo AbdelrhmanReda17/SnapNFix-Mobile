@@ -30,6 +30,9 @@ dependencies:
   retrofit_generator: ^9.1.9
   get_it: ^8.0.3
   firebase_core: ^3.12.1
+  shared_preferences: ^2.5.2
+  flutter_secure_storage: ^9.2.4
+  go_router: ^14.8.1
 
 
 
@@ -46,6 +49,8 @@ flutter:
   uses-material-design: true
   assets:
     - assets/images/
+    - assets/icons/
+    - assets/icons/active/
 
 flutter_gen:
   output: lib/l10n

@@ -7,14 +7,16 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:snapnfix/core/routing/app_router.dart';
+import 'package:snapnfix/core/application_router.dart';
 
 import 'package:snapnfix/snapnfix_application.dart';
 
 void main() {
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {
     // Build our app and trigger a frame.
-    await tester.pumpWidget(SnapNFixApplication(appRouter: AppRouter()));
+    await tester.pumpWidget(
+      SnapNFixApplication(appRouter: ApplicationRouter()),
+    );
 
     // Verify that our counter starts at 0.
     expect(find.text('0'), findsOneWidget);

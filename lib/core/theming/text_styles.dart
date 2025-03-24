@@ -80,6 +80,7 @@ class TextStyles {
       color: TextColorsManager.getColor(color),
     );
   }
+
   static TextStyle font14Medium(TextColor color) {
     return TextStyle(
       fontSize: 14.sp,
