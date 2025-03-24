@@ -9,6 +9,7 @@ void main() async {
   SharedPrefHelper.clearAllSecuredData();
   SharedPrefHelper.clearAllData();
   WidgetsFlutterBinding.ensureInitialized();
+  await SharedPrefHelper.clearAllSecuredData();
   setupGetIt();
   await ScreenUtil.ensureScreenSize();
   await getIt<ApplicationConfigurations>().init();
