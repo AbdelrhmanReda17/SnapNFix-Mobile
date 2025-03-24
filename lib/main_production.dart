@@ -10,5 +10,5 @@ void main() async {
   setupGetIt();
   await ScreenUtil.ensureScreenSize();
   await ApplicationConfigurations.init();
-  runApp(SnapNFixApplication(appRouter: ApplicatinoRouter()));
+  runApp(SnapNFixApplication(appRouter: ApplicationRouter()));
 }

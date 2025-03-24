@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:go_router/go_router.dart';
 import 'package:snapnfix/core/helpers/extensions.dart';
 import 'package:snapnfix/features/authentication/logic/cubit/sign_up_cubit.dart';
 import 'package:snapnfix/features/authentication/presentation/screens/auhentication_screen.dart';
@@ -21,11 +22,7 @@ class SignUpScreen extends StatelessWidget {
       buttonText: localization.signUp,
       footerQuestion: localization.alreadyHaveAcc,
       footerAction: localization.signIn,
-      onFooterTap:
-          () => context.pushNamedAndRemoveUntil(
-            Routes.loginScreen,
-            predicate: (route) => false,
-          ),
+      onFooterTap: () => context.go(Routes.loginScreen.key),
       form: SignUpForm(),
       blocListener: const SignUpBlocListener(),
       onSubmit: () {

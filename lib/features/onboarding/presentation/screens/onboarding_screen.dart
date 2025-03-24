@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:snapnfix/core/constants/constants.dart';
 import 'package:snapnfix/core/helpers/extensions.dart';
 import 'package:snapnfix/core/helpers/shared_pref_helper.dart';
@@ -61,10 +62,7 @@ class OnboardingScreenState extends State<OnboardingScreen> {
   void nextButtonOnPressed(BuildContext context) {
     if (currentPage == Constants.onboardingContent.length - 1) {
       setViewOnBoarding();
-      context.pushNamedAndRemoveUntil(
-        Routes.loginScreen,
-        predicate: (route) => false,
-      );
+      context.go(Routes.loginScreen.key);
     } else {
       _controller.nextPage(
         duration: Duration(milliseconds: 500),

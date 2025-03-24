@@ -3,8 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../helpers/spacing.dart';
 
-class LogoAndNameWidget extends StatelessWidget {
-  const LogoAndNameWidget({super.key});
+class ApplicationLogoAndName extends StatelessWidget {
+  const ApplicationLogoAndName({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +13,7 @@ class LogoAndNameWidget extends StatelessWidget {
       children: [
         Image.asset(
           'assets/images/SnapNFix.png',
-          height: 45.h, // Adjust height as needed
+          height: 45.h,
         ),
         horizontalSpace(9),
         Image.asset(
