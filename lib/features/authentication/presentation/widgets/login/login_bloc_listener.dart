@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:snapnfix/core/helpers/extensions.dart';
+import 'package:go_router/go_router.dart';
 import 'package:snapnfix/core/routes.dart';
 import 'package:snapnfix/core/theming/colors.dart';
 import 'package:snapnfix/core/theming/text_styles.dart';
@@ -15,9 +15,8 @@ class LoginBlocListener extends StatelessWidget {
       listener: (context, state) {
         state.whenOrNull(
           success: (loginResponse) {
-            context.pushNamedAndRemoveUntil(
-              Routes.homeScreen,
-              predicate: (route) => false,
+            context.go(
+              Routes.homeScreen.key,
             );
           },
           error: (error) {

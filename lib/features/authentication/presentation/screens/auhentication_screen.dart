@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:snapnfix/core/base_components/logo_and_name_widget.dart';
-//
+import 'package:snapnfix/core/application_components/application_logo_and_name.dart';
 import 'package:snapnfix/core/helpers/spacing.dart';
 import 'package:snapnfix/core/theming/text_styles.dart';
 import 'package:snapnfix/core/base_components/base_button.dart';
@@ -40,7 +39,7 @@ class AuthenticationScreen<T extends Cubit<void>> extends StatelessWidget {
         child: ListView(
           padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 48.h),
           children: [
-            LogoAndNameWidget(),
+            ApplicationLogoAndName(),
             verticalSpace(26),
             Text(title, style: TextStyles.font36Normal(TextColor.primaryColor)),
             Text(

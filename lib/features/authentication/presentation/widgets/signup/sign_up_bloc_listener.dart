@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:snapnfix/core/helpers/extensions.dart';
+import 'package:go_router/go_router.dart';
 import '../../../../../core/routes.dart';
 import '../../../../../core/theming/colors.dart';
 import '../../../../../core/theming/text_styles.dart';
@@ -15,10 +15,7 @@ class SignUpBlocListener extends StatelessWidget {
       listener: (context, state) {
         state.whenOrNull(
           success: (signUpResponse) {
-            context.pushNamedAndRemoveUntil(
-              Routes.homeScreen,
-              predicate: (route) => false,
-            );
+            context.go(Routes.homeScreen.key);
           },
           error: (error) {
             setupErrorState(context, error);
@@ -27,11 +24,11 @@ class SignUpBlocListener extends StatelessWidget {
             showDialog(
               context: context,
               builder:
-                (context) => const Center(
-                  child: CircularProgressIndicator(
-                    color: ColorsManager.primaryColor,
-                ),
-              ),
+                  (context) => const Center(
+                    child: CircularProgressIndicator(
+                      color: ColorsManager.primaryColor,
+                    ),
+                  ),
             );
           },
         );
@@ -45,24 +42,28 @@ class SignUpBlocListener extends StatelessWidget {
     showDialog(
       context: context,
       builder:
-        (context) => AlertDialog(
-          icon: const Icon(Icons.error, color: ColorsManager.redColor, size: 32),
-          content: Text(
-            error,
-            style: TextStyles.font24Bold(TextColor.primaryColor),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                context.pop();
-              },
-              child: Text(
-                'Got it',
-                style: TextStyles.font14Medium(TextColor.primaryColor),
-              ),
+          (context) => AlertDialog(
+            icon: const Icon(
+              Icons.error,
+              color: ColorsManager.redColor,
+              size: 32,
             ),
-          ],
-        ),
+            content: Text(
+              error,
+              style: TextStyles.font24Bold(TextColor.primaryColor),
+            ),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  context.pop();
+                },
+                child: Text(
+                  'Got it',
+                  style: TextStyles.font14Medium(TextColor.primaryColor),
+                ),
+              ),
+            ],
+          ),
     );
   }
 }
