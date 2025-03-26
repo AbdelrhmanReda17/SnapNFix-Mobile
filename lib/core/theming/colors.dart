@@ -13,4 +13,6 @@ class ColorsManager {
 
   static const Color googleContainerColor = Color(0x19CC4B4B);
   static const Color facebookContainerColor = Color(0x164B8ECC);
+
+  static const Color settingsColor = Color(0xFFEDEDED);
 }

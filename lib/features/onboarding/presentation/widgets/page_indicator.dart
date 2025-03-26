@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-import 'package:snapnfix/core/constants/constants.dart';
+import 'package:snapnfix/core/application_constants.dart';
 import 'package:snapnfix/core/theming/colors.dart';
 
 class PageIndicator extends StatelessWidget {
@@ -14,7 +14,7 @@ class PageIndicator extends StatelessWidget {
     return Center(
       child: SmoothPageIndicator(
         controller: _controller,
-        count: Constants.onboardingContent.length,
+        count: ApplicationConstants.onboardingContent.length,
         effect: ExpandingDotsEffect(
           dotHeight: 8,
           dotWidth: 8,

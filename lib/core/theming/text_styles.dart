@@ -54,6 +54,15 @@ class TextStyles {
     );
   }
 
+  static TextStyle font24Normal(TextColor color) {
+    return TextStyle(
+      fontSize: 24.sp,
+      fontWeight: FontWeight.w400,
+      fontFamily: 'Poppins',
+      color: TextColorsManager.getColor(color),
+    );
+  }
+
   static TextStyle font36Normal(TextColor color) {
     return TextStyle(
       fontSize: 36.sp,
@@ -69,6 +78,7 @@ class TextStyles {
       fontWeight: FontWeight.w400,
       fontFamily: 'Poppins',
       color: TextColorsManager.getColor(color),
+      overflow: TextOverflow.ellipsis,
     );
   }
 
