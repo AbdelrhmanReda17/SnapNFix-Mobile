@@ -16,12 +16,12 @@ class BaseScreen extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         bottomNavigationBar: ApplicationBottomNavigationBar(
-            selectedIndex: selectedIndex,
-            onItemSelected: (index) {
-              navigationShell.goBranch(index);
-            },
-          ),
-      
+          selectedIndex: selectedIndex,
+          onItemSelected: (index) {
+            navigationShell.goBranch(index);
+          },
+        ),
+
         floatingActionButton: ApplicationFloatingActionButton(
           isActive: selectedIndex == 4,
           onItemSelected: (index) {
@@ -30,7 +30,7 @@ class BaseScreen extends StatelessWidget {
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         floatingActionButtonAnimator: FloatingActionButtonAnimator.scaling,
-        body: navigationShell,
+        body: SafeArea(child: navigationShell),
       ),
     );
   }

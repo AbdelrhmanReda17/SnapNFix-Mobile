@@ -37,6 +37,8 @@ class SharedPrefHelper {
       case double:
         await sharedPreferences.setDouble(key, value);
         break;
+      case Locale:
+        await sharedPreferences.setString(key, value.toString());
       default:
         return null;
     }
@@ -46,13 +48,15 @@ class SharedPrefHelper {
   static getBool(String key) async {
     debugPrint('SharedPrefHelper : getBool with key : $key');
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    return sharedPreferences.getBool(key) ??false;
+    return sharedPreferences.getBool(key) ?? false;
   }
-static getFirtTimeBool(String key) async {
+
+  static getFirtTimeBool(String key) async {
     debugPrint('SharedPrefHelper : getBool with key : $key');
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    return sharedPreferences.getBool(key) ??true;
+    return sharedPreferences.getBool(key) ?? true;
   }
+
   /// Gets a double value from SharedPreferences with given [key].
   static getDouble(String key) async {
     debugPrint('SharedPrefHelper : getDouble with key : $key');
@@ -74,12 +78,12 @@ static getFirtTimeBool(String key) async {
     return sharedPreferences.getString(key) ?? '';
   }
 
-
   /// Saves a [value] with a [key] in the FlutterSecureStorage.
   static setSecuredString(String key, String value) async {
     const flutterSecureStorage = FlutterSecureStorage();
     debugPrint(
-        "FlutterSecureStorage : setSecuredString with key : $key and value : $value");
+      "FlutterSecureStorage : setSecuredString with key : $key and value : $value",
+    );
     await flutterSecureStorage.write(key: key, value: value);
   }
 

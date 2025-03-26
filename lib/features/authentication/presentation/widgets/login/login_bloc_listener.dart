@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:snapnfix/core/base_components/base_alert.dart';
 import 'package:snapnfix/core/routes.dart';
 import 'package:snapnfix/core/theming/colors.dart';
 import 'package:snapnfix/core/theming/text_styles.dart';
@@ -15,9 +16,7 @@ class LoginBlocListener extends StatelessWidget {
       listener: (context, state) {
         state.whenOrNull(
           success: (loginResponse) {
-            context.go(
-              Routes.homeScreen.key,
-            );
+            context.go(Routes.homeScreen.key);
           },
           error: (error) {
             setupErrorState(context, error);
@@ -41,31 +40,14 @@ class LoginBlocListener extends StatelessWidget {
 
   void setupErrorState(BuildContext context, String error) {
     context.pop();
-    showDialog(
+    baseDialog(
       context: context,
-      builder:
-          (context) => AlertDialog(
-            icon: const Icon(
-              Icons.error,
-              color: ColorsManager.redColor,
-              size: 32,
-            ),
-            content: Text(
-              error,
-              style: TextStyles.font24Bold(TextColor.primaryColor),
-            ),
-            actions: [
-              TextButton(
-                onPressed: () {
-                  context.pop();
-                },
-                child: Text(
-                  'Got it',
-                  style: TextStyles.font14Medium(TextColor.primaryColor),
-                ),
-              ),
-            ],
-          ),
+      title: 'Error',
+      message: error,
+      alertType: AlertType.error,
+      confirmText: 'Got it',
+      onConfirm: () {},
+      showCancelButton: false,
     );
   }
 }

@@ -9,6 +9,31 @@
 
 import 'package:flutter/widgets.dart';
 
+class $AssetsIconsGen {
+  const $AssetsIconsGen();
+
+  /// Directory path: assets/icons/active
+  $AssetsIconsActiveGen get active => const $AssetsIconsActiveGen();
+
+  /// File path: assets/icons/favicon.ico
+  String get favicon => 'assets/icons/favicon.ico';
+
+  /// File path: assets/icons/home.svg
+  String get home => 'assets/icons/home.svg';
+
+  /// File path: assets/icons/map.svg
+  String get map => 'assets/icons/map.svg';
+
+  /// File path: assets/icons/settings.svg
+  String get settings => 'assets/icons/settings.svg';
+
+  /// File path: assets/icons/user_reports.svg
+  String get userReports => 'assets/icons/user_reports.svg';
+
+  /// List of all assets
+  List<String> get values => [favicon, home, map, settings, userReports];
+}
+
 class $AssetsImagesGen {
   const $AssetsImagesGen();
 
@@ -60,9 +85,29 @@ class $AssetsImagesGen {
   ];
 }
 
+class $AssetsIconsActiveGen {
+  const $AssetsIconsActiveGen();
+
+  /// File path: assets/icons/active/home.svg
+  String get home => 'assets/icons/active/home.svg';
+
+  /// File path: assets/icons/active/map.svg
+  String get map => 'assets/icons/active/map.svg';
+
+  /// File path: assets/icons/active/settings.svg
+  String get settings => 'assets/icons/active/settings.svg';
+
+  /// File path: assets/icons/active/user_reports.svg
+  String get userReports => 'assets/icons/active/user_reports.svg';
+
+  /// List of all assets
+  List<String> get values => [home, map, settings, userReports];
+}
+
 class Assets {
   const Assets._();
 
+  static const $AssetsIconsGen icons = $AssetsIconsGen();
   static const $AssetsImagesGen images = $AssetsImagesGen();
 }
 

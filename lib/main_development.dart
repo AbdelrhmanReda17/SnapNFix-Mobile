@@ -8,7 +8,7 @@ import 'package:snapnfix/snapnfix_application.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await SharedPrefHelper.clearAllSecuredData();
+  // await SharedPrefHelper.clearAllSecuredData();
   setupGetIt();
   await ScreenUtil.ensureScreenSize();
   await ApplicationConfigurations.init();

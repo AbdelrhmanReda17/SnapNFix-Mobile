@@ -1,5 +1,37 @@
 {
   "@@locale": "ar",
-  "hello": "مرحبا!",
-  "welcome": "مرحبًا بك في تطبيقنا"
+  "hello": "مرحبًا!",
+  "welcome": "مرحبًا بك في تطبيقنا",
+
+  "welcomeBack": "مرحبًا بعودتك!",
+  "loginToContinue": "سجّل الدخول للمتابعة",
+  "phone": "رقم الهاتف",
+  "password": "كلمة المرور",
+  "rememberMe": "تذكرني",
+  "forgetPassword": "هل نسيت كلمة المرور؟",
+  "signIn": "تسجيل الدخول",
+  "orContinueWith": "أو تابع باستخدام",
+  "notRegistered": "لست مسجلاً بعد؟",
+  "createAccount": "إنشاء حساب",
+
+  "createAccountTitle": "إنشاء حساب",
+  "registerToContinue": "سجّل للمتابعة",
+  "repeatPassword": "أعد إدخال كلمة المرور",
+  "agreeWith": "أوافق على ",
+  "termsOfServices": "شروط الخدمة ",
+  "and": "و ",
+  "privacyPolicy": "سياسة الخصوصية",
+  "signUp": "تسجيل الحساب",
+  "alreadyHaveAcc": "هل لديك حساب بالفعل؟",
+
+  "changePassword": "تغيير كلمة المرور",
+  "notificationSettings": "إعدادات الإشعارات",
+  "support": "الدعم",
+  "termsAndConditions": "الشروط والأحكام",
+  "about": "حول",
+  "signOut": "تسجيل الخروج",
+  "darkMode": "الوضع الداكن",
+  "language": "اللغة",
+  "selectLanguage": "اختر اللغة"
+
 }

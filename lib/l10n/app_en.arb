@@ -22,6 +22,16 @@
   "and": "and ",
   "privacyPolicy":  "Privacy Policy",
   "signUp": "Sign Up",
-  "alreadyHaveAcc": "Already have an account?"
+  "alreadyHaveAcc": "Already have an account?",
+
+  "changePassword": "Change Passowrd",
+  "notificationSettings" : "Notification Settings",
+  "support" : "Support",
+  "termsAndConditions" : "Terms & Condiftions",
+  "about" : "About",
+  "signOut" :"Sign Out",
+  "darkMode" : "Dark Mode",
+  "language" : "Language",
+  "selectLanguage": "Select Language"
 
 }

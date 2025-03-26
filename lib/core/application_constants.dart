@@ -1,11 +1,14 @@
-import 'package:flutter/widgets.dart';
-
-class Constants {
+class ApplicationConstants {
   static const String appName = 'SnapNFix';
   static const String appVersion = '1.0.0';
+  static const Map<String, String> availableLanguages = {
+    'en': 'English',
+    'ar': 'العربية',
+  };
+  static const String defaultLanguage = 'en';
+
   static const String appDescription =
       'SnapNFix is a mobile application that allows users to report issues in their community.';
-
   static const List<Map<String, String>> onboardingContent = [
     {
       'image': 'assets/images/onboarding-1.png',

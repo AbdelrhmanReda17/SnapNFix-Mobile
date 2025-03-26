@@ -6,6 +6,7 @@ class User {
   String id;
   String name;
   String phoneNumber;
+  String? profileImage;
   String password;
   String token;
 
@@ -13,6 +14,7 @@ class User {
     required this.id,
     required this.name,
     required this.phoneNumber,
+    this.profileImage,
     required this.password,
     required this.token,
   });
@@ -22,6 +24,7 @@ class User {
       id: json['id'],
       name: json['name'],
       phoneNumber: json['phoneNumber'],
+      profileImage: json['profileImage'],
       password: json['password'],
       token: json['token'],
     );
@@ -31,6 +34,7 @@ class User {
     'id': id,
     'name': name,
     'phoneNumber': phoneNumber,
+    'profileImage': profileImage,
     'password': password,
     'token': token,
   };

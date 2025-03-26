@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
-import 'package:snapnfix/core/helpers/extensions.dart';
 import 'package:snapnfix/features/authentication/logic/cubit/sign_up_cubit.dart';
 import 'package:snapnfix/features/authentication/presentation/screens/auhentication_screen.dart';
 import 'package:snapnfix/features/authentication/presentation/widgets/signup/sign_up_bloc_listener.dart';
