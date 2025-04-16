@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -21,7 +22,10 @@ class SignUpScreen extends StatelessWidget {
       buttonText: localization.signUp,
       footerQuestion: localization.alreadyHaveAcc,
       footerAction: localization.signIn,
-      onFooterTap: () => context.go(Routes.loginScreen.key),
+      onFooterTap: () {
+        log('Login button pressed');
+        context.go(Routes.loginScreen.key);
+      },
       form: SignUpForm(),
       blocListener: const SignUpBlocListener(),
       onSubmit: () {

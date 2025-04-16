@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:snapnfix/core/application_configurations.dart';
 import 'package:snapnfix/core/theming/colors.dart';
 import 'package:snapnfix/features/settings/presentation/widgets/dark_mode_tile.dart';
 import 'package:snapnfix/features/settings/presentation/widgets/language_tile.dart';
@@ -15,6 +16,7 @@ class SettingsListView extends StatefulWidget {
 class _SettingsListViewState extends State<SettingsListView> {
   @override
   Widget build(BuildContext context) {
+    final appConfigs = ApplicationConfigurations.instance;
     final localization = AppLocalizations.of(context)!;
     return Card(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.zero),
@@ -44,7 +46,9 @@ class _SettingsListViewState extends State<SettingsListView> {
               localization.signOut,
               style: TextStyle(color: ColorsManager.redColor),
             ),
-            onTap: () {},
+            onTap: () {
+              appConfigs.logout();
+            },
           ),
         ],
       ),

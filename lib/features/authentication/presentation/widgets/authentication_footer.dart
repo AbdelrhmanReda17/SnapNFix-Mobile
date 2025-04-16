@@ -6,7 +6,6 @@ import '../../../../core/theming/text_styles.dart';
 class AuthenticationFooter extends StatelessWidget {
   final String questionText;
   final String actionText;
-
   final VoidCallback onTap;
 
   const AuthenticationFooter({

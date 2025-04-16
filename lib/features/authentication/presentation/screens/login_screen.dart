@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -20,7 +22,10 @@ class LoginScreen extends StatelessWidget {
       buttonText: localization.signIn,
       footerQuestion: localization.notRegistered,
       footerAction: localization.createAccount,
-      onFooterTap: () => context.go(Routes.signUpScreen.key),
+      onFooterTap: () {
+        log('Sign Up button pressed');
+        context.go(Routes.signUpScreen.key);
+      },
       form: LoginForm(),
       blocListener: const LoginBlocListener(),
       onSubmit: () {
