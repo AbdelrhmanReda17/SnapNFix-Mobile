@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:snapnfix/core/theming/colors.dart';
 
 class BaseButton extends StatelessWidget {
   final String text;
@@ -26,7 +25,7 @@ class BaseButton extends StatelessWidget {
     this.buttonHeight,
   });
 
-  ButtonStyle getButtonStyle() {
+  ButtonStyle getButtonStyle(ColorScheme colorScheme) {
     return ButtonStyle(
       shape: WidgetStateProperty.all<RoundedRectangleBorder>(
         RoundedRectangleBorder(
@@ -34,7 +33,7 @@ class BaseButton extends StatelessWidget {
         ),
       ),
       backgroundColor: WidgetStatePropertyAll(
-        backgroundColor ?? ColorsManager.primaryColor,
+        backgroundColor ?? colorScheme.primary,
       ),
       padding: WidgetStatePropertyAll<EdgeInsets>(
         EdgeInsets.symmetric(
@@ -50,9 +49,10 @@ class BaseButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
     return TextButton(
       onPressed: onPressed,
-      style: getButtonStyle(),
+      style: getButtonStyle(colorScheme),
       child: Text(text, style: textStyle, textAlign: TextAlign.center),
     );
   }

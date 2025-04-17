@@ -18,7 +18,7 @@ class LoginRepository {
           password: " ",
           phoneNumber: ' ',
           name: ' ',
-          token: ' ',
+          token: 'ARARARA',
         ),
       );
     } catch (error) {

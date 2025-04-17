@@ -5,7 +5,6 @@ import 'package:snapnfix/core/base_components/base_checkbox.dart';
 import 'package:snapnfix/core/base_components/base_password_text_field.dart';
 import 'package:snapnfix/core/base_components/base_text_field.dart';
 import 'package:snapnfix/core/helpers/spacing.dart';
-import 'package:snapnfix/core/theming/text_styles.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:snapnfix/features/authentication/logic/cubit/login_cubit.dart';
 import 'package:snapnfix/features/authentication/presentation/widgets/login/forget_password.dart';
@@ -35,6 +34,8 @@ class _LoginFormState extends State<LoginForm> {
 
   @override
   Widget build(BuildContext context) {
+        final colorScheme = Theme.of(context).colorScheme;
+    final textStyles = Theme.of(context).textTheme;
     return Form(
       key: context.read<LoginCubit>().formKey,
       child: Padding(
@@ -65,7 +66,9 @@ class _LoginFormState extends State<LoginForm> {
                     horizontalSpace(6),
                     Text(
                       AppLocalizations.of(context)!.rememberMe,
-                      style: TextStyles.font14Normal(TextColor.primaryColor),
+                      style: textStyles.bodyMedium!.copyWith(
+                        color: colorScheme.primary,
+                      ),
                     ),
                   ],
                 ),

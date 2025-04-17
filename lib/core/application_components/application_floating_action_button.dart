@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:snapnfix/core/theming/colors.dart';
 
 class ApplicationFloatingActionButton extends StatelessWidget {
   const ApplicationFloatingActionButton({
@@ -13,11 +12,12 @@ class ApplicationFloatingActionButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
     return FloatingActionButton(
       elevation: 2,
       onPressed: () => onItemSelected(isActive ? 0 : 4),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
-      backgroundColor: ColorsManager.primaryColor,
+      backgroundColor: colorScheme.primary,
       child: Icon(isActive ? Icons.close : Icons.add, color: Colors.white),
     );
   }

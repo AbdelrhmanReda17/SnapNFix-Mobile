@@ -3,8 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:snapnfix/core/base_components/base_alert.dart';
 import 'package:snapnfix/core/routes.dart';
-import 'package:snapnfix/core/theming/colors.dart';
-import 'package:snapnfix/core/theming/text_styles.dart';
 import 'package:snapnfix/features/authentication/logic/cubit/login_cubit.dart';
 
 class LoginBlocListener extends StatelessWidget {
@@ -12,6 +10,7 @@ class LoginBlocListener extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
     return BlocListener<LoginCubit, LoginState>(
       listener: (context, state) {
         state.whenOrNull(
@@ -25,9 +24,9 @@ class LoginBlocListener extends StatelessWidget {
             showDialog(
               context: context,
               builder:
-                  (context) => const Center(
+                  (context) => Center(
                     child: CircularProgressIndicator(
-                      color: ColorsManager.primaryColor,
+                      color: colorScheme.primary,
                     ),
                   ),
             );

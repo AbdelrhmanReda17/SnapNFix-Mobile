@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:snapnfix/core/theming/colors.dart';
 
 enum AlertType {
   success(
@@ -52,6 +51,7 @@ void baseDialog({
   bool showCancelButton = true,
   String? cancelText,
 }) {
+  final colorScheme = Theme.of(context).colorScheme;
   showDialog(
     context: context,
     builder: (context) {
@@ -122,7 +122,7 @@ void baseDialog({
                     child: Text(
                       confirmText,
                       style: TextStyle(
-                        color: ColorsManager.whiteColor,
+                        color: colorScheme.surface,
                         fontSize: 16.sp,
                         fontWeight: FontWeight.w500,
                       ),

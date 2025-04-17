@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
 import 'package:snapnfix/core/application_screens.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:snapnfix/core/theming/colors.dart';
 
 class ApplicationBottomNavigationBar extends StatelessWidget {
   const ApplicationBottomNavigationBar({
@@ -17,23 +15,24 @@ class ApplicationBottomNavigationBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Colors.transparent,
         boxShadow: [
           BoxShadow(
-            color: ColorsManager.primaryColor.withOpacity(0.02),
-            blurRadius: 10, // Blur makes shadow more realistic
-            offset: const Offset(0, -5), // Moves shadow **upwards**
+            color: colorScheme.primary.withValues(alpha: .1),
+            blurRadius: 10,
+            offset: const Offset(0, -1),
           ),
         ],
       ),
       child: BottomAppBar(
         height: 70.h,
         shape: const CircularNotchedRectangle(),
-        color: Colors.white,
-        shadowColor: ColorsManager.primaryColor,
-        surfaceTintColor: ColorsManager.whiteColor,
+        color: colorScheme.surface,
+        shadowColor: colorScheme.primary,
+        surfaceTintColor: colorScheme.surface,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: List.generate(ApplicationScreens.navigationScreens.length, (
@@ -44,9 +43,16 @@ class ApplicationBottomNavigationBar extends StatelessWidget {
               icon: SvgPicture.asset(
                 ApplicationScreens.navigationScreens[index].icon!,
               ),
-              selectedIcon: SvgPicture.asset(
-                ApplicationScreens.navigationScreens[index].activeIcon!,
-              ),
+              selectedIcon:
+                  colorScheme.brightness == Brightness.light
+                      ? SvgPicture.asset(
+                        ApplicationScreens.navigationScreens[index].activeIcon!,
+                      )
+                      : SvgPicture.asset(
+                        ApplicationScreens
+                            .navigationScreens[index]
+                            .darkActiveIcon!,
+                      ),
               onPressed: () => onItemSelected(index),
             );
           }),

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:snapnfix/core/application_configurations.dart';
 import 'package:snapnfix/features/authentication/data/models/sign_up_dto.dart';
 import 'package:snapnfix/features/authentication/data/repository/sign_up_repository.dart';
-import 'package:snapnfix/core/helpers/shared_pref_helper.dart';
 
 part 'sign_up_state.dart';
 part 'sign_up_cubit.freezed.dart';
@@ -31,10 +31,7 @@ class SignUpCubit extends Cubit<SignUpState> {
     response.when(
       success: (signUpResponse) async {
         emit(SignUpState.success(signUpResponse));
-        await SharedPrefHelper.setSecuredString(
-          'userToken',
-          signUpResponse.token,
-        );
+        ApplicationConfigurations.instance.setUserToken(signUpResponse.token);
       },
       failure: (error) {
         emit(SignUpState.error(error: error));

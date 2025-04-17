@@ -8,18 +8,16 @@ class ApplicationLogoAndName extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // check if it dark mode or light mode
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Image.asset(
-          'assets/images/SnapNFix.png',
-          height: 45.h,
-        ),
+        Image.asset('assets/images/SnapNFix.png', height: 45.h),
         horizontalSpace(9),
-        Image.asset(
-          'assets/images/SNF.png',
-          height: 30.h,
-        ),
+        isDark
+            ? Image.asset('assets/images/SNF_dark.png', height: 30.h)
+            : Image.asset('assets/images/SNF.png', height: 30.h),
       ],
     );
   }

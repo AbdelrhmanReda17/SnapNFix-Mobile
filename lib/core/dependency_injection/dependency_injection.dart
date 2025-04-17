@@ -1,5 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
+import 'package:go_router/go_router.dart';
+import 'package:snapnfix/core/application_configurations.dart';
+import 'package:snapnfix/core/application_router.dart';
 import 'package:snapnfix/core/networking/api_constants.dart';
 import 'package:snapnfix/core/networking/api_service.dart';
 import 'package:snapnfix/core/networking/dio_factory.dart';
@@ -12,6 +15,14 @@ final getIt = GetIt.instance;
 
 Future<void> setupGetIt() {
   Dio dio = DioFactory.getDio();
+
+  getIt.registerLazySingleton<ApplicationConfigurations>(() => ApplicationConfigurations());
+  getIt.registerLazySingleton<ApplicationRouter>(() => 
+    ApplicationRouter(appConfigurations: getIt<ApplicationConfigurations>())
+  );
+  getIt.registerLazySingleton<GoRouter>(() => getIt<ApplicationRouter>().router);
+
+
   getIt.registerLazySingleton<ApiService>(
     () => ApiService(dio, baseUrl: ApiConstants.apiBaseUrl),
   );

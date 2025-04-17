@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:snapnfix/core/theming/text_styles.dart';
 
 class OnboardingPage extends StatelessWidget {
   final String image;
@@ -16,6 +15,8 @@ class OnboardingPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -23,14 +24,17 @@ class OnboardingPage extends StatelessWidget {
         Text(
           title,
           textAlign: TextAlign.center,
-          style: TextStyles.font24Bold(TextColor.primaryColor),
+          style: textTheme.displayMedium,
         ),
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 10.h),
           child: Text(
             description,
             textAlign: TextAlign.center,
-            style: TextStyles.font12Normal(TextColor.quaternaryColor),
+            style: textTheme.bodySmall?.copyWith(
+              color: colorScheme.primaryContainer,
+              fontWeight: FontWeight.w500,
+            ),
           ),
         ),
       ],

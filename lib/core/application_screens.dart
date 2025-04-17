@@ -11,12 +11,14 @@ class ScreenItem {
   final Widget Function(Widget child)? blocProvider;
   final String? icon;
   final String? activeIcon;
+  final String? darkActiveIcon;
 
   ScreenItem({
     this.blocProvider,
     required this.screen,
     this.icon,
     this.activeIcon,
+    this.darkActiveIcon,
     required this.path,
   });
 
@@ -58,24 +60,28 @@ class ApplicationScreens {
       path: Routes.homeScreen.key,
       icon: 'assets/icons/home.svg',
       activeIcon: 'assets/icons/active/home.svg',
+      darkActiveIcon: 'assets/icons/active/Dhome.svg',
     ),
     ScreenItem(
       screen: Routes.mapScreen.value,
       path: Routes.mapScreen.key,
       icon: 'assets/icons/map.svg',
       activeIcon: 'assets/icons/active/map.svg',
+      darkActiveIcon: 'assets/icons/active/Dmap.svg',
     ),
     ScreenItem(
       screen: Routes.userReportsScreen.value,
       path: Routes.userReportsScreen.key,
       icon: 'assets/icons/user_reports.svg',
       activeIcon: 'assets/icons/active/user_reports.svg',
+      darkActiveIcon: 'assets/icons/active/Duser_reports.svg',
     ),
     ScreenItem(
       screen: Routes.settingsScreen.value,
       path: Routes.settingsScreen.key,
       icon: 'assets/icons/settings.svg',
       activeIcon: 'assets/icons/active/settings.svg',
+      darkActiveIcon: 'assets/icons/active/Dsettings.svg',
     ),
   ];
 
@@ -83,6 +89,5 @@ class ApplicationScreens {
     screen: Routes.addReportScreen.value,
     path: Routes.addReportScreen.key,
     icon: 'assets/icons/add_report.svg',
-    activeIcon: 'assets/icons/active/add_report.svg',
   );
 }

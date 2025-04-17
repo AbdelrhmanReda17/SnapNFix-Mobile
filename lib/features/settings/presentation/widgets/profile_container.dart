@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:snapnfix/core/theming/colors.dart';
-import 'package:snapnfix/core/theming/text_styles.dart';
 import 'package:snapnfix/features/authentication/data/models/user.dart';
 
 class ProfileContainer extends StatelessWidget {
@@ -10,17 +8,23 @@ class ProfileContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+    final textStyles = Theme.of(context).textTheme;
+
     return Container(
       height: 148.h,
       padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
-      color: ColorsManager.primaryColor,
+      color: colorScheme.primary,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           Text(
             "Settings",
-            style: TextStyles.font24Normal(TextColor.whiteColor),
+            style: textStyles.headlineLarge?.copyWith(
+              fontSize: 20.sp,
+              color: colorScheme.surface,
+            ),
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -30,7 +34,7 @@ class ProfileContainer extends StatelessWidget {
                 children: [
                   CircleAvatar(
                     radius: 30.r,
-                    backgroundColor: ColorsManager.quaternaryColor,
+                    backgroundColor: colorScheme.surface,
                     child:
                         user.profileImage != null
                             ? ClipRRect(
@@ -44,9 +48,7 @@ class ProfileContainer extends StatelessWidget {
                             )
                             : Text(
                               user.name[0],
-                              style: TextStyle(
-                                color: ColorsManager.primaryColor,
-                              ),
+                              style: TextStyle(color: colorScheme.primary),
                             ),
                   ),
                   SizedBox(width: 12.w),
@@ -57,12 +59,14 @@ class ProfileContainer extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                       text: TextSpan(
                         text: "Hello\n",
-                        style: TextStyles.font16Normal(TextColor.whiteColor),
+                        style: textStyles.bodySmall?.copyWith(
+                          color: colorScheme.surface,
+                        ),
                         children: [
                           TextSpan(
                             text: user.name,
-                            style: TextStyles.font16Normal(
-                              TextColor.whiteColor,
+                            style: textStyles.bodyLarge?.copyWith(
+                              color: colorScheme.surface,
                             ),
                           ),
                         ],
@@ -73,7 +77,7 @@ class ProfileContainer extends StatelessWidget {
               ),
               IconButton(
                 iconSize: 20.r,
-                icon: Icon(Icons.edit, color: ColorsManager.quaternaryColor),
+                icon: Icon(Icons.edit, color: colorScheme.surface),
                 onPressed: () {},
               ),
             ],

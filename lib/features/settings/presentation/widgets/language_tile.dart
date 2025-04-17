@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:snapnfix/core/application_configurations.dart';
 import 'package:snapnfix/core/application_constants.dart';
-import 'package:snapnfix/core/base_components/base_alert.dart';
-import 'package:snapnfix/core/theming/colors.dart';
-import 'package:snapnfix/features/settings/presentation/logic/cubit/settings_cubit.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class LanguageTile extends StatelessWidget {
@@ -12,21 +9,26 @@ class LanguageTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final localization = AppLocalizations.of(context)!;
-
-    return BlocBuilder<SettingsCubit, SettingsState>(
-      builder: (BuildContext context, SettingsState state) {
+    final appConfigs = ApplicationConfigurations.instance;
+    final colorScheme = Theme.of(context).colorScheme;
+    final textStyles = Theme.of(context).textTheme;
+    return ListenableBuilder(
+      listenable: appConfigs,
+      builder: (context, _) {
         return ListTile(
-          tileColor: ColorsManager.whiteColor,
+          tileColor: colorScheme.surface.withValues(alpha: 0.8),
           title: Text(
             localization.language,
-            style: TextStyle(color: ColorsManager.secondaryColor),
+            style: textStyles.bodyMedium?.copyWith(color: colorScheme.primary),
           ),
           onTap: () {
-            _showLanguageDialog(context, state, localization);
+            _showLanguageDialog(context, localization);
           },
           trailing: Text(
-            ApplicationConstants.availableLanguages[state.language] ?? '',
-            style: TextStyle(color: ColorsManager.grayColor),
+            ApplicationConstants.availableLanguages[appConfigs.language] ?? '',
+            style: TextStyle(
+              color: colorScheme.secondary.withValues(alpha: 0.5),
+            ),
           ),
         );
       },
@@ -35,40 +37,49 @@ class LanguageTile extends StatelessWidget {
 
   void _showLanguageDialog(
     BuildContext context,
-    SettingsState state,
     AppLocalizations localization,
   ) {
+    final appConfigs = ApplicationConfigurations.instance;
+    final colorScheme = Theme.of(context).colorScheme;
+
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text(
-            localization.selectLanguage,
-            style: TextStyle(color: ColorsManager.secondaryColor),
-          ),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              for (MapEntry<String, String> lang
-                  in ApplicationConstants.availableLanguages.entries)
-                ListTile(
-                  title: Text(lang.value),
-                  leading: Radio<String>(
-                    activeColor: ColorsManager.primaryColor,
-                    value: lang.key,
-                    groupValue: state.language,
-                    onChanged: (value) {
-                      context.read<SettingsCubit>().changeLanguage(value!);
-                      Navigator.pop(context);
-                    },
-                  ),
-                  onTap: () {
-                    context.read<SettingsCubit>().changeLanguage(lang.key);
-                    Navigator.pop(context);
-                  },
-                ),
-            ],
-          ),
+        return ListenableBuilder(
+          listenable: appConfigs,
+          builder: (context, _) {
+            return AlertDialog(
+              title: Text(
+                localization.selectLanguage,
+                style: TextStyle(color: colorScheme.primary),
+              ),
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  for (MapEntry<String, String> lang
+                      in ApplicationConstants.availableLanguages.entries)
+                    ListTile(
+                      title: Text(lang.value),
+                      leading: Radio<String>(
+                        activeColor: colorScheme.primary,
+                        value: lang.key,
+                        groupValue: appConfigs.language,
+                        onChanged: (value) {
+                          if (value != null) {
+                            appConfigs.changeLanguage(value);
+                            Navigator.pop(context);
+                          }
+                        },
+                      ),
+                      onTap: () {
+                        appConfigs.changeLanguage(lang.key);
+                        Navigator.pop(context);
+                      },
+                    ),
+                ],
+              ),
+            );
+          },
         );
       },
     );
