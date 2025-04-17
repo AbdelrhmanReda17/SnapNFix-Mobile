@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:snapnfix/core/application_constants.dart';
-import 'package:snapnfix/core/theming/colors.dart';
 
 class PageIndicator extends StatelessWidget {
   const PageIndicator({super.key, required PageController controller})
@@ -11,6 +10,7 @@ class PageIndicator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
     return Center(
       child: SmoothPageIndicator(
         controller: _controller,
@@ -20,8 +20,8 @@ class PageIndicator extends StatelessWidget {
           dotWidth: 8,
           expansionFactor: 2.5, // Adjust expansion for the active dota
           spacing: 8,
-          activeDotColor: ColorsManager.primaryColor,
-          dotColor: ColorsManager.quaternaryColor,
+          activeDotColor: colorScheme.primary,
+          dotColor: colorScheme.onSurface.withValues(alpha: 0.3),
         ),
       ),
     );

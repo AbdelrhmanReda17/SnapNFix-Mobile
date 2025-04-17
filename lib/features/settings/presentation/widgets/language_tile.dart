@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:snapnfix/core/application_configurations.dart';
 import 'package:snapnfix/core/application_constants.dart';
-import 'package:snapnfix/core/theming/colors.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class LanguageTile extends StatelessWidget {
@@ -11,22 +10,25 @@ class LanguageTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final localization = AppLocalizations.of(context)!;
     final appConfigs = ApplicationConfigurations.instance;
-
+    final colorScheme = Theme.of(context).colorScheme;
+    final textStyles = Theme.of(context).textTheme;
     return ListenableBuilder(
       listenable: appConfigs,
       builder: (context, _) {
         return ListTile(
-          tileColor: ColorsManager.whiteColor,
+          tileColor: colorScheme.surface.withValues(alpha: 0.8),
           title: Text(
             localization.language,
-            style: TextStyle(color: ColorsManager.secondaryColor),
+            style: textStyles.bodyMedium?.copyWith(color: colorScheme.primary),
           ),
           onTap: () {
             _showLanguageDialog(context, localization);
           },
           trailing: Text(
             ApplicationConstants.availableLanguages[appConfigs.language] ?? '',
-            style: TextStyle(color: ColorsManager.grayColor),
+            style: TextStyle(
+              color: colorScheme.secondary.withValues(alpha: 0.5),
+            ),
           ),
         );
       },
@@ -38,6 +40,7 @@ class LanguageTile extends StatelessWidget {
     AppLocalizations localization,
   ) {
     final appConfigs = ApplicationConfigurations.instance;
+    final colorScheme = Theme.of(context).colorScheme;
 
     showDialog(
       context: context,
@@ -48,7 +51,7 @@ class LanguageTile extends StatelessWidget {
             return AlertDialog(
               title: Text(
                 localization.selectLanguage,
-                style: TextStyle(color: ColorsManager.secondaryColor),
+                style: TextStyle(color: colorScheme.primary),
               ),
               content: Column(
                 mainAxisSize: MainAxisSize.min,
@@ -58,7 +61,7 @@ class LanguageTile extends StatelessWidget {
                     ListTile(
                       title: Text(lang.value),
                       leading: Radio<String>(
-                        activeColor: ColorsManager.primaryColor,
+                        activeColor: colorScheme.primary,
                         value: lang.key,
                         groupValue: appConfigs.language,
                         onChanged: (value) {

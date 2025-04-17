@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:snapnfix/core/application_constants.dart';
-import 'package:snapnfix/core/helpers/extensions.dart';
 import 'package:snapnfix/core/helpers/shared_pref_helper.dart';
 import 'package:snapnfix/core/helpers/shared_pref_keys.dart';
 import 'package:snapnfix/core/routes.dart';

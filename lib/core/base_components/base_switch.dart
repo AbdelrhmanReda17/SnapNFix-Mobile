@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:snapnfix/core/theming/colors.dart';
 
 class BaseSwitch extends StatelessWidget {
   const BaseSwitch({super.key, required this.value, this.onChanged});
@@ -8,13 +7,14 @@ class BaseSwitch extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
     return Switch(
       value: value,
       onChanged: onChanged,
       padding: const EdgeInsets.all(0),
-      activeColor: ColorsManager.primaryColor,
-      inactiveTrackColor: ColorsManager.grayColor,
-      inactiveThumbColor: ColorsManager.whiteColor,
+      activeColor: colorScheme.primary,
+      inactiveTrackColor: colorScheme.primary.withValues(alpha: 0.3),
+      inactiveThumbColor: colorScheme.primary.withValues(alpha: 0.5),
     );
   }
 }

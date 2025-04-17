@@ -23,7 +23,7 @@ class SignUpScreen extends StatelessWidget {
       footerQuestion: localization.alreadyHaveAcc,
       footerAction: localization.signIn,
       onFooterTap: () {
-        log('Login button pressed');
+        log('Login bxutxton pressed');
         context.go(Routes.loginScreen.key);
       },
       form: SignUpForm(),
@@ -31,6 +31,7 @@ class SignUpScreen extends StatelessWidget {
       onSubmit: () {
         context.read<SignUpCubit>().emitSignUpStates();
       },
+      isSignUp: true,
     );
   }
 }

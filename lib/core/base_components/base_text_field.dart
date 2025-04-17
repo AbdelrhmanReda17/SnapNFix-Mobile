@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:snapnfix/core/theming/colors.dart';
-import 'package:snapnfix/core/theming/text_styles.dart';
 
 class BaseTextField extends StatelessWidget {
   final EdgeInsetsGeometry? contentPadding;
@@ -31,9 +29,11 @@ class BaseTextField extends StatelessWidget {
     this.backgroundColor,
   });
 
-
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+    final textStyles = Theme.of(context).textTheme;
+
     return TextFormField(
       controller: controller,
       decoration: InputDecoration(
@@ -44,29 +44,33 @@ class BaseTextField extends StatelessWidget {
         focusedBorder:
             focusedBorder ??
             OutlineInputBorder(
-              borderSide: const BorderSide(
-                color: ColorsManager.primaryColor,
-                width: 1.3,
-              ),
+              borderSide: BorderSide(color: colorScheme.primary, width: 1.3),
               borderRadius: BorderRadius.circular(8.r),
             ),
         enabledBorder:
             enabledBorder ??
             OutlineInputBorder(
-              borderSide: const BorderSide(
-                color: ColorsManager.lightGrayColor,
+              borderSide: BorderSide(
+                color: colorScheme.primary.withValues(alpha: 0.4),
                 width: 1.3,
               ),
               borderRadius: BorderRadius.circular(8.r),
             ),
-        hintStyle: hintStyle ?? TextStyles.font14Normal(TextColor.primaryColor),
+        hintStyle:
+            hintStyle ??
+            textStyles.bodyMedium?.copyWith(
+              color: colorScheme.primary.withValues(alpha: 0.4),
+            ),
         hintText: hintText,
         suffixIcon: suffixIcon,
-        fillColor: backgroundColor ?? ColorsManager.whiteColor,
+        fillColor:
+            backgroundColor ?? colorScheme.surface.withValues(alpha: 0.3),
         filled: true,
       ),
       obscureText: isObscureText,
-      style: TextStyles.font14Normal(TextColor.primaryColor),
+      style:
+          inputTextStyle ??
+          textStyles.bodyMedium?.copyWith(color: colorScheme.primary),
     );
   }
 }

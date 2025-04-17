@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:snapnfix/core/theming/colors.dart';
 
 class NextButton extends StatefulWidget {
   final double progress;
@@ -34,6 +33,8 @@ class _NextButtonState extends State<NextButton> {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
     return TweenAnimationBuilder<double>(
       tween: Tween<double>(begin: 0.0, end: animatedProgress),
       duration: const Duration(milliseconds: 500),
@@ -47,14 +48,14 @@ class _NextButtonState extends State<NextButton> {
             children: [
               CustomPaint(
                 size: const Size(65, 65),
-                painter: ProgressPainter(value),
+                painter: ProgressPainter(value, colorScheme),
               ),
               ElevatedButton(
                 onPressed: widget.onPressed,
                 style: ElevatedButton.styleFrom(
                   shape: const CircleBorder(),
                   padding: const EdgeInsets.all(16),
-                  backgroundColor: ColorsManager.primaryColor,
+                  backgroundColor: colorScheme.primary,
                   elevation: 4,
                 ),
                 child: const Icon(Icons.arrow_forward, color: Colors.white),
@@ -69,21 +70,22 @@ class _NextButtonState extends State<NextButton> {
 
 class ProgressPainter extends CustomPainter {
   final double progress;
+  final ColorScheme colorScheme;
 
-  ProgressPainter(this.progress);
+  ProgressPainter(this.progress, this.colorScheme);
 
   @override
   void paint(Canvas canvas, Size size) {
     Paint trackPaint =
         Paint()
-          ..color = ColorsManager.primaryColor.withOpacity(0.2)
+          ..color = colorScheme.primary.withValues(alpha: 0.2)
           ..style = PaintingStyle.stroke
           ..strokeWidth = 4.0
           ..strokeCap = StrokeCap.round;
 
     Paint progressPaint =
         Paint()
-          ..color = ColorsManager.primaryColor
+          ..color = colorScheme.primary
           ..style = PaintingStyle.stroke
           ..strokeWidth = 4.0
           ..strokeCap = StrokeCap.round;

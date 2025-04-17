@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:snapnfix/core/application_configurations.dart';
-import 'package:snapnfix/core/helpers/shared_pref_helper.dart';
 import 'package:snapnfix/features/authentication/data/models/login_dto.dart';
 import 'package:snapnfix/features/authentication/data/repository/login_repository.dart';
 

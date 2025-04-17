@@ -38,14 +38,6 @@ class ApplicationThemes {
         backgroundColor: colorScheme.surface,
         foregroundColor: colorScheme.onSurface,
         elevation: 0,
-        systemOverlayStyle: SystemUiOverlayStyle(
-          statusBarColor:
-              brightness == Brightness.light ? Colors.white : Colors.black,
-          statusBarIconBrightness:
-              brightness == Brightness.light
-                  ? Brightness.dark
-                  : Brightness.light,
-        ),
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
@@ -71,6 +63,7 @@ class ApplicationThemes {
           borderRadius: BorderRadius.circular(8.r),
           borderSide: BorderSide(color: colorScheme.outline),
         ),
+
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8.r),
           borderSide: BorderSide(color: colorScheme.outline),
@@ -97,7 +90,7 @@ class ApplicationThemes {
       ),
       displayMedium: TextStyle(
         fontSize: 24.sp,
-        fontWeight: FontWeight.w700,
+        fontWeight: FontWeight.w400,
         color: colorScheme.onSurface,
       ),
       displaySmall: TextStyle(
@@ -112,7 +105,7 @@ class ApplicationThemes {
       ),
       bodyLarge: TextStyle(
         fontSize: 14.sp,
-        fontWeight: FontWeight.w500,
+        fontWeight: FontWeight.w400,
         color: colorScheme.onSurface,
       ),
       bodyMedium: TextStyle(
@@ -122,7 +115,7 @@ class ApplicationThemes {
       ),
       bodySmall: TextStyle(
         fontSize: 12.sp,
-        fontWeight: FontWeight.w500,
+        fontWeight: FontWeight.w400,
         color: colorScheme.onSurface,
       ),
       labelSmall: TextStyle(

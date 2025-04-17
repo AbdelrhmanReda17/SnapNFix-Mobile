@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:snapnfix/core/application_constants.dart';
 import 'package:snapnfix/core/base_components/base_button.dart';
-import 'package:snapnfix/core/theming/text_styles.dart';
 
 class SkipButton extends StatelessWidget {
   const SkipButton({super.key, required PageController controller})
@@ -11,6 +10,7 @@ class SkipButton extends StatelessWidget {
   final PageController _controller;
   @override
   Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
     return BaseButton(
       text: 'Skip',
       backgroundColor: Colors.transparent,
@@ -21,7 +21,7 @@ class SkipButton extends StatelessWidget {
           curve: Curves.ease,
         );
       },
-      textStyle: TextStyles.font14Normal(TextColor.primaryColor),
+      textStyle: textTheme.bodyMedium!,
       buttonWidth: 30.w,
     );
   }

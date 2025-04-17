@@ -8,6 +8,11 @@ class ApplicationConfigurations with ChangeNotifier {
   // Private state variables
   bool _hasViewedOnboarding = false;
   String _userToken = "";
+  // get the current language from the device settings
+  // if not available, default to English
+  // if the language is not supported, default to English
+  // if the language is null, default to English
+  // if the language is empty, default to English
   String _language = "en";
   bool _isDarkMode = false;
 
