@@ -8,7 +8,10 @@ class BaseCheckbox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
+    return SizedBox(
       height: 24.h,
+      width: 24.w,
+      child: Checkbox(
         activeColor: colorScheme.primary.withValues(alpha: 0.3),
         hoverColor: colorScheme.tertiary.withValues(alpha: 0.3),
         checkColor: colorScheme.tertiary.withValues(alpha: 0.3),
