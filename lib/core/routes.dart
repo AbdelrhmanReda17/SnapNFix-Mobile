@@ -6,6 +6,7 @@ import 'package:snapnfix/features/map/presentation/screens/map_screen.dart';
 import 'package:snapnfix/features/onboarding/presentation/screens/onboarding_screen.dart';
 import 'package:snapnfix/features/reports/presentation/screens/add_report_screen.dart';
 import 'package:snapnfix/features/reports/presentation/screens/user_reports_screen.dart';
+import 'package:snapnfix/features/settings/presentation/screens/change_password.dart';
 import 'package:snapnfix/features/settings/presentation/screens/settings_dart.dart';
 
 class Routes {
@@ -40,5 +41,9 @@ class Routes {
   static const MapEntry<String, Widget> addReportScreen = MapEntry(
     '/addReportScreen',
     AddReportScreen(),
+  );
+  static const MapEntry<String, Widget> changePassowrd = MapEntry(
+    '/changePassword',
+    ChangePassword(),
   );
 }

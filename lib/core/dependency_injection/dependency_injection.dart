@@ -10,18 +10,25 @@ import 'package:snapnfix/features/authentication/data/repository/login_repositor
 import 'package:snapnfix/features/authentication/data/repository/sign_up_repository.dart';
 import 'package:snapnfix/features/authentication/logic/cubit/login_cubit.dart';
 import 'package:snapnfix/features/authentication/logic/cubit/sign_up_cubit.dart';
+import 'package:snapnfix/features/settings/data/repos/change_password_repository.dart';
+import 'package:snapnfix/features/settings/logic/cubit/change_password_cubit.dart';
 
 final getIt = GetIt.instance;
 
 Future<void> setupGetIt() {
   Dio dio = DioFactory.getDio();
 
-  getIt.registerLazySingleton<ApplicationConfigurations>(() => ApplicationConfigurations());
-  getIt.registerLazySingleton<ApplicationRouter>(() => 
-    ApplicationRouter(appConfigurations: getIt<ApplicationConfigurations>())
+  getIt.registerLazySingleton<ApplicationConfigurations>(
+    () => ApplicationConfigurations(),
   );
-  getIt.registerLazySingleton<GoRouter>(() => getIt<ApplicationRouter>().router);
-
+  getIt.registerLazySingleton<ApplicationRouter>(
+    () => ApplicationRouter(
+      appConfigurations: getIt<ApplicationConfigurations>(),
+    ),
+  );
+  getIt.registerLazySingleton<GoRouter>(
+    () => getIt<ApplicationRouter>().router,
+  );
 
   getIt.registerLazySingleton<ApiService>(
     () => ApiService(dio, baseUrl: ApiConstants.apiBaseUrl),
@@ -34,6 +41,13 @@ Future<void> setupGetIt() {
     () => SignUpRepository(getIt<ApiService>()),
   );
   getIt.registerFactory<SignUpCubit>(() => SignUpCubit(getIt()));
+
+  getIt.registerLazySingleton<ChangePasswordRepository>(
+    () => ChangePasswordRepository(getIt<ApiService>()),
+  );
+  getIt.registerFactory<ChangePasswordCubit>(
+    () => ChangePasswordCubit(getIt()),
+  );
 
   return Future.value();
 }

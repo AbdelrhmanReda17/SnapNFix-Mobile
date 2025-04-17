@@ -34,7 +34,7 @@ class _LoginFormState extends State<LoginForm> {
 
   @override
   Widget build(BuildContext context) {
-        final colorScheme = Theme.of(context).colorScheme;
+    final colorScheme = Theme.of(context).colorScheme;
     final textStyles = Theme.of(context).textTheme;
     return Form(
       key: context.read<LoginCubit>().formKey,
