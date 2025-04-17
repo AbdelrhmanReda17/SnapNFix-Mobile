@@ -23,7 +23,7 @@ class ApplicationBottomNavigationBar extends StatelessWidget {
           BoxShadow(
             color: colorScheme.primary.withValues(alpha: .1),
             blurRadius: 10,
-            offset: const Offset(0, -1), 
+            offset: const Offset(0, -1),
           ),
         ],
       ),
@@ -43,9 +43,16 @@ class ApplicationBottomNavigationBar extends StatelessWidget {
               icon: SvgPicture.asset(
                 ApplicationScreens.navigationScreens[index].icon!,
               ),
-              selectedIcon: SvgPicture.asset(
-                ApplicationScreens.navigationScreens[index].activeIcon!,
-              ),
+              selectedIcon:
+                  colorScheme.brightness == Brightness.light
+                      ? SvgPicture.asset(
+                        ApplicationScreens.navigationScreens[index].activeIcon!,
+                      )
+                      : SvgPicture.asset(
+                        ApplicationScreens
+                            .navigationScreens[index]
+                            .darkActiveIcon!,
+                      ),
               onPressed: () => onItemSelected(index),
             );
           }),
