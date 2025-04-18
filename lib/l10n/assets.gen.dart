@@ -40,6 +40,10 @@ class $AssetsImagesGen {
   /// File path: assets/images/SNF.png
   AssetGenImage get snf => const AssetGenImage('assets/images/SNF.png');
 
+  /// File path: assets/images/SNF_dark.png
+  AssetGenImage get sNFDark =>
+      const AssetGenImage('assets/images/SNF_dark.png');
+
   /// File path: assets/images/SnapNFix.png
   AssetGenImage get snapNFix =>
       const AssetGenImage('assets/images/SnapNFix.png');
@@ -74,6 +78,7 @@ class $AssetsImagesGen {
   /// List of all assets
   List<AssetGenImage> get values => [
     snf,
+    sNFDark,
     snapNFix,
     facebookIcon,
     googleIcon,
@@ -88,6 +93,18 @@ class $AssetsImagesGen {
 class $AssetsIconsActiveGen {
   const $AssetsIconsActiveGen();
 
+  /// File path: assets/icons/active/Dhome.svg
+  String get dhome => 'assets/icons/active/Dhome.svg';
+
+  /// File path: assets/icons/active/Dmap.svg
+  String get dmap => 'assets/icons/active/Dmap.svg';
+
+  /// File path: assets/icons/active/Dsettings.svg
+  String get dsettings => 'assets/icons/active/Dsettings.svg';
+
+  /// File path: assets/icons/active/Duser_reports.svg
+  String get duserReports => 'assets/icons/active/Duser_reports.svg';
+
   /// File path: assets/icons/active/home.svg
   String get home => 'assets/icons/active/home.svg';
 
@@ -101,7 +118,16 @@ class $AssetsIconsActiveGen {
   String get userReports => 'assets/icons/active/user_reports.svg';
 
   /// List of all assets
-  List<String> get values => [home, map, settings, userReports];
+  List<String> get values => [
+    dhome,
+    dmap,
+    dsettings,
+    duserReports,
+    home,
+    map,
+    settings,
+    userReports,
+  ];
 }
 
 class Assets {

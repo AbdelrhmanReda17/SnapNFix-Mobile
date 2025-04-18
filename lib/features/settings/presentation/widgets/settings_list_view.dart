@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:snapnfix/core/application_configurations.dart';
+import 'package:snapnfix/core/routes.dart';
 import 'package:snapnfix/features/settings/presentation/widgets/dark_mode_tile.dart';
 import 'package:snapnfix/features/settings/presentation/widgets/language_tile.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -30,7 +33,9 @@ class _SettingsListViewState extends State<SettingsListView> {
             children: [
               _buildSettingsTile(
                 localization.changePassword,
-                () {},
+                () {
+                  context.push(Routes.changePassowrd.key);
+                },
                 colorScheme,
                 textStyles,
               ),
@@ -71,15 +76,15 @@ class _SettingsListViewState extends State<SettingsListView> {
             textStyles,
           ),
           SizedBox(height: 7.h),
-          ListTile(
-            tileColor: colorScheme.surface.withValues(alpha: 0.8),
-            title: Text(
-              localization.signOut,
-              style: textStyles.bodyMedium?.copyWith(color: colorScheme.error),
-            ),
-            onTap: () {
+          _buildSettingsTile(
+            localization.signOut,
+            () {
               appConfigs.logout();
             },
+            colorScheme,
+            textStyles,
+            hasIcon: false,
+            isSignOut: true,
           ),
         ],
       ),
@@ -90,20 +95,39 @@ class _SettingsListViewState extends State<SettingsListView> {
     String title,
     VoidCallback onTap,
     ColorScheme colorScheme,
-    TextTheme textSyles,
-  ) {
-    return ListTile(
-      tileColor: colorScheme.surface.withValues(alpha: 0.8),
-      title: Text(
-        title,
-        style: textSyles.bodyMedium?.copyWith(color: colorScheme.primary),
-      ),
-      trailing: Icon(
-        Icons.arrow_forward_ios,
-        size: 16,
-        color: colorScheme.primary,
-      ),
+    TextTheme textStyles, {
+    bool hasIcon = true,
+    bool isSignOut = false,
+  }) {
+    final WidgetStatesController statesController = WidgetStatesController();
+
+    return InkWell(
       onTap: onTap,
+      statesController: statesController,
+      highlightColor: colorScheme.primary.withValues(alpha: 0.3),
+      splashColor: colorScheme.primary.withValues(alpha: 0.3),
+      child: Container(
+        color: colorScheme.surface.withValues(alpha: 0.8),
+        padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              title,
+              style: textStyles.bodyMedium?.copyWith(
+                color: isSignOut ? colorScheme.error : colorScheme.primary,
+              ),
+            ),
+            hasIcon
+                ? Icon(
+                  Icons.arrow_forward_ios_rounded,
+                  color: colorScheme.primary,
+                  size: 16.sp,
+                )
+                : const SizedBox.shrink(),
+          ],
+        ),
+      ),
     );
   }
 }
