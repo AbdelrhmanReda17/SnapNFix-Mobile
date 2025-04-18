@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:snapnfix/core/base_components/base_text_field.dart';
-import 'package:snapnfix/core/theming/colors.dart';
+// import 'package:snapnfix/core/theming/colors.dart';
 
 class BasePasswordTextField extends StatelessWidget {
   final String text;
@@ -17,6 +17,7 @@ class BasePasswordTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
     return BaseTextField(
       hintText: text,
       controller: controller,
@@ -24,7 +25,7 @@ class BasePasswordTextField extends StatelessWidget {
       suffixIcon: GestureDetector(
         onTap: togglePasswordObscureText,
         child: Icon(
-          color: ColorsManager.primaryColor,
+          color: colorScheme.primary,
           isPasswordObscureText ? Icons.visibility_off : Icons.visibility,
         ),
       ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:snapnfix/core/application_configurations.dart';
 import 'package:snapnfix/features/authentication/data/models/sign_up_dto.dart';
 import 'package:snapnfix/features/authentication/data/repository/sign_up_repository.dart';
 
@@ -13,7 +14,8 @@ class SignUpCubit extends Cubit<SignUpState> {
 
   TextEditingController phoneController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-  TextEditingController passwordConfirmationController = TextEditingController();
+  TextEditingController passwordConfirmationController =
+      TextEditingController();
 
   final formKey = GlobalKey<FormState>();
 
@@ -21,19 +23,19 @@ class SignUpCubit extends Cubit<SignUpState> {
     emit(const SignUpState.loading());
     final response = await _signUpRepository.signUp(
       SignUpDTO(
-          phone: phoneController.text,
-          password: passwordController.text,
-          passwordConfirmation: passwordConfirmationController.text
+        phone: phoneController.text,
+        password: passwordController.text,
+        passwordConfirmation: passwordConfirmationController.text,
       ),
     );
     response.when(
-        success: (signUpResponse) async {
-          emit(SignUpState.success(signUpResponse));
-        },
-        failure: (error) {
-          emit(SignUpState.error(error: error));
-        }
+      success: (signUpResponse) async {
+        emit(SignUpState.success(signUpResponse));
+        ApplicationConfigurations.instance.setUserToken(signUpResponse.token);
+      },
+      failure: (error) {
+        emit(SignUpState.error(error: error));
+      },
     );
   }
-
 }

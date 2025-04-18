@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:snapnfix/core/theming/colors.dart';
 
 class BaseCheckbox extends StatelessWidget {
   final bool value;
@@ -8,23 +7,24 @@ class BaseCheckbox extends StatelessWidget {
   const BaseCheckbox({super.key, required this.value, required this.onChanged});
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
     return SizedBox(
       height: 24.h,
       width: 24.w,
       child: Checkbox(
-        activeColor: ColorsManager.primaryColor,
-        hoverColor: ColorsManager.quaternaryColor,
-        checkColor: ColorsManager.quaternaryColor,
+        activeColor: colorScheme.primary.withValues(alpha: 0.3),
+        hoverColor: colorScheme.tertiary.withValues(alpha: 0.3),
+        checkColor: colorScheme.tertiary.withValues(alpha: 0.3),
         materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
         fillColor: WidgetStateProperty.resolveWith<Color>((
           Set<WidgetState> states,
         ) {
           if (states.contains(WidgetState.selected)) {
-            return ColorsManager.primaryColor;
+            return colorScheme.primary;
           }
-          return ColorsManager.quaternaryColor;
+          return colorScheme.tertiary.withValues(alpha: 0.3);
         }),
-        side: BorderSide(color: ColorsManager.quaternaryColor, width: 2),
+        side: BorderSide(color: colorScheme.tertiary.withValues(alpha: 0.3)),
         value: value,
         onChanged: onChanged,
       ),

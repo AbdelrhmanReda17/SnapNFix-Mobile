@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:snapnfix/core/helpers/extensions.dart';
-import 'package:snapnfix/core/routing/routes.dart';
-import 'package:snapnfix/core/theming/colors.dart';
-import 'package:snapnfix/core/theming/text_styles.dart';
+import 'package:go_router/go_router.dart';
+import 'package:snapnfix/core/base_components/base_alert.dart';
+import 'package:snapnfix/core/routes.dart';
 import 'package:snapnfix/features/authentication/logic/cubit/login_cubit.dart';
 
 class LoginBlocListener extends StatelessWidget {
@@ -11,14 +10,12 @@ class LoginBlocListener extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
     return BlocListener<LoginCubit, LoginState>(
       listener: (context, state) {
         state.whenOrNull(
           success: (loginResponse) {
-            context.pushNamedAndRemoveUntil(
-              Routes.homeScreen,
-              predicate: (route) => false,
-            );
+            context.go(Routes.homeScreen.key);
           },
           error: (error) {
             setupErrorState(context, error);
@@ -27,9 +24,9 @@ class LoginBlocListener extends StatelessWidget {
             showDialog(
               context: context,
               builder:
-                  (context) => const Center(
+                  (context) => Center(
                     child: CircularProgressIndicator(
-                      color: ColorsManager.primaryColor,
+                      color: colorScheme.primary,
                     ),
                   ),
             );
@@ -42,31 +39,14 @@ class LoginBlocListener extends StatelessWidget {
 
   void setupErrorState(BuildContext context, String error) {
     context.pop();
-    showDialog(
+    baseDialog(
       context: context,
-      builder:
-          (context) => AlertDialog(
-            icon: const Icon(
-              Icons.error,
-              color: ColorsManager.redColor,
-              size: 32,
-            ),
-            content: Text(
-              error,
-              style: TextStyles.font24Bold(TextColor.primaryColor),
-            ),
-            actions: [
-              TextButton(
-                onPressed: () {
-                  context.pop();
-                },
-                child: Text(
-                  'Got it',
-                  style: TextStyles.font14Medium(TextColor.primaryColor),
-                ),
-              ),
-            ],
-          ),
+      title: 'Error',
+      message: error,
+      alertType: AlertType.error,
+      confirmText: 'Got it',
+      onConfirm: () {},
+      showCancelButton: false,
     );
   }
 }

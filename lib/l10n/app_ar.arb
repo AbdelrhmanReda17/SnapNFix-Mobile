@@ -1,5 +1,61 @@
 {
   "@@locale": "ar",
-  "hello": "مرحبا!",
-  "welcome": "مرحبًا بك في تطبيقنا"
+  "hello": "مرحبًا!",
+  "welcome": "مرحبًا بك في تطبيقنا",
+
+  "welcomeBack": "مرحبًا بعودتك!",
+  "loginToContinue": "سجّل الدخول للمتابعة",
+  "phone": "رقم الهاتف",
+  "password": "كلمة المرور",
+  "rememberMe": "تذكرني",
+  "forgetPassword": "هل نسيت كلمة المرور؟",
+  "signIn": "تسجيل الدخول",
+  "orContinueWith": "أو تابع باستخدام",
+  "notRegistered": "لست مسجلاً بعد؟",
+  "createAccount": "إنشاء حساب",
+
+  "createAccountTitle": "إنشاء حساب",
+  "registerToContinue": "سجّل للمتابعة",
+  "repeatPassword": "أعد إدخال كلمة المرور",
+  "agreeWith": "أوافق على ",
+  "termsOfServices": "شروط الخدمة ",
+  "and": "و ",
+  "privacyPolicy": "سياسة الخصوصية",
+  "signUp": "تسجيل الحساب",
+  "alreadyHaveAcc": "هل لديك حساب بالفعل؟",
+
+  "changePassword": "تغيير كلمة المرور",
+  "currentPassword": "كلمة المرور الحالية",
+  "newPassword": "كلمة المرور الجديدة",
+  "confirmNewPassword": "تأكيد كلمة المرور الجديدة",
+  "passwordRequirements": "لضمان أمان حسابك، يجب أن تستوفي كلمة المرور الجديدة المتطلبات التالية:",
+  "passwordMinChars": "لا تقل عن 8 أحرف.",
+  "passwordUppercase": "تتضمن حرفًا كبيرًا واحدًا على الأقل (مثل A، B، C).",
+  "passwordLowercase": "تتضمن حرفًا صغيرًا واحدًا على الأقل (مثل a، b، c).",
+  "passwordNumber": "تتضمن رقمًا واحدًا على الأقل (مثل 1، 2، 3).",
+  "passwordSpecial": "تتضمن رمزًا خاصًا واحدًا على الأقل (مثل !، @، #، $).",
+  "confirmButton": "تأكيد",
+  "passwordsDoNotMatch": "كلمات المرور غير متطابقة",
+  "passwordRequirementsNotMet": "كلمة المرور لا تستوفي جميع المتطلبات",
+  "passwordChangedSuccess": "تم تغيير كلمة المرور بنجاح",
+  "passwordChangeFailed": "فشل تغيير كلمة المرور",
+
+
+  "editProfile": "تعديل الملف الشخصي",
+  "name": "الاسم",
+  "phone": "رقم الهاتف",
+  "gender": "الجنس",
+  "dateOfBirth": "تاريخ الميلاد",
+  "reset": "إعادة تعيين",
+  "save": "حفظ",
+
+  "notificationSettings": "إعدادات الإشعارات",
+  "support": "الدعم",
+  "termsAndConditions": "الشروط والأحكام",
+  "about": "حول",
+  "signOut": "تسجيل الخروج",
+  "darkMode": "الوضع الداكن",
+  "language": "اللغة",
+  "selectLanguage": "اختر اللغة"
+
 }

@@ -17,11 +17,45 @@
   "createAccountTitle": "Create Account",
   "registerToContinue": "Register to continue",
   "repeatPassword": "Repeat Password",
-  "agreeWith": "I agree with the ",
+  "agreeWith": "by continue that means you agree with ",
   "termsOfServices": "Terms of Services ",
   "and": "and ",
   "privacyPolicy":  "Privacy Policy",
   "signUp": "Sign Up",
-  "alreadyHaveAcc": "Already have an account?"
+  "alreadyHaveAcc": "Already have an account?",
+
+  "changePassword": "Change Password",
+  "currentPassword": "Current Password",
+  "newPassword": "New Password",
+  "confirmNewPassword": "Confirm New Password",
+  "passwordRequirements": "To ensure your account is secure, your new password must meet the following requirements:",
+  "passwordMinChars": "At least 8 characters long.",
+  "passwordUppercase": "Include at least one uppercase letter (e.g., A, B, C).",
+  "passwordLowercase": "Include at least one lowercase letter (e.g., a, b, c).",
+  "passwordNumber": "Include at least one number (e.g., 1, 2, 3).",
+  "passwordSpecial": "Include at least one special character (e.g., !, @, #, $).",
+  "confirmButton": "Confirm",
+  "passwordsDoNotMatch": "Passwords don't match",
+  "passwordRequirementsNotMet": "Password doesn't meet all requirements",
+  "passwordChangedSuccess": "Password changed successfully",
+  "passwordChangeFailed": "Failed to change password",
+
+  "editProfile": "Edit Profile",
+  "name": "Name",
+  "phone": "Phone",
+  "gender": "Gender",
+  "dateOfBirth": "Date of Birth",
+  "reset": "Reset",
+  "save": "Save",
+  
+
+  "notificationSettings" : "Notification Settings",
+  "support" : "Support",
+  "termsAndConditions" : "Terms & Condiftions",
+  "about" : "About",
+  "signOut" :"Sign Out",
+  "darkMode" : "Dark Mode",
+  "language" : "Language",
+  "selectLanguage": "Select Language"
 
 }

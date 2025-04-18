@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:snapnfix/core/base_components/logo_and_name_widget.dart';
-//
+import 'package:snapnfix/core/application_components/application_logo_and_name.dart';
+import 'package:snapnfix/core/application_configurations.dart';
+import 'package:snapnfix/core/application_system_ui_overlay.dart';
 import 'package:snapnfix/core/helpers/spacing.dart';
-import 'package:snapnfix/core/theming/text_styles.dart';
 import 'package:snapnfix/core/base_components/base_button.dart';
 import 'package:snapnfix/features/authentication/presentation/widgets/authentication_footer.dart';
 import 'package:snapnfix/features/authentication/presentation/widgets/authentication_social.dart';
+import 'package:snapnfix/features/authentication/presentation/widgets/signup/terms_and_privacy_policy.dart';
 
 class AuthenticationScreen<T extends Cubit<void>> extends StatelessWidget {
   final String title;
@@ -19,6 +21,7 @@ class AuthenticationScreen<T extends Cubit<void>> extends StatelessWidget {
   final Widget form;
   final Widget blocListener;
   final VoidCallback onSubmit;
+  final bool isSignUp;
 
   const AuthenticationScreen({
     super.key,
@@ -26,6 +29,7 @@ class AuthenticationScreen<T extends Cubit<void>> extends StatelessWidget {
     required this.subtitle,
     required this.buttonText,
     required this.footerQuestion,
+    this.isSignUp = false,
     required this.footerAction,
     required this.form,
     required this.blocListener,
@@ -35,39 +39,58 @@ class AuthenticationScreen<T extends Cubit<void>> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: ListView(
-          padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 48.h),
-          children: [
-            LogoAndNameWidget(),
-            verticalSpace(26),
-            Text(title, style: TextStyles.font36Normal(TextColor.primaryColor)),
-            Text(
-              subtitle,
-              style: TextStyles.font16Normal(TextColor.primaryColor),
-            ),
-            verticalSpace(20),
-            form,
-            verticalSpace(26),
-            BaseButton(
-              text: buttonText,
-              onPressed: onSubmit,
-              textStyle: TextStyles.font16Normal(TextColor.whiteColor),
-            ),
-            verticalSpace(35),
-            AuthenticationSocial(),
-            verticalSpace(35),
-            Padding(
-              padding: EdgeInsets.only(bottom: 16.h),
-              child: AuthenticationFooter(
-                questionText: footerQuestion,
-                actionText: footerAction,
-                onTap: onFooterTap,
+    final colorScheme = Theme.of(context).colorScheme;
+    final textStyles = Theme.of(context).textTheme;
+    final appConfigs = ApplicationConfigurations.instance;
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: ApplicationSystemUIOverlay.getDefaultStyle(appConfigs.isDarkMode),
+      child: Scaffold(
+        body: SafeArea(
+          child: ListView(
+            padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 48.h),
+            children: [
+              ApplicationLogoAndName(),
+              verticalSpace(26),
+              Text(
+                title,
+                style: textStyles.headlineLarge?.copyWith(
+                  color: colorScheme.primary,
+                ),
               ),
-            ),
-            blocListener,
-          ],
+              Text(
+                subtitle,
+                style: textStyles.bodyLarge?.copyWith(
+                  color: colorScheme.primary,
+                ),
+              ),
+              verticalSpace(20),
+              form,
+              verticalSpace(26),
+              BaseButton(
+                text: buttonText,
+                onPressed: onSubmit,
+                textStyle: textStyles.bodyLarge!.copyWith(
+                  color: colorScheme.surface,
+                ),
+              ),
+              verticalSpace(20),
+              isSignUp
+                  ? const TermsAndPrivacyPolicy()
+                  : const SizedBox.shrink(),
+              verticalSpace(20),
+              AuthenticationSocial(),
+              verticalSpace(35),
+              Padding(
+                padding: EdgeInsets.only(bottom: 16.h),
+                child: AuthenticationFooter(
+                  questionText: footerQuestion,
+                  actionText: footerAction,
+                  onTap: onFooterTap,
+                ),
+              ),
+              blocListener,
+            ],
+          ),
         ),
       ),
     );

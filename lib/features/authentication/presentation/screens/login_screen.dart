@@ -1,12 +1,15 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
+import 'package:snapnfix/core/helpers/shared_pref_helper.dart';
 import 'package:snapnfix/features/authentication/presentation/screens/auhentication_screen.dart';
-import 'package:snapnfix/core/helpers/extensions.dart';
 import 'package:snapnfix/features/authentication/logic/cubit/login_cubit.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:snapnfix/features/authentication/presentation/widgets/login/login_bloc_listener.dart';
 import 'package:snapnfix/features/authentication/presentation/widgets/login/login_form.dart';
-import '../../../../core/routing/routes.dart';
+import '../../../../core/routes.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
@@ -20,11 +23,12 @@ class LoginScreen extends StatelessWidget {
       buttonText: localization.signIn,
       footerQuestion: localization.notRegistered,
       footerAction: localization.createAccount,
-      onFooterTap:
-          () => context.pushNamedAndRemoveUntil(
-            Routes.signUpScreen,
-            predicate: (route) => false,
-          ),
+      onFooterTap: () {
+        SharedPrefHelper.clearAllSecuredData();
+        SharedPrefHelper.clearAllData();
+        log('Sign IN button pressed');
+        context.go(Routes.signUpScreen.key);
+      },
       form: LoginForm(),
       blocListener: const LoginBlocListener(),
       onSubmit: () {

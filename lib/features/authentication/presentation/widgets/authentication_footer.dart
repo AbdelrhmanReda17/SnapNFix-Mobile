@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../core/helpers/spacing.dart';
-import '../../../../core/theming/text_styles.dart';
 
 class AuthenticationFooter extends StatelessWidget {
   final String questionText;
   final String actionText;
-
   final VoidCallback onTap;
 
   const AuthenticationFooter({
@@ -18,19 +16,23 @@ class AuthenticationFooter extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+    final textStyles = Theme.of(context).textTheme;
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text(
           questionText,
-          style: TextStyles.font12Normal(TextColor.tertiaryColor),
+          style: textStyles.bodySmall?.copyWith(
+            color: colorScheme.secondary,
+          ),
         ),
         horizontalSpace(2.w),
         GestureDetector(
           onTap: onTap,
           child: Text(
             actionText,
-            style: TextStyles.font12Medium(TextColor.primaryColor),
+            style: textStyles.bodySmall?.copyWith(color: colorScheme.primary),
           ),
         ),
       ],

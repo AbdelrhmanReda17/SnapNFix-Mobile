@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
-import 'package:snapnfix/core/helpers/constants.dart';
 import 'package:snapnfix/core/helpers/shared_pref_helper.dart';
+import 'package:snapnfix/core/helpers/shared_pref_keys.dart';
 
 class DioFactory {
   /// private constructor as I don't want to allow creating an instance of this class
@@ -30,7 +30,6 @@ class DioFactory {
       'Accept': 'application/json',
       'Authorization':
       'Bearer ${await SharedPrefHelper.getSecuredString(SharedPrefKeys.userToken)}',
-          // 'Bearer ${await SharedPrefHelper.getSecuredString(SharedPrefKeys.userToken)}',
     };
   }
 
