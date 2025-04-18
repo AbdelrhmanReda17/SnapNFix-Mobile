@@ -1,1 +1,0 @@
-# SnapNFix-Mobile

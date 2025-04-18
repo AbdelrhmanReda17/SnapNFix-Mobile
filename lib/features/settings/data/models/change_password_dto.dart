@@ -1,5 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-part 'ChangePasswordDTO.g.dart';
+part 'change_password_dto.g.dart';
 
 @JsonSerializable()
 class ChangePasswordDTO {

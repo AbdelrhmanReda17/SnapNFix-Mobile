@@ -102,12 +102,7 @@ class _SettingsListViewState extends State<SettingsListView> {
     final WidgetStatesController statesController = WidgetStatesController();
 
     return InkWell(
-      onTap: () {
-        // await Future.delayed(const Duration(milliseconds: 550), () {
-        //   statesController.update(WidgetState.pressed, false);
-        // });
-        onTap();
-      },
+      onTap: onTap,
       statesController: statesController,
       highlightColor: colorScheme.primary.withValues(alpha: 0.3),
       splashColor: colorScheme.primary.withValues(alpha: 0.3),

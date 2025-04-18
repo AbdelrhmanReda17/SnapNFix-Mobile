@@ -11,7 +11,9 @@ import 'package:snapnfix/features/authentication/data/repository/sign_up_reposit
 import 'package:snapnfix/features/authentication/logic/cubit/login_cubit.dart';
 import 'package:snapnfix/features/authentication/logic/cubit/sign_up_cubit.dart';
 import 'package:snapnfix/features/settings/data/repos/change_password_repository.dart';
+import 'package:snapnfix/features/settings/data/repos/edit_profile_repository.dart';
 import 'package:snapnfix/features/settings/logic/cubit/change_password_cubit.dart';
+import 'package:snapnfix/features/settings/logic/cubit/edit_profile_cubit.dart';
 
 final getIt = GetIt.instance;
 
@@ -47,6 +49,14 @@ Future<void> setupGetIt() {
   );
   getIt.registerFactory<ChangePasswordCubit>(
     () => ChangePasswordCubit(getIt()),
+  );
+
+  getIt.registerLazySingleton<EditProfileRepository>(
+    () => EditProfileRepository(getIt<ApiService>()),
+  );
+
+  getIt.registerFactory<EditProfileCubit>(
+    () => EditProfileCubit(getIt<EditProfileRepository>()),
   );
 
   return Future.value();

@@ -7,6 +7,7 @@ import 'package:snapnfix/core/routes.dart';
 import 'package:snapnfix/features/authentication/logic/cubit/login_cubit.dart';
 import 'package:snapnfix/features/authentication/logic/cubit/sign_up_cubit.dart';
 import 'package:snapnfix/features/settings/logic/cubit/change_password_cubit.dart';
+import 'package:snapnfix/features/settings/logic/cubit/edit_profile_cubit.dart';
 
 class AnimatedScreenItem {
   final ScreenItem screenItem;
@@ -76,6 +77,21 @@ class ApplicationScreens {
         blocProvider:
             (child) => BlocProvider(
               create: (context) => getIt<ChangePasswordCubit>(),
+              child: child,
+            ),
+      ),
+      pageBuilder:
+          ({required Widget child, required String key}) =>
+              SlideTransitionPage(child: child, key: key),
+    ),
+
+    AnimatedScreenItem(
+      screenItem: ScreenItem(
+        screen: Routes.editProfile.value,
+        path: Routes.editProfile.key,
+        blocProvider:
+            (child) => BlocProvider(
+              create: (context) => getIt<EditProfileCubit>(),
               child: child,
             ),
       ),

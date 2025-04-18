@@ -7,7 +7,8 @@ import 'package:snapnfix/core/base_components/base_password_text_field.dart';
 import 'package:snapnfix/core/helpers/spacing.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:snapnfix/features/settings/logic/cubit/change_password_cubit.dart';
-import 'package:snapnfix/features/settings/presentation/widgets/change_password_bloc_listener.dart';
+import 'package:snapnfix/features/settings/presentation/widgets/change_password/change_password_bloc_listener.dart';
+import 'package:snapnfix/features/settings/presentation/widgets/change_password/change_password_form.dart';
 
 // TODO: Validate password fields and show error messages if they don't match or don't meet the requirements.
 class ChangePassword extends StatelessWidget {
@@ -35,121 +36,57 @@ class ChangePassword extends StatelessWidget {
         child: SingleChildScrollView(
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 24.h),
-            child: Form(
-              key: context.read<ChangePasswordCubit>().formKey,
-              child: Column(
-                children: [
-                  ValueListenableBuilder<bool>(
-                    valueListenable:
-                        context.read<ChangePasswordCubit>().oldPasswordVisible,
-                    builder: (context, isVisible, child) {
-                      return BasePasswordTextField(
-                        text: localization.currentPassword,
-                        controller:
-                            context
-                                .read<ChangePasswordCubit>()
-                                .oldPasswordController,
-                        togglePasswordObscureText:
-                            () =>
-                                context
-                                    .read<ChangePasswordCubit>()
-                                    .toggleOldPasswordVisibility(),
-                        isPasswordObscureText:
-                            !isVisible, // Note the negation if needed based on your BasePasswordTextField
-                      );
-                    },
+            child: Column(
+              children: [
+                ChangePasswordForm(),
+                SizedBox(height: 24.h),
+                Text(
+                  localization.passwordRequirements,
+                  style: textStyles.bodySmall?.copyWith(
+                    color: colorScheme.primary,
                   ),
-                  verticalSpace(20),
-                  ValueListenableBuilder<bool>(
-                    valueListenable:
-                        context.read<ChangePasswordCubit>().newPasswordVisible,
-                    builder: (context, isVisible, child) {
-                      return BasePasswordTextField(
-                        text: localization.newPassword,
-                        controller:
-                            context
-                                .read<ChangePasswordCubit>()
-                                .newPasswordController,
-                        togglePasswordObscureText:
-                            () =>
-                                context
-                                    .read<ChangePasswordCubit>()
-                                    .toggleNewPasswordVisibility(),
-                        isPasswordObscureText: !isVisible,
-                      );
-                    },
+                ),
+                SizedBox(height: 12.h),
+                _buildRequirementItem(
+                  localization.passwordMinChars,
+                  colorScheme,
+                  textStyles.bodySmall?.copyWith(color: colorScheme.primary),
+                ),
+                _buildRequirementItem(
+                  localization.passwordUppercase,
+                  colorScheme,
+                  textStyles.bodySmall?.copyWith(color: colorScheme.primary),
+                ),
+                _buildRequirementItem(
+                  localization.passwordLowercase,
+                  colorScheme,
+                  textStyles.bodySmall?.copyWith(color: colorScheme.primary),
+                ),
+                _buildRequirementItem(
+                  localization.passwordNumber,
+                  colorScheme,
+                  textStyles.bodySmall?.copyWith(color: colorScheme.primary),
+                ),
+                _buildRequirementItem(
+                  localization.passwordSpecial,
+                  colorScheme,
+                  textStyles.bodySmall?.copyWith(color: colorScheme.primary),
+                ),
+                SizedBox(height: 32.h),
+                BaseButton(
+                  text: localization.changePassword,
+                  onPressed:
+                      () =>
+                          context
+                              .read<ChangePasswordCubit>()
+                              .emitChangePasswordState(),
+                  backgroundColor: colorScheme.primary,
+                  textStyle: textStyles.bodyLarge!.copyWith(
+                    color: colorScheme.surface,
                   ),
-                  verticalSpace(20),
-                  ValueListenableBuilder<bool>(
-                    valueListenable:
-                        context
-                            .read<ChangePasswordCubit>()
-                            .confirmPasswordVisible,
-                    builder: (context, isVisible, child) {
-                      return BasePasswordTextField(
-                        text: localization.repeatPassword,
-                        controller:
-                            context
-                                .read<ChangePasswordCubit>()
-                                .confirmPasswordController,
-                        togglePasswordObscureText:
-                            () =>
-                                context
-                                    .read<ChangePasswordCubit>()
-                                    .toggleConfirmPasswordVisibility(),
-                        isPasswordObscureText: !isVisible,
-                      );
-                    },
-                  ),
-                  verticalSpace(24),
-                  Text(
-                    localization.passwordRequirements,
-                    style: textStyles.bodySmall?.copyWith(
-                      color: colorScheme.primary,
-                    ),
-                  ),
-                  SizedBox(height: 12.h),
-                  _buildRequirementItem(
-                    localization.passwordMinChars,
-                    colorScheme,
-                    textStyles.bodySmall?.copyWith(color: colorScheme.primary),
-                  ),
-                  _buildRequirementItem(
-                    localization.passwordUppercase,
-                    colorScheme,
-                    textStyles.bodySmall?.copyWith(color: colorScheme.primary),
-                  ),
-                  _buildRequirementItem(
-                    localization.passwordLowercase,
-                    colorScheme,
-                    textStyles.bodySmall?.copyWith(color: colorScheme.primary),
-                  ),
-                  _buildRequirementItem(
-                    localization.passwordNumber,
-                    colorScheme,
-                    textStyles.bodySmall?.copyWith(color: colorScheme.primary),
-                  ),
-                  _buildRequirementItem(
-                    localization.passwordSpecial,
-                    colorScheme,
-                    textStyles.bodySmall?.copyWith(color: colorScheme.primary),
-                  ),
-                  SizedBox(height: 32.h),
-                  BaseButton(
-                    text: localization.changePassword,
-                    onPressed:
-                        () =>
-                            context
-                                .read<ChangePasswordCubit>()
-                                .emitChangePasswordState(),
-                    backgroundColor: colorScheme.primary,
-                    textStyle: textStyles.bodyLarge!.copyWith(
-                      color: colorScheme.surface,
-                    ),
-                  ),
-                  ChangePasswordBlocListener(),
-                ],
-              ),
+                ),
+                ChangePasswordBlocListener(),
+              ],
             ),
           ),
         ),
@@ -177,3 +114,4 @@ class ChangePassword extends StatelessWidget {
     );
   }
 }
+

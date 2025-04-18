@@ -40,6 +40,15 @@
   "passwordChangedSuccess": "Password changed successfully",
   "passwordChangeFailed": "Failed to change password",
 
+  "editProfile": "Edit Profile",
+  "name": "Name",
+  "phone": "Phone",
+  "gender": "Gender",
+  "dateOfBirth": "Date of Birth",
+  "reset": "Reset",
+  "save": "Save",
+  
+
   "notificationSettings" : "Notification Settings",
   "support" : "Support",
   "termsAndConditions" : "Terms & Condiftions",

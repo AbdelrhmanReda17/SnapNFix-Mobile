@@ -41,7 +41,13 @@
   "passwordChangeFailed": "فشل تغيير كلمة المرور",
 
 
-
+  "editProfile": "تعديل الملف الشخصي",
+  "name": "الاسم",
+  "phone": "رقم الهاتف",
+  "gender": "الجنس",
+  "dateOfBirth": "تاريخ الميلاد",
+  "reset": "إعادة تعيين",
+  "save": "حفظ",
 
   "notificationSettings": "إعدادات الإشعارات",
   "support": "الدعم",
