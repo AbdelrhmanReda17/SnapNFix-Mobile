@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:snapnfix/core/application_system_ui_overlay.dart';
 import 'package:snapnfix/core/base_components/base_button.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:snapnfix/features/authentication/data/models/user.dart';
 import 'package:snapnfix/features/settings/logic/cubit/edit_profile_cubit.dart';
 import 'package:snapnfix/features/settings/presentation/widgets/edit_profile/edit_password_bloc_listener.dart';
 import 'package:snapnfix/features/settings/presentation/widgets/edit_profile/edit_password_form.dart';
@@ -64,9 +65,7 @@ class EditProfile extends StatelessWidget {
                       SizedBox(width: 16.w),
                       Expanded(
                         child: BaseButton(
-                          onPressed:
-                              () =>
-                                  context.read<EditProfileCubit>().resetForm(),
+                          onPressed: () {},
                           text: localization?.reset ?? 'Reset',
                           textStyle: textTheme.bodyLarge!.copyWith(
                             color: colorScheme.primary,

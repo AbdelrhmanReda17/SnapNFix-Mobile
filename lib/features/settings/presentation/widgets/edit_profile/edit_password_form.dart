@@ -31,13 +31,12 @@ class EditProfileForm extends StatelessWidget {
             controller: cubit.phoneController,
           ),
           SizedBox(height: 20.h),
-          ValueListenableBuilder<String>(
+          ValueListenableBuilder<String?>(
             valueListenable: cubit.selectedGender,
             builder: (context, selectedGender, _) {
               return BaseDropdownField<String>(
                 hintText: localization.gender,
                 items: cubit.genderOptions,
-
                 value: selectedGender,
                 onChanged: (value) {
                   if (value != null) {
@@ -49,7 +48,7 @@ class EditProfileForm extends StatelessWidget {
             },
           ),
           SizedBox(height: 16.h),
-          ValueListenableBuilder<DateTime>(
+          ValueListenableBuilder<DateTime?>(
             valueListenable: cubit.selectedDate,
             builder: (context, selectedDate, _) {
               return BaseDatePickerField(
@@ -59,7 +58,7 @@ class EditProfileForm extends StatelessWidget {
                   final pickedDate =
                       await BaseDatePickerField.showCustomDatePicker(
                         context: context,
-                        initialDate: selectedDate,
+                        initialDate: selectedDate ?? DateTime.now(),
                         firstDate: DateTime(1900),
                         lastDate: DateTime.now(),
                       );

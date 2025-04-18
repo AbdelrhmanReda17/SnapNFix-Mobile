@@ -4,7 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class BaseDropdownField<T> extends StatelessWidget {
   final String hintText;
   final List<T> items;
-  final T value;
+  final T? value;
   final void Function(T? value) onChanged;
   final String Function(T item) itemLabelBuilder;
   final InputBorder? focusedBorder;
@@ -18,7 +18,7 @@ class BaseDropdownField<T> extends StatelessWidget {
     super.key,
     required this.hintText,
     required this.items,
-    required this.value,
+    this.value,
     required this.onChanged,
     required this.itemLabelBuilder,
     this.focusedBorder,

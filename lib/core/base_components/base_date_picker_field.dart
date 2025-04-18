@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class BaseDatePickerField extends StatelessWidget {
   final String hintText;
-  final DateTime value;
+  final DateTime? value;
   final Future<void> Function() onTap;
   final String Function(DateTime date) dateFormatter;
   final EdgeInsetsGeometry? contentPadding;
@@ -17,7 +17,7 @@ class BaseDatePickerField extends StatelessWidget {
   const BaseDatePickerField({
     super.key,
     required this.hintText,
-    required this.value,
+    this.value,
     required this.onTap,
     required this.dateFormatter,
     this.contentPadding,
@@ -52,10 +52,14 @@ class BaseDatePickerField extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              dateFormatter(value),
+              value != null ? dateFormatter(value!) : hintText,
               style:
-                  textStyle ??
-                  textStyles.bodyMedium?.copyWith(color: colorScheme.primary),
+                  value != null
+                      ? textStyle ?? textStyles.bodyMedium
+                      : hintStyle ??
+                          textStyles.bodyMedium?.copyWith(
+                            color: colorScheme.primary.withValues(alpha: 0.4),
+                          ),
             ),
             icon ??
                 Icon(
