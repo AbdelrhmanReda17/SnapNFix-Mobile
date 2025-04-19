@@ -50,7 +50,7 @@ class AuthenticationScreen<T extends Cubit<void>> extends StatelessWidget {
             padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 48.h),
             children: [
               ApplicationLogoAndName(),
-              verticalSpace(26),
+              verticalSpace(15),
               Text(
                 title,
                 style: textStyles.headlineLarge?.copyWith(
@@ -63,9 +63,9 @@ class AuthenticationScreen<T extends Cubit<void>> extends StatelessWidget {
                   color: colorScheme.primary,
                 ),
               ),
-              verticalSpace(20),
+              verticalSpace(15),
               form,
-              verticalSpace(26),
+              verticalSpace(20),
               BaseButton(
                 text: buttonText,
                 onPressed: onSubmit,
@@ -79,7 +79,7 @@ class AuthenticationScreen<T extends Cubit<void>> extends StatelessWidget {
                   : const SizedBox.shrink(),
               verticalSpace(20),
               AuthenticationSocial(),
-              verticalSpace(35),
+              verticalSpace(20),
               Padding(
                 padding: EdgeInsets.only(bottom: 16.h),
                 child: AuthenticationFooter(

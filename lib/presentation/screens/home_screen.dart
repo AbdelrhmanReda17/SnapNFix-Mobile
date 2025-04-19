@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:snapnfix/core/config/application_configurations.dart';
 import 'package:snapnfix/core/dependency_injection/dependency_injection.dart';
 import 'package:snapnfix/core/infrastructure/connectivity/connectivity_service.dart';
 
@@ -67,8 +68,12 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const Text('Home Screen'),
-            // const OfflineReportsIndicator(),
-            // const SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () {
+                getIt<ApplicationConfigurations>().logout();
+              },
+              child: const Text('Go to Another Screen'),
+            ),
           ],
         ),
       ),

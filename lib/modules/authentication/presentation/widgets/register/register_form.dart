@@ -17,7 +17,6 @@ class RegisterForm extends StatefulWidget {
 class _RegisterFormState extends State<RegisterForm> {
   bool isPasswordObscureText = true;
   bool isPasswordConfirmationObscureText = true;
-  bool isAgreeTermsAndPolicy = false;
 
   void togglePasswordObscureText() {
     setState(() {
@@ -31,13 +30,6 @@ class _RegisterFormState extends State<RegisterForm> {
     });
   }
 
-  void toggleAgreeTermsAndPolicy(bool? value) {
-    if (value == null) return;
-    setState(() {
-      isAgreeTermsAndPolicy = value;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -46,28 +38,34 @@ class _RegisterFormState extends State<RegisterForm> {
         padding: EdgeInsets.only(left: 8.w),
         child: Column(
           children: [
-            BaseTextField(
-              hintText: AppLocalizations.of(context)!.firstName,
-              controller: context.read<RegisterCubit>().firstNameController,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                BaseTextField(
+                  width: MediaQuery.of(context).size.width * 0.4,
+                  hintText: AppLocalizations.of(context)!.firstName,
+                  controller: context.read<RegisterCubit>().firstNameController,
+                ),
+                BaseTextField(
+                  width: MediaQuery.of(context).size.width * 0.4,
+                  hintText: AppLocalizations.of(context)!.lastName,
+                  controller: context.read<RegisterCubit>().lastNameController,
+                ),
+              ],
             ),
-            verticalSpace(25),
-            BaseTextField(
-              hintText: AppLocalizations.of(context)!.lastName,
-              controller: context.read<RegisterCubit>().lastNameController,
-            ),
-            verticalSpace(25),
+            verticalSpace(20),
             BaseTextField(
               hintText: AppLocalizations.of(context)!.phone,
               controller: context.read<RegisterCubit>().phoneController,
             ),
-            verticalSpace(25),
+            verticalSpace(20),
             BasePasswordTextField(
               text: AppLocalizations.of(context)!.password,
               isPasswordObscureText: isPasswordObscureText,
               togglePasswordObscureText: togglePasswordObscureText,
               controller: context.read<RegisterCubit>().passwordController,
             ),
-            verticalSpace(25),
+            verticalSpace(20),
             BasePasswordTextField(
               text: AppLocalizations.of(context)!.repeatPassword,
               isPasswordObscureText: isPasswordConfirmationObscureText,
@@ -81,4 +79,3 @@ class _RegisterFormState extends State<RegisterForm> {
     );
   }
 }
-

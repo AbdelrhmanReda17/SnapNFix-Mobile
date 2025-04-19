@@ -9,7 +9,6 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:snapnfix/modules/authentication/presentation/cubits/login/login_cubit.dart';
 import 'package:snapnfix/modules/authentication/presentation/widgets/login/forget_password.dart';
 
-
 class LoginForm extends StatefulWidget {
   const LoginForm({super.key});
 
@@ -47,14 +46,14 @@ class _LoginFormState extends State<LoginForm> {
               hintText: AppLocalizations.of(context)!.phone,
               controller: context.read<LoginCubit>().emailOrPhoneController,
             ),
-            verticalSpace(25),
+            verticalSpace(20),
             BasePasswordTextField(
               text: AppLocalizations.of(context)!.password,
               isPasswordObscureText: isObscureText,
               togglePasswordObscureText: toggleObscureText,
               controller: context.read<LoginCubit>().passwordController,
             ),
-            verticalSpace(25),
+            verticalSpace(20),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
