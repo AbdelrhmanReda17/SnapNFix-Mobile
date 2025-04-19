@@ -1,0 +1,21 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
+part of 'api_error_model.dart';
+
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
+ApiErrorModel _$ApiErrorModelFromJson(Map<String, dynamic> json) {
+  return ApiErrorModel(
+    message: json['message'] as String?,
+    errors: json['errorList'],
+  );
+}
+
+Map<String, dynamic> _$ApiErrorModelToJson(ApiErrorModel instance) {
+  return <String, dynamic>{
+    'message': instance.message,
+    'errorList': instance.errors,
+  };
+}

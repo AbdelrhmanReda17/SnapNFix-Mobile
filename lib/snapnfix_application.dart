@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:go_router/go_router.dart';
-import 'package:snapnfix/core/application_configurations.dart';
+import 'package:snapnfix/core/config/application_configurations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:snapnfix/core/dependency_injection/dependency_injection.dart';
-import 'package:snapnfix/core/theming/application_themes.dart';
+import 'package:snapnfix/presentation/themes/application_themes.dart';
 
 class SnapNFixApplication extends StatelessWidget {
   const SnapNFixApplication({super.key});
