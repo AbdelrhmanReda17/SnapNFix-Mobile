@@ -2,7 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:snapnfix/features/settings/data/models/change_password_dto.dart';
-import 'package:snapnfix/features/settings/data/repos/change_password_repository.dart';
+import 'package:snapnfix/features/settings/data/repository/change_password_repository.dart';
 
 part 'change_password_state.dart';
 part 'change_password_cubit.freezed.dart';

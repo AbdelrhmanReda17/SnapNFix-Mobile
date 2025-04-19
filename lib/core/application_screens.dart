@@ -6,6 +6,7 @@ import 'package:snapnfix/core/dependency_injection/dependency_injection.dart';
 import 'package:snapnfix/core/routes.dart';
 import 'package:snapnfix/features/authentication/logic/cubit/login_cubit.dart';
 import 'package:snapnfix/features/authentication/logic/cubit/sign_up_cubit.dart';
+import 'package:snapnfix/features/reports/logic/cubit/add_report_cubit.dart';
 import 'package:snapnfix/features/settings/logic/cubit/change_password_cubit.dart';
 import 'package:snapnfix/features/settings/logic/cubit/edit_profile_cubit.dart';
 
@@ -105,6 +106,7 @@ class ApplicationScreens {
     ScreenItem(
       screen: Routes.homeScreen.value,
       path: Routes.homeScreen.key,
+
       icon: 'assets/icons/home.svg',
       activeIcon: 'assets/icons/active/home.svg',
       darkActiveIcon: 'assets/icons/active/Dhome.svg',
@@ -135,6 +137,12 @@ class ApplicationScreens {
   static final ScreenItem fab = ScreenItem(
     screen: Routes.addReportScreen.value,
     path: Routes.addReportScreen.key,
+    blocProvider: (child) {
+      return BlocProvider(
+        create: (context) => getIt<AddReportCubit>(),
+        child: child,
+      );
+    },
     icon: 'assets/icons/add_report.svg',
   );
 }
