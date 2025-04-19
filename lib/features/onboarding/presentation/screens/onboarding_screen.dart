@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:snapnfix/core/application_constants.dart';
-import 'package:snapnfix/core/helpers/shared_pref_helper.dart';
+import 'package:snapnfix/core/dependency_injection/dependency_injection.dart';
 import 'package:snapnfix/core/helpers/shared_pref_keys.dart';
 import 'package:snapnfix/core/routes.dart';
+import 'package:snapnfix/core/services/shared_preferences_service.dart';
 import 'package:snapnfix/features/onboarding/presentation/widgets/next_button.dart';
 import 'package:snapnfix/features/onboarding/presentation/widgets/onboarding_page.dart';
 import 'package:snapnfix/features/onboarding/presentation/widgets/page_indicator.dart';
@@ -19,10 +20,12 @@ class OnboardingScreen extends StatefulWidget {
 
 class OnboardingScreenState extends State<OnboardingScreen> {
   final PageController _controller = PageController();
+  final _sharedPrefs = getIt<SharedPreferencesService>();
+
   double currentPage = 0;
 
   void setViewOnBoarding() async {
-    await SharedPrefHelper.setData(SharedPrefKeys.hasViewedOnboarding, true);
+    await _sharedPrefs.setBool(SharedPrefKeys.hasViewedOnboarding, true);
   }
 
   @override

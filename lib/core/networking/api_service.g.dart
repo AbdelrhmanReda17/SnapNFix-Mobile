@@ -10,7 +10,7 @@ part of 'api_service.dart';
 
 class _ApiService implements ApiService {
   _ApiService(this._dio, {this.baseUrl, this.errorLogger}) {
-    baseUrl ??= 'https://api.example.com/';
+    baseUrl ??= 'https://snapnfix-backend.onrender.com/';
   }
 
   final Dio _dio;
@@ -30,7 +30,7 @@ class _ApiService implements ApiService {
       Options(method: 'POST', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            'authentication/login',
+            'api/auth/login',
             queryParameters: queryParameters,
             data: _data,
           )
@@ -48,7 +48,7 @@ class _ApiService implements ApiService {
   }
 
   @override
-  Future<User> signup(SignUpDTO body) async {
+  Future<User> signUp(SignUpDTO body) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
@@ -58,7 +58,7 @@ class _ApiService implements ApiService {
       Options(method: 'POST', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            'authentication/signUp',
+            'api/auth/register',
             queryParameters: queryParameters,
             data: _data,
           )
