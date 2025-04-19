@@ -13,6 +13,7 @@ class BaseTextField extends StatelessWidget {
   final Widget? suffixIcon;
   final TextEditingController controller;
   final Color? backgroundColor;
+  final int? maxLines;
 
   const BaseTextField({
     super.key,
@@ -27,6 +28,7 @@ class BaseTextField extends StatelessWidget {
     this.isObscureText = false,
     this.suffixIcon,
     this.backgroundColor,
+    this.maxLines = 1,
   });
 
   @override
@@ -36,6 +38,7 @@ class BaseTextField extends StatelessWidget {
 
     return TextFormField(
       controller: controller,
+      maxLines: maxLines,
       decoration: InputDecoration(
         isDense: true,
         contentPadding:

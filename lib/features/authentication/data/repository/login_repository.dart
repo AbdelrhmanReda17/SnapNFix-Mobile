@@ -14,14 +14,15 @@ class LoginRepository {
       // final response = await _apiService.login(loginDTO);
       return ApiResult.success(
         data: User(
-          id: " ",
-          password: " ",
-          phoneNumber: ' ',
-          name: ' ',
-          token: 'ARARARA',
+          id: "a",
+          name: 'John Doe',
+          phoneNumber: ' aaa',
+          password: '1234567890',
+          token: "xd",
         ),
       );
     } catch (error) {
+      print('Login error: $error');
       return ApiResult.failure(
         error: ApiErrorHandler(error).apiErrorModel.message,
       );

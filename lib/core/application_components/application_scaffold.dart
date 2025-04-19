@@ -46,6 +46,8 @@ class BaseScreen extends StatelessWidget {
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         floatingActionButtonAnimator: FloatingActionButtonAnimator.scaling,
+        resizeToAvoidBottomInset: false,
+
         body: SafeArea(child: navigationShell),
       ),
     );

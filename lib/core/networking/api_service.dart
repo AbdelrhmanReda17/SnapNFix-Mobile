@@ -15,5 +15,5 @@ abstract class ApiService {
   Future<User> login(@Body() LoginDTO body);
 
   @POST(ApiConstants.signUp)
-  Future<User> signup(@Body() SignUpDTO body);
+  Future<User> signUp(@Body() SignUpDTO body);
 }

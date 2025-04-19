@@ -44,7 +44,7 @@ class _LoginFormState extends State<LoginForm> {
           children: [
             BaseTextField(
               hintText: AppLocalizations.of(context)!.phone,
-              controller: context.read<LoginCubit>().emailController,
+              controller: context.read<LoginCubit>().emailOrPhone,
             ),
             verticalSpace(25),
             BasePasswordTextField(

@@ -11,16 +11,8 @@ class SignUpRepository {
 
   Future<ApiResult<User>> signUp(SignUpDTO signUpDTO) async {
     try {
-      // final response = await _apiService.signUp(loginDTO);
-      return ApiResult.success(
-        data: User(
-          id: " ",
-          password: " ",
-          phoneNumber: ' ',
-          name: ' ',
-          token: ' ',
-        ),
-      );
+      final response = await _apiService.signUp(signUpDTO);
+      return ApiResult.success(data: response);
     } catch (error) {
       return ApiResult.failure(
         error: ApiErrorHandler(error).apiErrorModel.message,

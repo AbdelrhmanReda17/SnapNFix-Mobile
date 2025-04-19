@@ -24,6 +24,34 @@
   "signUp": "Sign Up",
   "alreadyHaveAcc": "Already have an account?",
 
+
+  
+  "reportAnIncident": "Report an Incident",
+  "takeAPhoto": "Take a photo",
+  "someInstructions": "Some Instructions",
+  "cameraInstructions": "Use your device's camera to capture photos of the incident.",
+  "incidentExamples": "Examples of incidents you can report include:",
+  "safetyHazards": "Safety hazards",
+  "securityConcerns": "Security concerns",
+  "propertyDamage": "Property damage",
+  "environmentalIssues": "Environmental issues",
+  "otherVisualEvidence": "Other visual evidence of incidents",
+  "locationTimeNote": "Note: When you submit your photos, the location and time will be automatically recorded from your device.",
+  "additionalDetails": "Additional Details (Optional)",
+  "describeIncident": "Describe the incident....",
+  "submitReport": "Submit Report",
+  "locationRequired": "Location Required",
+  "locationRequiredMessage": "Location services are disabled. To submit a report, please enable location services.",
+  "cancel": "Cancel",
+  "enableLocation": "Enable",
+  "locationPermissionDenied": "Location permissions are denied",
+  "locationPermissionPermanentlyDenied": "Location permissions are permanently denied, we cannot request permissions.",
+  "settings": "Settings",
+  "unableToGetLocation": "Unable to get location",
+  "pleaseAddPhoto": "Please take a photo of the incident",
+  "reportSubmitted": "Report submitted successfully",
+
+
   "changePassword": "Change Password",
   "currentPassword": "Current Password",
   "newPassword": "New Password",
@@ -57,5 +85,8 @@
   "darkMode" : "Dark Mode",
   "language" : "Language",
   "selectLanguage": "Select Language"
+
+
+  
 
 }
