@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
+import 'package:snapnfix/core/routes.dart';
 import 'package:snapnfix/features/authentication/data/models/user.dart';
 
 class ProfileContainer extends StatelessWidget {
@@ -78,7 +80,9 @@ class ProfileContainer extends StatelessWidget {
               IconButton(
                 iconSize: 20.r,
                 icon: Icon(Icons.edit, color: colorScheme.surface),
-                onPressed: () {},
+                onPressed: () {
+                  context.push(Routes.editProfile.key);
+                },
               ),
             ],
           ),

@@ -9,7 +9,6 @@ class SettingsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
     final User user = User(
       id: "1",
       name: "Abdelrahman Reda Mohamed",
@@ -18,17 +17,11 @@ class SettingsScreen extends StatelessWidget {
       token: "token",
     );
 
-    // Wrap the entire screen with AnnotatedRegion
-    return AnnotatedRegion<SystemUiOverlayStyle>(
-      value: SystemUiOverlayStyle(
-        statusBarColor: colorScheme.primary, // Use your theme color
-      ),
-      child: Column(
-        children: [
-          ProfileContainer(user: user),
-          Expanded(child: SettingsListView()),
-        ],
-      ),
+    return Column(
+      children: [
+        ProfileContainer(user: user),
+        Expanded(child: SettingsListView()),
+      ],
     );
   }
 }

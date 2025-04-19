@@ -1,9 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
+import 'package:snapnfix/core/application_transitions/slide_transition_page.dart';
 import 'package:snapnfix/core/dependency_injection/dependency_injection.dart';
 import 'package:snapnfix/core/routes.dart';
 import 'package:snapnfix/features/authentication/logic/cubit/login_cubit.dart';
 import 'package:snapnfix/features/authentication/logic/cubit/sign_up_cubit.dart';
+import 'package:snapnfix/features/settings/logic/cubit/change_password_cubit.dart';
+import 'package:snapnfix/features/settings/logic/cubit/edit_profile_cubit.dart';
+
+class AnimatedScreenItem {
+  final ScreenItem screenItem;
+  final CustomTransitionPage Function({
+    required Widget child,
+    required String key,
+  })
+  pageBuilder;
+
+  AnimatedScreenItem({required this.screenItem, required this.pageBuilder});
+}
 
 class ScreenItem {
   final String path;
@@ -51,6 +66,38 @@ class ApplicationScreens {
     ScreenItem(
       screen: Routes.onBoardingScreen.value,
       path: Routes.onBoardingScreen.key,
+    ),
+  ];
+
+  static final List<AnimatedScreenItem> animatedScreens = [
+    AnimatedScreenItem(
+      screenItem: ScreenItem(
+        screen: Routes.changePassowrd.value,
+        path: Routes.changePassowrd.key,
+        blocProvider:
+            (child) => BlocProvider(
+              create: (context) => getIt<ChangePasswordCubit>(),
+              child: child,
+            ),
+      ),
+      pageBuilder:
+          ({required Widget child, required String key}) =>
+              SlideTransitionPage(child: child, key: key),
+    ),
+
+    AnimatedScreenItem(
+      screenItem: ScreenItem(
+        screen: Routes.editProfile.value,
+        path: Routes.editProfile.key,
+        blocProvider:
+            (child) => BlocProvider(
+              create: (context) => getIt<EditProfileCubit>(),
+              child: child,
+            ),
+      ),
+      pageBuilder:
+          ({required Widget child, required String key}) =>
+              SlideTransitionPage(child: child, key: key),
     ),
   ];
 

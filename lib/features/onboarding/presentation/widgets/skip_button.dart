@@ -21,6 +21,7 @@ class SkipButton extends StatelessWidget {
           curve: Curves.ease,
         );
       },
+      borderColor: Colors.transparent,
       textStyle: textTheme.bodyMedium!,
       buttonWidth: 30.w,
     );

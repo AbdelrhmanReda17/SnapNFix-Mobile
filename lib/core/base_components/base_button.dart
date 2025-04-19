@@ -11,6 +11,7 @@ class BaseButton extends StatelessWidget {
   final double? buttonWidth;
   final double? buttonHeight;
   final TextStyle textStyle;
+  final Color? borderColor;
 
   const BaseButton({
     super.key,
@@ -23,6 +24,7 @@ class BaseButton extends StatelessWidget {
     this.verticalPadding,
     this.buttonWidth,
     this.buttonHeight,
+    this.borderColor,
   });
 
   ButtonStyle getButtonStyle(ColorScheme colorScheme) {
@@ -30,6 +32,10 @@ class BaseButton extends StatelessWidget {
       shape: WidgetStateProperty.all<RoundedRectangleBorder>(
         RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(borderRadius ?? 10.0),
+          side: BorderSide(
+            color: borderColor ?? colorScheme.primary,
+            width: 1.0,
+          ),
         ),
       ),
       backgroundColor: WidgetStatePropertyAll(

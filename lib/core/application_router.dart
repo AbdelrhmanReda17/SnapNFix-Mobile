@@ -1,8 +1,14 @@
+import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:snapnfix/core/application_configurations.dart';
 import 'package:snapnfix/core/application_screens.dart';
 import 'package:snapnfix/core/application_components/application_scaffold.dart';
 import 'package:snapnfix/core/routes.dart';
+import 'package:snapnfix/core/application_transitions/slide_transition_page.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:snapnfix/features/settings/logic/cubit/change_password_cubit.dart';
+import 'package:snapnfix/core/dependency_injection/dependency_injection.dart';
+import 'package:snapnfix/features/settings/presentation/screens/change_password.dart';
 
 class ApplicationRouter {
   final ApplicationConfigurations appConfigurations;
@@ -21,6 +27,17 @@ class ApplicationRouter {
       refreshListenable: appConfigurations,
       initialLocation: _getInitialLocation(),
       routes: [
+        for (var animatedScreen in ApplicationScreens.animatedScreens)
+          GoRoute(
+            path: animatedScreen.screenItem.path,
+            pageBuilder:
+                (context, state) => animatedScreen.pageBuilder(
+                  child: animatedScreen.screenItem.wrappedWidget,
+                  key: state.matchedLocation,
+                ),
+          ),
+
+        // Handle all other standard screens normally
         for (var screen in ApplicationScreens.screens)
           GoRoute(
             path: screen.path,
