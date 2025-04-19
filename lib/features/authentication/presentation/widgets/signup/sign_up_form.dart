@@ -47,6 +47,16 @@ class _SignUpFormState extends State<SignUpForm> {
         child: Column(
           children: [
             BaseTextField(
+              hintText: AppLocalizations.of(context)!.firstName,
+              controller: context.read<SignUpCubit>().firstNameController,
+            ),
+            verticalSpace(25),
+            BaseTextField(
+              hintText: AppLocalizations.of(context)!.lastName,
+              controller: context.read<SignUpCubit>().lastNameController,
+            ),
+            verticalSpace(25),
+            BaseTextField(
               hintText: AppLocalizations.of(context)!.phone,
               controller: context.read<SignUpCubit>().phoneController,
             ),

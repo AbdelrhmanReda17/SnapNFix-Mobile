@@ -5,6 +5,8 @@
 
   "welcomeBack": "Welcome Back!",
   "loginToContinue": "Login to continue",
+  "firstName": "First Name",
+  "lastName": "Last Name",
   "phone": "Phone Number",
   "password": "Password",
   "rememberMe": "Remember me",
