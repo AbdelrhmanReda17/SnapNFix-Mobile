@@ -1,18 +1,19 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:snapnfix/core/application_constants.dart';
-import 'package:snapnfix/core/helpers/shared_pref_helper.dart';
+import 'package:snapnfix/core/dependency_injection/dependency_injection.dart';
 import 'package:snapnfix/core/helpers/shared_pref_keys.dart';
+import 'package:snapnfix/core/services/secure_storage_service.dart';
+import 'package:snapnfix/core/services/shared_preferences_service.dart';
 
 class ApplicationConfigurations with ChangeNotifier {
+  // Private services
+  final _secureStorage = getIt<SecureStorageService>();
+  final _sharedPrefs = getIt<SharedPreferencesService>();
+
   // Private state variables
   bool _hasViewedOnboarding = false;
   String _userToken = "";
-  // get the current language from the device settings
-  // if not available, default to English
-  // if the language is not supported, default to English
-  // if the language is null, default to English
-  // if the language is empty, default to English
   String _language = "en";
   bool _isDarkMode = false;
 
@@ -49,40 +50,42 @@ class ApplicationConfigurations with ChangeNotifier {
 
   // Onboarding methods
   Future<void> _loadOnboardingStatus() async {
-    _hasViewedOnboarding =
-        await SharedPrefHelper.getBool(SharedPrefKeys.hasViewedOnboarding) ??
-        false;
+    _hasViewedOnboarding = _sharedPrefs.getBool(
+      SharedPrefKeys.hasViewedOnboarding,
+    );
   }
 
   Future<void> setOnboardingComplete() async {
     _hasViewedOnboarding = true;
-    await SharedPrefHelper.setData(SharedPrefKeys.hasViewedOnboarding, true);
+    await _sharedPrefs.setBool(SharedPrefKeys.hasViewedOnboarding, true);
     notifyListeners();
   }
 
   // Authentication methods
   Future<void> _loadUserToken() async {
-    _userToken =
-        await SharedPrefHelper.getSecuredString(SharedPrefKeys.userToken) ?? "";
+    final token = await _secureStorage.read(key: SharedPrefKeys.userToken);
+    _userToken = token ?? "";
   }
 
   Future<void> setUserToken(String token) async {
     _userToken = token;
-    await SharedPrefHelper.setSecuredString(SharedPrefKeys.userToken, token);
+    await _secureStorage.write(key: SharedPrefKeys.userToken, value: token);
     notifyListeners();
   }
 
   Future<void> logout() async {
     _userToken = "";
-    await SharedPrefHelper.setSecuredString(SharedPrefKeys.userToken, "");
+    await _secureStorage.write(key: SharedPrefKeys.userToken, value: "");
     notifyListeners();
   }
 
   // Language methods
   Future<void> _loadLanguage() async {
-    _language =
-        await SharedPrefHelper.getSecuredString(SharedPrefKeys.language) ??
-        "en";
+    final storedLanguage = await _secureStorage.read(
+      key: SharedPrefKeys.language,
+    );
+    _language = storedLanguage ?? "en";
+
     if (_language.isEmpty ||
         _language == "null" ||
         ApplicationConstants.availableLanguages[_language] == null) {
@@ -93,9 +96,9 @@ class ApplicationConfigurations with ChangeNotifier {
   Future<void> changeLanguage(String newLanguage) async {
     if (ApplicationConstants.availableLanguages[newLanguage] != null) {
       _language = newLanguage;
-      await SharedPrefHelper.setSecuredString(
-        SharedPrefKeys.language,
-        newLanguage,
+      await _secureStorage.write(
+        key: SharedPrefKeys.language,
+        value: newLanguage,
       );
       notifyListeners();
     }
@@ -103,13 +106,12 @@ class ApplicationConfigurations with ChangeNotifier {
 
   // Dark mode methods
   Future<void> _loadDarkMode() async {
-    _isDarkMode =
-        await SharedPrefHelper.getBool(SharedPrefKeys.isDarkMode) ?? false;
+    _isDarkMode = _sharedPrefs.getBool(SharedPrefKeys.isDarkMode);
   }
 
   Future<void> toggleDarkMode(bool value) async {
     _isDarkMode = value;
-    await SharedPrefHelper.setData(SharedPrefKeys.isDarkMode, value);
+    await _sharedPrefs.setBool(SharedPrefKeys.isDarkMode, value);
     notifyListeners();
   }
 }

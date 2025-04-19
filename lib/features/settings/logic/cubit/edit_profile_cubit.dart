@@ -5,7 +5,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:snapnfix/features/authentication/data/models/user.dart';
 import 'package:snapnfix/features/settings/data/models/edit_profile_dto.dart';
-import 'package:snapnfix/features/settings/data/repos/edit_profile_repository.dart';
+import 'package:snapnfix/features/settings/data/repository/edit_profile_repository.dart';
 
 part 'edit_profile_state.dart';
 part 'edit_profile_cubit.freezed.dart';

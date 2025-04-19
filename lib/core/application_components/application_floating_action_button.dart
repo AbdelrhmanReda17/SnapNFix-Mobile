@@ -13,7 +13,11 @@ class ApplicationFloatingActionButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
+
     return FloatingActionButton(
+      heroTag: 'floatingActionButton',
+      tooltip: isActive ? 'Close' : 'Add',
+      isExtended: true,
       elevation: 2,
       onPressed: () => onItemSelected(isActive ? 0 : 4),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),

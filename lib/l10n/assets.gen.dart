@@ -27,11 +27,21 @@ class $AssetsIconsGen {
   /// File path: assets/icons/settings.svg
   String get settings => 'assets/icons/settings.svg';
 
+  /// File path: assets/icons/time_and_location.svg
+  String get timeAndLocation => 'assets/icons/time_and_location.svg';
+
   /// File path: assets/icons/user_reports.svg
   String get userReports => 'assets/icons/user_reports.svg';
 
   /// List of all assets
-  List<String> get values => [favicon, home, map, settings, userReports];
+  List<String> get values => [
+    favicon,
+    home,
+    map,
+    settings,
+    timeAndLocation,
+    userReports,
+  ];
 }
 
 class $AssetsImagesGen {
@@ -117,6 +127,9 @@ class $AssetsIconsActiveGen {
   /// File path: assets/icons/active/user_reports.svg
   String get userReports => 'assets/icons/active/user_reports.svg';
 
+  /// File path: assets/icons/active/x.svg
+  String get x => 'assets/icons/active/x.svg';
+
   /// List of all assets
   List<String> get values => [
     dhome,
@@ -127,6 +140,7 @@ class $AssetsIconsActiveGen {
     map,
     settings,
     userReports,
+    x,
   ];
 }
 
