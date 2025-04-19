@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:snapnfix/core/application_configurations.dart';
@@ -12,6 +12,8 @@ class SignUpCubit extends Cubit<SignUpState> {
   SignUpCubit(this._signUpRepository) : super(SignUpState.initial());
   final SignUpRepository _signUpRepository;
 
+  TextEditingController firstNameController = TextEditingController();
+  TextEditingController lastNameController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController passwordConfirmationController =
@@ -23,6 +25,8 @@ class SignUpCubit extends Cubit<SignUpState> {
     emit(const SignUpState.loading());
     final response = await _signUpRepository.signUp(
       SignUpDTO(
+        firstName: firstNameController.text,
+        lastName: lastNameController.text,
         phone: phoneController.text,
         password: passwordController.text,
         passwordConfirmation: passwordConfirmationController.text,

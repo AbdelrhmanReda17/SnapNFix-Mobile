@@ -5,6 +5,8 @@
 
   "welcomeBack": "مرحبًا بعودتك!",
   "loginToContinue": "سجّل الدخول للمتابعة",
+  "firstName": "الاسم الأول",
+  "lastName": "اسم العائلة",
   "phone": "رقم الهاتف",
   "password": "كلمة المرور",
   "rememberMe": "تذكرني",
