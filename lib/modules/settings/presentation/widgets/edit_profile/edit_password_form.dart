@@ -5,7 +5,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:snapnfix/core/base_components/base_date_picker_field.dart';
 import 'package:snapnfix/core/base_components/base_dropdrown_field.dart';
 import 'package:snapnfix/core/base_components/base_text_field.dart';
-import 'package:snapnfix/modules/settings/logic/cubit/edit_profile_cubit.dart';
+import 'package:snapnfix/modules/settings/presentation/cubits/edit_profile_cubit.dart';
 
 class EditProfileForm extends StatelessWidget {
   const EditProfileForm({super.key});

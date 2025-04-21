@@ -1,16 +1,18 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:snapnfix/modules/settings/data/models/change_password_dto.dart';
-import 'package:snapnfix/modules/settings/data/repository/change_password_repository.dart';
+import 'package:snapnfix/modules/settings/data/models/dtos/change_password_dto.dart';
+import 'package:snapnfix/modules/settings/domain/usecases/change_password_use_case.dart';
 
 part 'change_password_state.dart';
 part 'change_password_cubit.freezed.dart';
 
 class ChangePasswordCubit extends Cubit<ChangePasswordState> {
-  final ChangePasswordRepository _changePasswordRepository;
-  ChangePasswordCubit(this._changePasswordRepository)
-    : super(ChangePasswordState.initial());
+  final ChangePasswordUseCase _changePasswordUseCase;
+
+  ChangePasswordCubit({required ChangePasswordUseCase changePasswordUseCase})
+    : _changePasswordUseCase = changePasswordUseCase,
+      super(const ChangePasswordState.initial());
 
   final formKey = GlobalKey<FormState>();
 
@@ -35,21 +37,22 @@ class ChangePasswordCubit extends Cubit<ChangePasswordState> {
   }
 
   void emitChangePasswordState() async {
+    if (!formKey.currentState!.validate()) return;
+
     emit(const ChangePasswordState.loading());
-    final response = await _changePasswordRepository.changePassword(
+
+    final response = await _changePasswordUseCase(
       ChangePasswordDTO(
         oldPassword: oldPasswordController.text,
         newPassword: newPasswordController.text,
         confirmPassword: confirmPasswordController.text,
       ),
     );
+
     response.when(
-      success: (data) {
-        emit(ChangePasswordState.success(data));
-      },
-      failure: (error) {
-        emit(ChangePasswordState.error(error: error.toString()));
-      },
+      success: (data) => emit(ChangePasswordState.success(data)),
+      failure:
+          (error) => emit(ChangePasswordState.error(error: error.toString())),
     );
   }
 

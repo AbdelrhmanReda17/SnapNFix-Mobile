@@ -2,8 +2,13 @@ import 'package:flutter/widgets.dart';
 import 'package:snapnfix/modules/authentication/presentation/screens/login_screen.dart';
 import 'package:snapnfix/modules/authentication/presentation/screens/register_screen.dart';
 import 'package:snapnfix/modules/onboarding/screens/onboarding_screen.dart';
+import 'package:snapnfix/modules/reports/presentation/screens/submit_report_screen.dart';
+import 'package:snapnfix/modules/settings/presentation/screens/change_password.dart';
+import 'package:snapnfix/modules/settings/presentation/screens/edit_profile.dart';
+import 'package:snapnfix/modules/settings/presentation/screens/settings_dart.dart';
 
 import 'package:snapnfix/presentation/screens/home_screen.dart';
+import 'package:snapnfix/presentation/screens/temp_screen.dart';
 
 class Routes {
   static const MapEntry<String, Widget> onBoardingScreen = MapEntry(
@@ -24,26 +29,26 @@ class Routes {
   );
   static const MapEntry<String, Widget> mapScreen = MapEntry(
     '/mapScreen',
-    HomeScreen(),
+    TempScreen(),
   );
   static const MapEntry<String, Widget> userReportsScreen = MapEntry(
     '/userReportsScreen',
-    HomeScreen(),
+    TempScreen(),
   );
   static const MapEntry<String, Widget> settingsScreen = MapEntry(
     '/settingsScreen',
-    HomeScreen(),
+     SettingsScreen(),
   );
-  static const MapEntry<String, Widget> addReportScreen = MapEntry(
-    '/addReportScreen',
-    HomeScreen(),
+  static const MapEntry<String, Widget> submitReportScreen = MapEntry(
+    '/submitReportScreen',
+    SubmitReportScreen(),
   );
   static const MapEntry<String, Widget> changePassowrd = MapEntry(
     '/changePassword',
-    HomeScreen(),
+    ChangePassword(),
   );
   static const MapEntry<String, Widget> editProfile = MapEntry(
     '/editProfile',
-    HomeScreen(),
+    EditProfile(),
   );
 }

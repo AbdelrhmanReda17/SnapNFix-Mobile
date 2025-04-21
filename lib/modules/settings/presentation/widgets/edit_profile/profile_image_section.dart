@@ -2,7 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:snapnfix/modules/settings/logic/cubit/edit_profile_cubit.dart';
+import 'package:snapnfix/modules/settings/presentation/cubits/edit_profile_cubit.dart';
 
 class ProfileImageSection extends StatelessWidget {
   const ProfileImageSection({super.key});

@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:snapnfix/core/config/application_configurations.dart';
+import 'package:snapnfix/core/infrastructure/location/location_service.dart';
 import 'package:snapnfix/modules/authentication/data/datasources/authentication_remote_data_source.dart';
 import 'package:snapnfix/modules/authentication/data/repositories/authentication_repository.dart';
 import 'package:snapnfix/modules/authentication/domain/repositories/base_authentication_repository.dart';
@@ -10,6 +11,22 @@ import 'package:snapnfix/modules/authentication/domain/usecases/logout_use_case.
 import 'package:snapnfix/modules/authentication/domain/usecases/register_use_case.dart';
 import 'package:snapnfix/modules/authentication/presentation/cubits/login/login_cubit.dart';
 import 'package:snapnfix/modules/authentication/presentation/cubits/register/register_cubit.dart';
+import 'package:snapnfix/modules/reports/data/datasource/report_local_data_source.dart';
+import 'package:snapnfix/modules/reports/data/datasource/report_remote_data_source.dart';
+import 'package:snapnfix/modules/reports/data/repositories/report_repository.dart';
+import 'package:snapnfix/modules/reports/domain/repositories/base_report_repository.dart';
+import 'package:snapnfix/modules/reports/domain/usecases/get_pending_reports_count_use_case.dart';
+import 'package:snapnfix/modules/reports/domain/usecases/submit_report_use_case.dart';
+import 'package:snapnfix/modules/reports/domain/usecases/sync_prending_reports_use_case.dart';
+import 'package:snapnfix/modules/reports/domain/usecases/watch_pending_reports_count_use_case.dart';
+import 'package:snapnfix/modules/reports/presentation/cubits/submit_report_cubit.dart';
+import 'package:snapnfix/modules/settings/data/datasources/settings_remote_data_source.dart';
+import 'package:snapnfix/modules/settings/data/repositories/settings_repository_impl.dart';
+import 'package:snapnfix/modules/settings/domain/repositories/base_settings_repository.dart';
+import 'package:snapnfix/modules/settings/domain/usecases/change_password_use_case.dart';
+import 'package:snapnfix/modules/settings/domain/usecases/edit_profile_use_case.dart';
+import 'package:snapnfix/modules/settings/presentation/cubits/change_password_cubit.dart';
+import 'package:snapnfix/modules/settings/presentation/cubits/edit_profile_cubit.dart';
 import 'package:snapnfix/presentation/navigation/application_router.dart';
 import 'package:snapnfix/core/infrastructure/networking/api_constants.dart';
 import 'package:snapnfix/core/infrastructure/networking/api_service.dart';
@@ -37,7 +54,9 @@ Future<void> setupGetIt() async {
   );
 
   // Register authentication dependencies
-  setupAuthenticationGetIt();
+  setupReportsModule();
+  setupAuthenticationModule();
+  setupSettingsModule();
 
   return Future.value();
 }
@@ -66,7 +85,7 @@ void setupRouter() {
   );
 }
 
-void setupAuthenticationGetIt() {
+void setupAuthenticationModule() {
   // Register Data Sources & Repository
   getIt.registerLazySingleton<BaseAuthenticationRemoteDataSource>(
     () => AuthenticationRemoteDataSource(getIt<ApiService>()),
@@ -112,4 +131,85 @@ Future<void> setupServices() async {
   final sharedPrefsService = SharedPreferencesService();
   await sharedPrefsService.init();
   getIt.registerSingleton<SharedPreferencesService>(sharedPrefsService);
+
+  // Location Service
+  getIt.registerLazySingleton<LocationService>(() => LocationService());
+}
+
+void setupReportsModule() {
+  // DataSources
+  getIt.registerLazySingleton<BaseReportRemoteDataSource>(
+    () => ReportRemoteDataSource(getIt<ApiService>()),
+  );
+
+  getIt.registerLazySingleton<BaseReportLocalDataSource>(
+    () => ReportLocalDataSource(getIt<SharedPreferencesService>()),
+  );
+
+  // Repository
+  getIt.registerLazySingleton<BaseReportRepository>(
+    () => ReportRepository(
+      getIt<BaseReportLocalDataSource>(),
+      getIt<BaseReportRemoteDataSource>(),
+      getIt<ConnectivityService>(),
+    ),
+  );
+
+  // UseCases
+  getIt.registerLazySingleton<SubmitReportUseCase>(
+    () => SubmitReportUseCase(getIt<BaseReportRepository>()),
+  );
+
+  getIt.registerLazySingleton<SyncPendingReportsUseCase>(
+    () => SyncPendingReportsUseCase(getIt<BaseReportRepository>()),
+  );
+
+  getIt.registerLazySingleton<GetPendingReportsCountUseCase>(
+    () => GetPendingReportsCountUseCase(getIt<BaseReportRepository>()),
+  );
+
+  getIt.registerLazySingleton<WatchPendingReportsCountUseCase>(
+    () => WatchPendingReportsCountUseCase(getIt<BaseReportRepository>()),
+  );
+
+  // Cubits
+  getIt.registerFactory<SubmitReportCubit>(
+    () => SubmitReportCubit(getIt<SubmitReportUseCase>()),
+  );
+}
+
+void setupSettingsModule() {
+  // DataSources
+  getIt.registerLazySingleton<BaseSettingsRemoteDataSource>(
+    () => SettingsRemoteDataSource(getIt<ApiService>()),
+  );
+
+  // Repositories - Use the base abstract repository
+  getIt.registerLazySingleton<BaseSettingsRepository>(
+    () => SettingsRepositoryImpl(
+      getIt<BaseSettingsRemoteDataSource>(),
+    ),
+  );
+
+  // UseCases
+  getIt.registerLazySingleton<ChangePasswordUseCase>(
+    () => ChangePasswordUseCase(getIt<BaseSettingsRepository>()),
+  );
+
+  getIt.registerLazySingleton<EditProfileUseCase>(
+    () => EditProfileUseCase(getIt<BaseSettingsRepository>()),
+  );
+
+  // Cubits
+  getIt.registerFactory<ChangePasswordCubit>(
+    () => ChangePasswordCubit(
+      changePasswordUseCase: getIt<ChangePasswordUseCase>(),
+    ),
+  );
+
+  getIt.registerFactory<EditProfileCubit>(
+    () => EditProfileCubit(
+      editProfileUseCase: getIt<EditProfileUseCase>(),
+    ),
+  );
 }

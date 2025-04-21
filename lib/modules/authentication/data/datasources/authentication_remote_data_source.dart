@@ -3,7 +3,6 @@ import 'package:snapnfix/core/infrastructure/networking/api_result.dart';
 import 'package:snapnfix/core/infrastructure/networking/api_service.dart';
 import 'package:snapnfix/modules/authentication/data/models/dtos/register_dto.dart';
 import 'package:snapnfix/modules/authentication/data/models/session_model.dart';
-import 'package:snapnfix/modules/authentication/data/models/dtos/login_dto.dart';
 import 'package:snapnfix/modules/authentication/data/models/tokens_model.dart';
 import 'package:snapnfix/modules/authentication/data/models/user_model.dart';
 

@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:snapnfix/core/base_components/base_password_text_field.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:snapnfix/core/utils/helpers/spacing.dart';
-import 'package:snapnfix/modules/settings/logic/cubit/change_password_cubit.dart';
+import 'package:snapnfix/modules/settings/presentation/cubits/change_password_cubit.dart';
 
 class ChangePasswordForm extends StatelessWidget {
   const ChangePasswordForm({super.key});

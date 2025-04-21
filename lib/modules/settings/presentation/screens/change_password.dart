@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:snapnfix/core/base_components/base_button.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:snapnfix/modules/settings/logic/cubit/change_password_cubit.dart';
+import 'package:snapnfix/modules/settings/presentation/cubits/change_password_cubit.dart';
 import 'package:snapnfix/modules/settings/presentation/widgets/change_password/change_password_bloc_listener.dart';
 import 'package:snapnfix/modules/settings/presentation/widgets/change_password/change_password_form.dart';
 import 'package:snapnfix/presentation/components/application_system_ui_overlay.dart';

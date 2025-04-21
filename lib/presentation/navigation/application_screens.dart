@@ -4,8 +4,11 @@ import 'package:go_router/go_router.dart';
 import 'package:snapnfix/modules/authentication/presentation/cubits/login/login_cubit.dart';
 import 'package:snapnfix/modules/authentication/presentation/cubits/register/register_cubit.dart';
 import 'package:snapnfix/core/dependency_injection/dependency_injection.dart';
+import 'package:snapnfix/modules/reports/presentation/cubits/submit_report_cubit.dart';
+import 'package:snapnfix/modules/settings/presentation/cubits/change_password_cubit.dart';
+import 'package:snapnfix/modules/settings/presentation/cubits/edit_profile_cubit.dart';
 import 'package:snapnfix/presentation/navigation/routes.dart';
-
+import 'package:snapnfix/presentation/navigation/transitions/slide_transition_page.dart';
 
 class AnimatedScreenItem {
   final ScreenItem screenItem;
@@ -68,35 +71,35 @@ class ApplicationScreens {
   ];
 
   static final List<AnimatedScreenItem> animatedScreens = [
-    // AnimatedScreenItem(
-    //   screenItem: ScreenItem(
-    //     screen: Routes.changePassowrd.value,
-    //     path: Routes.changePassowrd.key,
-    //     blocProvider:
-    //         (child) => BlocProvider(
-    //           create: (context) => getIt<ChangePasswordCubit>(),
-    //           child: child,
-    //         ),
-    //   ),
-    //   pageBuilder:
-    //       ({required Widget child, required String key}) =>
-    //           SlideTransitionPage(child: child, key: key),
-    // ),
+    AnimatedScreenItem(
+      screenItem: ScreenItem(
+        screen: Routes.changePassowrd.value,
+        path: Routes.changePassowrd.key,
+        blocProvider:
+            (child) => BlocProvider(
+              create: (context) => getIt<ChangePasswordCubit>(),
+              child: child,
+            ),
+      ),
+      pageBuilder:
+          ({required Widget child, required String key}) =>
+              SlideTransitionPage(child: child, key: key),
+    ),
 
-    // AnimatedScreenItem(
-    //   screenItem: ScreenItem(
-    //     screen: Routes.editProfile.value,
-    //     path: Routes.editProfile.key,
-    //     blocProvider:
-    //         (child) => BlocProvider(
-    //           create: (context) => getIt<EditProfileCubit>(),
-    //           child: child,
-    //         ),
-    //   ),
-    //   pageBuilder:
-    //       ({required Widget child, required String key}) =>
-    //           SlideTransitionPage(child: child, key: key),
-    // ),
+    AnimatedScreenItem(
+      screenItem: ScreenItem(
+        screen: Routes.editProfile.value,
+        path: Routes.editProfile.key,
+        blocProvider:
+            (child) => BlocProvider(
+              create: (context) => getIt<EditProfileCubit>(),
+              child: child,
+            ),
+      ),
+      pageBuilder:
+          ({required Widget child, required String key}) =>
+              SlideTransitionPage(child: child, key: key),
+    ),
   ];
 
   static final List<ScreenItem> navigationScreens = [
@@ -132,14 +135,14 @@ class ApplicationScreens {
   ];
 
   static final ScreenItem fab = ScreenItem(
-    screen: Routes.addReportScreen.value,
-    path: Routes.addReportScreen.key,
-    // blocProvider: (child) {
-    //   return BlocProvider(
-    //     create: (context) => getIt<AddReportCubit>(),
-    //     child: child,
-    //   );
-    // },
+    screen: Routes.submitReportScreen.value,
+    path: Routes.submitReportScreen.key,
+    blocProvider: (child) {
+      return BlocProvider(
+        create: (context) => getIt<SubmitReportCubit>(),
+        child: child,
+      );
+    },
     icon: 'assets/icons/add_report.svg',
   );
 }
