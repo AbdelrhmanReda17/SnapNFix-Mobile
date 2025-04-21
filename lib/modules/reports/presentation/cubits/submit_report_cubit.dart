@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:snapnfix/core/infrastructure/location/location_service.dart';
 import 'package:snapnfix/core/infrastructure/networking/api_error_handler.dart';
-import 'package:snapnfix/core/infrastructure/networking/api_error_model.dart';
 import 'package:snapnfix/modules/reports/data/model/media_model.dart';
 import 'package:snapnfix/modules/reports/data/model/report_model.dart';
 import 'package:snapnfix/modules/reports/domain/entities/report_severity.dart';
@@ -23,7 +22,6 @@ class SubmitReportCubit extends Cubit<SubmitReportState> {
 
   SubmitReportCubit(this._submitReportUseCase)
     : super(SubmitReportState.initial()) {
-    // Listen to text changes and update state
     detailsController.addListener(_updateDetails);
   }
 

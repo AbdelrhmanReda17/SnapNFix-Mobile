@@ -13,7 +13,7 @@ class SubmitReportState with _$SubmitReportState {
   }) = _SubmitReportState;
 
   factory SubmitReportState.initial() => SubmitReportState(
-    image: File(''),
+    image: null,
     severity: ReportSeverity.low,
     position: null,
     isLoading: false,

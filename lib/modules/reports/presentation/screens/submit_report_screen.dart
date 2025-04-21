@@ -30,9 +30,7 @@ class SubmitReportScreen extends StatelessWidget {
     return VisibilityDetector(
       key: const Key('submit_report_screen_visibility'),
       onVisibilityChanged: (visibilityInfo) {
-        // When screen visibility drops below 10%, reset the state
         if (visibilityInfo.visibleFraction < 0.1) {
-          // Reset the cubit state when screen is no longer visible
           final cubit = context.read<SubmitReportCubit>();
           cubit.resetState();
           debugPrint(
