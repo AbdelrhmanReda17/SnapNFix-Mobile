@@ -20,6 +20,13 @@ import 'package:snapnfix/modules/reports/domain/usecases/submit_report_use_case.
 import 'package:snapnfix/modules/reports/domain/usecases/sync_prending_reports_use_case.dart';
 import 'package:snapnfix/modules/reports/domain/usecases/watch_pending_reports_count_use_case.dart';
 import 'package:snapnfix/modules/reports/presentation/cubits/submit_report_cubit.dart';
+import 'package:snapnfix/modules/settings/data/datasources/settings_remote_data_source.dart';
+import 'package:snapnfix/modules/settings/data/repositories/settings_repository_impl.dart';
+import 'package:snapnfix/modules/settings/domain/repositories/base_settings_repository.dart';
+import 'package:snapnfix/modules/settings/domain/usecases/change_password_use_case.dart';
+import 'package:snapnfix/modules/settings/domain/usecases/edit_profile_use_case.dart';
+import 'package:snapnfix/modules/settings/presentation/cubits/change_password_cubit.dart';
+import 'package:snapnfix/modules/settings/presentation/cubits/edit_profile_cubit.dart';
 import 'package:snapnfix/presentation/navigation/application_router.dart';
 import 'package:snapnfix/core/infrastructure/networking/api_constants.dart';
 import 'package:snapnfix/core/infrastructure/networking/api_service.dart';
@@ -49,6 +56,7 @@ Future<void> setupGetIt() async {
   // Register authentication dependencies
   setupReportsModule();
   setupAuthenticationModule();
+  setupSettingsModule();
 
   return Future.value();
 }
@@ -167,5 +175,41 @@ void setupReportsModule() {
   // Cubits
   getIt.registerFactory<SubmitReportCubit>(
     () => SubmitReportCubit(getIt<SubmitReportUseCase>()),
+  );
+}
+
+void setupSettingsModule() {
+  // DataSources
+  getIt.registerLazySingleton<BaseSettingsRemoteDataSource>(
+    () => SettingsRemoteDataSource(getIt<ApiService>()),
+  );
+
+  // Repositories - Use the base abstract repository
+  getIt.registerLazySingleton<BaseSettingsRepository>(
+    () => SettingsRepositoryImpl(
+      getIt<BaseSettingsRemoteDataSource>(),
+    ),
+  );
+
+  // UseCases
+  getIt.registerLazySingleton<ChangePasswordUseCase>(
+    () => ChangePasswordUseCase(getIt<BaseSettingsRepository>()),
+  );
+
+  getIt.registerLazySingleton<EditProfileUseCase>(
+    () => EditProfileUseCase(getIt<BaseSettingsRepository>()),
+  );
+
+  // Cubits
+  getIt.registerFactory<ChangePasswordCubit>(
+    () => ChangePasswordCubit(
+      changePasswordUseCase: getIt<ChangePasswordUseCase>(),
+    ),
+  );
+
+  getIt.registerFactory<EditProfileCubit>(
+    () => EditProfileCubit(
+      editProfileUseCase: getIt<EditProfileUseCase>(),
+    ),
   );
 }

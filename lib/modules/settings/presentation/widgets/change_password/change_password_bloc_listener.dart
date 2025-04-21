@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:snapnfix/core/base_components/base_alert.dart';
-import 'package:snapnfix/modules/settings/logic/cubit/change_password_cubit.dart';
+import 'package:snapnfix/modules/settings/presentation/cubits/change_password_cubit.dart';
 
 
 class ChangePasswordBlocListener extends StatelessWidget {
