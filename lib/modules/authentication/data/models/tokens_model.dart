@@ -12,19 +12,8 @@ class TokensModel extends Tokens {
     required super.issuedAt,
   });
 
-  factory TokensModel.fromJson(Map<String, dynamic> json) {
-    return TokensModel(
-      accessToken: json['accessToken'] as String,
-      refreshToken: json['refreshToken'] as String,
-      expiresIn: json['expiresIn'] as int,
-      issuedAt: DateTime.now(),
-    );
-  }
+  factory TokensModel.fromJson(Map<String, dynamic> json) =>
+      _$TokensModelFromJson(json);
 
-  Map<String, dynamic> toJson() => {
-    'accessToken': accessToken,
-    'refreshToken': refreshToken,
-    'expiresIn': expiresIn,
-    'issuedAt': issuedAt.toIso8601String(),
-  };
+  Map<String, dynamic> toJson() => _$TokensModelToJson(this);
 }

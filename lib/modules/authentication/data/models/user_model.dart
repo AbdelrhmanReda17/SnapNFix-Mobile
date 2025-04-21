@@ -19,27 +19,5 @@ class UserModel extends User {
   factory UserModel.fromJson(Map<String, dynamic> json) =>
       _$UserModelFromJson(json);
 
-  // Alternative manual implementation if you don't want to use JsonSerializable
-  factory UserModel.fromJsonManual(Map<String, dynamic> json) {
-    return UserModel(
-      id: json['userId'] as String,
-      firstName: json['firstName'] as String,
-      lastName: json['lastName'] as String,
-      phoneNumber: json['phoneNumber'] as String?,
-      email: json['email'] as String?,
-      profileImage: json['profileImage'] as String?,
-      dateOfBirth:
-          json['dateOfBirth'] != null
-              ? DateTime.parse(json['dateOfBirth'] as String)
-              : null,
-      gender:
-          json['gender'] != null
-              ? Gender.values.firstWhere(
-                (e) => e.toString() == 'Gender.${json['gender']}',
-              )
-              : null,
-    );
-  }
-
   Map<String, dynamic> toJson() => _$UserModelToJson(this);
 }

@@ -4,8 +4,8 @@ import 'package:go_router/go_router.dart';
 import 'package:snapnfix/modules/authentication/presentation/cubits/login/login_cubit.dart';
 import 'package:snapnfix/modules/authentication/presentation/cubits/register/register_cubit.dart';
 import 'package:snapnfix/core/dependency_injection/dependency_injection.dart';
+import 'package:snapnfix/modules/reports/presentation/cubits/submit_report_cubit.dart';
 import 'package:snapnfix/presentation/navigation/routes.dart';
-
 
 class AnimatedScreenItem {
   final ScreenItem screenItem;
@@ -132,14 +132,14 @@ class ApplicationScreens {
   ];
 
   static final ScreenItem fab = ScreenItem(
-    screen: Routes.addReportScreen.value,
-    path: Routes.addReportScreen.key,
-    // blocProvider: (child) {
-    //   return BlocProvider(
-    //     create: (context) => getIt<AddReportCubit>(),
-    //     child: child,
-    //   );
-    // },
+    screen: Routes.submitReportScreen.value,
+    path: Routes.submitReportScreen.key,
+    blocProvider: (child) {
+      return BlocProvider(
+        create: (context) => getIt<SubmitReportCubit>(),
+        child: child,
+      );
+    },
     icon: 'assets/icons/add_report.svg',
   );
 }

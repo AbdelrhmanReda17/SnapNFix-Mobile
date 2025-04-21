@@ -2,6 +2,7 @@ import 'package:flutter/widgets.dart';
 import 'package:snapnfix/modules/authentication/presentation/screens/login_screen.dart';
 import 'package:snapnfix/modules/authentication/presentation/screens/register_screen.dart';
 import 'package:snapnfix/modules/onboarding/screens/onboarding_screen.dart';
+import 'package:snapnfix/modules/reports/presentation/screens/submit_report_screen.dart';
 
 import 'package:snapnfix/presentation/screens/home_screen.dart';
 
@@ -34,9 +35,9 @@ class Routes {
     '/settingsScreen',
     HomeScreen(),
   );
-  static const MapEntry<String, Widget> addReportScreen = MapEntry(
-    '/addReportScreen',
-    HomeScreen(),
+  static const MapEntry<String, Widget> submitReportScreen = MapEntry(
+    '/submitReportScreen',
+    SubmitReportScreen(),
   );
   static const MapEntry<String, Widget> changePassowrd = MapEntry(
     '/changePassword',
