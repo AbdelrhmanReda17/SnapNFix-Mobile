@@ -7,6 +7,7 @@
   "loginToContinue": "سجّل الدخول للمتابعة",
   "firstName": "الاسم الأول",
   "lastName": "اسم العائلة",
+  "emailOrPhone": "بريد إالكتروني أو رقم الهاتف",
   "phone": "رقم الهاتف",
   "password": "كلمة المرور",
   "rememberMe": "تذكرني",
@@ -58,6 +59,17 @@
   "signOut": "تسجيل الخروج",
   "darkMode": "الوضع الداكن",
   "language": "اللغة",
-  "selectLanguage": "اختر اللغة"
+  "selectLanguage": "اختر اللغة",
+
+  "firstNameRequired": "الاسم الأول مطلوب",
+  "firstNameError": "يجب أن يحتوي الاسم الأول على أحرف فقط وأن لا يقل عن 3 أحرف",
+  "lastNameRequired": "اسم العائلة مطلوب",
+  "lastNameError": "يجب أن يحتوي اسم العائلة على أحرف فقط وأن لا يقل عن 3 أحرف",
+  "phoneNumberRequired": "رقم الهاتف مطلوب",
+  "phoneNumberError": "يرجى إدخال رقم هاتف مصري صحيح",
+  "passwordRequired": "كلمة المرور مطلوبة",
+  "passwordError": "يجب أن تحتوي كلمة المرور على 8 أحرف على الأقل، وتشمل حرفًا كبيرًا، ورقمًا، ورمزًا خاصًا",
+  "confirmPasswordRequired": "يرجى تأكيد كلمة المرور",
+  "emailOrPhoneRequiredAndValid": "يرجى إدخال رقم هاتف مصري صحيح أو بريد إلكتروني من حساب جوجل"
 
 }

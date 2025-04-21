@@ -21,6 +21,10 @@ class RegisterCubit extends Cubit<RegisterState> {
   final formKey = GlobalKey<FormState>();
 
   void emitRegisterStates() async {
+    if (!formKey.currentState!.validate()) {
+      return;
+    }
+    
     emit(const RegisterState.loading());
     final response = await registerUseCase.call(
       firstName: firstNameController.text,

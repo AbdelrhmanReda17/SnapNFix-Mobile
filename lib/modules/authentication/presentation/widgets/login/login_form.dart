@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:snapnfix/core/base_components/base_checkbox.dart';
 import 'package:snapnfix/core/base_components/base_password_text_field.dart';
 import 'package:snapnfix/core/base_components/base_text_field.dart';
+import 'package:snapnfix/core/utils/extensions/validations.dart';
 import 'package:snapnfix/core/utils/helpers/spacing.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:snapnfix/modules/authentication/presentation/cubits/login/login_cubit.dart';
@@ -43,8 +44,13 @@ class _LoginFormState extends State<LoginForm> {
         child: Column(
           children: [
             BaseTextField(
-              hintText: AppLocalizations.of(context)!.phone,
+              hintText: AppLocalizations.of(context)!.emailOrPhone,
               controller: context.read<LoginCubit>().emailOrPhoneController,
+              validator: (value) => value!.isNotEmpty
+                  ? value.isValidEmailOrPhone
+                      ? null
+                      : AppLocalizations.of(context)!.emailOrPhoneRequiredAndValid
+                  : AppLocalizations.of(context)!.emailOrPhoneRequiredAndValid,
             ),
             verticalSpace(20),
             BasePasswordTextField(
@@ -52,6 +58,9 @@ class _LoginFormState extends State<LoginForm> {
               isPasswordObscureText: isObscureText,
               togglePasswordObscureText: toggleObscureText,
               controller: context.read<LoginCubit>().passwordController,
+              validator: (value) => value!.isNotEmpty
+                  ? null
+                  : AppLocalizations.of(context)!.passwordRequired ,
             ),
             verticalSpace(20),
             Row(

@@ -7,12 +7,15 @@ class BasePasswordTextField extends StatelessWidget {
   final bool isPasswordObscureText;
   final void Function() togglePasswordObscureText;
   final TextEditingController controller;
+  final FormFieldValidator<String>? validator;
+
   const BasePasswordTextField({
     super.key,
     required this.text,
     required this.isPasswordObscureText,
     required this.togglePasswordObscureText,
     required this.controller,
+    this.validator,
   });
 
   @override
@@ -30,6 +33,7 @@ class BasePasswordTextField extends StatelessWidget {
         ),
       ),
       toggleObscureText: togglePasswordObscureText,
+      validator: validator,
     );
   }
 }

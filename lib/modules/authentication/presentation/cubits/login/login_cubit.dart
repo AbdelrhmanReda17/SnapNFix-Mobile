@@ -1,7 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/widgets.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:snapnfix/core/infrastructure/networking/api_error_handler.dart';
 import 'package:snapnfix/core/infrastructure/networking/api_error_model.dart';
 import 'package:snapnfix/modules/authentication/domain/usecases/login_use_case.dart';
 
@@ -17,6 +16,10 @@ class LoginCubit extends Cubit<LoginState> {
   final formKey = GlobalKey<FormState>();
 
   void emitLoginStates() async {
+    if (!formKey.currentState!.validate()) {
+      return;
+    }
+
     emit(const LoginState.loading());
     final response = await loginUseCase.call(
         phoneOrEmail: emailOrPhoneController.text,
