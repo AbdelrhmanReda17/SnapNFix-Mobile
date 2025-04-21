@@ -41,7 +41,6 @@ class _OfflineReportIndicatorState extends State<OfflineReportIndicator> {
     _connectivityService.monitorConnectivity(
       onStatusChanged: (isConnected) {
         if (isConnected) {
-          debugPrint('Connectivity restored, checking for pending reports...');
           _checkAndSyncPendingReports();
         }
       },
@@ -145,7 +144,9 @@ class _OfflineReportIndicatorState extends State<OfflineReportIndicator> {
                     ),
                 SizedBox(width: 8.w),
                 Text(
-                  _isSyncing ? 'Syncing...' : '$count offline',
+                  _isSyncing ? 'Syncing reports' : '$count Offline Reports',
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                     color: colorScheme.primary,
                     fontWeight: FontWeight.w500,

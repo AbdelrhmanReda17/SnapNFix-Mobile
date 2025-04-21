@@ -5,6 +5,7 @@ import 'package:snapnfix/modules/onboarding/screens/onboarding_screen.dart';
 import 'package:snapnfix/modules/reports/presentation/screens/submit_report_screen.dart';
 
 import 'package:snapnfix/presentation/screens/home_screen.dart';
+import 'package:snapnfix/presentation/screens/temp_screen.dart';
 
 class Routes {
   static const MapEntry<String, Widget> onBoardingScreen = MapEntry(
@@ -25,15 +26,15 @@ class Routes {
   );
   static const MapEntry<String, Widget> mapScreen = MapEntry(
     '/mapScreen',
-    HomeScreen(),
+    TempScreen(),
   );
   static const MapEntry<String, Widget> userReportsScreen = MapEntry(
     '/userReportsScreen',
-    HomeScreen(),
+    TempScreen(),
   );
   static const MapEntry<String, Widget> settingsScreen = MapEntry(
     '/settingsScreen',
-    HomeScreen(),
+    TempScreen(),
   );
   static const MapEntry<String, Widget> submitReportScreen = MapEntry(
     '/submitReportScreen',
@@ -41,10 +42,10 @@ class Routes {
   );
   static const MapEntry<String, Widget> changePassowrd = MapEntry(
     '/changePassword',
-    HomeScreen(),
+    TempScreen(),
   );
   static const MapEntry<String, Widget> editProfile = MapEntry(
     '/editProfile',
-    HomeScreen(),
+    TempScreen(),
   );
 }

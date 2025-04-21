@@ -37,7 +37,6 @@ class ReportRemoteDataSource implements BaseReportRemoteDataSource {
   @override
   Future<ApiResult<String>> submitReport(ReportModel report) async {
     try {
-      print("Submitting report: ${report.toJson()}");
       // return ApiResult.failure(
       //   ApiErrorModel(message: "Report submission failed"),
       // );
