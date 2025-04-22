@@ -70,6 +70,12 @@
   "passwordRequired": "كلمة المرور مطلوبة",
   "passwordError": "يجب أن تحتوي كلمة المرور على 8 أحرف على الأقل، وتشمل حرفًا كبيرًا، ورقمًا، ورمزًا خاصًا",
   "confirmPasswordRequired": "يرجى تأكيد كلمة المرور",
-  "emailOrPhoneRequiredAndValid": "يرجى إدخال رقم هاتف مصري صحيح أو بريد إلكتروني من حساب جوجل"
+  "emailOrPhoneRequiredAndValid": "يرجى إدخال رقم هاتف مصري صحيح أو بريد إلكتروني من حساب جوجل",
+
+  "verificationCodeTitle": "رمز التحقق",
+  "pleaseEnterCode": "الرجاء إدخال الرمز الذي أرسلناه إلى ",
+  "verify": "تحقق",
+  "didnotReceiveCode": "لم تتلق الرمز؟ ",
+  "resendCode": "إعادة إرسال الرمز"
 
 }

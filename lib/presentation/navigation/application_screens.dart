@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:snapnfix/modules/authentication/presentation/cubits/login/login_cubit.dart';
+import 'package:snapnfix/modules/authentication/presentation/cubits/otp/otp_cubit.dart';
 import 'package:snapnfix/modules/authentication/presentation/cubits/register/register_cubit.dart';
 import 'package:snapnfix/core/dependency_injection/dependency_injection.dart';
 import 'package:snapnfix/modules/reports/presentation/cubits/submit_report_cubit.dart';
@@ -67,6 +68,16 @@ class ApplicationScreens {
     ScreenItem(
       screen: Routes.onBoardingScreen.value,
       path: Routes.onBoardingScreen.key,
+    ),
+    ScreenItem(
+      path: Routes.otpScreen.key, 
+      screen: Routes.otpScreen.value,
+      blocProvider: (child) {
+        return BlocProvider(
+          create: (context) => getIt<OtpCubit>(),
+          child: child,
+        );
+      },
     ),
   ];
 

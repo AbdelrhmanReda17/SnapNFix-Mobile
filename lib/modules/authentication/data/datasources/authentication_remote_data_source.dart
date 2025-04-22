@@ -15,6 +15,8 @@ abstract class BaseAuthenticationRemoteDataSource {
     String password,
     String confirmPassword,
   );
+  Future<ApiResult<SessionModel>> verifyOtp(String code);
+  Future<ApiResult<void>> resendOtp();
 }
 
 class AuthenticationRemoteDataSource
@@ -63,32 +65,79 @@ class AuthenticationRemoteDataSource
     String confirmPassword,
   ) async {
     try {
-      final response = await _apiService.register(
-        RegisterDTO(
-          firstName: firstName,
-          lastName: lastName,
-          phoneNumber: phoneNumber,
-          password: password,
-          confirmPassword: confirmPassword,
-        ),
-      );
-      return ApiResult.success(response);
-      // return ApiResult.success(
-      //   SessionModel(
-      //     user: UserModel(
-      //       id: "1",
-      //       firstName: firstName,
-      //       lastName: lastName,
-      //       phoneNumber: phoneNumber,
-      //     ),
-      //     tokens: TokensModel(
-      //       accessToken: "TEST_ACCESS_TOKEN",
-      //       refreshToken: "TEST_REFRESH_TOKEN",
-      //       expiresIn: 3600,
-      //       issuedAt: DateTime.now(),
-      //     ),
+      // final response = await _apiService.register(
+      //   RegisterDTO(
+      //     firstName: firstName,
+      //     lastName: lastName,
+      //     phoneNumber: phoneNumber,
+      //     password: password,
+      //     confirmPassword: confirmPassword,
       //   ),
       // );
+      // return ApiResult.success(response);
+      return ApiResult.success(
+        SessionModel(
+          user: UserModel(
+            id: "1",
+            firstName: firstName,
+            lastName: lastName,
+            phoneNumber: phoneNumber,
+          ),
+          tokens: TokensModel(
+            accessToken: "TEST_ACCESS_TOKEN",
+            refreshToken: "TEST_REFRESH_TOKEN",
+            expiresIn: 3600,
+            issuedAt: DateTime.now(),
+          ),
+        ),
+      );
+    } catch (error) {
+      return ApiResult.failure(ApiErrorHandler.handle(error));
+    }
+  }
+
+  @override
+  Future<ApiResult<SessionModel>> verifyOtp(String code) async {
+    try {
+      // Edit this
+      // final response = await _apiService.post(
+      //   '/auth/verify-otp',
+      //   data: {
+      //     'code': code,
+      //   },
+      // );
+      // return ApiResult.success(OtpVerificationResponseModel.fromJson(response.data));
+
+      return ApiResult.success(
+        SessionModel(
+          user: UserModel(
+            id: "1",
+            firstName: "Test",
+            lastName: "User",
+            phoneNumber: "123456789",
+          ),
+          tokens: TokensModel(
+            accessToken: "TEST_ACCESS_TOKEN",
+            refreshToken: "TEST_REFRESH_TOKEN",
+            expiresIn: 3600,
+            issuedAt: DateTime.now(),
+          ),
+        ),
+      );
+    } catch (error) {
+      return ApiResult.failure(ApiErrorHandler.handle(error));
+    }
+  }
+
+  @override
+  Future<ApiResult<void>> resendOtp() async {
+    try {
+      // Edit this
+      // final response = await _apiService.post('/auth/resend-otp');
+      // return ApiResult.success(OtpResendResponseModel.fromJson(response.data));
+
+      // For testing, return mock data
+      return ApiResult.success(null);
     } catch (error) {
       return ApiResult.failure(ApiErrorHandler.handle(error));
     }

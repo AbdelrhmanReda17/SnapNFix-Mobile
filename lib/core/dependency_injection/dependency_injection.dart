@@ -9,7 +9,10 @@ import 'package:snapnfix/modules/authentication/domain/repositories/base_authent
 import 'package:snapnfix/modules/authentication/domain/usecases/login_use_case.dart';
 import 'package:snapnfix/modules/authentication/domain/usecases/logout_use_case.dart';
 import 'package:snapnfix/modules/authentication/domain/usecases/register_use_case.dart';
+import 'package:snapnfix/modules/authentication/domain/usecases/resend_otp_use_case.dart';
+import 'package:snapnfix/modules/authentication/domain/usecases/verify_otp_use_case.dart';
 import 'package:snapnfix/modules/authentication/presentation/cubits/login/login_cubit.dart';
+import 'package:snapnfix/modules/authentication/presentation/cubits/otp/otp_cubit.dart';
 import 'package:snapnfix/modules/authentication/presentation/cubits/register/register_cubit.dart';
 import 'package:snapnfix/modules/reports/data/datasource/report_local_data_source.dart';
 import 'package:snapnfix/modules/reports/data/datasource/report_remote_data_source.dart';
@@ -115,6 +118,21 @@ void setupAuthenticationModule() {
 
   getIt.registerFactory<RegisterCubit>(
     () => RegisterCubit(registerUseCase: getIt<RegisterUseCase>()),
+  );
+
+  getIt.registerLazySingleton<VerifyOtpUseCase>(
+    () => VerifyOtpUseCase(getIt<BaseAuthenticationRepository>()),
+  );
+
+  getIt.registerLazySingleton<ResendOtpUseCase>(
+    () => ResendOtpUseCase(getIt<BaseAuthenticationRepository>()),
+  );
+
+  getIt.registerFactory<OtpCubit>(
+    () => OtpCubit(
+      verifyOtpUseCase: getIt<VerifyOtpUseCase>(),
+      resendOtpUseCase: getIt<ResendOtpUseCase>(),
+    ),
   );
 }
 

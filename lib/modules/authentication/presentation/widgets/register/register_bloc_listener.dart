@@ -17,7 +17,7 @@ class RegisterBlocListener extends StatelessWidget {
       listener: (context, state) {
         state.whenOrNull(
           success: (signUpResponse) {
-            context.go(Routes.homeScreen.key);
+            context.go(Routes.otpScreen.key);
           },
           error: (error) {
             setupErrorState(context, error);

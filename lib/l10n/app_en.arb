@@ -98,8 +98,13 @@
   "passwordRequired": "Password is Required",
   "passwordError": "Password must have at least 8 characters, including uppercase, number, and special character",
   "confirmPasswordRequired": "Please Confirm Your Password",
-  "emailOrPhoneRequiredAndValid":"Please Enter a valid Egyptian Phone Number or a valid Google Account Email"
+  "emailOrPhoneRequiredAndValid":"Please Enter a valid Egyptian Phone Number or a valid Google Account Email",
 
+  "verificationCodeTitle": "Verification Code",
+  "pleaseEnterCode": "Please enter the code we sent to ",
+  "verify": "Verify",
+  "didnotReceiveCode": "Didn't Receive Code? ",
+  "resendCode": "Resend Code"
 
   
 

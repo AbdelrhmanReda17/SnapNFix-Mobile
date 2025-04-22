@@ -22,6 +22,7 @@ class AuthenticationScreen<T extends Cubit<void>> extends StatelessWidget {
   final Widget blocListener;
   final VoidCallback onSubmit;
   final bool isSignUp;
+  final bool isOtp;
 
   const AuthenticationScreen({
     super.key,
@@ -30,6 +31,7 @@ class AuthenticationScreen<T extends Cubit<void>> extends StatelessWidget {
     required this.buttonText,
     required this.footerQuestion,
     this.isSignUp = false,
+    this.isOtp = false,
     required this.footerAction,
     required this.form,
     required this.blocListener,
@@ -75,11 +77,11 @@ class AuthenticationScreen<T extends Cubit<void>> extends StatelessWidget {
               ),
               verticalSpace(20),
               isSignUp
-                  ? const TermsAndPrivacyPolicy()
+                  ? Column(children: [TermsAndPrivacyPolicy(), verticalSpace(20),]) 
                   : const SizedBox.shrink(),
-              verticalSpace(20),
-              AuthenticationSocial(),
-              verticalSpace(20),
+              isOtp
+                  ? const SizedBox.shrink()
+                  : Column(children: [AuthenticationSocial(), verticalSpace(20)]),
               Padding(
                 padding: EdgeInsets.only(bottom: 16.h),
                 child: AuthenticationFooter(

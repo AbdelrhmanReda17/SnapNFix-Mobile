@@ -14,4 +14,10 @@ abstract class BaseAuthenticationRepository {
     required String confirmPassword,
   });
   Future<void> logout();
+
+  Future<ApiResult<Session>> verifyOtp({
+    required String code,
+  });
+
+  Future<ApiResult<void>> resendOtp();
 }

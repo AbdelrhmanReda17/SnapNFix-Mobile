@@ -70,4 +70,43 @@ class AuthenticationRepository implements BaseAuthenticationRepository {
       return ApiResult.failure(ApiErrorHandler.handle(e));
     }
   }
+  
+  @override
+  Future<ApiResult<Session>> verifyOtp({ required String code}) async {
+    try {
+      final result = await remoteDataSource.verifyOtp(code);
+      
+      return result.when(
+        success: (session) async {
+          await getIt<ApplicationConfigurations>().setUserSession(session);
+          
+          return ApiResult.success(session);
+        },
+        failure: (error) {
+          return ApiResult.failure(error);
+        },
+      );
+    } catch (e) {
+      return ApiResult.failure(ApiErrorHandler.handle(e));
+    }
+  }
+
+  @override
+  Future<ApiResult<void>> resendOtp() async {
+    try {
+      final result = await remoteDataSource.resendOtp();
+      
+      return result.when(
+        success: (_) {
+          return ApiResult.success(null);
+        },
+        failure: (error) {
+          return ApiResult.failure(error);
+        },
+      );
+    } catch (e) {
+      return ApiResult.failure(ApiErrorHandler.handle(e));
+    }
+  }
+
 }
