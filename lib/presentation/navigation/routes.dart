@@ -2,7 +2,7 @@ import 'package:flutter/widgets.dart';
 import 'package:snapnfix/modules/authentication/presentation/screens/login_screen.dart';
 import 'package:snapnfix/modules/authentication/presentation/screens/otp_screen.dart';
 import 'package:snapnfix/modules/authentication/presentation/screens/register_screen.dart';
-import 'package:snapnfix/modules/issues/presentation/screens/map_screen.dart';
+import 'package:snapnfix/modules/issues/presentation/screens/issue_map_screen.dart';
 import 'package:snapnfix/modules/onboarding/screens/onboarding_screen.dart';
 import 'package:snapnfix/modules/reports/presentation/screens/submit_report_screen.dart';
 import 'package:snapnfix/modules/settings/presentation/screens/change_password.dart';
