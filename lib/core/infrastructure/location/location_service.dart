@@ -16,6 +16,19 @@ class LocationService {
     );
   }
 
+  Stream<Position> onLocationChanged({int minDistance = 10}) {
+    return Geolocator.getPositionStream(
+      locationSettings: LocationSettings(
+        accuracy: LocationAccuracy.high,
+        distanceFilter: minDistance,
+      ),
+    );
+  }
+
+  Future<bool> checkIfLocationServiceEnabled() async {
+    return await Geolocator.isLocationServiceEnabled();
+  }
+
   Future<Position?> getLastKnownPosition() async {
     return await Geolocator.getLastKnownPosition();
   }
@@ -24,23 +37,19 @@ class LocationService {
     required Function(String title, String message) onPermissionDenied,
     required Future<bool> Function() onServiceDisabled,
   }) async {
-    // Check if location services are enabled
     bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {
-      // Show dialog asking user to enable location services
       final shouldProceed = await onServiceDisabled();
       if (!shouldProceed) {
         return false;
       }
 
-      // Check again after user action
       serviceEnabled = await Geolocator.isLocationServiceEnabled();
       if (!serviceEnabled) {
-        return false; // User didn't enable location services
+        return false;
       }
     }
 
-    // Check location permissions
     var permission = await Geolocator.checkPermission();
     if (permission == LocationPermission.denied) {
       permission = await Geolocator.requestPermission();
@@ -52,7 +61,6 @@ class LocationService {
         return false;
       }
     }
-
     if (permission == LocationPermission.deniedForever) {
       onPermissionDenied(
         'Location Permission Denied',

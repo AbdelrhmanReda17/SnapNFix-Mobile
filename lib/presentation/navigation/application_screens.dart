@@ -5,6 +5,7 @@ import 'package:snapnfix/modules/authentication/presentation/cubits/login/login_
 import 'package:snapnfix/modules/authentication/presentation/cubits/otp/otp_cubit.dart';
 import 'package:snapnfix/modules/authentication/presentation/cubits/register/register_cubit.dart';
 import 'package:snapnfix/core/dependency_injection/dependency_injection.dart';
+import 'package:snapnfix/modules/issues/presentation/cubits/issues_map_cubit.dart';
 import 'package:snapnfix/modules/reports/presentation/cubits/submit_report_cubit.dart';
 import 'package:snapnfix/modules/settings/presentation/cubits/change_password_cubit.dart';
 import 'package:snapnfix/modules/settings/presentation/cubits/edit_profile_cubit.dart';
@@ -126,6 +127,12 @@ class ApplicationScreens {
       screen: Routes.mapScreen.value,
       path: Routes.mapScreen.key,
       icon: 'assets/icons/map.svg',
+      blocProvider: (child) {
+        return BlocProvider(
+          create: (context) => getIt<IssuesMapCubit>(),
+          child: child,
+        );
+      },
       activeIcon: 'assets/icons/active/map.svg',
       darkActiveIcon: 'assets/icons/active/Dmap.svg',
     ),

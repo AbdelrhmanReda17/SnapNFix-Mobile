@@ -43,6 +43,8 @@ dependencies:
   equatable: ^2.0.7
   visibility_detector: ^0.4.0+2
   flutter_otp_text_field: ^1.5.1+1
+  google_maps_flutter: ^2.12.1
+  rxdart: ^0.28.0
 
 
 dev_dependencies:
