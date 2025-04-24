@@ -13,7 +13,7 @@ platform :android do
       android_artifact_type: "APK",
       android_artifact_path: "../build/app/outputs/flutter-apk/app-production-release.apk",
       testers: "abdelrhmanrmuhammed@gmail.com, abdelrahmanatef45@gmail.com, abdelrahmanadel203@gmail.com, leewenhoek22@gmail.com, roaa20102002@gmail.com",   
-      release_notes: "First Fastlane Firebase Distribution from github actions"
+      release_notes: "Integration with Google Maps API",
     )
   end
 end
