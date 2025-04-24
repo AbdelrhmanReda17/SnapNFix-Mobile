@@ -5,6 +5,9 @@
 
   "welcomeBack": "Welcome Back!",
   "loginToContinue": "Login to continue",
+  "firstName": "First Name",
+  "lastName": "Last Name",
+  "emailOrPhone": "Email or Phone",
   "phone": "Phone Number",
   "password": "Password",
   "rememberMe": "Remember me",
@@ -84,8 +87,24 @@
   "signOut" :"Sign Out",
   "darkMode" : "Dark Mode",
   "language" : "Language",
-  "selectLanguage": "Select Language"
+  "selectLanguage": "Select Language",
 
+  "firstNameRequired": "First Name is Required",
+  "firstNameError": "First Name must be of only characters and at least 3 characters",
+  "lastNameRequired": "First Name is Required",
+  "lastNameError": "First Name must be of only characters and at least 3 characters",
+  "phoneNumberRequired": "Phone Number is Required",
+  "phoneNumberError": "Please Enter a valid Egyptian Phone Number",
+  "passwordRequired": "Password is Required",
+  "passwordError": "Password must have at least 8 characters, including uppercase, number, and special character",
+  "confirmPasswordRequired": "Please Confirm Your Password",
+  "emailOrPhoneRequiredAndValid":"Please Enter a valid Egyptian Phone Number or a valid Google Account Email",
+
+  "verificationCodeTitle": "Verification Code",
+  "pleaseEnterCode": "Please enter the code we sent to ",
+  "verify": "Verify",
+  "didnotReceiveCode": "Didn't Receive Code? ",
+  "resendCode": "Resend Code"
 
   
 

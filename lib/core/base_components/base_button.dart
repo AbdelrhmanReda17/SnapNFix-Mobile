@@ -12,6 +12,7 @@ class BaseButton extends StatelessWidget {
   final double? buttonHeight;
   final TextStyle textStyle;
   final Color? borderColor;
+  final bool? isEnabled;
 
   const BaseButton({
     super.key,
@@ -25,6 +26,7 @@ class BaseButton extends StatelessWidget {
     this.buttonWidth,
     this.buttonHeight,
     this.borderColor,
+    this.isEnabled,
   });
 
   ButtonStyle getButtonStyle(ColorScheme colorScheme) {
@@ -57,8 +59,13 @@ class BaseButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
     return TextButton(
-      onPressed: onPressed,
-      style: getButtonStyle(colorScheme),
+      onPressed: isEnabled == false ? null : onPressed,
+      style:
+          isEnabled == false
+              ? getButtonStyle(colorScheme).copyWith(
+                backgroundColor: WidgetStatePropertyAll(colorScheme.outline),
+              )
+              : getButtonStyle(colorScheme),
       child: Text(text, style: textStyle, textAlign: TextAlign.center),
     );
   }

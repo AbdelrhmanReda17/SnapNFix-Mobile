@@ -14,6 +14,9 @@ class BaseTextField extends StatelessWidget {
   final TextEditingController controller;
   final Color? backgroundColor;
   final int? maxLines;
+  final int? maxErrorLines;
+  final FormFieldValidator<String>? validator;
+  final FocusNode? focusNode;
 
   const BaseTextField({
     super.key,
@@ -29,6 +32,9 @@ class BaseTextField extends StatelessWidget {
     this.suffixIcon,
     this.backgroundColor,
     this.maxLines = 1,
+    this.maxErrorLines = 2,
+    this.validator,
+    this.focusNode,
   });
 
   @override
@@ -38,6 +44,8 @@ class BaseTextField extends StatelessWidget {
 
     return TextFormField(
       controller: controller,
+      autovalidateMode: AutovalidateMode.onUserInteraction,
+
       maxLines: maxLines,
       decoration: InputDecoration(
         isDense: true,
@@ -67,13 +75,57 @@ class BaseTextField extends StatelessWidget {
         hintText: hintText,
         suffixIcon: suffixIcon,
         fillColor:
-            backgroundColor ?? colorScheme.surface.withValues(alpha: 0.3),
+            backgroundColor ??
+            colorScheme.surface.withValues(alpha: 0.3),
         filled: true,
+        errorMaxLines: maxErrorLines,
       ),
       obscureText: isObscureText,
       style:
           inputTextStyle ??
           textStyles.bodyMedium?.copyWith(color: colorScheme.primary),
+      validator: validator,
     );
+
+    // return TextFormField(
+    //   controller: controller,
+    //   maxLines: maxLines,
+
+    //   decoration: InputDecoration(
+    //     isDense: true,
+    //     contentPadding:
+    //         contentPadding ??
+    //         EdgeInsets.symmetric(horizontal: 10.w, vertical: 16.h),
+    //     focusedBorder:
+    //         focusedBorder ??
+    //         OutlineInputBorder(
+    //           borderSide: BorderSide(color: colorScheme.primary, width: 1.3),
+    //           borderRadius: BorderRadius.circular(8.r),
+    //         ),
+    //     enabledBorder:
+    //         enabledBorder ??
+    //         OutlineInputBorder(
+    //           borderSide: BorderSide(
+    //             color: colorScheme.primary.withValues(alpha: 0.4),
+    //             width: 1.3,
+    //           ),
+    //           borderRadius: BorderRadius.circular(8.r),
+    //         ),
+    //     hintStyle:
+    //         hintStyle ??
+    //         textStyles.bodyMedium?.copyWith(
+    //           color: colorScheme.primary.withValues(alpha: 0.4),
+    //         ),
+    //     hintText: hintText,
+    //     suffixIcon: suffixIcon,
+    //     fillColor:
+    //         backgroundColor ?? colorScheme.surface.withValues(alpha: 0.3),
+    //     filled: true,
+    //   ),
+    //   obscureText: isObscureText,
+    //   style:
+    //       inputTextStyle ??
+    //       textStyles.bodyMedium?.copyWith(color: colorScheme.primary),
+    // );
   }
 }
