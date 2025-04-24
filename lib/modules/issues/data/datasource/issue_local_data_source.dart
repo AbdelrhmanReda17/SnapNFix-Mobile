@@ -1,0 +1,197 @@
+import 'dart:convert';
+import 'dart:math';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:snapnfix/core/infrastructure/storage/shared_preferences_service.dart';
+import '../models/issue_model.dart';
+
+abstract class BaseIssueLocalDataSource {
+  Future<List<IssueModel>> getNearbyIssues(
+    double latitude,
+    double longitude,
+    double radiusInKm,
+  );
+
+  Future<IssueModel?> getIssueById(String id);
+
+  Future<void> cacheIssue(IssueModel issue);
+
+  Future<void> cacheIssues(List<IssueModel> issues);
+
+  Future<List<IssueModel>> searchIssues(String query);
+
+  Future<void> clearCache();
+}
+
+class IssueLocalDataSource implements BaseIssueLocalDataSource {
+  IssueLocalDataSource(this._prefs);
+
+  static const Duration _cacheValidDuration = Duration(hours: 1);
+  static const String _issuesKey = 'cached_issues';
+
+  final SharedPreferencesService _prefs;
+
+  @override
+  Future<void> cacheIssue(IssueModel issue) async {
+    try {
+      final cachedData = _prefs.getString(_issuesKey);
+      final Map<String, dynamic> cachedIssuesMap;
+
+      if (cachedData != '') {
+        cachedIssuesMap = json.decode(cachedData);
+        final issues =
+            (cachedIssuesMap['issues'] as List).cast<Map<String, dynamic>>();
+
+        // Update existing issue or add new one
+        final index = issues.indexWhere((i) => i['id'] == issue.id);
+        if (index != -1) {
+          issues[index] = issue.toJson();
+        } else {
+          issues.add(issue.toJson());
+        }
+
+        cachedIssuesMap['issues'] = issues;
+      } else {
+        cachedIssuesMap = {
+          'issues': [issue.toJson()],
+          'timestamp': DateTime.now().toIso8601String(),
+        };
+      }
+
+      await _prefs.setString(_issuesKey, json.encode(cachedIssuesMap));
+    } catch (e) {
+      // Handle cache error
+      print('Cache error: $e');
+    }
+  }
+
+  @override
+  Future<void> cacheIssues(List<IssueModel> issues) async {
+    try {
+      final cachedData = {
+        'issues': issues.map((issue) => issue.toJson()).toList(),
+        'timestamp': DateTime.now().toIso8601String(),
+      };
+
+      await _prefs.setString(_issuesKey, json.encode(cachedData));
+    } catch (e) {
+      print('Cache error: $e');
+    }
+  }
+
+  @override
+  Future<void> clearCache() async {
+    await _prefs.remove(_issuesKey);
+  }
+
+  @override
+  Future<IssueModel?> getIssueById(String id) async {
+    try {
+      final cachedData = _prefs.getString(_issuesKey);
+      if (cachedData == '') return null;
+
+      final cachedIssuesMap = json.decode(cachedData) as Map<String, dynamic>;
+      final issues = (cachedIssuesMap['issues'] as List).map(
+        (issueJson) => IssueModel.fromJson(issueJson),
+      );
+
+      return issues.firstWhere(
+        (issue) => issue.id == id,
+        orElse: () => throw Exception('Issue not found'),
+      );
+    } catch (e) {
+      return null;
+    }
+  }
+
+  @override
+  Future<List<IssueModel>> getNearbyIssues(
+    double latitude,
+    double longitude,
+    double radiusInKm,
+  ) async {
+    try {
+      final cachedData = _prefs.getString(_issuesKey);
+      if (cachedData == '') return [];
+
+      final cachedIssuesMap = json.decode(cachedData) as Map<String, dynamic>;
+      final lastUpdated = DateTime.parse(cachedIssuesMap['timestamp']);
+
+      // Check if cache is still valid
+      if (DateTime.now().difference(lastUpdated) > _cacheValidDuration) {
+        await clearCache();
+        return [];
+      }
+
+      final issues =
+          (cachedIssuesMap['issues'] as List)
+              .map((issueJson) => IssueModel.fromJson(issueJson))
+              .where((issue) {
+                // Filter issues within the radius
+                final distance = _calculateDistance(
+                  latitude,
+                  longitude,
+                  issue.latitude,
+                  issue.longitude,
+                );
+                return distance <= radiusInKm * 1000; // Convert km to meters
+              })
+              .toList();
+
+      return issues;
+    } catch (e) {
+      await clearCache();
+      return [];
+    }
+  }
+
+  @override
+  Future<List<IssueModel>> searchIssues(String query) async {
+    try {
+      final cachedData = _prefs.getString(_issuesKey);
+      if (cachedData == '') return [];
+
+      final cachedIssuesMap = json.decode(cachedData) as Map<String, dynamic>;
+      final issues =
+          (cachedIssuesMap['issues'] as List)
+              .map((issueJson) => IssueModel.fromJson(issueJson))
+              .where((issue) {
+                final searchable = [
+                  issue.category.toLowerCase(),
+                  issue.latitude.toString(),
+                  issue.longitude.toString(),
+                ].join(' ');
+                return searchable.contains(query.toLowerCase());
+              })
+              .toList();
+
+      return issues;
+    } catch (e) {
+      return [];
+    }
+  }
+
+  double _calculateDistance(
+    double lat1,
+    double lon1,
+    double lat2,
+    double lon2,
+  ) {
+    const double earthRadius = 6371000; // Earth's radius in meters
+    final double dLat = _toRadians(lat2 - lat1);
+    final double dLon = _toRadians(lon2 - lon1);
+
+    final double a =
+        (sin(dLat / 2) * sin(dLat / 2)) +
+        (cos(_toRadians(lat1)) *
+            cos(_toRadians(lat2)) *
+            sin(dLon / 2) *
+            sin(dLon / 2));
+
+    final double c = 2 * atan2(sqrt(a), sqrt(1 - a));
+    return earthRadius * c;
+  }
+
+  double _toRadians(double degree) {
+    return degree * pi / 180;
+  }
+}
