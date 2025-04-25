@@ -1,5 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:snapnfix/modules/issues/domain/entities/issue.dart';
+import 'package:snapnfix/modules/issues/domain/entities/issue_category.dart';
 import 'package:snapnfix/modules/issues/domain/entities/issue_severity.dart';
 import 'package:snapnfix/modules/issues/domain/entities/issue_status.dart';
 import 'package:snapnfix/modules/reports/data/model/report_model.dart';

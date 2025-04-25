@@ -3,9 +3,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:snapnfix/modules/issues/presentation/cubits/issues_map_cubit.dart';
 import 'package:snapnfix/modules/issues/presentation/cubits/issues_map_state.dart';
+import 'package:snapnfix/modules/issues/presentation/widgets/filter_sheet/issue_filter_sheet.dart';
 import 'package:snapnfix/modules/issues/presentation/widgets/loading_overlay.dart';
 import 'package:snapnfix/modules/issues/presentation/widgets/map_screen_error.dart';
-import 'package:snapnfix/modules/issues/presentation/widgets/report_marker_detail.dart';
+import 'package:snapnfix/modules/issues/presentation/widgets/map_controllers.dart';
+import 'package:snapnfix/modules/issues/presentation/widgets/marker_dialog/issue_marker_dialog.dart';
 
 class IssueMapScreen extends StatefulWidget {
   const IssueMapScreen({super.key});
@@ -16,6 +18,8 @@ class IssueMapScreen extends StatefulWidget {
 
 class _IssueMapScreenState extends State<IssueMapScreen>
     with WidgetsBindingObserver {
+  bool _isMapLoaded = false;
+
   @override
   void initState() {
     super.initState();
@@ -25,7 +29,6 @@ class _IssueMapScreenState extends State<IssueMapScreen>
 
   @override
   void dispose() {
-    // Remove the observer
     WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
@@ -56,7 +59,7 @@ class _IssueMapScreenState extends State<IssueMapScreen>
                   borderRadius: BorderRadius.circular(16),
                 ),
                 insetPadding: const EdgeInsets.symmetric(horizontal: 16),
-                child: ReportMarkerDetail(
+                child: IssueMarkerDialog(
                   issue: state.selectedIssue!,
                   onReportTap: () {
                     Navigator.pop(context);
@@ -91,6 +94,15 @@ class _IssueMapScreenState extends State<IssueMapScreen>
                   state.status != MapStatus.loading &&
                   state.hasLocationPermission) ...[
                 _buildMap(context, state),
+                if (_isMapLoaded)
+                  MapControllers(
+                    onCenterTap:
+                        () =>
+                            context
+                                .read<IssuesMapCubit>()
+                                .centerOnUserLocation(),
+                    onSearchTap: () => IssueFilterSheet.show(context),
+                  ),
               ] else if (state.status == MapStatus.loading)
                 const LoadingOverlay(),
             ],
@@ -113,7 +125,10 @@ class _IssueMapScreenState extends State<IssueMapScreen>
         zoomControlsEnabled: true,
         mapType: MapType.hybrid,
         markers: state.markers,
-        onMapCreated: context.read<IssuesMapCubit>().onMapCreated,
+        onMapCreated: (controller) {
+          setState(() => _isMapLoaded = true);
+          context.read<IssuesMapCubit>().onMapCreated(controller);
+        },
         onCameraMove: context.read<IssuesMapCubit>().onCameraMove,
       ),
     );

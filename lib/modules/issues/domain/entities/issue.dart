@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:snapnfix/modules/issues/domain/entities/issue_category.dart';
 import 'package:snapnfix/modules/issues/domain/entities/issue_severity.dart';
 import 'package:snapnfix/modules/issues/domain/entities/issue_status.dart';
 import '../../../reports/domain/entities/report.dart';
@@ -8,7 +9,7 @@ class Issue extends Equatable {
   final double latitude;
   final double longitude;
   final IssueStatus status;
-  final String category;
+  final IssueCategory category;
   final DateTime createdAt;
   final IssueSeverity severity;
   final DateTime? resolvedAt;
