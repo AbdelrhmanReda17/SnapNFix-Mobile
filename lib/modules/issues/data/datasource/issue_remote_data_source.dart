@@ -6,6 +6,7 @@ import 'package:snapnfix/core/infrastructure/networking/api_result.dart';
 import 'package:snapnfix/core/infrastructure/networking/api_service.dart';
 import 'package:snapnfix/modules/issues/data/models/issue_model.dart';
 import 'package:snapnfix/modules/issues/domain/entities/issue.dart';
+import 'package:snapnfix/modules/issues/domain/entities/issue_category.dart';
 import 'package:snapnfix/modules/issues/domain/entities/issue_severity.dart';
 import 'package:snapnfix/modules/issues/domain/entities/issue_status.dart';
 import 'package:snapnfix/modules/reports/data/model/media_model.dart';
@@ -46,7 +47,7 @@ class IssueRemoteDataSource implements BaseIssueRemoteDataSource {
           severity: IssueSeverity.low,
           latitude: 37.7749,
           longitude: -122.4194,
-          category: "General",
+          category: IssueCategory.manhole,
           reports: [
             ReportModel(
               id: "report1",
@@ -86,7 +87,7 @@ class IssueRemoteDataSource implements BaseIssueRemoteDataSource {
           severity: IssueSeverity.low,
           latitude: 30.0083018 + 0.001,
           longitude: 31.3299946 + 0.001,
-          category: "Road Damage",
+          category: IssueCategory.roadDamage,
           reports: [
             ReportModel(
               id: "report1",
@@ -139,7 +140,7 @@ class IssueRemoteDataSource implements BaseIssueRemoteDataSource {
           severity: IssueSeverity.low,
           latitude: 30.008308 + 0.08,
           longitude: 31.3299911 + 0.002,
-          category: "Road Damage",
+          category: IssueCategory.roadDamage,
           reports: [
             ReportModel(
               id: "report1",
@@ -189,9 +190,9 @@ class IssueRemoteDataSource implements BaseIssueRemoteDataSource {
         IssueModel(
           id: "3",
           severity: IssueSeverity.high,
-          latitude: 30.0083018 + 0.001,
+          latitude: 30.0083018 + 0.007,
           longitude: 31.3299911 + 0.002,
-          category: "Road Damage",
+          category: IssueCategory.roadDamage,
           reports: [
             ReportModel(
               id: "report1",
@@ -243,8 +244,8 @@ class IssueRemoteDataSource implements BaseIssueRemoteDataSource {
           id: "4",
           severity: IssueSeverity.medium,
           latitude: 30.0083018 + 0.001,
-          longitude: 31 - 0.002,
-          category: "Lighting",
+          longitude: 31.3299911 + 0.002,
+          category: IssueCategory.lighting,
           reports: [
             ReportModel(
               id: "report1",

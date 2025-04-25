@@ -45,6 +45,7 @@ dependencies:
   flutter_otp_text_field: ^1.5.1+1
   google_maps_flutter: ^2.12.1
   rxdart: ^0.28.0
+  cached_network_image: ^3.4.1
 
 
 dev_dependencies:
