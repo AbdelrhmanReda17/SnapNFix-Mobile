@@ -8,7 +8,6 @@ import 'package:snapnfix/modules/reports/presentation/screens/submit_report_scre
 import 'package:snapnfix/modules/settings/presentation/screens/change_password.dart';
 import 'package:snapnfix/modules/settings/presentation/screens/edit_profile.dart';
 import 'package:snapnfix/modules/settings/presentation/screens/settings_dart.dart';
-
 import 'package:snapnfix/presentation/screens/home_screen.dart';
 import 'package:snapnfix/presentation/screens/temp_screen.dart';
 
