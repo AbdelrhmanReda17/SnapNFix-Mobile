@@ -1,26 +1,35 @@
 import 'package:flutter/material.dart';
-import 'package:snapnfix/core/config/application_configurations.dart';
-import 'package:snapnfix/core/dependency_injection/dependency_injection.dart';
-import 'package:snapnfix/modules/reports/presentation/widgets/offline_report_indicator.dart';
-
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import '../widgets/home_header.dart';
+import '../widgets/horizontal_cards.dart';
+import '../widgets/report_section.dart';
+import '../widgets/nearby_issues_section.dart';
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Home')),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+      body: SafeArea(
+        child: Stack(
           children: [
-            OfflineReportIndicator(),
-            const Text('Home Screen'),
-            ElevatedButton(
-              onPressed: () {
-                getIt<ApplicationConfigurations>().logout();
-              },
-              child: const Text('Go to Another Screen'),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const HomeHeader(),
+                SizedBox(height: 6.h),
+                const HorizontalCards(),
+                SizedBox(height: 10.h),
+                const ReportSection(),
+              ],
+            ),
+            Positioned(
+              bottom: 0,
+              left: 0,
+              right: 0,
+              child: SizedBox(
+                height: MediaQuery.of(context).size.height * 0.9,
+                child: const NearbyIssuesSection(),
+              ),
             ),
           ],
         ),
