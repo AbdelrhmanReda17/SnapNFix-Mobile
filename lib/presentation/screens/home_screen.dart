@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:snapnfix/modules/reports/presentation/widgets/offline_report_indicator.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../widgets/home_header.dart';
 import '../widgets/horizontal_cards.dart';
@@ -12,6 +13,8 @@ class HomeScreen extends StatelessWidget {
       body: SafeArea(
         child: Stack(
           children: [
+            OfflineReportIndicator(),
+            const Text('Home Screen'),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [

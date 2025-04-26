@@ -44,32 +44,38 @@ class _RegisterFormState extends State<RegisterForm> {
               // width: MediaQuery.of(context).size.width * 0.4,
               hintText: localizations.firstName,
               controller: context.read<RegisterCubit>().firstNameController,
-              validator: (value) => value!.isNotEmpty
-                  ? value.isValidFirstName
-                      ? null
-                      : localizations.firstNameError
-                  : localizations.firstNameRequired,
+              validator:
+                  (value) =>
+                      value!.isNotEmpty
+                          ? value.isValidFirstName
+                              ? null
+                              : localizations.firstNameError
+                          : localizations.firstNameRequired,
             ),
             verticalSpace(20),
             BaseTextField(
               // width: MediaQuery.of(context).size.width * 0.4,
               hintText: localizations.lastName,
               controller: context.read<RegisterCubit>().lastNameController,
-              validator: (value) => value!.isNotEmpty
-                  ? value.isValidLastName
-                      ? null
-                      : localizations.lastNameError
-                  : localizations.lastNameRequired,
+              validator:
+                  (value) =>
+                      value!.isNotEmpty
+                          ? value.isValidLastName
+                              ? null
+                              : localizations.lastNameError
+                          : localizations.lastNameRequired,
             ),
             verticalSpace(20),
             BaseTextField(
               hintText: localizations.phone,
               controller: context.read<RegisterCubit>().phoneController,
-              validator: (value) => value!.isNotEmpty
-                  ? value.isValidPhoneNumber
-                      ? null
-                      : localizations.phoneNumberError
-                  : localizations.phoneNumberRequired,
+              validator:
+                  (value) =>
+                      value!.isNotEmpty
+                          ? value.isValidPhoneNumber
+                              ? null
+                              : localizations.phoneNumberError
+                          : localizations.phoneNumberRequired,
             ),
             verticalSpace(20),
             BasePasswordTextField(
@@ -77,11 +83,13 @@ class _RegisterFormState extends State<RegisterForm> {
               isPasswordObscureText: isPasswordObscureText,
               togglePasswordObscureText: togglePasswordObscureText,
               controller: context.read<RegisterCubit>().passwordController,
-              validator: (value) => value!.isNotEmpty
-                  ? value.isValidPassword
-                      ? null
-                      : localizations.passwordError
-                  : localizations.passwordRequired,
+              validator:
+                  (value) =>
+                      value!.isNotEmpty
+                          ? value.isValidPassword
+                              ? null
+                              : localizations.passwordError
+                          : localizations.passwordRequired,
             ),
             verticalSpace(20),
             BasePasswordTextField(
@@ -90,12 +98,18 @@ class _RegisterFormState extends State<RegisterForm> {
               togglePasswordObscureText: togglePasswordConfirmationObscureText,
               controller:
                   context.read<RegisterCubit>().confirmPasswordController,
-              validator: (value) => value!.isNotEmpty
-                  ? value.isValidConfirmPassword(
-                      context.read<RegisterCubit>().passwordController.text)
-                      ? null
-                      : localizations.passwordsDoNotMatch
-                  : localizations.confirmPasswordRequired,
+              validator:
+                  (value) =>
+                      value!.isNotEmpty
+                          ? value.isValidConfirmPassword(
+                                context
+                                    .read<RegisterCubit>()
+                                    .passwordController
+                                    .text,
+                              )
+                              ? null
+                              : localizations.passwordsDoNotMatch
+                          : localizations.confirmPasswordRequired,
             ),
           ],
         ),

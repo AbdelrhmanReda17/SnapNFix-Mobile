@@ -67,6 +67,7 @@ class _OfflineReportIndicatorState extends State<OfflineReportIndicator> {
       if (mounted) {
         BaseToast.show(
           context: context,
+
           message: result ? 'Reports synced!' : 'Some reports failed',
           type: result ? ToastType.success : ToastType.warning,
         );
@@ -74,9 +75,9 @@ class _OfflineReportIndicatorState extends State<OfflineReportIndicator> {
     } catch (e) {
       if (mounted) {
         BaseToast.show(
-          context: context,
           message: 'Syncing failed',
           type: ToastType.error,
+          context: context,
         );
       }
     } finally {

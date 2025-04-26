@@ -14,6 +14,15 @@ import 'package:snapnfix/modules/authentication/domain/usecases/verify_otp_use_c
 import 'package:snapnfix/modules/authentication/presentation/cubits/login/login_cubit.dart';
 import 'package:snapnfix/modules/authentication/presentation/cubits/otp/otp_cubit.dart';
 import 'package:snapnfix/modules/authentication/presentation/cubits/register/register_cubit.dart';
+import 'package:snapnfix/modules/issues/data/datasource/issue_local_data_source.dart';
+import 'package:snapnfix/modules/issues/data/datasource/issue_remote_data_source.dart';
+import 'package:snapnfix/modules/issues/data/repositories/issue_repository.dart';
+import 'package:snapnfix/modules/issues/domain/repositories/base_issue_repository.dart';
+import 'package:snapnfix/modules/issues/domain/usecases/get_issue_details_use_case.dart';
+import 'package:snapnfix/modules/issues/domain/usecases/get_nearby_issues_use_case.dart';
+import 'package:snapnfix/modules/issues/domain/usecases/get_user_issues_use_case.dart';
+import 'package:snapnfix/modules/issues/domain/usecases/watch_nearby_issues_use_case.dart';
+import 'package:snapnfix/modules/issues/presentation/cubits/issues_map_cubit.dart';
 import 'package:snapnfix/modules/reports/data/datasource/report_local_data_source.dart';
 import 'package:snapnfix/modules/reports/data/datasource/report_remote_data_source.dart';
 import 'package:snapnfix/modules/reports/data/repositories/report_repository.dart';
@@ -59,6 +68,7 @@ Future<void> setupGetIt() async {
   // Register authentication dependencies
   setupReportsModule();
   setupAuthenticationModule();
+  setupIssuesModule();
   setupSettingsModule();
 
   return Future.value();
@@ -204,9 +214,7 @@ void setupSettingsModule() {
 
   // Repositories - Use the base abstract repository
   getIt.registerLazySingleton<BaseSettingsRepository>(
-    () => SettingsRepositoryImpl(
-      getIt<BaseSettingsRemoteDataSource>(),
-    ),
+    () => SettingsRepositoryImpl(getIt<BaseSettingsRemoteDataSource>()),
   );
 
   // UseCases
@@ -226,8 +234,52 @@ void setupSettingsModule() {
   );
 
   getIt.registerFactory<EditProfileCubit>(
-    () => EditProfileCubit(
-      editProfileUseCase: getIt<EditProfileUseCase>(),
+    () => EditProfileCubit(editProfileUseCase: getIt<EditProfileUseCase>()),
+  );
+}
+
+void setupIssuesModule() {
+  // DataSources
+  getIt.registerLazySingleton<BaseIssueRemoteDataSource>(
+    () => IssueRemoteDataSource(getIt()),
+  );
+
+  getIt.registerLazySingleton<BaseIssueLocalDataSource>(
+    () => IssueLocalDataSource(getIt<SharedPreferencesService>()),
+  );
+
+  // Repository
+  getIt.registerLazySingleton<BaseIssueRepository>(
+    () => IssueRepository(
+      remoteDataSource: getIt<BaseIssueRemoteDataSource>(),
+      localDataSource: getIt<BaseIssueLocalDataSource>(),
+      locationService: getIt<LocationService>(),
+    ),
+  );
+
+  // UseCases
+  getIt.registerLazySingleton<GetIssueDetailsUseCase>(
+    () => GetIssueDetailsUseCase(getIt<BaseIssueRepository>()),
+  );
+
+  getIt.registerLazySingleton<GetNearbyIssuesUseCase>(
+    () => GetNearbyIssuesUseCase(getIt<BaseIssueRepository>()),
+  );
+
+  getIt.registerLazySingleton<GetUserIssuesUseCase>(
+    () => GetUserIssuesUseCase(getIt<BaseIssueRepository>()),
+  );
+
+  getIt.registerLazySingleton<WatchNearbyIssuesUseCase>(
+    () => WatchNearbyIssuesUseCase(getIt<BaseIssueRepository>()),
+  );
+
+  // Cubits
+  getIt.registerFactory<IssuesMapCubit>(
+    () => IssuesMapCubit(
+      getIt<LocationService>(),
+      getIt<WatchNearbyIssuesUseCase>(),
     ),
   );
 }
+

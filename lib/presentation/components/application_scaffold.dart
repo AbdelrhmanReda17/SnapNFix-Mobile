@@ -5,6 +5,7 @@ import 'package:snapnfix/presentation/components/application_bottom_navigation_b
 import 'package:snapnfix/presentation/components/application_floating_action_button.dart';
 import 'package:snapnfix/core/config/application_configurations.dart';
 import 'package:snapnfix/presentation/components/application_system_ui_overlay.dart';
+import 'package:snapnfix/presentation/components/network_connection_notifier.dart';
 import 'package:snapnfix/presentation/navigation/routes.dart';
 
 class BaseScreen extends StatelessWidget {
@@ -48,7 +49,12 @@ class BaseScreen extends StatelessWidget {
         floatingActionButtonAnimator: FloatingActionButtonAnimator.scaling,
         resizeToAvoidBottomInset: false,
 
-        body: SafeArea(child: navigationShell),
+        body: Column(
+          children: [
+            Expanded(child: SafeArea(child: navigationShell)),
+            const NetworkConnectionNotifier(),
+          ],
+        ),
       ),
     );
   }

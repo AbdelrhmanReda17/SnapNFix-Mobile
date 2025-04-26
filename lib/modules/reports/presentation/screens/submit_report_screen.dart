@@ -9,7 +9,6 @@ import 'package:snapnfix/core/base_components/base_button.dart';
 import 'package:snapnfix/core/dependency_injection/dependency_injection.dart';
 import 'package:snapnfix/core/infrastructure/location/location_service.dart';
 import 'package:snapnfix/modules/reports/presentation/cubits/submit_report_cubit.dart';
-import 'package:snapnfix/modules/reports/presentation/widgets/offline_report_indicator.dart';
 import 'package:snapnfix/modules/reports/presentation/widgets/submit_additional_info.dart';
 import 'package:snapnfix/modules/reports/presentation/widgets/submit_photo_picker.dart';
 import 'package:snapnfix/modules/reports/presentation/widgets/submit_report_bloc_listener.dart';
@@ -17,6 +16,9 @@ import 'package:snapnfix/modules/reports/presentation/widgets/submit_report_note
 import 'package:snapnfix/modules/reports/presentation/widgets/submit_report_tips.dart';
 import 'package:snapnfix/modules/reports/presentation/widgets/submit_severity_selector.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:snapnfix/presentation/components/location/handle_location_permission_and_execute.dart';
+import 'package:snapnfix/presentation/components/location/location_required_dialog.dart';
+import 'package:snapnfix/presentation/components/location/open_location_settings_dialog.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
 class SubmitReportScreen extends StatelessWidget {
@@ -73,9 +75,13 @@ class SubmitReportScreen extends StatelessWidget {
                     return BaseButton(
                       isEnabled: state.image != null,
                       onPressed: () {
-                        getLocationAndSubmit(
-                          context.read<SubmitReportCubit>(),
-                          context,
+                        handleLocationPermissionAndExecute(
+                          context: context,
+                          onLocationGranted: (locationService) async {
+                            await context
+                                .read<SubmitReportCubit>()
+                                .submitReport(locationService);
+                          },
                         );
                       },
                       text: localization?.submitReport ?? 'Submit Report',
@@ -105,35 +111,21 @@ class SubmitReportScreen extends StatelessWidget {
     final locationService = getIt<LocationService>();
     final hasPermission = await locationService.checkLocationPermissions(
       onPermissionDenied: (title, message) {
-        baseDialog(
-          context: context,
+        return applicationLocationRequiredDialog(
           title: title,
           message: message,
-          alertType: AlertType.error,
-          confirmText: "Open Settings",
-          onConfirm: () => locationService.openAppSettings(),
-          showCancelButton: false,
+          context: context,
+          localization: localization,
         );
       },
       onServiceDisabled: () {
-        final completer = Completer<bool>();
-        baseDialog(
-          context: context,
+        return applicationOpenLocationSettingsDialog(
           title: localization?.locationRequired ?? 'Location Required',
           message:
               'Location services are disabled.\nTo submit a report, please enable location services.',
-          alertType: AlertType.info,
-          confirmText: localization?.enableLocation ?? 'Enable',
-          onConfirm: () {
-            locationService.openLocationSettings();
-            completer.complete(true);
-          },
-          cancelText: localization?.cancel ?? 'Cancel',
-          onCancel: () {
-            completer.complete(false);
-          },
+          context: context,
+          localization: localization,
         );
-        return completer.future;
       },
     );
     if (!hasPermission) return;
