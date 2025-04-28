@@ -118,6 +118,19 @@ class ApplicationScreens {
         );
       },
     ),
+    ScreenItem(
+      path: Routes.supportScreen.key,
+      screen: Routes.supportScreen.value,
+    ),
+    ScreenItem(
+      path: Routes.termsAndConditionsScreen.key,
+      screen: Routes.termsAndConditionsScreen.value,
+    ),
+    ScreenItem(
+      path: Routes.privacyPolicyScreen.key,
+      screen: Routes.privacyPolicyScreen.value,
+    ),
+    ScreenItem(path: Routes.aboutScreen.key, screen: Routes.aboutScreen.value),
   ];
 
   static final List<AnimatedScreenItem> animatedScreens = [

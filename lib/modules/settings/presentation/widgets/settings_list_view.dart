@@ -46,7 +46,9 @@ class _SettingsListViewState extends State<SettingsListView> {
               ),
               _buildSettingsTile(
                 localization.support,
-                () {},
+                () {
+                  context.push(Routes.supportScreen.key);
+                },
                 colorScheme,
                 textStyles,
               ),
@@ -58,19 +60,25 @@ class _SettingsListViewState extends State<SettingsListView> {
           SizedBox(height: 7.h),
           _buildSettingsTile(
             localization.termsAndConditions,
-            () {},
+            () {
+              context.push(Routes.termsAndConditionsScreen.key);
+            },
             colorScheme,
             textStyles,
           ),
           _buildSettingsTile(
             localization.privacyPolicy,
-            () {},
+            () {
+              context.push(Routes.privacyPolicyScreen.key);
+            },
             colorScheme,
             textStyles,
           ),
           _buildSettingsTile(
             localization.about,
-            () {},
+            () {
+              context.push(Routes.aboutScreen.key);
+            },
             colorScheme,
             textStyles,
           ),
