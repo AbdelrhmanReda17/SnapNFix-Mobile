@@ -33,10 +33,7 @@ class AboutScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             SizedBox(height: 24.h),
-            Assets.images.snapNFix.image(
-              width: 120.w,
-              height: 120.h,
-            ),
+            Assets.images.snapNFix.image(width: 120.w, height: 120.h),
             SizedBox(height: 24.h),
             Text(
               'SnapNFix',
@@ -59,31 +56,27 @@ class AboutScreen extends StatelessWidget {
               },
             ),
             SizedBox(height: 32.h),
+            Text(
+              localization.aboutDescription,
+              style: textStyles.bodyLarge?.copyWith(height: 1.5),
+              textAlign: TextAlign.center,
+            ),
+            SizedBox(height: 32.h),
             _buildSection(
-              'About SnapNFix',
-              'SnapNFix is your go-to platform for reporting and resolving community issues. With our easy-to-use mobile app, you can quickly document and report problems in your area, helping to create a better environment for everyone.',
+              localization.ourMission,
+              localization.missionText,
               textStyles,
               colorScheme,
             ),
             _buildSection(
-              'Our Mission',
-              'To empower communities by providing an efficient and transparent system for identifying and resolving local issues, fostering collaboration between residents and maintenance teams.',
-              textStyles,
-              colorScheme,
-            ),
-            _buildSection(
-              'Key Features',
-              '• Quick and easy issue reporting\n'
-              '• Real-time status updates\n'
-              '• Location-based issue tracking\n'
-              '• Secure and private reporting\n'
-              '• Community engagement tools',
+              localization.keyFeatures,
+              localization.keyFeaturesText,
               textStyles,
               colorScheme,
             ),
             SizedBox(height: 24.h),
             Text(
-              '© 2025 SnapNFix. All rights reserved.',
+              '© 2025 SnapNFix. ${localization.allRightsReserved}',
               style: textStyles.bodySmall?.copyWith(
                 color: colorScheme.secondary,
               ),
@@ -100,27 +93,20 @@ class AboutScreen extends StatelessWidget {
     TextTheme textStyles,
     ColorScheme colorScheme,
   ) {
-    return Padding(
-      padding: EdgeInsets.only(bottom: 24.h),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            title,
-            style: textStyles.titleMedium?.copyWith(
-              color: colorScheme.primary,
-              fontWeight: FontWeight.bold,
-            ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Text(
+          title,
+          style: textStyles.titleMedium?.copyWith(
+            color: colorScheme.primary,
+            fontWeight: FontWeight.bold,
           ),
-          SizedBox(height: 8.h),
-          Text(
-            content,
-            style: textStyles.bodyMedium?.copyWith(
-              height: 1.5,
-            ),
-          ),
-        ],
-      ),
+        ),
+        SizedBox(height: 8.h),
+        Text(content, style: textStyles.bodyMedium?.copyWith(height: 1.5)),
+        SizedBox(height: 24.h),
+      ],
     );
   }
 }

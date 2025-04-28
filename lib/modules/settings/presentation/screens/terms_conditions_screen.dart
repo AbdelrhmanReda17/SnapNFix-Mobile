@@ -31,56 +31,28 @@ class TermsConditionsScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             _buildSection(
-              'Acceptance of Terms',
-              'By accessing and using SnapNFix, you agree to be bound by these Terms and Conditions. If you do not agree with any part of these terms, please do not use the application.',
+              localization.acceptanceOfTerms,
+              localization.acceptanceOfTermsText,
               textStyles,
               colorScheme,
             ),
             _buildSection(
-              'User Responsibilities',
-              '• You must provide accurate and truthful information when reporting issues\n'
-              '• You are responsible for maintaining the confidentiality of your account\n'
-              '• You agree not to misuse or abuse the reporting system\n'
-              '• You must respect the privacy and rights of others when using the app',
+              localization.userResponsibilities,
+              localization.userResponsibilitiesText,
               textStyles,
               colorScheme,
             ),
             _buildSection(
-              'Content Guidelines',
-              '• All submitted content must be appropriate and relevant\n'
-              '• Photos should clearly show the reported issue\n'
-              '• Avoid including identifiable individuals in photos without consent\n'
-              '• Do not submit false or misleading reports',
-              textStyles,
-              colorScheme,
-            ),
-            _buildSection(
-              'Privacy and Data',
-              'We collect and process data as described in our Privacy Policy. By using SnapNFix, you consent to our data practices.',
-              textStyles,
-              colorScheme,
-            ),
-            _buildSection(
-              'Modifications',
-              'We reserve the right to modify these terms at any time. Continued use of the application after changes constitutes acceptance of the modified terms.',
-              textStyles,
-              colorScheme,
-            ),
-            _buildSection(
-              'Termination',
-              'We reserve the right to terminate or suspend access to our service immediately, without prior notice, for conduct that we believe violates these Terms or is harmful to other users or us.',
-              textStyles,
-              colorScheme,
-            ),
-            _buildSection(
-              'Contact',
-              'If you have any questions about these Terms, please contact us at legal@snapnfix.com',
+              localization.contentGuidelines,
+              localization.contentGuidelinesText,
               textStyles,
               colorScheme,
             ),
             SizedBox(height: 24.h),
             Text(
-              'Last updated: April 28, 2025',
+              localization
+                  .lastUpdated('{date}')
+                  .replaceAll('{date}', 'April 28, 2025'),
               style: textStyles.bodySmall?.copyWith(
                 color: colorScheme.secondary,
                 fontStyle: FontStyle.italic,
@@ -111,12 +83,7 @@ class TermsConditionsScreen extends StatelessWidget {
             ),
           ),
           SizedBox(height: 8.h),
-          Text(
-            content,
-            style: textStyles.bodyMedium?.copyWith(
-              height: 1.5,
-            ),
-          ),
+          Text(content, style: textStyles.bodyMedium?.copyWith(height: 1.5)),
         ],
       ),
     );

@@ -31,11 +31,11 @@ class SupportScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _buildSectionTitle('Contact Us', textStyles, colorScheme),
+            _buildSectionTitle(localization.contactUs, textStyles, colorScheme),
             SizedBox(height: 16.h),
             _buildContactItem(
               icon: Icons.email_outlined,
-              title: 'Email',
+              title: localization.email,
               subtitle: 'support@snapnfix.com',
               onTap: () => _launchEmail('support@snapnfix.com'),
               textStyles: textStyles,
@@ -43,30 +43,30 @@ class SupportScreen extends StatelessWidget {
             ),
             _buildContactItem(
               icon: Icons.phone_outlined,
-              title: 'Phone',
+              title: localization.phone,
               subtitle: '+1 (555) 123-4567',
               onTap: () => _launchPhone('+15551234567'),
               textStyles: textStyles,
               colorScheme: colorScheme,
             ),
             SizedBox(height: 24.h),
-            _buildSectionTitle('FAQs', textStyles, colorScheme),
+            _buildSectionTitle(localization.faqs, textStyles, colorScheme),
             SizedBox(height: 16.h),
             _buildFaqItem(
-              'How do I report an issue?',
-              'To report an issue, tap the + button in the bottom navigation bar, take a photo of the problem, add details, and submit.',
+              localization.howToReportFaqTitle,
+              localization.howToReportFaqAnswer,
               textStyles,
               colorScheme,
             ),
             _buildFaqItem(
-              'How long does it take to resolve an issue?',
-              'Resolution times vary depending on the type and severity of the issue. You can track the status of your report in the "My Reports" section.',
+              localization.resolutionTimeFaqTitle,
+              localization.resolutionTimeFaqAnswer,
               textStyles,
               colorScheme,
             ),
             _buildFaqItem(
-              'Can I edit my report after submission?',
-              'No, but you can add comments to provide additional information or updates to your report.',
+              localization.editReportFaqTitle,
+              localization.editReportFaqAnswer,
               textStyles,
               colorScheme,
             ),
@@ -76,7 +76,11 @@ class SupportScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildSectionTitle(String title, TextTheme textStyles, ColorScheme colorScheme) {
+  Widget _buildSectionTitle(
+    String title,
+    TextTheme textStyles,
+    ColorScheme colorScheme,
+  ) {
     return Text(
       title,
       style: textStyles.titleLarge?.copyWith(
@@ -118,17 +122,12 @@ class SupportScreen extends StatelessWidget {
       child: ExpansionTile(
         title: Text(
           question,
-          style: textStyles.titleMedium?.copyWith(
-            color: colorScheme.primary,
-          ),
+          style: textStyles.titleMedium?.copyWith(color: colorScheme.primary),
         ),
         children: [
           Padding(
             padding: EdgeInsets.all(16.w),
-            child: Text(
-              answer,
-              style: textStyles.bodyMedium,
-            ),
+            child: Text(answer, style: textStyles.bodyMedium),
           ),
         ],
       ),
