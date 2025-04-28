@@ -4,7 +4,9 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:snapnfix/core/infrastructure/location/location_service.dart';
 import 'package:snapnfix/core/infrastructure/networking/api_result.dart';
 import 'package:snapnfix/modules/issues/domain/entities/issue.dart';
+import 'package:snapnfix/modules/issues/domain/entities/issue_category.dart';
 import 'package:snapnfix/modules/issues/domain/entities/issue_severity.dart';
+import 'package:snapnfix/modules/issues/domain/entities/issue_status.dart';
 import 'package:snapnfix/modules/issues/domain/usecases/watch_nearby_issues_use_case.dart';
 import 'package:snapnfix/modules/issues/presentation/cubits/issues_map_state.dart';
 
@@ -92,6 +94,48 @@ class IssuesMapCubit extends Cubit<IssuesMapState> {
         state.copyWith(status: MapStatus.loaded, hasLocationPermission: false),
       );
     }
+  }
+
+  void clearFilters() {
+    emit(
+      state.copyWith(
+        selectedCategories: [],
+        selectedSeverities: [],
+        selectedStatuses: [],
+        filteredIssues: state.issues,
+        markers: _createMarkers(state.issues),
+      ),
+    );
+  }
+
+  void applyFilters({
+    required List<IssueCategory> selectedCategories,
+    required List<IssueSeverity> selectedSeverities,
+    required List<IssueStatus> selectedStatuses,
+  }) {
+    final filteredIssues =
+        state.issues.where((issue) {
+          final matchesCategory =
+              selectedCategories.isEmpty ||
+              selectedCategories.contains(issue.category);
+          final matchesSeverity =
+              selectedSeverities.isEmpty ||
+              selectedSeverities.contains(issue.severity);
+          final matchesStatus =
+              selectedStatuses.isEmpty ||
+              selectedStatuses.contains(issue.status);
+          return matchesCategory && matchesSeverity && matchesStatus;
+        }).toList();
+
+    emit(
+      state.copyWith(
+        selectedCategories: selectedCategories,
+        selectedSeverities: selectedSeverities,
+        selectedStatuses: selectedStatuses,
+        filteredIssues: filteredIssues,
+        markers: _createMarkers(filteredIssues),
+      ),
+    );
   }
 
   Future<void> centerOnUserLocation() async {

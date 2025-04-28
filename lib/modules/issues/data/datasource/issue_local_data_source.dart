@@ -156,7 +156,7 @@ class IssueLocalDataSource implements BaseIssueLocalDataSource {
               .map((issueJson) => IssueModel.fromJson(issueJson))
               .where((issue) {
                 final searchable = [
-                  issue.category.toLowerCase(),
+                  issue.category.displayName,
                   issue.latitude.toString(),
                   issue.longitude.toString(),
                 ].join(' ');
