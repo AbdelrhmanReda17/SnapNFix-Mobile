@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'otp_cubit.dart';
+part of 'forgot_password_cubit.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -16,30 +16,26 @@ final _privateConstructorUsedError = UnsupportedError(
 );
 
 /// @nodoc
-mixin _$OtpState {
+mixin _$ForgotPasswordState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(dynamic session, bool isFormForgotPassword)
-    success,
-    required TResult Function() resendSuccess,
+    required TResult Function() success,
     required TResult Function(ApiErrorModel error) error,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(dynamic session, bool isFormForgotPassword)? success,
-    TResult? Function()? resendSuccess,
+    TResult? Function()? success,
     TResult? Function(ApiErrorModel error)? error,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(dynamic session, bool isFormForgotPassword)? success,
-    TResult Function()? resendSuccess,
+    TResult Function()? success,
     TResult Function(ApiErrorModel error)? error,
     required TResult orElse(),
   }) => throw _privateConstructorUsedError;
@@ -48,7 +44,6 @@ mixin _$OtpState {
     required TResult Function(_Initial value) initial,
     required TResult Function(_Loading value) loading,
     required TResult Function(_Success value) success,
-    required TResult Function(_ResendSuccess value) resendSuccess,
     required TResult Function(_Error value) error,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -56,7 +51,6 @@ mixin _$OtpState {
     TResult? Function(_Initial value)? initial,
     TResult? Function(_Loading value)? loading,
     TResult? Function(_Success value)? success,
-    TResult? Function(_ResendSuccess value)? resendSuccess,
     TResult? Function(_Error value)? error,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -64,29 +58,30 @@ mixin _$OtpState {
     TResult Function(_Initial value)? initial,
     TResult Function(_Loading value)? loading,
     TResult Function(_Success value)? success,
-    TResult Function(_ResendSuccess value)? resendSuccess,
     TResult Function(_Error value)? error,
     required TResult orElse(),
   }) => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $OtpStateCopyWith<$Res> {
-  factory $OtpStateCopyWith(OtpState value, $Res Function(OtpState) then) =
-      _$OtpStateCopyWithImpl<$Res, OtpState>;
+abstract class $ForgotPasswordStateCopyWith<$Res> {
+  factory $ForgotPasswordStateCopyWith(
+    ForgotPasswordState value,
+    $Res Function(ForgotPasswordState) then,
+  ) = _$ForgotPasswordStateCopyWithImpl<$Res, ForgotPasswordState>;
 }
 
 /// @nodoc
-class _$OtpStateCopyWithImpl<$Res, $Val extends OtpState>
-    implements $OtpStateCopyWith<$Res> {
-  _$OtpStateCopyWithImpl(this._value, this._then);
+class _$ForgotPasswordStateCopyWithImpl<$Res, $Val extends ForgotPasswordState>
+    implements $ForgotPasswordStateCopyWith<$Res> {
+  _$ForgotPasswordStateCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of OtpState
+  /// Create a copy of ForgotPasswordState
   /// with the given fields replaced by the non-null parameter values.
 }
 
@@ -100,14 +95,14 @@ abstract class _$$InitialImplCopyWith<$Res> {
 
 /// @nodoc
 class __$$InitialImplCopyWithImpl<$Res>
-    extends _$OtpStateCopyWithImpl<$Res, _$InitialImpl>
+    extends _$ForgotPasswordStateCopyWithImpl<$Res, _$InitialImpl>
     implements _$$InitialImplCopyWith<$Res> {
   __$$InitialImplCopyWithImpl(
     _$InitialImpl _value,
     $Res Function(_$InitialImpl) _then,
   ) : super(_value, _then);
 
-  /// Create a copy of OtpState
+  /// Create a copy of ForgotPasswordState
   /// with the given fields replaced by the non-null parameter values.
 }
 
@@ -118,7 +113,7 @@ class _$InitialImpl implements _Initial {
 
   @override
   String toString() {
-    return 'OtpState.initial()';
+    return 'ForgotPasswordState.initial()';
   }
 
   @override
@@ -135,9 +130,7 @@ class _$InitialImpl implements _Initial {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(dynamic session, bool isFormForgotPassword)
-    success,
-    required TResult Function() resendSuccess,
+    required TResult Function() success,
     required TResult Function(ApiErrorModel error) error,
   }) {
     return initial();
@@ -148,8 +141,7 @@ class _$InitialImpl implements _Initial {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(dynamic session, bool isFormForgotPassword)? success,
-    TResult? Function()? resendSuccess,
+    TResult? Function()? success,
     TResult? Function(ApiErrorModel error)? error,
   }) {
     return initial?.call();
@@ -160,8 +152,7 @@ class _$InitialImpl implements _Initial {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(dynamic session, bool isFormForgotPassword)? success,
-    TResult Function()? resendSuccess,
+    TResult Function()? success,
     TResult Function(ApiErrorModel error)? error,
     required TResult orElse(),
   }) {
@@ -177,7 +168,6 @@ class _$InitialImpl implements _Initial {
     required TResult Function(_Initial value) initial,
     required TResult Function(_Loading value) loading,
     required TResult Function(_Success value) success,
-    required TResult Function(_ResendSuccess value) resendSuccess,
     required TResult Function(_Error value) error,
   }) {
     return initial(this);
@@ -189,7 +179,6 @@ class _$InitialImpl implements _Initial {
     TResult? Function(_Initial value)? initial,
     TResult? Function(_Loading value)? loading,
     TResult? Function(_Success value)? success,
-    TResult? Function(_ResendSuccess value)? resendSuccess,
     TResult? Function(_Error value)? error,
   }) {
     return initial?.call(this);
@@ -201,7 +190,6 @@ class _$InitialImpl implements _Initial {
     TResult Function(_Initial value)? initial,
     TResult Function(_Loading value)? loading,
     TResult Function(_Success value)? success,
-    TResult Function(_ResendSuccess value)? resendSuccess,
     TResult Function(_Error value)? error,
     required TResult orElse(),
   }) {
@@ -212,7 +200,7 @@ class _$InitialImpl implements _Initial {
   }
 }
 
-abstract class _Initial implements OtpState {
+abstract class _Initial implements ForgotPasswordState {
   const factory _Initial() = _$InitialImpl;
 }
 
@@ -226,14 +214,14 @@ abstract class _$$LoadingImplCopyWith<$Res> {
 
 /// @nodoc
 class __$$LoadingImplCopyWithImpl<$Res>
-    extends _$OtpStateCopyWithImpl<$Res, _$LoadingImpl>
+    extends _$ForgotPasswordStateCopyWithImpl<$Res, _$LoadingImpl>
     implements _$$LoadingImplCopyWith<$Res> {
   __$$LoadingImplCopyWithImpl(
     _$LoadingImpl _value,
     $Res Function(_$LoadingImpl) _then,
   ) : super(_value, _then);
 
-  /// Create a copy of OtpState
+  /// Create a copy of ForgotPasswordState
   /// with the given fields replaced by the non-null parameter values.
 }
 
@@ -244,7 +232,7 @@ class _$LoadingImpl implements _Loading {
 
   @override
   String toString() {
-    return 'OtpState.loading()';
+    return 'ForgotPasswordState.loading()';
   }
 
   @override
@@ -261,9 +249,7 @@ class _$LoadingImpl implements _Loading {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(dynamic session, bool isFormForgotPassword)
-    success,
-    required TResult Function() resendSuccess,
+    required TResult Function() success,
     required TResult Function(ApiErrorModel error) error,
   }) {
     return loading();
@@ -274,8 +260,7 @@ class _$LoadingImpl implements _Loading {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(dynamic session, bool isFormForgotPassword)? success,
-    TResult? Function()? resendSuccess,
+    TResult? Function()? success,
     TResult? Function(ApiErrorModel error)? error,
   }) {
     return loading?.call();
@@ -286,8 +271,7 @@ class _$LoadingImpl implements _Loading {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(dynamic session, bool isFormForgotPassword)? success,
-    TResult Function()? resendSuccess,
+    TResult Function()? success,
     TResult Function(ApiErrorModel error)? error,
     required TResult orElse(),
   }) {
@@ -303,7 +287,6 @@ class _$LoadingImpl implements _Loading {
     required TResult Function(_Initial value) initial,
     required TResult Function(_Loading value) loading,
     required TResult Function(_Success value) success,
-    required TResult Function(_ResendSuccess value) resendSuccess,
     required TResult Function(_Error value) error,
   }) {
     return loading(this);
@@ -315,7 +298,6 @@ class _$LoadingImpl implements _Loading {
     TResult? Function(_Initial value)? initial,
     TResult? Function(_Loading value)? loading,
     TResult? Function(_Success value)? success,
-    TResult? Function(_ResendSuccess value)? resendSuccess,
     TResult? Function(_Error value)? error,
   }) {
     return loading?.call(this);
@@ -327,7 +309,6 @@ class _$LoadingImpl implements _Loading {
     TResult Function(_Initial value)? initial,
     TResult Function(_Loading value)? loading,
     TResult Function(_Success value)? success,
-    TResult Function(_ResendSuccess value)? resendSuccess,
     TResult Function(_Error value)? error,
     required TResult orElse(),
   }) {
@@ -338,7 +319,7 @@ class _$LoadingImpl implements _Loading {
   }
 }
 
-abstract class _Loading implements OtpState {
+abstract class _Loading implements ForgotPasswordState {
   const factory _Loading() = _$LoadingImpl;
 }
 
@@ -348,92 +329,49 @@ abstract class _$$SuccessImplCopyWith<$Res> {
     _$SuccessImpl value,
     $Res Function(_$SuccessImpl) then,
   ) = __$$SuccessImplCopyWithImpl<$Res>;
-  @useResult
-  $Res call({dynamic session, bool isFormForgotPassword});
 }
 
 /// @nodoc
 class __$$SuccessImplCopyWithImpl<$Res>
-    extends _$OtpStateCopyWithImpl<$Res, _$SuccessImpl>
+    extends _$ForgotPasswordStateCopyWithImpl<$Res, _$SuccessImpl>
     implements _$$SuccessImplCopyWith<$Res> {
   __$$SuccessImplCopyWithImpl(
     _$SuccessImpl _value,
     $Res Function(_$SuccessImpl) _then,
   ) : super(_value, _then);
 
-  /// Create a copy of OtpState
+  /// Create a copy of ForgotPasswordState
   /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({Object? session = freezed, Object? isFormForgotPassword = null}) {
-    return _then(
-      _$SuccessImpl(
-        freezed == session
-            ? _value.session
-            : session // ignore: cast_nullable_to_non_nullable
-                as dynamic,
-        isFormForgotPassword:
-            null == isFormForgotPassword
-                ? _value.isFormForgotPassword
-                : isFormForgotPassword // ignore: cast_nullable_to_non_nullable
-                    as bool,
-      ),
-    );
-  }
 }
 
 /// @nodoc
 
 class _$SuccessImpl implements _Success {
-  const _$SuccessImpl(this.session, {this.isFormForgotPassword = false});
-
-  @override
-  final dynamic session;
-  @override
-  @JsonKey()
-  final bool isFormForgotPassword;
+  const _$SuccessImpl();
 
   @override
   String toString() {
-    return 'OtpState.success(session: $session, isFormForgotPassword: $isFormForgotPassword)';
+    return 'ForgotPasswordState.success()';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$SuccessImpl &&
-            const DeepCollectionEquality().equals(other.session, session) &&
-            (identical(other.isFormForgotPassword, isFormForgotPassword) ||
-                other.isFormForgotPassword == isFormForgotPassword));
+        (other.runtimeType == runtimeType && other is _$SuccessImpl);
   }
 
   @override
-  int get hashCode => Object.hash(
-    runtimeType,
-    const DeepCollectionEquality().hash(session),
-    isFormForgotPassword,
-  );
-
-  /// Create a copy of OtpState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$SuccessImplCopyWith<_$SuccessImpl> get copyWith =>
-      __$$SuccessImplCopyWithImpl<_$SuccessImpl>(this, _$identity);
+  int get hashCode => runtimeType.hashCode;
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(dynamic session, bool isFormForgotPassword)
-    success,
-    required TResult Function() resendSuccess,
+    required TResult Function() success,
     required TResult Function(ApiErrorModel error) error,
   }) {
-    return success(session, isFormForgotPassword);
+    return success();
   }
 
   @override
@@ -441,11 +379,10 @@ class _$SuccessImpl implements _Success {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(dynamic session, bool isFormForgotPassword)? success,
-    TResult? Function()? resendSuccess,
+    TResult? Function()? success,
     TResult? Function(ApiErrorModel error)? error,
   }) {
-    return success?.call(session, isFormForgotPassword);
+    return success?.call();
   }
 
   @override
@@ -453,13 +390,12 @@ class _$SuccessImpl implements _Success {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(dynamic session, bool isFormForgotPassword)? success,
-    TResult Function()? resendSuccess,
+    TResult Function()? success,
     TResult Function(ApiErrorModel error)? error,
     required TResult orElse(),
   }) {
     if (success != null) {
-      return success(session, isFormForgotPassword);
+      return success();
     }
     return orElse();
   }
@@ -470,7 +406,6 @@ class _$SuccessImpl implements _Success {
     required TResult Function(_Initial value) initial,
     required TResult Function(_Loading value) loading,
     required TResult Function(_Success value) success,
-    required TResult Function(_ResendSuccess value) resendSuccess,
     required TResult Function(_Error value) error,
   }) {
     return success(this);
@@ -482,7 +417,6 @@ class _$SuccessImpl implements _Success {
     TResult? Function(_Initial value)? initial,
     TResult? Function(_Loading value)? loading,
     TResult? Function(_Success value)? success,
-    TResult? Function(_ResendSuccess value)? resendSuccess,
     TResult? Function(_Error value)? error,
   }) {
     return success?.call(this);
@@ -494,7 +428,6 @@ class _$SuccessImpl implements _Success {
     TResult Function(_Initial value)? initial,
     TResult Function(_Loading value)? loading,
     TResult Function(_Success value)? success,
-    TResult Function(_ResendSuccess value)? resendSuccess,
     TResult Function(_Error value)? error,
     required TResult orElse(),
   }) {
@@ -505,146 +438,8 @@ class _$SuccessImpl implements _Success {
   }
 }
 
-abstract class _Success implements OtpState {
-  const factory _Success(
-    final dynamic session, {
-    final bool isFormForgotPassword,
-  }) = _$SuccessImpl;
-
-  dynamic get session;
-  bool get isFormForgotPassword;
-
-  /// Create a copy of OtpState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$SuccessImplCopyWith<_$SuccessImpl> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class _$$ResendSuccessImplCopyWith<$Res> {
-  factory _$$ResendSuccessImplCopyWith(
-    _$ResendSuccessImpl value,
-    $Res Function(_$ResendSuccessImpl) then,
-  ) = __$$ResendSuccessImplCopyWithImpl<$Res>;
-}
-
-/// @nodoc
-class __$$ResendSuccessImplCopyWithImpl<$Res>
-    extends _$OtpStateCopyWithImpl<$Res, _$ResendSuccessImpl>
-    implements _$$ResendSuccessImplCopyWith<$Res> {
-  __$$ResendSuccessImplCopyWithImpl(
-    _$ResendSuccessImpl _value,
-    $Res Function(_$ResendSuccessImpl) _then,
-  ) : super(_value, _then);
-
-  /// Create a copy of OtpState
-  /// with the given fields replaced by the non-null parameter values.
-}
-
-/// @nodoc
-
-class _$ResendSuccessImpl implements _ResendSuccess {
-  const _$ResendSuccessImpl();
-
-  @override
-  String toString() {
-    return 'OtpState.resendSuccess()';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$ResendSuccessImpl);
-  }
-
-  @override
-  int get hashCode => runtimeType.hashCode;
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() initial,
-    required TResult Function() loading,
-    required TResult Function(dynamic session, bool isFormForgotPassword)
-    success,
-    required TResult Function() resendSuccess,
-    required TResult Function(ApiErrorModel error) error,
-  }) {
-    return resendSuccess();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? initial,
-    TResult? Function()? loading,
-    TResult? Function(dynamic session, bool isFormForgotPassword)? success,
-    TResult? Function()? resendSuccess,
-    TResult? Function(ApiErrorModel error)? error,
-  }) {
-    return resendSuccess?.call();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? initial,
-    TResult Function()? loading,
-    TResult Function(dynamic session, bool isFormForgotPassword)? success,
-    TResult Function()? resendSuccess,
-    TResult Function(ApiErrorModel error)? error,
-    required TResult orElse(),
-  }) {
-    if (resendSuccess != null) {
-      return resendSuccess();
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(_Initial value) initial,
-    required TResult Function(_Loading value) loading,
-    required TResult Function(_Success value) success,
-    required TResult Function(_ResendSuccess value) resendSuccess,
-    required TResult Function(_Error value) error,
-  }) {
-    return resendSuccess(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_Initial value)? initial,
-    TResult? Function(_Loading value)? loading,
-    TResult? Function(_Success value)? success,
-    TResult? Function(_ResendSuccess value)? resendSuccess,
-    TResult? Function(_Error value)? error,
-  }) {
-    return resendSuccess?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(_Initial value)? initial,
-    TResult Function(_Loading value)? loading,
-    TResult Function(_Success value)? success,
-    TResult Function(_ResendSuccess value)? resendSuccess,
-    TResult Function(_Error value)? error,
-    required TResult orElse(),
-  }) {
-    if (resendSuccess != null) {
-      return resendSuccess(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class _ResendSuccess implements OtpState {
-  const factory _ResendSuccess() = _$ResendSuccessImpl;
+abstract class _Success implements ForgotPasswordState {
+  const factory _Success() = _$SuccessImpl;
 }
 
 /// @nodoc
@@ -659,14 +454,14 @@ abstract class _$$ErrorImplCopyWith<$Res> {
 
 /// @nodoc
 class __$$ErrorImplCopyWithImpl<$Res>
-    extends _$OtpStateCopyWithImpl<$Res, _$ErrorImpl>
+    extends _$ForgotPasswordStateCopyWithImpl<$Res, _$ErrorImpl>
     implements _$$ErrorImplCopyWith<$Res> {
   __$$ErrorImplCopyWithImpl(
     _$ErrorImpl _value,
     $Res Function(_$ErrorImpl) _then,
   ) : super(_value, _then);
 
-  /// Create a copy of OtpState
+  /// Create a copy of ForgotPasswordState
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
@@ -692,7 +487,7 @@ class _$ErrorImpl implements _Error {
 
   @override
   String toString() {
-    return 'OtpState.error(error: $error)';
+    return 'ForgotPasswordState.error(error: $error)';
   }
 
   @override
@@ -706,7 +501,7 @@ class _$ErrorImpl implements _Error {
   @override
   int get hashCode => Object.hash(runtimeType, error);
 
-  /// Create a copy of OtpState
+  /// Create a copy of ForgotPasswordState
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
@@ -719,9 +514,7 @@ class _$ErrorImpl implements _Error {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(dynamic session, bool isFormForgotPassword)
-    success,
-    required TResult Function() resendSuccess,
+    required TResult Function() success,
     required TResult Function(ApiErrorModel error) error,
   }) {
     return error(this.error);
@@ -732,8 +525,7 @@ class _$ErrorImpl implements _Error {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(dynamic session, bool isFormForgotPassword)? success,
-    TResult? Function()? resendSuccess,
+    TResult? Function()? success,
     TResult? Function(ApiErrorModel error)? error,
   }) {
     return error?.call(this.error);
@@ -744,8 +536,7 @@ class _$ErrorImpl implements _Error {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(dynamic session, bool isFormForgotPassword)? success,
-    TResult Function()? resendSuccess,
+    TResult Function()? success,
     TResult Function(ApiErrorModel error)? error,
     required TResult orElse(),
   }) {
@@ -761,7 +552,6 @@ class _$ErrorImpl implements _Error {
     required TResult Function(_Initial value) initial,
     required TResult Function(_Loading value) loading,
     required TResult Function(_Success value) success,
-    required TResult Function(_ResendSuccess value) resendSuccess,
     required TResult Function(_Error value) error,
   }) {
     return error(this);
@@ -773,7 +563,6 @@ class _$ErrorImpl implements _Error {
     TResult? Function(_Initial value)? initial,
     TResult? Function(_Loading value)? loading,
     TResult? Function(_Success value)? success,
-    TResult? Function(_ResendSuccess value)? resendSuccess,
     TResult? Function(_Error value)? error,
   }) {
     return error?.call(this);
@@ -785,7 +574,6 @@ class _$ErrorImpl implements _Error {
     TResult Function(_Initial value)? initial,
     TResult Function(_Loading value)? loading,
     TResult Function(_Success value)? success,
-    TResult Function(_ResendSuccess value)? resendSuccess,
     TResult Function(_Error value)? error,
     required TResult orElse(),
   }) {
@@ -796,12 +584,12 @@ class _$ErrorImpl implements _Error {
   }
 }
 
-abstract class _Error implements OtpState {
+abstract class _Error implements ForgotPasswordState {
   const factory _Error(final ApiErrorModel error) = _$ErrorImpl;
 
   ApiErrorModel get error;
 
-  /// Create a copy of OtpState
+  /// Create a copy of ForgotPasswordState
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ErrorImplCopyWith<_$ErrorImpl> get copyWith =>

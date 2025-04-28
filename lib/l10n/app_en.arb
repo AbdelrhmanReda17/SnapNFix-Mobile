@@ -28,7 +28,7 @@
   "alreadyHaveAcc": "Already have an account?",
 
 
-  
+
   "reportAnIncident": "Report an Incident",
   "takeAPhoto": "Take a photo",
   "someInstructions": "Some Instructions",
@@ -78,7 +78,7 @@
   "dateOfBirth": "Date of Birth",
   "reset": "Reset",
   "save": "Save",
-  
+
 
   "notificationSettings" : "Notification Settings",
   "support" : "Support",
@@ -104,8 +104,51 @@
   "pleaseEnterCode": "Please enter the code we sent to ",
   "verify": "Verify",
   "didnotReceiveCode": "Didn't Receive Code? ",
-  "resendCode": "Resend Code"
+  "resendCode": "Resend Code",
 
+  "forgotPasswordTitle": "Forgot Password",
+  "forgotPasswordSubtitle": "Enter the phone number or Google Account Email associated with your account",
+  "sendCode": "Send Verification Code",
+
+  "resetPasswordTitle": "Reset Password",
+  "resetPasswordSubtitle": "Enter you new password",
+  "resetPassword": "Reset Password",
+
+  "website": "Website",
+  "contactUs": "Contact Us",
+  "allRightsReserved": "All Rights Reserved",
+  "aboutDescription": "SnapNFix is a community-driven platform that empowers citizens to report and track issues in their community, helping create safer and better environments for everyone.",
   
-
+  "ourMission": "Our Mission",
+  "missionText": "To empower communities by providing an efficient and transparent system for identifying and resolving local issues, fostering collaboration between residents and maintenance teams.",
+  
+  "keyFeatures": "Key Features",
+  "keyFeaturesText": "• Quick and easy issue reporting\n• Real-time status updates\n• Location-based issue tracking\n• Secure and private reporting\n• Community engagement tools",
+  
+  "email": "Email",
+  "faqs": "FAQs",
+  "howToReportFaqTitle": "How do I report an issue?",
+  "howToReportFaqAnswer": "To report an issue, tap the + button in the bottom navigation bar, take a photo of the problem, add details, and submit.",
+  "resolutionTimeFaqTitle": "How long does it take to resolve an issue?",
+  "resolutionTimeFaqAnswer": "Resolution times vary depending on the type and severity of the issue. You can track the status of your report in the \"My Reports\" section.",
+  "editReportFaqTitle": "Can I edit my report after submission?",
+  "editReportFaqAnswer": "No, but you can add comments to provide additional information or updates to your report.",
+  
+  "acceptanceOfTerms": "Acceptance of Terms",
+  "acceptanceOfTermsText": "By accessing and using SnapNFix, you agree to be bound by these Terms and Conditions. If you do not agree with any part of these terms, please do not use the application.",
+  
+  "userResponsibilities": "User Responsibilities",
+  "userResponsibilitiesText": "• You must provide accurate and truthful information when reporting issues\n• You are responsible for maintaining the confidentiality of your account\n• You agree not to misuse or abuse the reporting system\n• You must respect the privacy and rights of others when using the app",
+  
+  "contentGuidelines": "Content Guidelines",
+  "contentGuidelinesText": "• All submitted content must be appropriate and relevant\n• Photos should clearly show the reported issue\n• Avoid including identifiable individuals in photos without consent\n• Do not submit false or misleading reports",
+  
+  "lastUpdated": "Last updated: {date}",
+  "@lastUpdated": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  }
 }

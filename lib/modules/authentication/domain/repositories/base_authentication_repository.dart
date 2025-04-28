@@ -20,4 +20,13 @@ abstract class BaseAuthenticationRepository {
   });
 
   Future<ApiResult<void>> resendOtp();
+
+  Future<ApiResult<void>> forgotPassword({
+    required String emailOrPhoneNumber,
+  });
+
+  Future<ApiResult<Session>> resetPassword({
+    required String newPassword,
+    required String confirmPassword,
+  });
 }

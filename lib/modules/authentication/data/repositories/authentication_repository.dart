@@ -108,5 +108,48 @@ class AuthenticationRepository implements BaseAuthenticationRepository {
       return ApiResult.failure(ApiErrorHandler.handle(e));
     }
   }
+  
+  @override
+  Future<ApiResult<void>> forgotPassword({required String emailOrPhoneNumber}) async{
+    try {
+      final result = await remoteDataSource.forgotPassword(emailOrPhoneNumber);
+      
+      return result.when(
+        success: (_) {
+          return ApiResult.success(null);
+        },
+        failure: (error) {
+          return ApiResult.failure(error);
+        },
+      );
+    } catch (e) {
+      return ApiResult.failure(ApiErrorHandler.handle(e));
+    }
+  }
+  
+  @override
+  Future<ApiResult<Session>> resetPassword({
+    required String newPassword,
+    required String confirmPassword
+  }) async{
+    try {
+      final result = await remoteDataSource.resetPassword(
+        newPassword,
+        confirmPassword
+      );
+      
+      return result.when(
+        success: (session) async {
+          await getIt<ApplicationConfigurations>().setUserSession(session);
+          return ApiResult.success(session);
+        },
+        failure: (error) {
+          return ApiResult.failure(error);
+        },
+      );
+    } catch (e) {
+      return ApiResult.failure(ApiErrorHandler.handle(e));
+    }
+  }
 
 }

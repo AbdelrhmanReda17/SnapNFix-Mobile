@@ -23,6 +23,8 @@ class AuthenticationScreen<T extends Cubit<void>> extends StatelessWidget {
   final VoidCallback onSubmit;
   final bool isSignUp;
   final bool isOtp;
+  final PreferredSizeWidget? appBar;
+  final bool isForgotPasswordOtp;
 
   const AuthenticationScreen({
     super.key,
@@ -32,11 +34,13 @@ class AuthenticationScreen<T extends Cubit<void>> extends StatelessWidget {
     required this.footerQuestion,
     this.isSignUp = false,
     this.isOtp = false,
+    this.isForgotPasswordOtp = false,
     required this.footerAction,
     required this.form,
     required this.blocListener,
     required this.onSubmit,
     required this.onFooterTap,
+    this.appBar,
   });
 
   @override
@@ -44,15 +48,21 @@ class AuthenticationScreen<T extends Cubit<void>> extends StatelessWidget {
     final colorScheme = Theme.of(context).colorScheme;
     final textStyles = Theme.of(context).textTheme;
     final appConfigs = ApplicationConfigurations.instance;
+    final verticalPadding = isForgotPasswordOtp ? 16.h : 48.h;
+    
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: ApplicationSystemUIOverlay.getDefaultStyle(appConfigs.isDarkMode),
       child: Scaffold(
+        appBar: appBar,
         body: SafeArea(
           child: ListView(
-            padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 48.h),
+            padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: verticalPadding),
             children: [
-              ApplicationLogoAndName(),
-              verticalSpace(15),
+              this.isForgotPasswordOtp
+                  ? const SizedBox.shrink()
+                  : Column(
+                    children: [ApplicationLogoAndName(), verticalSpace(15)],
+                  ),
               Text(
                 title,
                 style: textStyles.headlineLarge?.copyWith(
@@ -77,11 +87,15 @@ class AuthenticationScreen<T extends Cubit<void>> extends StatelessWidget {
               ),
               verticalSpace(20),
               isSignUp
-                  ? Column(children: [TermsAndPrivacyPolicy(), verticalSpace(20),]) 
+                  ? Column(
+                    children: [TermsAndPrivacyPolicy(), verticalSpace(20)],
+                  )
                   : const SizedBox.shrink(),
               isOtp
                   ? const SizedBox.shrink()
-                  : Column(children: [AuthenticationSocial(), verticalSpace(20)]),
+                  : Column(
+                    children: [AuthenticationSocial(), verticalSpace(20)],
+                  ),
               Padding(
                 padding: EdgeInsets.only(bottom: 16.h),
                 child: AuthenticationFooter(

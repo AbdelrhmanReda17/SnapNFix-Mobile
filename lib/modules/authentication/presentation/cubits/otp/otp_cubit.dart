@@ -15,22 +15,20 @@ class OtpCubit extends Cubit<OtpState> {
   OtpCubit({
     required this.verifyOtpUseCase,
     required this.resendOtpUseCase,
-  }) : super(OtpState.initial());
+  }) : super(const OtpState.initial());
 
   String otpCode = "";
   final formKey = GlobalKey<FormState>();
 
   void updateOtpCode(String code) {
-    otpCode += code;
+    otpCode += code; // make sure
   }
 
-  Future<void> verifyOtp() async {
+  Future<void> verifyOtp({bool isFormForgotPassword = false}) async {
     if (otpCode.length < 6) {
-      debugPrint("OTP code is not complete: $otpCode");
       return;
     }
 
-    debugPrint("Verifying OTP code: $otpCode");
     emit(const OtpState.loading());
     final response = await verifyOtpUseCase.call(
       code: otpCode,
@@ -38,11 +36,12 @@ class OtpCubit extends Cubit<OtpState> {
     
     response.when(
       success: (session) async {
-        debugPrint("OTP verification successful: $session");
-        emit(OtpState.success(session));
+        emit(OtpState.success(
+          session, 
+          isFormForgotPassword: isFormForgotPassword
+        ));
       },
       failure: (ApiErrorModel error) {
-        debugPrint("OTP verification failed: ${error.message}");
         emit(OtpState.error(error));
       },
     );
