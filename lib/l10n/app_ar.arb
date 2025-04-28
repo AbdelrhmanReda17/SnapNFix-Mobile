@@ -76,6 +76,13 @@
   "pleaseEnterCode": "الرجاء إدخال الرمز الذي أرسلناه إلى ",
   "verify": "تحقق",
   "didnotReceiveCode": "لم تتلق الرمز؟ ",
-  "resendCode": "إعادة إرسال الرمز"
+  "resendCode": "إعادة إرسال الرمز",
+
+  "forgotPasswordTitle": "نسيت كلمة المرور",
+  "forgotPasswordSubtitle": "أدخل رقم الهاتف أو بريد حساب جوجل المرتبط بحسابك",
+  "sendCode": "إرسال رمز التحقق",
+  "resetPasswordTitle": "إعادة تعيين كلمة المرور",
+  "resetPasswordSubtitle": "أدخل كلمة المرور الجديدة",
+  "resetPassword": "إعادة تعيين كلمة المرور"
 
 }

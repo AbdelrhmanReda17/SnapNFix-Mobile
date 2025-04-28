@@ -104,8 +104,15 @@
   "pleaseEnterCode": "Please enter the code we sent to ",
   "verify": "Verify",
   "didnotReceiveCode": "Didn't Receive Code? ",
-  "resendCode": "Resend Code"
+  "resendCode": "Resend Code",
 
+  "forgotPasswordTitle": "Forgot Password",
+  "forgotPasswordSubtitle": "Enter the phone number or Google Account Email associated with your account",
+  "sendCode": "Send Verification Code",
+
+  "resetPasswordTitle": "Reset Password",
+  "resetPasswordSubtitle": "Enter you new password",
+  "resetPassword": "Reset Password"
   
 
 }

@@ -17,6 +17,12 @@ abstract class BaseAuthenticationRemoteDataSource {
   );
   Future<ApiResult<SessionModel>> verifyOtp(String code);
   Future<ApiResult<void>> resendOtp();
+
+  Future<ApiResult<void>> forgotPassword(String emailOrPhoneNumber);
+  Future<ApiResult<SessionModel>> resetPassword(
+    String newPassword,
+    String confirmPassword,
+  );
 }
 
 class AuthenticationRemoteDataSource
@@ -138,6 +144,61 @@ class AuthenticationRemoteDataSource
 
       // For testing, return mock data
       return ApiResult.success(null);
+    } catch (error) {
+      return ApiResult.failure(ApiErrorHandler.handle(error));
+    }
+  }
+
+  @override
+  Future<ApiResult<void>> forgotPassword(String emailOrPhoneNumber) async {
+    try {
+      // Edit this
+      // final response = await _apiService.post(
+      //   '/auth/forget-password',
+      //   data: {
+      //     'emailOrPhoneNumber': emailOrPhoneNumber,
+      //   },
+      // );
+      // return ApiResult.success(response.data);
+
+      return ApiResult.success(null);
+    } catch (error) {
+      return ApiResult.failure(ApiErrorHandler.handle(error));
+    }
+  }
+
+  @override
+  Future<ApiResult<SessionModel>> resetPassword(
+    String newPassword,
+    String confirmPassword,
+  ) async {
+    try {
+      // Edit this
+      // final response = await _apiService.post(
+      //   '/auth/reset-password',
+      //   data: {
+      //     'newPassword': newPassword,
+      //     'confirmPassword': confirmPassword,
+      //   },
+      // );
+      // return ApiResult.success(response.data);
+
+      return ApiResult.success(
+        SessionModel(
+          user: UserModel(
+            id: "1",
+            firstName: "Test",
+            lastName: "User",
+            phoneNumber: "123456789",
+          ),
+          tokens: TokensModel(
+            accessToken: "TEST_ACCESS_TOKEN",
+            refreshToken: "TEST_REFRESH_TOKEN",
+            expiresIn: 3600,
+            issuedAt: DateTime.now(),
+          ),
+        ),
+      );
     } catch (error) {
       return ApiResult.failure(ApiErrorHandler.handle(error));
     }

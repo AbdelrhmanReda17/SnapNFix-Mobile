@@ -3,37 +3,29 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:snapnfix/core/base_components/base_alert.dart';
 import 'package:snapnfix/core/infrastructure/networking/api_error_model.dart';
-import 'package:snapnfix/modules/authentication/presentation/cubits/otp/otp_cubit.dart';
+import 'package:snapnfix/modules/authentication/presentation/cubits/forget_password/forgot_password_cubit.dart';
 import 'package:snapnfix/presentation/navigation/routes.dart';
 
-class OtpBlocListener extends StatelessWidget {
-  final bool isFormForgotPassword;
-
-  const OtpBlocListener({super.key, this.isFormForgotPassword = false});
+class ForgetPasswordBlocListener extends StatelessWidget {
+  const ForgetPasswordBlocListener({super.key});
 
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
-    return BlocListener<OtpCubit, OtpState>(
+    final cubit = context.read<ForgotPasswordCubit>();
+
+    return BlocListener<ForgotPasswordCubit, ForgotPasswordState>(
       listener: (context, state) {
         state.whenOrNull(
-          success: (verificationResponse, isFormForgotPassword) {
-            if (isFormForgotPassword) {
-              context.push(Routes.resetPasswordScreen.key);
-            } else {
-              context.go(Routes.homeScreen.key);
-            }
-          },
-          resendSuccess: () {
+          success: () {
             context.pop();
-            baseDialog(
-              context: context,
-              title: 'Code Resent',
-              message: 'Verification code has been resent successfully.',
-              alertType: AlertType.success,
-              confirmText: 'OK',
-              onConfirm: () {},
-              showCancelButton: false,
+            final emailOrPhoneNumber = cubit.emailOrPhoneController.text;
+            context.push(
+              Routes.otpScreen.key,
+              extra: {
+                'emailOrPhoneNumber': emailOrPhoneNumber,
+                'isFormForgotPassword': true,
+              },
             );
           },
           error: (error) {
@@ -52,15 +44,15 @@ class OtpBlocListener extends StatelessWidget {
           },
         );
       },
-      child: const SizedBox.shrink(),
+      child: SizedBox.shrink(),
     );
   }
 
   void setupErrorState(BuildContext context, ApiErrorModel apiErrorModel) {
-    context.pop(); 
+    context.pop();
     baseDialog(
       context: context,
-      title: 'Verification Error',
+      title: 'Error',
       message: apiErrorModel.getAllErrorMessages(),
       alertType: AlertType.error,
       confirmText: 'Got it',

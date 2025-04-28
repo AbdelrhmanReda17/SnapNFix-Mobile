@@ -6,14 +6,18 @@ import 'package:snapnfix/core/infrastructure/location/location_service.dart';
 import 'package:snapnfix/modules/authentication/data/datasources/authentication_remote_data_source.dart';
 import 'package:snapnfix/modules/authentication/data/repositories/authentication_repository.dart';
 import 'package:snapnfix/modules/authentication/domain/repositories/base_authentication_repository.dart';
+import 'package:snapnfix/modules/authentication/domain/usecases/forgot_password_use_case.dart';
 import 'package:snapnfix/modules/authentication/domain/usecases/login_use_case.dart';
 import 'package:snapnfix/modules/authentication/domain/usecases/logout_use_case.dart';
 import 'package:snapnfix/modules/authentication/domain/usecases/register_use_case.dart';
 import 'package:snapnfix/modules/authentication/domain/usecases/resend_otp_use_case.dart';
+import 'package:snapnfix/modules/authentication/domain/usecases/reset_password_use_case.dart';
 import 'package:snapnfix/modules/authentication/domain/usecases/verify_otp_use_case.dart';
+import 'package:snapnfix/modules/authentication/presentation/cubits/forget_password/forgot_password_cubit.dart';
 import 'package:snapnfix/modules/authentication/presentation/cubits/login/login_cubit.dart';
 import 'package:snapnfix/modules/authentication/presentation/cubits/otp/otp_cubit.dart';
 import 'package:snapnfix/modules/authentication/presentation/cubits/register/register_cubit.dart';
+import 'package:snapnfix/modules/authentication/presentation/cubits/reset_password/reset_password_cubit.dart';
 import 'package:snapnfix/modules/issues/data/datasource/issue_local_data_source.dart';
 import 'package:snapnfix/modules/issues/data/datasource/issue_remote_data_source.dart';
 import 'package:snapnfix/modules/issues/data/repositories/issue_repository.dart';
@@ -130,6 +134,14 @@ void setupAuthenticationModule() {
     () => RegisterCubit(registerUseCase: getIt<RegisterUseCase>()),
   );
 
+  getIt.registerLazySingleton<ForgotPasswordUseCase>(
+    () => ForgotPasswordUseCase(getIt<BaseAuthenticationRepository>()),
+  );
+
+  getIt.registerLazySingleton<ResetPasswordUseCase>(
+    () => ResetPasswordUseCase(getIt<BaseAuthenticationRepository>()),
+  );
+
   getIt.registerLazySingleton<VerifyOtpUseCase>(
     () => VerifyOtpUseCase(getIt<BaseAuthenticationRepository>()),
   );
@@ -142,6 +154,18 @@ void setupAuthenticationModule() {
     () => OtpCubit(
       verifyOtpUseCase: getIt<VerifyOtpUseCase>(),
       resendOtpUseCase: getIt<ResendOtpUseCase>(),
+    ),
+  );
+
+  getIt.registerFactory<ForgotPasswordCubit>(
+    () => ForgotPasswordCubit(
+      forgotPasswordUseCase: getIt<ForgotPasswordUseCase>(),
+    ),
+  );
+
+  getIt.registerFactory<ResetPasswordCubit>(
+    () => ResetPasswordCubit(
+      resetPasswordUseCase: getIt<ResetPasswordUseCase>(),
     ),
   );
 }
@@ -282,4 +306,3 @@ void setupIssuesModule() {
     ),
   );
 }
-
