@@ -1,9 +1,14 @@
+import 'dart:async';
 import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 
 class ConnectivityService {
   final Connectivity _connectivity = Connectivity();
+  final _internetStatusController = StreamController<bool>.broadcast();
+  Timer? _pollingTimer;
+  bool _lastStatus = false;
+
 
   // Stream for listening to connectivity changes
   Stream<List<ConnectivityResult>> get connectivityStream {
@@ -13,6 +18,28 @@ class ConnectivityService {
       );
       return result;
     });
+  }
+
+  Stream<bool> get getNetworkStream {
+    _pollingTimer?.cancel();
+    _pollingTimer = Timer.periodic(const Duration(seconds: 120), (_) {
+      hasInternetConnection().then(_updateConnectionStatus);
+    });
+
+    hasInternetConnection().then(_updateConnectionStatus);
+
+    return _connectivity.onConnectivityChanged
+        .asyncMap((_) => hasInternetConnection())
+        .distinct()
+        .asBroadcastStream();
+  }
+
+  void _updateConnectionStatus(bool isConnected) {
+    if (isConnected != _lastStatus) {
+      _lastStatus = isConnected;
+      _internetStatusController.add(isConnected);
+      debugPrint('🌐 Connectivity: Internet status changed to: $isConnected');
+    }
   }
 
   // Check current connectivity status (radio status only)

@@ -59,7 +59,7 @@ class ReportMarkerDetail extends StatelessWidget {
                 child: Container(
                   padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
                   decoration: BoxDecoration(
-                    color: issue.status.color.withValues(alpha: .1),
+                    color: colorScheme.surface.withValues(alpha: .5),
                     borderRadius: BorderRadius.circular(12.r),
                   ),
                   child: Row(
