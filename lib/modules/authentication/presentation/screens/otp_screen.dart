@@ -19,6 +19,8 @@ class OtpScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    debugPrint('OtpScreen: $isFormForgotPassword');
+    debugPrint('emailOrPhoneNumber: $emailOrPhoneNumber');
     final localization = AppLocalizations.of(context)!;
     final subtitle =
         (emailOrPhoneNumber != null && emailOrPhoneNumber!.isNotEmpty)
@@ -26,17 +28,18 @@ class OtpScreen extends StatelessWidget {
             : localization.pleaseEnterCode;
 
     return AuthenticationScreen<OtpCubit>(
-      appBar: isFormForgotPassword
-          ? AppBar(
-              iconTheme: IconThemeData(color: Theme.of(context).colorScheme.primary),
-              leading: IconButton(
-                icon: const Icon(Icons.arrow_back),
-                onPressed: () {
-                  context.pop();
-                },
-              ),
-            )
-          : null,
+      appBar:
+          isFormForgotPassword
+              ? AppBar(
+                iconTheme: IconThemeData(
+                  color: Theme.of(context).colorScheme.primary,
+                ),
+                leading: IconButton(
+                  icon: const Icon(Icons.arrow_back),
+                  onPressed: () => context.pop(),
+                ),
+              )
+              : null,
       title: localization.verificationCodeTitle,
       subtitle: subtitle,
       buttonText: localization.verify,
@@ -46,14 +49,15 @@ class OtpScreen extends StatelessWidget {
         context.read<OtpCubit>().resendOtp();
       },
       form: OtpForm(),
-      blocListener: OtpBlocListener(isFormForgotPassword: isFormForgotPassword),
+      blocListener: const OtpBlocListener(),
       onSubmit: () {
         context.read<OtpCubit>().verifyOtp(
-          isFormForgotPassword: isFormForgotPassword,
+          isFromForgotPassword: isFormForgotPassword,
         );
       },
-      isOtp: true,
-      isForgotPasswordOtp: isFormForgotPassword,
+      showSocial: false,
+      showTerms: false,
+      showLogo: !isFormForgotPassword,
     );
   }
 }

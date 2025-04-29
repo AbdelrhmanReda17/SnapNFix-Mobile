@@ -6,6 +6,7 @@ import 'package:snapnfix/core/infrastructure/location/location_service.dart';
 import 'package:snapnfix/modules/authentication/data/datasources/authentication_remote_data_source.dart';
 import 'package:snapnfix/modules/authentication/data/repositories/authentication_repository.dart';
 import 'package:snapnfix/modules/authentication/domain/repositories/base_authentication_repository.dart';
+import 'package:snapnfix/modules/authentication/domain/usecases/complete_profile_use_case.dart';
 import 'package:snapnfix/modules/authentication/domain/usecases/forgot_password_use_case.dart';
 import 'package:snapnfix/modules/authentication/domain/usecases/login_use_case.dart';
 import 'package:snapnfix/modules/authentication/domain/usecases/logout_use_case.dart';
@@ -13,6 +14,7 @@ import 'package:snapnfix/modules/authentication/domain/usecases/register_use_cas
 import 'package:snapnfix/modules/authentication/domain/usecases/resend_otp_use_case.dart';
 import 'package:snapnfix/modules/authentication/domain/usecases/reset_password_use_case.dart';
 import 'package:snapnfix/modules/authentication/domain/usecases/verify_otp_use_case.dart';
+import 'package:snapnfix/modules/authentication/presentation/cubits/complete_profile/complete_profile_cubit.dart';
 import 'package:snapnfix/modules/authentication/presentation/cubits/forget_password/forgot_password_cubit.dart';
 import 'package:snapnfix/modules/authentication/presentation/cubits/login/login_cubit.dart';
 import 'package:snapnfix/modules/authentication/presentation/cubits/otp/otp_cubit.dart';
@@ -150,6 +152,16 @@ void setupAuthenticationModule() {
     () => ResendOtpUseCase(getIt<BaseAuthenticationRepository>()),
   );
 
+  getIt.registerLazySingleton<CompleteProfileUseCase>(
+    () => CompleteProfileUseCase(getIt<BaseAuthenticationRepository>()),
+  );
+
+  getIt.registerFactory<CompleteProfileCubit>(
+    () => CompleteProfileCubit(
+      completeProfileUseCase: getIt<CompleteProfileUseCase>(),
+    ),
+  );
+
   getIt.registerFactory<OtpCubit>(
     () => OtpCubit(
       verifyOtpUseCase: getIt<VerifyOtpUseCase>(),
@@ -164,9 +176,8 @@ void setupAuthenticationModule() {
   );
 
   getIt.registerFactory<ResetPasswordCubit>(
-    () => ResetPasswordCubit(
-      resetPasswordUseCase: getIt<ResetPasswordUseCase>(),
-    ),
+    () =>
+        ResetPasswordCubit(resetPasswordUseCase: getIt<ResetPasswordUseCase>()),
   );
 }
 

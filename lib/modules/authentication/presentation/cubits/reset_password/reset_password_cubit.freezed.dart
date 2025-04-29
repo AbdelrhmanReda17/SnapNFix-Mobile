@@ -21,21 +21,21 @@ mixin _$ResetPasswordState {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(Session session) success,
+    required TResult Function(bool result) success,
     required TResult Function(ApiErrorModel error) error,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(Session session)? success,
+    TResult? Function(bool result)? success,
     TResult? Function(ApiErrorModel error)? error,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(Session session)? success,
+    TResult Function(bool result)? success,
     TResult Function(ApiErrorModel error)? error,
     required TResult orElse(),
   }) => throw _privateConstructorUsedError;
@@ -130,7 +130,7 @@ class _$InitialImpl implements _Initial {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(Session session) success,
+    required TResult Function(bool result) success,
     required TResult Function(ApiErrorModel error) error,
   }) {
     return initial();
@@ -141,7 +141,7 @@ class _$InitialImpl implements _Initial {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(Session session)? success,
+    TResult? Function(bool result)? success,
     TResult? Function(ApiErrorModel error)? error,
   }) {
     return initial?.call();
@@ -152,7 +152,7 @@ class _$InitialImpl implements _Initial {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(Session session)? success,
+    TResult Function(bool result)? success,
     TResult Function(ApiErrorModel error)? error,
     required TResult orElse(),
   }) {
@@ -249,7 +249,7 @@ class _$LoadingImpl implements _Loading {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(Session session) success,
+    required TResult Function(bool result) success,
     required TResult Function(ApiErrorModel error) error,
   }) {
     return loading();
@@ -260,7 +260,7 @@ class _$LoadingImpl implements _Loading {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(Session session)? success,
+    TResult? Function(bool result)? success,
     TResult? Function(ApiErrorModel error)? error,
   }) {
     return loading?.call();
@@ -271,7 +271,7 @@ class _$LoadingImpl implements _Loading {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(Session session)? success,
+    TResult Function(bool result)? success,
     TResult Function(ApiErrorModel error)? error,
     required TResult orElse(),
   }) {
@@ -330,7 +330,7 @@ abstract class _$$SuccessImplCopyWith<$Res> {
     $Res Function(_$SuccessImpl) then,
   ) = __$$SuccessImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({Session session});
+  $Res call({bool result});
 }
 
 /// @nodoc
@@ -346,13 +346,13 @@ class __$$SuccessImplCopyWithImpl<$Res>
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({Object? session = null}) {
+  $Res call({Object? result = null}) {
     return _then(
       _$SuccessImpl(
-        null == session
-            ? _value.session
-            : session // ignore: cast_nullable_to_non_nullable
-                as Session,
+        null == result
+            ? _value.result
+            : result // ignore: cast_nullable_to_non_nullable
+                as bool,
       ),
     );
   }
@@ -361,14 +361,14 @@ class __$$SuccessImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$SuccessImpl implements _Success {
-  const _$SuccessImpl(this.session);
+  const _$SuccessImpl(this.result);
 
   @override
-  final Session session;
+  final bool result;
 
   @override
   String toString() {
-    return 'ResetPasswordState.success(session: $session)';
+    return 'ResetPasswordState.success(result: $result)';
   }
 
   @override
@@ -376,11 +376,11 @@ class _$SuccessImpl implements _Success {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$SuccessImpl &&
-            (identical(other.session, session) || other.session == session));
+            (identical(other.result, result) || other.result == result));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, session);
+  int get hashCode => Object.hash(runtimeType, result);
 
   /// Create a copy of ResetPasswordState
   /// with the given fields replaced by the non-null parameter values.
@@ -395,10 +395,10 @@ class _$SuccessImpl implements _Success {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(Session session) success,
+    required TResult Function(bool result) success,
     required TResult Function(ApiErrorModel error) error,
   }) {
-    return success(session);
+    return success(result);
   }
 
   @override
@@ -406,10 +406,10 @@ class _$SuccessImpl implements _Success {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(Session session)? success,
+    TResult? Function(bool result)? success,
     TResult? Function(ApiErrorModel error)? error,
   }) {
-    return success?.call(session);
+    return success?.call(result);
   }
 
   @override
@@ -417,12 +417,12 @@ class _$SuccessImpl implements _Success {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(Session session)? success,
+    TResult Function(bool result)? success,
     TResult Function(ApiErrorModel error)? error,
     required TResult orElse(),
   }) {
     if (success != null) {
-      return success(session);
+      return success(result);
     }
     return orElse();
   }
@@ -466,9 +466,9 @@ class _$SuccessImpl implements _Success {
 }
 
 abstract class _Success implements ResetPasswordState {
-  const factory _Success(final Session session) = _$SuccessImpl;
+  const factory _Success(final bool result) = _$SuccessImpl;
 
-  Session get session;
+  bool get result;
 
   /// Create a copy of ResetPasswordState
   /// with the given fields replaced by the non-null parameter values.
@@ -549,7 +549,7 @@ class _$ErrorImpl implements _Error {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(Session session) success,
+    required TResult Function(bool result) success,
     required TResult Function(ApiErrorModel error) error,
   }) {
     return error(this.error);
@@ -560,7 +560,7 @@ class _$ErrorImpl implements _Error {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(Session session)? success,
+    TResult? Function(bool result)? success,
     TResult? Function(ApiErrorModel error)? error,
   }) {
     return error?.call(this.error);
@@ -571,7 +571,7 @@ class _$ErrorImpl implements _Error {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(Session session)? success,
+    TResult Function(bool result)? success,
     TResult Function(ApiErrorModel error)? error,
     required TResult orElse(),
   }) {

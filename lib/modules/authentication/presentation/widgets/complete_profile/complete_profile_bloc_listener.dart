@@ -3,50 +3,29 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:snapnfix/core/base_components/base_alert.dart';
 import 'package:snapnfix/core/infrastructure/networking/api_error_model.dart';
-import 'package:snapnfix/modules/authentication/presentation/cubits/login/login_cubit.dart';
+import 'package:snapnfix/modules/authentication/presentation/cubits/complete_profile/complete_profile_cubit.dart';
 import 'package:snapnfix/presentation/navigation/routes.dart';
 
-class LoginBlocListener extends StatelessWidget {
-  const LoginBlocListener({super.key});
+class CompleteProfileBlocListener extends StatelessWidget {
+  const CompleteProfileBlocListener({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<LoginCubit, LoginState>(
+    return BlocListener<CompleteProfileCubit, CompleteProfileState>(
       listener: (context, state) {
         state.whenOrNull(
+          loading: () {
+            showLoadingDialog(context);
+          },
           success: (session) {
             context.go(Routes.homeScreen.key);
-          },
-          requiresVerification: () {
-            context.pop();
-            context.push(Routes.otpScreen.key);
-          },
-          requiresProfile: () {
-            context.pop();
-            context.push(Routes.completeProfileScreen.key);
           },
           error: (error) {
             setupErrorState(context, error);
           },
-          loading: () {
-            showLoadingDialog(context);
-          },
         );
       },
       child: const SizedBox.shrink(),
-    );
-  }
-
-  void setupErrorState(BuildContext context, ApiErrorModel error) {
-    context.pop(); // Dismiss loading dialog if showing
-    baseDialog(
-      context: context,
-      title: 'Error',
-      message: error.getAllErrorMessages(),
-      alertType: AlertType.error,
-      confirmText: 'Got it',
-      onConfirm: () {},
-      showCancelButton: false,
     );
   }
 
@@ -60,6 +39,19 @@ class LoginBlocListener extends StatelessWidget {
               color: Theme.of(context).colorScheme.primary,
             ),
           ),
+    );
+  }
+
+  void setupErrorState(BuildContext context, ApiErrorModel error) {
+    context.pop();
+    baseDialog(
+      context: context,
+      title: 'Error',
+      message: error.getAllErrorMessages(),
+      alertType: AlertType.error,
+      confirmText: 'Got it',
+      onConfirm: () {},
+      showCancelButton: false,
     );
   }
 }

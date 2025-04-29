@@ -1,4 +1,5 @@
 import 'package:flutter/widgets.dart';
+import 'package:snapnfix/modules/authentication/presentation/screens/complete_profile.dart';
 import 'package:snapnfix/modules/authentication/presentation/screens/forgot_password_screen.dart';
 import 'package:snapnfix/modules/authentication/presentation/screens/login_screen.dart';
 import 'package:snapnfix/modules/authentication/presentation/screens/otp_screen.dart';
@@ -49,6 +50,10 @@ class Routes {
   static const MapEntry<String, Widget> mapScreen = MapEntry(
     '/mapScreen',
     IssueMapScreen(),
+  );
+  static const MapEntry<String, Widget> completeProfileScreen = MapEntry(
+    '/completeProfileScreen',
+    CompleteProfileScreen(),
   );
   static const MapEntry<String, Widget> userReportsScreen = MapEntry(
     '/userReportsScreen',

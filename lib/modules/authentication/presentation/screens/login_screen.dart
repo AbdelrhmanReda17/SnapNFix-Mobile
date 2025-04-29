@@ -28,6 +28,9 @@ class LoginScreen extends StatelessWidget {
       onSubmit: () {
         context.read<LoginCubit>().emitLoginStates();
       },
+      showSocial: true,
+      showTerms: false,
+      showLogo: true,
     );
   }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:snapnfix/modules/authentication/presentation/cubits/otp/otp_cubit.dart';
 
 class OtpForm extends StatelessWidget {
@@ -20,9 +21,13 @@ class OtpForm extends StatelessWidget {
             numberOfFields: 6,
             borderColor: colorScheme.primary,
             focusedBorderColor: colorScheme.primaryFixedDim,
+            fieldWidth: 45.w,
+            onSubmit: (String verificationCode) {
+              cubit.updateOtpCode(verificationCode);
+            },
             showFieldAsBox: true,
-            onCodeChanged: (String code) {
-              cubit.updateOtpCode(code);
+            onCodeChanged: (String input) {
+              // handle validation or checks that the input digit is number
             },
           ),
         ],
@@ -30,4 +35,3 @@ class OtpForm extends StatelessWidget {
     );
   }
 }
-

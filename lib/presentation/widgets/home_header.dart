@@ -18,7 +18,7 @@ class HomeHeader extends StatelessWidget {
     }
 
     final user = session.user;
-    final initials = '${user.firstName[0]}${user.lastName[0]}'.toUpperCase();
+    final initials = '${user.firstName![0]}${user.lastName![0]}'.toUpperCase();
 
     return Stack(
       children: [

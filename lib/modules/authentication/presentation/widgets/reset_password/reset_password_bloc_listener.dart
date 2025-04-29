@@ -26,7 +26,6 @@ class ResetPasswordBlocListener extends StatelessWidget {
               confirmText: 'Got it',
               onConfirm: () {
                 context.pop();
-                context.go(Routes.loginScreen.key);
               },
               showCancelButton: false,
             );

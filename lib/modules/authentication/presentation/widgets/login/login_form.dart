@@ -10,33 +10,15 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:snapnfix/modules/authentication/presentation/cubits/login/login_cubit.dart';
 import 'package:snapnfix/modules/authentication/presentation/widgets/login/forget_password.dart';
 
-class LoginForm extends StatefulWidget {
+class LoginForm extends StatelessWidget {
   const LoginForm({super.key});
-
-  @override
-  State<LoginForm> createState() => _LoginFormState();
-}
-
-class _LoginFormState extends State<LoginForm> {
-  bool isObscureText = true;
-  bool isRememberMe = false;
-  void toggleObscureText() {
-    setState(() {
-      isObscureText = !isObscureText;
-    });
-  }
-
-  void toggleRememberMe(bool? value) {
-    if (value == null) return;
-    setState(() {
-      isRememberMe = value;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
     final textStyles = Theme.of(context).textTheme;
+    final localizations = AppLocalizations.of(context)!;
+
     return Form(
       key: context.read<LoginCubit>().formKey,
       child: Padding(
@@ -44,46 +26,40 @@ class _LoginFormState extends State<LoginForm> {
         child: Column(
           children: [
             BaseTextField(
-              hintText: AppLocalizations.of(context)!.emailOrPhone,
+              hintText: localizations.emailOrPhone,
               controller: context.read<LoginCubit>().emailOrPhoneController,
-              validator: (value) => value!.isNotEmpty
-                  ? value.isValidEmailOrPhone
-                      ? null
-                      : AppLocalizations.of(context)!.emailOrPhoneRequiredAndValid
-                  : AppLocalizations.of(context)!.emailOrPhoneRequiredAndValid,
+              validator:
+                  (value) =>
+                      value!.isNotEmpty
+                          ? value.isValidEmailOrPhone
+                              ? null
+                              : localizations.emailOrPhoneRequiredAndValid
+                          : localizations.emailOrPhoneRequiredAndValid,
             ),
             verticalSpace(20),
-            BasePasswordTextField(
-              text: AppLocalizations.of(context)!.password,
-              isPasswordObscureText: isObscureText,
-              togglePasswordObscureText: toggleObscureText,
-              controller: context.read<LoginCubit>().passwordController,
-              validator: (value) => value!.isNotEmpty
-                  ? null
-                  : AppLocalizations.of(context)!.passwordRequired ,
+            BlocSelector<LoginCubit, LoginState, bool>(
+              selector:
+                  (state) => state.maybeWhen(
+                    initial: (passwordVisible) => passwordVisible,
+                    orElse: () => false,
+                  ),
+              builder: (context, isPasswordVisible) {
+                return BasePasswordTextField(
+                  text: localizations.password,
+                  isPasswordObscureText: !isPasswordVisible,
+                  togglePasswordObscureText:
+                      context.read<LoginCubit>().togglePasswordVisibility,
+                  controller: context.read<LoginCubit>().passwordController,
+                  validator:
+                      (value) =>
+                          value!.isNotEmpty
+                              ? null
+                              : localizations.passwordRequired,
+                );
+              },
             ),
             verticalSpace(20),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
-                  children: [
-                    BaseCheckbox(
-                      value: isRememberMe,
-                      onChanged: toggleRememberMe,
-                    ),
-                    horizontalSpace(6),
-                    Text(
-                      AppLocalizations.of(context)!.rememberMe,
-                      style: textStyles.bodyMedium!.copyWith(
-                        color: colorScheme.primary,
-                      ),
-                    ),
-                  ],
-                ),
-                ForgetPassword(),
-              ],
-            ),
+            Align(alignment: Alignment.centerRight, child: ForgetPassword()),
           ],
         ),
       ),

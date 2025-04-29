@@ -21,25 +21,30 @@ mixin _$OtpState {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(dynamic session, bool isFormForgotPassword)
-    success,
+    required TResult Function(Session session) success,
     required TResult Function() resendSuccess,
+    required TResult Function() requiresProfile,
+    required TResult Function() requiresPasswordReset,
     required TResult Function(ApiErrorModel error) error,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(dynamic session, bool isFormForgotPassword)? success,
+    TResult? Function(Session session)? success,
     TResult? Function()? resendSuccess,
+    TResult? Function()? requiresProfile,
+    TResult? Function()? requiresPasswordReset,
     TResult? Function(ApiErrorModel error)? error,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(dynamic session, bool isFormForgotPassword)? success,
+    TResult Function(Session session)? success,
     TResult Function()? resendSuccess,
+    TResult Function()? requiresProfile,
+    TResult Function()? requiresPasswordReset,
     TResult Function(ApiErrorModel error)? error,
     required TResult orElse(),
   }) => throw _privateConstructorUsedError;
@@ -49,6 +54,9 @@ mixin _$OtpState {
     required TResult Function(_Loading value) loading,
     required TResult Function(_Success value) success,
     required TResult Function(_ResendSuccess value) resendSuccess,
+    required TResult Function(_RequiresProfile value) requiresProfile,
+    required TResult Function(_RequiresPasswordReset value)
+    requiresPasswordReset,
     required TResult Function(_Error value) error,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -57,6 +65,8 @@ mixin _$OtpState {
     TResult? Function(_Loading value)? loading,
     TResult? Function(_Success value)? success,
     TResult? Function(_ResendSuccess value)? resendSuccess,
+    TResult? Function(_RequiresProfile value)? requiresProfile,
+    TResult? Function(_RequiresPasswordReset value)? requiresPasswordReset,
     TResult? Function(_Error value)? error,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -65,6 +75,8 @@ mixin _$OtpState {
     TResult Function(_Loading value)? loading,
     TResult Function(_Success value)? success,
     TResult Function(_ResendSuccess value)? resendSuccess,
+    TResult Function(_RequiresProfile value)? requiresProfile,
+    TResult Function(_RequiresPasswordReset value)? requiresPasswordReset,
     TResult Function(_Error value)? error,
     required TResult orElse(),
   }) => throw _privateConstructorUsedError;
@@ -135,9 +147,10 @@ class _$InitialImpl implements _Initial {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(dynamic session, bool isFormForgotPassword)
-    success,
+    required TResult Function(Session session) success,
     required TResult Function() resendSuccess,
+    required TResult Function() requiresProfile,
+    required TResult Function() requiresPasswordReset,
     required TResult Function(ApiErrorModel error) error,
   }) {
     return initial();
@@ -148,8 +161,10 @@ class _$InitialImpl implements _Initial {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(dynamic session, bool isFormForgotPassword)? success,
+    TResult? Function(Session session)? success,
     TResult? Function()? resendSuccess,
+    TResult? Function()? requiresProfile,
+    TResult? Function()? requiresPasswordReset,
     TResult? Function(ApiErrorModel error)? error,
   }) {
     return initial?.call();
@@ -160,8 +175,10 @@ class _$InitialImpl implements _Initial {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(dynamic session, bool isFormForgotPassword)? success,
+    TResult Function(Session session)? success,
     TResult Function()? resendSuccess,
+    TResult Function()? requiresProfile,
+    TResult Function()? requiresPasswordReset,
     TResult Function(ApiErrorModel error)? error,
     required TResult orElse(),
   }) {
@@ -178,6 +195,9 @@ class _$InitialImpl implements _Initial {
     required TResult Function(_Loading value) loading,
     required TResult Function(_Success value) success,
     required TResult Function(_ResendSuccess value) resendSuccess,
+    required TResult Function(_RequiresProfile value) requiresProfile,
+    required TResult Function(_RequiresPasswordReset value)
+    requiresPasswordReset,
     required TResult Function(_Error value) error,
   }) {
     return initial(this);
@@ -190,6 +210,8 @@ class _$InitialImpl implements _Initial {
     TResult? Function(_Loading value)? loading,
     TResult? Function(_Success value)? success,
     TResult? Function(_ResendSuccess value)? resendSuccess,
+    TResult? Function(_RequiresProfile value)? requiresProfile,
+    TResult? Function(_RequiresPasswordReset value)? requiresPasswordReset,
     TResult? Function(_Error value)? error,
   }) {
     return initial?.call(this);
@@ -202,6 +224,8 @@ class _$InitialImpl implements _Initial {
     TResult Function(_Loading value)? loading,
     TResult Function(_Success value)? success,
     TResult Function(_ResendSuccess value)? resendSuccess,
+    TResult Function(_RequiresProfile value)? requiresProfile,
+    TResult Function(_RequiresPasswordReset value)? requiresPasswordReset,
     TResult Function(_Error value)? error,
     required TResult orElse(),
   }) {
@@ -261,9 +285,10 @@ class _$LoadingImpl implements _Loading {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(dynamic session, bool isFormForgotPassword)
-    success,
+    required TResult Function(Session session) success,
     required TResult Function() resendSuccess,
+    required TResult Function() requiresProfile,
+    required TResult Function() requiresPasswordReset,
     required TResult Function(ApiErrorModel error) error,
   }) {
     return loading();
@@ -274,8 +299,10 @@ class _$LoadingImpl implements _Loading {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(dynamic session, bool isFormForgotPassword)? success,
+    TResult? Function(Session session)? success,
     TResult? Function()? resendSuccess,
+    TResult? Function()? requiresProfile,
+    TResult? Function()? requiresPasswordReset,
     TResult? Function(ApiErrorModel error)? error,
   }) {
     return loading?.call();
@@ -286,8 +313,10 @@ class _$LoadingImpl implements _Loading {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(dynamic session, bool isFormForgotPassword)? success,
+    TResult Function(Session session)? success,
     TResult Function()? resendSuccess,
+    TResult Function()? requiresProfile,
+    TResult Function()? requiresPasswordReset,
     TResult Function(ApiErrorModel error)? error,
     required TResult orElse(),
   }) {
@@ -304,6 +333,9 @@ class _$LoadingImpl implements _Loading {
     required TResult Function(_Loading value) loading,
     required TResult Function(_Success value) success,
     required TResult Function(_ResendSuccess value) resendSuccess,
+    required TResult Function(_RequiresProfile value) requiresProfile,
+    required TResult Function(_RequiresPasswordReset value)
+    requiresPasswordReset,
     required TResult Function(_Error value) error,
   }) {
     return loading(this);
@@ -316,6 +348,8 @@ class _$LoadingImpl implements _Loading {
     TResult? Function(_Loading value)? loading,
     TResult? Function(_Success value)? success,
     TResult? Function(_ResendSuccess value)? resendSuccess,
+    TResult? Function(_RequiresProfile value)? requiresProfile,
+    TResult? Function(_RequiresPasswordReset value)? requiresPasswordReset,
     TResult? Function(_Error value)? error,
   }) {
     return loading?.call(this);
@@ -328,6 +362,8 @@ class _$LoadingImpl implements _Loading {
     TResult Function(_Loading value)? loading,
     TResult Function(_Success value)? success,
     TResult Function(_ResendSuccess value)? resendSuccess,
+    TResult Function(_RequiresProfile value)? requiresProfile,
+    TResult Function(_RequiresPasswordReset value)? requiresPasswordReset,
     TResult Function(_Error value)? error,
     required TResult orElse(),
   }) {
@@ -349,7 +385,7 @@ abstract class _$$SuccessImplCopyWith<$Res> {
     $Res Function(_$SuccessImpl) then,
   ) = __$$SuccessImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({dynamic session, bool isFormForgotPassword});
+  $Res call({Session session});
 }
 
 /// @nodoc
@@ -365,18 +401,13 @@ class __$$SuccessImplCopyWithImpl<$Res>
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({Object? session = freezed, Object? isFormForgotPassword = null}) {
+  $Res call({Object? session = null}) {
     return _then(
       _$SuccessImpl(
-        freezed == session
+        null == session
             ? _value.session
             : session // ignore: cast_nullable_to_non_nullable
-                as dynamic,
-        isFormForgotPassword:
-            null == isFormForgotPassword
-                ? _value.isFormForgotPassword
-                : isFormForgotPassword // ignore: cast_nullable_to_non_nullable
-                    as bool,
+                as Session,
       ),
     );
   }
@@ -385,17 +416,14 @@ class __$$SuccessImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$SuccessImpl implements _Success {
-  const _$SuccessImpl(this.session, {this.isFormForgotPassword = false});
+  const _$SuccessImpl(this.session);
 
   @override
-  final dynamic session;
-  @override
-  @JsonKey()
-  final bool isFormForgotPassword;
+  final Session session;
 
   @override
   String toString() {
-    return 'OtpState.success(session: $session, isFormForgotPassword: $isFormForgotPassword)';
+    return 'OtpState.success(session: $session)';
   }
 
   @override
@@ -403,17 +431,11 @@ class _$SuccessImpl implements _Success {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$SuccessImpl &&
-            const DeepCollectionEquality().equals(other.session, session) &&
-            (identical(other.isFormForgotPassword, isFormForgotPassword) ||
-                other.isFormForgotPassword == isFormForgotPassword));
+            (identical(other.session, session) || other.session == session));
   }
 
   @override
-  int get hashCode => Object.hash(
-    runtimeType,
-    const DeepCollectionEquality().hash(session),
-    isFormForgotPassword,
-  );
+  int get hashCode => Object.hash(runtimeType, session);
 
   /// Create a copy of OtpState
   /// with the given fields replaced by the non-null parameter values.
@@ -428,12 +450,13 @@ class _$SuccessImpl implements _Success {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(dynamic session, bool isFormForgotPassword)
-    success,
+    required TResult Function(Session session) success,
     required TResult Function() resendSuccess,
+    required TResult Function() requiresProfile,
+    required TResult Function() requiresPasswordReset,
     required TResult Function(ApiErrorModel error) error,
   }) {
-    return success(session, isFormForgotPassword);
+    return success(session);
   }
 
   @override
@@ -441,11 +464,13 @@ class _$SuccessImpl implements _Success {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(dynamic session, bool isFormForgotPassword)? success,
+    TResult? Function(Session session)? success,
     TResult? Function()? resendSuccess,
+    TResult? Function()? requiresProfile,
+    TResult? Function()? requiresPasswordReset,
     TResult? Function(ApiErrorModel error)? error,
   }) {
-    return success?.call(session, isFormForgotPassword);
+    return success?.call(session);
   }
 
   @override
@@ -453,13 +478,15 @@ class _$SuccessImpl implements _Success {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(dynamic session, bool isFormForgotPassword)? success,
+    TResult Function(Session session)? success,
     TResult Function()? resendSuccess,
+    TResult Function()? requiresProfile,
+    TResult Function()? requiresPasswordReset,
     TResult Function(ApiErrorModel error)? error,
     required TResult orElse(),
   }) {
     if (success != null) {
-      return success(session, isFormForgotPassword);
+      return success(session);
     }
     return orElse();
   }
@@ -471,6 +498,9 @@ class _$SuccessImpl implements _Success {
     required TResult Function(_Loading value) loading,
     required TResult Function(_Success value) success,
     required TResult Function(_ResendSuccess value) resendSuccess,
+    required TResult Function(_RequiresProfile value) requiresProfile,
+    required TResult Function(_RequiresPasswordReset value)
+    requiresPasswordReset,
     required TResult Function(_Error value) error,
   }) {
     return success(this);
@@ -483,6 +513,8 @@ class _$SuccessImpl implements _Success {
     TResult? Function(_Loading value)? loading,
     TResult? Function(_Success value)? success,
     TResult? Function(_ResendSuccess value)? resendSuccess,
+    TResult? Function(_RequiresProfile value)? requiresProfile,
+    TResult? Function(_RequiresPasswordReset value)? requiresPasswordReset,
     TResult? Function(_Error value)? error,
   }) {
     return success?.call(this);
@@ -495,6 +527,8 @@ class _$SuccessImpl implements _Success {
     TResult Function(_Loading value)? loading,
     TResult Function(_Success value)? success,
     TResult Function(_ResendSuccess value)? resendSuccess,
+    TResult Function(_RequiresProfile value)? requiresProfile,
+    TResult Function(_RequiresPasswordReset value)? requiresPasswordReset,
     TResult Function(_Error value)? error,
     required TResult orElse(),
   }) {
@@ -506,13 +540,9 @@ class _$SuccessImpl implements _Success {
 }
 
 abstract class _Success implements OtpState {
-  const factory _Success(
-    final dynamic session, {
-    final bool isFormForgotPassword,
-  }) = _$SuccessImpl;
+  const factory _Success(final Session session) = _$SuccessImpl;
 
-  dynamic get session;
-  bool get isFormForgotPassword;
+  Session get session;
 
   /// Create a copy of OtpState
   /// with the given fields replaced by the non-null parameter values.
@@ -566,9 +596,10 @@ class _$ResendSuccessImpl implements _ResendSuccess {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(dynamic session, bool isFormForgotPassword)
-    success,
+    required TResult Function(Session session) success,
     required TResult Function() resendSuccess,
+    required TResult Function() requiresProfile,
+    required TResult Function() requiresPasswordReset,
     required TResult Function(ApiErrorModel error) error,
   }) {
     return resendSuccess();
@@ -579,8 +610,10 @@ class _$ResendSuccessImpl implements _ResendSuccess {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(dynamic session, bool isFormForgotPassword)? success,
+    TResult? Function(Session session)? success,
     TResult? Function()? resendSuccess,
+    TResult? Function()? requiresProfile,
+    TResult? Function()? requiresPasswordReset,
     TResult? Function(ApiErrorModel error)? error,
   }) {
     return resendSuccess?.call();
@@ -591,8 +624,10 @@ class _$ResendSuccessImpl implements _ResendSuccess {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(dynamic session, bool isFormForgotPassword)? success,
+    TResult Function(Session session)? success,
     TResult Function()? resendSuccess,
+    TResult Function()? requiresProfile,
+    TResult Function()? requiresPasswordReset,
     TResult Function(ApiErrorModel error)? error,
     required TResult orElse(),
   }) {
@@ -609,6 +644,9 @@ class _$ResendSuccessImpl implements _ResendSuccess {
     required TResult Function(_Loading value) loading,
     required TResult Function(_Success value) success,
     required TResult Function(_ResendSuccess value) resendSuccess,
+    required TResult Function(_RequiresProfile value) requiresProfile,
+    required TResult Function(_RequiresPasswordReset value)
+    requiresPasswordReset,
     required TResult Function(_Error value) error,
   }) {
     return resendSuccess(this);
@@ -621,6 +659,8 @@ class _$ResendSuccessImpl implements _ResendSuccess {
     TResult? Function(_Loading value)? loading,
     TResult? Function(_Success value)? success,
     TResult? Function(_ResendSuccess value)? resendSuccess,
+    TResult? Function(_RequiresProfile value)? requiresProfile,
+    TResult? Function(_RequiresPasswordReset value)? requiresPasswordReset,
     TResult? Function(_Error value)? error,
   }) {
     return resendSuccess?.call(this);
@@ -633,6 +673,8 @@ class _$ResendSuccessImpl implements _ResendSuccess {
     TResult Function(_Loading value)? loading,
     TResult Function(_Success value)? success,
     TResult Function(_ResendSuccess value)? resendSuccess,
+    TResult Function(_RequiresProfile value)? requiresProfile,
+    TResult Function(_RequiresPasswordReset value)? requiresPasswordReset,
     TResult Function(_Error value)? error,
     required TResult orElse(),
   }) {
@@ -645,6 +687,283 @@ class _$ResendSuccessImpl implements _ResendSuccess {
 
 abstract class _ResendSuccess implements OtpState {
   const factory _ResendSuccess() = _$ResendSuccessImpl;
+}
+
+/// @nodoc
+abstract class _$$RequiresProfileImplCopyWith<$Res> {
+  factory _$$RequiresProfileImplCopyWith(
+    _$RequiresProfileImpl value,
+    $Res Function(_$RequiresProfileImpl) then,
+  ) = __$$RequiresProfileImplCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$RequiresProfileImplCopyWithImpl<$Res>
+    extends _$OtpStateCopyWithImpl<$Res, _$RequiresProfileImpl>
+    implements _$$RequiresProfileImplCopyWith<$Res> {
+  __$$RequiresProfileImplCopyWithImpl(
+    _$RequiresProfileImpl _value,
+    $Res Function(_$RequiresProfileImpl) _then,
+  ) : super(_value, _then);
+
+  /// Create a copy of OtpState
+  /// with the given fields replaced by the non-null parameter values.
+}
+
+/// @nodoc
+
+class _$RequiresProfileImpl implements _RequiresProfile {
+  const _$RequiresProfileImpl();
+
+  @override
+  String toString() {
+    return 'OtpState.requiresProfile()';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is _$RequiresProfileImpl);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() initial,
+    required TResult Function() loading,
+    required TResult Function(Session session) success,
+    required TResult Function() resendSuccess,
+    required TResult Function() requiresProfile,
+    required TResult Function() requiresPasswordReset,
+    required TResult Function(ApiErrorModel error) error,
+  }) {
+    return requiresProfile();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? initial,
+    TResult? Function()? loading,
+    TResult? Function(Session session)? success,
+    TResult? Function()? resendSuccess,
+    TResult? Function()? requiresProfile,
+    TResult? Function()? requiresPasswordReset,
+    TResult? Function(ApiErrorModel error)? error,
+  }) {
+    return requiresProfile?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? initial,
+    TResult Function()? loading,
+    TResult Function(Session session)? success,
+    TResult Function()? resendSuccess,
+    TResult Function()? requiresProfile,
+    TResult Function()? requiresPasswordReset,
+    TResult Function(ApiErrorModel error)? error,
+    required TResult orElse(),
+  }) {
+    if (requiresProfile != null) {
+      return requiresProfile();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_Initial value) initial,
+    required TResult Function(_Loading value) loading,
+    required TResult Function(_Success value) success,
+    required TResult Function(_ResendSuccess value) resendSuccess,
+    required TResult Function(_RequiresProfile value) requiresProfile,
+    required TResult Function(_RequiresPasswordReset value)
+    requiresPasswordReset,
+    required TResult Function(_Error value) error,
+  }) {
+    return requiresProfile(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_Initial value)? initial,
+    TResult? Function(_Loading value)? loading,
+    TResult? Function(_Success value)? success,
+    TResult? Function(_ResendSuccess value)? resendSuccess,
+    TResult? Function(_RequiresProfile value)? requiresProfile,
+    TResult? Function(_RequiresPasswordReset value)? requiresPasswordReset,
+    TResult? Function(_Error value)? error,
+  }) {
+    return requiresProfile?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Initial value)? initial,
+    TResult Function(_Loading value)? loading,
+    TResult Function(_Success value)? success,
+    TResult Function(_ResendSuccess value)? resendSuccess,
+    TResult Function(_RequiresProfile value)? requiresProfile,
+    TResult Function(_RequiresPasswordReset value)? requiresPasswordReset,
+    TResult Function(_Error value)? error,
+    required TResult orElse(),
+  }) {
+    if (requiresProfile != null) {
+      return requiresProfile(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _RequiresProfile implements OtpState {
+  const factory _RequiresProfile() = _$RequiresProfileImpl;
+}
+
+/// @nodoc
+abstract class _$$RequiresPasswordResetImplCopyWith<$Res> {
+  factory _$$RequiresPasswordResetImplCopyWith(
+    _$RequiresPasswordResetImpl value,
+    $Res Function(_$RequiresPasswordResetImpl) then,
+  ) = __$$RequiresPasswordResetImplCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$RequiresPasswordResetImplCopyWithImpl<$Res>
+    extends _$OtpStateCopyWithImpl<$Res, _$RequiresPasswordResetImpl>
+    implements _$$RequiresPasswordResetImplCopyWith<$Res> {
+  __$$RequiresPasswordResetImplCopyWithImpl(
+    _$RequiresPasswordResetImpl _value,
+    $Res Function(_$RequiresPasswordResetImpl) _then,
+  ) : super(_value, _then);
+
+  /// Create a copy of OtpState
+  /// with the given fields replaced by the non-null parameter values.
+}
+
+/// @nodoc
+
+class _$RequiresPasswordResetImpl implements _RequiresPasswordReset {
+  const _$RequiresPasswordResetImpl();
+
+  @override
+  String toString() {
+    return 'OtpState.requiresPasswordReset()';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$RequiresPasswordResetImpl);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() initial,
+    required TResult Function() loading,
+    required TResult Function(Session session) success,
+    required TResult Function() resendSuccess,
+    required TResult Function() requiresProfile,
+    required TResult Function() requiresPasswordReset,
+    required TResult Function(ApiErrorModel error) error,
+  }) {
+    return requiresPasswordReset();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? initial,
+    TResult? Function()? loading,
+    TResult? Function(Session session)? success,
+    TResult? Function()? resendSuccess,
+    TResult? Function()? requiresProfile,
+    TResult? Function()? requiresPasswordReset,
+    TResult? Function(ApiErrorModel error)? error,
+  }) {
+    return requiresPasswordReset?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? initial,
+    TResult Function()? loading,
+    TResult Function(Session session)? success,
+    TResult Function()? resendSuccess,
+    TResult Function()? requiresProfile,
+    TResult Function()? requiresPasswordReset,
+    TResult Function(ApiErrorModel error)? error,
+    required TResult orElse(),
+  }) {
+    if (requiresPasswordReset != null) {
+      return requiresPasswordReset();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_Initial value) initial,
+    required TResult Function(_Loading value) loading,
+    required TResult Function(_Success value) success,
+    required TResult Function(_ResendSuccess value) resendSuccess,
+    required TResult Function(_RequiresProfile value) requiresProfile,
+    required TResult Function(_RequiresPasswordReset value)
+    requiresPasswordReset,
+    required TResult Function(_Error value) error,
+  }) {
+    return requiresPasswordReset(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_Initial value)? initial,
+    TResult? Function(_Loading value)? loading,
+    TResult? Function(_Success value)? success,
+    TResult? Function(_ResendSuccess value)? resendSuccess,
+    TResult? Function(_RequiresProfile value)? requiresProfile,
+    TResult? Function(_RequiresPasswordReset value)? requiresPasswordReset,
+    TResult? Function(_Error value)? error,
+  }) {
+    return requiresPasswordReset?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Initial value)? initial,
+    TResult Function(_Loading value)? loading,
+    TResult Function(_Success value)? success,
+    TResult Function(_ResendSuccess value)? resendSuccess,
+    TResult Function(_RequiresProfile value)? requiresProfile,
+    TResult Function(_RequiresPasswordReset value)? requiresPasswordReset,
+    TResult Function(_Error value)? error,
+    required TResult orElse(),
+  }) {
+    if (requiresPasswordReset != null) {
+      return requiresPasswordReset(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _RequiresPasswordReset implements OtpState {
+  const factory _RequiresPasswordReset() = _$RequiresPasswordResetImpl;
 }
 
 /// @nodoc
@@ -719,9 +1038,10 @@ class _$ErrorImpl implements _Error {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(dynamic session, bool isFormForgotPassword)
-    success,
+    required TResult Function(Session session) success,
     required TResult Function() resendSuccess,
+    required TResult Function() requiresProfile,
+    required TResult Function() requiresPasswordReset,
     required TResult Function(ApiErrorModel error) error,
   }) {
     return error(this.error);
@@ -732,8 +1052,10 @@ class _$ErrorImpl implements _Error {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(dynamic session, bool isFormForgotPassword)? success,
+    TResult? Function(Session session)? success,
     TResult? Function()? resendSuccess,
+    TResult? Function()? requiresProfile,
+    TResult? Function()? requiresPasswordReset,
     TResult? Function(ApiErrorModel error)? error,
   }) {
     return error?.call(this.error);
@@ -744,8 +1066,10 @@ class _$ErrorImpl implements _Error {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(dynamic session, bool isFormForgotPassword)? success,
+    TResult Function(Session session)? success,
     TResult Function()? resendSuccess,
+    TResult Function()? requiresProfile,
+    TResult Function()? requiresPasswordReset,
     TResult Function(ApiErrorModel error)? error,
     required TResult orElse(),
   }) {
@@ -762,6 +1086,9 @@ class _$ErrorImpl implements _Error {
     required TResult Function(_Loading value) loading,
     required TResult Function(_Success value) success,
     required TResult Function(_ResendSuccess value) resendSuccess,
+    required TResult Function(_RequiresProfile value) requiresProfile,
+    required TResult Function(_RequiresPasswordReset value)
+    requiresPasswordReset,
     required TResult Function(_Error value) error,
   }) {
     return error(this);
@@ -774,6 +1101,8 @@ class _$ErrorImpl implements _Error {
     TResult? Function(_Loading value)? loading,
     TResult? Function(_Success value)? success,
     TResult? Function(_ResendSuccess value)? resendSuccess,
+    TResult? Function(_RequiresProfile value)? requiresProfile,
+    TResult? Function(_RequiresPasswordReset value)? requiresPasswordReset,
     TResult? Function(_Error value)? error,
   }) {
     return error?.call(this);
@@ -786,6 +1115,8 @@ class _$ErrorImpl implements _Error {
     TResult Function(_Loading value)? loading,
     TResult Function(_Success value)? success,
     TResult Function(_ResendSuccess value)? resendSuccess,
+    TResult Function(_RequiresProfile value)? requiresProfile,
+    TResult Function(_RequiresPasswordReset value)? requiresPasswordReset,
     TResult Function(_Error value)? error,
     required TResult orElse(),
   }) {

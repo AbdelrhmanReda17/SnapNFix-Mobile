@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:snapnfix/modules/authentication/presentation/cubits/complete_profile/complete_profile_cubit.dart';
 import 'package:snapnfix/modules/authentication/presentation/cubits/forget_password/forgot_password_cubit.dart';
 import 'package:snapnfix/modules/authentication/presentation/cubits/login/login_cubit.dart';
 import 'package:snapnfix/modules/authentication/presentation/cubits/otp/otp_cubit.dart';
@@ -70,6 +71,17 @@ class ApplicationScreens {
       },
     ),
     ScreenItem(
+      path: Routes.completeProfileScreen.key,
+      screen: Routes.completeProfileScreen.value,
+      blocProvider: (child) {
+        return BlocProvider(
+          create: (context) => getIt<CompleteProfileCubit>(),
+          child: child,
+        );
+      },
+    ),
+
+    ScreenItem(
       screen: Routes.onBoardingScreen.value,
       path: Routes.onBoardingScreen.key,
     ),
@@ -78,7 +90,6 @@ class ApplicationScreens {
       screen: Builder(
         builder: (context) {
           final arguments = GoRouterState.of(context).extra;
-
           if (arguments is Map) {
             return OtpScreen(
               isFormForgotPassword: arguments['isFormForgotPassword'],
@@ -87,7 +98,6 @@ class ApplicationScreens {
           } else if (arguments is String) {
             return OtpScreen(emailOrPhoneNumber: arguments);
           }
-
           return const OtpScreen();
         },
       ),

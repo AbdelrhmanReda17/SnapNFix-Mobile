@@ -42,7 +42,7 @@ class ResetPasswordCubit extends Cubit<ResetPasswordState> {
     );
 
     response.when(
-      success: (session) => emit(ResetPasswordState.success(session)),
+      success: (res) => emit(ResetPasswordState.success(res)),
       failure: (ApiErrorModel error) => 
         emit(ResetPasswordState.error(error)),
     );

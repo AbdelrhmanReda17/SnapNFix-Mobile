@@ -67,6 +67,7 @@ class ApplicationRouter {
             !state.uri.toString().contains(Routes.onBoardingScreen.key) &&
             !state.uri.toString().contains(Routes.forgotPasswordScreen.key) &&
             !state.uri.toString().contains(Routes.resetPasswordScreen.key) &&
+            !state.uri.toString().contains(Routes.completeProfileScreen.key) &&
             !state.uri.toString().contains(Routes.otpScreen.key)) {
           return Routes.loginScreen.key;
         }

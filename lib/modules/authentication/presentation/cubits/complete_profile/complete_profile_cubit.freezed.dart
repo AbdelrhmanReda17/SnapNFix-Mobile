@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'register_cubit.dart';
+part of 'complete_profile_cubit.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -16,35 +16,26 @@ final _privateConstructorUsedError = UnsupportedError(
 );
 
 /// @nodoc
-mixin _$RegisterState {
+mixin _$CompleteProfileState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(bool passwordVisible, bool confirmPasswordVisible)
-    initial,
+    required TResult Function(UserGender gender, DateTime? dateOfBirth) initial,
     required TResult Function() loading,
     required TResult Function(Session session) success,
-    required TResult Function() requiresVerification,
-    required TResult Function() requiresProfile,
     required TResult Function(ApiErrorModel error) error,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(bool passwordVisible, bool confirmPasswordVisible)?
-    initial,
+    TResult? Function(UserGender gender, DateTime? dateOfBirth)? initial,
     TResult? Function()? loading,
     TResult? Function(Session session)? success,
-    TResult? Function()? requiresVerification,
-    TResult? Function()? requiresProfile,
     TResult? Function(ApiErrorModel error)? error,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(bool passwordVisible, bool confirmPasswordVisible)?
-    initial,
+    TResult Function(UserGender gender, DateTime? dateOfBirth)? initial,
     TResult Function()? loading,
     TResult Function(Session session)? success,
-    TResult Function()? requiresVerification,
-    TResult Function()? requiresProfile,
     TResult Function(ApiErrorModel error)? error,
     required TResult orElse(),
   }) => throw _privateConstructorUsedError;
@@ -53,8 +44,6 @@ mixin _$RegisterState {
     required TResult Function(_Initial value) initial,
     required TResult Function(_Loading value) loading,
     required TResult Function(_Success value) success,
-    required TResult Function(_RequiresVerification value) requiresVerification,
-    required TResult Function(_RequiresProfile value) requiresProfile,
     required TResult Function(_Error value) error,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -62,8 +51,6 @@ mixin _$RegisterState {
     TResult? Function(_Initial value)? initial,
     TResult? Function(_Loading value)? loading,
     TResult? Function(_Success value)? success,
-    TResult? Function(_RequiresVerification value)? requiresVerification,
-    TResult? Function(_RequiresProfile value)? requiresProfile,
     TResult? Function(_Error value)? error,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -71,32 +58,33 @@ mixin _$RegisterState {
     TResult Function(_Initial value)? initial,
     TResult Function(_Loading value)? loading,
     TResult Function(_Success value)? success,
-    TResult Function(_RequiresVerification value)? requiresVerification,
-    TResult Function(_RequiresProfile value)? requiresProfile,
     TResult Function(_Error value)? error,
     required TResult orElse(),
   }) => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $RegisterStateCopyWith<$Res> {
-  factory $RegisterStateCopyWith(
-    RegisterState value,
-    $Res Function(RegisterState) then,
-  ) = _$RegisterStateCopyWithImpl<$Res, RegisterState>;
+abstract class $CompleteProfileStateCopyWith<$Res> {
+  factory $CompleteProfileStateCopyWith(
+    CompleteProfileState value,
+    $Res Function(CompleteProfileState) then,
+  ) = _$CompleteProfileStateCopyWithImpl<$Res, CompleteProfileState>;
 }
 
 /// @nodoc
-class _$RegisterStateCopyWithImpl<$Res, $Val extends RegisterState>
-    implements $RegisterStateCopyWith<$Res> {
-  _$RegisterStateCopyWithImpl(this._value, this._then);
+class _$CompleteProfileStateCopyWithImpl<
+  $Res,
+  $Val extends CompleteProfileState
+>
+    implements $CompleteProfileStateCopyWith<$Res> {
+  _$CompleteProfileStateCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of RegisterState
+  /// Create a copy of CompleteProfileState
   /// with the given fields replaced by the non-null parameter values.
 }
 
@@ -107,38 +95,35 @@ abstract class _$$InitialImplCopyWith<$Res> {
     $Res Function(_$InitialImpl) then,
   ) = __$$InitialImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({bool passwordVisible, bool confirmPasswordVisible});
+  $Res call({UserGender gender, DateTime? dateOfBirth});
 }
 
 /// @nodoc
 class __$$InitialImplCopyWithImpl<$Res>
-    extends _$RegisterStateCopyWithImpl<$Res, _$InitialImpl>
+    extends _$CompleteProfileStateCopyWithImpl<$Res, _$InitialImpl>
     implements _$$InitialImplCopyWith<$Res> {
   __$$InitialImplCopyWithImpl(
     _$InitialImpl _value,
     $Res Function(_$InitialImpl) _then,
   ) : super(_value, _then);
 
-  /// Create a copy of RegisterState
+  /// Create a copy of CompleteProfileState
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? passwordVisible = null,
-    Object? confirmPasswordVisible = null,
-  }) {
+  $Res call({Object? gender = null, Object? dateOfBirth = freezed}) {
     return _then(
       _$InitialImpl(
-        passwordVisible:
-            null == passwordVisible
-                ? _value.passwordVisible
-                : passwordVisible // ignore: cast_nullable_to_non_nullable
-                    as bool,
-        confirmPasswordVisible:
-            null == confirmPasswordVisible
-                ? _value.confirmPasswordVisible
-                : confirmPasswordVisible // ignore: cast_nullable_to_non_nullable
-                    as bool,
+        gender:
+            null == gender
+                ? _value.gender
+                : gender // ignore: cast_nullable_to_non_nullable
+                    as UserGender,
+        dateOfBirth:
+            freezed == dateOfBirth
+                ? _value.dateOfBirth
+                : dateOfBirth // ignore: cast_nullable_to_non_nullable
+                    as DateTime?,
       ),
     );
   }
@@ -148,20 +133,19 @@ class __$$InitialImplCopyWithImpl<$Res>
 
 class _$InitialImpl implements _Initial {
   const _$InitialImpl({
-    this.passwordVisible = false,
-    this.confirmPasswordVisible = false,
+    this.gender = UserGender.notSpecified,
+    this.dateOfBirth,
   });
 
   @override
   @JsonKey()
-  final bool passwordVisible;
+  final UserGender gender;
   @override
-  @JsonKey()
-  final bool confirmPasswordVisible;
+  final DateTime? dateOfBirth;
 
   @override
   String toString() {
-    return 'RegisterState.initial(passwordVisible: $passwordVisible, confirmPasswordVisible: $confirmPasswordVisible)';
+    return 'CompleteProfileState.initial(gender: $gender, dateOfBirth: $dateOfBirth)';
   }
 
   @override
@@ -169,17 +153,15 @@ class _$InitialImpl implements _Initial {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$InitialImpl &&
-            (identical(other.passwordVisible, passwordVisible) ||
-                other.passwordVisible == passwordVisible) &&
-            (identical(other.confirmPasswordVisible, confirmPasswordVisible) ||
-                other.confirmPasswordVisible == confirmPasswordVisible));
+            (identical(other.gender, gender) || other.gender == gender) &&
+            (identical(other.dateOfBirth, dateOfBirth) ||
+                other.dateOfBirth == dateOfBirth));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, passwordVisible, confirmPasswordVisible);
+  int get hashCode => Object.hash(runtimeType, gender, dateOfBirth);
 
-  /// Create a copy of RegisterState
+  /// Create a copy of CompleteProfileState
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
@@ -190,45 +172,36 @@ class _$InitialImpl implements _Initial {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(bool passwordVisible, bool confirmPasswordVisible)
-    initial,
+    required TResult Function(UserGender gender, DateTime? dateOfBirth) initial,
     required TResult Function() loading,
     required TResult Function(Session session) success,
-    required TResult Function() requiresVerification,
-    required TResult Function() requiresProfile,
     required TResult Function(ApiErrorModel error) error,
   }) {
-    return initial(passwordVisible, confirmPasswordVisible);
+    return initial(gender, dateOfBirth);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(bool passwordVisible, bool confirmPasswordVisible)?
-    initial,
+    TResult? Function(UserGender gender, DateTime? dateOfBirth)? initial,
     TResult? Function()? loading,
     TResult? Function(Session session)? success,
-    TResult? Function()? requiresVerification,
-    TResult? Function()? requiresProfile,
     TResult? Function(ApiErrorModel error)? error,
   }) {
-    return initial?.call(passwordVisible, confirmPasswordVisible);
+    return initial?.call(gender, dateOfBirth);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(bool passwordVisible, bool confirmPasswordVisible)?
-    initial,
+    TResult Function(UserGender gender, DateTime? dateOfBirth)? initial,
     TResult Function()? loading,
     TResult Function(Session session)? success,
-    TResult Function()? requiresVerification,
-    TResult Function()? requiresProfile,
     TResult Function(ApiErrorModel error)? error,
     required TResult orElse(),
   }) {
     if (initial != null) {
-      return initial(passwordVisible, confirmPasswordVisible);
+      return initial(gender, dateOfBirth);
     }
     return orElse();
   }
@@ -239,8 +212,6 @@ class _$InitialImpl implements _Initial {
     required TResult Function(_Initial value) initial,
     required TResult Function(_Loading value) loading,
     required TResult Function(_Success value) success,
-    required TResult Function(_RequiresVerification value) requiresVerification,
-    required TResult Function(_RequiresProfile value) requiresProfile,
     required TResult Function(_Error value) error,
   }) {
     return initial(this);
@@ -252,8 +223,6 @@ class _$InitialImpl implements _Initial {
     TResult? Function(_Initial value)? initial,
     TResult? Function(_Loading value)? loading,
     TResult? Function(_Success value)? success,
-    TResult? Function(_RequiresVerification value)? requiresVerification,
-    TResult? Function(_RequiresProfile value)? requiresProfile,
     TResult? Function(_Error value)? error,
   }) {
     return initial?.call(this);
@@ -265,8 +234,6 @@ class _$InitialImpl implements _Initial {
     TResult Function(_Initial value)? initial,
     TResult Function(_Loading value)? loading,
     TResult Function(_Success value)? success,
-    TResult Function(_RequiresVerification value)? requiresVerification,
-    TResult Function(_RequiresProfile value)? requiresProfile,
     TResult Function(_Error value)? error,
     required TResult orElse(),
   }) {
@@ -277,16 +244,16 @@ class _$InitialImpl implements _Initial {
   }
 }
 
-abstract class _Initial implements RegisterState {
+abstract class _Initial implements CompleteProfileState {
   const factory _Initial({
-    final bool passwordVisible,
-    final bool confirmPasswordVisible,
+    final UserGender gender,
+    final DateTime? dateOfBirth,
   }) = _$InitialImpl;
 
-  bool get passwordVisible;
-  bool get confirmPasswordVisible;
+  UserGender get gender;
+  DateTime? get dateOfBirth;
 
-  /// Create a copy of RegisterState
+  /// Create a copy of CompleteProfileState
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$InitialImplCopyWith<_$InitialImpl> get copyWith =>
@@ -303,14 +270,14 @@ abstract class _$$LoadingImplCopyWith<$Res> {
 
 /// @nodoc
 class __$$LoadingImplCopyWithImpl<$Res>
-    extends _$RegisterStateCopyWithImpl<$Res, _$LoadingImpl>
+    extends _$CompleteProfileStateCopyWithImpl<$Res, _$LoadingImpl>
     implements _$$LoadingImplCopyWith<$Res> {
   __$$LoadingImplCopyWithImpl(
     _$LoadingImpl _value,
     $Res Function(_$LoadingImpl) _then,
   ) : super(_value, _then);
 
-  /// Create a copy of RegisterState
+  /// Create a copy of CompleteProfileState
   /// with the given fields replaced by the non-null parameter values.
 }
 
@@ -321,7 +288,7 @@ class _$LoadingImpl implements _Loading {
 
   @override
   String toString() {
-    return 'RegisterState.loading()';
+    return 'CompleteProfileState.loading()';
   }
 
   @override
@@ -336,12 +303,9 @@ class _$LoadingImpl implements _Loading {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(bool passwordVisible, bool confirmPasswordVisible)
-    initial,
+    required TResult Function(UserGender gender, DateTime? dateOfBirth) initial,
     required TResult Function() loading,
     required TResult Function(Session session) success,
-    required TResult Function() requiresVerification,
-    required TResult Function() requiresProfile,
     required TResult Function(ApiErrorModel error) error,
   }) {
     return loading();
@@ -350,12 +314,9 @@ class _$LoadingImpl implements _Loading {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(bool passwordVisible, bool confirmPasswordVisible)?
-    initial,
+    TResult? Function(UserGender gender, DateTime? dateOfBirth)? initial,
     TResult? Function()? loading,
     TResult? Function(Session session)? success,
-    TResult? Function()? requiresVerification,
-    TResult? Function()? requiresProfile,
     TResult? Function(ApiErrorModel error)? error,
   }) {
     return loading?.call();
@@ -364,12 +325,9 @@ class _$LoadingImpl implements _Loading {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(bool passwordVisible, bool confirmPasswordVisible)?
-    initial,
+    TResult Function(UserGender gender, DateTime? dateOfBirth)? initial,
     TResult Function()? loading,
     TResult Function(Session session)? success,
-    TResult Function()? requiresVerification,
-    TResult Function()? requiresProfile,
     TResult Function(ApiErrorModel error)? error,
     required TResult orElse(),
   }) {
@@ -385,8 +343,6 @@ class _$LoadingImpl implements _Loading {
     required TResult Function(_Initial value) initial,
     required TResult Function(_Loading value) loading,
     required TResult Function(_Success value) success,
-    required TResult Function(_RequiresVerification value) requiresVerification,
-    required TResult Function(_RequiresProfile value) requiresProfile,
     required TResult Function(_Error value) error,
   }) {
     return loading(this);
@@ -398,8 +354,6 @@ class _$LoadingImpl implements _Loading {
     TResult? Function(_Initial value)? initial,
     TResult? Function(_Loading value)? loading,
     TResult? Function(_Success value)? success,
-    TResult? Function(_RequiresVerification value)? requiresVerification,
-    TResult? Function(_RequiresProfile value)? requiresProfile,
     TResult? Function(_Error value)? error,
   }) {
     return loading?.call(this);
@@ -411,8 +365,6 @@ class _$LoadingImpl implements _Loading {
     TResult Function(_Initial value)? initial,
     TResult Function(_Loading value)? loading,
     TResult Function(_Success value)? success,
-    TResult Function(_RequiresVerification value)? requiresVerification,
-    TResult Function(_RequiresProfile value)? requiresProfile,
     TResult Function(_Error value)? error,
     required TResult orElse(),
   }) {
@@ -423,7 +375,7 @@ class _$LoadingImpl implements _Loading {
   }
 }
 
-abstract class _Loading implements RegisterState {
+abstract class _Loading implements CompleteProfileState {
   const factory _Loading() = _$LoadingImpl;
 }
 
@@ -439,14 +391,14 @@ abstract class _$$SuccessImplCopyWith<$Res> {
 
 /// @nodoc
 class __$$SuccessImplCopyWithImpl<$Res>
-    extends _$RegisterStateCopyWithImpl<$Res, _$SuccessImpl>
+    extends _$CompleteProfileStateCopyWithImpl<$Res, _$SuccessImpl>
     implements _$$SuccessImplCopyWith<$Res> {
   __$$SuccessImplCopyWithImpl(
     _$SuccessImpl _value,
     $Res Function(_$SuccessImpl) _then,
   ) : super(_value, _then);
 
-  /// Create a copy of RegisterState
+  /// Create a copy of CompleteProfileState
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
@@ -472,7 +424,7 @@ class _$SuccessImpl implements _Success {
 
   @override
   String toString() {
-    return 'RegisterState.success(session: $session)';
+    return 'CompleteProfileState.success(session: $session)';
   }
 
   @override
@@ -486,7 +438,7 @@ class _$SuccessImpl implements _Success {
   @override
   int get hashCode => Object.hash(runtimeType, session);
 
-  /// Create a copy of RegisterState
+  /// Create a copy of CompleteProfileState
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
@@ -497,12 +449,9 @@ class _$SuccessImpl implements _Success {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(bool passwordVisible, bool confirmPasswordVisible)
-    initial,
+    required TResult Function(UserGender gender, DateTime? dateOfBirth) initial,
     required TResult Function() loading,
     required TResult Function(Session session) success,
-    required TResult Function() requiresVerification,
-    required TResult Function() requiresProfile,
     required TResult Function(ApiErrorModel error) error,
   }) {
     return success(session);
@@ -511,12 +460,9 @@ class _$SuccessImpl implements _Success {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(bool passwordVisible, bool confirmPasswordVisible)?
-    initial,
+    TResult? Function(UserGender gender, DateTime? dateOfBirth)? initial,
     TResult? Function()? loading,
     TResult? Function(Session session)? success,
-    TResult? Function()? requiresVerification,
-    TResult? Function()? requiresProfile,
     TResult? Function(ApiErrorModel error)? error,
   }) {
     return success?.call(session);
@@ -525,12 +471,9 @@ class _$SuccessImpl implements _Success {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(bool passwordVisible, bool confirmPasswordVisible)?
-    initial,
+    TResult Function(UserGender gender, DateTime? dateOfBirth)? initial,
     TResult Function()? loading,
     TResult Function(Session session)? success,
-    TResult Function()? requiresVerification,
-    TResult Function()? requiresProfile,
     TResult Function(ApiErrorModel error)? error,
     required TResult orElse(),
   }) {
@@ -546,8 +489,6 @@ class _$SuccessImpl implements _Success {
     required TResult Function(_Initial value) initial,
     required TResult Function(_Loading value) loading,
     required TResult Function(_Success value) success,
-    required TResult Function(_RequiresVerification value) requiresVerification,
-    required TResult Function(_RequiresProfile value) requiresProfile,
     required TResult Function(_Error value) error,
   }) {
     return success(this);
@@ -559,8 +500,6 @@ class _$SuccessImpl implements _Success {
     TResult? Function(_Initial value)? initial,
     TResult? Function(_Loading value)? loading,
     TResult? Function(_Success value)? success,
-    TResult? Function(_RequiresVerification value)? requiresVerification,
-    TResult? Function(_RequiresProfile value)? requiresProfile,
     TResult? Function(_Error value)? error,
   }) {
     return success?.call(this);
@@ -572,8 +511,6 @@ class _$SuccessImpl implements _Success {
     TResult Function(_Initial value)? initial,
     TResult Function(_Loading value)? loading,
     TResult Function(_Success value)? success,
-    TResult Function(_RequiresVerification value)? requiresVerification,
-    TResult Function(_RequiresProfile value)? requiresProfile,
     TResult Function(_Error value)? error,
     required TResult orElse(),
   }) {
@@ -584,285 +521,16 @@ class _$SuccessImpl implements _Success {
   }
 }
 
-abstract class _Success implements RegisterState {
+abstract class _Success implements CompleteProfileState {
   const factory _Success(final Session session) = _$SuccessImpl;
 
   Session get session;
 
-  /// Create a copy of RegisterState
+  /// Create a copy of CompleteProfileState
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$SuccessImplCopyWith<_$SuccessImpl> get copyWith =>
       throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class _$$RequiresVerificationImplCopyWith<$Res> {
-  factory _$$RequiresVerificationImplCopyWith(
-    _$RequiresVerificationImpl value,
-    $Res Function(_$RequiresVerificationImpl) then,
-  ) = __$$RequiresVerificationImplCopyWithImpl<$Res>;
-}
-
-/// @nodoc
-class __$$RequiresVerificationImplCopyWithImpl<$Res>
-    extends _$RegisterStateCopyWithImpl<$Res, _$RequiresVerificationImpl>
-    implements _$$RequiresVerificationImplCopyWith<$Res> {
-  __$$RequiresVerificationImplCopyWithImpl(
-    _$RequiresVerificationImpl _value,
-    $Res Function(_$RequiresVerificationImpl) _then,
-  ) : super(_value, _then);
-
-  /// Create a copy of RegisterState
-  /// with the given fields replaced by the non-null parameter values.
-}
-
-/// @nodoc
-
-class _$RequiresVerificationImpl implements _RequiresVerification {
-  const _$RequiresVerificationImpl();
-
-  @override
-  String toString() {
-    return 'RegisterState.requiresVerification()';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$RequiresVerificationImpl);
-  }
-
-  @override
-  int get hashCode => runtimeType.hashCode;
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function(bool passwordVisible, bool confirmPasswordVisible)
-    initial,
-    required TResult Function() loading,
-    required TResult Function(Session session) success,
-    required TResult Function() requiresVerification,
-    required TResult Function() requiresProfile,
-    required TResult Function(ApiErrorModel error) error,
-  }) {
-    return requiresVerification();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(bool passwordVisible, bool confirmPasswordVisible)?
-    initial,
-    TResult? Function()? loading,
-    TResult? Function(Session session)? success,
-    TResult? Function()? requiresVerification,
-    TResult? Function()? requiresProfile,
-    TResult? Function(ApiErrorModel error)? error,
-  }) {
-    return requiresVerification?.call();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function(bool passwordVisible, bool confirmPasswordVisible)?
-    initial,
-    TResult Function()? loading,
-    TResult Function(Session session)? success,
-    TResult Function()? requiresVerification,
-    TResult Function()? requiresProfile,
-    TResult Function(ApiErrorModel error)? error,
-    required TResult orElse(),
-  }) {
-    if (requiresVerification != null) {
-      return requiresVerification();
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(_Initial value) initial,
-    required TResult Function(_Loading value) loading,
-    required TResult Function(_Success value) success,
-    required TResult Function(_RequiresVerification value) requiresVerification,
-    required TResult Function(_RequiresProfile value) requiresProfile,
-    required TResult Function(_Error value) error,
-  }) {
-    return requiresVerification(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_Initial value)? initial,
-    TResult? Function(_Loading value)? loading,
-    TResult? Function(_Success value)? success,
-    TResult? Function(_RequiresVerification value)? requiresVerification,
-    TResult? Function(_RequiresProfile value)? requiresProfile,
-    TResult? Function(_Error value)? error,
-  }) {
-    return requiresVerification?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(_Initial value)? initial,
-    TResult Function(_Loading value)? loading,
-    TResult Function(_Success value)? success,
-    TResult Function(_RequiresVerification value)? requiresVerification,
-    TResult Function(_RequiresProfile value)? requiresProfile,
-    TResult Function(_Error value)? error,
-    required TResult orElse(),
-  }) {
-    if (requiresVerification != null) {
-      return requiresVerification(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class _RequiresVerification implements RegisterState {
-  const factory _RequiresVerification() = _$RequiresVerificationImpl;
-}
-
-/// @nodoc
-abstract class _$$RequiresProfileImplCopyWith<$Res> {
-  factory _$$RequiresProfileImplCopyWith(
-    _$RequiresProfileImpl value,
-    $Res Function(_$RequiresProfileImpl) then,
-  ) = __$$RequiresProfileImplCopyWithImpl<$Res>;
-}
-
-/// @nodoc
-class __$$RequiresProfileImplCopyWithImpl<$Res>
-    extends _$RegisterStateCopyWithImpl<$Res, _$RequiresProfileImpl>
-    implements _$$RequiresProfileImplCopyWith<$Res> {
-  __$$RequiresProfileImplCopyWithImpl(
-    _$RequiresProfileImpl _value,
-    $Res Function(_$RequiresProfileImpl) _then,
-  ) : super(_value, _then);
-
-  /// Create a copy of RegisterState
-  /// with the given fields replaced by the non-null parameter values.
-}
-
-/// @nodoc
-
-class _$RequiresProfileImpl implements _RequiresProfile {
-  const _$RequiresProfileImpl();
-
-  @override
-  String toString() {
-    return 'RegisterState.requiresProfile()';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$RequiresProfileImpl);
-  }
-
-  @override
-  int get hashCode => runtimeType.hashCode;
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function(bool passwordVisible, bool confirmPasswordVisible)
-    initial,
-    required TResult Function() loading,
-    required TResult Function(Session session) success,
-    required TResult Function() requiresVerification,
-    required TResult Function() requiresProfile,
-    required TResult Function(ApiErrorModel error) error,
-  }) {
-    return requiresProfile();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(bool passwordVisible, bool confirmPasswordVisible)?
-    initial,
-    TResult? Function()? loading,
-    TResult? Function(Session session)? success,
-    TResult? Function()? requiresVerification,
-    TResult? Function()? requiresProfile,
-    TResult? Function(ApiErrorModel error)? error,
-  }) {
-    return requiresProfile?.call();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function(bool passwordVisible, bool confirmPasswordVisible)?
-    initial,
-    TResult Function()? loading,
-    TResult Function(Session session)? success,
-    TResult Function()? requiresVerification,
-    TResult Function()? requiresProfile,
-    TResult Function(ApiErrorModel error)? error,
-    required TResult orElse(),
-  }) {
-    if (requiresProfile != null) {
-      return requiresProfile();
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(_Initial value) initial,
-    required TResult Function(_Loading value) loading,
-    required TResult Function(_Success value) success,
-    required TResult Function(_RequiresVerification value) requiresVerification,
-    required TResult Function(_RequiresProfile value) requiresProfile,
-    required TResult Function(_Error value) error,
-  }) {
-    return requiresProfile(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_Initial value)? initial,
-    TResult? Function(_Loading value)? loading,
-    TResult? Function(_Success value)? success,
-    TResult? Function(_RequiresVerification value)? requiresVerification,
-    TResult? Function(_RequiresProfile value)? requiresProfile,
-    TResult? Function(_Error value)? error,
-  }) {
-    return requiresProfile?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(_Initial value)? initial,
-    TResult Function(_Loading value)? loading,
-    TResult Function(_Success value)? success,
-    TResult Function(_RequiresVerification value)? requiresVerification,
-    TResult Function(_RequiresProfile value)? requiresProfile,
-    TResult Function(_Error value)? error,
-    required TResult orElse(),
-  }) {
-    if (requiresProfile != null) {
-      return requiresProfile(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class _RequiresProfile implements RegisterState {
-  const factory _RequiresProfile() = _$RequiresProfileImpl;
 }
 
 /// @nodoc
@@ -877,14 +545,14 @@ abstract class _$$ErrorImplCopyWith<$Res> {
 
 /// @nodoc
 class __$$ErrorImplCopyWithImpl<$Res>
-    extends _$RegisterStateCopyWithImpl<$Res, _$ErrorImpl>
+    extends _$CompleteProfileStateCopyWithImpl<$Res, _$ErrorImpl>
     implements _$$ErrorImplCopyWith<$Res> {
   __$$ErrorImplCopyWithImpl(
     _$ErrorImpl _value,
     $Res Function(_$ErrorImpl) _then,
   ) : super(_value, _then);
 
-  /// Create a copy of RegisterState
+  /// Create a copy of CompleteProfileState
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
@@ -910,7 +578,7 @@ class _$ErrorImpl implements _Error {
 
   @override
   String toString() {
-    return 'RegisterState.error(error: $error)';
+    return 'CompleteProfileState.error(error: $error)';
   }
 
   @override
@@ -924,7 +592,7 @@ class _$ErrorImpl implements _Error {
   @override
   int get hashCode => Object.hash(runtimeType, error);
 
-  /// Create a copy of RegisterState
+  /// Create a copy of CompleteProfileState
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
@@ -935,12 +603,9 @@ class _$ErrorImpl implements _Error {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(bool passwordVisible, bool confirmPasswordVisible)
-    initial,
+    required TResult Function(UserGender gender, DateTime? dateOfBirth) initial,
     required TResult Function() loading,
     required TResult Function(Session session) success,
-    required TResult Function() requiresVerification,
-    required TResult Function() requiresProfile,
     required TResult Function(ApiErrorModel error) error,
   }) {
     return error(this.error);
@@ -949,12 +614,9 @@ class _$ErrorImpl implements _Error {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(bool passwordVisible, bool confirmPasswordVisible)?
-    initial,
+    TResult? Function(UserGender gender, DateTime? dateOfBirth)? initial,
     TResult? Function()? loading,
     TResult? Function(Session session)? success,
-    TResult? Function()? requiresVerification,
-    TResult? Function()? requiresProfile,
     TResult? Function(ApiErrorModel error)? error,
   }) {
     return error?.call(this.error);
@@ -963,12 +625,9 @@ class _$ErrorImpl implements _Error {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(bool passwordVisible, bool confirmPasswordVisible)?
-    initial,
+    TResult Function(UserGender gender, DateTime? dateOfBirth)? initial,
     TResult Function()? loading,
     TResult Function(Session session)? success,
-    TResult Function()? requiresVerification,
-    TResult Function()? requiresProfile,
     TResult Function(ApiErrorModel error)? error,
     required TResult orElse(),
   }) {
@@ -984,8 +643,6 @@ class _$ErrorImpl implements _Error {
     required TResult Function(_Initial value) initial,
     required TResult Function(_Loading value) loading,
     required TResult Function(_Success value) success,
-    required TResult Function(_RequiresVerification value) requiresVerification,
-    required TResult Function(_RequiresProfile value) requiresProfile,
     required TResult Function(_Error value) error,
   }) {
     return error(this);
@@ -997,8 +654,6 @@ class _$ErrorImpl implements _Error {
     TResult? Function(_Initial value)? initial,
     TResult? Function(_Loading value)? loading,
     TResult? Function(_Success value)? success,
-    TResult? Function(_RequiresVerification value)? requiresVerification,
-    TResult? Function(_RequiresProfile value)? requiresProfile,
     TResult? Function(_Error value)? error,
   }) {
     return error?.call(this);
@@ -1010,8 +665,6 @@ class _$ErrorImpl implements _Error {
     TResult Function(_Initial value)? initial,
     TResult Function(_Loading value)? loading,
     TResult Function(_Success value)? success,
-    TResult Function(_RequiresVerification value)? requiresVerification,
-    TResult Function(_RequiresProfile value)? requiresProfile,
     TResult Function(_Error value)? error,
     required TResult orElse(),
   }) {
@@ -1022,12 +675,12 @@ class _$ErrorImpl implements _Error {
   }
 }
 
-abstract class _Error implements RegisterState {
+abstract class _Error implements CompleteProfileState {
   const factory _Error(final ApiErrorModel error) = _$ErrorImpl;
 
   ApiErrorModel get error;
 
-  /// Create a copy of RegisterState
+  /// Create a copy of CompleteProfileState
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ErrorImplCopyWith<_$ErrorImpl> get copyWith =>

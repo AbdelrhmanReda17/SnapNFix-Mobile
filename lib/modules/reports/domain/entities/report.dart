@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:equatable/equatable.dart';
 import 'package:snapnfix/modules/reports/domain/entities/media.dart';
 import 'package:snapnfix/modules/reports/domain/entities/report_severity.dart';

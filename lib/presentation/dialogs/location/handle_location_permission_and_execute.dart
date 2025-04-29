@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:snapnfix/core/dependency_injection/dependency_injection.dart';
 import 'package:snapnfix/core/infrastructure/location/location_service.dart';
-import 'package:snapnfix/presentation/components/location/location_required_dialog.dart';
-import 'package:snapnfix/presentation/components/location/open_location_settings_dialog.dart';
+import 'package:snapnfix/presentation/dialogs/location/location_required_dialog.dart';
+import 'package:snapnfix/presentation/dialogs/location/open_location_settings_dialog.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 Future<bool> handleLocationPermissionAndExecute({

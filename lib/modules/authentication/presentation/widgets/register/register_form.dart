@@ -8,28 +8,8 @@ import 'package:snapnfix/core/utils/helpers/spacing.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:snapnfix/modules/authentication/presentation/cubits/register/register_cubit.dart';
 
-class RegisterForm extends StatefulWidget {
+class RegisterForm extends StatelessWidget {
   const RegisterForm({super.key});
-
-  @override
-  State<RegisterForm> createState() => _RegisterFormState();
-}
-
-class _RegisterFormState extends State<RegisterForm> {
-  bool isPasswordObscureText = true;
-  bool isPasswordConfirmationObscureText = true;
-
-  void togglePasswordObscureText() {
-    setState(() {
-      isPasswordObscureText = !isPasswordObscureText;
-    });
-  }
-
-  void togglePasswordConfirmationObscureText() {
-    setState(() {
-      isPasswordConfirmationObscureText = !isPasswordConfirmationObscureText;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,32 +20,6 @@ class _RegisterFormState extends State<RegisterForm> {
         padding: EdgeInsets.only(left: 8.w),
         child: Column(
           children: [
-            BaseTextField(
-              // width: MediaQuery.of(context).size.width * 0.4,
-              hintText: localizations.firstName,
-              controller: context.read<RegisterCubit>().firstNameController,
-              validator:
-                  (value) =>
-                      value!.isNotEmpty
-                          ? value.isValidFirstName
-                              ? null
-                              : localizations.firstNameError
-                          : localizations.firstNameRequired,
-            ),
-            verticalSpace(20),
-            BaseTextField(
-              // width: MediaQuery.of(context).size.width * 0.4,
-              hintText: localizations.lastName,
-              controller: context.read<RegisterCubit>().lastNameController,
-              validator:
-                  (value) =>
-                      value!.isNotEmpty
-                          ? value.isValidLastName
-                              ? null
-                              : localizations.lastNameError
-                          : localizations.lastNameRequired,
-            ),
-            verticalSpace(20),
             BaseTextField(
               hintText: localizations.phone,
               controller: context.read<RegisterCubit>().phoneController,
@@ -78,38 +32,61 @@ class _RegisterFormState extends State<RegisterForm> {
                           : localizations.phoneNumberRequired,
             ),
             verticalSpace(20),
-            BasePasswordTextField(
-              text: localizations.password,
-              isPasswordObscureText: isPasswordObscureText,
-              togglePasswordObscureText: togglePasswordObscureText,
-              controller: context.read<RegisterCubit>().passwordController,
-              validator:
-                  (value) =>
-                      value!.isNotEmpty
-                          ? value.isValidPassword
-                              ? null
-                              : localizations.passwordError
-                          : localizations.passwordRequired,
+            BlocSelector<RegisterCubit, RegisterState, bool>(
+              selector:
+                  (state) => state.maybeWhen(
+                    initial: (passwordVisible, _) => passwordVisible,
+                    orElse: () => false,
+                  ),
+              builder: (context, isPasswordVisible) {
+                return BasePasswordTextField(
+                  text: localizations.password,
+                  isPasswordObscureText: !isPasswordVisible,
+                  togglePasswordObscureText:
+                      context.read<RegisterCubit>().togglePasswordVisibility,
+                  controller: context.read<RegisterCubit>().passwordController,
+                  validator:
+                      (value) =>
+                          value!.isNotEmpty
+                              ? value.isValidPassword
+                                  ? null
+                                  : localizations.passwordError
+                              : localizations.passwordRequired,
+                );
+              },
             ),
             verticalSpace(20),
-            BasePasswordTextField(
-              text: localizations.repeatPassword,
-              isPasswordObscureText: isPasswordConfirmationObscureText,
-              togglePasswordObscureText: togglePasswordConfirmationObscureText,
-              controller:
-                  context.read<RegisterCubit>().confirmPasswordController,
-              validator:
-                  (value) =>
-                      value!.isNotEmpty
-                          ? value.isValidConfirmPassword(
-                                context
-                                    .read<RegisterCubit>()
-                                    .passwordController
-                                    .text,
-                              )
-                              ? null
-                              : localizations.passwordsDoNotMatch
-                          : localizations.confirmPasswordRequired,
+            BlocSelector<RegisterCubit, RegisterState, bool>(
+              selector:
+                  (state) => state.maybeWhen(
+                    initial:
+                        (_, confirmPasswordVisible) => confirmPasswordVisible,
+                    orElse: () => false,
+                  ),
+              builder: (context, isConfirmPasswordVisible) {
+                return BasePasswordTextField(
+                  text: localizations.repeatPassword,
+                  isPasswordObscureText: !isConfirmPasswordVisible,
+                  togglePasswordObscureText:
+                      context
+                          .read<RegisterCubit>()
+                          .toggleConfirmPasswordVisibility,
+                  controller:
+                      context.read<RegisterCubit>().confirmPasswordController,
+                  validator:
+                      (value) =>
+                          value!.isNotEmpty
+                              ? value.isValidConfirmPassword(
+                                    context
+                                        .read<RegisterCubit>()
+                                        .passwordController
+                                        .text,
+                                  )
+                                  ? null
+                                  : localizations.passwordsDoNotMatch
+                              : localizations.confirmPasswordRequired,
+                );
+              },
             ),
           ],
         ),

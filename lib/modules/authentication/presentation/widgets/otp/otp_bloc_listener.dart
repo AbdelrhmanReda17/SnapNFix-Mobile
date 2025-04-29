@@ -7,22 +7,23 @@ import 'package:snapnfix/modules/authentication/presentation/cubits/otp/otp_cubi
 import 'package:snapnfix/presentation/navigation/routes.dart';
 
 class OtpBlocListener extends StatelessWidget {
-  final bool isFormForgotPassword;
-
-  const OtpBlocListener({super.key, this.isFormForgotPassword = false});
+  const OtpBlocListener({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
     return BlocListener<OtpCubit, OtpState>(
       listener: (context, state) {
         state.whenOrNull(
-          success: (verificationResponse, isFormForgotPassword) {
-            if (isFormForgotPassword) {
-              context.push(Routes.resetPasswordScreen.key);
-            } else {
-              context.go(Routes.homeScreen.key);
-            }
+          success: (session) {
+            context.go(Routes.homeScreen.key);
+          },
+          requiresProfile: () {
+            context.pop();
+            context.pushReplacement(Routes.completeProfileScreen.key);
+          },
+          requiresPasswordReset: () {
+            context.pop();
+            context.pushReplacement(Routes.resetPasswordScreen.key);
           },
           resendSuccess: () {
             context.pop();
@@ -40,15 +41,7 @@ class OtpBlocListener extends StatelessWidget {
             setupErrorState(context, error);
           },
           loading: () {
-            showDialog(
-              context: context,
-              builder:
-                  (context) => Center(
-                    child: CircularProgressIndicator(
-                      color: colorScheme.primary,
-                    ),
-                  ),
-            );
+            showLoadingDialog(context);
           },
         );
       },
@@ -56,16 +49,29 @@ class OtpBlocListener extends StatelessWidget {
     );
   }
 
-  void setupErrorState(BuildContext context, ApiErrorModel apiErrorModel) {
-    context.pop(); 
+  void setupErrorState(BuildContext context, ApiErrorModel error) {
+    context.pop();
     baseDialog(
       context: context,
       title: 'Verification Error',
-      message: apiErrorModel.getAllErrorMessages(),
+      message: error.getAllErrorMessages(),
       alertType: AlertType.error,
       confirmText: 'Got it',
       onConfirm: () {},
       showCancelButton: false,
+    );
+  }
+
+  void showLoadingDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder:
+          (context) => Center(
+            child: CircularProgressIndicator(
+              color: Theme.of(context).colorScheme.primary,
+            ),
+          ),
     );
   }
 }

@@ -17,14 +17,14 @@ class AuthenticationScreen<T extends Cubit<void>> extends StatelessWidget {
   final String buttonText;
   final String footerQuestion;
   final String footerAction;
-  final VoidCallback onFooterTap;
+  final VoidCallback? onFooterTap;
   final Widget form;
   final Widget blocListener;
   final VoidCallback onSubmit;
-  final bool isSignUp;
-  final bool isOtp;
+  final bool showLogo;
+  final bool showTerms;
+  final bool showSocial;
   final PreferredSizeWidget? appBar;
-  final bool isForgotPasswordOtp;
 
   const AuthenticationScreen({
     super.key,
@@ -32,14 +32,14 @@ class AuthenticationScreen<T extends Cubit<void>> extends StatelessWidget {
     required this.subtitle,
     required this.buttonText,
     required this.footerQuestion,
-    this.isSignUp = false,
-    this.isOtp = false,
-    this.isForgotPasswordOtp = false,
     required this.footerAction,
     required this.form,
     required this.blocListener,
     required this.onSubmit,
-    required this.onFooterTap,
+    this.onFooterTap,
+    this.showLogo = true,
+    this.showTerms = false,
+    this.showSocial = true,
     this.appBar,
   });
 
@@ -48,21 +48,21 @@ class AuthenticationScreen<T extends Cubit<void>> extends StatelessWidget {
     final colorScheme = Theme.of(context).colorScheme;
     final textStyles = Theme.of(context).textTheme;
     final appConfigs = ApplicationConfigurations.instance;
-    final verticalPadding = isForgotPasswordOtp ? 16.h : 48.h;
-    
+    final verticalPadding = showLogo ? 48.h : 16.h;
+
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: ApplicationSystemUIOverlay.getDefaultStyle(appConfigs.isDarkMode),
       child: Scaffold(
+        
         appBar: appBar,
         body: SafeArea(
           child: ListView(
-            padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: verticalPadding),
+            padding: EdgeInsets.symmetric(
+              horizontal: 24.w,
+              vertical: verticalPadding,
+            ),
             children: [
-              this.isForgotPasswordOtp
-                  ? const SizedBox.shrink()
-                  : Column(
-                    children: [ApplicationLogoAndName(), verticalSpace(15)],
-                  ),
+              if (showLogo) ...[ApplicationLogoAndName(), verticalSpace(15)],
               Text(
                 title,
                 style: textStyles.headlineLarge?.copyWith(
@@ -86,24 +86,17 @@ class AuthenticationScreen<T extends Cubit<void>> extends StatelessWidget {
                 ),
               ),
               verticalSpace(20),
-              isSignUp
-                  ? Column(
-                    children: [TermsAndPrivacyPolicy(), verticalSpace(20)],
-                  )
-                  : const SizedBox.shrink(),
-              isOtp
-                  ? const SizedBox.shrink()
-                  : Column(
-                    children: [AuthenticationSocial(), verticalSpace(20)],
+              if (showTerms) ...[TermsAndPrivacyPolicy(), verticalSpace(20)],
+              if (showSocial) ...[AuthenticationSocial(), verticalSpace(20)],
+              if (onFooterTap != null)
+                Padding(
+                  padding: EdgeInsets.only(bottom: 16.h),
+                  child: AuthenticationFooter(
+                    questionText: footerQuestion,
+                    actionText: footerAction,
+                    onTap: onFooterTap!,
                   ),
-              Padding(
-                padding: EdgeInsets.only(bottom: 16.h),
-                child: AuthenticationFooter(
-                  questionText: footerQuestion,
-                  actionText: footerAction,
-                  onTap: onFooterTap,
                 ),
-              ),
               blocListener,
             ],
           ),

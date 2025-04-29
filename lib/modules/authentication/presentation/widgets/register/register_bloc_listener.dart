@@ -11,44 +11,55 @@ class RegisterBlocListener extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
-
     return BlocListener<RegisterCubit, RegisterState>(
       listener: (context, state) {
         state.whenOrNull(
-          success: (signUpResponse) {
-            context.go(Routes.otpScreen.key);
+          success: (session) {
+            context.go(Routes.homeScreen.key);
+          },
+          requiresVerification: () {
+            context.pop();
+            context.push(Routes.otpScreen.key);
+          },
+          requiresProfile: () {
+            context.pop();
+            context.push(Routes.completeProfileScreen.key);
           },
           error: (error) {
             setupErrorState(context, error);
           },
           loading: () {
-            showDialog(
-              context: context,
-              builder:
-                  (context) => Center(
-                    child: CircularProgressIndicator(
-                      color: colorScheme.primary,
-                    ),
-                  ),
-            );
+            showLoadingDialog(context);
           },
         );
       },
-      child: SizedBox.shrink(),
+      child: const SizedBox.shrink(),
     );
   }
 
-  void setupErrorState(BuildContext context, ApiErrorModel apiErrorModel) {
+  void setupErrorState(BuildContext context, ApiErrorModel error) {
     context.pop();
     baseDialog(
       context: context,
-      title: 'Error while logging in',
-      message: apiErrorModel.getAllErrorMessages(),
+      title: 'Error',
+      message: error.getAllErrorMessages(),
       alertType: AlertType.error,
       confirmText: 'Got it',
       onConfirm: () {},
       showCancelButton: false,
+    );
+  }
+
+  void showLoadingDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder:
+          (context) => Center(
+            child: CircularProgressIndicator(
+              color: Theme.of(context).colorScheme.primary,
+            ),
+          ),
     );
   }
 }

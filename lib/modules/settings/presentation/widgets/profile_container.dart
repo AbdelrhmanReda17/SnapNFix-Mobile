@@ -54,7 +54,7 @@ class ProfileContainer extends StatelessWidget {
                                 ),
                               )
                               : Text(
-                                user.fullName[0],
+                                user.fullName![0],
                                 style: TextStyle(color: colorScheme.primary),
                               ),
                     ),

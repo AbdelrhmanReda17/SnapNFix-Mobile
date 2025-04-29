@@ -29,7 +29,9 @@ class RegisterScreen extends StatelessWidget {
       onSubmit: () {
         context.read<RegisterCubit>().emitRegisterStates();
       },
-      isSignUp: true,
+      showTerms: true,
+      showSocial: true,
+      showLogo: true,
     );
   }
 }

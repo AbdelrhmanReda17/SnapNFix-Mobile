@@ -8,15 +8,11 @@ class RegisterUseCase {
   RegisterUseCase(this._repository);
 
   Future<ApiResult<Session>> call({
-    required String firstName,
-    required String lastName,
     required String phoneNumber,
     required String password,
     required String confirmPassword,
   }) async {
     return await _repository.register(
-      fistName: firstName,
-      lastName: lastName,
       phoneNumber: phoneNumber,
       password: password,
       confirmPassword: confirmPassword,

@@ -69,7 +69,6 @@ class ApplicationConfigurations with ChangeNotifier {
       key: SharedPrefKeys.authenticationSession,
     );
     print("Session String: $sessionString");
-
     if (sessionString != null && sessionString.isNotEmpty) {
       try {
         final sessionMap = json.decode(sessionString);

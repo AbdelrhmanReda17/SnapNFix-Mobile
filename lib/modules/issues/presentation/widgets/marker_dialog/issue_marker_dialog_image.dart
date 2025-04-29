@@ -42,7 +42,7 @@ class IssueMarkerDialogImage extends StatelessWidget {
     return Container(
       height: height.h,
       width: double.infinity,
-      color: colorScheme.surfaceVariant,
+      color: colorScheme.surfaceContainerHighest,
       child: Center(
         child: CircularProgressIndicator(
           color: colorScheme.primary,
