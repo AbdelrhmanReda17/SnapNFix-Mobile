@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
 import 'package:snapnfix/modules/authentication/presentation/cubits/register/register_cubit.dart';
-import 'package:snapnfix/modules/authentication/presentation/screens/auhentication_screen.dart';
+import 'package:snapnfix/modules/authentication/presentation/screens/authentication_screen.dart';
 import 'package:snapnfix/modules/authentication/presentation/widgets/register/register_form.dart';
 import 'package:snapnfix/modules/authentication/presentation/widgets/register/register_bloc_listener.dart';
 import '../../../../../presentation/navigation/routes.dart';

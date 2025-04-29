@@ -1,4 +1,4 @@
-import 'package:bloc/bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/widgets.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:snapnfix/core/infrastructure/networking/api_error_model.dart';
@@ -16,13 +16,11 @@ class OtpCubit extends Cubit<OtpState> {
   final formKey = GlobalKey<FormState>();
   String otpCode = "";
 
-  OtpCubit({
-    required this.verifyOtpUseCase,
-    required this.resendOtpUseCase,
-  }) : super(const OtpState.initial());
+  OtpCubit({required this.verifyOtpUseCase, required this.resendOtpUseCase})
+    : super(const OtpState.initial());
 
   void updateOtpCode(String code) {
-    otpCode += code;
+    otpCode = code;
   }
 
   Future<void> verifyOtp({bool isFromForgotPassword = false}) async {

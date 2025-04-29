@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:snapnfix/core/base_components/base_checkbox.dart';
 import 'package:snapnfix/core/base_components/base_password_text_field.dart';
 import 'package:snapnfix/core/base_components/base_text_field.dart';
 import 'package:snapnfix/core/utils/extensions/validations.dart';
@@ -15,8 +14,6 @@ class LoginForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
-    final textStyles = Theme.of(context).textTheme;
     final localizations = AppLocalizations.of(context)!;
 
     return Form(

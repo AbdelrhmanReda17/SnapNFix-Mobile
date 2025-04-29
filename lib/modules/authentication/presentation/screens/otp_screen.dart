@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:snapnfix/core/utils/extensions/navigation.dart';
 import 'package:snapnfix/modules/authentication/presentation/cubits/otp/otp_cubit.dart';
-import 'package:snapnfix/modules/authentication/presentation/screens/auhentication_screen.dart';
+import 'package:snapnfix/modules/authentication/presentation/screens/authentication_screen.dart';
 import 'package:snapnfix/modules/authentication/presentation/widgets/otp/otp_bloc_listener.dart';
 import 'package:snapnfix/modules/authentication/presentation/widgets/otp/otp_form.dart';
 
@@ -19,8 +18,6 @@ class OtpScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    debugPrint('OtpScreen: $isFormForgotPassword');
-    debugPrint('emailOrPhoneNumber: $emailOrPhoneNumber');
     final localization = AppLocalizations.of(context)!;
     final subtitle =
         (emailOrPhoneNumber != null && emailOrPhoneNumber!.isNotEmpty)
@@ -28,18 +25,7 @@ class OtpScreen extends StatelessWidget {
             : localization.pleaseEnterCode;
 
     return AuthenticationScreen<OtpCubit>(
-      appBar:
-          isFormForgotPassword
-              ? AppBar(
-                iconTheme: IconThemeData(
-                  color: Theme.of(context).colorScheme.primary,
-                ),
-                leading: IconButton(
-                  icon: const Icon(Icons.arrow_back),
-                  onPressed: () => context.pop(),
-                ),
-              )
-              : null,
+      showBackButton: true,
       title: localization.verificationCodeTitle,
       subtitle: subtitle,
       buttonText: localization.verify,

@@ -4,9 +4,10 @@ import 'package:go_router/go_router.dart';
 import 'package:snapnfix/core/base_components/base_alert.dart';
 import 'package:snapnfix/core/infrastructure/networking/api_error_model.dart';
 import 'package:snapnfix/modules/authentication/presentation/cubits/otp/otp_cubit.dart';
+import 'package:snapnfix/modules/authentication/presentation/mixins/authentication_listener_mixin.dart';
 import 'package:snapnfix/presentation/navigation/routes.dart';
 
-class OtpBlocListener extends StatelessWidget {
+class OtpBlocListener extends StatelessWidget with AuthenticationListenerMixin {
   const OtpBlocListener({super.key});
 
   @override
@@ -26,23 +27,14 @@ class OtpBlocListener extends StatelessWidget {
             context.pushReplacement(Routes.resetPasswordScreen.key);
           },
           resendSuccess: () {
-            context.pop();
-            baseDialog(
-              context: context,
+            handleSuccess(
+              context,
               title: 'Code Resent',
-              message: 'Verification code has been resent successfully.',
-              alertType: AlertType.success,
-              confirmText: 'OK',
-              onConfirm: () {},
-              showCancelButton: false,
+              message: 'Verification code has been resent.',
             );
           },
-          error: (error) {
-            setupErrorState(context, error);
-          },
-          loading: () {
-            showLoadingDialog(context);
-          },
+          error: (error) => handleError(context, error),
+          loading: () => showLoadingDialog(context),
         );
       },
       child: const SizedBox.shrink(),

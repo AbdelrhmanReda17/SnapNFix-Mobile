@@ -4,9 +4,11 @@ import 'package:go_router/go_router.dart';
 import 'package:snapnfix/core/base_components/base_alert.dart';
 import 'package:snapnfix/core/infrastructure/networking/api_error_model.dart';
 import 'package:snapnfix/modules/authentication/presentation/cubits/login/login_cubit.dart';
+import 'package:snapnfix/modules/authentication/presentation/mixins/authentication_listener_mixin.dart';
 import 'package:snapnfix/presentation/navigation/routes.dart';
 
-class LoginBlocListener extends StatelessWidget {
+class LoginBlocListener extends StatelessWidget
+    with AuthenticationListenerMixin {
   const LoginBlocListener({super.key});
 
   @override
@@ -25,41 +27,11 @@ class LoginBlocListener extends StatelessWidget {
             context.pop();
             context.push(Routes.completeProfileScreen.key);
           },
-          error: (error) {
-            setupErrorState(context, error);
-          },
-          loading: () {
-            showLoadingDialog(context);
-          },
+          loading: () => showLoadingDialog(context),
+          error: (error) => handleError(context, error),
         );
       },
       child: const SizedBox.shrink(),
-    );
-  }
-
-  void setupErrorState(BuildContext context, ApiErrorModel error) {
-    context.pop(); // Dismiss loading dialog if showing
-    baseDialog(
-      context: context,
-      title: 'Error',
-      message: error.getAllErrorMessages(),
-      alertType: AlertType.error,
-      confirmText: 'Got it',
-      onConfirm: () {},
-      showCancelButton: false,
-    );
-  }
-
-  void showLoadingDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder:
-          (context) => Center(
-            child: CircularProgressIndicator(
-              color: Theme.of(context).colorScheme.primary,
-            ),
-          ),
     );
   }
 }

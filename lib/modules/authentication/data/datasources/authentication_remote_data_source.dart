@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:snapnfix/core/infrastructure/networking/api_error_handler.dart';
+import 'package:snapnfix/core/infrastructure/networking/api_error_model.dart';
 import 'package:snapnfix/core/infrastructure/networking/api_result.dart';
 import 'package:snapnfix/core/infrastructure/networking/api_service.dart';
 import 'package:snapnfix/modules/authentication/data/models/session_model.dart';
@@ -155,7 +156,6 @@ class AuthenticationRemoteDataSource
       debugPrint(
         "First Name: $firstName, Last Name: $lastName , gender: $gender, dateOfBirth: $dateOfBirth",
       );
-
       return ApiResult.success(
         SessionModel(
           user: UserModel(
