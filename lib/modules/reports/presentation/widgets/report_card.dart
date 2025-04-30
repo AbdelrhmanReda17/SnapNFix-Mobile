@@ -29,7 +29,7 @@ class _ReportCardState extends State<ReportCard> {
       clipBehavior: Clip.antiAlias,
       margin: EdgeInsets.zero,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12.r),
+        borderRadius: BorderRadius.circular(8.r), // Smaller border radius
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -43,7 +43,7 @@ class _ReportCardState extends State<ReportCard> {
                   children: [
                     Image.asset(
                       imagePath,
-                      height: 100.h,
+                      height: 80.h, // Smaller image height
                       width: double.infinity,
                       fit: BoxFit.cover,
                     ),
@@ -54,7 +54,7 @@ class _ReportCardState extends State<ReportCard> {
                       child: Container(
                         padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
                         decoration: BoxDecoration(
-                          color: _getStatusColor(widget.report.status).withOpacity(0.9),
+                          color: _getStatusColor(widget.report.status).withOpacity(0.8),
                           borderRadius: BorderRadius.circular(12.r),
                         ),
                         child: Row(
@@ -87,7 +87,7 @@ class _ReportCardState extends State<ReportCard> {
                       child: Container(
                         padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
                         decoration: BoxDecoration(
-                          color: colorScheme.surface.withOpacity(0.9),
+                          color: colorScheme.surface.withOpacity(0.6),
                           borderRadius: BorderRadius.circular(12.r),
                         ),
                         child: Text(
@@ -103,47 +103,67 @@ class _ReportCardState extends State<ReportCard> {
 
                 // Content section
                 Padding(
-                  padding: EdgeInsets.all(12.r),
+                  padding: EdgeInsets.all(8.r), // Smaller padding
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // Location and severity row
+                      // Location row
                       Row(
                         children: [
                           Expanded(
                             child: LocationDisplay(
                               latitude: widget.report.latitude,
                               longitude: widget.report.longitude,
-                              // style: theme.textTheme.labelSmall?.copyWith(
-                              //   color: colorScheme.onSurfaceVariant,
-                              // ),
-                            ),
-                          ),
-                          Container(
-                            padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
-                            decoration: BoxDecoration(
-                              color: _getSeverityColor(widget.report.severity).withOpacity(0.1),
-                              borderRadius: BorderRadius.circular(12.r),
-                            ),
-                            child: Text(
-                              widget.report.severity.name.toUpperCase(),
-                              style: theme.textTheme.labelSmall?.copyWith(
-                                color: _getSeverityColor(widget.report.severity),
-                                fontWeight: FontWeight.w500,
-                              ),
                             ),
                           ),
                         ],
                       ),
-                      SizedBox(height: 8.h),
+                      SizedBox(height: 4.h), // Smaller spacing
+
+                      // Severity text
+                      Text(
+                        'Severity: ${widget.report.severity.name.toLowerCase()}',
+                        style: theme.textTheme.bodySmall?.copyWith(
+                          color: _getSeverityColor(widget.report.severity),
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                      SizedBox(height: 4.h), // Smaller spacing
+
+                      // Report details
                       Text(
                         widget.report.details,
                         maxLines: _isExpanded ? null : 2,
                         overflow: _isExpanded ? null : TextOverflow.ellipsis,
-                        style: theme.textTheme.bodyMedium?.copyWith(
+                        style: theme.textTheme.bodySmall?.copyWith( // Smaller text
                           color: colorScheme.onSurface,
                         ),
                       ),
+
+                      // Issue link
+                      if (widget.report.issueId != null) ...[
+                        SizedBox(height: 8.h),
+                        InkWell(
+                          onTap: () {
+                            // TODO: Navigate to issue detail screen
+                            // Navigator.push(
+                            //   context,
+                            //   MaterialPageRoute(
+                            //     builder: (context) => IssueDetailScreen(
+                            //       issueId: widget.report.issueId!,
+                            //     ),
+                            //   ),
+                            // );
+                          },
+                          child: Text(
+                            'View Issue #${widget.report.issueId}',
+                            style: theme.textTheme.labelMedium?.copyWith(
+                              color: colorScheme.primary,
+                              decoration: TextDecoration.underline,
+                            ),
+                          ),
+                        ),
+                      ],
                     ],
                   ),
                 ),

@@ -66,6 +66,18 @@ class $AssetsImagesGen {
   AssetGenImage get googleIcon =>
       const AssetGenImage('assets/images/google_icon.png');
 
+  /// File path: assets/images/issue1.jpg
+  AssetGenImage get issue1 => const AssetGenImage('assets/images/issue1.jpg');
+
+  /// File path: assets/images/issue2.jpg
+  AssetGenImage get issue2 => const AssetGenImage('assets/images/issue2.jpg');
+
+  /// File path: assets/images/issue3.jpg
+  AssetGenImage get issue3 => const AssetGenImage('assets/images/issue3.jpg');
+
+  /// File path: assets/images/medal.png
+  AssetGenImage get medal => const AssetGenImage('assets/images/medal.png');
+
   /// File path: assets/images/onboarding-1.png
   AssetGenImage get onboarding1 =>
       const AssetGenImage('assets/images/onboarding-1.png');
@@ -92,6 +104,10 @@ class $AssetsImagesGen {
     snapNFix,
     facebookIcon,
     googleIcon,
+    issue1,
+    issue2,
+    issue3,
+    medal,
     onboarding1,
     onboarding2,
     onboarding3,

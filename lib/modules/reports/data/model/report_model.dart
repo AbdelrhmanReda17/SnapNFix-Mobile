@@ -19,6 +19,7 @@ class ReportModel extends Report {
     required super.severity,
     required super.timestamp,
     required this.reportMedia,
+    required super.issueId,
     super.status = ReportStatus.pending,
   }) : super(reportMedia: reportMedia);
 
@@ -37,6 +38,8 @@ class ReportModel extends Report {
     String? timestamp,
     MediaModel? reportMedia,
     ReportStatus? status,
+    String? issueId,
+    
   }) {
     return ReportModel(
       id: id ?? this.id,
@@ -47,6 +50,9 @@ class ReportModel extends Report {
       timestamp: timestamp ?? this.timestamp,
       reportMedia: reportMedia ?? this.reportMedia,
       status: status ?? this.status,
+       issueId: issueId ?? this.issueId,
+      
+
     );
   }
 }

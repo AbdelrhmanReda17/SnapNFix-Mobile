@@ -5,6 +5,7 @@ import 'package:snapnfix/modules/reports/domain/entities/report_status.dart';
 
 class Report extends Equatable {
   final String id;
+  final String? issueId; // Add this field
   final String details;
   final double latitude;
   final double longitude;
@@ -15,6 +16,7 @@ class Report extends Equatable {
 
   const Report({
     required this.id,
+    this.issueId, // Add this field
     required this.details,
     required this.latitude,
     required this.longitude,
@@ -27,6 +29,7 @@ class Report extends Equatable {
   @override
   List<Object?> get props => [
     id,
+    issueId, // Add this field
     details,
     latitude,
     longitude,

@@ -12,6 +12,7 @@ import 'package:snapnfix/modules/issues/domain/entities/issue_status.dart';
 import 'package:snapnfix/modules/reports/data/model/media_model.dart';
 import 'package:snapnfix/modules/reports/data/model/report_model.dart';
 import 'package:snapnfix/modules/reports/domain/entities/report_severity.dart';
+import 'package:snapnfix/modules/reports/domain/entities/report_status.dart';
 
 abstract class BaseIssueRemoteDataSource {
   Future<ApiResult<List<IssueModel>>> getNearbyIssues(
@@ -51,6 +52,7 @@ class IssueRemoteDataSource implements BaseIssueRemoteDataSource {
           reports: [
             ReportModel(
               id: "report1",
+              issueId: issueId,
               details: 'Sample report details',
               reportMedia: MediaModel(
                 image:
@@ -92,6 +94,7 @@ class IssueRemoteDataSource implements BaseIssueRemoteDataSource {
             ReportModel(
               id: "report1",
               details: '1',
+              issueId: "1",
               reportMedia: MediaModel(
                 image:
                     "https://cdn.discordapp.com/attachments/1307817305253875754/1364715253669171262/9k.png?ex=680aad9f&is=68095c1f&hm=04fbf9612e854fee7b063a94602dd3674a49359b59a3ae923e65210eef2e2ebc&",
@@ -105,6 +108,7 @@ class IssueRemoteDataSource implements BaseIssueRemoteDataSource {
             ),
             ReportModel(
               id: "report1",
+              issueId: "1",
               details: 'Sample report details',
               reportMedia: MediaModel(
                 image:
@@ -113,12 +117,14 @@ class IssueRemoteDataSource implements BaseIssueRemoteDataSource {
                 threshold: 0.8,
               ),
               severity: ReportSeverity.high,
+              status: ReportStatus.valid, // Add status
               timestamp: "2023-10-01T12:00:00Z",
-              latitude: 30.7749,
+              latitude: 37.7749,
               longitude: -122.4194,
             ),
             ReportModel(
               id: "report1",
+              issueId: "1",
               details: 'Sample report details',
               reportMedia: MediaModel(
                 image:
@@ -127,6 +133,7 @@ class IssueRemoteDataSource implements BaseIssueRemoteDataSource {
                 threshold: 0.8,
               ),
               severity: ReportSeverity.low,
+              status: ReportStatus.invalid, // Add status
               timestamp: "2023-10-01T12:00:00Z",
               latitude: 30.0083018,
               longitude: 31.3299946 - 0.21,
@@ -144,6 +151,7 @@ class IssueRemoteDataSource implements BaseIssueRemoteDataSource {
           reports: [
             ReportModel(
               id: "report1",
+              issueId: "2",
               details: 'Sample report details',
               reportMedia: MediaModel(
                 image:
@@ -158,6 +166,7 @@ class IssueRemoteDataSource implements BaseIssueRemoteDataSource {
             ),
             ReportModel(
               id: "report1",
+              issueId: "2",
               details: 'Sample report details',
               reportMedia: MediaModel(
                 image:
@@ -172,6 +181,7 @@ class IssueRemoteDataSource implements BaseIssueRemoteDataSource {
             ),
             ReportModel(
               id: "report1",
+              issueId: "2",
               details: 'Sample report details',
               reportMedia: MediaModel(
                 image: "http://example.com/image.jpg",
@@ -196,6 +206,7 @@ class IssueRemoteDataSource implements BaseIssueRemoteDataSource {
           reports: [
             ReportModel(
               id: "report1",
+              issueId: "3",
               details: 'Sample report details',
               reportMedia: MediaModel(
                 image:
@@ -210,6 +221,7 @@ class IssueRemoteDataSource implements BaseIssueRemoteDataSource {
             ),
             ReportModel(
               id: "report1",
+              issueId: "3",
               details: 'Sample report details',
               reportMedia: MediaModel(
                 image:
@@ -224,6 +236,7 @@ class IssueRemoteDataSource implements BaseIssueRemoteDataSource {
             ),
             ReportModel(
               id: "report1",
+              issueId: "3",
               details: 'Sample report details',
               reportMedia: MediaModel(
                 image:
@@ -249,6 +262,7 @@ class IssueRemoteDataSource implements BaseIssueRemoteDataSource {
           reports: [
             ReportModel(
               id: "report1",
+              issueId: "2",
               details: 'Sample report details',
               reportMedia: MediaModel(
                 image:
@@ -263,6 +277,7 @@ class IssueRemoteDataSource implements BaseIssueRemoteDataSource {
             ),
             ReportModel(
               id: "report1",
+              issueId: "2",
               details: 'Sample report details',
               reportMedia: MediaModel(
                 image:
@@ -277,6 +292,7 @@ class IssueRemoteDataSource implements BaseIssueRemoteDataSource {
             ),
             ReportModel(
               id: "report1",
+              issueId: "2",
               details: 'Sample report details',
               reportMedia: MediaModel(
                 image:
