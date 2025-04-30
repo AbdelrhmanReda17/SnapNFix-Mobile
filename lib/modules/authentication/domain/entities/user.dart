@@ -2,7 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:snapnfix/modules/authentication/domain/entities/user_gender.dart';
 
 class User extends Equatable {
-  final String id;
+  final String? id;
   final String? firstName;
   final String? lastName;
   final String phoneNumber;
@@ -10,8 +10,6 @@ class User extends Equatable {
   final String? profileImage;
   final DateTime? dateOfBirth;
   final UserGender? gender;
-  final bool isVerified;
-  final bool isProfileComplete;
 
   const User({
     required this.id,
@@ -22,14 +20,7 @@ class User extends Equatable {
     this.profileImage,
     this.dateOfBirth,
     this.gender,
-    this.isVerified = false,
-    this.isProfileComplete = false,
   });
-
-  String? get fullName =>
-      firstName != null && lastName != null ? '$firstName $lastName' : null;
-
-  bool get hasBasicInfo => firstName != null && lastName != null;
 
   @override
   List<Object?> get props => [
@@ -41,7 +32,5 @@ class User extends Equatable {
     profileImage,
     dateOfBirth,
     gender,
-    isVerified,
-    isProfileComplete,
   ];
 }

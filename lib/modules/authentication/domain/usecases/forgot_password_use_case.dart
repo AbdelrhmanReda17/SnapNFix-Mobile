@@ -1,4 +1,5 @@
 import 'package:snapnfix/core/infrastructure/networking/api_result.dart';
+import 'package:snapnfix/modules/authentication/domain/entities/authentication_result.dart';
 import 'package:snapnfix/modules/authentication/domain/repositories/base_authentication_repository.dart';
 
 class ForgotPasswordUseCase {
@@ -6,7 +7,7 @@ class ForgotPasswordUseCase {
 
   ForgotPasswordUseCase(this._repository);
 
-  Future<ApiResult<void>> call({required String emailOrPhoneNumber}) async {
+  Future<ApiResult<AuthenticationResult>> call({required String emailOrPhoneNumber}) async {
     return await _repository.forgotPassword(emailOrPhoneNumber: emailOrPhoneNumber);
   }
 }

@@ -19,33 +19,51 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$OtpState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function() initial,
+    required TResult Function(
+      bool canResend,
+      int remainingTime,
+      int registrationExpiryTime,
+    )
+    initial,
     required TResult Function() loading,
-    required TResult Function(Session session) success,
+    required TResult Function() success,
     required TResult Function() resendSuccess,
-    required TResult Function() requiresProfile,
     required TResult Function() requiresPasswordReset,
     required TResult Function(ApiErrorModel error) error,
+    required TResult Function() expired,
+    required TResult Function() registrationExpired,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? initial,
+    TResult? Function(
+      bool canResend,
+      int remainingTime,
+      int registrationExpiryTime,
+    )?
+    initial,
     TResult? Function()? loading,
-    TResult? Function(Session session)? success,
+    TResult? Function()? success,
     TResult? Function()? resendSuccess,
-    TResult? Function()? requiresProfile,
     TResult? Function()? requiresPasswordReset,
     TResult? Function(ApiErrorModel error)? error,
+    TResult? Function()? expired,
+    TResult? Function()? registrationExpired,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? initial,
+    TResult Function(
+      bool canResend,
+      int remainingTime,
+      int registrationExpiryTime,
+    )?
+    initial,
     TResult Function()? loading,
-    TResult Function(Session session)? success,
+    TResult Function()? success,
     TResult Function()? resendSuccess,
-    TResult Function()? requiresProfile,
     TResult Function()? requiresPasswordReset,
     TResult Function(ApiErrorModel error)? error,
+    TResult Function()? expired,
+    TResult Function()? registrationExpired,
     required TResult orElse(),
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -54,10 +72,11 @@ mixin _$OtpState {
     required TResult Function(_Loading value) loading,
     required TResult Function(_Success value) success,
     required TResult Function(_ResendSuccess value) resendSuccess,
-    required TResult Function(_RequiresProfile value) requiresProfile,
     required TResult Function(_RequiresPasswordReset value)
     requiresPasswordReset,
     required TResult Function(_Error value) error,
+    required TResult Function(_Expired value) expired,
+    required TResult Function(_RegistrationExpired value) registrationExpired,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
@@ -65,9 +84,10 @@ mixin _$OtpState {
     TResult? Function(_Loading value)? loading,
     TResult? Function(_Success value)? success,
     TResult? Function(_ResendSuccess value)? resendSuccess,
-    TResult? Function(_RequiresProfile value)? requiresProfile,
     TResult? Function(_RequiresPasswordReset value)? requiresPasswordReset,
     TResult? Function(_Error value)? error,
+    TResult? Function(_Expired value)? expired,
+    TResult? Function(_RegistrationExpired value)? registrationExpired,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
@@ -75,9 +95,10 @@ mixin _$OtpState {
     TResult Function(_Loading value)? loading,
     TResult Function(_Success value)? success,
     TResult Function(_ResendSuccess value)? resendSuccess,
-    TResult Function(_RequiresProfile value)? requiresProfile,
     TResult Function(_RequiresPasswordReset value)? requiresPasswordReset,
     TResult Function(_Error value)? error,
+    TResult Function(_Expired value)? expired,
+    TResult Function(_RegistrationExpired value)? registrationExpired,
     required TResult orElse(),
   }) => throw _privateConstructorUsedError;
 }
@@ -108,6 +129,8 @@ abstract class _$$InitialImplCopyWith<$Res> {
     _$InitialImpl value,
     $Res Function(_$InitialImpl) then,
   ) = __$$InitialImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({bool canResend, int remainingTime, int registrationExpiryTime});
 }
 
 /// @nodoc
@@ -121,69 +144,148 @@ class __$$InitialImplCopyWithImpl<$Res>
 
   /// Create a copy of OtpState
   /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? canResend = null,
+    Object? remainingTime = null,
+    Object? registrationExpiryTime = null,
+  }) {
+    return _then(
+      _$InitialImpl(
+        canResend:
+            null == canResend
+                ? _value.canResend
+                : canResend // ignore: cast_nullable_to_non_nullable
+                    as bool,
+        remainingTime:
+            null == remainingTime
+                ? _value.remainingTime
+                : remainingTime // ignore: cast_nullable_to_non_nullable
+                    as int,
+        registrationExpiryTime:
+            null == registrationExpiryTime
+                ? _value.registrationExpiryTime
+                : registrationExpiryTime // ignore: cast_nullable_to_non_nullable
+                    as int,
+      ),
+    );
+  }
 }
 
 /// @nodoc
 
 class _$InitialImpl implements _Initial {
-  const _$InitialImpl();
+  const _$InitialImpl({
+    this.canResend = false,
+    this.remainingTime = 60,
+    this.registrationExpiryTime = 600,
+  });
+
+  @override
+  @JsonKey()
+  final bool canResend;
+  @override
+  @JsonKey()
+  final int remainingTime;
+  @override
+  @JsonKey()
+  final int registrationExpiryTime;
 
   @override
   String toString() {
-    return 'OtpState.initial()';
+    return 'OtpState.initial(canResend: $canResend, remainingTime: $remainingTime, registrationExpiryTime: $registrationExpiryTime)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$InitialImpl);
+        (other.runtimeType == runtimeType &&
+            other is _$InitialImpl &&
+            (identical(other.canResend, canResend) ||
+                other.canResend == canResend) &&
+            (identical(other.remainingTime, remainingTime) ||
+                other.remainingTime == remainingTime) &&
+            (identical(other.registrationExpiryTime, registrationExpiryTime) ||
+                other.registrationExpiryTime == registrationExpiryTime));
   }
 
   @override
-  int get hashCode => runtimeType.hashCode;
+  int get hashCode => Object.hash(
+    runtimeType,
+    canResend,
+    remainingTime,
+    registrationExpiryTime,
+  );
+
+  /// Create a copy of OtpState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$InitialImplCopyWith<_$InitialImpl> get copyWith =>
+      __$$InitialImplCopyWithImpl<_$InitialImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function() initial,
+    required TResult Function(
+      bool canResend,
+      int remainingTime,
+      int registrationExpiryTime,
+    )
+    initial,
     required TResult Function() loading,
-    required TResult Function(Session session) success,
+    required TResult Function() success,
     required TResult Function() resendSuccess,
-    required TResult Function() requiresProfile,
     required TResult Function() requiresPasswordReset,
     required TResult Function(ApiErrorModel error) error,
+    required TResult Function() expired,
+    required TResult Function() registrationExpired,
   }) {
-    return initial();
+    return initial(canResend, remainingTime, registrationExpiryTime);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? initial,
+    TResult? Function(
+      bool canResend,
+      int remainingTime,
+      int registrationExpiryTime,
+    )?
+    initial,
     TResult? Function()? loading,
-    TResult? Function(Session session)? success,
+    TResult? Function()? success,
     TResult? Function()? resendSuccess,
-    TResult? Function()? requiresProfile,
     TResult? Function()? requiresPasswordReset,
     TResult? Function(ApiErrorModel error)? error,
+    TResult? Function()? expired,
+    TResult? Function()? registrationExpired,
   }) {
-    return initial?.call();
+    return initial?.call(canResend, remainingTime, registrationExpiryTime);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? initial,
+    TResult Function(
+      bool canResend,
+      int remainingTime,
+      int registrationExpiryTime,
+    )?
+    initial,
     TResult Function()? loading,
-    TResult Function(Session session)? success,
+    TResult Function()? success,
     TResult Function()? resendSuccess,
-    TResult Function()? requiresProfile,
     TResult Function()? requiresPasswordReset,
     TResult Function(ApiErrorModel error)? error,
+    TResult Function()? expired,
+    TResult Function()? registrationExpired,
     required TResult orElse(),
   }) {
     if (initial != null) {
-      return initial();
+      return initial(canResend, remainingTime, registrationExpiryTime);
     }
     return orElse();
   }
@@ -195,10 +297,11 @@ class _$InitialImpl implements _Initial {
     required TResult Function(_Loading value) loading,
     required TResult Function(_Success value) success,
     required TResult Function(_ResendSuccess value) resendSuccess,
-    required TResult Function(_RequiresProfile value) requiresProfile,
     required TResult Function(_RequiresPasswordReset value)
     requiresPasswordReset,
     required TResult Function(_Error value) error,
+    required TResult Function(_Expired value) expired,
+    required TResult Function(_RegistrationExpired value) registrationExpired,
   }) {
     return initial(this);
   }
@@ -210,9 +313,10 @@ class _$InitialImpl implements _Initial {
     TResult? Function(_Loading value)? loading,
     TResult? Function(_Success value)? success,
     TResult? Function(_ResendSuccess value)? resendSuccess,
-    TResult? Function(_RequiresProfile value)? requiresProfile,
     TResult? Function(_RequiresPasswordReset value)? requiresPasswordReset,
     TResult? Function(_Error value)? error,
+    TResult? Function(_Expired value)? expired,
+    TResult? Function(_RegistrationExpired value)? registrationExpired,
   }) {
     return initial?.call(this);
   }
@@ -224,9 +328,10 @@ class _$InitialImpl implements _Initial {
     TResult Function(_Loading value)? loading,
     TResult Function(_Success value)? success,
     TResult Function(_ResendSuccess value)? resendSuccess,
-    TResult Function(_RequiresProfile value)? requiresProfile,
     TResult Function(_RequiresPasswordReset value)? requiresPasswordReset,
     TResult Function(_Error value)? error,
+    TResult Function(_Expired value)? expired,
+    TResult Function(_RegistrationExpired value)? registrationExpired,
     required TResult orElse(),
   }) {
     if (initial != null) {
@@ -237,7 +342,21 @@ class _$InitialImpl implements _Initial {
 }
 
 abstract class _Initial implements OtpState {
-  const factory _Initial() = _$InitialImpl;
+  const factory _Initial({
+    final bool canResend,
+    final int remainingTime,
+    final int registrationExpiryTime,
+  }) = _$InitialImpl;
+
+  bool get canResend;
+  int get remainingTime;
+  int get registrationExpiryTime;
+
+  /// Create a copy of OtpState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$InitialImplCopyWith<_$InitialImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -283,13 +402,19 @@ class _$LoadingImpl implements _Loading {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function() initial,
+    required TResult Function(
+      bool canResend,
+      int remainingTime,
+      int registrationExpiryTime,
+    )
+    initial,
     required TResult Function() loading,
-    required TResult Function(Session session) success,
+    required TResult Function() success,
     required TResult Function() resendSuccess,
-    required TResult Function() requiresProfile,
     required TResult Function() requiresPasswordReset,
     required TResult Function(ApiErrorModel error) error,
+    required TResult Function() expired,
+    required TResult Function() registrationExpired,
   }) {
     return loading();
   }
@@ -297,13 +422,19 @@ class _$LoadingImpl implements _Loading {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? initial,
+    TResult? Function(
+      bool canResend,
+      int remainingTime,
+      int registrationExpiryTime,
+    )?
+    initial,
     TResult? Function()? loading,
-    TResult? Function(Session session)? success,
+    TResult? Function()? success,
     TResult? Function()? resendSuccess,
-    TResult? Function()? requiresProfile,
     TResult? Function()? requiresPasswordReset,
     TResult? Function(ApiErrorModel error)? error,
+    TResult? Function()? expired,
+    TResult? Function()? registrationExpired,
   }) {
     return loading?.call();
   }
@@ -311,13 +442,19 @@ class _$LoadingImpl implements _Loading {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? initial,
+    TResult Function(
+      bool canResend,
+      int remainingTime,
+      int registrationExpiryTime,
+    )?
+    initial,
     TResult Function()? loading,
-    TResult Function(Session session)? success,
+    TResult Function()? success,
     TResult Function()? resendSuccess,
-    TResult Function()? requiresProfile,
     TResult Function()? requiresPasswordReset,
     TResult Function(ApiErrorModel error)? error,
+    TResult Function()? expired,
+    TResult Function()? registrationExpired,
     required TResult orElse(),
   }) {
     if (loading != null) {
@@ -333,10 +470,11 @@ class _$LoadingImpl implements _Loading {
     required TResult Function(_Loading value) loading,
     required TResult Function(_Success value) success,
     required TResult Function(_ResendSuccess value) resendSuccess,
-    required TResult Function(_RequiresProfile value) requiresProfile,
     required TResult Function(_RequiresPasswordReset value)
     requiresPasswordReset,
     required TResult Function(_Error value) error,
+    required TResult Function(_Expired value) expired,
+    required TResult Function(_RegistrationExpired value) registrationExpired,
   }) {
     return loading(this);
   }
@@ -348,9 +486,10 @@ class _$LoadingImpl implements _Loading {
     TResult? Function(_Loading value)? loading,
     TResult? Function(_Success value)? success,
     TResult? Function(_ResendSuccess value)? resendSuccess,
-    TResult? Function(_RequiresProfile value)? requiresProfile,
     TResult? Function(_RequiresPasswordReset value)? requiresPasswordReset,
     TResult? Function(_Error value)? error,
+    TResult? Function(_Expired value)? expired,
+    TResult? Function(_RegistrationExpired value)? registrationExpired,
   }) {
     return loading?.call(this);
   }
@@ -362,9 +501,10 @@ class _$LoadingImpl implements _Loading {
     TResult Function(_Loading value)? loading,
     TResult Function(_Success value)? success,
     TResult Function(_ResendSuccess value)? resendSuccess,
-    TResult Function(_RequiresProfile value)? requiresProfile,
     TResult Function(_RequiresPasswordReset value)? requiresPasswordReset,
     TResult Function(_Error value)? error,
+    TResult Function(_Expired value)? expired,
+    TResult Function(_RegistrationExpired value)? registrationExpired,
     required TResult orElse(),
   }) {
     if (loading != null) {
@@ -384,8 +524,6 @@ abstract class _$$SuccessImplCopyWith<$Res> {
     _$SuccessImpl value,
     $Res Function(_$SuccessImpl) then,
   ) = __$$SuccessImplCopyWithImpl<$Res>;
-  @useResult
-  $Res call({Session session});
 }
 
 /// @nodoc
@@ -399,94 +537,87 @@ class __$$SuccessImplCopyWithImpl<$Res>
 
   /// Create a copy of OtpState
   /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({Object? session = null}) {
-    return _then(
-      _$SuccessImpl(
-        null == session
-            ? _value.session
-            : session // ignore: cast_nullable_to_non_nullable
-                as Session,
-      ),
-    );
-  }
 }
 
 /// @nodoc
 
 class _$SuccessImpl implements _Success {
-  const _$SuccessImpl(this.session);
-
-  @override
-  final Session session;
+  const _$SuccessImpl();
 
   @override
   String toString() {
-    return 'OtpState.success(session: $session)';
+    return 'OtpState.success()';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$SuccessImpl &&
-            (identical(other.session, session) || other.session == session));
+        (other.runtimeType == runtimeType && other is _$SuccessImpl);
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, session);
-
-  /// Create a copy of OtpState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$SuccessImplCopyWith<_$SuccessImpl> get copyWith =>
-      __$$SuccessImplCopyWithImpl<_$SuccessImpl>(this, _$identity);
+  int get hashCode => runtimeType.hashCode;
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function() initial,
+    required TResult Function(
+      bool canResend,
+      int remainingTime,
+      int registrationExpiryTime,
+    )
+    initial,
     required TResult Function() loading,
-    required TResult Function(Session session) success,
+    required TResult Function() success,
     required TResult Function() resendSuccess,
-    required TResult Function() requiresProfile,
     required TResult Function() requiresPasswordReset,
     required TResult Function(ApiErrorModel error) error,
+    required TResult Function() expired,
+    required TResult Function() registrationExpired,
   }) {
-    return success(session);
+    return success();
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? initial,
+    TResult? Function(
+      bool canResend,
+      int remainingTime,
+      int registrationExpiryTime,
+    )?
+    initial,
     TResult? Function()? loading,
-    TResult? Function(Session session)? success,
+    TResult? Function()? success,
     TResult? Function()? resendSuccess,
-    TResult? Function()? requiresProfile,
     TResult? Function()? requiresPasswordReset,
     TResult? Function(ApiErrorModel error)? error,
+    TResult? Function()? expired,
+    TResult? Function()? registrationExpired,
   }) {
-    return success?.call(session);
+    return success?.call();
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? initial,
+    TResult Function(
+      bool canResend,
+      int remainingTime,
+      int registrationExpiryTime,
+    )?
+    initial,
     TResult Function()? loading,
-    TResult Function(Session session)? success,
+    TResult Function()? success,
     TResult Function()? resendSuccess,
-    TResult Function()? requiresProfile,
     TResult Function()? requiresPasswordReset,
     TResult Function(ApiErrorModel error)? error,
+    TResult Function()? expired,
+    TResult Function()? registrationExpired,
     required TResult orElse(),
   }) {
     if (success != null) {
-      return success(session);
+      return success();
     }
     return orElse();
   }
@@ -498,10 +629,11 @@ class _$SuccessImpl implements _Success {
     required TResult Function(_Loading value) loading,
     required TResult Function(_Success value) success,
     required TResult Function(_ResendSuccess value) resendSuccess,
-    required TResult Function(_RequiresProfile value) requiresProfile,
     required TResult Function(_RequiresPasswordReset value)
     requiresPasswordReset,
     required TResult Function(_Error value) error,
+    required TResult Function(_Expired value) expired,
+    required TResult Function(_RegistrationExpired value) registrationExpired,
   }) {
     return success(this);
   }
@@ -513,9 +645,10 @@ class _$SuccessImpl implements _Success {
     TResult? Function(_Loading value)? loading,
     TResult? Function(_Success value)? success,
     TResult? Function(_ResendSuccess value)? resendSuccess,
-    TResult? Function(_RequiresProfile value)? requiresProfile,
     TResult? Function(_RequiresPasswordReset value)? requiresPasswordReset,
     TResult? Function(_Error value)? error,
+    TResult? Function(_Expired value)? expired,
+    TResult? Function(_RegistrationExpired value)? registrationExpired,
   }) {
     return success?.call(this);
   }
@@ -527,9 +660,10 @@ class _$SuccessImpl implements _Success {
     TResult Function(_Loading value)? loading,
     TResult Function(_Success value)? success,
     TResult Function(_ResendSuccess value)? resendSuccess,
-    TResult Function(_RequiresProfile value)? requiresProfile,
     TResult Function(_RequiresPasswordReset value)? requiresPasswordReset,
     TResult Function(_Error value)? error,
+    TResult Function(_Expired value)? expired,
+    TResult Function(_RegistrationExpired value)? registrationExpired,
     required TResult orElse(),
   }) {
     if (success != null) {
@@ -540,15 +674,7 @@ class _$SuccessImpl implements _Success {
 }
 
 abstract class _Success implements OtpState {
-  const factory _Success(final Session session) = _$SuccessImpl;
-
-  Session get session;
-
-  /// Create a copy of OtpState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$SuccessImplCopyWith<_$SuccessImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+  const factory _Success() = _$SuccessImpl;
 }
 
 /// @nodoc
@@ -594,13 +720,19 @@ class _$ResendSuccessImpl implements _ResendSuccess {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function() initial,
+    required TResult Function(
+      bool canResend,
+      int remainingTime,
+      int registrationExpiryTime,
+    )
+    initial,
     required TResult Function() loading,
-    required TResult Function(Session session) success,
+    required TResult Function() success,
     required TResult Function() resendSuccess,
-    required TResult Function() requiresProfile,
     required TResult Function() requiresPasswordReset,
     required TResult Function(ApiErrorModel error) error,
+    required TResult Function() expired,
+    required TResult Function() registrationExpired,
   }) {
     return resendSuccess();
   }
@@ -608,13 +740,19 @@ class _$ResendSuccessImpl implements _ResendSuccess {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? initial,
+    TResult? Function(
+      bool canResend,
+      int remainingTime,
+      int registrationExpiryTime,
+    )?
+    initial,
     TResult? Function()? loading,
-    TResult? Function(Session session)? success,
+    TResult? Function()? success,
     TResult? Function()? resendSuccess,
-    TResult? Function()? requiresProfile,
     TResult? Function()? requiresPasswordReset,
     TResult? Function(ApiErrorModel error)? error,
+    TResult? Function()? expired,
+    TResult? Function()? registrationExpired,
   }) {
     return resendSuccess?.call();
   }
@@ -622,13 +760,19 @@ class _$ResendSuccessImpl implements _ResendSuccess {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? initial,
+    TResult Function(
+      bool canResend,
+      int remainingTime,
+      int registrationExpiryTime,
+    )?
+    initial,
     TResult Function()? loading,
-    TResult Function(Session session)? success,
+    TResult Function()? success,
     TResult Function()? resendSuccess,
-    TResult Function()? requiresProfile,
     TResult Function()? requiresPasswordReset,
     TResult Function(ApiErrorModel error)? error,
+    TResult Function()? expired,
+    TResult Function()? registrationExpired,
     required TResult orElse(),
   }) {
     if (resendSuccess != null) {
@@ -644,10 +788,11 @@ class _$ResendSuccessImpl implements _ResendSuccess {
     required TResult Function(_Loading value) loading,
     required TResult Function(_Success value) success,
     required TResult Function(_ResendSuccess value) resendSuccess,
-    required TResult Function(_RequiresProfile value) requiresProfile,
     required TResult Function(_RequiresPasswordReset value)
     requiresPasswordReset,
     required TResult Function(_Error value) error,
+    required TResult Function(_Expired value) expired,
+    required TResult Function(_RegistrationExpired value) registrationExpired,
   }) {
     return resendSuccess(this);
   }
@@ -659,9 +804,10 @@ class _$ResendSuccessImpl implements _ResendSuccess {
     TResult? Function(_Loading value)? loading,
     TResult? Function(_Success value)? success,
     TResult? Function(_ResendSuccess value)? resendSuccess,
-    TResult? Function(_RequiresProfile value)? requiresProfile,
     TResult? Function(_RequiresPasswordReset value)? requiresPasswordReset,
     TResult? Function(_Error value)? error,
+    TResult? Function(_Expired value)? expired,
+    TResult? Function(_RegistrationExpired value)? registrationExpired,
   }) {
     return resendSuccess?.call(this);
   }
@@ -673,9 +819,10 @@ class _$ResendSuccessImpl implements _ResendSuccess {
     TResult Function(_Loading value)? loading,
     TResult Function(_Success value)? success,
     TResult Function(_ResendSuccess value)? resendSuccess,
-    TResult Function(_RequiresProfile value)? requiresProfile,
     TResult Function(_RequiresPasswordReset value)? requiresPasswordReset,
     TResult Function(_Error value)? error,
+    TResult Function(_Expired value)? expired,
+    TResult Function(_RegistrationExpired value)? registrationExpired,
     required TResult orElse(),
   }) {
     if (resendSuccess != null) {
@@ -687,144 +834,6 @@ class _$ResendSuccessImpl implements _ResendSuccess {
 
 abstract class _ResendSuccess implements OtpState {
   const factory _ResendSuccess() = _$ResendSuccessImpl;
-}
-
-/// @nodoc
-abstract class _$$RequiresProfileImplCopyWith<$Res> {
-  factory _$$RequiresProfileImplCopyWith(
-    _$RequiresProfileImpl value,
-    $Res Function(_$RequiresProfileImpl) then,
-  ) = __$$RequiresProfileImplCopyWithImpl<$Res>;
-}
-
-/// @nodoc
-class __$$RequiresProfileImplCopyWithImpl<$Res>
-    extends _$OtpStateCopyWithImpl<$Res, _$RequiresProfileImpl>
-    implements _$$RequiresProfileImplCopyWith<$Res> {
-  __$$RequiresProfileImplCopyWithImpl(
-    _$RequiresProfileImpl _value,
-    $Res Function(_$RequiresProfileImpl) _then,
-  ) : super(_value, _then);
-
-  /// Create a copy of OtpState
-  /// with the given fields replaced by the non-null parameter values.
-}
-
-/// @nodoc
-
-class _$RequiresProfileImpl implements _RequiresProfile {
-  const _$RequiresProfileImpl();
-
-  @override
-  String toString() {
-    return 'OtpState.requiresProfile()';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$RequiresProfileImpl);
-  }
-
-  @override
-  int get hashCode => runtimeType.hashCode;
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() initial,
-    required TResult Function() loading,
-    required TResult Function(Session session) success,
-    required TResult Function() resendSuccess,
-    required TResult Function() requiresProfile,
-    required TResult Function() requiresPasswordReset,
-    required TResult Function(ApiErrorModel error) error,
-  }) {
-    return requiresProfile();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? initial,
-    TResult? Function()? loading,
-    TResult? Function(Session session)? success,
-    TResult? Function()? resendSuccess,
-    TResult? Function()? requiresProfile,
-    TResult? Function()? requiresPasswordReset,
-    TResult? Function(ApiErrorModel error)? error,
-  }) {
-    return requiresProfile?.call();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? initial,
-    TResult Function()? loading,
-    TResult Function(Session session)? success,
-    TResult Function()? resendSuccess,
-    TResult Function()? requiresProfile,
-    TResult Function()? requiresPasswordReset,
-    TResult Function(ApiErrorModel error)? error,
-    required TResult orElse(),
-  }) {
-    if (requiresProfile != null) {
-      return requiresProfile();
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(_Initial value) initial,
-    required TResult Function(_Loading value) loading,
-    required TResult Function(_Success value) success,
-    required TResult Function(_ResendSuccess value) resendSuccess,
-    required TResult Function(_RequiresProfile value) requiresProfile,
-    required TResult Function(_RequiresPasswordReset value)
-    requiresPasswordReset,
-    required TResult Function(_Error value) error,
-  }) {
-    return requiresProfile(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_Initial value)? initial,
-    TResult? Function(_Loading value)? loading,
-    TResult? Function(_Success value)? success,
-    TResult? Function(_ResendSuccess value)? resendSuccess,
-    TResult? Function(_RequiresProfile value)? requiresProfile,
-    TResult? Function(_RequiresPasswordReset value)? requiresPasswordReset,
-    TResult? Function(_Error value)? error,
-  }) {
-    return requiresProfile?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(_Initial value)? initial,
-    TResult Function(_Loading value)? loading,
-    TResult Function(_Success value)? success,
-    TResult Function(_ResendSuccess value)? resendSuccess,
-    TResult Function(_RequiresProfile value)? requiresProfile,
-    TResult Function(_RequiresPasswordReset value)? requiresPasswordReset,
-    TResult Function(_Error value)? error,
-    required TResult orElse(),
-  }) {
-    if (requiresProfile != null) {
-      return requiresProfile(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class _RequiresProfile implements OtpState {
-  const factory _RequiresProfile() = _$RequiresProfileImpl;
 }
 
 /// @nodoc
@@ -871,13 +880,19 @@ class _$RequiresPasswordResetImpl implements _RequiresPasswordReset {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function() initial,
+    required TResult Function(
+      bool canResend,
+      int remainingTime,
+      int registrationExpiryTime,
+    )
+    initial,
     required TResult Function() loading,
-    required TResult Function(Session session) success,
+    required TResult Function() success,
     required TResult Function() resendSuccess,
-    required TResult Function() requiresProfile,
     required TResult Function() requiresPasswordReset,
     required TResult Function(ApiErrorModel error) error,
+    required TResult Function() expired,
+    required TResult Function() registrationExpired,
   }) {
     return requiresPasswordReset();
   }
@@ -885,13 +900,19 @@ class _$RequiresPasswordResetImpl implements _RequiresPasswordReset {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? initial,
+    TResult? Function(
+      bool canResend,
+      int remainingTime,
+      int registrationExpiryTime,
+    )?
+    initial,
     TResult? Function()? loading,
-    TResult? Function(Session session)? success,
+    TResult? Function()? success,
     TResult? Function()? resendSuccess,
-    TResult? Function()? requiresProfile,
     TResult? Function()? requiresPasswordReset,
     TResult? Function(ApiErrorModel error)? error,
+    TResult? Function()? expired,
+    TResult? Function()? registrationExpired,
   }) {
     return requiresPasswordReset?.call();
   }
@@ -899,13 +920,19 @@ class _$RequiresPasswordResetImpl implements _RequiresPasswordReset {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? initial,
+    TResult Function(
+      bool canResend,
+      int remainingTime,
+      int registrationExpiryTime,
+    )?
+    initial,
     TResult Function()? loading,
-    TResult Function(Session session)? success,
+    TResult Function()? success,
     TResult Function()? resendSuccess,
-    TResult Function()? requiresProfile,
     TResult Function()? requiresPasswordReset,
     TResult Function(ApiErrorModel error)? error,
+    TResult Function()? expired,
+    TResult Function()? registrationExpired,
     required TResult orElse(),
   }) {
     if (requiresPasswordReset != null) {
@@ -921,10 +948,11 @@ class _$RequiresPasswordResetImpl implements _RequiresPasswordReset {
     required TResult Function(_Loading value) loading,
     required TResult Function(_Success value) success,
     required TResult Function(_ResendSuccess value) resendSuccess,
-    required TResult Function(_RequiresProfile value) requiresProfile,
     required TResult Function(_RequiresPasswordReset value)
     requiresPasswordReset,
     required TResult Function(_Error value) error,
+    required TResult Function(_Expired value) expired,
+    required TResult Function(_RegistrationExpired value) registrationExpired,
   }) {
     return requiresPasswordReset(this);
   }
@@ -936,9 +964,10 @@ class _$RequiresPasswordResetImpl implements _RequiresPasswordReset {
     TResult? Function(_Loading value)? loading,
     TResult? Function(_Success value)? success,
     TResult? Function(_ResendSuccess value)? resendSuccess,
-    TResult? Function(_RequiresProfile value)? requiresProfile,
     TResult? Function(_RequiresPasswordReset value)? requiresPasswordReset,
     TResult? Function(_Error value)? error,
+    TResult? Function(_Expired value)? expired,
+    TResult? Function(_RegistrationExpired value)? registrationExpired,
   }) {
     return requiresPasswordReset?.call(this);
   }
@@ -950,9 +979,10 @@ class _$RequiresPasswordResetImpl implements _RequiresPasswordReset {
     TResult Function(_Loading value)? loading,
     TResult Function(_Success value)? success,
     TResult Function(_ResendSuccess value)? resendSuccess,
-    TResult Function(_RequiresProfile value)? requiresProfile,
     TResult Function(_RequiresPasswordReset value)? requiresPasswordReset,
     TResult Function(_Error value)? error,
+    TResult Function(_Expired value)? expired,
+    TResult Function(_RegistrationExpired value)? registrationExpired,
     required TResult orElse(),
   }) {
     if (requiresPasswordReset != null) {
@@ -1036,13 +1066,19 @@ class _$ErrorImpl implements _Error {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function() initial,
+    required TResult Function(
+      bool canResend,
+      int remainingTime,
+      int registrationExpiryTime,
+    )
+    initial,
     required TResult Function() loading,
-    required TResult Function(Session session) success,
+    required TResult Function() success,
     required TResult Function() resendSuccess,
-    required TResult Function() requiresProfile,
     required TResult Function() requiresPasswordReset,
     required TResult Function(ApiErrorModel error) error,
+    required TResult Function() expired,
+    required TResult Function() registrationExpired,
   }) {
     return error(this.error);
   }
@@ -1050,13 +1086,19 @@ class _$ErrorImpl implements _Error {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? initial,
+    TResult? Function(
+      bool canResend,
+      int remainingTime,
+      int registrationExpiryTime,
+    )?
+    initial,
     TResult? Function()? loading,
-    TResult? Function(Session session)? success,
+    TResult? Function()? success,
     TResult? Function()? resendSuccess,
-    TResult? Function()? requiresProfile,
     TResult? Function()? requiresPasswordReset,
     TResult? Function(ApiErrorModel error)? error,
+    TResult? Function()? expired,
+    TResult? Function()? registrationExpired,
   }) {
     return error?.call(this.error);
   }
@@ -1064,13 +1106,19 @@ class _$ErrorImpl implements _Error {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? initial,
+    TResult Function(
+      bool canResend,
+      int remainingTime,
+      int registrationExpiryTime,
+    )?
+    initial,
     TResult Function()? loading,
-    TResult Function(Session session)? success,
+    TResult Function()? success,
     TResult Function()? resendSuccess,
-    TResult Function()? requiresProfile,
     TResult Function()? requiresPasswordReset,
     TResult Function(ApiErrorModel error)? error,
+    TResult Function()? expired,
+    TResult Function()? registrationExpired,
     required TResult orElse(),
   }) {
     if (error != null) {
@@ -1086,10 +1134,11 @@ class _$ErrorImpl implements _Error {
     required TResult Function(_Loading value) loading,
     required TResult Function(_Success value) success,
     required TResult Function(_ResendSuccess value) resendSuccess,
-    required TResult Function(_RequiresProfile value) requiresProfile,
     required TResult Function(_RequiresPasswordReset value)
     requiresPasswordReset,
     required TResult Function(_Error value) error,
+    required TResult Function(_Expired value) expired,
+    required TResult Function(_RegistrationExpired value) registrationExpired,
   }) {
     return error(this);
   }
@@ -1101,9 +1150,10 @@ class _$ErrorImpl implements _Error {
     TResult? Function(_Loading value)? loading,
     TResult? Function(_Success value)? success,
     TResult? Function(_ResendSuccess value)? resendSuccess,
-    TResult? Function(_RequiresProfile value)? requiresProfile,
     TResult? Function(_RequiresPasswordReset value)? requiresPasswordReset,
     TResult? Function(_Error value)? error,
+    TResult? Function(_Expired value)? expired,
+    TResult? Function(_RegistrationExpired value)? registrationExpired,
   }) {
     return error?.call(this);
   }
@@ -1115,9 +1165,10 @@ class _$ErrorImpl implements _Error {
     TResult Function(_Loading value)? loading,
     TResult Function(_Success value)? success,
     TResult Function(_ResendSuccess value)? resendSuccess,
-    TResult Function(_RequiresProfile value)? requiresProfile,
     TResult Function(_RequiresPasswordReset value)? requiresPasswordReset,
     TResult Function(_Error value)? error,
+    TResult Function(_Expired value)? expired,
+    TResult Function(_RegistrationExpired value)? registrationExpired,
     required TResult orElse(),
   }) {
     if (error != null) {
@@ -1137,4 +1188,323 @@ abstract class _Error implements OtpState {
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ErrorImplCopyWith<_$ErrorImpl> get copyWith =>
       throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$ExpiredImplCopyWith<$Res> {
+  factory _$$ExpiredImplCopyWith(
+    _$ExpiredImpl value,
+    $Res Function(_$ExpiredImpl) then,
+  ) = __$$ExpiredImplCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$ExpiredImplCopyWithImpl<$Res>
+    extends _$OtpStateCopyWithImpl<$Res, _$ExpiredImpl>
+    implements _$$ExpiredImplCopyWith<$Res> {
+  __$$ExpiredImplCopyWithImpl(
+    _$ExpiredImpl _value,
+    $Res Function(_$ExpiredImpl) _then,
+  ) : super(_value, _then);
+
+  /// Create a copy of OtpState
+  /// with the given fields replaced by the non-null parameter values.
+}
+
+/// @nodoc
+
+class _$ExpiredImpl implements _Expired {
+  const _$ExpiredImpl();
+
+  @override
+  String toString() {
+    return 'OtpState.expired()';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is _$ExpiredImpl);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(
+      bool canResend,
+      int remainingTime,
+      int registrationExpiryTime,
+    )
+    initial,
+    required TResult Function() loading,
+    required TResult Function() success,
+    required TResult Function() resendSuccess,
+    required TResult Function() requiresPasswordReset,
+    required TResult Function(ApiErrorModel error) error,
+    required TResult Function() expired,
+    required TResult Function() registrationExpired,
+  }) {
+    return expired();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(
+      bool canResend,
+      int remainingTime,
+      int registrationExpiryTime,
+    )?
+    initial,
+    TResult? Function()? loading,
+    TResult? Function()? success,
+    TResult? Function()? resendSuccess,
+    TResult? Function()? requiresPasswordReset,
+    TResult? Function(ApiErrorModel error)? error,
+    TResult? Function()? expired,
+    TResult? Function()? registrationExpired,
+  }) {
+    return expired?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(
+      bool canResend,
+      int remainingTime,
+      int registrationExpiryTime,
+    )?
+    initial,
+    TResult Function()? loading,
+    TResult Function()? success,
+    TResult Function()? resendSuccess,
+    TResult Function()? requiresPasswordReset,
+    TResult Function(ApiErrorModel error)? error,
+    TResult Function()? expired,
+    TResult Function()? registrationExpired,
+    required TResult orElse(),
+  }) {
+    if (expired != null) {
+      return expired();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_Initial value) initial,
+    required TResult Function(_Loading value) loading,
+    required TResult Function(_Success value) success,
+    required TResult Function(_ResendSuccess value) resendSuccess,
+    required TResult Function(_RequiresPasswordReset value)
+    requiresPasswordReset,
+    required TResult Function(_Error value) error,
+    required TResult Function(_Expired value) expired,
+    required TResult Function(_RegistrationExpired value) registrationExpired,
+  }) {
+    return expired(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_Initial value)? initial,
+    TResult? Function(_Loading value)? loading,
+    TResult? Function(_Success value)? success,
+    TResult? Function(_ResendSuccess value)? resendSuccess,
+    TResult? Function(_RequiresPasswordReset value)? requiresPasswordReset,
+    TResult? Function(_Error value)? error,
+    TResult? Function(_Expired value)? expired,
+    TResult? Function(_RegistrationExpired value)? registrationExpired,
+  }) {
+    return expired?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Initial value)? initial,
+    TResult Function(_Loading value)? loading,
+    TResult Function(_Success value)? success,
+    TResult Function(_ResendSuccess value)? resendSuccess,
+    TResult Function(_RequiresPasswordReset value)? requiresPasswordReset,
+    TResult Function(_Error value)? error,
+    TResult Function(_Expired value)? expired,
+    TResult Function(_RegistrationExpired value)? registrationExpired,
+    required TResult orElse(),
+  }) {
+    if (expired != null) {
+      return expired(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _Expired implements OtpState {
+  const factory _Expired() = _$ExpiredImpl;
+}
+
+/// @nodoc
+abstract class _$$RegistrationExpiredImplCopyWith<$Res> {
+  factory _$$RegistrationExpiredImplCopyWith(
+    _$RegistrationExpiredImpl value,
+    $Res Function(_$RegistrationExpiredImpl) then,
+  ) = __$$RegistrationExpiredImplCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$RegistrationExpiredImplCopyWithImpl<$Res>
+    extends _$OtpStateCopyWithImpl<$Res, _$RegistrationExpiredImpl>
+    implements _$$RegistrationExpiredImplCopyWith<$Res> {
+  __$$RegistrationExpiredImplCopyWithImpl(
+    _$RegistrationExpiredImpl _value,
+    $Res Function(_$RegistrationExpiredImpl) _then,
+  ) : super(_value, _then);
+
+  /// Create a copy of OtpState
+  /// with the given fields replaced by the non-null parameter values.
+}
+
+/// @nodoc
+
+class _$RegistrationExpiredImpl implements _RegistrationExpired {
+  const _$RegistrationExpiredImpl();
+
+  @override
+  String toString() {
+    return 'OtpState.registrationExpired()';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$RegistrationExpiredImpl);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(
+      bool canResend,
+      int remainingTime,
+      int registrationExpiryTime,
+    )
+    initial,
+    required TResult Function() loading,
+    required TResult Function() success,
+    required TResult Function() resendSuccess,
+    required TResult Function() requiresPasswordReset,
+    required TResult Function(ApiErrorModel error) error,
+    required TResult Function() expired,
+    required TResult Function() registrationExpired,
+  }) {
+    return registrationExpired();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(
+      bool canResend,
+      int remainingTime,
+      int registrationExpiryTime,
+    )?
+    initial,
+    TResult? Function()? loading,
+    TResult? Function()? success,
+    TResult? Function()? resendSuccess,
+    TResult? Function()? requiresPasswordReset,
+    TResult? Function(ApiErrorModel error)? error,
+    TResult? Function()? expired,
+    TResult? Function()? registrationExpired,
+  }) {
+    return registrationExpired?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(
+      bool canResend,
+      int remainingTime,
+      int registrationExpiryTime,
+    )?
+    initial,
+    TResult Function()? loading,
+    TResult Function()? success,
+    TResult Function()? resendSuccess,
+    TResult Function()? requiresPasswordReset,
+    TResult Function(ApiErrorModel error)? error,
+    TResult Function()? expired,
+    TResult Function()? registrationExpired,
+    required TResult orElse(),
+  }) {
+    if (registrationExpired != null) {
+      return registrationExpired();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_Initial value) initial,
+    required TResult Function(_Loading value) loading,
+    required TResult Function(_Success value) success,
+    required TResult Function(_ResendSuccess value) resendSuccess,
+    required TResult Function(_RequiresPasswordReset value)
+    requiresPasswordReset,
+    required TResult Function(_Error value) error,
+    required TResult Function(_Expired value) expired,
+    required TResult Function(_RegistrationExpired value) registrationExpired,
+  }) {
+    return registrationExpired(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_Initial value)? initial,
+    TResult? Function(_Loading value)? loading,
+    TResult? Function(_Success value)? success,
+    TResult? Function(_ResendSuccess value)? resendSuccess,
+    TResult? Function(_RequiresPasswordReset value)? requiresPasswordReset,
+    TResult? Function(_Error value)? error,
+    TResult? Function(_Expired value)? expired,
+    TResult? Function(_RegistrationExpired value)? registrationExpired,
+  }) {
+    return registrationExpired?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Initial value)? initial,
+    TResult Function(_Loading value)? loading,
+    TResult Function(_Success value)? success,
+    TResult Function(_ResendSuccess value)? resendSuccess,
+    TResult Function(_RequiresPasswordReset value)? requiresPasswordReset,
+    TResult Function(_Error value)? error,
+    TResult Function(_Expired value)? expired,
+    TResult Function(_RegistrationExpired value)? registrationExpired,
+    required TResult orElse(),
+  }) {
+    if (registrationExpired != null) {
+      return registrationExpired(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _RegistrationExpired implements OtpState {
+  const factory _RegistrationExpired() = _$RegistrationExpiredImpl;
 }

@@ -1,31 +1,24 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:snapnfix/core/dependency_injection/dependency_injection.dart';
+import 'package:snapnfix/core/exceptions/unverified_user_exception.dart';
+import 'package:snapnfix/core/infrastructure/device_info/device_info_service.dart';
 import 'package:snapnfix/core/infrastructure/networking/api_error_handler.dart';
 import 'package:snapnfix/core/infrastructure/networking/api_error_model.dart';
 import 'package:snapnfix/core/infrastructure/networking/api_result.dart';
 import 'package:snapnfix/core/infrastructure/networking/api_service.dart';
+import 'package:snapnfix/modules/authentication/data/models/dtos/login_dto.dart';
+import 'package:snapnfix/modules/authentication/data/models/dtos/otp_verify_dto.dart';
+import 'package:snapnfix/modules/authentication/data/models/dtos/register_dto.dart';
 import 'package:snapnfix/modules/authentication/data/models/session_model.dart';
 import 'package:snapnfix/modules/authentication/data/models/tokens_model.dart';
 import 'package:snapnfix/modules/authentication/data/models/user_model.dart';
-import 'package:snapnfix/modules/authentication/domain/entities/user_gender.dart';
 
 abstract class BaseAuthenticationRemoteDataSource {
-  Future<ApiResult<SessionModel>> login(String emailOrPhone, String password);
-  Future<ApiResult<SessionModel>> register(
-    String phoneNumber,
-    String password,
-    String confirmPassword,
-  );
-  Future<ApiResult<SessionModel>> verifyOtp(String code);
+  Future<ApiResult<SessionModel>> login(LoginDTO loginDTO);
+  Future<ApiResult<SessionModel>> register(RegisterDTO registerDTO);
+  Future<ApiResult<bool>> verifyOtp(OTPVerifyDTO otpVerifyDTO);
   Future<ApiResult<void>> resendOtp();
-
-  Future<ApiResult<SessionModel>> completeProfile({
-    required String firstName,
-    required String lastName,
-    UserGender? gender,
-    DateTime? dateOfBirth,
-  });
-
-  Future<ApiResult<void>> forgotPassword(String emailOrPhoneNumber);
+  Future<ApiResult<SessionModel>> forgotPassword(String emailOrPhoneNumber);
   Future<ApiResult<bool>> resetPassword(
     String newPassword,
     String confirmPassword,
@@ -39,143 +32,55 @@ class AuthenticationRemoteDataSource
   AuthenticationRemoteDataSource(this._apiService);
 
   @override
-  Future<ApiResult<SessionModel>> login(
-    String emailOrPhoneNumber,
-    String password,
-  ) async {
+  Future<ApiResult<SessionModel>> login(LoginDTO loginDTO) async {
     try {
-      // final response = await _apiService.login(
-      //   LoginDTO(emailOrPhoneNumber: emailOrPhoneNumber, password: password),
-      // );
-      // return ApiResult.success(response );
-      return ApiResult.success(
-        SessionModel(
-          user: UserModel(
-            id: "1",
-            firstName: "Test",
-            lastName: "User",
-            phoneNumber: "123456789",
-          ),
-          tokens: TokensModel(
-            accessToken: "TEST_ACCESS_TOKEN",
-            refreshToken: "TEST_REFRESH_TOKEN",
-            expiresIn: 3600,
-            issuedAt: DateTime.now(),
-          ),
-        ),
+      final deviceInfo = await getIt<DeviceInfoService>().getDeviceInfo();
+      final LoginDTO updatedDTO = LoginDTO.withDeviceInfo(
+        emailOrPhoneNumber: loginDTO.emailOrPhoneNumber,
+        password: loginDTO.password,
+        deviceId: deviceInfo['deviceId']!,
+        deviceName: deviceInfo['deviceName']!,
+        deviceType: deviceInfo['deviceType']!,
+        platform: deviceInfo['platform']!,
       );
+      final response = await _apiService.login(updatedDTO);
+      return ApiResult.success(response.data);
     } catch (error) {
+      if (ApiErrorHandler.isAuthenticationError(error)) {
+        throw UnverifiedUserException(phoneNumber: loginDTO.emailOrPhoneNumber);
+      }
       return ApiResult.failure(ApiErrorHandler.handle(error));
     }
   }
 
   @override
-  Future<ApiResult<SessionModel>> register(
-    String phoneNumber,
-    String password,
-    String confirmPassword,
-  ) async {
+  Future<ApiResult<SessionModel>> register(RegisterDTO registerDTO) async {
     try {
-      // final response = await _apiService.register(
-      //   RegisterDTO(
-      //     firstName: firstName,
-      //     lastName: lastName,
-      //     phoneNumber: phoneNumber,
-      //     password: password,
-      //     confirmPassword: confirmPassword,
-      //   ),
-      // );
-      // return ApiResult.success(response);
+      final response = await _apiService.register(registerDTO);
       return ApiResult.success(
-        SessionModel(
-          user: UserModel.unverified(id: "1", phoneNumber: phoneNumber),
-          tokens: TokensModel(
-            accessToken: "TEST_ACCESS_TOKEN",
-            refreshToken: "TEST_REFRESH_TOKEN",
-            expiresIn: 3600,
-            issuedAt: DateTime.now(),
+        SessionModel.unverified(
+          user: UserModel.unverified(
+            phoneNumber: registerDTO.phoneNumber,
+            id: response.data.userId,
           ),
+          verificationToken: response.data.verificationToken,
         ),
       );
     } catch (error) {
+      debugPrint(error.toString());
       return ApiResult.failure(ApiErrorHandler.handle(error));
     }
   }
 
   @override
-  Future<ApiResult<SessionModel>> verifyOtp(String code) async {
+  Future<ApiResult<bool>> verifyOtp(OTPVerifyDTO otpVerifyDTO) async {
     try {
-      // Edit this
-      // final response = await _apiService.post(
-      //   '/auth/verify-otp',
-      //   data: {
-      //     'code': code,
-      //   },
-      // );
-      // return ApiResult.success(OtpVerificationResponseModel.fromJson(response.data));
-      return ApiResult.success(
-        SessionModel(
-          user: UserModel(
-            id: "1",
-            phoneNumber: "123456789",
-            isVerified: true,
-            isProfileComplete: false,
-          ),
-          tokens: TokensModel(
-            accessToken: "TEST_ACCESS_TOKEN",
-            refreshToken: "TEST_REFRESH_TOKEN",
-            expiresIn: 3600,
-            issuedAt: DateTime.now(),
-          ),
-        ),
-      );
-    } catch (error) {
-      return ApiResult.failure(ApiErrorHandler.handle(error));
-    }
-  }
-
-  @override
-  Future<ApiResult<SessionModel>> completeProfile({
-    required String firstName,
-    required String lastName,
-    UserGender? gender,
-    DateTime? dateOfBirth,
-  }) async {
-    try {
-      // Real API call would look like this:
-      // final response = await _apiService.post(
-      //   '/auth/complete-profile',
-      //   data: {
-      //     'firstName': firstName,
-      //     'lastName': lastName,
-      //     'gender': gender?.name,
-      //     'dateOfBirth': dateOfBirth?.toIso8601String(),
-      //   },
-      // );
-      // return ApiResult.success(SessionModel.fromJson(response.data));
-      debugPrint(
-        "First Name: $firstName, Last Name: $lastName , gender: $gender, dateOfBirth: $dateOfBirth",
-      );
-      return ApiResult.success(
-        SessionModel(
-          user: UserModel(
-            id: "1",
-            firstName: firstName,
-            lastName: lastName,
-            phoneNumber: "123456789",
-            gender: gender,
-            dateOfBirth: dateOfBirth,
-            isVerified: true,
-            isProfileComplete: true,
-          ),
-          tokens: TokensModel(
-            accessToken: "TEST_ACCESS_TOKEN",
-            refreshToken: "TEST_REFRESH_TOKEN",
-            expiresIn: 3600,
-            issuedAt: DateTime.now(),
-          ),
-        ),
-      );
+      final response = await _apiService.verifyOtp(otpVerifyDTO);
+      if (response.data) {
+        return ApiResult.success(response.data);
+      } else {
+        return ApiResult.failure(ApiErrorModel(message: response.message));
+      }
     } catch (error) {
       return ApiResult.failure(ApiErrorHandler.handle(error));
     }
@@ -196,7 +101,9 @@ class AuthenticationRemoteDataSource
   }
 
   @override
-  Future<ApiResult<void>> forgotPassword(String emailOrPhoneNumber) async {
+  Future<ApiResult<SessionModel>> forgotPassword(
+    String emailOrPhoneNumber,
+  ) async {
     try {
       // Edit this
       // final response = await _apiService.post(
@@ -206,8 +113,12 @@ class AuthenticationRemoteDataSource
       //   },
       // );
       // return ApiResult.success(response.data);
-
-      return ApiResult.success(null);
+      return ApiResult.success(
+        SessionModel.unverified(
+          user: UserModel(id: "1", phoneNumber: emailOrPhoneNumber),
+          verificationToken: "TEST_OTP_VERIFICATION_TOKEN",
+        ),
+      );
     } catch (error) {
       return ApiResult.failure(ApiErrorHandler.handle(error));
     }

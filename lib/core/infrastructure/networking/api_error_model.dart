@@ -15,7 +15,7 @@ class ApiErrorModel {
       _$ApiErrorModelFromJson(json);
 
   Map<String, dynamic> toJson() => _$ApiErrorModelToJson(this);
-
+  
   String getAllErrorMessages() {
     log("Message: $message");
     log("Error List: $errors");

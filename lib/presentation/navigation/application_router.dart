@@ -63,18 +63,17 @@ class ApplicationRouter {
       redirect: (context, state) {
         if (!appConfigurations.isAuthenticated &&
             !state.uri.toString().contains(Routes.loginScreen.key) &&
-            !state.uri.toString().contains(Routes.signUpScreen.key) &&
+            !state.uri.toString().contains(Routes.registerScreen.key) &&
             !state.uri.toString().contains(Routes.onBoardingScreen.key) &&
             !state.uri.toString().contains(Routes.forgotPasswordScreen.key) &&
             !state.uri.toString().contains(Routes.resetPasswordScreen.key) &&
-            !state.uri.toString().contains(Routes.completeProfileScreen.key) &&
             !state.uri.toString().contains(Routes.otpScreen.key)) {
           return Routes.loginScreen.key;
         }
         if (appConfigurations.isAuthenticated &&
             (state.uri.toString().contains(Routes.loginScreen.key) ||
                 state.uri.toString().contains(Routes.onBoardingScreen.key) ||
-                state.uri.toString().contains(Routes.signUpScreen.key))) {
+                state.uri.toString().contains(Routes.registerScreen.key))) {
           return Routes.homeScreen.key;
         }
         return null;

@@ -7,9 +7,15 @@ class VerifyOtpUseCase {
 
   VerifyOtpUseCase(this._repository);
 
-  Future<ApiResult<Session>> call({
+  Future<ApiResult<bool>> call({
     required String code,
+    required String verificationToken,
+    required String phoneNumber,
   }) async {
-    return await _repository.verifyOtp(code: code);
+    return await _repository.verifyOtp(
+      code: code,
+      verificationToken: verificationToken,
+      phoneNumber: phoneNumber,
+    );
   }
 }

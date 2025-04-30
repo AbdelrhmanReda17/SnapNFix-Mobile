@@ -15,13 +15,13 @@ class LoginScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final localization = AppLocalizations.of(context)!;
     return AuthenticationScreen<LoginCubit>(
-      title: localization.welcomeBack,
-      subtitle: localization.loginToContinue,
+      title: "Sign In to your account",
+      subtitle: "Enter your email and password to log in to your account",
       buttonText: localization.signIn,
       footerQuestion: localization.notRegistered,
       footerAction: localization.createAccount,
       onFooterTap: () {
-        context.go(Routes.signUpScreen.key);
+        context.go(Routes.registerScreen.key);
       },
       form: LoginForm(),
       blocListener: const LoginBlocListener(),
@@ -29,8 +29,6 @@ class LoginScreen extends StatelessWidget {
         context.read<LoginCubit>().emitLoginStates();
       },
       showSocial: true,
-      showTerms: false,
-      showLogo: true,
     );
   }
 }

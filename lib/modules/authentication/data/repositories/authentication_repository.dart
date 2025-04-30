@@ -1,10 +1,17 @@
+import 'package:flutter/widgets.dart';
 import 'package:snapnfix/core/config/application_configurations.dart';
 import 'package:snapnfix/core/dependency_injection/dependency_injection.dart';
+import 'package:snapnfix/core/exceptions/unverified_user_exception.dart';
 import 'package:snapnfix/core/infrastructure/networking/api_error_handler.dart';
 import 'package:snapnfix/core/infrastructure/networking/api_result.dart';
 import 'package:snapnfix/modules/authentication/data/datasources/authentication_remote_data_source.dart';
+import 'package:snapnfix/modules/authentication/data/models/dtos/login_dto.dart';
+import 'package:snapnfix/modules/authentication/data/models/dtos/otp_verify_dto.dart';
+import 'package:snapnfix/modules/authentication/data/models/dtos/register_dto.dart';
+import 'package:snapnfix/modules/authentication/data/models/session_model.dart';
+import 'package:snapnfix/modules/authentication/data/models/user_model.dart';
+import 'package:snapnfix/modules/authentication/domain/entities/authentication_result.dart';
 import 'package:snapnfix/modules/authentication/domain/entities/session.dart';
-import 'package:snapnfix/modules/authentication/domain/entities/user_gender.dart';
 import '../../domain/repositories/base_authentication_repository.dart';
 
 class AuthenticationRepository implements BaseAuthenticationRepository {
@@ -12,20 +19,24 @@ class AuthenticationRepository implements BaseAuthenticationRepository {
   AuthenticationRepository(this.remoteDataSource);
 
   @override
-  Future<ApiResult<Session>> login({
+  Future<ApiResult<AuthenticationResult>> login({
     required String phoneOrEmail,
     required String password,
   }) async {
     try {
-      final result = await remoteDataSource.login(phoneOrEmail, password);
+      final result = await remoteDataSource.login(
+        LoginDTO(emailOrPhoneNumber: phoneOrEmail, password: password),
+      );
       return result.when(
         success: (session) async {
-          if (session.user.isVerified && session.user.isProfileComplete) {
-            await getIt<ApplicationConfigurations>().setUserSession(session);
-          }
-          return ApiResult.success(session as Session);
+          await getIt<ApplicationConfigurations>().setUserSession(session);
+          return ApiResult.success(AuthenticationResult.authenticated(session));
         },
         failure: (error) => ApiResult.failure(error),
+      );
+    } on UnverifiedUserException catch (e) {
+      return ApiResult.success(
+        AuthenticationResult.unverified(phoneNumber: e.phoneNumber),
       );
     } catch (e) {
       return ApiResult.failure(ApiErrorHandler.handle(e));
@@ -42,21 +53,33 @@ class AuthenticationRepository implements BaseAuthenticationRepository {
   }
 
   @override
-  Future<ApiResult<Session>> register({
+  Future<ApiResult<AuthenticationResult>> register({
+    required String firstName,
+    required String lastName,
     required String phoneNumber,
     required String password,
     required String confirmPassword,
   }) async {
     try {
       final result = await remoteDataSource.register(
-        phoneNumber,
-        password,
-        confirmPassword,
+        RegisterDTO(
+          firstName: firstName,
+          lastName: lastName,
+          phoneNumber: phoneNumber,
+          password: password,
+          confirmPassword: confirmPassword,
+        ),
       );
 
       return result.when(
-        success: (session) async {
-          return ApiResult.success(session);
+        success: (responeDTO) async {
+          return ApiResult.success(
+            AuthenticationResult.requiresOtp(
+              phoneNumber: phoneNumber,
+              verificationToken: responeDTO.verificationToken!,
+              purpose: OtpPurpose.registration,
+            ),
+          );
         },
         failure: (error) {
           return ApiResult.failure(error);
@@ -68,44 +91,27 @@ class AuthenticationRepository implements BaseAuthenticationRepository {
   }
 
   @override
-  Future<ApiResult<Session>> verifyOtp({required String code}) async {
-    try {
-      final result = await remoteDataSource.verifyOtp(code);
-
-      return result.when(
-        success: (session) async {
-          return ApiResult.success(session);
-        },
-        failure: (error) {
-          return ApiResult.failure(error);
-        },
-      );
-    } catch (e) {
-      return ApiResult.failure(ApiErrorHandler.handle(e));
-    }
-  }
-
-  @override
-  Future<ApiResult<Session>> completeProfile({
-    required String firstName,
-    required String lastName,
-    UserGender? gender,
-    DateTime? dateOfBirth,
+  Future<ApiResult<bool>> verifyOtp({
+    required String code,
+    required String verificationToken,
+    required String phoneNumber,
   }) async {
     try {
-      final result = await remoteDataSource.completeProfile(
-        firstName: firstName,
-        lastName: lastName,
-        gender: gender,
-        dateOfBirth: dateOfBirth,
+      final result = await remoteDataSource.verifyOtp(
+        OTPVerifyDTO(
+          otp: code,
+          verificationToken: verificationToken,
+          phoneNumber: phoneNumber,
+        ),
       );
 
       return result.when(
-        success: (session) async {
-          await getIt<ApplicationConfigurations>().setUserSession(session);
-          return ApiResult.success(session);
+        success: (res) {
+          return ApiResult.success(res);
         },
-        failure: (error) => ApiResult.failure(error),
+        failure: (error) {
+          return ApiResult.failure(error);
+        },
       );
     } catch (e) {
       return ApiResult.failure(ApiErrorHandler.handle(e));
@@ -131,18 +137,23 @@ class AuthenticationRepository implements BaseAuthenticationRepository {
   }
 
   @override
-  Future<ApiResult<void>> forgotPassword({
+  Future<ApiResult<AuthenticationResult>> forgotPassword({
     required String emailOrPhoneNumber,
   }) async {
     try {
       final result = await remoteDataSource.forgotPassword(emailOrPhoneNumber);
+
       return result.when(
-        success: (_) {
-          return ApiResult.success(null);
+        success: (response) {
+          return ApiResult.success(
+            AuthenticationResult.requiresOtp(
+              phoneNumber: emailOrPhoneNumber,
+              verificationToken: response.verificationToken!,
+              purpose: OtpPurpose.passwordReset,
+            ),
+          );
         },
-        failure: (error) {
-          return ApiResult.failure(error);
-        },
+        failure: (error) => ApiResult.failure(error),
       );
     } catch (e) {
       return ApiResult.failure(ApiErrorHandler.handle(e));

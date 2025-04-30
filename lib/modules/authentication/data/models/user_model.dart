@@ -7,7 +7,7 @@ part 'user_model.g.dart';
 @JsonSerializable()
 class UserModel extends User {
   const UserModel({
-    required super.id,
+    super.id,
     super.firstName,
     super.lastName,
     required super.phoneNumber,
@@ -15,8 +15,6 @@ class UserModel extends User {
     super.profileImage,
     super.dateOfBirth,
     super.gender,
-    super.isVerified = false,
-    super.isProfileComplete = false,
   });
 
   factory UserModel.fromJson(Map<String, dynamic> json) =>
@@ -27,12 +25,7 @@ class UserModel extends User {
   factory UserModel.unverified({
     required String id,
     required String phoneNumber,
-  }) => UserModel(
-    id: id,
-    phoneNumber: phoneNumber,
-    isVerified: false,
-    isProfileComplete: false,
-  );
+  }) => UserModel(phoneNumber: phoneNumber);
 
   UserModel copyWithVerification() => UserModel(
     id: id,
@@ -43,8 +36,6 @@ class UserModel extends User {
     profileImage: profileImage,
     dateOfBirth: dateOfBirth,
     gender: gender,
-    isVerified: true,
-    isProfileComplete: isProfileComplete,
   );
 
   UserModel copyWithProfile({
@@ -61,7 +52,5 @@ class UserModel extends User {
     profileImage: profileImage,
     dateOfBirth: dateOfBirth,
     gender: gender,
-    isVerified: isVerified,
-    isProfileComplete: true,
   );
 }

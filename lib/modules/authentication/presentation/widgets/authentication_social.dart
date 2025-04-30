@@ -65,9 +65,7 @@ class OrContinueWith extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: 8.w),
           child: Text(
             AppLocalizations.of(context)!.orContinueWith,
-            style: textStyles.bodyMedium?.copyWith(
-              color: colorScheme.primary,
-            ),
+            style: textStyles.bodyMedium?.copyWith(color: colorScheme.primary),
           ),
         ),
         Expanded(

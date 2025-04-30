@@ -20,13 +20,13 @@ class _ApiService implements ApiService {
   final ParseErrorLogger? errorLogger;
 
   @override
-  Future<SessionModel> login(LoginDTO loginDTO) async {
+  Future<BaseResponse<SessionModel>> login(LoginDTO loginDTO) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(loginDTO.toJson());
-    final _options = _setStreamType<SessionModel>(
+    final _options = _setStreamType<BaseResponse<SessionModel>>(
       Options(method: 'POST', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
@@ -37,9 +37,12 @@ class _ApiService implements ApiService {
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late SessionModel _value;
+    late BaseResponse<SessionModel> _value;
     try {
-      _value = SessionModel.fromJson(_result.data!);
+      _value = BaseResponse<SessionModel>.fromJson(
+        _result.data!,
+        (json) => SessionModel.fromJson(json as Map<String, dynamic>),
+      );
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options);
       rethrow;
@@ -48,13 +51,15 @@ class _ApiService implements ApiService {
   }
 
   @override
-  Future<SessionModel> register(RegisterDTO registerDTO) async {
+  Future<BaseResponse<RegisterResponeDTO>> register(
+    RegisterDTO registerDTO,
+  ) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(registerDTO.toJson());
-    final _options = _setStreamType<SessionModel>(
+    final _options = _setStreamType<BaseResponse<RegisterResponeDTO>>(
       Options(method: 'POST', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
@@ -65,9 +70,43 @@ class _ApiService implements ApiService {
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late SessionModel _value;
+    late BaseResponse<RegisterResponeDTO> _value;
     try {
-      _value = SessionModel.fromJson(_result.data!);
+      _value = BaseResponse<RegisterResponeDTO>.fromJson(
+        _result.data!,
+        (json) => RegisterResponeDTO.fromJson(json as Map<String, dynamic>),
+      );
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<BaseResponse<bool>> verifyOtp(OTPVerifyDTO verifyDTO) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(verifyDTO.toJson());
+    final _options = _setStreamType<BaseResponse<bool>>(
+      Options(method: 'POST', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            'api/auth/verify-phone/verify-otp',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late BaseResponse<bool> _value;
+    try {
+      _value = BaseResponse<bool>.fromJson(
+        _result.data!,
+        (json) => json as bool,
+      );
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options);
       rethrow;

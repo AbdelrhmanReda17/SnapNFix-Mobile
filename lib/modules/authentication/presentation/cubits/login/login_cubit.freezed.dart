@@ -21,27 +21,29 @@ mixin _$LoginState {
   TResult when<TResult extends Object?>({
     required TResult Function(bool passwordVisible) initial,
     required TResult Function() loading,
-    required TResult Function(Session data) success,
-    required TResult Function() requiresVerification,
-    required TResult Function() requiresProfile,
+    required TResult Function(Session data) authenticated,
+    required TResult Function(String phoneNumber) unauthenticated,
+    required TResult Function(String phoneNumber, String verificationToken)
+    requiresOtp,
     required TResult Function(ApiErrorModel error) error,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(bool passwordVisible)? initial,
     TResult? Function()? loading,
-    TResult? Function(Session data)? success,
-    TResult? Function()? requiresVerification,
-    TResult? Function()? requiresProfile,
+    TResult? Function(Session data)? authenticated,
+    TResult? Function(String phoneNumber)? unauthenticated,
+    TResult? Function(String phoneNumber, String verificationToken)?
+    requiresOtp,
     TResult? Function(ApiErrorModel error)? error,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(bool passwordVisible)? initial,
     TResult Function()? loading,
-    TResult Function(Session data)? success,
-    TResult Function()? requiresVerification,
-    TResult Function()? requiresProfile,
+    TResult Function(Session data)? authenticated,
+    TResult Function(String phoneNumber)? unauthenticated,
+    TResult Function(String phoneNumber, String verificationToken)? requiresOtp,
     TResult Function(ApiErrorModel error)? error,
     required TResult orElse(),
   }) => throw _privateConstructorUsedError;
@@ -49,27 +51,27 @@ mixin _$LoginState {
   TResult map<TResult extends Object?>({
     required TResult Function(_Initial value) initial,
     required TResult Function(_Loading value) loading,
-    required TResult Function(_Success value) success,
-    required TResult Function(_RequiresVerification value) requiresVerification,
-    required TResult Function(_RequiresProfile value) requiresProfile,
+    required TResult Function(_Authenticated value) authenticated,
+    required TResult Function(_Unauthenticated value) unauthenticated,
+    required TResult Function(_RequiresOtp value) requiresOtp,
     required TResult Function(_Error value) error,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Initial value)? initial,
     TResult? Function(_Loading value)? loading,
-    TResult? Function(_Success value)? success,
-    TResult? Function(_RequiresVerification value)? requiresVerification,
-    TResult? Function(_RequiresProfile value)? requiresProfile,
+    TResult? Function(_Authenticated value)? authenticated,
+    TResult? Function(_Unauthenticated value)? unauthenticated,
+    TResult? Function(_RequiresOtp value)? requiresOtp,
     TResult? Function(_Error value)? error,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Initial value)? initial,
     TResult Function(_Loading value)? loading,
-    TResult Function(_Success value)? success,
-    TResult Function(_RequiresVerification value)? requiresVerification,
-    TResult Function(_RequiresProfile value)? requiresProfile,
+    TResult Function(_Authenticated value)? authenticated,
+    TResult Function(_Unauthenticated value)? unauthenticated,
+    TResult Function(_RequiresOtp value)? requiresOtp,
     TResult Function(_Error value)? error,
     required TResult orElse(),
   }) => throw _privateConstructorUsedError;
@@ -172,9 +174,10 @@ class _$InitialImpl implements _Initial {
   TResult when<TResult extends Object?>({
     required TResult Function(bool passwordVisible) initial,
     required TResult Function() loading,
-    required TResult Function(Session data) success,
-    required TResult Function() requiresVerification,
-    required TResult Function() requiresProfile,
+    required TResult Function(Session data) authenticated,
+    required TResult Function(String phoneNumber) unauthenticated,
+    required TResult Function(String phoneNumber, String verificationToken)
+    requiresOtp,
     required TResult Function(ApiErrorModel error) error,
   }) {
     return initial(passwordVisible);
@@ -185,9 +188,10 @@ class _$InitialImpl implements _Initial {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(bool passwordVisible)? initial,
     TResult? Function()? loading,
-    TResult? Function(Session data)? success,
-    TResult? Function()? requiresVerification,
-    TResult? Function()? requiresProfile,
+    TResult? Function(Session data)? authenticated,
+    TResult? Function(String phoneNumber)? unauthenticated,
+    TResult? Function(String phoneNumber, String verificationToken)?
+    requiresOtp,
     TResult? Function(ApiErrorModel error)? error,
   }) {
     return initial?.call(passwordVisible);
@@ -198,9 +202,9 @@ class _$InitialImpl implements _Initial {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(bool passwordVisible)? initial,
     TResult Function()? loading,
-    TResult Function(Session data)? success,
-    TResult Function()? requiresVerification,
-    TResult Function()? requiresProfile,
+    TResult Function(Session data)? authenticated,
+    TResult Function(String phoneNumber)? unauthenticated,
+    TResult Function(String phoneNumber, String verificationToken)? requiresOtp,
     TResult Function(ApiErrorModel error)? error,
     required TResult orElse(),
   }) {
@@ -215,9 +219,9 @@ class _$InitialImpl implements _Initial {
   TResult map<TResult extends Object?>({
     required TResult Function(_Initial value) initial,
     required TResult Function(_Loading value) loading,
-    required TResult Function(_Success value) success,
-    required TResult Function(_RequiresVerification value) requiresVerification,
-    required TResult Function(_RequiresProfile value) requiresProfile,
+    required TResult Function(_Authenticated value) authenticated,
+    required TResult Function(_Unauthenticated value) unauthenticated,
+    required TResult Function(_RequiresOtp value) requiresOtp,
     required TResult Function(_Error value) error,
   }) {
     return initial(this);
@@ -228,9 +232,9 @@ class _$InitialImpl implements _Initial {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Initial value)? initial,
     TResult? Function(_Loading value)? loading,
-    TResult? Function(_Success value)? success,
-    TResult? Function(_RequiresVerification value)? requiresVerification,
-    TResult? Function(_RequiresProfile value)? requiresProfile,
+    TResult? Function(_Authenticated value)? authenticated,
+    TResult? Function(_Unauthenticated value)? unauthenticated,
+    TResult? Function(_RequiresOtp value)? requiresOtp,
     TResult? Function(_Error value)? error,
   }) {
     return initial?.call(this);
@@ -241,9 +245,9 @@ class _$InitialImpl implements _Initial {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Initial value)? initial,
     TResult Function(_Loading value)? loading,
-    TResult Function(_Success value)? success,
-    TResult Function(_RequiresVerification value)? requiresVerification,
-    TResult Function(_RequiresProfile value)? requiresProfile,
+    TResult Function(_Authenticated value)? authenticated,
+    TResult Function(_Unauthenticated value)? unauthenticated,
+    TResult Function(_RequiresOtp value)? requiresOtp,
     TResult Function(_Error value)? error,
     required TResult orElse(),
   }) {
@@ -311,9 +315,10 @@ class _$LoadingImpl implements _Loading {
   TResult when<TResult extends Object?>({
     required TResult Function(bool passwordVisible) initial,
     required TResult Function() loading,
-    required TResult Function(Session data) success,
-    required TResult Function() requiresVerification,
-    required TResult Function() requiresProfile,
+    required TResult Function(Session data) authenticated,
+    required TResult Function(String phoneNumber) unauthenticated,
+    required TResult Function(String phoneNumber, String verificationToken)
+    requiresOtp,
     required TResult Function(ApiErrorModel error) error,
   }) {
     return loading();
@@ -324,9 +329,10 @@ class _$LoadingImpl implements _Loading {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(bool passwordVisible)? initial,
     TResult? Function()? loading,
-    TResult? Function(Session data)? success,
-    TResult? Function()? requiresVerification,
-    TResult? Function()? requiresProfile,
+    TResult? Function(Session data)? authenticated,
+    TResult? Function(String phoneNumber)? unauthenticated,
+    TResult? Function(String phoneNumber, String verificationToken)?
+    requiresOtp,
     TResult? Function(ApiErrorModel error)? error,
   }) {
     return loading?.call();
@@ -337,9 +343,9 @@ class _$LoadingImpl implements _Loading {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(bool passwordVisible)? initial,
     TResult Function()? loading,
-    TResult Function(Session data)? success,
-    TResult Function()? requiresVerification,
-    TResult Function()? requiresProfile,
+    TResult Function(Session data)? authenticated,
+    TResult Function(String phoneNumber)? unauthenticated,
+    TResult Function(String phoneNumber, String verificationToken)? requiresOtp,
     TResult Function(ApiErrorModel error)? error,
     required TResult orElse(),
   }) {
@@ -354,9 +360,9 @@ class _$LoadingImpl implements _Loading {
   TResult map<TResult extends Object?>({
     required TResult Function(_Initial value) initial,
     required TResult Function(_Loading value) loading,
-    required TResult Function(_Success value) success,
-    required TResult Function(_RequiresVerification value) requiresVerification,
-    required TResult Function(_RequiresProfile value) requiresProfile,
+    required TResult Function(_Authenticated value) authenticated,
+    required TResult Function(_Unauthenticated value) unauthenticated,
+    required TResult Function(_RequiresOtp value) requiresOtp,
     required TResult Function(_Error value) error,
   }) {
     return loading(this);
@@ -367,9 +373,9 @@ class _$LoadingImpl implements _Loading {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Initial value)? initial,
     TResult? Function(_Loading value)? loading,
-    TResult? Function(_Success value)? success,
-    TResult? Function(_RequiresVerification value)? requiresVerification,
-    TResult? Function(_RequiresProfile value)? requiresProfile,
+    TResult? Function(_Authenticated value)? authenticated,
+    TResult? Function(_Unauthenticated value)? unauthenticated,
+    TResult? Function(_RequiresOtp value)? requiresOtp,
     TResult? Function(_Error value)? error,
   }) {
     return loading?.call(this);
@@ -380,9 +386,9 @@ class _$LoadingImpl implements _Loading {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Initial value)? initial,
     TResult Function(_Loading value)? loading,
-    TResult Function(_Success value)? success,
-    TResult Function(_RequiresVerification value)? requiresVerification,
-    TResult Function(_RequiresProfile value)? requiresProfile,
+    TResult Function(_Authenticated value)? authenticated,
+    TResult Function(_Unauthenticated value)? unauthenticated,
+    TResult Function(_RequiresOtp value)? requiresOtp,
     TResult Function(_Error value)? error,
     required TResult orElse(),
   }) {
@@ -398,22 +404,22 @@ abstract class _Loading implements LoginState {
 }
 
 /// @nodoc
-abstract class _$$SuccessImplCopyWith<$Res> {
-  factory _$$SuccessImplCopyWith(
-    _$SuccessImpl value,
-    $Res Function(_$SuccessImpl) then,
-  ) = __$$SuccessImplCopyWithImpl<$Res>;
+abstract class _$$AuthenticatedImplCopyWith<$Res> {
+  factory _$$AuthenticatedImplCopyWith(
+    _$AuthenticatedImpl value,
+    $Res Function(_$AuthenticatedImpl) then,
+  ) = __$$AuthenticatedImplCopyWithImpl<$Res>;
   @useResult
   $Res call({Session data});
 }
 
 /// @nodoc
-class __$$SuccessImplCopyWithImpl<$Res>
-    extends _$LoginStateCopyWithImpl<$Res, _$SuccessImpl>
-    implements _$$SuccessImplCopyWith<$Res> {
-  __$$SuccessImplCopyWithImpl(
-    _$SuccessImpl _value,
-    $Res Function(_$SuccessImpl) _then,
+class __$$AuthenticatedImplCopyWithImpl<$Res>
+    extends _$LoginStateCopyWithImpl<$Res, _$AuthenticatedImpl>
+    implements _$$AuthenticatedImplCopyWith<$Res> {
+  __$$AuthenticatedImplCopyWithImpl(
+    _$AuthenticatedImpl _value,
+    $Res Function(_$AuthenticatedImpl) _then,
   ) : super(_value, _then);
 
   /// Create a copy of LoginState
@@ -422,7 +428,7 @@ class __$$SuccessImplCopyWithImpl<$Res>
   @override
   $Res call({Object? data = null}) {
     return _then(
-      _$SuccessImpl(
+      _$AuthenticatedImpl(
         null == data
             ? _value.data
             : data // ignore: cast_nullable_to_non_nullable
@@ -434,22 +440,22 @@ class __$$SuccessImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$SuccessImpl implements _Success {
-  const _$SuccessImpl(this.data);
+class _$AuthenticatedImpl implements _Authenticated {
+  const _$AuthenticatedImpl(this.data);
 
   @override
   final Session data;
 
   @override
   String toString() {
-    return 'LoginState.success(data: $data)';
+    return 'LoginState.authenticated(data: $data)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$SuccessImpl &&
+            other is _$AuthenticatedImpl &&
             (identical(other.data, data) || other.data == data));
   }
 
@@ -461,20 +467,21 @@ class _$SuccessImpl implements _Success {
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$SuccessImplCopyWith<_$SuccessImpl> get copyWith =>
-      __$$SuccessImplCopyWithImpl<_$SuccessImpl>(this, _$identity);
+  _$$AuthenticatedImplCopyWith<_$AuthenticatedImpl> get copyWith =>
+      __$$AuthenticatedImplCopyWithImpl<_$AuthenticatedImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(bool passwordVisible) initial,
     required TResult Function() loading,
-    required TResult Function(Session data) success,
-    required TResult Function() requiresVerification,
-    required TResult Function() requiresProfile,
+    required TResult Function(Session data) authenticated,
+    required TResult Function(String phoneNumber) unauthenticated,
+    required TResult Function(String phoneNumber, String verificationToken)
+    requiresOtp,
     required TResult Function(ApiErrorModel error) error,
   }) {
-    return success(data);
+    return authenticated(data);
   }
 
   @override
@@ -482,12 +489,13 @@ class _$SuccessImpl implements _Success {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(bool passwordVisible)? initial,
     TResult? Function()? loading,
-    TResult? Function(Session data)? success,
-    TResult? Function()? requiresVerification,
-    TResult? Function()? requiresProfile,
+    TResult? Function(Session data)? authenticated,
+    TResult? Function(String phoneNumber)? unauthenticated,
+    TResult? Function(String phoneNumber, String verificationToken)?
+    requiresOtp,
     TResult? Function(ApiErrorModel error)? error,
   }) {
-    return success?.call(data);
+    return authenticated?.call(data);
   }
 
   @override
@@ -495,14 +503,14 @@ class _$SuccessImpl implements _Success {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(bool passwordVisible)? initial,
     TResult Function()? loading,
-    TResult Function(Session data)? success,
-    TResult Function()? requiresVerification,
-    TResult Function()? requiresProfile,
+    TResult Function(Session data)? authenticated,
+    TResult Function(String phoneNumber)? unauthenticated,
+    TResult Function(String phoneNumber, String verificationToken)? requiresOtp,
     TResult Function(ApiErrorModel error)? error,
     required TResult orElse(),
   }) {
-    if (success != null) {
-      return success(data);
+    if (authenticated != null) {
+      return authenticated(data);
     }
     return orElse();
   }
@@ -512,12 +520,12 @@ class _$SuccessImpl implements _Success {
   TResult map<TResult extends Object?>({
     required TResult Function(_Initial value) initial,
     required TResult Function(_Loading value) loading,
-    required TResult Function(_Success value) success,
-    required TResult Function(_RequiresVerification value) requiresVerification,
-    required TResult Function(_RequiresProfile value) requiresProfile,
+    required TResult Function(_Authenticated value) authenticated,
+    required TResult Function(_Unauthenticated value) unauthenticated,
+    required TResult Function(_RequiresOtp value) requiresOtp,
     required TResult Function(_Error value) error,
   }) {
-    return success(this);
+    return authenticated(this);
   }
 
   @override
@@ -525,12 +533,12 @@ class _$SuccessImpl implements _Success {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Initial value)? initial,
     TResult? Function(_Loading value)? loading,
-    TResult? Function(_Success value)? success,
-    TResult? Function(_RequiresVerification value)? requiresVerification,
-    TResult? Function(_RequiresProfile value)? requiresProfile,
+    TResult? Function(_Authenticated value)? authenticated,
+    TResult? Function(_Unauthenticated value)? unauthenticated,
+    TResult? Function(_RequiresOtp value)? requiresOtp,
     TResult? Function(_Error value)? error,
   }) {
-    return success?.call(this);
+    return authenticated?.call(this);
   }
 
   @override
@@ -538,83 +546,114 @@ class _$SuccessImpl implements _Success {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Initial value)? initial,
     TResult Function(_Loading value)? loading,
-    TResult Function(_Success value)? success,
-    TResult Function(_RequiresVerification value)? requiresVerification,
-    TResult Function(_RequiresProfile value)? requiresProfile,
+    TResult Function(_Authenticated value)? authenticated,
+    TResult Function(_Unauthenticated value)? unauthenticated,
+    TResult Function(_RequiresOtp value)? requiresOtp,
     TResult Function(_Error value)? error,
     required TResult orElse(),
   }) {
-    if (success != null) {
-      return success(this);
+    if (authenticated != null) {
+      return authenticated(this);
     }
     return orElse();
   }
 }
 
-abstract class _Success implements LoginState {
-  const factory _Success(final Session data) = _$SuccessImpl;
+abstract class _Authenticated implements LoginState {
+  const factory _Authenticated(final Session data) = _$AuthenticatedImpl;
 
   Session get data;
 
   /// Create a copy of LoginState
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$SuccessImplCopyWith<_$SuccessImpl> get copyWith =>
+  _$$AuthenticatedImplCopyWith<_$AuthenticatedImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$RequiresVerificationImplCopyWith<$Res> {
-  factory _$$RequiresVerificationImplCopyWith(
-    _$RequiresVerificationImpl value,
-    $Res Function(_$RequiresVerificationImpl) then,
-  ) = __$$RequiresVerificationImplCopyWithImpl<$Res>;
+abstract class _$$UnauthenticatedImplCopyWith<$Res> {
+  factory _$$UnauthenticatedImplCopyWith(
+    _$UnauthenticatedImpl value,
+    $Res Function(_$UnauthenticatedImpl) then,
+  ) = __$$UnauthenticatedImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({String phoneNumber});
 }
 
 /// @nodoc
-class __$$RequiresVerificationImplCopyWithImpl<$Res>
-    extends _$LoginStateCopyWithImpl<$Res, _$RequiresVerificationImpl>
-    implements _$$RequiresVerificationImplCopyWith<$Res> {
-  __$$RequiresVerificationImplCopyWithImpl(
-    _$RequiresVerificationImpl _value,
-    $Res Function(_$RequiresVerificationImpl) _then,
+class __$$UnauthenticatedImplCopyWithImpl<$Res>
+    extends _$LoginStateCopyWithImpl<$Res, _$UnauthenticatedImpl>
+    implements _$$UnauthenticatedImplCopyWith<$Res> {
+  __$$UnauthenticatedImplCopyWithImpl(
+    _$UnauthenticatedImpl _value,
+    $Res Function(_$UnauthenticatedImpl) _then,
   ) : super(_value, _then);
 
   /// Create a copy of LoginState
   /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({Object? phoneNumber = null}) {
+    return _then(
+      _$UnauthenticatedImpl(
+        null == phoneNumber
+            ? _value.phoneNumber
+            : phoneNumber // ignore: cast_nullable_to_non_nullable
+                as String,
+      ),
+    );
+  }
 }
 
 /// @nodoc
 
-class _$RequiresVerificationImpl implements _RequiresVerification {
-  const _$RequiresVerificationImpl();
+class _$UnauthenticatedImpl implements _Unauthenticated {
+  const _$UnauthenticatedImpl(this.phoneNumber);
+
+  @override
+  final String phoneNumber;
 
   @override
   String toString() {
-    return 'LoginState.requiresVerification()';
+    return 'LoginState.unauthenticated(phoneNumber: $phoneNumber)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$RequiresVerificationImpl);
+            other is _$UnauthenticatedImpl &&
+            (identical(other.phoneNumber, phoneNumber) ||
+                other.phoneNumber == phoneNumber));
   }
 
   @override
-  int get hashCode => runtimeType.hashCode;
+  int get hashCode => Object.hash(runtimeType, phoneNumber);
+
+  /// Create a copy of LoginState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$UnauthenticatedImplCopyWith<_$UnauthenticatedImpl> get copyWith =>
+      __$$UnauthenticatedImplCopyWithImpl<_$UnauthenticatedImpl>(
+        this,
+        _$identity,
+      );
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(bool passwordVisible) initial,
     required TResult Function() loading,
-    required TResult Function(Session data) success,
-    required TResult Function() requiresVerification,
-    required TResult Function() requiresProfile,
+    required TResult Function(Session data) authenticated,
+    required TResult Function(String phoneNumber) unauthenticated,
+    required TResult Function(String phoneNumber, String verificationToken)
+    requiresOtp,
     required TResult Function(ApiErrorModel error) error,
   }) {
-    return requiresVerification();
+    return unauthenticated(phoneNumber);
   }
 
   @override
@@ -622,12 +661,13 @@ class _$RequiresVerificationImpl implements _RequiresVerification {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(bool passwordVisible)? initial,
     TResult? Function()? loading,
-    TResult? Function(Session data)? success,
-    TResult? Function()? requiresVerification,
-    TResult? Function()? requiresProfile,
+    TResult? Function(Session data)? authenticated,
+    TResult? Function(String phoneNumber)? unauthenticated,
+    TResult? Function(String phoneNumber, String verificationToken)?
+    requiresOtp,
     TResult? Function(ApiErrorModel error)? error,
   }) {
-    return requiresVerification?.call();
+    return unauthenticated?.call(phoneNumber);
   }
 
   @override
@@ -635,14 +675,14 @@ class _$RequiresVerificationImpl implements _RequiresVerification {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(bool passwordVisible)? initial,
     TResult Function()? loading,
-    TResult Function(Session data)? success,
-    TResult Function()? requiresVerification,
-    TResult Function()? requiresProfile,
+    TResult Function(Session data)? authenticated,
+    TResult Function(String phoneNumber)? unauthenticated,
+    TResult Function(String phoneNumber, String verificationToken)? requiresOtp,
     TResult Function(ApiErrorModel error)? error,
     required TResult orElse(),
   }) {
-    if (requiresVerification != null) {
-      return requiresVerification();
+    if (unauthenticated != null) {
+      return unauthenticated(phoneNumber);
     }
     return orElse();
   }
@@ -652,12 +692,12 @@ class _$RequiresVerificationImpl implements _RequiresVerification {
   TResult map<TResult extends Object?>({
     required TResult Function(_Initial value) initial,
     required TResult Function(_Loading value) loading,
-    required TResult Function(_Success value) success,
-    required TResult Function(_RequiresVerification value) requiresVerification,
-    required TResult Function(_RequiresProfile value) requiresProfile,
+    required TResult Function(_Authenticated value) authenticated,
+    required TResult Function(_Unauthenticated value) unauthenticated,
+    required TResult Function(_RequiresOtp value) requiresOtp,
     required TResult Function(_Error value) error,
   }) {
-    return requiresVerification(this);
+    return unauthenticated(this);
   }
 
   @override
@@ -665,12 +705,12 @@ class _$RequiresVerificationImpl implements _RequiresVerification {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Initial value)? initial,
     TResult? Function(_Loading value)? loading,
-    TResult? Function(_Success value)? success,
-    TResult? Function(_RequiresVerification value)? requiresVerification,
-    TResult? Function(_RequiresProfile value)? requiresProfile,
+    TResult? Function(_Authenticated value)? authenticated,
+    TResult? Function(_Unauthenticated value)? unauthenticated,
+    TResult? Function(_RequiresOtp value)? requiresOtp,
     TResult? Function(_Error value)? error,
   }) {
-    return requiresVerification?.call(this);
+    return unauthenticated?.call(this);
   }
 
   @override
@@ -678,74 +718,125 @@ class _$RequiresVerificationImpl implements _RequiresVerification {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Initial value)? initial,
     TResult Function(_Loading value)? loading,
-    TResult Function(_Success value)? success,
-    TResult Function(_RequiresVerification value)? requiresVerification,
-    TResult Function(_RequiresProfile value)? requiresProfile,
+    TResult Function(_Authenticated value)? authenticated,
+    TResult Function(_Unauthenticated value)? unauthenticated,
+    TResult Function(_RequiresOtp value)? requiresOtp,
     TResult Function(_Error value)? error,
     required TResult orElse(),
   }) {
-    if (requiresVerification != null) {
-      return requiresVerification(this);
+    if (unauthenticated != null) {
+      return unauthenticated(this);
     }
     return orElse();
   }
 }
 
-abstract class _RequiresVerification implements LoginState {
-  const factory _RequiresVerification() = _$RequiresVerificationImpl;
+abstract class _Unauthenticated implements LoginState {
+  const factory _Unauthenticated(final String phoneNumber) =
+      _$UnauthenticatedImpl;
+
+  String get phoneNumber;
+
+  /// Create a copy of LoginState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$UnauthenticatedImplCopyWith<_$UnauthenticatedImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$RequiresProfileImplCopyWith<$Res> {
-  factory _$$RequiresProfileImplCopyWith(
-    _$RequiresProfileImpl value,
-    $Res Function(_$RequiresProfileImpl) then,
-  ) = __$$RequiresProfileImplCopyWithImpl<$Res>;
+abstract class _$$RequiresOtpImplCopyWith<$Res> {
+  factory _$$RequiresOtpImplCopyWith(
+    _$RequiresOtpImpl value,
+    $Res Function(_$RequiresOtpImpl) then,
+  ) = __$$RequiresOtpImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({String phoneNumber, String verificationToken});
 }
 
 /// @nodoc
-class __$$RequiresProfileImplCopyWithImpl<$Res>
-    extends _$LoginStateCopyWithImpl<$Res, _$RequiresProfileImpl>
-    implements _$$RequiresProfileImplCopyWith<$Res> {
-  __$$RequiresProfileImplCopyWithImpl(
-    _$RequiresProfileImpl _value,
-    $Res Function(_$RequiresProfileImpl) _then,
+class __$$RequiresOtpImplCopyWithImpl<$Res>
+    extends _$LoginStateCopyWithImpl<$Res, _$RequiresOtpImpl>
+    implements _$$RequiresOtpImplCopyWith<$Res> {
+  __$$RequiresOtpImplCopyWithImpl(
+    _$RequiresOtpImpl _value,
+    $Res Function(_$RequiresOtpImpl) _then,
   ) : super(_value, _then);
 
   /// Create a copy of LoginState
   /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({Object? phoneNumber = null, Object? verificationToken = null}) {
+    return _then(
+      _$RequiresOtpImpl(
+        phoneNumber:
+            null == phoneNumber
+                ? _value.phoneNumber
+                : phoneNumber // ignore: cast_nullable_to_non_nullable
+                    as String,
+        verificationToken:
+            null == verificationToken
+                ? _value.verificationToken
+                : verificationToken // ignore: cast_nullable_to_non_nullable
+                    as String,
+      ),
+    );
+  }
 }
 
 /// @nodoc
 
-class _$RequiresProfileImpl implements _RequiresProfile {
-  const _$RequiresProfileImpl();
+class _$RequiresOtpImpl implements _RequiresOtp {
+  const _$RequiresOtpImpl({
+    required this.phoneNumber,
+    required this.verificationToken,
+  });
+
+  @override
+  final String phoneNumber;
+  @override
+  final String verificationToken;
 
   @override
   String toString() {
-    return 'LoginState.requiresProfile()';
+    return 'LoginState.requiresOtp(phoneNumber: $phoneNumber, verificationToken: $verificationToken)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$RequiresProfileImpl);
+        (other.runtimeType == runtimeType &&
+            other is _$RequiresOtpImpl &&
+            (identical(other.phoneNumber, phoneNumber) ||
+                other.phoneNumber == phoneNumber) &&
+            (identical(other.verificationToken, verificationToken) ||
+                other.verificationToken == verificationToken));
   }
 
   @override
-  int get hashCode => runtimeType.hashCode;
+  int get hashCode => Object.hash(runtimeType, phoneNumber, verificationToken);
+
+  /// Create a copy of LoginState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$RequiresOtpImplCopyWith<_$RequiresOtpImpl> get copyWith =>
+      __$$RequiresOtpImplCopyWithImpl<_$RequiresOtpImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(bool passwordVisible) initial,
     required TResult Function() loading,
-    required TResult Function(Session data) success,
-    required TResult Function() requiresVerification,
-    required TResult Function() requiresProfile,
+    required TResult Function(Session data) authenticated,
+    required TResult Function(String phoneNumber) unauthenticated,
+    required TResult Function(String phoneNumber, String verificationToken)
+    requiresOtp,
     required TResult Function(ApiErrorModel error) error,
   }) {
-    return requiresProfile();
+    return requiresOtp(phoneNumber, verificationToken);
   }
 
   @override
@@ -753,12 +844,13 @@ class _$RequiresProfileImpl implements _RequiresProfile {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(bool passwordVisible)? initial,
     TResult? Function()? loading,
-    TResult? Function(Session data)? success,
-    TResult? Function()? requiresVerification,
-    TResult? Function()? requiresProfile,
+    TResult? Function(Session data)? authenticated,
+    TResult? Function(String phoneNumber)? unauthenticated,
+    TResult? Function(String phoneNumber, String verificationToken)?
+    requiresOtp,
     TResult? Function(ApiErrorModel error)? error,
   }) {
-    return requiresProfile?.call();
+    return requiresOtp?.call(phoneNumber, verificationToken);
   }
 
   @override
@@ -766,14 +858,14 @@ class _$RequiresProfileImpl implements _RequiresProfile {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(bool passwordVisible)? initial,
     TResult Function()? loading,
-    TResult Function(Session data)? success,
-    TResult Function()? requiresVerification,
-    TResult Function()? requiresProfile,
+    TResult Function(Session data)? authenticated,
+    TResult Function(String phoneNumber)? unauthenticated,
+    TResult Function(String phoneNumber, String verificationToken)? requiresOtp,
     TResult Function(ApiErrorModel error)? error,
     required TResult orElse(),
   }) {
-    if (requiresProfile != null) {
-      return requiresProfile();
+    if (requiresOtp != null) {
+      return requiresOtp(phoneNumber, verificationToken);
     }
     return orElse();
   }
@@ -783,12 +875,12 @@ class _$RequiresProfileImpl implements _RequiresProfile {
   TResult map<TResult extends Object?>({
     required TResult Function(_Initial value) initial,
     required TResult Function(_Loading value) loading,
-    required TResult Function(_Success value) success,
-    required TResult Function(_RequiresVerification value) requiresVerification,
-    required TResult Function(_RequiresProfile value) requiresProfile,
+    required TResult Function(_Authenticated value) authenticated,
+    required TResult Function(_Unauthenticated value) unauthenticated,
+    required TResult Function(_RequiresOtp value) requiresOtp,
     required TResult Function(_Error value) error,
   }) {
-    return requiresProfile(this);
+    return requiresOtp(this);
   }
 
   @override
@@ -796,12 +888,12 @@ class _$RequiresProfileImpl implements _RequiresProfile {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Initial value)? initial,
     TResult? Function(_Loading value)? loading,
-    TResult? Function(_Success value)? success,
-    TResult? Function(_RequiresVerification value)? requiresVerification,
-    TResult? Function(_RequiresProfile value)? requiresProfile,
+    TResult? Function(_Authenticated value)? authenticated,
+    TResult? Function(_Unauthenticated value)? unauthenticated,
+    TResult? Function(_RequiresOtp value)? requiresOtp,
     TResult? Function(_Error value)? error,
   }) {
-    return requiresProfile?.call(this);
+    return requiresOtp?.call(this);
   }
 
   @override
@@ -809,21 +901,33 @@ class _$RequiresProfileImpl implements _RequiresProfile {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Initial value)? initial,
     TResult Function(_Loading value)? loading,
-    TResult Function(_Success value)? success,
-    TResult Function(_RequiresVerification value)? requiresVerification,
-    TResult Function(_RequiresProfile value)? requiresProfile,
+    TResult Function(_Authenticated value)? authenticated,
+    TResult Function(_Unauthenticated value)? unauthenticated,
+    TResult Function(_RequiresOtp value)? requiresOtp,
     TResult Function(_Error value)? error,
     required TResult orElse(),
   }) {
-    if (requiresProfile != null) {
-      return requiresProfile(this);
+    if (requiresOtp != null) {
+      return requiresOtp(this);
     }
     return orElse();
   }
 }
 
-abstract class _RequiresProfile implements LoginState {
-  const factory _RequiresProfile() = _$RequiresProfileImpl;
+abstract class _RequiresOtp implements LoginState {
+  const factory _RequiresOtp({
+    required final String phoneNumber,
+    required final String verificationToken,
+  }) = _$RequiresOtpImpl;
+
+  String get phoneNumber;
+  String get verificationToken;
+
+  /// Create a copy of LoginState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$RequiresOtpImplCopyWith<_$RequiresOtpImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -898,9 +1002,10 @@ class _$ErrorImpl implements _Error {
   TResult when<TResult extends Object?>({
     required TResult Function(bool passwordVisible) initial,
     required TResult Function() loading,
-    required TResult Function(Session data) success,
-    required TResult Function() requiresVerification,
-    required TResult Function() requiresProfile,
+    required TResult Function(Session data) authenticated,
+    required TResult Function(String phoneNumber) unauthenticated,
+    required TResult Function(String phoneNumber, String verificationToken)
+    requiresOtp,
     required TResult Function(ApiErrorModel error) error,
   }) {
     return error(this.error);
@@ -911,9 +1016,10 @@ class _$ErrorImpl implements _Error {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(bool passwordVisible)? initial,
     TResult? Function()? loading,
-    TResult? Function(Session data)? success,
-    TResult? Function()? requiresVerification,
-    TResult? Function()? requiresProfile,
+    TResult? Function(Session data)? authenticated,
+    TResult? Function(String phoneNumber)? unauthenticated,
+    TResult? Function(String phoneNumber, String verificationToken)?
+    requiresOtp,
     TResult? Function(ApiErrorModel error)? error,
   }) {
     return error?.call(this.error);
@@ -924,9 +1030,9 @@ class _$ErrorImpl implements _Error {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(bool passwordVisible)? initial,
     TResult Function()? loading,
-    TResult Function(Session data)? success,
-    TResult Function()? requiresVerification,
-    TResult Function()? requiresProfile,
+    TResult Function(Session data)? authenticated,
+    TResult Function(String phoneNumber)? unauthenticated,
+    TResult Function(String phoneNumber, String verificationToken)? requiresOtp,
     TResult Function(ApiErrorModel error)? error,
     required TResult orElse(),
   }) {
@@ -941,9 +1047,9 @@ class _$ErrorImpl implements _Error {
   TResult map<TResult extends Object?>({
     required TResult Function(_Initial value) initial,
     required TResult Function(_Loading value) loading,
-    required TResult Function(_Success value) success,
-    required TResult Function(_RequiresVerification value) requiresVerification,
-    required TResult Function(_RequiresProfile value) requiresProfile,
+    required TResult Function(_Authenticated value) authenticated,
+    required TResult Function(_Unauthenticated value) unauthenticated,
+    required TResult Function(_RequiresOtp value) requiresOtp,
     required TResult Function(_Error value) error,
   }) {
     return error(this);
@@ -954,9 +1060,9 @@ class _$ErrorImpl implements _Error {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Initial value)? initial,
     TResult? Function(_Loading value)? loading,
-    TResult? Function(_Success value)? success,
-    TResult? Function(_RequiresVerification value)? requiresVerification,
-    TResult? Function(_RequiresProfile value)? requiresProfile,
+    TResult? Function(_Authenticated value)? authenticated,
+    TResult? Function(_Unauthenticated value)? unauthenticated,
+    TResult? Function(_RequiresOtp value)? requiresOtp,
     TResult? Function(_Error value)? error,
   }) {
     return error?.call(this);
@@ -967,9 +1073,9 @@ class _$ErrorImpl implements _Error {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Initial value)? initial,
     TResult Function(_Loading value)? loading,
-    TResult Function(_Success value)? success,
-    TResult Function(_RequiresVerification value)? requiresVerification,
-    TResult Function(_RequiresProfile value)? requiresProfile,
+    TResult Function(_Authenticated value)? authenticated,
+    TResult Function(_Unauthenticated value)? unauthenticated,
+    TResult Function(_RequiresOtp value)? requiresOtp,
     TResult Function(_Error value)? error,
     required TResult orElse(),
   }) {

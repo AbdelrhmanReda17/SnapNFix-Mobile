@@ -47,6 +47,9 @@ class $AssetsIconsGen {
 class $AssetsImagesGen {
   const $AssetsImagesGen();
 
+  /// File path: assets/images/Pattern.png
+  AssetGenImage get pattern => const AssetGenImage('assets/images/Pattern.png');
+
   /// File path: assets/images/SNF.png
   AssetGenImage get snf => const AssetGenImage('assets/images/SNF.png');
 
@@ -99,6 +102,7 @@ class $AssetsImagesGen {
 
   /// List of all assets
   List<AssetGenImage> get values => [
+    pattern,
     snf,
     sNFDark,
     snapNFix,

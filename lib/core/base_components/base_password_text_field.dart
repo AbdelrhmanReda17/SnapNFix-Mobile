@@ -4,6 +4,7 @@ import 'package:snapnfix/core/base_components/base_text_field.dart';
 
 class BasePasswordTextField extends StatelessWidget {
   final String text;
+  final String? hintText;
   final bool isPasswordObscureText;
   final void Function() togglePasswordObscureText;
   final TextEditingController controller;
@@ -12,6 +13,7 @@ class BasePasswordTextField extends StatelessWidget {
   const BasePasswordTextField({
     super.key,
     required this.text,
+    this.hintText,
     required this.isPasswordObscureText,
     required this.togglePasswordObscureText,
     required this.controller,
@@ -22,7 +24,8 @@ class BasePasswordTextField extends StatelessWidget {
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
     return BaseTextField(
-      hintText: text,
+      labelText: hintText != null ? text : null,
+      hintText: hintText ?? text,
       controller: controller,
       isObscureText: isPasswordObscureText,
       suffixIcon: GestureDetector(

@@ -18,7 +18,7 @@ class HomeHeader extends StatelessWidget {
     }
 
     final user = session.user;
-    final initials = '${user.firstName![0]}${user.lastName![0]}'.toUpperCase();
+    final initials = '${user.firstName![0]}${user.lastName![0]}';
 
     return Stack(
       children: [
@@ -65,7 +65,8 @@ class HomeHeader extends StatelessWidget {
                               ),
                             ),
                             TextSpan(
-                              text: '${user.firstName} ${user.lastName}',
+                              text: "${user.firstName![0]}${user.lastName![0]}",
+
                               style: theme.textTheme.bodyMedium?.copyWith(
                                 fontSize: 16.sp,
                                 color: const Color.fromARGB(255, 47, 115, 94),

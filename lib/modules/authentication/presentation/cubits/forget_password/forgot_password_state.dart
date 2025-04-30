@@ -4,6 +4,9 @@ part of 'forgot_password_cubit.dart';
 class ForgotPasswordState with _$ForgotPasswordState {
   const factory ForgotPasswordState.initial() = _Initial;
   const factory ForgotPasswordState.loading() = _Loading;
-  const factory ForgotPasswordState.success() = _Success;
+  const factory ForgotPasswordState.requiresOtp({
+    required String phoneNumber,
+    required String verificationToken,
+  }) = _RequiresOtp;
   const factory ForgotPasswordState.error(ApiErrorModel error) = _Error;
 }

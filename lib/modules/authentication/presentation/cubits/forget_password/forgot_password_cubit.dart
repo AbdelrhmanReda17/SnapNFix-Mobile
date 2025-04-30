@@ -7,17 +7,15 @@ import 'package:snapnfix/modules/authentication/domain/usecases/forgot_password_
 part 'forgot_password_state.dart';
 part 'forgot_password_cubit.freezed.dart';
 
-class ForgotPasswordCubit extends Cubit<ForgotPasswordState>{
+class ForgotPasswordCubit extends Cubit<ForgotPasswordState> {
   final ForgotPasswordUseCase _forgotPasswordUseCase;
 
-  ForgotPasswordCubit({
-    required ForgotPasswordUseCase forgotPasswordUseCase
-    }) : _forgotPasswordUseCase = forgotPasswordUseCase,
-        super(const ForgotPasswordState.initial());
+  ForgotPasswordCubit({required ForgotPasswordUseCase forgotPasswordUseCase})
+    : _forgotPasswordUseCase = forgotPasswordUseCase,
+      super(const ForgotPasswordState.initial());
 
   final formKey = GlobalKey<FormState>();
   final emailOrPhoneController = TextEditingController();
-  
 
   Future<void> emitForgotPasswordStates() async {
     if (!formKey.currentState!.validate()) return;
@@ -29,9 +27,19 @@ class ForgotPasswordCubit extends Cubit<ForgotPasswordState>{
     );
 
     response.when(
-      success: (_) => emit(ForgotPasswordState.success()),
-      failure: (ApiErrorModel error) => 
-        emit(ForgotPasswordState.error(error)),
+      success: (authResult) {
+        authResult.whenOrNull(
+          requiresOtp: (phoneNumber, token, purpose) {
+            emit(
+              ForgotPasswordState.requiresOtp(
+                phoneNumber: phoneNumber,
+                verificationToken: token,
+              ),
+            );
+          },
+        );
+      },
+      failure: (error) => emit(ForgotPasswordState.error(error)),
     );
   }
 

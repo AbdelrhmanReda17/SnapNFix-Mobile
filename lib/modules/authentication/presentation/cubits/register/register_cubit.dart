@@ -15,6 +15,8 @@ class RegisterCubit extends Cubit<RegisterState> {
   final phoneController = TextEditingController();
   final passwordController = TextEditingController();
   final confirmPasswordController = TextEditingController();
+  final firstNameController = TextEditingController();
+  final lastNameController = TextEditingController();
 
   bool get passwordVisible => state.maybeMap(
     initial: (state) => state.passwordVisible,
@@ -63,20 +65,25 @@ class RegisterCubit extends Cubit<RegisterState> {
     emit(const RegisterState.loading());
 
     final response = await _registerUseCase.call(
+      firstName: firstNameController.text,
+      lastName: lastNameController.text,
       phoneNumber: phoneController.text,
       password: passwordController.text,
       confirmPassword: confirmPasswordController.text,
     );
 
     response.when(
-      success: (session) {
-        if (!session.user.isVerified) {
-          emit(const RegisterState.requiresVerification());
-        } else if (!session.user.isProfileComplete) {
-          emit(const RegisterState.requiresProfile());
-        } else {
-          emit(RegisterState.success(session));
-        }
+      success: (authResult) {
+        authResult.whenOrNull(
+          requiresOtp: (phoneNumber, token, purpose) {
+            emit(
+              RegisterState.requiresOtp(
+                phoneNumber: phoneNumber,
+                verificationToken: token,
+              ),
+            );
+          },
+        );
       },
       failure: (error) => emit(RegisterState.error(error)),
     );
@@ -87,6 +94,8 @@ class RegisterCubit extends Cubit<RegisterState> {
     phoneController.dispose();
     passwordController.dispose();
     confirmPasswordController.dispose();
+    firstNameController.dispose();
+    lastNameController.dispose();
     return super.close();
   }
 }

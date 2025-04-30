@@ -23,7 +23,8 @@ class LoginForm extends StatelessWidget {
         child: Column(
           children: [
             BaseTextField(
-              hintText: localizations.emailOrPhone,
+              labelText: localizations.emailOrPhone,
+              hintText: "Enter your email or phone number",
               controller: context.read<LoginCubit>().emailOrPhoneController,
               validator:
                   (value) =>
@@ -33,7 +34,7 @@ class LoginForm extends StatelessWidget {
                               : localizations.emailOrPhoneRequiredAndValid
                           : localizations.emailOrPhoneRequiredAndValid,
             ),
-            verticalSpace(20),
+            verticalSpace(14),
             BlocSelector<LoginCubit, LoginState, bool>(
               selector:
                   (state) => state.maybeWhen(
@@ -43,6 +44,7 @@ class LoginForm extends StatelessWidget {
               builder: (context, isPasswordVisible) {
                 return BasePasswordTextField(
                   text: localizations.password,
+                  hintText: "Enter your password",
                   isPasswordObscureText: !isPasswordVisible,
                   togglePasswordObscureText:
                       context.read<LoginCubit>().togglePasswordVisibility,
@@ -55,7 +57,7 @@ class LoginForm extends StatelessWidget {
                 );
               },
             ),
-            verticalSpace(20),
+            verticalSpace(14),
             Align(alignment: Alignment.centerRight, child: ForgetPassword()),
           ],
         ),

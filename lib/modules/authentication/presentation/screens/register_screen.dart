@@ -16,8 +16,8 @@ class RegisterScreen extends StatelessWidget {
     final localization = AppLocalizations.of(context)!;
 
     return AuthenticationScreen<RegisterCubit>(
-      title: localization.createAccountTitle,
-      subtitle: localization.registerToContinue,
+      title: "Get started now",
+      subtitle: "Your one-stop solution for all your needs",
       buttonText: localization.signUp,
       footerQuestion: localization.alreadyHaveAcc,
       footerAction: localization.signIn,
@@ -30,8 +30,8 @@ class RegisterScreen extends StatelessWidget {
         context.read<RegisterCubit>().emitRegisterStates();
       },
       showTerms: true,
-      showSocial: true,
-      showLogo: true,
+      
+      showSocial: false,
     );
   }
 }

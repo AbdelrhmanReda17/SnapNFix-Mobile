@@ -7,7 +7,7 @@ part of 'user_model.dart';
 // **************************************************************************
 
 UserModel _$UserModelFromJson(Map<String, dynamic> json) => UserModel(
-  id: json['id'] as String,
+  id: json['id'] as String?,
   firstName: json['firstName'] as String?,
   lastName: json['lastName'] as String?,
   phoneNumber: json['phoneNumber'] as String,
@@ -18,8 +18,6 @@ UserModel _$UserModelFromJson(Map<String, dynamic> json) => UserModel(
           ? null
           : DateTime.parse(json['dateOfBirth'] as String),
   gender: $enumDecodeNullable(_$UserGenderEnumMap, json['gender']),
-  isVerified: json['isVerified'] as bool? ?? false,
-  isProfileComplete: json['isProfileComplete'] as bool? ?? false,
 );
 
 Map<String, dynamic> _$UserModelToJson(UserModel instance) => <String, dynamic>{
@@ -31,8 +29,6 @@ Map<String, dynamic> _$UserModelToJson(UserModel instance) => <String, dynamic>{
   'profileImage': instance.profileImage,
   'dateOfBirth': instance.dateOfBirth?.toIso8601String(),
   'gender': _$UserGenderEnumMap[instance.gender],
-  'isVerified': instance.isVerified,
-  'isProfileComplete': instance.isProfileComplete,
 };
 
 const _$UserGenderEnumMap = {

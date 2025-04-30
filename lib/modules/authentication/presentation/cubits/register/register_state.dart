@@ -7,8 +7,10 @@ class RegisterState with _$RegisterState {
     @Default(false) bool confirmPasswordVisible,
   }) = _Initial;
   const factory RegisterState.loading() = _Loading;
-  const factory RegisterState.success(Session session) = _Success;
-  const factory RegisterState.requiresVerification() = _RequiresVerification;
-  const factory RegisterState.requiresProfile() = _RequiresProfile;
+  const factory RegisterState.requiresOtp({
+    required String phoneNumber,
+    required String verificationToken,
+  }) = _RequiresOtp;
+  const factory RegisterState.authenticated(Session data) = _Authenticated;
   const factory RegisterState.error(ApiErrorModel error) = _Error;
 }

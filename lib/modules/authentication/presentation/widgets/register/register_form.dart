@@ -14,15 +14,41 @@ class RegisterForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context)!;
+    final cubit = context.read<RegisterCubit>();
     return Form(
-      key: context.read<RegisterCubit>().formKey,
+      key: cubit.formKey,
       child: Padding(
         padding: EdgeInsets.only(left: 8.w),
         child: Column(
           children: [
             BaseTextField(
-              hintText: localizations.phone,
-              controller: context.read<RegisterCubit>().phoneController,
+              labelText: localizations.firstName,
+              hintText: "Enter your first name",
+              controller: cubit.firstNameController,
+              validator: (value) =>
+                  value!.isNotEmpty
+                      ? value.isValidName
+                          ? null
+                          : localizations.firstNameError
+                      : localizations.firstNameRequired,
+            ),
+            verticalSpace(12),
+            BaseTextField(
+              labelText: localizations.lastName,
+              hintText: "Enter your last name",
+              controller: cubit.lastNameController,
+              validator: (value) =>
+                  value!.isNotEmpty
+                      ? value.isValidName
+                          ? null
+                          : localizations.lastNameError
+                      : localizations.lastNameRequired,
+            ),
+            verticalSpace(12),
+            BaseTextField(
+              labelText: localizations.phone,
+              hintText: "Enter your phone number",
+              controller: cubit.phoneController,
               validator:
                   (value) =>
                       value!.isNotEmpty
@@ -31,7 +57,7 @@ class RegisterForm extends StatelessWidget {
                               : localizations.phoneNumberError
                           : localizations.phoneNumberRequired,
             ),
-            verticalSpace(20),
+            verticalSpace(12),
             BlocSelector<RegisterCubit, RegisterState, bool>(
               selector:
                   (state) => state.maybeWhen(
@@ -41,10 +67,10 @@ class RegisterForm extends StatelessWidget {
               builder: (context, isPasswordVisible) {
                 return BasePasswordTextField(
                   text: localizations.password,
+                  hintText: "Enter your password",
                   isPasswordObscureText: !isPasswordVisible,
-                  togglePasswordObscureText:
-                      context.read<RegisterCubit>().togglePasswordVisibility,
-                  controller: context.read<RegisterCubit>().passwordController,
+                  togglePasswordObscureText: cubit.togglePasswordVisibility,
+                  controller: cubit.passwordController,
                   validator:
                       (value) =>
                           value!.isNotEmpty
@@ -55,7 +81,7 @@ class RegisterForm extends StatelessWidget {
                 );
               },
             ),
-            verticalSpace(20),
+            verticalSpace(12),
             BlocSelector<RegisterCubit, RegisterState, bool>(
               selector:
                   (state) => state.maybeWhen(
@@ -66,13 +92,13 @@ class RegisterForm extends StatelessWidget {
               builder: (context, isConfirmPasswordVisible) {
                 return BasePasswordTextField(
                   text: localizations.repeatPassword,
+                  hintText: "Re-enter your password",
                   isPasswordObscureText: !isConfirmPasswordVisible,
                   togglePasswordObscureText:
                       context
                           .read<RegisterCubit>()
                           .toggleConfirmPasswordVisibility,
-                  controller:
-                      context.read<RegisterCubit>().confirmPasswordController,
+                  controller: cubit.confirmPasswordController,
                   validator:
                       (value) =>
                           value!.isNotEmpty
