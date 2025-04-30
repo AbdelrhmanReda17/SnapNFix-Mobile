@@ -113,5 +113,23 @@
   "contentGuidelines": "إرشادات المحتوى",
   "contentGuidelinesText": "• يجب أن يكون كل المحتوى المقدم مناسباً وذا صلة\n• يجب أن تظهر الصور بوضوح المشكلة المبلغ عنها\n• تجنب تضمين أفراد يمكن التعرف عليهم في الصور دون موافقة\n• لا تقدم بلاغات كاذبة أو مضللة",
   
-  "lastUpdated": "آخر تحديث: {date}"
+  "lastUpdated": "آخر تحديث: {date}",
+
+  "reportAnIncident": "الإبلاغ عن حادث",
+  "myReports": "بلاغاتي",
+  "noReports": "لا توجد بلاغات حتى الآن",
+  "severityLow": "منخفضة",
+  "severityMedium": "متوسطة", 
+  "severityHigh": "عالية",
+  "statusPending": "قيد الانتظار",
+  "statusValid": "صالح",
+  "statusInvalid": "غير صالح",
+  "viewIssue": "عرض المشكلة رقم {number}",
+  "@viewIssue": {
+    "placeholders": {
+      "number": {
+        "type": "String"
+      }
+    }
+  }
 }

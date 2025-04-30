@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:snapnfix/modules/reports/data/model/report_model.dart';
 import 'package:snapnfix/modules/reports/domain/entities/report_severity.dart';
 import 'package:snapnfix/modules/reports/domain/entities/report_status.dart';
@@ -21,6 +22,7 @@ class _ReportCardState extends State<ReportCard> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
+    final localization = AppLocalizations.of(context)!;
 
     final imagePath = 'assets/images/issue${(int.parse(widget.report.id) % 3) + 1}.jpg';
 
@@ -29,7 +31,7 @@ class _ReportCardState extends State<ReportCard> {
       clipBehavior: Clip.antiAlias,
       margin: EdgeInsets.zero,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(8.r), // Smaller border radius
+        borderRadius: BorderRadius.circular(8.r), 
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -43,7 +45,7 @@ class _ReportCardState extends State<ReportCard> {
                   children: [
                     Image.asset(
                       imagePath,
-                      height: 80.h, // Smaller image height
+                      height: 80.h, 
                       width: double.infinity,
                       fit: BoxFit.cover,
                     ),
@@ -70,7 +72,7 @@ class _ReportCardState extends State<ReportCard> {
                             ),
                             SizedBox(width: 4.w),
                             Text(
-                              widget.report.status.value.toUpperCase(),
+                              _getStatusText(widget.report.status, localization).toUpperCase(),
                               style: theme.textTheme.labelSmall?.copyWith(
                                 color: colorScheme.surface,
                                 fontWeight: FontWeight.w500,
@@ -80,7 +82,6 @@ class _ReportCardState extends State<ReportCard> {
                         ),
                       ),
                     ),
-                    // Date
                     Positioned(
                       top: 8.h,
                       right: 8.w,
@@ -101,13 +102,11 @@ class _ReportCardState extends State<ReportCard> {
                   ],
                 ),
 
-                // Content section
                 Padding(
-                  padding: EdgeInsets.all(8.r), // Smaller padding
+                  padding: EdgeInsets.all(8.r),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // Location row
                       Row(
                         children: [
                           Expanded(
@@ -118,19 +117,16 @@ class _ReportCardState extends State<ReportCard> {
                           ),
                         ],
                       ),
-                      SizedBox(height: 4.h), // Smaller spacing
+                      SizedBox(height: 4.h),
 
-                      // Severity text
                       Text(
-                        'Severity: ${widget.report.severity.name.toLowerCase()}',
+                        'Severity: ${_getSeverityText(widget.report.severity, localization)}',
                         style: theme.textTheme.bodySmall?.copyWith(
                           color: _getSeverityColor(widget.report.severity),
                           fontWeight: FontWeight.w500,
                         ),
                       ),
-                      SizedBox(height: 4.h), // Smaller spacing
-
-                      // Report details
+                      SizedBox(height: 4.h),
                       Text(
                         widget.report.details,
                         maxLines: _isExpanded ? null : 2,
@@ -156,7 +152,7 @@ class _ReportCardState extends State<ReportCard> {
                             // );
                           },
                           child: Text(
-                            'View Issue #${widget.report.issueId}',
+                            localization.viewIssue(widget.report.issueId!),
                             style: theme.textTheme.labelMedium?.copyWith(
                               color: colorScheme.primary,
                               decoration: TextDecoration.underline,
@@ -188,6 +184,22 @@ class _ReportCardState extends State<ReportCard> {
       ReportSeverity.low => Colors.blue,
       ReportSeverity.medium => Colors.orange,
       ReportSeverity.high => Colors.red,
+    };
+  }
+
+  String _getSeverityText(ReportSeverity severity, AppLocalizations localization) {
+    return switch (severity) {
+      ReportSeverity.low => localization.severityLow,
+      ReportSeverity.medium => localization.severityMedium,
+      ReportSeverity.high => localization.severityHigh,
+    };
+  }
+
+  String _getStatusText(ReportStatus status, AppLocalizations localization) {
+    return switch (status) {
+      ReportStatus.pending => localization.statusPending,
+      ReportStatus.valid => localization.statusValid,
+      ReportStatus.invalid => localization.statusInvalid,
     };
   }
 

@@ -150,5 +150,22 @@
         "type": "String"
       }
     }
+  },
+
+  "myReports": "My Reports",
+  "noReports": "No reports yet",
+  "severityLow": "low",
+  "severityMedium": "medium", 
+  "severityHigh": "high",
+  "statusPending": "pending",
+  "statusValid": "valid",
+  "statusInvalid": "invalid",
+  "viewIssue": "View Issue #{number}",
+  "@viewIssue": {
+    "placeholders": {
+      "number": {
+        "type": "String"
+      }
+    }
   }
 }
