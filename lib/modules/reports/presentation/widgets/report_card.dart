@@ -15,8 +15,40 @@ class ReportCard extends StatefulWidget {
   State<ReportCard> createState() => _ReportCardState();
 }
 
-class _ReportCardState extends State<ReportCard> {
+class _ReportCardState extends State<ReportCard> with SingleTickerProviderStateMixin {
   bool _isExpanded = false;
+  late final AnimationController _controller;
+  late final Animation<double> _expandAnimation;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      duration: const Duration(milliseconds: 200),
+      vsync: this,
+    );
+    _expandAnimation = CurvedAnimation(
+      parent: _controller,
+      curve: Curves.easeInOut,
+    );
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  void _toggleExpand() {
+    setState(() {
+      _isExpanded = !_isExpanded;
+      if (_isExpanded) {
+        _controller.forward();
+      } else {
+        _controller.reverse();
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,23 +63,26 @@ class _ReportCardState extends State<ReportCard> {
       clipBehavior: Clip.antiAlias,
       margin: EdgeInsets.zero,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(8.r), 
+        borderRadius: BorderRadius.circular(8.r),
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           InkWell(
-            onTap: () => setState(() => _isExpanded = !_isExpanded),
+            onTap: _toggleExpand,
             child: Column(
               children: [
                 // Header with image
                 Stack(
                   children: [
-                    Image.asset(
-                      imagePath,
-                      height: 80.h, 
-                      width: double.infinity,
-                      fit: BoxFit.cover,
+                    Hero(
+                      tag: 'report_image_${widget.report.id}',
+                      child: Image.asset(
+                        imagePath,
+                        height: 80.h,
+                        width: double.infinity,
+                        fit: BoxFit.cover,
+                      ),
                     ),
                     // Status indicator
                     Positioned(
@@ -127,21 +162,22 @@ class _ReportCardState extends State<ReportCard> {
                         ),
                       ),
                       SizedBox(height: 4.h),
-                      Text(
-                        widget.report.details,
-                        maxLines: _isExpanded ? null : 2,
-                        overflow: _isExpanded ? null : TextOverflow.ellipsis,
-                        style: theme.textTheme.bodySmall?.copyWith( // Smaller text
-                          color: colorScheme.onSurface,
-                        ),
-                      ),
-
-                      // Issue link
-                      if (widget.report.issueId != null) ...[
-                        SizedBox(height: 8.h),
-                        InkWell(
-                          onTap: () {
-                            // TODO: Navigate to issue detail screen
+                      SizeTransition(
+                        sizeFactor: _expandAnimation,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              widget.report.details,
+                              style: theme.textTheme.bodySmall?.copyWith(
+                                color: colorScheme.onSurface,
+                              ),
+                            ),
+                            if (widget.report.issueId != null) ...[
+                              SizedBox(height: 8.h),
+                              InkWell(
+                                onTap: () {
+                                  // TODO: Navigate to issue detail screen
                             // Navigator.push(
                             //   context,
                             //   MaterialPageRoute(
@@ -150,16 +186,19 @@ class _ReportCardState extends State<ReportCard> {
                             //     ),
                             //   ),
                             // );
-                          },
-                          child: Text(
-                            localization.viewIssue(widget.report.issueId!),
-                            style: theme.textTheme.labelMedium?.copyWith(
-                              color: colorScheme.primary,
-                              decoration: TextDecoration.underline,
-                            ),
-                          ),
+                                },
+                                child: Text(
+                                  localization.viewIssue(widget.report.issueId!),
+                                  style: theme.textTheme.labelMedium?.copyWith(
+                                    color: colorScheme.primary,
+                                    decoration: TextDecoration.underline,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ],
                         ),
-                      ],
+                      ),
                     ],
                   ),
                 ),
