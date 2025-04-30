@@ -4,7 +4,6 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:snapnfix/core/base_components/base_alert.dart';
 import 'package:snapnfix/core/base_components/base_button.dart';
 import 'package:snapnfix/core/dependency_injection/dependency_injection.dart';
 import 'package:snapnfix/core/infrastructure/location/location_service.dart';
