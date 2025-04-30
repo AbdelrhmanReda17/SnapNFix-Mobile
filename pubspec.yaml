@@ -48,6 +48,7 @@ dependencies:
   package_info_plus: ^8.3.0
   url_launcher: ^6.1.7
   cached_network_image: ^3.4.1
+  carousel_slider: ^5.0.0
 
 
 dev_dependencies:
