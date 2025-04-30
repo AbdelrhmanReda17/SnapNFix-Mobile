@@ -7,6 +7,7 @@ import 'package:snapnfix/modules/authentication/presentation/screens/reset_passw
 import 'package:snapnfix/modules/issues/presentation/screens/issue_map_screen.dart';
 import 'package:snapnfix/modules/onboarding/screens/onboarding_screen.dart';
 import 'package:snapnfix/modules/reports/presentation/screens/submit_report_screen.dart';
+import 'package:snapnfix/modules/reports/presentation/screens/user_reports_screen.dart';
 import 'package:snapnfix/modules/settings/presentation/screens/about_screen.dart';
 import 'package:snapnfix/modules/settings/presentation/screens/change_password.dart';
 import 'package:snapnfix/modules/settings/presentation/screens/edit_profile.dart';
@@ -52,7 +53,7 @@ class Routes {
   );
   static const MapEntry<String, Widget> userReportsScreen = MapEntry(
     '/userReportsScreen',
-    TempScreen(),
+    UserReportsScreen(),
   );
   static const MapEntry<String, Widget> settingsScreen = MapEntry(
     '/settingsScreen',

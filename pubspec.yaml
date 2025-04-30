@@ -16,7 +16,7 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   intl: ^0.19.0
-  flutter_screenutil:
+  flutter_screenutil: ^5.9.3
   smooth_page_indicator: ^1.2.1
   flutter_svg: ^2.0.17
   freezed: ^2.4.5
@@ -48,6 +48,8 @@ dependencies:
   package_info_plus: ^8.3.0
   url_launcher: ^6.1.7
   cached_network_image: ^3.4.1
+  geocoding: ^3.0.0
+  flutter_card_swiper: ^7.0.2
 
 
 dev_dependencies:
