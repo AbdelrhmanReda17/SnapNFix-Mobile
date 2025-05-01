@@ -66,41 +66,38 @@ class ReportRepository implements BaseReportRepository {
     try {
       final isConnected = await _connectivityService.isConnected();
       if (!isConnected) {
+        // Save offline and emit through the stream
         await _localDataSource.saveReportOffline(report);
         return const ApiResult.success(
           'Report saved offline and will be submitted when online',
         );
       }
-      final reportMedia = await _remoteDataSource.autoCategorizeImage(
-        File(report.reportMedia.image),
-      );
-      reportMedia.when(
-        success: (data) {
-          report = report.copyWith(
-            reportMedia: report.reportMedia.copyWith(
-              category: data.category,
-              threshold: data.threshold,
-            ),
-          );
-          debugPrint('Image categorized successfully: ${data.category}');
-        },
-        failure: (error) {
-          debugPrint('Error categorizing image: ${error.message}');
-          return ApiResult.failure(error);
-        },
-      );
+
+      // Try online submission
       final result = await _remoteDataSource.submitReport(report);
       return result.when(
         success: (data) {
+          // Even for online submissions, save locally so it appears in the user reports
+          _localDataSource.saveReportOffline(report);
           return ApiResult.success(data);
         },
         failure: (error) {
+          // On failure, save offline
+          _localDataSource.saveReportOffline(report);
           return ApiResult.failure(error);
         },
       );
     } catch (e) {
       debugPrint('Error submitting report: $e');
-      return Future.error(ApiErrorHandler.handle(e));
+      // On error, try to save offline
+      try {
+        await _localDataSource.saveReportOffline(report);
+        return const ApiResult.success(
+          'Report saved offline due to error',
+        );
+      } catch (saveError) {
+        return ApiResult.failure(ApiErrorHandler.handle(saveError));
+      }
     }
   }
 
@@ -139,6 +136,15 @@ class ReportRepository implements BaseReportRepository {
   Stream<int> watchPendingReportsCount() {
     try {
       return _localDataSource.watchPendingReportsCount();
+    } catch (e) {
+      return Stream.error(ApiErrorHandler.handle(e));
+    }
+  }
+
+  @override
+  Stream<List<ReportModel>> watchPendingReports() {
+    try {
+      return _localDataSource.watchPendingReports();
     } catch (e) {
       return Stream.error(ApiErrorHandler.handle(e));
     }

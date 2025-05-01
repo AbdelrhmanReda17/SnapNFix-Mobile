@@ -5,6 +5,7 @@ import 'package:snapnfix/modules/reports/data/model/report_model.dart';
 import 'package:snapnfix/modules/reports/domain/entities/report_severity.dart';
 import 'package:snapnfix/modules/reports/domain/entities/report_status.dart';
 import 'package:snapnfix/modules/reports/presentation/widgets/location_display.dart';
+import 'dart:io';
 
 class ReportCard extends StatefulWidget {
   final ReportModel report;
@@ -56,8 +57,6 @@ class _ReportCardState extends State<ReportCard> with SingleTickerProviderStateM
     final colorScheme = theme.colorScheme;
     final localization = AppLocalizations.of(context)!;
 
-    final imagePath = 'assets/images/issue${(int.parse(widget.report.id) % 3) + 1}.jpg';
-
     return Card(
       elevation: 2,
       clipBehavior: Clip.antiAlias,
@@ -77,12 +76,43 @@ class _ReportCardState extends State<ReportCard> with SingleTickerProviderStateM
                   children: [
                     Hero(
                       tag: 'report_image_${widget.report.id}',
-                      child: Image.asset(
-                        imagePath,
-                        height: 80.h,
-                        width: double.infinity,
-                        fit: BoxFit.cover,
-                      ),
+                      child: widget.report.reportMedia.image.isNotEmpty
+                          ? (widget.report.reportMedia.image.startsWith('http') || 
+                             widget.report.reportMedia.image.startsWith('assets')
+                              ? Image.network(
+                                  widget.report.reportMedia.image,
+                                  height: 80.h,
+                                  width: double.infinity,
+                                  fit: BoxFit.cover,
+                                  errorBuilder: (context, error, stackTrace) {
+                                    return Image.asset(
+                                      'assets/images/issue1.jpg',
+                                      height: 80.h,
+                                      width: double.infinity,
+                                      fit: BoxFit.cover,
+                                    );
+                                  },
+                                )
+                              : Image.file(
+                                  File(widget.report.reportMedia.image),
+                                  height: 80.h,
+                                  width: double.infinity,
+                                  fit: BoxFit.cover,
+                                  errorBuilder: (context, error, stackTrace) {
+                                    return Image.asset(
+                                      'assets/images/issue1.jpg',
+                                      height: 80.h,
+                                      width: double.infinity,
+                                      fit: BoxFit.cover,
+                                    );
+                                  },
+                                ))
+                          : Image.asset(
+                              'assets/images/issue1.jpg',
+                              height: 80.h,
+                              width: double.infinity,
+                              fit: BoxFit.cover,
+                            ),
                     ),
                     // Status indicator
                     Positioned(

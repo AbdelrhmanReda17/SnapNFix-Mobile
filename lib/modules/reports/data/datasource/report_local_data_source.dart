@@ -22,11 +22,15 @@ abstract class BaseReportLocalDataSource {
   void incrementPendingReportsCount();
   void decrementPendingReportsCount();
   Stream<int> watchPendingReportsCount();
+
+  // Watch pending reports
+  Stream<List<ReportModel>> watchPendingReports();
 }
 
 class ReportLocalDataSource implements BaseReportLocalDataSource {
   final SharedPreferencesService _sharedPreferencesService;
   final _pendingReportsCountController = StreamController<int>.broadcast();
+  final _pendingReportsController = StreamController<List<ReportModel>>.broadcast();
 
   Future<Directory> _getOfflineReportsDirectory() async {
     final directory = await getApplicationDocumentsDirectory();
@@ -82,6 +86,10 @@ class ReportLocalDataSource implements BaseReportLocalDataSource {
         }
         await reportFile.delete();
         debugPrint('Deleted offline report file: $reportId');
+        
+        // Emit updated reports list
+        final reports = await getPendingReports();
+        _pendingReportsController.add(reports);
       }
     } catch (e) {
       throw Exception("Failed to delete offline report: $e");
@@ -174,6 +182,10 @@ class ReportLocalDataSource implements BaseReportLocalDataSource {
       await reportFile.writeAsString(json.encode(updatedReport.toJson()));
       incrementPendingReportsCount();
       debugPrint('Report saved offline: ${report.id}');
+      
+      // Emit updated reports list
+      final reports = await getPendingReports();
+      _pendingReportsController.add(reports);
     } catch (e) {
       throw Exception("Failed to save report offline: $e");
     }
@@ -184,7 +196,17 @@ class ReportLocalDataSource implements BaseReportLocalDataSource {
     return _pendingReportsCountController.stream;
   }
 
+  @override
+  Stream<List<ReportModel>> watchPendingReports() {
+    // Initial value
+    getPendingReports().then((reports) {
+      _pendingReportsController.add(reports);
+    });
+    return _pendingReportsController.stream;
+  }
+
   void dispose() {
     _pendingReportsCountController.close();
+    _pendingReportsController.close();
   }
 }

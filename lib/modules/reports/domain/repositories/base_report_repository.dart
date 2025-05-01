@@ -13,4 +13,5 @@ abstract class BaseReportRepository {
   Future<bool> syncPendingReports();
   int getPendingReportsCount();
   Stream<int> watchPendingReportsCount();
+  Stream<List<ReportModel>> watchPendingReports();
 }

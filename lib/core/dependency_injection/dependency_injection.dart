@@ -36,6 +36,7 @@ import 'package:snapnfix/modules/reports/domain/usecases/submit_report_use_case.
 import 'package:snapnfix/modules/reports/domain/usecases/sync_prending_reports_use_case.dart';
 import 'package:snapnfix/modules/reports/domain/usecases/watch_pending_reports_count_use_case.dart';
 import 'package:snapnfix/modules/reports/presentation/cubits/submit_report_cubit.dart';
+import 'package:snapnfix/modules/reports/presentation/cubits/report_review_cubit.dart';
 import 'package:snapnfix/modules/settings/data/datasources/settings_remote_data_source.dart';
 import 'package:snapnfix/modules/settings/data/repositories/settings_repository_impl.dart';
 import 'package:snapnfix/modules/settings/domain/repositories/base_settings_repository.dart';
@@ -227,6 +228,10 @@ void setupReportsModule() {
   // Cubits
   getIt.registerFactory<SubmitReportCubit>(
     () => SubmitReportCubit(getIt<SubmitReportUseCase>()),
+  );
+
+  getIt.registerFactory<ReportReviewCubit>(
+    () => ReportReviewCubit(getIt<BaseReportRepository>()),
   );
 }
 

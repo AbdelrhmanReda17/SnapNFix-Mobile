@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
+import 'package:flutter/services.dart';
 
 class LocationDisplay extends StatelessWidget {
   final double latitude;
@@ -16,19 +17,31 @@ class LocationDisplay extends StatelessWidget {
       final placemarks = await placemarkFromCoordinates(latitude, longitude);
       if (placemarks.isNotEmpty) {
         final place = placemarks.first;
-        return '${place.street}, ${place.locality}';
+        if (place.street?.isNotEmpty == true || place.locality?.isNotEmpty == true) {
+          return '${place.street ?? ''}, ${place.locality ?? ''}'.trim().replaceAll(RegExp(r'^,\s*'), '');
+        }
       }
+    } on PlatformException catch (e) {
+      debugPrint('Platform error getting address: ${e.message}');
+      // Return coordinates when offline or other platform errors
+      return '${latitude.toStringAsFixed(6)}, ${longitude.toStringAsFixed(6)}';
     } catch (e) {
       debugPrint('Error getting address: $e');
     }
-    return 'Location unavailable';
+    // Fallback to coordinates if geocoding fails
+    return '${latitude.toStringAsFixed(6)}, ${longitude.toStringAsFixed(6)}';
   }
 
-  @override
+  @override 
   Widget build(BuildContext context) {
     return FutureBuilder<String>(
       future: _getAddressFromCoordinates(),
       builder: (context, snapshot) {
+        String displayText = snapshot.data ?? 'Loading location...';
+        if (snapshot.hasError) {
+          displayText = '${latitude.toStringAsFixed(6)}, ${longitude.toStringAsFixed(6)}';
+        }
+        
         return Row(
           children: [
             const Icon(
@@ -39,7 +52,7 @@ class LocationDisplay extends StatelessWidget {
             const SizedBox(width: 4),
             Expanded(
               child: Text(
-                snapshot.data ?? 'Loading location...',
+                displayText,
                 style: Theme.of(
                   context,
                 ).textTheme.bodySmall?.copyWith(color: Colors.grey[600]),
