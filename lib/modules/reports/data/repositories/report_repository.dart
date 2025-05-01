@@ -7,7 +7,6 @@ import 'package:snapnfix/core/infrastructure/networking/api_error_model.dart';
 import 'package:snapnfix/core/infrastructure/networking/api_result.dart';
 import 'package:snapnfix/modules/reports/data/datasource/report_local_data_source.dart';
 import 'package:snapnfix/modules/reports/data/datasource/report_remote_data_source.dart';
-import 'package:snapnfix/modules/reports/data/model/media_model.dart';
 import 'package:snapnfix/modules/reports/data/model/report_model.dart';
 import 'package:snapnfix/modules/reports/domain/repositories/base_report_repository.dart';
 
@@ -23,12 +22,11 @@ class ReportRepository implements BaseReportRepository {
   );
 
   @override
-  Future<ApiResult<MediaModel>> autoCategorizeImage(File imageFile) async {
+  Future<ApiResult<ReportModel>> autoCategorizeImage(File imageFile) async {
     try {
       final isConnected = await _connectivityService.isConnected();
 
       if (!isConnected) {
-        // Handle the case when there is no internet connection
         return ApiResult.failure(
           ApiErrorModel(message: 'No internet connection'),
         );
@@ -66,30 +64,25 @@ class ReportRepository implements BaseReportRepository {
     try {
       final isConnected = await _connectivityService.isConnected();
       if (!isConnected) {
-        // Save offline and emit through the stream
         await _localDataSource.saveReportOffline(report);
         return const ApiResult.success(
           'Report saved offline and will be submitted when online',
         );
       }
 
-      // Try online submission
       final result = await _remoteDataSource.submitReport(report);
       return result.when(
         success: (data) {
-          // Even for online submissions, save locally so it appears in the user reports
           _localDataSource.saveReportOffline(report);
           return ApiResult.success(data);
         },
         failure: (error) {
-          // On failure, save offline
           _localDataSource.saveReportOffline(report);
           return ApiResult.failure(error);
         },
       );
     } catch (e) {
       debugPrint('Error submitting report: $e');
-      // On error, try to save offline
       try {
         await _localDataSource.saveReportOffline(report);
         return const ApiResult.success(

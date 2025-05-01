@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:snapnfix/core/infrastructure/location/location_service.dart';
 import 'package:snapnfix/core/infrastructure/networking/api_error_handler.dart';
-import 'package:snapnfix/modules/reports/data/model/media_model.dart';
 import 'package:snapnfix/modules/reports/data/model/report_model.dart';
 import 'package:snapnfix/modules/reports/domain/entities/report_severity.dart';
 import 'package:snapnfix/modules/reports/domain/usecases/submit_report_use_case.dart';
@@ -57,10 +56,11 @@ class SubmitReportCubit extends Cubit<SubmitReportState> {
           id: const Uuid().v4(),
           details: detailsController.text,
           severity: state.severity,
-          reportMedia: MediaModel(image: state.image?.path ?? ''),
+          image: state.image?.path ?? '',
           latitude: state.position!.latitude,
           longitude: state.position!.longitude,
-          timestamp: DateTime.now().toIso8601String(), issueId: '',
+          timestamp: DateTime.now().toIso8601String(),
+          issueId: '',
         ),
       );
 

@@ -1,8 +1,9 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:flutter/services.dart';
 
-class LocationDisplay extends StatelessWidget {
+class LocationDisplay extends StatefulWidget {
   final double latitude;
   final double longitude;
 
@@ -12,24 +13,76 @@ class LocationDisplay extends StatelessWidget {
     required this.longitude,
   });
 
-  Future<String> _getAddressFromCoordinates() async {
+  @override
+  State<LocationDisplay> createState() => _LocationDisplayState();
+}
+
+class _LocationDisplayState extends State<LocationDisplay> {
+  static final Map<String, String> _addressCache = {};
+  static const int _maxRetries = 2;
+  static const Duration _initialTimeout = Duration(seconds: 5);
+  
+  String get _cacheKey => '${widget.latitude}_${widget.longitude}';
+
+  Future<String> _getAddressWithRetry([int retryCount = 0]) async {
     try {
-      final placemarks = await placemarkFromCoordinates(latitude, longitude);
+      final timeout = _initialTimeout * (retryCount + 1);
+      final placemarks = await placemarkFromCoordinates(
+        widget.latitude, 
+        widget.longitude,
+      ).timeout(timeout);
+
       if (placemarks.isNotEmpty) {
         final place = placemarks.first;
         if (place.street?.isNotEmpty == true || place.locality?.isNotEmpty == true) {
-          return '${place.street ?? ''}, ${place.locality ?? ''}'.trim().replaceAll(RegExp(r'^,\s*'), '');
+          final address = [
+            place.street,
+            place.locality,
+            place.administrativeArea,
+          ].where((e) => e?.isNotEmpty == true).join(', ');
+          
+          // Cache successful result
+          _addressCache[_cacheKey] = address;
+          return address;
         }
       }
+      throw Exception('No valid address found');
+      
+    } on TimeoutException catch (e) {
+      debugPrint('Geocoding timeout (attempt ${retryCount + 1}): $e');
+      if (retryCount < _maxRetries) {
+        // Exponential backoff before retry
+        await Future.delayed(Duration(milliseconds: 500 * (retryCount + 1)));
+        return _getAddressWithRetry(retryCount + 1);
+      }
+      return _getFallbackAddress();
+      
     } on PlatformException catch (e) {
       debugPrint('Platform error getting address: ${e.message}');
-      // Return coordinates when offline or other platform errors
-      return '${latitude.toStringAsFixed(6)}, ${longitude.toStringAsFixed(6)}';
+      return _getFallbackAddress();
+      
     } catch (e) {
       debugPrint('Error getting address: $e');
+      if (retryCount < _maxRetries) {
+        await Future.delayed(Duration(milliseconds: 500 * (retryCount + 1)));
+        return _getAddressWithRetry(retryCount + 1);
+      }
+      return _getFallbackAddress();
     }
-    // Fallback to coordinates if geocoding fails
-    return '${latitude.toStringAsFixed(6)}, ${longitude.toStringAsFixed(6)}';
+  }
+
+  Future<String> _getAddressFromCoordinates() async {
+    // Check cache first
+    if (_addressCache.containsKey(_cacheKey)) {
+      return _addressCache[_cacheKey]!;
+    }
+    return _getAddressWithRetry();
+  }
+
+  String _getFallbackAddress() {
+    final coords = '${widget.latitude.toStringAsFixed(6)}, ${widget.longitude.toStringAsFixed(6)}';
+    _addressCache[_cacheKey] = coords;
+    return coords;
   }
 
   @override 
@@ -39,23 +92,23 @@ class LocationDisplay extends StatelessWidget {
       builder: (context, snapshot) {
         String displayText = snapshot.data ?? 'Loading location...';
         if (snapshot.hasError) {
-          displayText = '${latitude.toStringAsFixed(6)}, ${longitude.toStringAsFixed(6)}';
+          displayText = _getFallbackAddress();
         }
         
         return Row(
           children: [
-            const Icon(
+            Icon(
               Icons.location_on_outlined,
               size: 16,
-              color: Colors.grey,
+              color: Theme.of(context).colorScheme.onSurfaceVariant,
             ),
             const SizedBox(width: 4),
             Expanded(
               child: Text(
                 displayText,
-                style: Theme.of(
-                  context,
-                ).textTheme.bodySmall?.copyWith(color: Colors.grey[600]),
+                style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                  color: Theme.of(context).colorScheme.onSurfaceVariant,
+                ),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
               ),

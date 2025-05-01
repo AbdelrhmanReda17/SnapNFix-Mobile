@@ -76,11 +76,11 @@ class _ReportCardState extends State<ReportCard> with SingleTickerProviderStateM
                   children: [
                     Hero(
                       tag: 'report_image_${widget.report.id}',
-                      child: widget.report.reportMedia.image.isNotEmpty
-                          ? (widget.report.reportMedia.image.startsWith('http') || 
-                             widget.report.reportMedia.image.startsWith('assets')
+                      child: widget.report.image.isNotEmpty
+                          ? (widget.report.image.startsWith('http') || 
+                             widget.report.image.startsWith('assets')
                               ? Image.network(
-                                  widget.report.reportMedia.image,
+                                  widget.report.image,
                                   height: 80.h,
                                   width: double.infinity,
                                   fit: BoxFit.cover,
@@ -94,7 +94,7 @@ class _ReportCardState extends State<ReportCard> with SingleTickerProviderStateM
                                   },
                                 )
                               : Image.file(
-                                  File(widget.report.reportMedia.image),
+                                  File(widget.report.image),
                                   height: 80.h,
                                   width: double.infinity,
                                   fit: BoxFit.cover,

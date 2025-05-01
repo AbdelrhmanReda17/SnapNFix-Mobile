@@ -16,7 +16,7 @@ class IssueMarkerDialogHeader extends StatelessWidget {
         IssueMarkerDialogImage(
           imageUrl:
               issue.reports.isNotEmpty
-                  ? issue.reports.first.reportMedia.image
+                  ? issue.reports.first.image
                   : null,
         ),
         Positioned(
