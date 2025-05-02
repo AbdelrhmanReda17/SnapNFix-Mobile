@@ -150,5 +150,88 @@
         "type": "String"
       }
     }
-  }
+  },
+
+
+  "issueDetails": "Issue #ISS-{issueId} Details",
+  "@issueDetails": {
+    "description": "Title of Issue Detials Screen for a specific issue",
+    "placeholders": {
+      "issueId": {
+        "type" : "String"
+      }
+    }
+  },
+  "issueCategory": "{category}",
+  "@issueCategory": {
+    "description": "The category of the issue",
+    "placeholders": {
+      "category": {
+        "type": "String"
+      }
+    }
+  },
+  "issueSeverity": "{severity}",
+  "@issueSeverity": {
+    "description": "The severity of the issue",
+    "placeholders": {
+      "severity": {
+        "type": "String"
+      }
+    }
+  },
+
+  "issueStatus": "{status}",
+  "@issueStatus": {
+    "description": "The status of the issue",
+    "placeholders": {
+      "status": {
+        "type": "String"
+      }
+    }
+  },
+
+  "issueReportsNum": "{reportsCount} Reports",
+  "@issueReportsNum": {
+    "description": "Number of reports submitted for the issue",
+    "placeholders": {
+      "reportsCount": {
+        "type": "int"
+      }
+    }
+  },
+
+  "issueLocation": "{location}",
+  "@issueLocation": {
+    "description": "The location of the issue",
+    "placeholders": {
+      "location": {
+        "type": "String"
+      }
+    }
+  },
+
+  "issueDescriptionsTitle": "Descriptions ({count})",
+  "@issueDescriptionsTitle": {
+    "description": "Number of Descriptions on the issue",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+
+  "issuedAt": "{date}",
+  "@issuedAt": {
+    "description": "Shows the date the issue was created",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "imageNotAvailable": "Image not Avaialble",
+  "imagesNotAvaiable": "No images available",
+  "noDescriptions": "No Descriptions Yet"
+  
 }

@@ -14,7 +14,7 @@ class LoadingOverlay extends StatelessWidget {
           CircularProgressIndicator(color: colorScheme.primary, strokeWidth: 2),
           const SizedBox(height: 16),
           Text(
-            'Loading Map...',
+            'Loading...',
             style: textTheme.bodyLarge!.copyWith(color: colorScheme.primary),
           ),
         ],

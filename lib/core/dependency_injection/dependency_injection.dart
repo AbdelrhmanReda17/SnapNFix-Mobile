@@ -26,6 +26,7 @@ import 'package:snapnfix/modules/issues/domain/usecases/get_issue_details_use_ca
 import 'package:snapnfix/modules/issues/domain/usecases/get_nearby_issues_use_case.dart';
 import 'package:snapnfix/modules/issues/domain/usecases/get_user_issues_use_case.dart';
 import 'package:snapnfix/modules/issues/domain/usecases/watch_nearby_issues_use_case.dart';
+import 'package:snapnfix/modules/issues/presentation/cubits/issue_details_cubit.dart';
 import 'package:snapnfix/modules/issues/presentation/cubits/issues_map_cubit.dart';
 import 'package:snapnfix/modules/reports/data/datasource/report_local_data_source.dart';
 import 'package:snapnfix/modules/reports/data/datasource/report_remote_data_source.dart';
@@ -303,6 +304,12 @@ void setupIssuesModule() {
     () => IssuesMapCubit(
       getIt<LocationService>(),
       getIt<WatchNearbyIssuesUseCase>(),
+    ),
+  );
+
+  getIt.registerFactory<IssueDetailsCubit>(
+    () => IssueDetailsCubit(
+      getIssueDetailsUseCase: getIt<GetIssueDetailsUseCase>(),
     ),
   );
 }

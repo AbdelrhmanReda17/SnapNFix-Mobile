@@ -36,7 +36,7 @@ class IssueMarkerDialogContent extends StatelessWidget {
               Expanded(
                 child: IssueMarkerDialogDetailItem(
                   icon: Icons.report_problem_outlined,
-                  text: '${issue.reports.length} Reports',
+                  text: '${issue.reportsCount} Reports',
                   color: colorScheme.secondary,
                 ),
               ),

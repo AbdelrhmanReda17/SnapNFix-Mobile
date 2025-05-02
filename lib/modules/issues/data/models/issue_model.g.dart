@@ -18,10 +18,13 @@ IssueModel _$IssueModelFromJson(Map<String, dynamic> json) => IssueModel(
       json['resolvedAt'] == null
           ? null
           : DateTime.parse(json['resolvedAt'] as String),
-  reports:
-      (json['reports'] as List<dynamic>)
-          .map((e) => ReportModel.fromJson(e as Map<String, dynamic>))
+  images: (json['images'] as List<dynamic>).map((e) => e as String).toList(),
+  descriptions:
+      (json['descriptions'] as List<dynamic>)
+          .map((e) => IssueDescriptionModel.fromJson(e as Map<String, dynamic>))
           .toList(),
+  reportsCount: (json['reportsCount'] as num).toInt(),
+  location: json['location'] as String,
 );
 
 Map<String, dynamic> _$IssueModelToJson(IssueModel instance) =>
@@ -34,7 +37,10 @@ Map<String, dynamic> _$IssueModelToJson(IssueModel instance) =>
       'createdAt': instance.createdAt.toIso8601String(),
       'severity': _$IssueSeverityEnumMap[instance.severity]!,
       'resolvedAt': instance.resolvedAt?.toIso8601String(),
-      'reports': instance.reports,
+      'images': instance.images,
+      'reportsCount': instance.reportsCount,
+      'location': instance.location,
+      'descriptions': instance.descriptions,
     };
 
 const _$IssueSeverityEnumMap = {

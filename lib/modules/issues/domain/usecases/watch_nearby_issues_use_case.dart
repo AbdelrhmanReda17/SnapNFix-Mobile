@@ -1,6 +1,5 @@
 import 'dart:developer';
 
-import 'package:flutter/material.dart';
 import 'package:snapnfix/core/infrastructure/networking/api_result.dart';
 import 'package:snapnfix/modules/issues/domain/entities/issue.dart';
 import 'package:snapnfix/modules/issues/domain/repositories/base_issue_repository.dart';
