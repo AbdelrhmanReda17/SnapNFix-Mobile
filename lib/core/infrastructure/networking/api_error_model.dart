@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:json_annotation/json_annotation.dart';
 part 'api_error_model.g.dart';
 
@@ -15,12 +13,8 @@ class ApiErrorModel {
       _$ApiErrorModelFromJson(json);
 
   Map<String, dynamic> toJson() => _$ApiErrorModelToJson(this);
-  
-  String getAllErrorMessages() {
-    log("Message: $message");
-    log("Error List: $errors");
 
-    // Return just the message if errors is null or empty
+  String getAllErrorMessages() {
     if (errors == null) {
       return message ?? "Unknown Error occurred";
     }
@@ -32,13 +26,10 @@ class ApiErrorModel {
         return message ?? "Unknown Error occurred";
       }
 
-      // Check if the list contains maps with propertyName and message
       if (errorsList.first is Map) {
         return errorsList
             .map((error) {
               if (error is Map) {
-                // Access propertyName and message safely
-                final propertyName = error['propertyName']?.toString() ?? '';
                 final errorMessage = error['message']?.toString() ?? '';
                 return errorMessage;
               }

@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:bloc/bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:snapnfix/core/infrastructure/location/location_service.dart';
@@ -17,15 +17,12 @@ part 'submit_report_cubit.freezed.dart';
 
 class SubmitReportCubit extends Cubit<SubmitReportState> {
   final SubmitReportUseCase _submitReportUseCase;
-  final detailsController = TextEditingController();
 
   SubmitReportCubit(this._submitReportUseCase)
-    : super(SubmitReportState.initial()) {
-    detailsController.addListener(_updateDetails);
-  }
+    : super(SubmitReportState.initial());
 
-  void _updateDetails() {
-    emit(state.copyWith(details: detailsController.text));
+  void setAdditionalDetails(String value) {
+    emit(state.copyWith(details: value));
   }
 
   void setImage(File? image) {
@@ -56,7 +53,7 @@ class SubmitReportCubit extends Cubit<SubmitReportState> {
       final result = await _submitReportUseCase.call(
         ReportModel(
           id: const Uuid().v4(),
-          details: detailsController.text,
+          details: state.details ?? '',
           severity: state.severity,
           reportMedia: MediaModel(image: state.image?.path ?? ''),
           latitude: state.position!.latitude,
@@ -91,12 +88,5 @@ class SubmitReportCubit extends Cubit<SubmitReportState> {
 
   void resetState() {
     emit(SubmitReportState.initial());
-    detailsController.clear();
-  }
-
-  @override
-  Future<void> close() {
-    detailsController.dispose();
-    return super.close();
   }
 }

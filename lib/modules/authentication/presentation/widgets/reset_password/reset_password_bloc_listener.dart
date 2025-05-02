@@ -17,7 +17,7 @@ class ResetPasswordBlocListener extends StatelessWidget
             handleSuccess(
               context,
               message: 'Password reset successfully',
-              route: Routes.loginScreen.key,
+              route: Routes.login,
             );
           },
           loading: () => showLoadingDialog(context),

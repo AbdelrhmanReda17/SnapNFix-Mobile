@@ -16,37 +16,27 @@ class OtpBlocListener extends StatelessWidget with AuthenticationListenerMixin {
         state.maybeWhen(
           initial: (canResend, remainingTime, registrationExpiryTime) {
             if (registrationExpiryTime == 120) {
-              // 2 minutes warning
               _showExpiryWarning(context);
             }
           },
-          success: () {
-            handleSuccess(
-              context,
-              message:
-                  "OTP verified successfully , you can now login to your account",
-              route: Routes.homeScreen.key,
-            );
+          resendSuccess: () {
+            handleSuccess(context, message: "OTP resent successfully");
           },
-          requiresPasswordReset: () {
+          successAndRequiresPasswordReset: () {
             handleSuccess(
               context,
               message:
                   "OTP verified successfully , you can now reset your password",
-              route: Routes.resetPasswordScreen.key,
+              route: Routes.resetPassword,
             );
           },
-          expired: () {
-            baseDialog(
-              context: context,
-              title: "OTP Expired",
-              message: "your otp has expired , please request a new one",
-              alertType: AlertType.info,
-              confirmText: "Understood",
-              onConfirm: () {
-                context.pop();
-              },
-              showCancelButton: false,
+          successAndRequiresProfileCompletion: (phoneNumber, password) {
+            handleSuccess(
+              context,
+              message:
+                  "OTP verified successfully , you can now complete your profile",
+              route: Routes.completeProfile,
+              extra: {'phoneNumber': phoneNumber, 'password': password},
             );
           },
           registrationExpired: () {
@@ -78,24 +68,26 @@ class OtpBlocListener extends StatelessWidget with AuthenticationListenerMixin {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
 
-    ScaffoldMessenger.of(context).showMaterialBanner(
-      MaterialBanner(
-        backgroundColor: colorScheme.error.withOpacity(0.1),
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
         content: Text(
           'Warning: Only 2 minutes remaining to complete verification!',
           style: theme.textTheme.bodyMedium?.copyWith(
-            color: colorScheme.error,
+            color: Colors.white,
             fontWeight: FontWeight.w600,
           ),
         ),
-        actions: [
-          TextButton(
-            onPressed: () {
-              ScaffoldMessenger.of(context).hideCurrentMaterialBanner();
-            },
-            child: Text('Dismiss'),
-          ),
-        ],
+        backgroundColor: colorScheme.error,
+        duration: const Duration(seconds: 5),
+        action: SnackBarAction(
+          label: 'Dismiss',
+          textColor: Colors.white,
+          onPressed: () {
+            ScaffoldMessenger.of(context).hideCurrentSnackBar();
+          },
+        ),
+        behavior: SnackBarBehavior.floating,
+        margin: const EdgeInsets.all(16),
       ),
     );
   }

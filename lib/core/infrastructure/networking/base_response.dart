@@ -1,4 +1,3 @@
-import 'package:flutter/widgets.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'base_response.g.dart';
@@ -20,7 +19,6 @@ class BaseResponse<T> {
     Map<String, dynamic> json,
     T Function(Object? json) fromJsonT,
   ) {
-    debugPrint("ana hread mn hna " + json.toString());
     return _$BaseResponseFromJson(json, fromJsonT);
   }
 

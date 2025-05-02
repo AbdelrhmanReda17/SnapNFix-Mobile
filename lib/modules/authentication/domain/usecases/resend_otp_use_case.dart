@@ -6,7 +6,7 @@ class ResendOtpUseCase {
 
   ResendOtpUseCase(this._repository);
 
-  Future<ApiResult<void>> call() async {
-    return await _repository.resendOtp();
+  Future<ApiResult<bool>> call({bool isRegister = false}) async {
+    return await _repository.resendOTP(isRegister: isRegister);
   }
 }

@@ -16,24 +16,20 @@ class ChangePasswordCubit extends Cubit<ChangePasswordState> {
 
   final formKey = GlobalKey<FormState>();
 
-  final oldPasswordController = TextEditingController();
-  final newPasswordController = TextEditingController();
-  final confirmPasswordController = TextEditingController();
+  String oldPassword = "";
+  String newPassword = "";
+  String confirmPassword = "";
 
-  final oldPasswordVisible = ValueNotifier<bool>(false);
-  final newPasswordVisible = ValueNotifier<bool>(false);
-  final confirmPasswordVisible = ValueNotifier<bool>(false);
-
-  void toggleOldPasswordVisibility() {
-    oldPasswordVisible.value = !oldPasswordVisible.value;
+  void setOldPassword(String value) {
+    oldPassword = value;
   }
 
-  void toggleNewPasswordVisibility() {
-    newPasswordVisible.value = !newPasswordVisible.value;
+  void setNewPassword(String value) {
+    newPassword = value;
   }
 
-  void toggleConfirmPasswordVisibility() {
-    confirmPasswordVisible.value = !confirmPasswordVisible.value;
+  void setConfirmPassword(String value) {
+    confirmPassword = value;
   }
 
   void emitChangePasswordState() async {
@@ -43,9 +39,9 @@ class ChangePasswordCubit extends Cubit<ChangePasswordState> {
 
     final response = await _changePasswordUseCase(
       ChangePasswordDTO(
-        oldPassword: oldPasswordController.text,
-        newPassword: newPasswordController.text,
-        confirmPassword: confirmPasswordController.text,
+        oldPassword: oldPassword,
+        newPassword: newPassword,
+        confirmPassword: confirmPassword,
       ),
     );
 
@@ -54,16 +50,5 @@ class ChangePasswordCubit extends Cubit<ChangePasswordState> {
       failure:
           (error) => emit(ChangePasswordState.error(error: error.toString())),
     );
-  }
-
-  @override
-  Future<void> close() {
-    oldPasswordController.dispose();
-    newPasswordController.dispose();
-    confirmPasswordController.dispose();
-    oldPasswordVisible.dispose();
-    newPasswordVisible.dispose();
-    confirmPasswordVisible.dispose();
-    return super.close();
   }
 }

@@ -8,18 +8,13 @@ class AuthenticationResult with _$AuthenticationResult {
   const factory AuthenticationResult.authenticated(Session session) =
       Authenticated;
   const factory AuthenticationResult.requiresOtp({
-    required String phoneNumber,
-    required String verificationToken,
     required OtpPurpose purpose,
   }) = RequiresOtp;
-  const factory AuthenticationResult.unverified({
-    required String phoneNumber,
-  }) = Unverified;
+  const factory AuthenticationResult.requiresProfileCompletion(
+  ) = RequiresProfileCompletion;
+
+  const factory AuthenticationResult.requiresResetPassword(
+  ) = RequiresResetPassword;
 }
 
-
-enum OtpPurpose {
-  login,
-  registration,
-  passwordReset
-}
+enum OtpPurpose { registration, passwordReset }

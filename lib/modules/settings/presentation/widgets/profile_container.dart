@@ -86,7 +86,7 @@ class ProfileContainer extends StatelessWidget {
                   iconSize: 20.r,
                   icon: Icon(Icons.edit, color: colorScheme.surface),
                   onPressed: () {
-                    context.push(Routes.editProfile.key);
+                    context.push(Routes.editProfile);
                   },
                 ),
               ],

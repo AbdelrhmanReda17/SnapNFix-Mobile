@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:snapnfix/modules/authentication/presentation/cubits/forget_password/forgot_password_cubit.dart';
-import 'package:snapnfix/modules/authentication/presentation/screens/authentication_screen.dart';
+import 'package:snapnfix/modules/authentication/presentation/widgets/authentication_content.dart';
 import 'package:snapnfix/modules/authentication/presentation/widgets/forgot_password/forgot_password_bloc_listener.dart';
 import 'package:snapnfix/modules/authentication/presentation/widgets/forgot_password/forget_password_form.dart';
 
@@ -12,7 +12,7 @@ class ForgotPasswordScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final localization = AppLocalizations.of(context)!;
-    return AuthenticationScreen<ForgotPasswordCubit>(
+    return AuthenticationContent(
       title: localization.forgotPasswordTitle,
       subtitle: localization.forgotPasswordSubtitle,
       buttonText: localization.sendCode,
@@ -25,7 +25,6 @@ class ForgotPasswordScreen extends StatelessWidget {
           () => context.read<ForgotPasswordCubit>().emitForgotPasswordStates(),
       showSocial: false,
       showTerms: false,
-      showBackButton: true,
     );
   }
 }

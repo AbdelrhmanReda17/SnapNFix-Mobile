@@ -22,6 +22,7 @@ mixin AuthenticationListenerMixin {
     String? title,
     String? message,
     String? route,
+    Object? extra,
     bool dismissDialog = true,
   }) {
     if (dismissDialog) {
@@ -37,13 +38,21 @@ mixin AuthenticationListenerMixin {
         confirmText: 'Got it',
         onConfirm: () {
           if (route != null) {
-            context.go(route);
+            if (extra != null) {
+              context.go(route, extra: extra);
+            } else {
+              context.go(route);
+            }
           }
         },
         showCancelButton: false,
       );
     } else if (route != null) {
-      context.go(route);
+      if (extra != null) {
+        context.go(route, extra: extra);
+      } else {
+        context.go(route);
+      }
     }
   }
 

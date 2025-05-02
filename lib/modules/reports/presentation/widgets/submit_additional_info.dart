@@ -27,7 +27,7 @@ class SubmitAdditionalDetails extends StatelessWidget {
           hintText:
               localization?.describeIncident ?? 'Describe the incident...',
           maxLines: 5,
-          controller: cubit.detailsController,
+          onChanged: cubit.setAdditionalDetails,
         ),
       ],
     );

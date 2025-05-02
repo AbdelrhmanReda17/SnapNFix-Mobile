@@ -12,16 +12,16 @@ class ForgetPasswordBlocListener extends StatelessWidget
 
   @override
   Widget build(BuildContext context) {
+    final cubit = context.read<ForgotPasswordCubit>();
     return BlocListener<ForgotPasswordCubit, ForgotPasswordState>(
       listener: (context, state) {
         state.whenOrNull(
-          requiresOtp: (phoneNumber, token) {
+          requiresOtp: () {
             context.pop();
-            context.push(
-              Routes.otpScreen.key,
+            context.pushReplacement(
+              Routes.otp,
               extra: {
-                'emailOrPhoneNumber': phoneNumber,
-                'verificationToken': token,
+                'emailOrPhoneNumber': cubit.emailOrPhone,
                 'purpose': OtpPurpose.passwordReset,
               },
             );

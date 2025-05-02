@@ -24,17 +24,6 @@ class LoginDTO {
     required this.platform,
   });
 
-  void setDeviceInfo({
-    required String deviceId,
-    required String deviceName,
-    required String deviceType,
-    required String platform,
-  }) {
-    this.deviceId = deviceId;
-    this.deviceName = deviceName;
-    this.deviceType = deviceType;
-    this.platform = platform;
-  }
 
   factory LoginDTO.fromJson(Map<String, dynamic> json) =>
       _$LoginDTOFromJson(json);

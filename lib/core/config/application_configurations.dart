@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:snapnfix/core/config/application_constants.dart';
 import 'package:snapnfix/core/dependency_injection/dependency_injection.dart';
@@ -45,9 +44,6 @@ class ApplicationConfigurations with ChangeNotifier {
     await _loadUserSession();
     await _loadLanguage();
     await _loadDarkMode();
-    log(
-      "ApplicationConfigurations initialized: Dark Mode: $_isDarkMode, Language: $_language, Auth: $isAuthenticated",
-    );
   }
 
   // Onboarding methods
@@ -68,15 +64,14 @@ class ApplicationConfigurations with ChangeNotifier {
     final sessionString = await _secureStorage.read(
       key: SharedPrefKeys.authenticationSession,
     );
-    print("Session String: $sessionString");
+    debugPrint("Session String: $sessionString");
     if (sessionString != null && sessionString.isNotEmpty) {
       try {
         final sessionMap = json.decode(sessionString);
-        print("Session Map: $sessionMap");
+        debugPrint("Session Map: $sessionMap");
         _currentSession = SessionModel.fromJson(sessionMap);
-        print("Current Session: $_currentSession");
+        debugPrint("Current Session: $_currentSession");
       } catch (e) {
-        log("Error parsing session: $e");
         _currentSession = null;
       }
     } else {

@@ -1,5 +1,5 @@
 import 'package:snapnfix/core/infrastructure/networking/api_result.dart';
-import 'package:snapnfix/modules/authentication/domain/entities/session.dart';
+import 'package:snapnfix/modules/authentication/domain/entities/authentication_result.dart';
 import 'package:snapnfix/modules/authentication/domain/repositories/base_authentication_repository.dart';
 
 class VerifyOtpUseCase {
@@ -7,15 +7,13 @@ class VerifyOtpUseCase {
 
   VerifyOtpUseCase(this._repository);
 
-  Future<ApiResult<bool>> call({
+  Future<ApiResult<AuthenticationResult>> call({
     required String code,
-    required String verificationToken,
-    required String phoneNumber,
+    required OtpPurpose purpose,
   }) async {
-    return await _repository.verifyOtp(
+    return await _repository.verifyOTP(
       code: code,
-      verificationToken: verificationToken,
-      phoneNumber: phoneNumber,
+      purpose: purpose,
     );
   }
 }

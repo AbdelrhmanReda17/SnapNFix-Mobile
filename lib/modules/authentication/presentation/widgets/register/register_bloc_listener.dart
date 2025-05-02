@@ -13,16 +13,17 @@ class RegisterBlocListener extends StatelessWidget
   @override
   Widget build(BuildContext context) {
     return BlocListener<RegisterCubit, RegisterState>(
-      listener: (context, state) {
+      listener: (_, state) {
         state.whenOrNull(
-          requiresOtp: (phoneNumber, token) {
+          requiresOtp: () {
             context.pop();
             context.push(
-              Routes.otpScreen.key,
+              Routes.otp,
               extra: {
-                'emailOrPhoneNumber': phoneNumber,
-                'verificationToken': token,
+                'emailOrPhoneNumber': context.read<RegisterCubit>().phone,
+                'password': context.read<RegisterCubit>().password,
                 'purpose': OtpPurpose.registration,
+                'isRegister': true,
               },
             );
           },

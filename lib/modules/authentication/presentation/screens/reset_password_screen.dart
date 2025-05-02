@@ -4,7 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:snapnfix/core/utils/helpers/spacing.dart';
 import 'package:snapnfix/modules/authentication/presentation/cubits/reset_password/reset_password_cubit.dart';
-import 'package:snapnfix/modules/authentication/presentation/screens/authentication_screen.dart';
+import 'package:snapnfix/modules/authentication/presentation/widgets/authentication_content.dart';
 import 'package:snapnfix/modules/authentication/presentation/widgets/reset_password/reset_password_bloc_listener.dart';
 import 'package:snapnfix/modules/authentication/presentation/widgets/reset_password/reset_password_form.dart';
 
@@ -17,7 +17,7 @@ class ResetPasswordScreen extends StatelessWidget {
     final colorScheme = Theme.of(context).colorScheme;
     final textStyles = Theme.of(context).textTheme;
 
-    return AuthenticationScreen<ResetPasswordCubit>(
+    return AuthenticationContent(
       title: localization.resetPasswordTitle,
       subtitle: localization.resetPasswordSubtitle,
       buttonText: localization.resetPassword,
@@ -25,7 +25,6 @@ class ResetPasswordScreen extends StatelessWidget {
       blocListener: const ResetPasswordBlocListener(),
       onSubmit: () => context.read<ResetPasswordCubit>().resetPassword(),
       showSocial: false,
-      showBackButton: true,
       additionalContent: [
         Text(
           localization.passwordRequirements,

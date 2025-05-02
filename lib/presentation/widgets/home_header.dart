@@ -36,7 +36,7 @@ class HomeHeader extends StatelessWidget {
               Row(
                 children: [
                   GestureDetector(
-                    onTap: () => context.go(Routes.settingsScreen.key),
+                    onTap: () => context.go(Routes.settings),
                     child: CircleAvatar(
                       radius: 28.r,
                       backgroundColor: theme.colorScheme.primary,

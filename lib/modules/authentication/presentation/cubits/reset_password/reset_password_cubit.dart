@@ -15,18 +15,16 @@ class ResetPasswordCubit extends Cubit<ResetPasswordState> {
       super(const ResetPasswordState.initial());
 
   final formKey = GlobalKey<FormState>();
-  final newPasswordController = TextEditingController();
-  final confirmPasswordController = TextEditingController();
 
-  final newPasswordVisible = ValueNotifier<bool>(false);
-  final confirmPasswordVisible = ValueNotifier<bool>(false);
+  String newPassword = "";
+  String confirmPassword = "";
 
-  void toggleNewPasswordVisibility() {
-    newPasswordVisible.value = !newPasswordVisible.value;
+  void setNewPassword(String value) {
+    newPassword = value;
   }
 
-  void toggleConfirmPasswordVisibility() {
-    confirmPasswordVisible.value = !confirmPasswordVisible.value;
+  void setConfirmPassword(String value) {
+    confirmPassword = value;
   }
 
   Future<void> resetPassword() async {
@@ -37,22 +35,13 @@ class ResetPasswordCubit extends Cubit<ResetPasswordState> {
     await Future.delayed(const Duration(seconds: 2));
 
     final response = await _resetPasswordUseCase.call(
-      newPassword: newPasswordController.text,
-      confirmPassword: confirmPasswordController.text,
+      newPassword: newPassword,
+      confirmPassword: confirmPassword,
     );
 
     response.when(
       success: (res) => emit(ResetPasswordState.success(res)),
       failure: (ApiErrorModel error) => emit(ResetPasswordState.error(error)),
     );
-  }
-
-  @override
-  Future<void> close() {
-    newPasswordController.dispose();
-    confirmPasswordController.dispose();
-    newPasswordVisible.dispose();
-    confirmPasswordVisible.dispose();
-    return super.close();
   }
 }

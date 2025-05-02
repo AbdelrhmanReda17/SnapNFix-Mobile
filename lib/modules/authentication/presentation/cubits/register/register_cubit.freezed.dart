@@ -22,8 +22,7 @@ mixin _$RegisterState {
     required TResult Function(bool passwordVisible, bool confirmPasswordVisible)
     initial,
     required TResult Function() loading,
-    required TResult Function(String phoneNumber, String verificationToken)
-    requiresOtp,
+    required TResult Function() requiresOtp,
     required TResult Function(Session data) authenticated,
     required TResult Function(ApiErrorModel error) error,
   }) => throw _privateConstructorUsedError;
@@ -32,8 +31,7 @@ mixin _$RegisterState {
     TResult? Function(bool passwordVisible, bool confirmPasswordVisible)?
     initial,
     TResult? Function()? loading,
-    TResult? Function(String phoneNumber, String verificationToken)?
-    requiresOtp,
+    TResult? Function()? requiresOtp,
     TResult? Function(Session data)? authenticated,
     TResult? Function(ApiErrorModel error)? error,
   }) => throw _privateConstructorUsedError;
@@ -42,7 +40,7 @@ mixin _$RegisterState {
     TResult Function(bool passwordVisible, bool confirmPasswordVisible)?
     initial,
     TResult Function()? loading,
-    TResult Function(String phoneNumber, String verificationToken)? requiresOtp,
+    TResult Function()? requiresOtp,
     TResult Function(Session data)? authenticated,
     TResult Function(ApiErrorModel error)? error,
     required TResult orElse(),
@@ -189,8 +187,7 @@ class _$InitialImpl implements _Initial {
     required TResult Function(bool passwordVisible, bool confirmPasswordVisible)
     initial,
     required TResult Function() loading,
-    required TResult Function(String phoneNumber, String verificationToken)
-    requiresOtp,
+    required TResult Function() requiresOtp,
     required TResult Function(Session data) authenticated,
     required TResult Function(ApiErrorModel error) error,
   }) {
@@ -203,8 +200,7 @@ class _$InitialImpl implements _Initial {
     TResult? Function(bool passwordVisible, bool confirmPasswordVisible)?
     initial,
     TResult? Function()? loading,
-    TResult? Function(String phoneNumber, String verificationToken)?
-    requiresOtp,
+    TResult? Function()? requiresOtp,
     TResult? Function(Session data)? authenticated,
     TResult? Function(ApiErrorModel error)? error,
   }) {
@@ -217,7 +213,7 @@ class _$InitialImpl implements _Initial {
     TResult Function(bool passwordVisible, bool confirmPasswordVisible)?
     initial,
     TResult Function()? loading,
-    TResult Function(String phoneNumber, String verificationToken)? requiresOtp,
+    TResult Function()? requiresOtp,
     TResult Function(Session data)? authenticated,
     TResult Function(ApiErrorModel error)? error,
     required TResult orElse(),
@@ -331,8 +327,7 @@ class _$LoadingImpl implements _Loading {
     required TResult Function(bool passwordVisible, bool confirmPasswordVisible)
     initial,
     required TResult Function() loading,
-    required TResult Function(String phoneNumber, String verificationToken)
-    requiresOtp,
+    required TResult Function() requiresOtp,
     required TResult Function(Session data) authenticated,
     required TResult Function(ApiErrorModel error) error,
   }) {
@@ -345,8 +340,7 @@ class _$LoadingImpl implements _Loading {
     TResult? Function(bool passwordVisible, bool confirmPasswordVisible)?
     initial,
     TResult? Function()? loading,
-    TResult? Function(String phoneNumber, String verificationToken)?
-    requiresOtp,
+    TResult? Function()? requiresOtp,
     TResult? Function(Session data)? authenticated,
     TResult? Function(ApiErrorModel error)? error,
   }) {
@@ -359,7 +353,7 @@ class _$LoadingImpl implements _Loading {
     TResult Function(bool passwordVisible, bool confirmPasswordVisible)?
     initial,
     TResult Function()? loading,
-    TResult Function(String phoneNumber, String verificationToken)? requiresOtp,
+    TResult Function()? requiresOtp,
     TResult Function(Session data)? authenticated,
     TResult Function(ApiErrorModel error)? error,
     required TResult orElse(),
@@ -421,8 +415,6 @@ abstract class _$$RequiresOtpImplCopyWith<$Res> {
     _$RequiresOtpImpl value,
     $Res Function(_$RequiresOtpImpl) then,
   ) = __$$RequiresOtpImplCopyWithImpl<$Res>;
-  @useResult
-  $Res call({String phoneNumber, String verificationToken});
 }
 
 /// @nodoc
@@ -436,65 +428,26 @@ class __$$RequiresOtpImplCopyWithImpl<$Res>
 
   /// Create a copy of RegisterState
   /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({Object? phoneNumber = null, Object? verificationToken = null}) {
-    return _then(
-      _$RequiresOtpImpl(
-        phoneNumber:
-            null == phoneNumber
-                ? _value.phoneNumber
-                : phoneNumber // ignore: cast_nullable_to_non_nullable
-                    as String,
-        verificationToken:
-            null == verificationToken
-                ? _value.verificationToken
-                : verificationToken // ignore: cast_nullable_to_non_nullable
-                    as String,
-      ),
-    );
-  }
 }
 
 /// @nodoc
 
 class _$RequiresOtpImpl implements _RequiresOtp {
-  const _$RequiresOtpImpl({
-    required this.phoneNumber,
-    required this.verificationToken,
-  });
-
-  @override
-  final String phoneNumber;
-  @override
-  final String verificationToken;
+  const _$RequiresOtpImpl();
 
   @override
   String toString() {
-    return 'RegisterState.requiresOtp(phoneNumber: $phoneNumber, verificationToken: $verificationToken)';
+    return 'RegisterState.requiresOtp()';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$RequiresOtpImpl &&
-            (identical(other.phoneNumber, phoneNumber) ||
-                other.phoneNumber == phoneNumber) &&
-            (identical(other.verificationToken, verificationToken) ||
-                other.verificationToken == verificationToken));
+        (other.runtimeType == runtimeType && other is _$RequiresOtpImpl);
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, phoneNumber, verificationToken);
-
-  /// Create a copy of RegisterState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$RequiresOtpImplCopyWith<_$RequiresOtpImpl> get copyWith =>
-      __$$RequiresOtpImplCopyWithImpl<_$RequiresOtpImpl>(this, _$identity);
+  int get hashCode => runtimeType.hashCode;
 
   @override
   @optionalTypeArgs
@@ -502,12 +455,11 @@ class _$RequiresOtpImpl implements _RequiresOtp {
     required TResult Function(bool passwordVisible, bool confirmPasswordVisible)
     initial,
     required TResult Function() loading,
-    required TResult Function(String phoneNumber, String verificationToken)
-    requiresOtp,
+    required TResult Function() requiresOtp,
     required TResult Function(Session data) authenticated,
     required TResult Function(ApiErrorModel error) error,
   }) {
-    return requiresOtp(phoneNumber, verificationToken);
+    return requiresOtp();
   }
 
   @override
@@ -516,12 +468,11 @@ class _$RequiresOtpImpl implements _RequiresOtp {
     TResult? Function(bool passwordVisible, bool confirmPasswordVisible)?
     initial,
     TResult? Function()? loading,
-    TResult? Function(String phoneNumber, String verificationToken)?
-    requiresOtp,
+    TResult? Function()? requiresOtp,
     TResult? Function(Session data)? authenticated,
     TResult? Function(ApiErrorModel error)? error,
   }) {
-    return requiresOtp?.call(phoneNumber, verificationToken);
+    return requiresOtp?.call();
   }
 
   @override
@@ -530,13 +481,13 @@ class _$RequiresOtpImpl implements _RequiresOtp {
     TResult Function(bool passwordVisible, bool confirmPasswordVisible)?
     initial,
     TResult Function()? loading,
-    TResult Function(String phoneNumber, String verificationToken)? requiresOtp,
+    TResult Function()? requiresOtp,
     TResult Function(Session data)? authenticated,
     TResult Function(ApiErrorModel error)? error,
     required TResult orElse(),
   }) {
     if (requiresOtp != null) {
-      return requiresOtp(phoneNumber, verificationToken);
+      return requiresOtp();
     }
     return orElse();
   }
@@ -583,19 +534,7 @@ class _$RequiresOtpImpl implements _RequiresOtp {
 }
 
 abstract class _RequiresOtp implements RegisterState {
-  const factory _RequiresOtp({
-    required final String phoneNumber,
-    required final String verificationToken,
-  }) = _$RequiresOtpImpl;
-
-  String get phoneNumber;
-  String get verificationToken;
-
-  /// Create a copy of RegisterState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$RequiresOtpImplCopyWith<_$RequiresOtpImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+  const factory _RequiresOtp() = _$RequiresOtpImpl;
 }
 
 /// @nodoc
@@ -671,8 +610,7 @@ class _$AuthenticatedImpl implements _Authenticated {
     required TResult Function(bool passwordVisible, bool confirmPasswordVisible)
     initial,
     required TResult Function() loading,
-    required TResult Function(String phoneNumber, String verificationToken)
-    requiresOtp,
+    required TResult Function() requiresOtp,
     required TResult Function(Session data) authenticated,
     required TResult Function(ApiErrorModel error) error,
   }) {
@@ -685,8 +623,7 @@ class _$AuthenticatedImpl implements _Authenticated {
     TResult? Function(bool passwordVisible, bool confirmPasswordVisible)?
     initial,
     TResult? Function()? loading,
-    TResult? Function(String phoneNumber, String verificationToken)?
-    requiresOtp,
+    TResult? Function()? requiresOtp,
     TResult? Function(Session data)? authenticated,
     TResult? Function(ApiErrorModel error)? error,
   }) {
@@ -699,7 +636,7 @@ class _$AuthenticatedImpl implements _Authenticated {
     TResult Function(bool passwordVisible, bool confirmPasswordVisible)?
     initial,
     TResult Function()? loading,
-    TResult Function(String phoneNumber, String verificationToken)? requiresOtp,
+    TResult Function()? requiresOtp,
     TResult Function(Session data)? authenticated,
     TResult Function(ApiErrorModel error)? error,
     required TResult orElse(),
@@ -836,8 +773,7 @@ class _$ErrorImpl implements _Error {
     required TResult Function(bool passwordVisible, bool confirmPasswordVisible)
     initial,
     required TResult Function() loading,
-    required TResult Function(String phoneNumber, String verificationToken)
-    requiresOtp,
+    required TResult Function() requiresOtp,
     required TResult Function(Session data) authenticated,
     required TResult Function(ApiErrorModel error) error,
   }) {
@@ -850,8 +786,7 @@ class _$ErrorImpl implements _Error {
     TResult? Function(bool passwordVisible, bool confirmPasswordVisible)?
     initial,
     TResult? Function()? loading,
-    TResult? Function(String phoneNumber, String verificationToken)?
-    requiresOtp,
+    TResult? Function()? requiresOtp,
     TResult? Function(Session data)? authenticated,
     TResult? Function(ApiErrorModel error)? error,
   }) {
@@ -864,7 +799,7 @@ class _$ErrorImpl implements _Error {
     TResult Function(bool passwordVisible, bool confirmPasswordVisible)?
     initial,
     TResult Function()? loading,
-    TResult Function(String phoneNumber, String verificationToken)? requiresOtp,
+    TResult Function()? requiresOtp,
     TResult Function(Session data)? authenticated,
     TResult Function(ApiErrorModel error)? error,
     required TResult orElse(),

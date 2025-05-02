@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:snapnfix/modules/authentication/data/models/tokens_model.dart';
 import 'package:snapnfix/modules/authentication/domain/entities/session.dart';
 
@@ -5,11 +6,6 @@ import 'user_model.dart';
 
 class SessionModel extends Session {
   const SessionModel({required super.user, required super.tokens});
-
-  const SessionModel.unverified({
-    required UserModel super.user,
-    required super.verificationToken,
-  });
 
   factory SessionModel.fromJson(Map<String, dynamic> json) {
     final user = UserModel.fromJson(json['user']);

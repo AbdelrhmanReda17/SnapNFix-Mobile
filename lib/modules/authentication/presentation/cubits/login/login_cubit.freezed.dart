@@ -22,9 +22,7 @@ mixin _$LoginState {
     required TResult Function(bool passwordVisible) initial,
     required TResult Function() loading,
     required TResult Function(Session data) authenticated,
-    required TResult Function(String phoneNumber) unauthenticated,
-    required TResult Function(String phoneNumber, String verificationToken)
-    requiresOtp,
+    required TResult Function() requiresProfileCompletion,
     required TResult Function(ApiErrorModel error) error,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -32,9 +30,7 @@ mixin _$LoginState {
     TResult? Function(bool passwordVisible)? initial,
     TResult? Function()? loading,
     TResult? Function(Session data)? authenticated,
-    TResult? Function(String phoneNumber)? unauthenticated,
-    TResult? Function(String phoneNumber, String verificationToken)?
-    requiresOtp,
+    TResult? Function()? requiresProfileCompletion,
     TResult? Function(ApiErrorModel error)? error,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -42,8 +38,7 @@ mixin _$LoginState {
     TResult Function(bool passwordVisible)? initial,
     TResult Function()? loading,
     TResult Function(Session data)? authenticated,
-    TResult Function(String phoneNumber)? unauthenticated,
-    TResult Function(String phoneNumber, String verificationToken)? requiresOtp,
+    TResult Function()? requiresProfileCompletion,
     TResult Function(ApiErrorModel error)? error,
     required TResult orElse(),
   }) => throw _privateConstructorUsedError;
@@ -52,8 +47,7 @@ mixin _$LoginState {
     required TResult Function(_Initial value) initial,
     required TResult Function(_Loading value) loading,
     required TResult Function(_Authenticated value) authenticated,
-    required TResult Function(_Unauthenticated value) unauthenticated,
-    required TResult Function(_RequiresOtp value) requiresOtp,
+    required TResult Function(_RequiresOtp value) requiresProfileCompletion,
     required TResult Function(_Error value) error,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -61,8 +55,7 @@ mixin _$LoginState {
     TResult? Function(_Initial value)? initial,
     TResult? Function(_Loading value)? loading,
     TResult? Function(_Authenticated value)? authenticated,
-    TResult? Function(_Unauthenticated value)? unauthenticated,
-    TResult? Function(_RequiresOtp value)? requiresOtp,
+    TResult? Function(_RequiresOtp value)? requiresProfileCompletion,
     TResult? Function(_Error value)? error,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -70,8 +63,7 @@ mixin _$LoginState {
     TResult Function(_Initial value)? initial,
     TResult Function(_Loading value)? loading,
     TResult Function(_Authenticated value)? authenticated,
-    TResult Function(_Unauthenticated value)? unauthenticated,
-    TResult Function(_RequiresOtp value)? requiresOtp,
+    TResult Function(_RequiresOtp value)? requiresProfileCompletion,
     TResult Function(_Error value)? error,
     required TResult orElse(),
   }) => throw _privateConstructorUsedError;
@@ -175,9 +167,7 @@ class _$InitialImpl implements _Initial {
     required TResult Function(bool passwordVisible) initial,
     required TResult Function() loading,
     required TResult Function(Session data) authenticated,
-    required TResult Function(String phoneNumber) unauthenticated,
-    required TResult Function(String phoneNumber, String verificationToken)
-    requiresOtp,
+    required TResult Function() requiresProfileCompletion,
     required TResult Function(ApiErrorModel error) error,
   }) {
     return initial(passwordVisible);
@@ -189,9 +179,7 @@ class _$InitialImpl implements _Initial {
     TResult? Function(bool passwordVisible)? initial,
     TResult? Function()? loading,
     TResult? Function(Session data)? authenticated,
-    TResult? Function(String phoneNumber)? unauthenticated,
-    TResult? Function(String phoneNumber, String verificationToken)?
-    requiresOtp,
+    TResult? Function()? requiresProfileCompletion,
     TResult? Function(ApiErrorModel error)? error,
   }) {
     return initial?.call(passwordVisible);
@@ -203,8 +191,7 @@ class _$InitialImpl implements _Initial {
     TResult Function(bool passwordVisible)? initial,
     TResult Function()? loading,
     TResult Function(Session data)? authenticated,
-    TResult Function(String phoneNumber)? unauthenticated,
-    TResult Function(String phoneNumber, String verificationToken)? requiresOtp,
+    TResult Function()? requiresProfileCompletion,
     TResult Function(ApiErrorModel error)? error,
     required TResult orElse(),
   }) {
@@ -220,8 +207,7 @@ class _$InitialImpl implements _Initial {
     required TResult Function(_Initial value) initial,
     required TResult Function(_Loading value) loading,
     required TResult Function(_Authenticated value) authenticated,
-    required TResult Function(_Unauthenticated value) unauthenticated,
-    required TResult Function(_RequiresOtp value) requiresOtp,
+    required TResult Function(_RequiresOtp value) requiresProfileCompletion,
     required TResult Function(_Error value) error,
   }) {
     return initial(this);
@@ -233,8 +219,7 @@ class _$InitialImpl implements _Initial {
     TResult? Function(_Initial value)? initial,
     TResult? Function(_Loading value)? loading,
     TResult? Function(_Authenticated value)? authenticated,
-    TResult? Function(_Unauthenticated value)? unauthenticated,
-    TResult? Function(_RequiresOtp value)? requiresOtp,
+    TResult? Function(_RequiresOtp value)? requiresProfileCompletion,
     TResult? Function(_Error value)? error,
   }) {
     return initial?.call(this);
@@ -246,8 +231,7 @@ class _$InitialImpl implements _Initial {
     TResult Function(_Initial value)? initial,
     TResult Function(_Loading value)? loading,
     TResult Function(_Authenticated value)? authenticated,
-    TResult Function(_Unauthenticated value)? unauthenticated,
-    TResult Function(_RequiresOtp value)? requiresOtp,
+    TResult Function(_RequiresOtp value)? requiresProfileCompletion,
     TResult Function(_Error value)? error,
     required TResult orElse(),
   }) {
@@ -316,9 +300,7 @@ class _$LoadingImpl implements _Loading {
     required TResult Function(bool passwordVisible) initial,
     required TResult Function() loading,
     required TResult Function(Session data) authenticated,
-    required TResult Function(String phoneNumber) unauthenticated,
-    required TResult Function(String phoneNumber, String verificationToken)
-    requiresOtp,
+    required TResult Function() requiresProfileCompletion,
     required TResult Function(ApiErrorModel error) error,
   }) {
     return loading();
@@ -330,9 +312,7 @@ class _$LoadingImpl implements _Loading {
     TResult? Function(bool passwordVisible)? initial,
     TResult? Function()? loading,
     TResult? Function(Session data)? authenticated,
-    TResult? Function(String phoneNumber)? unauthenticated,
-    TResult? Function(String phoneNumber, String verificationToken)?
-    requiresOtp,
+    TResult? Function()? requiresProfileCompletion,
     TResult? Function(ApiErrorModel error)? error,
   }) {
     return loading?.call();
@@ -344,8 +324,7 @@ class _$LoadingImpl implements _Loading {
     TResult Function(bool passwordVisible)? initial,
     TResult Function()? loading,
     TResult Function(Session data)? authenticated,
-    TResult Function(String phoneNumber)? unauthenticated,
-    TResult Function(String phoneNumber, String verificationToken)? requiresOtp,
+    TResult Function()? requiresProfileCompletion,
     TResult Function(ApiErrorModel error)? error,
     required TResult orElse(),
   }) {
@@ -361,8 +340,7 @@ class _$LoadingImpl implements _Loading {
     required TResult Function(_Initial value) initial,
     required TResult Function(_Loading value) loading,
     required TResult Function(_Authenticated value) authenticated,
-    required TResult Function(_Unauthenticated value) unauthenticated,
-    required TResult Function(_RequiresOtp value) requiresOtp,
+    required TResult Function(_RequiresOtp value) requiresProfileCompletion,
     required TResult Function(_Error value) error,
   }) {
     return loading(this);
@@ -374,8 +352,7 @@ class _$LoadingImpl implements _Loading {
     TResult? Function(_Initial value)? initial,
     TResult? Function(_Loading value)? loading,
     TResult? Function(_Authenticated value)? authenticated,
-    TResult? Function(_Unauthenticated value)? unauthenticated,
-    TResult? Function(_RequiresOtp value)? requiresOtp,
+    TResult? Function(_RequiresOtp value)? requiresProfileCompletion,
     TResult? Function(_Error value)? error,
   }) {
     return loading?.call(this);
@@ -387,8 +364,7 @@ class _$LoadingImpl implements _Loading {
     TResult Function(_Initial value)? initial,
     TResult Function(_Loading value)? loading,
     TResult Function(_Authenticated value)? authenticated,
-    TResult Function(_Unauthenticated value)? unauthenticated,
-    TResult Function(_RequiresOtp value)? requiresOtp,
+    TResult Function(_RequiresOtp value)? requiresProfileCompletion,
     TResult Function(_Error value)? error,
     required TResult orElse(),
   }) {
@@ -476,9 +452,7 @@ class _$AuthenticatedImpl implements _Authenticated {
     required TResult Function(bool passwordVisible) initial,
     required TResult Function() loading,
     required TResult Function(Session data) authenticated,
-    required TResult Function(String phoneNumber) unauthenticated,
-    required TResult Function(String phoneNumber, String verificationToken)
-    requiresOtp,
+    required TResult Function() requiresProfileCompletion,
     required TResult Function(ApiErrorModel error) error,
   }) {
     return authenticated(data);
@@ -490,9 +464,7 @@ class _$AuthenticatedImpl implements _Authenticated {
     TResult? Function(bool passwordVisible)? initial,
     TResult? Function()? loading,
     TResult? Function(Session data)? authenticated,
-    TResult? Function(String phoneNumber)? unauthenticated,
-    TResult? Function(String phoneNumber, String verificationToken)?
-    requiresOtp,
+    TResult? Function()? requiresProfileCompletion,
     TResult? Function(ApiErrorModel error)? error,
   }) {
     return authenticated?.call(data);
@@ -504,8 +476,7 @@ class _$AuthenticatedImpl implements _Authenticated {
     TResult Function(bool passwordVisible)? initial,
     TResult Function()? loading,
     TResult Function(Session data)? authenticated,
-    TResult Function(String phoneNumber)? unauthenticated,
-    TResult Function(String phoneNumber, String verificationToken)? requiresOtp,
+    TResult Function()? requiresProfileCompletion,
     TResult Function(ApiErrorModel error)? error,
     required TResult orElse(),
   }) {
@@ -521,8 +492,7 @@ class _$AuthenticatedImpl implements _Authenticated {
     required TResult Function(_Initial value) initial,
     required TResult Function(_Loading value) loading,
     required TResult Function(_Authenticated value) authenticated,
-    required TResult Function(_Unauthenticated value) unauthenticated,
-    required TResult Function(_RequiresOtp value) requiresOtp,
+    required TResult Function(_RequiresOtp value) requiresProfileCompletion,
     required TResult Function(_Error value) error,
   }) {
     return authenticated(this);
@@ -534,8 +504,7 @@ class _$AuthenticatedImpl implements _Authenticated {
     TResult? Function(_Initial value)? initial,
     TResult? Function(_Loading value)? loading,
     TResult? Function(_Authenticated value)? authenticated,
-    TResult? Function(_Unauthenticated value)? unauthenticated,
-    TResult? Function(_RequiresOtp value)? requiresOtp,
+    TResult? Function(_RequiresOtp value)? requiresProfileCompletion,
     TResult? Function(_Error value)? error,
   }) {
     return authenticated?.call(this);
@@ -547,8 +516,7 @@ class _$AuthenticatedImpl implements _Authenticated {
     TResult Function(_Initial value)? initial,
     TResult Function(_Loading value)? loading,
     TResult Function(_Authenticated value)? authenticated,
-    TResult Function(_Unauthenticated value)? unauthenticated,
-    TResult Function(_RequiresOtp value)? requiresOtp,
+    TResult Function(_RequiresOtp value)? requiresProfileCompletion,
     TResult Function(_Error value)? error,
     required TResult orElse(),
   }) {
@@ -572,186 +540,11 @@ abstract class _Authenticated implements LoginState {
 }
 
 /// @nodoc
-abstract class _$$UnauthenticatedImplCopyWith<$Res> {
-  factory _$$UnauthenticatedImplCopyWith(
-    _$UnauthenticatedImpl value,
-    $Res Function(_$UnauthenticatedImpl) then,
-  ) = __$$UnauthenticatedImplCopyWithImpl<$Res>;
-  @useResult
-  $Res call({String phoneNumber});
-}
-
-/// @nodoc
-class __$$UnauthenticatedImplCopyWithImpl<$Res>
-    extends _$LoginStateCopyWithImpl<$Res, _$UnauthenticatedImpl>
-    implements _$$UnauthenticatedImplCopyWith<$Res> {
-  __$$UnauthenticatedImplCopyWithImpl(
-    _$UnauthenticatedImpl _value,
-    $Res Function(_$UnauthenticatedImpl) _then,
-  ) : super(_value, _then);
-
-  /// Create a copy of LoginState
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({Object? phoneNumber = null}) {
-    return _then(
-      _$UnauthenticatedImpl(
-        null == phoneNumber
-            ? _value.phoneNumber
-            : phoneNumber // ignore: cast_nullable_to_non_nullable
-                as String,
-      ),
-    );
-  }
-}
-
-/// @nodoc
-
-class _$UnauthenticatedImpl implements _Unauthenticated {
-  const _$UnauthenticatedImpl(this.phoneNumber);
-
-  @override
-  final String phoneNumber;
-
-  @override
-  String toString() {
-    return 'LoginState.unauthenticated(phoneNumber: $phoneNumber)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$UnauthenticatedImpl &&
-            (identical(other.phoneNumber, phoneNumber) ||
-                other.phoneNumber == phoneNumber));
-  }
-
-  @override
-  int get hashCode => Object.hash(runtimeType, phoneNumber);
-
-  /// Create a copy of LoginState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$UnauthenticatedImplCopyWith<_$UnauthenticatedImpl> get copyWith =>
-      __$$UnauthenticatedImplCopyWithImpl<_$UnauthenticatedImpl>(
-        this,
-        _$identity,
-      );
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function(bool passwordVisible) initial,
-    required TResult Function() loading,
-    required TResult Function(Session data) authenticated,
-    required TResult Function(String phoneNumber) unauthenticated,
-    required TResult Function(String phoneNumber, String verificationToken)
-    requiresOtp,
-    required TResult Function(ApiErrorModel error) error,
-  }) {
-    return unauthenticated(phoneNumber);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(bool passwordVisible)? initial,
-    TResult? Function()? loading,
-    TResult? Function(Session data)? authenticated,
-    TResult? Function(String phoneNumber)? unauthenticated,
-    TResult? Function(String phoneNumber, String verificationToken)?
-    requiresOtp,
-    TResult? Function(ApiErrorModel error)? error,
-  }) {
-    return unauthenticated?.call(phoneNumber);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function(bool passwordVisible)? initial,
-    TResult Function()? loading,
-    TResult Function(Session data)? authenticated,
-    TResult Function(String phoneNumber)? unauthenticated,
-    TResult Function(String phoneNumber, String verificationToken)? requiresOtp,
-    TResult Function(ApiErrorModel error)? error,
-    required TResult orElse(),
-  }) {
-    if (unauthenticated != null) {
-      return unauthenticated(phoneNumber);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(_Initial value) initial,
-    required TResult Function(_Loading value) loading,
-    required TResult Function(_Authenticated value) authenticated,
-    required TResult Function(_Unauthenticated value) unauthenticated,
-    required TResult Function(_RequiresOtp value) requiresOtp,
-    required TResult Function(_Error value) error,
-  }) {
-    return unauthenticated(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_Initial value)? initial,
-    TResult? Function(_Loading value)? loading,
-    TResult? Function(_Authenticated value)? authenticated,
-    TResult? Function(_Unauthenticated value)? unauthenticated,
-    TResult? Function(_RequiresOtp value)? requiresOtp,
-    TResult? Function(_Error value)? error,
-  }) {
-    return unauthenticated?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(_Initial value)? initial,
-    TResult Function(_Loading value)? loading,
-    TResult Function(_Authenticated value)? authenticated,
-    TResult Function(_Unauthenticated value)? unauthenticated,
-    TResult Function(_RequiresOtp value)? requiresOtp,
-    TResult Function(_Error value)? error,
-    required TResult orElse(),
-  }) {
-    if (unauthenticated != null) {
-      return unauthenticated(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class _Unauthenticated implements LoginState {
-  const factory _Unauthenticated(final String phoneNumber) =
-      _$UnauthenticatedImpl;
-
-  String get phoneNumber;
-
-  /// Create a copy of LoginState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$UnauthenticatedImplCopyWith<_$UnauthenticatedImpl> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
 abstract class _$$RequiresOtpImplCopyWith<$Res> {
   factory _$$RequiresOtpImplCopyWith(
     _$RequiresOtpImpl value,
     $Res Function(_$RequiresOtpImpl) then,
   ) = __$$RequiresOtpImplCopyWithImpl<$Res>;
-  @useResult
-  $Res call({String phoneNumber, String verificationToken});
 }
 
 /// @nodoc
@@ -765,65 +558,26 @@ class __$$RequiresOtpImplCopyWithImpl<$Res>
 
   /// Create a copy of LoginState
   /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({Object? phoneNumber = null, Object? verificationToken = null}) {
-    return _then(
-      _$RequiresOtpImpl(
-        phoneNumber:
-            null == phoneNumber
-                ? _value.phoneNumber
-                : phoneNumber // ignore: cast_nullable_to_non_nullable
-                    as String,
-        verificationToken:
-            null == verificationToken
-                ? _value.verificationToken
-                : verificationToken // ignore: cast_nullable_to_non_nullable
-                    as String,
-      ),
-    );
-  }
 }
 
 /// @nodoc
 
 class _$RequiresOtpImpl implements _RequiresOtp {
-  const _$RequiresOtpImpl({
-    required this.phoneNumber,
-    required this.verificationToken,
-  });
-
-  @override
-  final String phoneNumber;
-  @override
-  final String verificationToken;
+  const _$RequiresOtpImpl();
 
   @override
   String toString() {
-    return 'LoginState.requiresOtp(phoneNumber: $phoneNumber, verificationToken: $verificationToken)';
+    return 'LoginState.requiresProfileCompletion()';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$RequiresOtpImpl &&
-            (identical(other.phoneNumber, phoneNumber) ||
-                other.phoneNumber == phoneNumber) &&
-            (identical(other.verificationToken, verificationToken) ||
-                other.verificationToken == verificationToken));
+        (other.runtimeType == runtimeType && other is _$RequiresOtpImpl);
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, phoneNumber, verificationToken);
-
-  /// Create a copy of LoginState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$RequiresOtpImplCopyWith<_$RequiresOtpImpl> get copyWith =>
-      __$$RequiresOtpImplCopyWithImpl<_$RequiresOtpImpl>(this, _$identity);
+  int get hashCode => runtimeType.hashCode;
 
   @override
   @optionalTypeArgs
@@ -831,12 +585,10 @@ class _$RequiresOtpImpl implements _RequiresOtp {
     required TResult Function(bool passwordVisible) initial,
     required TResult Function() loading,
     required TResult Function(Session data) authenticated,
-    required TResult Function(String phoneNumber) unauthenticated,
-    required TResult Function(String phoneNumber, String verificationToken)
-    requiresOtp,
+    required TResult Function() requiresProfileCompletion,
     required TResult Function(ApiErrorModel error) error,
   }) {
-    return requiresOtp(phoneNumber, verificationToken);
+    return requiresProfileCompletion();
   }
 
   @override
@@ -845,12 +597,10 @@ class _$RequiresOtpImpl implements _RequiresOtp {
     TResult? Function(bool passwordVisible)? initial,
     TResult? Function()? loading,
     TResult? Function(Session data)? authenticated,
-    TResult? Function(String phoneNumber)? unauthenticated,
-    TResult? Function(String phoneNumber, String verificationToken)?
-    requiresOtp,
+    TResult? Function()? requiresProfileCompletion,
     TResult? Function(ApiErrorModel error)? error,
   }) {
-    return requiresOtp?.call(phoneNumber, verificationToken);
+    return requiresProfileCompletion?.call();
   }
 
   @override
@@ -859,13 +609,12 @@ class _$RequiresOtpImpl implements _RequiresOtp {
     TResult Function(bool passwordVisible)? initial,
     TResult Function()? loading,
     TResult Function(Session data)? authenticated,
-    TResult Function(String phoneNumber)? unauthenticated,
-    TResult Function(String phoneNumber, String verificationToken)? requiresOtp,
+    TResult Function()? requiresProfileCompletion,
     TResult Function(ApiErrorModel error)? error,
     required TResult orElse(),
   }) {
-    if (requiresOtp != null) {
-      return requiresOtp(phoneNumber, verificationToken);
+    if (requiresProfileCompletion != null) {
+      return requiresProfileCompletion();
     }
     return orElse();
   }
@@ -876,11 +625,10 @@ class _$RequiresOtpImpl implements _RequiresOtp {
     required TResult Function(_Initial value) initial,
     required TResult Function(_Loading value) loading,
     required TResult Function(_Authenticated value) authenticated,
-    required TResult Function(_Unauthenticated value) unauthenticated,
-    required TResult Function(_RequiresOtp value) requiresOtp,
+    required TResult Function(_RequiresOtp value) requiresProfileCompletion,
     required TResult Function(_Error value) error,
   }) {
-    return requiresOtp(this);
+    return requiresProfileCompletion(this);
   }
 
   @override
@@ -889,11 +637,10 @@ class _$RequiresOtpImpl implements _RequiresOtp {
     TResult? Function(_Initial value)? initial,
     TResult? Function(_Loading value)? loading,
     TResult? Function(_Authenticated value)? authenticated,
-    TResult? Function(_Unauthenticated value)? unauthenticated,
-    TResult? Function(_RequiresOtp value)? requiresOtp,
+    TResult? Function(_RequiresOtp value)? requiresProfileCompletion,
     TResult? Function(_Error value)? error,
   }) {
-    return requiresOtp?.call(this);
+    return requiresProfileCompletion?.call(this);
   }
 
   @override
@@ -902,32 +649,19 @@ class _$RequiresOtpImpl implements _RequiresOtp {
     TResult Function(_Initial value)? initial,
     TResult Function(_Loading value)? loading,
     TResult Function(_Authenticated value)? authenticated,
-    TResult Function(_Unauthenticated value)? unauthenticated,
-    TResult Function(_RequiresOtp value)? requiresOtp,
+    TResult Function(_RequiresOtp value)? requiresProfileCompletion,
     TResult Function(_Error value)? error,
     required TResult orElse(),
   }) {
-    if (requiresOtp != null) {
-      return requiresOtp(this);
+    if (requiresProfileCompletion != null) {
+      return requiresProfileCompletion(this);
     }
     return orElse();
   }
 }
 
 abstract class _RequiresOtp implements LoginState {
-  const factory _RequiresOtp({
-    required final String phoneNumber,
-    required final String verificationToken,
-  }) = _$RequiresOtpImpl;
-
-  String get phoneNumber;
-  String get verificationToken;
-
-  /// Create a copy of LoginState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$RequiresOtpImplCopyWith<_$RequiresOtpImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+  const factory _RequiresOtp() = _$RequiresOtpImpl;
 }
 
 /// @nodoc
@@ -1003,9 +737,7 @@ class _$ErrorImpl implements _Error {
     required TResult Function(bool passwordVisible) initial,
     required TResult Function() loading,
     required TResult Function(Session data) authenticated,
-    required TResult Function(String phoneNumber) unauthenticated,
-    required TResult Function(String phoneNumber, String verificationToken)
-    requiresOtp,
+    required TResult Function() requiresProfileCompletion,
     required TResult Function(ApiErrorModel error) error,
   }) {
     return error(this.error);
@@ -1017,9 +749,7 @@ class _$ErrorImpl implements _Error {
     TResult? Function(bool passwordVisible)? initial,
     TResult? Function()? loading,
     TResult? Function(Session data)? authenticated,
-    TResult? Function(String phoneNumber)? unauthenticated,
-    TResult? Function(String phoneNumber, String verificationToken)?
-    requiresOtp,
+    TResult? Function()? requiresProfileCompletion,
     TResult? Function(ApiErrorModel error)? error,
   }) {
     return error?.call(this.error);
@@ -1031,8 +761,7 @@ class _$ErrorImpl implements _Error {
     TResult Function(bool passwordVisible)? initial,
     TResult Function()? loading,
     TResult Function(Session data)? authenticated,
-    TResult Function(String phoneNumber)? unauthenticated,
-    TResult Function(String phoneNumber, String verificationToken)? requiresOtp,
+    TResult Function()? requiresProfileCompletion,
     TResult Function(ApiErrorModel error)? error,
     required TResult orElse(),
   }) {
@@ -1048,8 +777,7 @@ class _$ErrorImpl implements _Error {
     required TResult Function(_Initial value) initial,
     required TResult Function(_Loading value) loading,
     required TResult Function(_Authenticated value) authenticated,
-    required TResult Function(_Unauthenticated value) unauthenticated,
-    required TResult Function(_RequiresOtp value) requiresOtp,
+    required TResult Function(_RequiresOtp value) requiresProfileCompletion,
     required TResult Function(_Error value) error,
   }) {
     return error(this);
@@ -1061,8 +789,7 @@ class _$ErrorImpl implements _Error {
     TResult? Function(_Initial value)? initial,
     TResult? Function(_Loading value)? loading,
     TResult? Function(_Authenticated value)? authenticated,
-    TResult? Function(_Unauthenticated value)? unauthenticated,
-    TResult? Function(_RequiresOtp value)? requiresOtp,
+    TResult? Function(_RequiresOtp value)? requiresProfileCompletion,
     TResult? Function(_Error value)? error,
   }) {
     return error?.call(this);
@@ -1074,8 +801,7 @@ class _$ErrorImpl implements _Error {
     TResult Function(_Initial value)? initial,
     TResult Function(_Loading value)? loading,
     TResult Function(_Authenticated value)? authenticated,
-    TResult Function(_Unauthenticated value)? unauthenticated,
-    TResult Function(_RequiresOtp value)? requiresOtp,
+    TResult Function(_RequiresOtp value)? requiresProfileCompletion,
     TResult Function(_Error value)? error,
     required TResult orElse(),
   }) {

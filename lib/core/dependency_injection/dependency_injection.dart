@@ -7,13 +7,14 @@ import 'package:snapnfix/core/infrastructure/location/location_service.dart';
 import 'package:snapnfix/modules/authentication/data/datasources/authentication_remote_data_source.dart';
 import 'package:snapnfix/modules/authentication/data/repositories/authentication_repository.dart';
 import 'package:snapnfix/modules/authentication/domain/repositories/base_authentication_repository.dart';
-import 'package:snapnfix/modules/authentication/domain/usecases/forgot_password_use_case.dart';
+import 'package:snapnfix/modules/authentication/domain/usecases/complete_profile_use_case.dart';
 import 'package:snapnfix/modules/authentication/domain/usecases/login_use_case.dart';
 import 'package:snapnfix/modules/authentication/domain/usecases/logout_use_case.dart';
-import 'package:snapnfix/modules/authentication/domain/usecases/register_use_case.dart';
+import 'package:snapnfix/modules/authentication/domain/usecases/request_otp_use_case.dart';
 import 'package:snapnfix/modules/authentication/domain/usecases/resend_otp_use_case.dart';
 import 'package:snapnfix/modules/authentication/domain/usecases/reset_password_use_case.dart';
 import 'package:snapnfix/modules/authentication/domain/usecases/verify_otp_use_case.dart';
+import 'package:snapnfix/modules/authentication/presentation/cubits/complete_profile/complete_profile_cubit.dart';
 import 'package:snapnfix/modules/authentication/presentation/cubits/forget_password/forgot_password_cubit.dart';
 import 'package:snapnfix/modules/authentication/presentation/cubits/login/login_cubit.dart';
 import 'package:snapnfix/modules/authentication/presentation/cubits/otp/otp_cubit.dart';
@@ -44,7 +45,6 @@ import 'package:snapnfix/modules/settings/domain/usecases/change_password_use_ca
 import 'package:snapnfix/modules/settings/domain/usecases/edit_profile_use_case.dart';
 import 'package:snapnfix/modules/settings/presentation/cubits/change_password_cubit.dart';
 import 'package:snapnfix/modules/settings/presentation/cubits/edit_profile_cubit.dart';
-import 'package:snapnfix/presentation/navigation/application_router.dart';
 import 'package:snapnfix/core/infrastructure/networking/api_constants.dart';
 import 'package:snapnfix/core/infrastructure/networking/api_service.dart';
 import 'package:snapnfix/core/infrastructure/networking/dio_factory.dart';
@@ -60,9 +60,6 @@ Future<void> setupGetIt() async {
 
   // Register application configurations immediately
   setupAppConfigurations();
-
-  // Now register router which depends on configurations
-  setupRouter();
 
   // Register networking components
   Dio dio = DioFactory.getDio();
@@ -89,57 +86,39 @@ void setupAppConfigurations() {
   getIt<ApplicationConfigurations>();
 }
 
-void setupRouter() {
-  // Register Router - depends on ApplicationConfigurations
-  getIt.registerLazySingleton<ApplicationRouter>(
-    () => ApplicationRouter(
-      appConfigurations: getIt<ApplicationConfigurations>(),
+void setupAuthenticationModule() {
+  getIt.registerLazySingleton<BaseAuthenticationRemoteDataSource>(
+    () => AuthenticationRemoteDataSource(
+      getIt<ApiService>(),
+      getIt<DeviceInfoService>(),
     ),
   );
 
-  // Register GoRouter
-  getIt.registerLazySingleton<GoRouter>(
-    () => getIt<ApplicationRouter>().router,
-  );
-}
-
-void setupAuthenticationModule() {
-  // Register Data Sources & Repository
-  getIt.registerLazySingleton<BaseAuthenticationRemoteDataSource>(
-    () => AuthenticationRemoteDataSource(getIt<ApiService>()),
-  );
-
   getIt.registerLazySingleton<BaseAuthenticationRepository>(
-    () => AuthenticationRepository(getIt<BaseAuthenticationRemoteDataSource>()),
+    () => AuthenticationRepository(
+      getIt<BaseAuthenticationRemoteDataSource>(),
+      getIt<ApplicationConfigurations>(),
+    ),
   );
 
-  // Register Use Cases
   getIt.registerLazySingleton<LoginUseCase>(
     () => LoginUseCase(getIt<BaseAuthenticationRepository>()),
   );
 
-  getIt.registerLazySingleton<RegisterUseCase>(
-    () => RegisterUseCase(getIt<BaseAuthenticationRepository>()),
+  getIt.registerLazySingleton<RequestOTPUseCase>(
+    () => RequestOTPUseCase(getIt<BaseAuthenticationRepository>()),
   );
 
   getIt.registerLazySingleton<LogoutUseCase>(
     () => LogoutUseCase(getIt<BaseAuthenticationRepository>()),
   );
 
-  // Register Cubits
   getIt.registerFactory<LoginCubit>(
-    () => LoginCubit(
-      loginUseCase: getIt<LoginUseCase>(),
-      forgotPasswordUseCase: getIt<ForgotPasswordUseCase>(),
-    ),
+    () => LoginCubit(loginUseCase: getIt<LoginUseCase>()),
   );
 
   getIt.registerFactory<RegisterCubit>(
-    () => RegisterCubit(registerUseCase: getIt<RegisterUseCase>()),
-  );
-
-  getIt.registerLazySingleton<ForgotPasswordUseCase>(
-    () => ForgotPasswordUseCase(getIt<BaseAuthenticationRepository>()),
+    () => RegisterCubit(getIt<RequestOTPUseCase>()),
   );
 
   getIt.registerLazySingleton<ResetPasswordUseCase>(
@@ -162,14 +141,23 @@ void setupAuthenticationModule() {
   );
 
   getIt.registerFactory<ForgotPasswordCubit>(
-    () => ForgotPasswordCubit(
-      forgotPasswordUseCase: getIt<ForgotPasswordUseCase>(),
-    ),
+    () =>
+        ForgotPasswordCubit(forgotPasswordUseCase: getIt<RequestOTPUseCase>()),
   );
 
   getIt.registerFactory<ResetPasswordCubit>(
     () =>
         ResetPasswordCubit(resetPasswordUseCase: getIt<ResetPasswordUseCase>()),
+  );
+
+  getIt.registerLazySingleton<CompleteProfileUseCase>(
+    () => CompleteProfileUseCase(getIt<BaseAuthenticationRepository>()),
+  );
+
+  getIt.registerFactory<CompleteProfileCubit>(
+    () => CompleteProfileCubit(
+      completeProfileUseCase: getIt<CompleteProfileUseCase>(),
+    ),
   );
 }
 

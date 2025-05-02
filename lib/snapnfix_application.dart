@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:snapnfix/core/config/application_configurations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:snapnfix/core/dependency_injection/dependency_injection.dart';
+import 'package:snapnfix/presentation/navigation/router_configuration.dart';
 import 'package:snapnfix/presentation/themes/application_themes.dart';
 
 class SnapNFixApplication extends StatelessWidget {
@@ -37,7 +38,7 @@ class SnapNFixApplication extends StatelessWidget {
               GlobalCupertinoLocalizations.delegate,
             ],
             locale: Locale(appConfigs.language),
-            routerConfig: getIt<GoRouter>(),
+            routerConfig: RouterConfiguration.router,
           );
         },
       ),

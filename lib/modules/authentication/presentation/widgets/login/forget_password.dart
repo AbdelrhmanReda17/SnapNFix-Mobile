@@ -13,7 +13,7 @@ class ForgetPassword extends StatelessWidget {
     final textStyles = Theme.of(context).textTheme;
     return GestureDetector(
       onTap: () {
-        context.push(Routes.forgotPasswordScreen.key);
+        context.push(Routes.forgotPassword);
       },
       child: Text(
         localization.forgetPassword,

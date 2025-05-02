@@ -7,29 +7,27 @@ abstract class BaseAuthenticationRepository {
     required String phoneOrEmail,
     required String password,
   });
-  Future<ApiResult<AuthenticationResult>> register({
-    required String firstName,
-    required String lastName,
+  Future<ApiResult<AuthenticationResult>> requestOTP({
     required String phoneNumber,
-    required String password,
-    required String confirmPassword,
+    bool isRegister = false,
   });
   Future<void> logout();
 
-  Future<ApiResult<bool>> verifyOtp({
+  Future<ApiResult<AuthenticationResult>> verifyOTP({
     required String code,
-    required String verificationToken,
-    required String phoneNumber,
+    required OtpPurpose purpose,
   });
 
-  Future<ApiResult<void>> resendOtp();
-
-  Future<ApiResult<AuthenticationResult>> forgotPassword({
-    required String emailOrPhoneNumber,
-  });
+  Future<ApiResult<bool>> resendOTP({bool isRegister = false});
 
   Future<ApiResult<bool>> resetPassword({
     required String newPassword,
     required String confirmPassword,
+  });
+
+  Future<ApiResult<Session>> completeProfile({
+    required String firstName,
+    required String lastName,
+    required String password,
   });
 }

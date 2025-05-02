@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class BaseDropdownField<T> extends StatelessWidget {
+class BaseDropdownField<T> extends StatefulWidget {
   final String hintText;
   final List<T> items;
-  final T? value;
-  final void Function(T? value) onChanged;
+  final T? initialValue;
+  final ValueChanged<T?>? onChanged;
   final String Function(T item) itemLabelBuilder;
   final InputBorder? focusedBorder;
   final InputBorder? enabledBorder;
@@ -18,8 +18,8 @@ class BaseDropdownField<T> extends StatelessWidget {
     super.key,
     required this.hintText,
     required this.items,
-    this.value,
-    required this.onChanged,
+    this.initialValue,
+    this.onChanged,
     required this.itemLabelBuilder,
     this.focusedBorder,
     this.enabledBorder,
@@ -28,6 +28,24 @@ class BaseDropdownField<T> extends StatelessWidget {
     this.backgroundColor,
     this.icon,
   });
+
+  @override
+  State<BaseDropdownField<T>> createState() => _BaseDropdownFieldState<T>();
+}
+
+class _BaseDropdownFieldState<T> extends State<BaseDropdownField<T>> {
+  T? _selectedValue;
+
+  @override
+  void initState() {
+    super.initState();
+    _selectedValue = widget.initialValue;
+  }
+
+  void _handleValueChanged(T? value) {
+    setState(() => _selectedValue = value);
+    widget.onChanged?.call(value);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,10 +58,10 @@ class BaseDropdownField<T> extends StatelessWidget {
         Container(
           decoration: BoxDecoration(
             color:
-                backgroundColor ?? colorScheme.surface.withValues(alpha: 0.3),
+                widget.backgroundColor ?? colorScheme.surface.withOpacity(0.3),
             borderRadius: BorderRadius.circular(8.r),
             border: Border.all(
-              color: colorScheme.primary.withValues(alpha: 0.3),
+              color: colorScheme.primary.withOpacity(0.3),
               width: 1.3,
             ),
           ),
@@ -51,33 +69,33 @@ class BaseDropdownField<T> extends StatelessWidget {
             child: ButtonTheme(
               alignedDropdown: true,
               child: DropdownButton<T>(
-                value: value,
+                value: _selectedValue,
                 items:
-                    items.map<DropdownMenuItem<T>>((T item) {
+                    widget.items.map<DropdownMenuItem<T>>((T item) {
                       return DropdownMenuItem<T>(
                         value: item,
                         child: Text(
-                          itemLabelBuilder(item),
+                          widget.itemLabelBuilder(item),
                           style:
-                              textStyle ??
+                              widget.textStyle ??
                               textStyles.bodyMedium?.copyWith(
                                 color: colorScheme.primary,
                               ),
                         ),
                       );
                     }).toList(),
-                onChanged: onChanged,
+                onChanged: _handleValueChanged,
                 hint: Text(
-                  hintText,
+                  widget.hintText,
                   style:
-                      hintStyle ??
+                      widget.hintStyle ??
                       textStyles.bodyMedium?.copyWith(
-                        color: colorScheme.primary.withValues(alpha: 0.3),
+                        color: colorScheme.primary.withOpacity(0.3),
                       ),
                 ),
                 isExpanded: true,
                 icon:
-                    icon ??
+                    widget.icon ??
                     Icon(Icons.arrow_drop_down, color: colorScheme.primary),
                 iconSize: 24.h,
                 dropdownColor: colorScheme.surface,

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:snapnfix/modules/authentication/domain/entities/user_gender.dart';
 import 'package:snapnfix/modules/settings/data/models/dtos/edit_profile_dto.dart';
 import 'package:snapnfix/modules/settings/domain/usecases/edit_profile_use_case.dart';
 part 'edit_profile_state.dart';
@@ -18,28 +19,33 @@ class EditProfileCubit extends Cubit<EditProfileState> {
 
   final formKey = GlobalKey<FormState>();
 
-  final nameController = TextEditingController();
-  final phoneController = TextEditingController();
-
-  final selectedGender = ValueNotifier<String?>(null);
-  final selectedDate = ValueNotifier<DateTime?>(null);
+  String name = "";
+  String phoneNumber = "";
+  UserGender? selectedGender;
+  DateTime? selectedDate;
   final profileImage = ValueNotifier<File?>(null);
 
   final _imagePicker = ImagePicker();
 
-  final List<String> genderOptions = ['Male', 'Female', 'Other'];
-
-  void updateGender(String gender) {
-    selectedGender.value = gender;
+  void setName(String value) {
+    name = value;
   }
 
-  void updateDate(DateTime date) {
-    selectedDate.value = date;
+  void setPhoneNumber(String value) {
+    phoneNumber = value;
   }
 
-  String formatDate(DateTime? date) {
-    if (date == null) return '';
-    return DateFormat('dd/MM/yyyy').format(date);
+  void setSelectedGender(UserGender? value) {
+    selectedGender = value;
+  }
+
+  void setDateOfBirth(DateTime? value) {
+    selectedDate = value;
+  }
+
+  String formatDate(DateTime date) {
+    final DateFormat formatter = DateFormat('yyyy-MM-dd');
+    return formatter.format(date);
   }
 
   Future<void> pickImage() async {
@@ -67,10 +73,10 @@ class EditProfileCubit extends Cubit<EditProfileState> {
     try {
       final response = await _editProfileUseCase(
         EditProfileDTO(
-          name: nameController.text,
-          phoneNumber: phoneController.text,
-          gender: selectedGender.value ?? '',
-          dateOfBirth: selectedDate.value,
+          name: name,
+          phoneNumber: phoneNumber,
+          gender: selectedGender?.displayName,
+          dateOfBirth: selectedDate,
           profileImage: profileImage.value,
         ),
       );
@@ -83,15 +89,5 @@ class EditProfileCubit extends Cubit<EditProfileState> {
     } catch (e) {
       emit(EditProfileState.error(error: e.toString()));
     }
-  }
-
-  @override
-  Future<void> close() {
-    nameController.dispose();
-    phoneController.dispose();
-    selectedGender.dispose();
-    selectedDate.dispose();
-    profileImage.dispose();
-    return super.close();
   }
 }

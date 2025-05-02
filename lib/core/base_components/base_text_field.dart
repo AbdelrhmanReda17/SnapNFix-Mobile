@@ -1,43 +1,69 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class BaseTextField extends StatelessWidget {
-  final EdgeInsetsGeometry? contentPadding;
-  final InputBorder? focusedBorder;
-  final InputBorder? enabledBorder;
-  final TextStyle? inputTextStyle;
-  final TextStyle? hintStyle;
-  final String hintText;
+class BaseTextField extends StatefulWidget {
   final String? labelText;
-  final VoidCallback? toggleObscureText;
+  final String? hintText;
+  final String? Function(String?)? validator;
   final bool isObscureText;
   final Widget? suffixIcon;
-  final TextEditingController controller;
   final Color? backgroundColor;
-  final int? maxLines;
-  final int? maxErrorLines;
-  final FormFieldValidator<String>? validator;
-  final FocusNode? focusNode;
+  final TextStyle? inputTextStyle;
+  final TextStyle? hintStyle;
+  final EdgeInsetsGeometry? contentPadding;
+  final int maxLines;
+  final int maxErrorLines;
+  final String? initialValue;
+  final ValueChanged<String>? onChanged;
 
   const BaseTextField({
     super.key,
-    this.contentPadding,
-    this.focusedBorder,
-    this.enabledBorder,
-    this.inputTextStyle,
-    this.toggleObscureText,
-    this.hintStyle,
-    required this.hintText,
     this.labelText,
-    required this.controller,
+    this.hintText,
+    this.validator,
     this.isObscureText = false,
     this.suffixIcon,
     this.backgroundColor,
+    this.inputTextStyle,
+    this.hintStyle,
+    this.contentPadding,
     this.maxLines = 1,
     this.maxErrorLines = 2,
-    this.validator,
-    this.focusNode,
+    this.initialValue,
+    this.onChanged,
   });
+
+  @override
+  State<BaseTextField> createState() => _BaseTextFieldState();
+}
+
+class _BaseTextFieldState extends State<BaseTextField> {
+  late final TextEditingController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = TextEditingController(text: widget.initialValue);
+    _controller.addListener(_handleTextChanged);
+  }
+
+  @override
+  void dispose() {
+    _controller.removeListener(_handleTextChanged);
+    _controller.dispose();
+    super.dispose();
+  }
+
+  void _handleTextChanged() {
+    widget.onChanged?.call(_controller.text);
+  }
+
+  InputBorder _buildBorder(Color borderColor) {
+    return OutlineInputBorder(
+      borderSide: BorderSide(color: borderColor, width: 1.3),
+      borderRadius: BorderRadius.circular(12.r),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -48,73 +74,58 @@ class BaseTextField extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
       children: [
-        if (labelText != null) ...[
+        if (widget.labelText != null) ...[
           Text(
-            labelText!,
+            widget.labelText!,
             style: textStyles.bodyMedium?.copyWith(
-              color: colorScheme.primary.withValues(alpha: 0.5),
+              color: colorScheme.primary.withOpacity(0.5),
               fontSize: 14.sp,
             ),
           ),
           SizedBox(height: 2.h),
         ],
-        TextFormField(
-          controller: controller,
-          focusNode: focusNode,
-          autovalidateMode: AutovalidateMode.onUserInteraction,
-          maxLines: maxLines,
-          decoration: InputDecoration(
-            isDense: true,
-            floatingLabelBehavior: FloatingLabelBehavior.never,
-            contentPadding:
-                contentPadding ??
-                EdgeInsets.symmetric(horizontal: 16.w, vertical: 13.h),
-            focusedBorder:
-                focusedBorder ??
-                OutlineInputBorder(
-                  borderSide: BorderSide(
-                    color: colorScheme.primary,
-                    width: 1.3,
+        SizedBox(
+          width: double.infinity,
+          child: TextFormField(
+            key: ValueKey(_controller.hashCode),
+            controller: _controller,
+            autovalidateMode: AutovalidateMode.onUserInteraction,
+            autofocus: false,
+            maxLines: widget.maxLines,
+            decoration: InputDecoration(
+              isDense: true,
+              floatingLabelBehavior: FloatingLabelBehavior.never,
+              contentPadding:
+                  widget.contentPadding ??
+                  EdgeInsets.symmetric(horizontal: 16.w, vertical: 13.h),
+              border: _buildBorder(colorScheme.primary.withOpacity(0.2)),
+              focusedBorder: _buildBorder(colorScheme.primary),
+              enabledBorder: _buildBorder(colorScheme.primary.withOpacity(0.2)),
+              errorBorder: _buildBorder(colorScheme.error),
+              focusedErrorBorder: _buildBorder(colorScheme.error),
+              hintText: widget.hintText,
+              hintStyle:
+                  widget.hintStyle ??
+                  textStyles.bodyMedium?.copyWith(
+                    color: colorScheme.primary.withOpacity(0.5),
+                    fontSize: 16.sp,
                   ),
-                  borderRadius: BorderRadius.circular(12.r),
-                ),
-            enabledBorder:
-                enabledBorder ??
-                OutlineInputBorder(
-                  borderSide: BorderSide(
-                    color: colorScheme.primary.withValues(alpha: 0.2),
-                    width: 1.3,
-                  ),
-                  borderRadius: BorderRadius.circular(12.r),
-                ),
-            errorBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: colorScheme.error, width: 1.3),
-              borderRadius: BorderRadius.circular(12.r),
+              suffixIcon: widget.suffixIcon,
+              fillColor:
+                  widget.backgroundColor ??
+                  colorScheme.primary.withOpacity(0.1),
+              filled: true,
+              errorMaxLines: widget.maxErrorLines,
             ),
-            focusedErrorBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: colorScheme.error, width: 1.3),
-              borderRadius: BorderRadius.circular(12.r),
-            ),
-            hintStyle:
-                hintStyle ??
+            obscureText: widget.isObscureText,
+            style:
+                widget.inputTextStyle ??
                 textStyles.bodyMedium?.copyWith(
-                  color: colorScheme.primary.withValues(alpha: 0.5),
+                  color: colorScheme.primary,
                   fontSize: 16.sp,
                 ),
-            hintText: hintText,
-            suffixIcon: suffixIcon,
-            fillColor: backgroundColor ?? Colors.white,
-            filled: true,
-            errorMaxLines: maxErrorLines,
+            validator: widget.validator,
           ),
-          obscureText: isObscureText,
-          style:
-              inputTextStyle ??
-              textStyles.bodyMedium?.copyWith(
-                color: colorScheme.primary,
-                fontSize: 16.sp,
-              ),
-          validator: validator,
         ),
       ],
     );

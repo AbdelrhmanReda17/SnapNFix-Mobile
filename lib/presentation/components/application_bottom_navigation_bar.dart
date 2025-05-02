@@ -1,27 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:snapnfix/presentation/navigation/application_screens.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:snapnfix/presentation/navigation/shells/application_shell.dart';
 
 class ApplicationBottomNavigationBar extends StatelessWidget {
   const ApplicationBottomNavigationBar({
     super.key,
     required this.selectedIndex,
     required this.onItemSelected,
+    required this.items,
   });
 
   final int selectedIndex;
   final ValueChanged<int> onItemSelected;
+  final List<NavigationItem> items;
 
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
+    final isDark = colorScheme.brightness == Brightness.dark;
+
     return Container(
       decoration: BoxDecoration(
         color: Colors.transparent,
         boxShadow: [
           BoxShadow(
-            color: colorScheme.primary.withValues(alpha: .1),
+            color: colorScheme.primary.withValues(alpha: 0.1),
             blurRadius: 10,
             offset: const Offset(0, -1),
           ),
@@ -35,25 +39,17 @@ class ApplicationBottomNavigationBar extends StatelessWidget {
         surfaceTintColor: colorScheme.surface,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: List.generate(ApplicationScreens.navigationScreens.length, (
-            index,
-          ) {
+          children: List.generate(items.length, (index) {
+            final screen = items[index];
+            final isSelected = selectedIndex == index;
+
             return IconButton(
-              isSelected: selectedIndex == index,
-              icon: SvgPicture.asset(
-                ApplicationScreens.navigationScreens[index].icon!,
-              ),
-              selectedIcon:
-                  colorScheme.brightness == Brightness.light
-                      ? SvgPicture.asset(
-                        ApplicationScreens.navigationScreens[index].activeIcon!,
-                      )
-                      : SvgPicture.asset(
-                        ApplicationScreens
-                            .navigationScreens[index]
-                            .darkActiveIcon!,
-                      ),
+              isSelected: isSelected,
               onPressed: () => onItemSelected(index),
+              icon: SvgPicture.asset(screen.icon),
+              selectedIcon: SvgPicture.asset(
+                isDark ? screen.darkActiveIcon : screen.activeIcon,
+              ),
             );
           }),
         ),
