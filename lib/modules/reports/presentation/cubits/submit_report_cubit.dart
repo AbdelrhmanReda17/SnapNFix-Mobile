@@ -1,6 +1,4 @@
 import 'dart:io';
-import 'dart:math';
-
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -62,7 +60,7 @@ class SubmitReportCubit extends Cubit<SubmitReportState> {
           reportMedia: MediaModel(image: state.image?.path ?? ''),
           latitude: state.position!.latitude,
           longitude: state.position!.longitude,
-          timestamp: DateTime.now().toIso8601String(),
+          timestamp: DateTime.now().toIso8601String(), issueId: '',
         ),
       );
 

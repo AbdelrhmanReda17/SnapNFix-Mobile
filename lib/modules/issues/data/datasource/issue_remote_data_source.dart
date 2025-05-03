@@ -13,6 +13,7 @@ import 'package:snapnfix/modules/issues/domain/entities/issue_status.dart';
 import 'package:snapnfix/modules/reports/data/model/media_model.dart';
 import 'package:snapnfix/modules/reports/data/model/report_model.dart';
 import 'package:snapnfix/modules/reports/domain/entities/report_severity.dart';
+import 'package:snapnfix/modules/reports/domain/entities/report_status.dart';
 
 abstract class BaseIssueRemoteDataSource {
   Future<ApiResult<List<IssueModel>>> getNearbyIssues(

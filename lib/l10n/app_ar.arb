@@ -125,5 +125,24 @@
   "issueDescriptionsTitle": "الوصف ({count})",
   "imageNotAvailable": "الصورة غير متوفرة",
   "imagesNotAvaiable": "لا توجد صور متاحة",
-  "noDescriptions": "لا يوجد وصف بعد"
+  "noDescriptions": "لا يوجد وصف بعد",
+
+  "reportAnIncident": "الإبلاغ عن حادث",
+  "myReports": "بلاغاتي",
+  "noReports": "لا توجد بلاغات حتى الآن",
+  "severityLow": "منخفضة",
+  "severityMedium": "متوسطة", 
+  "severityHigh": "عالية",
+  "statusPending": "قيد الانتظار",
+  "statusValid": "صالح",
+  "statusInvalid": "غير صالح",
+  "viewIssue": "عرض المشكلة رقم {number}",
+  "@viewIssue": {
+    "placeholders": {
+      "number": {
+        "type": "String"
+      }
+    }
+  }
+
 }

@@ -152,7 +152,6 @@
     }
   },
 
-
   "issueDetails": "Issue #ISS-{issueId} Details",
   "@issueDetails": {
     "description": "Title of Issue Detials Screen for a specific issue",
@@ -232,6 +231,23 @@
   },
   "imageNotAvailable": "Image not Avaialble",
   "imagesNotAvaiable": "No images available",
-  "noDescriptions": "No Descriptions Yet"
+  "noDescriptions": "No Descriptions Yet",
   
+  "myReports": "My Reports",
+  "noReports": "No reports yet",
+  "severityLow": "low",
+  "severityMedium": "medium", 
+  "severityHigh": "high",
+  "statusPending": "pending",
+  "statusValid": "valid",
+  "statusInvalid": "invalid",
+  "viewIssue": "View Issue #{number}",
+  "@viewIssue": {
+    "placeholders": {
+      "number": {
+        "type": "String"
+      }
+    }
+  }
+
 }

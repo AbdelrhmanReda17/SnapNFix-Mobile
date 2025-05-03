@@ -14,7 +14,7 @@ class HomeScreen extends StatelessWidget {
         child: Stack(
           children: [
             OfflineReportIndicator(),
-            const Text('Home Screen'),
+            // const Text('Home Screen'),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
