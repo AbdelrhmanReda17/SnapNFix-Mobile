@@ -115,6 +115,18 @@
   
   "lastUpdated": "آخر تحديث: {date}",
 
+  "issueDetails": "تفاصيل البلاغ #ISS-{issueId}",
+  "issueCategory": "{category}",
+  "issueSeverity": "{severity}",
+  "issueStatus": "{status}",
+  "issueReportsNum": "{reportsCount} بلاغ",
+  "issueLocation": "{location}",
+  "issuedAt": "{date}",
+  "issueDescriptionsTitle": "الوصف ({count})",
+  "imageNotAvailable": "الصورة غير متوفرة",
+  "imagesNotAvaiable": "لا توجد صور متاحة",
+  "noDescriptions": "لا يوجد وصف بعد",
+
   "reportAnIncident": "الإبلاغ عن حادث",
   "myReports": "بلاغاتي",
   "noReports": "لا توجد بلاغات حتى الآن",
@@ -132,4 +144,5 @@
       }
     }
   }
+
 }

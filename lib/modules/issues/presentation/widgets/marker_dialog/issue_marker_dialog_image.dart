@@ -1,6 +1,9 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:snapnfix/core/utils/helpers/image_builder.dart';
+import 'package:snapnfix/core/utils/helpers/spacing.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 
 class IssueMarkerDialogImage extends StatelessWidget {
   final String? imageUrl;
@@ -19,7 +22,7 @@ class IssueMarkerDialogImage extends StatelessWidget {
     final colorScheme = Theme.of(context).colorScheme;
 
     if (imageUrl == null) {
-      return _buildErrorPlaceholder(colorScheme);
+      return _buildErrorPlaceholder(context, colorScheme);
     }
 
     return ClipRRect(
@@ -27,14 +30,23 @@ class IssueMarkerDialogImage extends StatelessWidget {
         topLeft: Radius.circular(borderRadius.r),
         topRight: Radius.circular(borderRadius.r),
       ),
-      child: CachedNetworkImage(
-        imageUrl: imageUrl!,
-        height: height.h,
-        width: double.infinity,
+      child: ImageBuilder.buildImage(
+        imageName: imageUrl,
         fit: BoxFit.cover,
-        placeholder: (context, url) => _buildLoadingPlaceholder(colorScheme),
-        errorWidget: (context, url, error) => _buildErrorPlaceholder(colorScheme),
+        colorScheme: colorScheme,
+        width: double.infinity,
+        height: height.h,
+        loadingBuilder: (colorScheme) => _buildLoadingPlaceholder(colorScheme),
+        errorBuilder: (context, colorScheme) => _buildErrorPlaceholder(context, colorScheme),
       ),
+      // CachedNetworkImage(
+      //   imageUrl: imageUrl!,
+      //   height: height.h,
+      //   width: double.infinity,
+      //   fit: BoxFit.cover,
+      //   placeholder: (context, url) => _buildLoadingPlaceholder(colorScheme),
+      //   errorWidget: (context, url, error) => _buildErrorPlaceholder(context, colorScheme),
+      // ),
     );
   }
 
@@ -42,7 +54,7 @@ class IssueMarkerDialogImage extends StatelessWidget {
     return Container(
       height: height.h,
       width: double.infinity,
-      color: colorScheme.surfaceVariant,
+      color: colorScheme.surfaceContainerHighest,
       child: Center(
         child: CircularProgressIndicator(
           color: colorScheme.primary,
@@ -52,7 +64,7 @@ class IssueMarkerDialogImage extends StatelessWidget {
     );
   }
 
-  Widget _buildErrorPlaceholder(ColorScheme colorScheme) {
+  Widget _buildErrorPlaceholder(BuildContext context, ColorScheme colorScheme) {
     return Container(
       height: height.h,
       width: double.infinity,
@@ -65,9 +77,9 @@ class IssueMarkerDialogImage extends StatelessWidget {
             size: 48.r,
             color: colorScheme.onSurfaceVariant,
           ),
-          SizedBox(height: 8.h),
+          verticalSpace(8),
           Text(
-            'Image not available',
+            AppLocalizations.of(context)!.imageNotAvailable,
             style: TextStyle(
               color: colorScheme.onSurfaceVariant,
               fontSize: 12.sp,

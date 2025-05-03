@@ -8,6 +8,7 @@ import 'package:snapnfix/modules/authentication/presentation/cubits/register/reg
 import 'package:snapnfix/core/dependency_injection/dependency_injection.dart';
 import 'package:snapnfix/modules/authentication/presentation/cubits/reset_password/reset_password_cubit.dart';
 import 'package:snapnfix/modules/authentication/presentation/screens/otp_screen.dart';
+import 'package:snapnfix/modules/issues/presentation/cubits/issue_details_cubit.dart';
 import 'package:snapnfix/modules/issues/presentation/cubits/issues_map_cubit.dart';
 import 'package:snapnfix/modules/reports/presentation/cubits/submit_report_cubit.dart';
 import 'package:snapnfix/modules/settings/presentation/cubits/change_password_cubit.dart';
@@ -193,6 +194,12 @@ class ApplicationScreens {
       icon: 'assets/icons/user_reports.svg',
       activeIcon: 'assets/icons/active/user_reports.svg',
       darkActiveIcon: 'assets/icons/active/Duser_reports.svg',
+      blocProvider: (child) {
+        return BlocProvider(
+          create: (context) => getIt<IssueDetailsCubit>(),
+          child: child,
+        );
+      },
     ),
     ScreenItem(
       screen: Routes.settingsScreen.value,

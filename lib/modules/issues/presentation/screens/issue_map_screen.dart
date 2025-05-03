@@ -4,7 +4,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:snapnfix/modules/issues/presentation/cubits/issues_map_cubit.dart';
 import 'package:snapnfix/modules/issues/presentation/cubits/issues_map_state.dart';
 import 'package:snapnfix/modules/issues/presentation/widgets/filter_sheet/issue_filter_sheet.dart';
-import 'package:snapnfix/modules/issues/presentation/widgets/loading_overlay.dart';
+import 'package:snapnfix/presentation/widgets/loading_overlay.dart';
 import 'package:snapnfix/modules/issues/presentation/widgets/map_screen_error.dart';
 import 'package:snapnfix/modules/issues/presentation/widgets/map_controllers.dart';
 import 'package:snapnfix/modules/issues/presentation/widgets/marker_dialog/issue_marker_dialog.dart';
