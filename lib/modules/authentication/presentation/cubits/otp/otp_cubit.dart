@@ -11,16 +11,25 @@ part 'otp_state.dart';
 part 'otp_cubit.freezed.dart';
 
 class OtpCubit extends Cubit<OtpState> {
-  static const int _resendTimeout = 10; // 2 minutes
-  static const int _registrationTimeout = 300; // 5 minutes
-
   final VerifyOtpUseCase verifyOtpUseCase;
   final ResendOtpUseCase resendOtpUseCase;
   Timer? _resendTimer;
   Timer? _registrationTimer;
 
+  static const int _resendTimeout = 10; // 1 minute for resend timeout
+  static const int _registrationTimeout = 300; // 5 minutes for registration
+
+  int _remainingResendTime = _resendTimeout;
+  int _remainingRegistrationTime = _registrationTimeout;
+  bool _canResend = false;
+
   final formKey = GlobalKey<FormState>();
   String otpCode = "";
+
+  // Add getters for the footer
+  int get remainingTime => _remainingResendTime;
+  bool get canResend => _canResend;
+  int get registrationTime => _remainingRegistrationTime;
 
   OtpCubit({required this.verifyOtpUseCase, required this.resendOtpUseCase})
     : super(const OtpState.initial()) {
@@ -33,32 +42,29 @@ class OtpCubit extends Cubit<OtpState> {
   }
 
   void _startResendTimer() {
-    int timeLeft = _resendTimeout;
+    _remainingResendTime = _resendTimeout;
+    _canResend = false;
+
     _resendTimer?.cancel();
     _resendTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      timeLeft--;
-      if (timeLeft <= 0) {
+      _remainingResendTime--;
+
+      if (_remainingResendTime <= 0) {
         timer.cancel();
+        _canResend = true;
         emit(
-          state.maybeMap(
-            initial:
-                (s) => OtpState.initial(
-                  canResend: true,
-                  remainingTime: 0,
-                  registrationExpiryTime: s.registrationExpiryTime,
-                ),
-            orElse: () => const OtpState.initial(canResend: true),
+          OtpState.initial(
+            canResend: true,
+            remainingTime: 0,
+            registrationExpiryTime: _remainingRegistrationTime,
           ),
         );
       } else {
         emit(
           OtpState.initial(
             canResend: false,
-            remainingTime: timeLeft,
-            registrationExpiryTime: state.maybeMap(
-              initial: (s) => s.registrationExpiryTime,
-              orElse: () => _registrationTimeout,
-            ),
+            remainingTime: _remainingResendTime,
+            registrationExpiryTime: _remainingRegistrationTime,
           ),
         );
       }
@@ -66,25 +72,30 @@ class OtpCubit extends Cubit<OtpState> {
   }
 
   void _startRegistrationTimer() {
-    int timeLeft = _registrationTimeout;
+    _remainingRegistrationTime = _registrationTimeout;
+
     _registrationTimer?.cancel();
     _registrationTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      timeLeft--;
-      if (timeLeft <= 0) {
+      _remainingRegistrationTime--;
+
+      if (_remainingRegistrationTime <= 0) {
         timer.cancel();
         emit(const OtpState.registrationExpired());
+        _cleanupTimers();
+      } else if (_remainingRegistrationTime == 120) {
+        emit(
+          OtpState.initial(
+            canResend: _canResend,
+            remainingTime: _remainingResendTime,
+            registrationExpiryTime: _remainingRegistrationTime,
+          ),
+        );
       } else {
         emit(
           OtpState.initial(
-            canResend: state.maybeMap(
-              initial: (s) => s.canResend,
-              orElse: () => false,
-            ),
-            remainingTime: state.maybeMap(
-              initial: (s) => s.remainingTime,
-              orElse: () => _resendTimeout,
-            ),
-            registrationExpiryTime: timeLeft,
+            canResend: _canResend,
+            remainingTime: _remainingResendTime,
+            registrationExpiryTime: _remainingRegistrationTime,
           ),
         );
       }
@@ -95,15 +106,12 @@ class OtpCubit extends Cubit<OtpState> {
     required OtpPurpose purpose,
     String? phoneNumber,
     String? password,
-    bool isRegister = false,
   }) async {
     if (otpCode.length < 6) return;
 
-    if (state.maybeMap(
-      initial: (s) => s.registrationExpiryTime <= 0,
-      orElse: () => false,
-    )) {
+    if (_remainingRegistrationTime <= 0) {
       emit(const OtpState.registrationExpired());
+      _cleanupTimers();
       return;
     }
 
@@ -117,6 +125,7 @@ class OtpCubit extends Cubit<OtpState> {
       success: (res) {
         res.whenOrNull(
           requiresProfileCompletion: () {
+            _cleanupTimers();
             emit(
               OtpState.successAndRequiresProfileCompletion(
                 phoneNumber: phoneNumber!,
@@ -125,12 +134,21 @@ class OtpCubit extends Cubit<OtpState> {
             );
           },
           requiresResetPassword: () {
+            _cleanupTimers();
             emit(const OtpState.successAndRequiresPasswordReset());
           },
         );
-        _cleanupTimers();
       },
-      failure: (error) => emit(OtpState.error(error)),
+      failure: (error) {
+        emit(OtpState.error(error));
+        emit(
+          OtpState.initial(
+            canResend: _canResend,
+            remainingTime: _remainingResendTime,
+            registrationExpiryTime: _remainingRegistrationTime,
+          ),
+        );
+      },
     );
   }
 
@@ -147,12 +165,6 @@ class OtpCubit extends Cubit<OtpState> {
     return super.close();
   }
 
-  void reset() {
-    _cleanupTimers();
-    otpCode = "";
-    emit(const OtpState.initial());
-  }
-
   void updateOtpCode(String code, OtpPurpose purpose) {
     otpCode = code;
     if (code.length == 6) {
@@ -160,20 +172,21 @@ class OtpCubit extends Cubit<OtpState> {
     }
   }
 
-  Future<void> resendOtp({bool isRegister = false}) async {
-    if (!state.maybeMap(initial: (s) => s.canResend, orElse: () => false)) {
-      return;
-    }
+  Future<void> resendOtp({required OtpPurpose purpose}) async {
+    if (!_canResend) return;
 
     emit(const OtpState.loading());
-    final response = await resendOtpUseCase.call(isRegister: isRegister);
+    final response = await resendOtpUseCase.call(purpose: purpose);
 
     response.when(
       success: (_) {
         emit(const OtpState.resendSuccess());
         _startResendTimer();
       },
-      failure: (error) => emit(OtpState.error(error)),
+      failure: (error) {
+        emit(OtpState.error(error));
+        _startResendTimer();
+      },
     );
   }
 }

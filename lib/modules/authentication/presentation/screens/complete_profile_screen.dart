@@ -27,6 +27,7 @@ class CompleteProfileScreen extends StatelessWidget {
       },
       showSocial: false,
       showTerms: false,
+      
     );
   }
 }

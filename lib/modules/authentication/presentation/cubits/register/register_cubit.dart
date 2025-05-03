@@ -2,6 +2,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/widgets.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:snapnfix/core/infrastructure/networking/api_error_model.dart';
+import 'package:snapnfix/modules/authentication/domain/entities/authentication_result.dart';
 import 'package:snapnfix/modules/authentication/domain/entities/session.dart';
 import 'package:snapnfix/modules/authentication/domain/usecases/request_otp_use_case.dart';
 
@@ -54,7 +55,7 @@ class RegisterCubit extends Cubit<RegisterState> {
 
     final response = await _requestOTPUseCase.call(
       phoneNumber: _phone,
-      isRegister: true,
+      purpose: OtpPurpose.registration,
     );
 
     if (isClosed) return; // Check if cubit is still active

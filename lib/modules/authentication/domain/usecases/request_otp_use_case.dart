@@ -9,11 +9,11 @@ class RequestOTPUseCase {
 
   Future<ApiResult<AuthenticationResult>> call({
     required String phoneNumber,
-    bool isRegister = false,
+    required OtpPurpose purpose
   }) async {
     return await _repository.requestOTP(
       phoneNumber: phoneNumber,
-      isRegister: isRegister,
+      purpose: purpose 
     );
   }
 }

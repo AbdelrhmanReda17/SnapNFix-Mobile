@@ -180,7 +180,7 @@ class __$$InitialImplCopyWithImpl<$Res>
 class _$InitialImpl implements _Initial {
   const _$InitialImpl({
     this.canResend = false,
-    this.remainingTime = 120,
+    this.remainingTime = 10,
     this.registrationExpiryTime = 300,
   });
 

@@ -9,7 +9,7 @@ abstract class BaseAuthenticationRepository {
   });
   Future<ApiResult<AuthenticationResult>> requestOTP({
     required String phoneNumber,
-    bool isRegister = false,
+    required OtpPurpose purpose,
   });
   Future<void> logout();
 
@@ -18,7 +18,7 @@ abstract class BaseAuthenticationRepository {
     required OtpPurpose purpose,
   });
 
-  Future<ApiResult<bool>> resendOTP({bool isRegister = false});
+  Future<ApiResult<bool>> resendOTP({required OtpPurpose purpose});
 
   Future<ApiResult<bool>> resetPassword({
     required String newPassword,
@@ -30,4 +30,7 @@ abstract class BaseAuthenticationRepository {
     required String lastName,
     required String password,
   });
+
+  Future<ApiResult<AuthenticationResult>> loginWithGoogle();
+  Future<ApiResult<AuthenticationResult>> loginWithFacebook();
 }

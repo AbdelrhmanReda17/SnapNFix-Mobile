@@ -5,7 +5,7 @@ import '../../../../../core/utils/helpers/spacing.dart';
 class AuthenticationFooter extends StatelessWidget {
   final String questionText;
   final String actionText;
-  final VoidCallback onTap;
+  final VoidCallback? onTap;
   final bool isEnabled;
   final String? timerText;
 
@@ -13,7 +13,7 @@ class AuthenticationFooter extends StatelessWidget {
     super.key,
     required this.questionText,
     required this.actionText,
-    required this.onTap,
+    this.onTap,
     this.isEnabled = true,
     this.timerText,
   });

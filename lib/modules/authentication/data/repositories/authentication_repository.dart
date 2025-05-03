@@ -1,19 +1,28 @@
+import 'package:flutter/material.dart';
 import 'package:snapnfix/core/config/application_configurations.dart';
 import 'package:snapnfix/core/infrastructure/networking/api_error_handler.dart';
+import 'package:snapnfix/core/infrastructure/networking/api_error_model.dart';
 import 'package:snapnfix/core/infrastructure/networking/api_result.dart';
 import 'package:snapnfix/modules/authentication/data/datasources/authentication_remote_data_source.dart';
 import 'package:snapnfix/modules/authentication/data/models/dtos/complete_profile_dto.dart';
 import 'package:snapnfix/modules/authentication/data/models/dtos/login_dto.dart';
 import 'package:snapnfix/modules/authentication/data/models/dtos/reset_password_dto.dart';
 import 'package:snapnfix/modules/authentication/data/models/session_model.dart';
+import 'package:snapnfix/modules/authentication/data/services/social_authentication_service.dart';
 import 'package:snapnfix/modules/authentication/domain/entities/authentication_result.dart';
+import 'package:snapnfix/modules/authentication/domain/providers/social_authentication_provider.dart';
 import '../../domain/repositories/base_authentication_repository.dart';
 
 class AuthenticationRepository implements BaseAuthenticationRepository {
   final BaseAuthenticationRemoteDataSource remoteDataSource;
   final ApplicationConfigurations _appConfig;
+  final SocialAuthenticationService _socialAuthService;
 
-  AuthenticationRepository(this.remoteDataSource, this._appConfig);
+  AuthenticationRepository(
+    this.remoteDataSource,
+    this._appConfig,
+    this._socialAuthService,
+  );
 
   Future<ApiResult<R>> _handleApiCall<T, R>({
     required Future<ApiResult<T>> Function() call,
@@ -64,18 +73,13 @@ class AuthenticationRepository implements BaseAuthenticationRepository {
   @override
   Future<ApiResult<AuthenticationResult>> requestOTP({
     required String phoneNumber,
-    bool isRegister = false,
+    required OtpPurpose purpose,
   }) async {
     return _handleApiCall<String, AuthenticationResult>(
-      call:
-          () =>
-              remoteDataSource.requestOTP(phoneNumber, isRegister: isRegister),
+      call: () => remoteDataSource.requestOTP(phoneNumber, purpose),
       onSuccess: (verificationToken) async {
         return ApiResult.success(
-          AuthenticationResult.requiresOtp(
-            purpose:
-                isRegister ? OtpPurpose.registration : OtpPurpose.passwordReset,
-          ),
+          AuthenticationResult.requiresOtp(purpose: purpose),
         );
       },
     );
@@ -88,11 +92,7 @@ class AuthenticationRepository implements BaseAuthenticationRepository {
     String? password,
   }) async {
     return _handleApiCall(
-      call:
-          () => remoteDataSource.verifyOtp(
-            code,
-            isRegister: purpose == OtpPurpose.registration,
-          ),
+      call: () => remoteDataSource.verifyOtp(code, purpose),
       onSuccess: (res) async {
         switch (purpose) {
           case OtpPurpose.registration:
@@ -109,10 +109,8 @@ class AuthenticationRepository implements BaseAuthenticationRepository {
   }
 
   @override
-  Future<ApiResult<bool>> resendOTP({bool isRegister = false}) async {
-    return _handleApiCall(
-      call: () => remoteDataSource.resendOtp(isRegister: isRegister),
-    );
+  Future<ApiResult<bool>> resendOTP({required OtpPurpose purpose}) async {
+    return _handleApiCall(call: () => remoteDataSource.resendOtp(purpose));
   }
 
   @override
@@ -150,6 +148,64 @@ class AuthenticationRepository implements BaseAuthenticationRepository {
         await _appConfig.setUserSession(session);
         return ApiResult.success(session);
       },
+    );
+  }
+
+  @override
+  Future<ApiResult<AuthenticationResult>> loginWithFacebook() async {
+    final socialResult = await _socialAuthService.signIn(
+      SocialAuthenticationProvider.facebook,
+    );
+
+    return socialResult.when(
+      success: (accessToken) {
+        return remoteDataSource
+            .loginWithFacebook(accessToken)
+            .then(_mapToAuthenticationResult);
+      },
+      cancelled: () {
+        return ApiResult.failure(
+          ApiErrorModel(message: 'Authentication was cancelled'),
+        );
+      },
+      failure: (errorMessage) {
+        return ApiResult.failure(ApiErrorModel(message: errorMessage));
+      },
+    );
+  }
+
+  @override
+  Future<ApiResult<AuthenticationResult>> loginWithGoogle() async {
+    final socialResult = await _socialAuthService.signIn(
+      SocialAuthenticationProvider.google,
+    );
+    return socialResult.when(
+      success: (accessToken) {
+        debugPrint('Google access token: $accessToken');
+        return remoteDataSource
+            .loginWithGoogle(accessToken)
+            .then(_mapToAuthenticationResult);
+      },
+      cancelled: () {
+        return ApiResult.failure(
+          ApiErrorModel(message: 'Authentication was cancelled'),
+        );
+      },
+      failure: (errorMessage) {
+        return ApiResult.failure(ApiErrorModel(message: errorMessage));
+      },
+    );
+  }
+
+  ApiResult<AuthenticationResult> _mapToAuthenticationResult(
+    ApiResult<SessionModel> result,
+  ) {
+    return result.when(
+      success:
+          (sessionModel) => ApiResult.success(
+            AuthenticationResult.authenticated(sessionModel),
+          ),
+      failure: (error) => ApiResult.failure(error),
     );
   }
 }

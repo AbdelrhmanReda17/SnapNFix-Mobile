@@ -11,4 +11,6 @@ class ApiConstants {
   static const String verifyForgotPasswordOtpResend =
       "api/auth/forget-password/resend-otp";
   static const String resetPassword = "api/auth/forget-password/reset";
+  static const String loginWithGoogle = "api/auth/google/login";
+  static const String loginWithFacebook = "api/auth/facebook/login";
 }

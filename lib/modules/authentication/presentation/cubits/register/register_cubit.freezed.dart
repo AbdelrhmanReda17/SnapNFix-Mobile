@@ -19,8 +19,7 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$RegisterState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(bool passwordVisible, bool confirmPasswordVisible)
-    initial,
+    required TResult Function() initial,
     required TResult Function() loading,
     required TResult Function() requiresOtp,
     required TResult Function(Session data) authenticated,
@@ -28,8 +27,7 @@ mixin _$RegisterState {
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(bool passwordVisible, bool confirmPasswordVisible)?
-    initial,
+    TResult? Function()? initial,
     TResult? Function()? loading,
     TResult? Function()? requiresOtp,
     TResult? Function(Session data)? authenticated,
@@ -37,8 +35,7 @@ mixin _$RegisterState {
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(bool passwordVisible, bool confirmPasswordVisible)?
-    initial,
+    TResult Function()? initial,
     TResult Function()? loading,
     TResult Function()? requiresOtp,
     TResult Function(Session data)? authenticated,
@@ -100,8 +97,6 @@ abstract class _$$InitialImplCopyWith<$Res> {
     _$InitialImpl value,
     $Res Function(_$InitialImpl) then,
   ) = __$$InitialImplCopyWithImpl<$Res>;
-  @useResult
-  $Res call({bool passwordVisible, bool confirmPasswordVisible});
 }
 
 /// @nodoc
@@ -115,103 +110,55 @@ class __$$InitialImplCopyWithImpl<$Res>
 
   /// Create a copy of RegisterState
   /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? passwordVisible = null,
-    Object? confirmPasswordVisible = null,
-  }) {
-    return _then(
-      _$InitialImpl(
-        passwordVisible:
-            null == passwordVisible
-                ? _value.passwordVisible
-                : passwordVisible // ignore: cast_nullable_to_non_nullable
-                    as bool,
-        confirmPasswordVisible:
-            null == confirmPasswordVisible
-                ? _value.confirmPasswordVisible
-                : confirmPasswordVisible // ignore: cast_nullable_to_non_nullable
-                    as bool,
-      ),
-    );
-  }
 }
 
 /// @nodoc
 
 class _$InitialImpl implements _Initial {
-  const _$InitialImpl({
-    this.passwordVisible = false,
-    this.confirmPasswordVisible = false,
-  });
-
-  @override
-  @JsonKey()
-  final bool passwordVisible;
-  @override
-  @JsonKey()
-  final bool confirmPasswordVisible;
+  const _$InitialImpl();
 
   @override
   String toString() {
-    return 'RegisterState.initial(passwordVisible: $passwordVisible, confirmPasswordVisible: $confirmPasswordVisible)';
+    return 'RegisterState.initial()';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$InitialImpl &&
-            (identical(other.passwordVisible, passwordVisible) ||
-                other.passwordVisible == passwordVisible) &&
-            (identical(other.confirmPasswordVisible, confirmPasswordVisible) ||
-                other.confirmPasswordVisible == confirmPasswordVisible));
+        (other.runtimeType == runtimeType && other is _$InitialImpl);
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, passwordVisible, confirmPasswordVisible);
-
-  /// Create a copy of RegisterState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$InitialImplCopyWith<_$InitialImpl> get copyWith =>
-      __$$InitialImplCopyWithImpl<_$InitialImpl>(this, _$identity);
+  int get hashCode => runtimeType.hashCode;
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(bool passwordVisible, bool confirmPasswordVisible)
-    initial,
+    required TResult Function() initial,
     required TResult Function() loading,
     required TResult Function() requiresOtp,
     required TResult Function(Session data) authenticated,
     required TResult Function(ApiErrorModel error) error,
   }) {
-    return initial(passwordVisible, confirmPasswordVisible);
+    return initial();
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(bool passwordVisible, bool confirmPasswordVisible)?
-    initial,
+    TResult? Function()? initial,
     TResult? Function()? loading,
     TResult? Function()? requiresOtp,
     TResult? Function(Session data)? authenticated,
     TResult? Function(ApiErrorModel error)? error,
   }) {
-    return initial?.call(passwordVisible, confirmPasswordVisible);
+    return initial?.call();
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(bool passwordVisible, bool confirmPasswordVisible)?
-    initial,
+    TResult Function()? initial,
     TResult Function()? loading,
     TResult Function()? requiresOtp,
     TResult Function(Session data)? authenticated,
@@ -219,7 +166,7 @@ class _$InitialImpl implements _Initial {
     required TResult orElse(),
   }) {
     if (initial != null) {
-      return initial(passwordVisible, confirmPasswordVisible);
+      return initial();
     }
     return orElse();
   }
@@ -266,19 +213,7 @@ class _$InitialImpl implements _Initial {
 }
 
 abstract class _Initial implements RegisterState {
-  const factory _Initial({
-    final bool passwordVisible,
-    final bool confirmPasswordVisible,
-  }) = _$InitialImpl;
-
-  bool get passwordVisible;
-  bool get confirmPasswordVisible;
-
-  /// Create a copy of RegisterState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$InitialImplCopyWith<_$InitialImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+  const factory _Initial() = _$InitialImpl;
 }
 
 /// @nodoc
@@ -324,8 +259,7 @@ class _$LoadingImpl implements _Loading {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(bool passwordVisible, bool confirmPasswordVisible)
-    initial,
+    required TResult Function() initial,
     required TResult Function() loading,
     required TResult Function() requiresOtp,
     required TResult Function(Session data) authenticated,
@@ -337,8 +271,7 @@ class _$LoadingImpl implements _Loading {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(bool passwordVisible, bool confirmPasswordVisible)?
-    initial,
+    TResult? Function()? initial,
     TResult? Function()? loading,
     TResult? Function()? requiresOtp,
     TResult? Function(Session data)? authenticated,
@@ -350,8 +283,7 @@ class _$LoadingImpl implements _Loading {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(bool passwordVisible, bool confirmPasswordVisible)?
-    initial,
+    TResult Function()? initial,
     TResult Function()? loading,
     TResult Function()? requiresOtp,
     TResult Function(Session data)? authenticated,
@@ -452,8 +384,7 @@ class _$RequiresOtpImpl implements _RequiresOtp {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(bool passwordVisible, bool confirmPasswordVisible)
-    initial,
+    required TResult Function() initial,
     required TResult Function() loading,
     required TResult Function() requiresOtp,
     required TResult Function(Session data) authenticated,
@@ -465,8 +396,7 @@ class _$RequiresOtpImpl implements _RequiresOtp {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(bool passwordVisible, bool confirmPasswordVisible)?
-    initial,
+    TResult? Function()? initial,
     TResult? Function()? loading,
     TResult? Function()? requiresOtp,
     TResult? Function(Session data)? authenticated,
@@ -478,8 +408,7 @@ class _$RequiresOtpImpl implements _RequiresOtp {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(bool passwordVisible, bool confirmPasswordVisible)?
-    initial,
+    TResult Function()? initial,
     TResult Function()? loading,
     TResult Function()? requiresOtp,
     TResult Function(Session data)? authenticated,
@@ -607,8 +536,7 @@ class _$AuthenticatedImpl implements _Authenticated {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(bool passwordVisible, bool confirmPasswordVisible)
-    initial,
+    required TResult Function() initial,
     required TResult Function() loading,
     required TResult Function() requiresOtp,
     required TResult Function(Session data) authenticated,
@@ -620,8 +548,7 @@ class _$AuthenticatedImpl implements _Authenticated {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(bool passwordVisible, bool confirmPasswordVisible)?
-    initial,
+    TResult? Function()? initial,
     TResult? Function()? loading,
     TResult? Function()? requiresOtp,
     TResult? Function(Session data)? authenticated,
@@ -633,8 +560,7 @@ class _$AuthenticatedImpl implements _Authenticated {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(bool passwordVisible, bool confirmPasswordVisible)?
-    initial,
+    TResult Function()? initial,
     TResult Function()? loading,
     TResult Function()? requiresOtp,
     TResult Function(Session data)? authenticated,
@@ -770,8 +696,7 @@ class _$ErrorImpl implements _Error {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(bool passwordVisible, bool confirmPasswordVisible)
-    initial,
+    required TResult Function() initial,
     required TResult Function() loading,
     required TResult Function() requiresOtp,
     required TResult Function(Session data) authenticated,
@@ -783,8 +708,7 @@ class _$ErrorImpl implements _Error {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(bool passwordVisible, bool confirmPasswordVisible)?
-    initial,
+    TResult? Function()? initial,
     TResult? Function()? loading,
     TResult? Function()? requiresOtp,
     TResult? Function(Session data)? authenticated,
@@ -796,8 +720,7 @@ class _$ErrorImpl implements _Error {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(bool passwordVisible, bool confirmPasswordVisible)?
-    initial,
+    TResult Function()? initial,
     TResult Function()? loading,
     TResult Function()? requiresOtp,
     TResult Function(Session data)? authenticated,

@@ -11,18 +11,19 @@ import 'package:snapnfix/modules/authentication/data/models/dtos/complete_profil
 import 'package:snapnfix/modules/authentication/data/models/dtos/login_dto.dart';
 import 'package:snapnfix/modules/authentication/data/models/dtos/reset_password_dto.dart';
 import 'package:snapnfix/modules/authentication/data/models/session_model.dart';
+import 'package:snapnfix/modules/authentication/domain/entities/authentication_result.dart';
 
 abstract class BaseAuthenticationRemoteDataSource {
   // Login and Register
   Future<ApiResult<SessionModel>> login(LoginDTO loginDTO);
   Future<ApiResult<String>> requestOTP(
-    String emailOrPhoneNumber, {
-    bool isRegister = false,
-  });
+    String emailOrPhoneNumber,
+    OtpPurpose purpose,
+  );
 
   // OTP Verification
-  Future<ApiResult<String>> verifyOtp(String otp, {bool isRegister = false});
-  Future<ApiResult<bool>> resendOtp({bool isRegister = false});
+  Future<ApiResult<String>> verifyOtp(String otp, OtpPurpose purpose);
+  Future<ApiResult<bool>> resendOtp(OtpPurpose purpose);
 
   // Password Reset and Forgot Password
   Future<ApiResult<bool>> resetPassword(ResetPasswordDTO resetPasswordDTO);
@@ -31,6 +32,10 @@ abstract class BaseAuthenticationRemoteDataSource {
   Future<ApiResult<SessionModel>> completeProfile(
     CompleteProfileDTO completeProfileDTO,
   );
+
+  // Third Party Login
+  Future<ApiResult<SessionModel>> loginWithGoogle(String accessToken);
+  Future<ApiResult<SessionModel>> loginWithFacebook(String accessToken);
 }
 
 class AuthenticationRemoteDataSource
@@ -87,14 +92,14 @@ class AuthenticationRemoteDataSource
 
   @override
   Future<ApiResult<String>> requestOTP(
-    String phoneNumber, {
-    bool isRegister = false,
-  }) async {
+    String phoneNumber,
+    OtpPurpose purpose,
+  ) async {
     debugPrint('Requesting OTP for phone number: $phoneNumber');
     return _handleApiCall(
       apiCall:
           () =>
-              isRegister
+              purpose == OtpPurpose.registration
                   ? _apiService.requestOTP({'phoneNumber': phoneNumber})
                   : _apiService.forgotPassword({
                     'emailOrPhoneNumber': phoneNumber,
@@ -104,11 +109,11 @@ class AuthenticationRemoteDataSource
   }
 
   @override
-  Future<ApiResult<String>> verifyOtp(String otp, {bool isRegister = false}) {
+  Future<ApiResult<String>> verifyOtp(String otp, OtpPurpose purpose) {
     return _handleApiCall(
       apiCall:
           () =>
-              isRegister
+              purpose == OtpPurpose.registration
                   ? _apiService.verifyOtp({'otp': otp})
                   : _apiService.verifyForgotPasswordOtp({'otp': otp}),
       setVerificationToken: true,
@@ -116,11 +121,11 @@ class AuthenticationRemoteDataSource
   }
 
   @override
-  Future<ApiResult<bool>> resendOtp({bool isRegister = false}) {
+  Future<ApiResult<bool>> resendOtp(OtpPurpose purpose) {
     return _handleApiCall(
       apiCall:
           () =>
-              isRegister
+              purpose == OtpPurpose.registration
                   ? _apiService.resendOtp({})
                   : _apiService.verifyForgotPasswordOtpResend({}),
       requiresSuccess: true,
@@ -151,6 +156,21 @@ class AuthenticationRemoteDataSource
     );
     return _handleApiCall(
       apiCall: () => _apiService.completeProfile(updatedDTO),
+    );
+  }
+
+  @override
+  Future<ApiResult<SessionModel>> loginWithFacebook(String accessToken) {
+    return _handleApiCall(
+      apiCall:
+          () => _apiService.loginWithFacebook({'accessToken': accessToken}),
+    );
+  }
+
+  @override
+  Future<ApiResult<SessionModel>> loginWithGoogle(String accessToken) {
+    return _handleApiCall(
+      apiCall: () => _apiService.loginWithGoogle({'accessToken': accessToken}),
     );
   }
 }

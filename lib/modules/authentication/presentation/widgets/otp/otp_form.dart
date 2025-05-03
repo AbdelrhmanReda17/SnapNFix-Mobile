@@ -28,7 +28,7 @@ class OtpForm extends StatelessWidget {
             filled: true,
             fieldWidth: 45.w,
             onSubmit: (String verificationCode) {
-              cubit.updateOtpCode(verificationCode, purpose!);
+              cubit.updateOtpCode(verificationCode, purpose);
             },
             showFieldAsBox: true,
           ),

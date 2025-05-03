@@ -53,4 +53,14 @@ abstract class ApiService {
   Future<BaseResponse<String>> verifyForgotPasswordOtp(
     @Body() Map<String, dynamic> verifyDTO,
   );
+
+  @POST(ApiConstants.loginWithGoogle)
+  Future<BaseResponse<SessionModel>> loginWithGoogle(
+    @Body() Map<String, dynamic> googleLoginDTO,
+  );
+
+  @POST(ApiConstants.loginWithFacebook)
+  Future<BaseResponse<SessionModel>> loginWithFacebook(
+    @Body() Map<String, dynamic> facebookLoginDTO,
+  );
 }

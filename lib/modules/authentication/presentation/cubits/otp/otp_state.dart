@@ -4,7 +4,7 @@ part of 'otp_cubit.dart';
 class OtpState with _$OtpState {
   const factory OtpState.initial({
     @Default(false) bool canResend,
-    @Default(120) int remainingTime,
+    @Default(10) int remainingTime,
     @Default(300) int registrationExpiryTime,
   }) = _Initial;
   const factory OtpState.loading() = _Loading;

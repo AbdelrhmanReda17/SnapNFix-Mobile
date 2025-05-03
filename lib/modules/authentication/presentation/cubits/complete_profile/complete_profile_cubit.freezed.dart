@@ -19,39 +19,21 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$CompleteProfileState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(
-      bool passwordVisible,
-      bool confirmPasswordVisible,
-      UserGender gender,
-      DateTime? dateOfBirth,
-    )
-    initial,
+    required TResult Function() initial,
     required TResult Function() loading,
     required TResult Function(Session session) success,
     required TResult Function(ApiErrorModel error) error,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(
-      bool passwordVisible,
-      bool confirmPasswordVisible,
-      UserGender gender,
-      DateTime? dateOfBirth,
-    )?
-    initial,
+    TResult? Function()? initial,
     TResult? Function()? loading,
     TResult? Function(Session session)? success,
     TResult? Function(ApiErrorModel error)? error,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(
-      bool passwordVisible,
-      bool confirmPasswordVisible,
-      UserGender gender,
-      DateTime? dateOfBirth,
-    )?
-    initial,
+    TResult Function()? initial,
     TResult Function()? loading,
     TResult Function(Session session)? success,
     TResult Function(ApiErrorModel error)? error,
@@ -112,13 +94,6 @@ abstract class _$$InitialImplCopyWith<$Res> {
     _$InitialImpl value,
     $Res Function(_$InitialImpl) then,
   ) = __$$InitialImplCopyWithImpl<$Res>;
-  @useResult
-  $Res call({
-    bool passwordVisible,
-    bool confirmPasswordVisible,
-    UserGender gender,
-    DateTime? dateOfBirth,
-  });
 }
 
 /// @nodoc
@@ -132,165 +107,60 @@ class __$$InitialImplCopyWithImpl<$Res>
 
   /// Create a copy of CompleteProfileState
   /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? passwordVisible = null,
-    Object? confirmPasswordVisible = null,
-    Object? gender = null,
-    Object? dateOfBirth = freezed,
-  }) {
-    return _then(
-      _$InitialImpl(
-        passwordVisible:
-            null == passwordVisible
-                ? _value.passwordVisible
-                : passwordVisible // ignore: cast_nullable_to_non_nullable
-                    as bool,
-        confirmPasswordVisible:
-            null == confirmPasswordVisible
-                ? _value.confirmPasswordVisible
-                : confirmPasswordVisible // ignore: cast_nullable_to_non_nullable
-                    as bool,
-        gender:
-            null == gender
-                ? _value.gender
-                : gender // ignore: cast_nullable_to_non_nullable
-                    as UserGender,
-        dateOfBirth:
-            freezed == dateOfBirth
-                ? _value.dateOfBirth
-                : dateOfBirth // ignore: cast_nullable_to_non_nullable
-                    as DateTime?,
-      ),
-    );
-  }
 }
 
 /// @nodoc
 
 class _$InitialImpl implements _Initial {
-  const _$InitialImpl({
-    this.passwordVisible = false,
-    this.confirmPasswordVisible = false,
-    this.gender = UserGender.notSpecified,
-    this.dateOfBirth,
-  });
-
-  @override
-  @JsonKey()
-  final bool passwordVisible;
-  @override
-  @JsonKey()
-  final bool confirmPasswordVisible;
-  @override
-  @JsonKey()
-  final UserGender gender;
-  @override
-  final DateTime? dateOfBirth;
+  const _$InitialImpl();
 
   @override
   String toString() {
-    return 'CompleteProfileState.initial(passwordVisible: $passwordVisible, confirmPasswordVisible: $confirmPasswordVisible, gender: $gender, dateOfBirth: $dateOfBirth)';
+    return 'CompleteProfileState.initial()';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$InitialImpl &&
-            (identical(other.passwordVisible, passwordVisible) ||
-                other.passwordVisible == passwordVisible) &&
-            (identical(other.confirmPasswordVisible, confirmPasswordVisible) ||
-                other.confirmPasswordVisible == confirmPasswordVisible) &&
-            (identical(other.gender, gender) || other.gender == gender) &&
-            (identical(other.dateOfBirth, dateOfBirth) ||
-                other.dateOfBirth == dateOfBirth));
+        (other.runtimeType == runtimeType && other is _$InitialImpl);
   }
 
   @override
-  int get hashCode => Object.hash(
-    runtimeType,
-    passwordVisible,
-    confirmPasswordVisible,
-    gender,
-    dateOfBirth,
-  );
-
-  /// Create a copy of CompleteProfileState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$InitialImplCopyWith<_$InitialImpl> get copyWith =>
-      __$$InitialImplCopyWithImpl<_$InitialImpl>(this, _$identity);
+  int get hashCode => runtimeType.hashCode;
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(
-      bool passwordVisible,
-      bool confirmPasswordVisible,
-      UserGender gender,
-      DateTime? dateOfBirth,
-    )
-    initial,
+    required TResult Function() initial,
     required TResult Function() loading,
     required TResult Function(Session session) success,
     required TResult Function(ApiErrorModel error) error,
   }) {
-    return initial(
-      passwordVisible,
-      confirmPasswordVisible,
-      gender,
-      dateOfBirth,
-    );
+    return initial();
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(
-      bool passwordVisible,
-      bool confirmPasswordVisible,
-      UserGender gender,
-      DateTime? dateOfBirth,
-    )?
-    initial,
+    TResult? Function()? initial,
     TResult? Function()? loading,
     TResult? Function(Session session)? success,
     TResult? Function(ApiErrorModel error)? error,
   }) {
-    return initial?.call(
-      passwordVisible,
-      confirmPasswordVisible,
-      gender,
-      dateOfBirth,
-    );
+    return initial?.call();
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(
-      bool passwordVisible,
-      bool confirmPasswordVisible,
-      UserGender gender,
-      DateTime? dateOfBirth,
-    )?
-    initial,
+    TResult Function()? initial,
     TResult Function()? loading,
     TResult Function(Session session)? success,
     TResult Function(ApiErrorModel error)? error,
     required TResult orElse(),
   }) {
     if (initial != null) {
-      return initial(
-        passwordVisible,
-        confirmPasswordVisible,
-        gender,
-        dateOfBirth,
-      );
+      return initial();
     }
     return orElse();
   }
@@ -334,23 +204,7 @@ class _$InitialImpl implements _Initial {
 }
 
 abstract class _Initial implements CompleteProfileState {
-  const factory _Initial({
-    final bool passwordVisible,
-    final bool confirmPasswordVisible,
-    final UserGender gender,
-    final DateTime? dateOfBirth,
-  }) = _$InitialImpl;
-
-  bool get passwordVisible;
-  bool get confirmPasswordVisible;
-  UserGender get gender;
-  DateTime? get dateOfBirth;
-
-  /// Create a copy of CompleteProfileState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$InitialImplCopyWith<_$InitialImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+  const factory _Initial() = _$InitialImpl;
 }
 
 /// @nodoc
@@ -396,13 +250,7 @@ class _$LoadingImpl implements _Loading {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(
-      bool passwordVisible,
-      bool confirmPasswordVisible,
-      UserGender gender,
-      DateTime? dateOfBirth,
-    )
-    initial,
+    required TResult Function() initial,
     required TResult Function() loading,
     required TResult Function(Session session) success,
     required TResult Function(ApiErrorModel error) error,
@@ -413,13 +261,7 @@ class _$LoadingImpl implements _Loading {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(
-      bool passwordVisible,
-      bool confirmPasswordVisible,
-      UserGender gender,
-      DateTime? dateOfBirth,
-    )?
-    initial,
+    TResult? Function()? initial,
     TResult? Function()? loading,
     TResult? Function(Session session)? success,
     TResult? Function(ApiErrorModel error)? error,
@@ -430,13 +272,7 @@ class _$LoadingImpl implements _Loading {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(
-      bool passwordVisible,
-      bool confirmPasswordVisible,
-      UserGender gender,
-      DateTime? dateOfBirth,
-    )?
-    initial,
+    TResult Function()? initial,
     TResult Function()? loading,
     TResult Function(Session session)? success,
     TResult Function(ApiErrorModel error)? error,
@@ -560,13 +396,7 @@ class _$SuccessImpl implements _Success {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(
-      bool passwordVisible,
-      bool confirmPasswordVisible,
-      UserGender gender,
-      DateTime? dateOfBirth,
-    )
-    initial,
+    required TResult Function() initial,
     required TResult Function() loading,
     required TResult Function(Session session) success,
     required TResult Function(ApiErrorModel error) error,
@@ -577,13 +407,7 @@ class _$SuccessImpl implements _Success {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(
-      bool passwordVisible,
-      bool confirmPasswordVisible,
-      UserGender gender,
-      DateTime? dateOfBirth,
-    )?
-    initial,
+    TResult? Function()? initial,
     TResult? Function()? loading,
     TResult? Function(Session session)? success,
     TResult? Function(ApiErrorModel error)? error,
@@ -594,13 +418,7 @@ class _$SuccessImpl implements _Success {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(
-      bool passwordVisible,
-      bool confirmPasswordVisible,
-      UserGender gender,
-      DateTime? dateOfBirth,
-    )?
-    initial,
+    TResult Function()? initial,
     TResult Function()? loading,
     TResult Function(Session session)? success,
     TResult Function(ApiErrorModel error)? error,
@@ -732,13 +550,7 @@ class _$ErrorImpl implements _Error {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(
-      bool passwordVisible,
-      bool confirmPasswordVisible,
-      UserGender gender,
-      DateTime? dateOfBirth,
-    )
-    initial,
+    required TResult Function() initial,
     required TResult Function() loading,
     required TResult Function(Session session) success,
     required TResult Function(ApiErrorModel error) error,
@@ -749,13 +561,7 @@ class _$ErrorImpl implements _Error {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(
-      bool passwordVisible,
-      bool confirmPasswordVisible,
-      UserGender gender,
-      DateTime? dateOfBirth,
-    )?
-    initial,
+    TResult? Function()? initial,
     TResult? Function()? loading,
     TResult? Function(Session session)? success,
     TResult? Function(ApiErrorModel error)? error,
@@ -766,13 +572,7 @@ class _$ErrorImpl implements _Error {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(
-      bool passwordVisible,
-      bool confirmPasswordVisible,
-      UserGender gender,
-      DateTime? dateOfBirth,
-    )?
-    initial,
+    TResult Function()? initial,
     TResult Function()? loading,
     TResult Function(Session session)? success,
     TResult Function(ApiErrorModel error)? error,

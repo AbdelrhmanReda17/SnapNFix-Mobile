@@ -24,7 +24,8 @@ class AuthenticationContent extends StatelessWidget {
   final bool footerEnabled;
   final String? footerTimerText;
   final Widget? footer;
-  final Function? onBackButtonPressed;
+  final bool showBackButton;
+ 
 
   const AuthenticationContent({
     super.key,
@@ -43,7 +44,7 @@ class AuthenticationContent extends StatelessWidget {
     this.footerEnabled = true,
     this.footerTimerText,
     this.footer,
-    this.onBackButtonPressed,
+    this.showBackButton = false,
   });
 
   @override
@@ -56,7 +57,7 @@ class AuthenticationContent extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: 24.w),
       keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
       children: [
-        if (RouterObserver.canPopRoute(context))
+        if (RouterObserver.canPopRoute(context) && showBackButton)
           Align(
             alignment: Alignment.topLeft,
             child: Padding(

@@ -1,11 +1,11 @@
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
-import 'package:go_router/go_router.dart';
 import 'package:snapnfix/core/config/application_configurations.dart';
 import 'package:snapnfix/core/infrastructure/device_info/device_info_service.dart';
 import 'package:snapnfix/core/infrastructure/location/location_service.dart';
 import 'package:snapnfix/modules/authentication/data/datasources/authentication_remote_data_source.dart';
 import 'package:snapnfix/modules/authentication/data/repositories/authentication_repository.dart';
+import 'package:snapnfix/modules/authentication/data/services/social_authentication_service.dart';
 import 'package:snapnfix/modules/authentication/domain/repositories/base_authentication_repository.dart';
 import 'package:snapnfix/modules/authentication/domain/usecases/complete_profile_use_case.dart';
 import 'package:snapnfix/modules/authentication/domain/usecases/login_use_case.dart';
@@ -13,6 +13,7 @@ import 'package:snapnfix/modules/authentication/domain/usecases/logout_use_case.
 import 'package:snapnfix/modules/authentication/domain/usecases/request_otp_use_case.dart';
 import 'package:snapnfix/modules/authentication/domain/usecases/resend_otp_use_case.dart';
 import 'package:snapnfix/modules/authentication/domain/usecases/reset_password_use_case.dart';
+import 'package:snapnfix/modules/authentication/domain/usecases/social_sign_in_use_case.dart';
 import 'package:snapnfix/modules/authentication/domain/usecases/verify_otp_use_case.dart';
 import 'package:snapnfix/modules/authentication/presentation/cubits/complete_profile/complete_profile_cubit.dart';
 import 'package:snapnfix/modules/authentication/presentation/cubits/forget_password/forgot_password_cubit.dart';
@@ -20,6 +21,7 @@ import 'package:snapnfix/modules/authentication/presentation/cubits/login/login_
 import 'package:snapnfix/modules/authentication/presentation/cubits/otp/otp_cubit.dart';
 import 'package:snapnfix/modules/authentication/presentation/cubits/register/register_cubit.dart';
 import 'package:snapnfix/modules/authentication/presentation/cubits/reset_password/reset_password_cubit.dart';
+import 'package:snapnfix/modules/authentication/presentation/cubits/social_authentication/social_authentication_cubit.dart';
 import 'package:snapnfix/modules/issues/data/datasource/issue_local_data_source.dart';
 import 'package:snapnfix/modules/issues/data/datasource/issue_remote_data_source.dart';
 import 'package:snapnfix/modules/issues/data/repositories/issue_repository.dart';
@@ -94,10 +96,15 @@ void setupAuthenticationModule() {
     ),
   );
 
+  getIt.registerLazySingleton<SocialAuthenticationService>(
+    () => SocialAuthenticationService(),
+  );
+
   getIt.registerLazySingleton<BaseAuthenticationRepository>(
     () => AuthenticationRepository(
       getIt<BaseAuthenticationRemoteDataSource>(),
       getIt<ApplicationConfigurations>(),
+      getIt<SocialAuthenticationService>(),
     ),
   );
 
@@ -114,7 +121,10 @@ void setupAuthenticationModule() {
   );
 
   getIt.registerFactory<LoginCubit>(
-    () => LoginCubit(loginUseCase: getIt<LoginUseCase>()),
+    () => LoginCubit(
+      loginUseCase: getIt<LoginUseCase>(),
+      socialSignInUseCase: getIt<SocialSignInUseCase>(),
+    ),
   );
 
   getIt.registerFactory<RegisterCubit>(
@@ -132,6 +142,16 @@ void setupAuthenticationModule() {
   getIt.registerLazySingleton<ResendOtpUseCase>(
     () => ResendOtpUseCase(getIt<BaseAuthenticationRepository>()),
   );
+
+  getIt.registerLazySingleton<SocialSignInUseCase>(
+    () => SocialSignInUseCase(getIt<BaseAuthenticationRepository>()),
+  );
+
+  // getIt.registerFactory<SocialAuthenticationCubit>(
+  //   () => SocialAuthenticationCubit(
+  //     socialSignInUseCase: getIt<SocialSignInUseCase>(),
+  //   ),
+  // );
 
   getIt.registerFactory<OtpCubit>(
     () => OtpCubit(

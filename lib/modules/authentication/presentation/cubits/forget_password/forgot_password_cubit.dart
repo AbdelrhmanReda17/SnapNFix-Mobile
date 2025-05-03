@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:snapnfix/core/infrastructure/networking/api_error_model.dart';
+import 'package:snapnfix/modules/authentication/domain/entities/authentication_result.dart';
 import 'package:snapnfix/modules/authentication/domain/usecases/request_otp_use_case.dart';
 
 part 'forgot_password_state.dart';
@@ -29,7 +30,7 @@ class ForgotPasswordCubit extends Cubit<ForgotPasswordState> {
 
     final response = await _requestOTPUseCase.call(
       phoneNumber: emailOrPhone,
-      isRegister: false,
+      purpose: OtpPurpose.passwordReset,
     );
 
     response.when(

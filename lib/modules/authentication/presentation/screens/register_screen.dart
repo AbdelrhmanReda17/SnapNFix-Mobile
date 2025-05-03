@@ -30,7 +30,6 @@ class RegisterScreen extends StatelessWidget {
         context.read<RegisterCubit>().emitRegisterStates();
       },
       showTerms: true,
-
       showSocial: false,
     );
   }

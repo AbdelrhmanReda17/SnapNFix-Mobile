@@ -25,6 +25,7 @@ class ForgotPasswordScreen extends StatelessWidget {
           () => context.read<ForgotPasswordCubit>().emitForgotPasswordStates(),
       showSocial: false,
       showTerms: false,
+      showBackButton: true,
     );
   }
 }

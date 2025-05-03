@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:snapnfix/modules/authentication/data/models/tokens_model.dart';
 import 'package:snapnfix/modules/authentication/domain/entities/session.dart';
 
