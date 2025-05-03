@@ -10,6 +10,7 @@ import 'package:snapnfix/modules/authentication/presentation/cubits/reset_passwo
 import 'package:snapnfix/modules/authentication/presentation/screens/otp_screen.dart';
 import 'package:snapnfix/modules/issues/presentation/cubits/issue_details_cubit.dart';
 import 'package:snapnfix/modules/issues/presentation/cubits/issues_map_cubit.dart';
+import 'package:snapnfix/modules/issues/presentation/screens/issue_details_screen.dart';
 import 'package:snapnfix/modules/reports/presentation/cubits/submit_report_cubit.dart';
 import 'package:snapnfix/modules/settings/presentation/cubits/change_password_cubit.dart';
 import 'package:snapnfix/modules/settings/presentation/cubits/edit_profile_cubit.dart';
@@ -115,6 +116,23 @@ class ApplicationScreens {
       blocProvider: (child) {
         return BlocProvider(
           create: (context) => getIt<ResetPasswordCubit>(),
+          child: child,
+        );
+      },
+    ),
+    ScreenItem(
+      path: Routes.issueDetailsScreen.key,
+      screen: Builder(
+        builder: (context) {
+          final issueId = GoRouterState.of(context).extra as String;
+          return IssueDetailsScreen(
+            issueId: issueId,
+          );
+        },
+      ),
+      blocProvider: (child) {
+        return BlocProvider(
+          create: (context) => getIt<IssueDetailsCubit>(),
           child: child,
         );
       },
