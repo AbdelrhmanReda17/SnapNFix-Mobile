@@ -5,6 +5,9 @@ import 'api_error_model.dart';
 
 class ApiErrorHandler {
   static ApiErrorModel handle(dynamic error) {
+    if (error == null) {
+      return ApiErrorModel(message: "Unknown error occurred");
+    }
     if (error is UnverifiedUserException) {
       return ApiErrorModel(
         message: error.message,
@@ -23,13 +26,17 @@ class ApiErrorHandler {
           return ApiErrorModel(message: "Connection timeout with the server");
         case DioExceptionType.unknown:
           return ApiErrorModel(
-            message: "Connection to the server failed due to internet connection",
+            message:
+                "Connection to the server failed due to internet connection",
           );
         case DioExceptionType.receiveTimeout:
           return ApiErrorModel(
             message: "Receive timeout in connection with the server",
           );
         case DioExceptionType.badResponse:
+          if (error.response?.data == null) {
+            return ApiErrorModel(message: "Unknown error occurred ");
+          }
           return _handleError(error.response!.data);
         case DioExceptionType.sendTimeout:
           return ApiErrorModel(

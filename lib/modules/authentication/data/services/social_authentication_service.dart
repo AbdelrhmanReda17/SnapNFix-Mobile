@@ -25,10 +25,10 @@ class SocialAuthenticationService implements BaseSocialAuthenticationService {
     SocialAuthenticationProvider provider,
   ) async {
     final authProvider = _providers[provider];
-
+  
     if (authProvider == null) {
       return const SocialAuthenticationResult.failure(
-        errorMessage: 'Provider not available',
+        errorMessage: 'Provider not registered',
       );
     }
 

@@ -63,7 +63,6 @@ class AuthenticationRemoteDataSource
 
       return ApiResult.success(response.data);
     } catch (error) {
-      debugPrint('Error in AuthenticationRemoteDataSource: $error');
       return ApiResult.failure(ApiErrorHandler.handle(error));
     }
   }

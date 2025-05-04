@@ -147,12 +147,6 @@ void setupAuthenticationModule() {
     () => SocialSignInUseCase(getIt<BaseAuthenticationRepository>()),
   );
 
-  // getIt.registerFactory<SocialAuthenticationCubit>(
-  //   () => SocialAuthenticationCubit(
-  //     socialSignInUseCase: getIt<SocialSignInUseCase>(),
-  //   ),
-  // );
-
   getIt.registerFactory<OtpCubit>(
     () => OtpCubit(
       verifyOtpUseCase: getIt<VerifyOtpUseCase>(),
