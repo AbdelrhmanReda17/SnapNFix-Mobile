@@ -2,8 +2,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:snapnfix/core/dependency_injection/dependency_injection.dart';
 import 'package:snapnfix/modules/issues/presentation/cubits/issues_map_cubit.dart';
 import 'package:snapnfix/modules/issues/presentation/screens/issue_map_screen.dart';
+import 'package:snapnfix/modules/reports/presentation/cubits/report_review_cubit.dart';
 import 'package:snapnfix/modules/reports/presentation/cubits/submit_report_cubit.dart';
 import 'package:snapnfix/modules/reports/presentation/screens/submit_report_screen.dart';
+import 'package:snapnfix/modules/reports/presentation/screens/user_reports_screen.dart';
 import 'package:snapnfix/modules/settings/presentation/cubits/change_password_cubit.dart';
 import 'package:snapnfix/modules/settings/presentation/cubits/edit_profile_cubit.dart';
 import 'package:snapnfix/modules/settings/presentation/screens/about_screen.dart';
@@ -44,11 +46,15 @@ class ApplicationRoutes {
           child: const SubmitReportScreen(),
         ),
   );
-  
+
   static final reportsRoute = RouteConfiguration(
     path: Routes.userReports,
     name: 'reports',
-    builder: (context, state) => const TempScreen(),
+    builder:
+        (context, state) => BlocProvider(
+          create: (context) => getIt<ReportReviewCubit>(),
+          child: const UserReportsScreen(),
+        ),
   );
 
   static final settingsRoute = RouteConfiguration(
