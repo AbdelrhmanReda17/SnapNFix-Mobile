@@ -1,8 +1,8 @@
 import 'package:equatable/equatable.dart';
 import 'package:snapnfix/modules/issues/domain/entities/issue_category.dart';
+import 'package:snapnfix/modules/issues/domain/entities/issue_description.dart';
 import 'package:snapnfix/modules/issues/domain/entities/issue_severity.dart';
 import 'package:snapnfix/modules/issues/domain/entities/issue_status.dart';
-import '../../../reports/domain/entities/report.dart';
 
 class Issue extends Equatable {
   final String id;
@@ -13,7 +13,10 @@ class Issue extends Equatable {
   final DateTime createdAt;
   final IssueSeverity severity;
   final DateTime? resolvedAt;
-  final List<Report> reports;
+  final List<String> images;
+  final List<IssueDescription> descriptions;
+  final int reportsCount;
+  final String location;
 
   const Issue({
     required this.id,
@@ -24,7 +27,10 @@ class Issue extends Equatable {
     required this.category,
     required this.createdAt,
     this.resolvedAt,
-    required this.reports,
+    required this.images,
+    required this.descriptions,
+    required this.reportsCount,
+    required this.location,
   });
 
   @override
@@ -36,6 +42,10 @@ class Issue extends Equatable {
     category,
     createdAt,
     resolvedAt,
-    reports,
+    severity,
+    images,
+    descriptions,
+    reportsCount,
+    location,
   ];
 }

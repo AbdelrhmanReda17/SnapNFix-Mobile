@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:snapnfix/core/infrastructure/location/location_service.dart';
@@ -57,7 +56,7 @@ class SubmitReportCubit extends Cubit<SubmitReportState> {
           reportMedia: MediaModel(image: state.image?.path ?? ''),
           latitude: state.position!.latitude,
           longitude: state.position!.longitude,
-          timestamp: DateTime.now().toIso8601String(),
+          timestamp: DateTime.now().toIso8601String(), issueId: '',
         ),
       );
 
