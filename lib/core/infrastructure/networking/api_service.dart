@@ -2,10 +2,8 @@ import 'package:dio/dio.dart';
 import 'package:snapnfix/core/infrastructure/networking/api_constants.dart';
 import 'package:retrofit/retrofit.dart';
 import 'package:snapnfix/core/infrastructure/networking/base_response.dart';
-import 'package:snapnfix/modules/authentication/data/models/dtos/complete_profile_dto.dart';
 import 'package:snapnfix/modules/authentication/data/models/dtos/reset_password_dto.dart';
 import 'package:snapnfix/modules/authentication/data/models/session_model.dart';
-import 'package:snapnfix/modules/authentication/data/models/dtos/login_dto.dart';
 
 part 'api_service.g.dart';
 
@@ -14,7 +12,7 @@ abstract class ApiService {
   factory ApiService(Dio dio, {required String baseUrl}) = _ApiService;
 
   @POST(ApiConstants.login)
-  Future<BaseResponse<SessionModel>> login(@Body() LoginDTO loginDTO);
+  Future<BaseResponse<SessionModel>> login(@Body() Map<String, dynamic> loginDTO);
 
   @POST(ApiConstants.requestOTP)
   Future<BaseResponse<String>> requestOTP(
@@ -32,7 +30,7 @@ abstract class ApiService {
   );
 
   @POST(ApiConstants.resendOtp)
-  Future<BaseResponse<bool>> resendOtp(@Body() Map<String, dynamic> xx);
+  Future<BaseResponse<bool>> resendOtp(@Body() Map<String, dynamic> body);
 
   @POST(ApiConstants.forgotPassword)
   Future<BaseResponse<String>> forgotPassword(
@@ -46,7 +44,7 @@ abstract class ApiService {
 
   @POST(ApiConstants.completeProfile)
   Future<BaseResponse<SessionModel>> completeProfile(
-    @Body() CompleteProfileDTO completeProfileDTO,
+    @Body() Map<String, dynamic> completeProfileDTO,
   );
 
   @POST(ApiConstants.verifyForgotPasswordOtp)

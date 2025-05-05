@@ -26,7 +26,7 @@ class FacebookAuthProvider implements BaseSocialAuthenticationProvider {
           }
 
           return SocialAuthenticationResult.success(
-            accessToken: result.accessToken!.tokenString,
+            idToken: result.accessToken!.tokenString,
           );
 
         case LoginStatus.cancelled:

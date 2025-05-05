@@ -66,19 +66,11 @@ class AuthenticationRemoteDataSource
       return ApiResult.failure(ApiErrorHandler.handle(error));
     }
   }
-
+  
   @override
   Future<ApiResult<SessionModel>> login(LoginDTO loginDTO) async {
     try {
-      final deviceInfo = await _deviceInfoService.getDeviceInfo();
-      final updatedDTO = LoginDTO.withDeviceInfo(
-        emailOrPhoneNumber: loginDTO.emailOrPhoneNumber,
-        password: loginDTO.password,
-        deviceId: deviceInfo['deviceId']!,
-        deviceName: deviceInfo['deviceName']!,
-        deviceType: deviceInfo['deviceType']!,
-        platform: deviceInfo['platform']!,
-      );
+      final updatedDTO = await _deviceInfoService.withDeviceInfo(loginDTO);
 
       return _handleApiCall(apiCall: () => _apiService.login(updatedDTO));
     } catch (error) {
@@ -94,7 +86,6 @@ class AuthenticationRemoteDataSource
     String phoneNumber,
     OtpPurpose purpose,
   ) async {
-    debugPrint('Requesting OTP for phone number: $phoneNumber');
     return _handleApiCall(
       apiCall:
           () =>
@@ -143,33 +134,28 @@ class AuthenticationRemoteDataSource
   Future<ApiResult<SessionModel>> completeProfile(
     CompleteProfileDTO completeProfileDTO,
   ) async {
-    final deviceInfo = await _deviceInfoService.getDeviceInfo();
-    final updatedDTO = CompleteProfileDTO.withDeviceInfo(
-      firstName: completeProfileDTO.firstName,
-      lastName: completeProfileDTO.lastName,
-      password: completeProfileDTO.password,
-      deviceId: deviceInfo['deviceId']!,
-      deviceName: deviceInfo['deviceName']!,
-      deviceType: deviceInfo['deviceType']!,
-      platform: deviceInfo['platform']!,
-    );
+    final updatedDTO = await _deviceInfoService.withDeviceInfo(completeProfileDTO);
     return _handleApiCall(
       apiCall: () => _apiService.completeProfile(updatedDTO),
     );
   }
 
   @override
-  Future<ApiResult<SessionModel>> loginWithFacebook(String accessToken) {
-    return _handleApiCall(
-      apiCall:
-          () => _apiService.loginWithFacebook({'accessToken': accessToken}),
+  Future<ApiResult<SessionModel>> loginWithFacebook(String idToken) async {
+    final socialLoginDTO = {'idToken': idToken};
+    final payload = await _deviceInfoService.withDeviceInfo(socialLoginDTO);
+    return await _handleApiCall(
+      apiCall: () => _apiService.loginWithFacebook(payload),
     );
   }
 
   @override
-  Future<ApiResult<SessionModel>> loginWithGoogle(String accessToken) {
-    return _handleApiCall(
-      apiCall: () => _apiService.loginWithGoogle({'accessToken': accessToken}),
+  Future<ApiResult<SessionModel>> loginWithGoogle(String accessToken) async {
+    final socialLoginDTO = {'idToken': accessToken};
+    final payload = await _deviceInfoService.withDeviceInfo(socialLoginDTO);
+
+    return await _handleApiCall(
+      apiCall: () => _apiService.loginWithGoogle(payload),
     );
   }
 }

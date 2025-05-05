@@ -88,6 +88,7 @@ class _BaseTextFieldState extends State<BaseTextField> {
           width: double.infinity,
           child: TextFormField(
             key: ValueKey(_controller.hashCode),
+            focusNode: FocusNode(),
             controller: _controller,
             autovalidateMode: AutovalidateMode.onUserInteraction,
             autofocus: false,

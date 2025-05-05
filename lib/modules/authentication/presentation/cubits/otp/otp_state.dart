@@ -5,7 +5,7 @@ class OtpState with _$OtpState {
   const factory OtpState.initial({
     @Default(false) bool canResend,
     @Default(10) int remainingTime,
-    @Default(300) int registrationExpiryTime,
+    @Default(20) int registrationExpiryTime,
   }) = _Initial;
   const factory OtpState.loading() = _Loading;
   const factory OtpState.resendSuccess() = _ResendSuccess;

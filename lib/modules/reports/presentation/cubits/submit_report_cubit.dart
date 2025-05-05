@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:snapnfix/core/infrastructure/location/location_service.dart';
 import 'package:snapnfix/core/infrastructure/networking/api_error_handler.dart';

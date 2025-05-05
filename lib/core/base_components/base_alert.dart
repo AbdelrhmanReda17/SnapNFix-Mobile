@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:snapnfix/core/utils/extensions/navigation.dart';
 
 enum AlertType {
   success(
@@ -64,7 +65,9 @@ void baseDialog({
           return showCancelButton;
         },
         child: Dialog(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
           child: Container(
             padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
             decoration: BoxDecoration(
@@ -122,10 +125,10 @@ void baseDialog({
                         ),
                       ),
                       onPressed: () {
+                        context.pop();
                         if (onConfirm != null) {
                           onConfirm();
                         }
-                        Navigator.pop(context);
                       },
                       child: Text(
                         confirmText,
@@ -175,7 +178,7 @@ void baseDialog({
                         : SizedBox.shrink(),
                   ],
                 ),
-        
+
                 // Text(
                 //   'Hello World',
                 //   style: TextStyle(

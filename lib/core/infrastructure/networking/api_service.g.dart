@@ -20,12 +20,14 @@ class _ApiService implements ApiService {
   final ParseErrorLogger? errorLogger;
 
   @override
-  Future<BaseResponse<SessionModel>> login(LoginDTO loginDTO) async {
+  Future<BaseResponse<SessionModel>> login(
+    Map<String, dynamic> loginDTO,
+  ) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
-    _data.addAll(loginDTO.toJson());
+    _data.addAll(loginDTO);
     final _options = _setStreamType<BaseResponse<SessionModel>>(
       Options(method: 'POST', headers: _headers, extra: _extra)
           .compose(
@@ -148,12 +150,12 @@ class _ApiService implements ApiService {
   }
 
   @override
-  Future<BaseResponse<bool>> resendOtp(Map<String, dynamic> xx) async {
+  Future<BaseResponse<bool>> resendOtp(Map<String, dynamic> body) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
-    _data.addAll(xx);
+    _data.addAll(body);
     final _options = _setStreamType<BaseResponse<bool>>(
       Options(method: 'POST', headers: _headers, extra: _extra)
           .compose(
@@ -246,13 +248,13 @@ class _ApiService implements ApiService {
 
   @override
   Future<BaseResponse<SessionModel>> completeProfile(
-    CompleteProfileDTO completeProfileDTO,
+    Map<String, dynamic> completeProfileDTO,
   ) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
-    _data.addAll(completeProfileDTO.toJson());
+    _data.addAll(completeProfileDTO);
     final _options = _setStreamType<BaseResponse<SessionModel>>(
       Options(method: 'POST', headers: _headers, extra: _extra)
           .compose(

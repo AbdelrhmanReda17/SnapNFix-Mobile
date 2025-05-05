@@ -33,7 +33,6 @@ class _BasePasswordTextFieldState extends State<BasePasswordTextField> {
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
-    
     return BaseTextField(
       labelText: widget.hintText != null ? widget.text : null,
       hintText: widget.hintText ?? widget.text,

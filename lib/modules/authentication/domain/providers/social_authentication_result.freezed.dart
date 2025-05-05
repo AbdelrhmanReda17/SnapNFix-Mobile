@@ -19,19 +19,19 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$SocialAuthenticationResult {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String accessToken) success,
+    required TResult Function(String idToken) success,
     required TResult Function() cancelled,
     required TResult Function(String errorMessage) failure,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String accessToken)? success,
+    TResult? Function(String idToken)? success,
     TResult? Function()? cancelled,
     TResult? Function(String errorMessage)? failure,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String accessToken)? success,
+    TResult Function(String idToken)? success,
     TResult Function()? cancelled,
     TResult Function(String errorMessage)? failure,
     required TResult orElse(),
@@ -93,7 +93,7 @@ abstract class _$$SocialAuthenticationSuccessImplCopyWith<$Res> {
     $Res Function(_$SocialAuthenticationSuccessImpl) then,
   ) = __$$SocialAuthenticationSuccessImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({String accessToken});
+  $Res call({String idToken});
 }
 
 /// @nodoc
@@ -113,13 +113,13 @@ class __$$SocialAuthenticationSuccessImplCopyWithImpl<$Res>
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({Object? accessToken = null}) {
+  $Res call({Object? idToken = null}) {
     return _then(
       _$SocialAuthenticationSuccessImpl(
-        accessToken:
-            null == accessToken
-                ? _value.accessToken
-                : accessToken // ignore: cast_nullable_to_non_nullable
+        idToken:
+            null == idToken
+                ? _value.idToken
+                : idToken // ignore: cast_nullable_to_non_nullable
                     as String,
       ),
     );
@@ -129,14 +129,14 @@ class __$$SocialAuthenticationSuccessImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$SocialAuthenticationSuccessImpl implements SocialAuthenticationSuccess {
-  const _$SocialAuthenticationSuccessImpl({required this.accessToken});
+  const _$SocialAuthenticationSuccessImpl({required this.idToken});
 
   @override
-  final String accessToken;
+  final String idToken;
 
   @override
   String toString() {
-    return 'SocialAuthenticationResult.success(accessToken: $accessToken)';
+    return 'SocialAuthenticationResult.success(idToken: $idToken)';
   }
 
   @override
@@ -144,12 +144,12 @@ class _$SocialAuthenticationSuccessImpl implements SocialAuthenticationSuccess {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$SocialAuthenticationSuccessImpl &&
-            (identical(other.accessToken, accessToken) ||
-                other.accessToken == accessToken));
+            (identical(other.idToken, idToken) ||
+                other.idToken == idToken));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, accessToken);
+  int get hashCode => Object.hash(runtimeType, idToken);
 
   /// Create a copy of SocialAuthenticationResult
   /// with the given fields replaced by the non-null parameter values.
@@ -164,33 +164,33 @@ class _$SocialAuthenticationSuccessImpl implements SocialAuthenticationSuccess {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String accessToken) success,
+    required TResult Function(String idToken) success,
     required TResult Function() cancelled,
     required TResult Function(String errorMessage) failure,
   }) {
-    return success(accessToken);
+    return success(idToken);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String accessToken)? success,
+    TResult? Function(String idToken)? success,
     TResult? Function()? cancelled,
     TResult? Function(String errorMessage)? failure,
   }) {
-    return success?.call(accessToken);
+    return success?.call(idToken);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String accessToken)? success,
+    TResult Function(String idToken)? success,
     TResult Function()? cancelled,
     TResult Function(String errorMessage)? failure,
     required TResult orElse(),
   }) {
     if (success != null) {
-      return success(accessToken);
+      return success(idToken);
     }
     return orElse();
   }
@@ -233,10 +233,10 @@ class _$SocialAuthenticationSuccessImpl implements SocialAuthenticationSuccess {
 abstract class SocialAuthenticationSuccess
     implements SocialAuthenticationResult {
   const factory SocialAuthenticationSuccess({
-    required final String accessToken,
+    required final String idToken,
   }) = _$SocialAuthenticationSuccessImpl;
 
-  String get accessToken;
+  String get idToken;
 
   /// Create a copy of SocialAuthenticationResult
   /// with the given fields replaced by the non-null parameter values.
@@ -294,7 +294,7 @@ class _$SocialAuthenticationCancelledImpl
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String accessToken) success,
+    required TResult Function(String idToken) success,
     required TResult Function() cancelled,
     required TResult Function(String errorMessage) failure,
   }) {
@@ -304,7 +304,7 @@ class _$SocialAuthenticationCancelledImpl
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String accessToken)? success,
+    TResult? Function(String idToken)? success,
     TResult? Function()? cancelled,
     TResult? Function(String errorMessage)? failure,
   }) {
@@ -314,7 +314,7 @@ class _$SocialAuthenticationCancelledImpl
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String accessToken)? success,
+    TResult Function(String idToken)? success,
     TResult Function()? cancelled,
     TResult Function(String errorMessage)? failure,
     required TResult orElse(),
@@ -444,7 +444,7 @@ class _$SocialAuthenticationFailureImpl implements SocialAuthenticationFailure {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String accessToken) success,
+    required TResult Function(String idToken) success,
     required TResult Function() cancelled,
     required TResult Function(String errorMessage) failure,
   }) {
@@ -454,7 +454,7 @@ class _$SocialAuthenticationFailureImpl implements SocialAuthenticationFailure {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String accessToken)? success,
+    TResult? Function(String idToken)? success,
     TResult? Function()? cancelled,
     TResult? Function(String errorMessage)? failure,
   }) {
@@ -464,7 +464,7 @@ class _$SocialAuthenticationFailureImpl implements SocialAuthenticationFailure {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String accessToken)? success,
+    TResult Function(String idToken)? success,
     TResult Function()? cancelled,
     TResult Function(String errorMessage)? failure,
     required TResult orElse(),

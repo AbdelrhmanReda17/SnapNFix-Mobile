@@ -5,7 +5,7 @@ part 'social_authentication_result.freezed.dart';
 @freezed
 class SocialAuthenticationResult with _$SocialAuthenticationResult {
   const factory SocialAuthenticationResult.success({
-    required String accessToken,
+    required String idToken,
   }) = SocialAuthenticationSuccess;
 
   const factory SocialAuthenticationResult.cancelled() =

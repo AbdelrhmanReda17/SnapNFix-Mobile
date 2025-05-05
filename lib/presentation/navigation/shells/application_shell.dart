@@ -40,7 +40,7 @@ class ApplicationShell extends StatelessWidget {
         bottomNavigationBar: ApplicationBottomNavigationBar(
           selectedIndex: effectiveIndex,
           onItemSelected: _onDestinationSelected,
-          items: bottomItems, // Use bottomItems here
+          items: bottomItems,
         ),
         floatingActionButton: ApplicationFloatingActionButton(
           onItemSelected: _onDestinationSelected,

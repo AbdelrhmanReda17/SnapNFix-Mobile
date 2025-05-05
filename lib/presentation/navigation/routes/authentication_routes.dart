@@ -1,5 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:snapnfix/core/dependency_injection/dependency_injection.dart';
+import 'package:snapnfix/modules/authentication/presentation/cubits/complete_profile/complete_profile_cubit.dart';
 import 'package:snapnfix/modules/authentication/presentation/cubits/forget_password/forgot_password_cubit.dart';
 import 'package:snapnfix/modules/authentication/presentation/cubits/login/login_cubit.dart';
 import 'package:snapnfix/modules/authentication/presentation/cubits/otp/otp_cubit.dart';
@@ -45,7 +46,7 @@ class AuthenticationRoutes {
     builder: (context, state) {
       final extra = state.extra as Map<String, dynamic>?;
       return BlocProvider(
-        create: (context) => getIt<RegisterCubit>(),
+        create: (context) => getIt<CompleteProfileCubit>(),
         child: CompleteProfileScreen(
           phoneNumber: extra?['phoneNumber'],
           password: extra?['password'],

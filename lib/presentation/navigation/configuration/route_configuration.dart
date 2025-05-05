@@ -18,6 +18,8 @@ class RouteConfiguration {
     this.transitionType = PageTransitionType.fade,
   });
 
+
+
   Page<dynamic> buildPage(BuildContext context, GoRouterState state) {
     if (transitionType == PageTransitionType.none) {
       return NoTransitionPage(
@@ -32,6 +34,7 @@ class RouteConfiguration {
       transitionsBuilder: _buildTransition,
     );
   }
+
 
   Widget _buildTransition(
     BuildContext context,

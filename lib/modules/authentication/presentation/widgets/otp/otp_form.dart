@@ -2,13 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:snapnfix/modules/authentication/domain/entities/authentication_result.dart';
 import 'package:snapnfix/modules/authentication/presentation/cubits/otp/otp_cubit.dart';
 
 class OtpForm extends StatelessWidget {
-  final OtpPurpose purpose;
-  const OtpForm({super.key, required this.purpose});
-
+  const OtpForm({super.key, required this.onSubmit});
+  final Function(String) onSubmit;
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -27,9 +25,7 @@ class OtpForm extends StatelessWidget {
             enabledBorderColor: colorScheme.primary.withValues(alpha: 0.2),
             filled: true,
             fieldWidth: 45.w,
-            onSubmit: (String verificationCode) {
-              cubit.updateOtpCode(verificationCode, purpose);
-            },
+            onSubmit: onSubmit,
             showFieldAsBox: true,
           ),
         ],

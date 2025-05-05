@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart'
         GoRouter,
         GoRouterState,
         ShellRoute,
+        StatefulNavigationShellState,
         StatefulShellBranch,
         StatefulShellRoute;
 import 'package:snapnfix/core/config/application_configurations.dart';
@@ -21,7 +22,7 @@ import 'package:snapnfix/presentation/navigation/shells/authentication_shell.dar
 class RouterConfiguration {
   static final _rootNavigatorKey = GlobalKey<NavigatorState>();
   static final _authNavigatorKey = GlobalKey<NavigatorState>();
-  // static final _shellNavigatorKey = GlobalKey<NavigatorState>();
+  static final _shellNavigatorKey = GlobalKey<StatefulNavigationShellState>();
 
   static GoRouter get router => _router;
   static ApplicationConfigurations appConfigurations =
@@ -46,24 +47,13 @@ class RouterConfiguration {
         routes: _buildGoRoutes(AuthenticationRoutes.routes),
       ),
       StatefulShellRoute.indexedStack(
+        key: _shellNavigatorKey,
         builder: (context, state, navigationShell) {
           return ApplicationShell(navigationShell: navigationShell);
         },
         branches: [
-          StatefulShellBranch(
-            routes: _buildGoRoutes([ApplicationRoutes.homeRoute]),
-          ),
-          StatefulShellBranch(
-            routes: _buildGoRoutes([ApplicationRoutes.mapRoute]),
-          ),
-          StatefulShellBranch(
-            routes: _buildGoRoutes([ApplicationRoutes.reportsRoute]),
-          ),
-          StatefulShellBranch(
-            routes: _buildGoRoutes([ApplicationRoutes.settingsRoute]),
-          ),
-          StatefulShellBranch(
-            routes: _buildGoRoutes([ApplicationRoutes.submitReportRoute]),
+          ...ApplicationRoutes.routes.map(
+            (route) => StatefulShellBranch(routes: _buildGoRoutes([route])),
           ),
         ],
       ),

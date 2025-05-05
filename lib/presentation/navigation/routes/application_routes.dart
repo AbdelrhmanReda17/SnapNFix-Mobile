@@ -44,6 +44,7 @@ class ApplicationRoutes {
           child: const SubmitReportScreen(),
         ),
   );
+  
   static final reportsRoute = RouteConfiguration(
     path: Routes.userReports,
     name: 'reports',

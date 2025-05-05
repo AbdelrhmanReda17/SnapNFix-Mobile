@@ -7,30 +7,19 @@ class CompleteProfileDTO {
   final String firstName;
   final String lastName;
   final String password;
-  String? confirmPassword;
-  String? deviceId;
-  String? deviceName;
-  String? deviceType;
-  String? platform;
+  String confirmPassword;
+
 
   CompleteProfileDTO({
     required this.firstName,
     required this.lastName,
     required this.password,
-  }) : deviceId = null,
-       deviceName = null,
-       deviceType = null,
-       platform = null,
-        confirmPassword = password;
+  }) : confirmPassword = password;
 
   CompleteProfileDTO.withDeviceInfo({
     required this.firstName,
     required this.lastName,
     required this.password,
-    required this.deviceId,
-    required this.deviceName,
-    required this.deviceType,
-    required this.platform,
   }) : confirmPassword = password;
 
   factory CompleteProfileDTO.fromJson(Map<String, dynamic> json) =>

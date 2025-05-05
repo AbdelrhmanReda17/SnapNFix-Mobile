@@ -181,7 +181,7 @@ class _$InitialImpl implements _Initial {
   const _$InitialImpl({
     this.canResend = false,
     this.remainingTime = 10,
-    this.registrationExpiryTime = 300,
+    this.registrationExpiryTime = 20,
   });
 
   @override

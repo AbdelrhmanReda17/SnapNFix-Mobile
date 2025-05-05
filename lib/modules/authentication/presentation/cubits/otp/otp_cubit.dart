@@ -17,7 +17,7 @@ class OtpCubit extends Cubit<OtpState> {
   Timer? _registrationTimer;
 
   static const int _resendTimeout = 10; // 1 minute for resend timeout
-  static const int _registrationTimeout = 300; // 5 minutes for registration
+  static const int _registrationTimeout = 600; // 5 minutes for registration
 
   int _remainingResendTime = _resendTimeout;
   int _remainingRegistrationTime = _registrationTimeout;
@@ -107,6 +107,8 @@ class OtpCubit extends Cubit<OtpState> {
     String? phoneNumber,
     String? password,
   }) async {
+    debugPrint("Verifying OTP: $otpCode, Purpose: $purpose");
+    debugPrint("Phone Number: $phoneNumber, Password: $password");
     if (otpCode.length < 6) return;
 
     if (_remainingRegistrationTime <= 0) {
@@ -126,6 +128,7 @@ class OtpCubit extends Cubit<OtpState> {
         res.whenOrNull(
           requiresProfileCompletion: () {
             _cleanupTimers();
+            debugPrint("Requires Profile Completion: $phoneNumber, $password");
             emit(
               OtpState.successAndRequiresProfileCompletion(
                 phoneNumber: phoneNumber!,
@@ -165,10 +168,15 @@ class OtpCubit extends Cubit<OtpState> {
     return super.close();
   }
 
-  void updateOtpCode(String code, OtpPurpose purpose) {
+  void updateOtpCode(
+    String code,
+    OtpPurpose purpose, {
+    String? phoneNumber,
+    String? password,
+  }) {
     otpCode = code;
     if (code.length == 6) {
-      verifyOtp(purpose: purpose);
+      verifyOtp(purpose: purpose, phoneNumber: phoneNumber, password: password);
     }
   }
 

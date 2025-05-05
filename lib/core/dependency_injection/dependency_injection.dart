@@ -21,7 +21,6 @@ import 'package:snapnfix/modules/authentication/presentation/cubits/login/login_
 import 'package:snapnfix/modules/authentication/presentation/cubits/otp/otp_cubit.dart';
 import 'package:snapnfix/modules/authentication/presentation/cubits/register/register_cubit.dart';
 import 'package:snapnfix/modules/authentication/presentation/cubits/reset_password/reset_password_cubit.dart';
-import 'package:snapnfix/modules/authentication/presentation/cubits/social_authentication/social_authentication_cubit.dart';
 import 'package:snapnfix/modules/issues/data/datasource/issue_local_data_source.dart';
 import 'package:snapnfix/modules/issues/data/datasource/issue_remote_data_source.dart';
 import 'package:snapnfix/modules/issues/data/repositories/issue_repository.dart';

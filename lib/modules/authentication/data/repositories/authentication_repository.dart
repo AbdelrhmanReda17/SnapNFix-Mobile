@@ -169,7 +169,6 @@ class AuthenticationRepository implements BaseAuthenticationRepository {
         );
       },
       failure: (errorMessage) {
-        debugPrint('Facebook login error: $errorMessage');
         return ApiResult.failure(ApiErrorModel(message: errorMessage));
       },
     );

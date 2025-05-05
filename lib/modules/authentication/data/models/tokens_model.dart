@@ -5,12 +5,15 @@ part 'tokens_model.g.dart';
 
 @JsonSerializable()
 class TokensModel extends Tokens {
+  @override
   @JsonKey(name: 'token')
   final String accessToken;
 
+  @override
   @JsonKey(name: 'refreshToken')
   final String refreshToken;
 
+  @override
   @JsonKey(
     name: 'expiresAt',
     fromJson: _dateTimeFromString,

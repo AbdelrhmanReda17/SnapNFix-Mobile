@@ -29,7 +29,17 @@ class OtpScreen extends StatelessWidget {
       title: localization.verificationCodeTitle,
       subtitle: '${localization.pleaseEnterCode} $emailOrPhoneNumber',
       buttonText: localization.verify,
-      form: OtpForm(purpose: purpose!),
+      form: OtpForm(
+        onSubmit: (otpCode) {
+          context.read<OtpCubit>().otpCode = otpCode;
+          context.read<OtpCubit>().updateOtpCode(
+            otpCode,
+            purpose!,
+            phoneNumber: emailOrPhoneNumber,
+            password: password,
+          );
+        },
+      ),
       blocListener: const OtpBlocListener(),
       onSubmit: () {
         context.read<OtpCubit>().verifyOtp(
