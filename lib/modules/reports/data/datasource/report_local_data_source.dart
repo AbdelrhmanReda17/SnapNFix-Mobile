@@ -22,11 +22,15 @@ abstract class BaseReportLocalDataSource {
   void incrementPendingReportsCount();
   void decrementPendingReportsCount();
   Stream<int> watchPendingReportsCount();
+
+  // Watch pending reports
+  Stream<List<ReportModel>> watchPendingReports();
 }
 
 class ReportLocalDataSource implements BaseReportLocalDataSource {
   final SharedPreferencesService _sharedPreferencesService;
   final _pendingReportsCountController = StreamController<int>.broadcast();
+  final _pendingReportsController = StreamController<List<ReportModel>>.broadcast();
 
   Future<Directory> _getOfflineReportsDirectory() async {
     final directory = await getApplicationDocumentsDirectory();
@@ -64,6 +68,37 @@ class ReportLocalDataSource implements BaseReportLocalDataSource {
   }
 
   @override
+  Future<void> saveReportOffline(ReportModel report) async {
+    try {
+      String imagePath = report.image;
+
+      if (File(imagePath).existsSync() &&
+          !imagePath.contains('/offline_reports/')) {
+        imagePath = await saveImagePermanently(File(imagePath));
+      }
+
+      final updatedReport = report.copyWith(image: imagePath);
+
+      final reportsDir = await _getOfflineReportsDirectory();
+
+      if (!await reportsDir.exists()) {
+        await reportsDir.create(recursive: true);
+      }
+
+      final reportFile = File('${reportsDir.path}/${report.id}.json');
+      await reportFile.writeAsString(json.encode(updatedReport.toJson()));
+      incrementPendingReportsCount();
+      debugPrint('Report saved offline: ${report.id}');
+      
+      // Emit updated reports list
+      final reports = await getPendingReports();
+      _pendingReportsController.add(reports);
+    } catch (e) {
+      throw Exception("Failed to save report offline: $e");
+    }
+  }
+
+  @override
   Future<void> deleteOfflineReport(String reportId) async {
     try {
       final reportsDir = await _getOfflineReportsDirectory();
@@ -72,7 +107,7 @@ class ReportLocalDataSource implements BaseReportLocalDataSource {
         final jsonString = await reportFile.readAsString();
         final jsonMap = json.decode(jsonString);
         final report = ReportModel.fromJson(jsonMap);
-        final imagePath = report.reportMedia.image;
+        final imagePath = report.image;
         if (imagePath.contains('/offline_reports/')) {
           final imageFile = File(imagePath);
           if (await imageFile.exists()) {
@@ -82,6 +117,10 @@ class ReportLocalDataSource implements BaseReportLocalDataSource {
         }
         await reportFile.delete();
         debugPrint('Deleted offline report file: $reportId');
+        
+        // Emit updated reports list
+        final reports = await getPendingReports();
+        _pendingReportsController.add(reports);
       }
     } catch (e) {
       throw Exception("Failed to delete offline report: $e");
@@ -150,41 +189,21 @@ class ReportLocalDataSource implements BaseReportLocalDataSource {
   }
 
   @override
-  Future<void> saveReportOffline(ReportModel report) async {
-    try {
-      final mediaModel = report.reportMedia;
-      String imagePath = mediaModel.image;
-
-      if (File(imagePath).existsSync() &&
-          !imagePath.contains('/offline_reports/')) {
-        imagePath = await saveImagePermanently(File(imagePath));
-      }
-
-      final updatedReport = report.copyWith(
-        reportMedia: mediaModel.copyWith(image: imagePath),
-      );
-
-      final reportsDir = await _getOfflineReportsDirectory();
-
-      if (!await reportsDir.exists()) {
-        await reportsDir.create(recursive: true);
-      }
-
-      final reportFile = File('${reportsDir.path}/${report.id}.json');
-      await reportFile.writeAsString(json.encode(updatedReport.toJson()));
-      incrementPendingReportsCount();
-      debugPrint('Report saved offline: ${report.id}');
-    } catch (e) {
-      throw Exception("Failed to save report offline: $e");
-    }
-  }
-
-  @override
   Stream<int> watchPendingReportsCount() {
     return _pendingReportsCountController.stream;
   }
 
+  @override
+  Stream<List<ReportModel>> watchPendingReports() {
+    // Initial value
+    getPendingReports().then((reports) {
+      _pendingReportsController.add(reports);
+    });
+    return _pendingReportsController.stream;
+  }
+
   void dispose() {
     _pendingReportsCountController.close();
+    _pendingReportsController.close();
   }
 }

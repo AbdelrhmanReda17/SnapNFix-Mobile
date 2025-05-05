@@ -7,6 +7,8 @@ import 'package:snapnfix/modules/reports/data/model/report_model.dart';
 import 'package:snapnfix/modules/reports/domain/entities/report_severity.dart';
 import 'package:snapnfix/modules/reports/domain/entities/report_status.dart';
 import 'package:snapnfix/modules/reports/presentation/widgets/location_display.dart';
+import 'dart:io';
+
 import 'package:snapnfix/presentation/navigation/routes.dart';
 
 class ReportCard extends StatefulWidget {
@@ -60,9 +62,6 @@ class _ReportCardState extends State<ReportCard>
     final colorScheme = theme.colorScheme;
     final localization = AppLocalizations.of(context)!;
 
-    final imagePath =
-        'assets/images/issue${(int.parse(widget.report.id) % 3) + 1}.jpg';
-
     return Card(
       elevation: 2,
       clipBehavior: Clip.antiAlias,
@@ -80,12 +79,43 @@ class _ReportCardState extends State<ReportCard>
                   children: [
                     Hero(
                       tag: 'report_image_${widget.report.id}',
-                      child: Image.asset(
-                        imagePath,
-                        height: 80.h,
-                        width: double.infinity,
-                        fit: BoxFit.cover,
-                      ),
+                      child: widget.report.image.isNotEmpty
+                          ? (widget.report.image.startsWith('http') || 
+                             widget.report.image.startsWith('assets')
+                              ? Image.network(
+                                  widget.report.image,
+                                  height: 80.h,
+                                  width: double.infinity,
+                                  fit: BoxFit.cover,
+                                  errorBuilder: (context, error, stackTrace) {
+                                    return Image.asset(
+                                      'assets/images/issue1.jpg',
+                                      height: 80.h,
+                                      width: double.infinity,
+                                      fit: BoxFit.cover,
+                                    );
+                                  },
+                                )
+                              : Image.file(
+                                  File(widget.report.image),
+                                  height: 80.h,
+                                  width: double.infinity,
+                                  fit: BoxFit.cover,
+                                  errorBuilder: (context, error, stackTrace) {
+                                    return Image.asset(
+                                      'assets/images/issue1.jpg',
+                                      height: 80.h,
+                                      width: double.infinity,
+                                      fit: BoxFit.cover,
+                                    );
+                                  },
+                                ))
+                          : Image.asset(
+                              'assets/images/issue1.jpg',
+                              height: 80.h,
+                              width: double.infinity,
+                              fit: BoxFit.cover,
+                            ),
                     ),
                     // Status indicator
                     Positioned(
@@ -192,7 +222,7 @@ class _ReportCardState extends State<ReportCard>
                               InkWell(
                                 onTap: () {
                                   context.push(
-                                    Routes.issueDetailsScreen.key,
+                                    Routes.issueDetails,
                                     extra: widget.report.issueId,
                                   );
 

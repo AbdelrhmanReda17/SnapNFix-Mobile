@@ -13,8 +13,10 @@ ReportModel _$ReportModelFromJson(Map<String, dynamic> json) => ReportModel(
   longitude: (json['longitude'] as num).toDouble(),
   severity: $enumDecode(_$ReportSeverityEnumMap, json['severity']),
   timestamp: json['timestamp'] as String,
-  reportMedia: MediaModel.fromJson(json['reportMedia'] as Map<String, dynamic>),
+  image: json['image'] as String,
   issueId: json['issueId'] as String?,
+  category: json['category'] as String?,
+  threshold: (json['threshold'] as num?)?.toDouble(),
   status:
       $enumDecodeNullable(_$ReportStatusEnumMap, json['status']) ??
       ReportStatus.pending,
@@ -29,8 +31,10 @@ Map<String, dynamic> _$ReportModelToJson(ReportModel instance) =>
       'longitude': instance.longitude,
       'severity': _$ReportSeverityEnumMap[instance.severity]!,
       'timestamp': instance.timestamp,
+      'image': instance.image,
+      'category': instance.category,
+      'threshold': instance.threshold,
       'status': _$ReportStatusEnumMap[instance.status]!,
-      'reportMedia': instance.reportMedia.toJson(),
     };
 
 const _$ReportSeverityEnumMap = {

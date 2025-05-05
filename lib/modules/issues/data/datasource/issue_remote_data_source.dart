@@ -6,10 +6,7 @@ import 'package:snapnfix/modules/issues/data/models/issue_model.dart';
 import 'package:snapnfix/modules/issues/domain/entities/issue_category.dart';
 import 'package:snapnfix/modules/issues/domain/entities/issue_severity.dart';
 import 'package:snapnfix/modules/issues/domain/entities/issue_status.dart';
-import 'package:snapnfix/modules/reports/data/model/media_model.dart';
-import 'package:snapnfix/modules/reports/data/model/report_model.dart';
-import 'package:snapnfix/modules/reports/domain/entities/report_severity.dart';
-import 'package:snapnfix/modules/reports/domain/entities/report_status.dart';
+
 
 abstract class BaseIssueRemoteDataSource {
   Future<ApiResult<List<IssueModel>>> getNearbyIssues(
@@ -20,25 +17,24 @@ abstract class BaseIssueRemoteDataSource {
 
   Future<ApiResult<IssueModel>> getIssueDetails(String issueId);
 
+  Future<ApiResult<List<IssueModel>>> getUserIssues(String userId);
+
   Future<ApiResult<List<IssueModel>>> watchNearbyIssues(
     double latitude,
     double longitude,
     double radiusInKm,
   );
-
-  Future<ApiResult<List<IssueModel>>> getUserIssues(String userId);
 }
 
 class IssueRemoteDataSource implements BaseIssueRemoteDataSource {
   final ApiService _apiService;
 
   IssueRemoteDataSource(this._apiService);
+
   @override
   Future<ApiResult<IssueModel>> getIssueDetails(String issueId) async {
     try {
       // Simulate a network call to fetch issue details
-      // final response = await _apiService.getIssueDetails(issueId);
-      // return ApiResult.success(response);
       return ApiResult.success(
         IssueModel(
           id: issueId,
@@ -86,8 +82,8 @@ class IssueRemoteDataSource implements BaseIssueRemoteDataSource {
         IssueModel(
           id: "1",
           severity: IssueSeverity.low,
-          latitude: 30.0083018 + 0.001,
-          longitude: 31.3299946 + 0.001,
+          latitude: latitude + 0.001,
+          longitude: longitude + 0.001,
           category: IssueCategory.roadDamage,
           resolvedAt: DateTime.now().subtract(const Duration(days: 2)),
           reportsCount: 2,
@@ -146,8 +142,8 @@ class IssueRemoteDataSource implements BaseIssueRemoteDataSource {
         IssueModel(
           id: "4",
           severity: IssueSeverity.medium,
-          latitude: 30.0083018 + 0.001,
-          longitude: 31.3299911 + 0.002,
+          latitude: latitude + 0.08,
+          longitude: longitude + 0.002,
           category: IssueCategory.lighting,
           status: IssueStatus.inProgress,
           createdAt: DateTime.now(),
@@ -174,9 +170,7 @@ class IssueRemoteDataSource implements BaseIssueRemoteDataSource {
   Future<ApiResult<List<IssueModel>>> getUserIssues(String userId) async {
     try {
       // Simulate a network call to fetch user issues
-      // final response = await _apiService.getUserIssues(userId);
-      // return ApiResult.success(response);
-      return ApiResult.success([]); // Replace with actual data
+      return ApiResult.success([]); // Replace with actual data when implementing
     } catch (error) {
       return ApiResult.failure(ApiErrorHandler.handle(error));
     }
