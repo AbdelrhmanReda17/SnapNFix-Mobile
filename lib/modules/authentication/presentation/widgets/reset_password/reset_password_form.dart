@@ -18,40 +18,28 @@ class ResetPasswordForm extends StatelessWidget {
       key: cubit.formKey,
       child: Column(
         children: [
-          ValueListenableBuilder<bool>(
-            valueListenable: cubit.newPasswordVisible,
-            builder: (context, isVisible, child) {
-              return BasePasswordTextField(
-                text: localization.newPassword,
-                controller: cubit.newPasswordController,
-                togglePasswordObscureText:
-                    () => cubit.toggleNewPasswordVisibility(),
-                isPasswordObscureText: !isVisible,
-                validator: (value) => value!.isNotEmpty
-                  ? value.isValidPassword
-                      ? null
-                      : localization.passwordError
-                  : localization.passwordRequired,
-              );
-            },
+          BasePasswordTextField(
+            text: localization.newPassword,
+            onChanged: cubit.setNewPassword,
+            validator:
+                (value) =>
+                    value!.isNotEmpty
+                        ? value.isValidPassword
+                            ? null
+                            : localization.passwordError
+                        : localization.passwordRequired,
           ),
           verticalSpace(20),
-          ValueListenableBuilder<bool>(
-            valueListenable: cubit.confirmPasswordVisible,
-            builder: (context, isVisible, child) {
-              return BasePasswordTextField(
-                text: localization.confirmNewPassword,
-                controller: cubit.confirmPasswordController,
-                togglePasswordObscureText:
-                    () => cubit.toggleConfirmPasswordVisibility(),
-                isPasswordObscureText: !isVisible,
-                validator: (value) => value!.isNotEmpty
-                  ? value.isValidConfirmPassword(cubit.newPasswordController.text)
-                      ? null
-                      : localization.passwordsDoNotMatch
-                  : localization.confirmPasswordRequired,
-              );
-            },
+          BasePasswordTextField(
+            text: localization.confirmNewPassword,
+            onChanged: cubit.setConfirmPassword,
+            validator:
+                (value) =>
+                    value!.isNotEmpty
+                        ? value.isValidConfirmPassword(cubit.newPassword)
+                            ? null
+                            : localization.passwordsDoNotMatch
+                        : localization.confirmPasswordRequired,
           ),
         ],
       ),

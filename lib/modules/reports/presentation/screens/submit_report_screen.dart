@@ -15,9 +15,9 @@ import 'package:snapnfix/modules/reports/presentation/widgets/submit_report_note
 import 'package:snapnfix/modules/reports/presentation/widgets/submit_report_tips.dart';
 import 'package:snapnfix/modules/reports/presentation/widgets/submit_severity_selector.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:snapnfix/presentation/components/location/handle_location_permission_and_execute.dart';
-import 'package:snapnfix/presentation/components/location/location_required_dialog.dart';
-import 'package:snapnfix/presentation/components/location/open_location_settings_dialog.dart';
+import 'package:snapnfix/presentation/dialogs/location/handle_location_permission_and_execute.dart';
+import 'package:snapnfix/presentation/dialogs/location/location_required_dialog.dart';
+import 'package:snapnfix/presentation/dialogs/location/open_location_settings_dialog.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
 class SubmitReportScreen extends StatelessWidget {

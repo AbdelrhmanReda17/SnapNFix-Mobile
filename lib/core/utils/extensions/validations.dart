@@ -22,17 +22,16 @@ extension Validations on String {
     return password == confirmPassword;
   }
 
-  bool _validateFirstAndLastName(String name) {
-    const namePattern = r'^[a-zA-Z]{3,}$';
-    final RegExp nameRegex = RegExp(namePattern);
-    return nameRegex.hasMatch(name);
+  bool _validateName(String fullName) {
+    const fullNamePattern = r'^[a-zA-Z]{3,}$';
+    final RegExp fullNameRegex = RegExp(fullNamePattern);
+    return fullNameRegex.hasMatch(fullName);
   }
 
   bool get isValidEmail => _validateEmail(this);
   bool get isValidPhoneNumber => _validatePhoneNumber(this);
   bool get isValidPassword => _validatePassword(this);
-  bool get isValidFirstName => _validateFirstAndLastName(this);
-  bool get isValidLastName => _validateFirstAndLastName(this);
+  bool get isValidName => _validateName(this);
   bool isValidConfirmPassword(String confirmPassword) =>
       _validateConfirmPassword(this, confirmPassword);
 

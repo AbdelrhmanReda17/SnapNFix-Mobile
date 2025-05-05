@@ -1,5 +1,5 @@
 import 'package:snapnfix/core/infrastructure/networking/api_result.dart';
-import 'package:snapnfix/modules/authentication/domain/entities/session.dart';
+import 'package:snapnfix/modules/authentication/domain/entities/authentication_result.dart';
 import 'package:snapnfix/modules/authentication/domain/repositories/base_authentication_repository.dart';
 
 class LoginUseCase {
@@ -7,7 +7,7 @@ class LoginUseCase {
 
   LoginUseCase(this._repository);
 
-  Future<ApiResult<Session>> call({
+  Future<ApiResult<AuthenticationResult>> call({
     required String phoneOrEmail,
     required String password,
   }) async {

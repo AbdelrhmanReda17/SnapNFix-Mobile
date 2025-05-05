@@ -66,7 +66,7 @@ class OnboardingScreenState extends State<OnboardingScreen> {
   void nextButtonOnPressed(BuildContext context) {
     if (currentPage == ApplicationConstants.onboardingContent.length - 1) {
       setViewOnBoarding();
-      context.go(Routes.loginScreen.key);
+      context.go(Routes.login);
     } else {
       _controller.nextPage(
         duration: Duration(milliseconds: 500),

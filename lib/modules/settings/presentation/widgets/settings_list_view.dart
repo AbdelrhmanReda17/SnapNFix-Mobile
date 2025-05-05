@@ -33,7 +33,7 @@ class _SettingsListViewState extends State<SettingsListView> {
               _buildSettingsTile(
                 localization.changePassword,
                 () {
-                  context.push(Routes.changePassowrd.key);
+                  context.push(Routes.changePassword);
                 },
                 colorScheme,
                 textStyles,
@@ -47,7 +47,7 @@ class _SettingsListViewState extends State<SettingsListView> {
               _buildSettingsTile(
                 localization.support,
                 () {
-                  context.push(Routes.supportScreen.key);
+                  context.push(Routes.support);
                 },
                 colorScheme,
                 textStyles,
@@ -61,7 +61,7 @@ class _SettingsListViewState extends State<SettingsListView> {
           _buildSettingsTile(
             localization.termsAndConditions,
             () {
-              context.push(Routes.termsAndConditionsScreen.key);
+              context.push(Routes.termsAndConditions);
             },
             colorScheme,
             textStyles,
@@ -69,7 +69,7 @@ class _SettingsListViewState extends State<SettingsListView> {
           _buildSettingsTile(
             localization.privacyPolicy,
             () {
-              context.push(Routes.privacyPolicyScreen.key);
+              context.push(Routes.privacyPolicy);
             },
             colorScheme,
             textStyles,
@@ -77,7 +77,7 @@ class _SettingsListViewState extends State<SettingsListView> {
           _buildSettingsTile(
             localization.about,
             () {
-              context.push(Routes.aboutScreen.key);
+              context.push(Routes.about);
             },
             colorScheme,
             textStyles,

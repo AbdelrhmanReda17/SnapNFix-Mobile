@@ -1,39 +1,52 @@
 import 'package:flutter/material.dart';
 import 'package:snapnfix/core/base_components/base_text_field.dart';
-// import 'package:snapnfix/core/theming/colors.dart';
 
-class BasePasswordTextField extends StatelessWidget {
+class BasePasswordTextField extends StatefulWidget {
   final String text;
-  final bool isPasswordObscureText;
-  final void Function() togglePasswordObscureText;
-  final TextEditingController controller;
+  final String? hintText;
+  final String? initialValue;
   final FormFieldValidator<String>? validator;
+  final ValueChanged<String>? onChanged;
 
   const BasePasswordTextField({
     super.key,
     required this.text,
-    required this.isPasswordObscureText,
-    required this.togglePasswordObscureText,
-    required this.controller,
+    this.hintText,
+    this.initialValue,
     this.validator,
+    this.onChanged,
   });
+
+  @override
+  State<BasePasswordTextField> createState() => _BasePasswordTextFieldState();
+}
+
+class _BasePasswordTextFieldState extends State<BasePasswordTextField> {
+  bool _isPasswordVisible = false;
+
+  void _togglePasswordVisibility() {
+    setState(() {
+      _isPasswordVisible = !_isPasswordVisible;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
     return BaseTextField(
-      hintText: text,
-      controller: controller,
-      isObscureText: isPasswordObscureText,
+      labelText: widget.hintText != null ? widget.text : null,
+      hintText: widget.hintText ?? widget.text,
+      initialValue: widget.initialValue,
+      isObscureText: !_isPasswordVisible,
       suffixIcon: GestureDetector(
-        onTap: togglePasswordObscureText,
+        onTap: _togglePasswordVisibility,
         child: Icon(
+          _isPasswordVisible ? Icons.visibility : Icons.visibility_off,
           color: colorScheme.primary,
-          isPasswordObscureText ? Icons.visibility_off : Icons.visibility,
         ),
       ),
-      toggleObscureText: togglePasswordObscureText,
-      validator: validator,
+      validator: widget.validator,
+      onChanged: widget.onChanged,
     );
   }
 }

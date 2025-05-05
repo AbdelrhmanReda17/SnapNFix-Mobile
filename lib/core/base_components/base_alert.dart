@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:snapnfix/core/utils/extensions/navigation.dart';
 
 enum AlertType {
   success(
@@ -55,131 +56,147 @@ void baseDialog({
   showDialog(
     context: context,
     builder: (context) {
-      return Dialog(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-        child: Container(
-          padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
-          decoration: BoxDecoration(
-            color: alertType.containerColor,
-            borderRadius: BorderRadius.circular(10.r),
+      return WillPopScope(
+        onWillPop: () async {
+          if (!showCancelButton && onConfirm != null) {
+            onConfirm();
+            return true;
+          }
+          return showCancelButton;
+        },
+        child: Dialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
           ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    children: [
-                      Icon(alertType.icon, color: alertType.textColor),
-                      SizedBox(width: 8),
-                      Text(
-                        title,
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: alertType.textColor,
-                        ),
-                      ),
-                    ],
-                  ),
-                  IconButton(
-                    icon: Icon(Icons.close, color: alertType.textColor),
-                    onPressed: () => Navigator.pop(context),
-                  ),
-                ],
-              ),
-              SizedBox(height: 8),
-              Text(
-                message,
-                style: TextStyle(
-                  color: alertType.textColor,
-                  fontSize: 14.sp,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-              SizedBox(height: 8),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: alertType.buttonColor,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(5),
-                      ),
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 16.w,
-                        vertical: 8.h,
-                      ),
-                    ),
-                    onPressed: () {
-                      if (onConfirm != null) {
-                        onConfirm();
-                      }
-                      Navigator.pop(context);
-                    },
-                    child: Text(
-                      confirmText,
-                      style: TextStyle(
-                        color: colorScheme.surface,
-                        fontSize: 16.sp,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  ),
-                  SizedBox(width: 8),
-                  showCancelButton
-                      ? ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: alertType.buttonColor.withValues(
-                            alpha: 0.1,
-                          ),
-                          foregroundColor: alertType.buttonColor.withValues(
-                            alpha: 0.1,
-                          ),
-                          shadowColor: alertType.buttonColor.withValues(
-                            alpha: 0.1,
-                          ),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(5),
-                          ),
-                          padding: EdgeInsets.symmetric(
-                            horizontal: 16.w,
-                            vertical: 8.h,
-                          ),
-                        ),
-                        onPressed: () {
-                          if (onCancel != null) {
-                            onCancel();
-                          }
-                          Navigator.pop(context);
-                        },
-                        child: Text(
-                          cancelText ?? 'Cancel',
+          child: Container(
+            padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
+            decoration: BoxDecoration(
+              color: alertType.containerColor,
+              borderRadius: BorderRadius.circular(10.r),
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      children: [
+                        Icon(alertType.icon, color: alertType.textColor),
+                        SizedBox(width: 8),
+                        Text(
+                          title,
                           style: TextStyle(
-                            color: alertType.buttonColor,
-                            fontSize: 16.sp,
-                            fontWeight: FontWeight.w500,
+                            fontWeight: FontWeight.bold,
+                            color: alertType.textColor,
                           ),
                         ),
-                      )
-                      : SizedBox.shrink(),
-                ],
-              ),
+                      ],
+                    ),
+                    IconButton(
+                      icon: Icon(Icons.close, color: alertType.textColor),
+                      onPressed: () => Navigator.pop(context),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 8),
+                Text(
+                  message,
+                  style: TextStyle(
+                    color: alertType.textColor,
+                    fontSize: 14.sp,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                SizedBox(height: 8),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: alertType.buttonColor,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 16.w,
+                          vertical: 8.h,
+                        ),
+                      ),
+                      onPressed: () {
+                        context.pop();
+                        if (onConfirm != null) {
+                          onConfirm();
+                        }
+                      },
+                      child: Text(
+                        confirmText,
+                        style: TextStyle(
+                          color: colorScheme.surface,
+                          fontSize: 16.sp,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ),
+                    SizedBox(width: 8),
+                    showCancelButton
+                        ? ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: alertType.buttonColor.withValues(
+                              alpha: 0.1,
+                            ),
+                            foregroundColor: alertType.buttonColor.withValues(
+                              alpha: 0.1,
+                            ),
+                            shadowColor: alertType.buttonColor.withValues(
+                              alpha: 0.1,
+                            ),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(5),
+                            ),
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 16.w,
+                              vertical: 8.h,
+                            ),
+                          ),
+                          onPressed: () {
+                            if (onCancel != null) {
+                              onCancel();
+                            }
+                            Navigator.pop(context);
+                          },
+                          child: Text(
+                            cancelText ?? 'Cancel',
+                            style: TextStyle(
+                              color: alertType.buttonColor,
+                              fontSize: 16.sp,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        )
+                        : SizedBox.shrink(),
+                  ],
+                ),
 
-              // Text(
-              //   'Hello World',
-              //   style: TextStyle(
-              //     color: alertType.textColor,
-              //     fontSize: 18.sp,
-              //     fontWeight: FontWeight.w500,
-              //   ),
-              // ),
-            ],
+                // Text(
+                //   'Hello World',
+                //   style: TextStyle(
+                //     color: alertType.textColor,
+                //     fontSize: 18.sp,
+                //     fontWeight: FontWeight.w500,
+                //   ),
+                // ),
+              ],
+            ),
           ),
         ),
       );
     },
-  );
+  ).then((value) {
+    // Handle dialog dismissal (clicking outside)
+    if (value == null && !showCancelButton && onConfirm != null) {
+      onConfirm();
+    }
+  });
 }

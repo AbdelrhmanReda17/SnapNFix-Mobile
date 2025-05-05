@@ -1,206 +1,161 @@
+import 'package:flutter/material.dart';
+import 'package:snapnfix/core/exceptions/unverified_user_exception.dart';
+import 'package:snapnfix/core/infrastructure/device_info/device_info_service.dart';
 import 'package:snapnfix/core/infrastructure/networking/api_error_handler.dart';
+import 'package:snapnfix/core/infrastructure/networking/api_error_model.dart';
 import 'package:snapnfix/core/infrastructure/networking/api_result.dart';
 import 'package:snapnfix/core/infrastructure/networking/api_service.dart';
-import 'package:snapnfix/modules/authentication/data/models/dtos/register_dto.dart';
+import 'package:snapnfix/core/infrastructure/networking/base_response.dart';
+import 'package:snapnfix/core/infrastructure/networking/dio_factory.dart';
+import 'package:snapnfix/modules/authentication/data/models/dtos/complete_profile_dto.dart';
+import 'package:snapnfix/modules/authentication/data/models/dtos/login_dto.dart';
+import 'package:snapnfix/modules/authentication/data/models/dtos/reset_password_dto.dart';
 import 'package:snapnfix/modules/authentication/data/models/session_model.dart';
-import 'package:snapnfix/modules/authentication/data/models/tokens_model.dart';
-import 'package:snapnfix/modules/authentication/data/models/user_model.dart';
+import 'package:snapnfix/modules/authentication/domain/entities/authentication_result.dart';
 
 abstract class BaseAuthenticationRemoteDataSource {
-  Future<ApiResult<SessionModel>> login(String emailOrPhone, String password);
-  Future<ApiResult<SessionModel>> register(
-    String firstName,
-    String lastName,
-    String phoneNumber,
-    String password,
-    String confirmPassword,
+  // Login and Register
+  Future<ApiResult<SessionModel>> login(LoginDTO loginDTO);
+  Future<ApiResult<String>> requestOTP(
+    String emailOrPhoneNumber,
+    OtpPurpose purpose,
   );
-  Future<ApiResult<SessionModel>> verifyOtp(String code);
-  Future<ApiResult<void>> resendOtp();
 
-  Future<ApiResult<void>> forgotPassword(String emailOrPhoneNumber);
-  Future<ApiResult<SessionModel>> resetPassword(
-    String newPassword,
-    String confirmPassword,
+  // OTP Verification
+  Future<ApiResult<String>> verifyOtp(String otp, OtpPurpose purpose);
+  Future<ApiResult<bool>> resendOtp(OtpPurpose purpose);
+
+  // Password Reset and Forgot Password
+  Future<ApiResult<bool>> resetPassword(ResetPasswordDTO resetPasswordDTO);
+
+  // Profile Completion
+  Future<ApiResult<SessionModel>> completeProfile(
+    CompleteProfileDTO completeProfileDTO,
   );
+
+  // Third Party Login
+  Future<ApiResult<SessionModel>> loginWithGoogle(String accessToken);
+  Future<ApiResult<SessionModel>> loginWithFacebook(String accessToken);
 }
 
 class AuthenticationRemoteDataSource
     implements BaseAuthenticationRemoteDataSource {
   final ApiService _apiService;
+  final DeviceInfoService _deviceInfoService;
 
-  AuthenticationRemoteDataSource(this._apiService);
+  AuthenticationRemoteDataSource(this._apiService, this._deviceInfoService);
 
-  @override
-  Future<ApiResult<SessionModel>> login(
-    String emailOrPhoneNumber,
-    String password,
-  ) async {
+  Future<ApiResult<T>> _handleApiCall<T>({
+    required Future<BaseResponse<T>> Function() apiCall,
+    bool setVerificationToken = false,
+    bool requiresSuccess = false,
+  }) async {
     try {
-      // final response = await _apiService.login(
-      //   LoginDTO(emailOrPhoneNumber: emailOrPhoneNumber, password: password),
-      // );
-      // return ApiResult.success(response );
-      return ApiResult.success(
-        SessionModel(
-          user: UserModel(
-            id: "1",
-            firstName: "Test",
-            lastName: "User",
-            phoneNumber: "123456789",
-          ),
-          tokens: TokensModel(
-            accessToken: "TEST_ACCESS_TOKEN",
-            refreshToken: "TEST_REFRESH_TOKEN",
-            expiresIn: 3600,
-            issuedAt: DateTime.now(),
-          ),
-        ),
-      );
+      final response = await apiCall();
+
+      if (setVerificationToken && response.data is String) {
+        DioFactory.setVerificationTokenHeader(response.data as String);
+      }
+
+      if (requiresSuccess && response.data is bool && response.data == false) {
+        return ApiResult.failure(ApiErrorModel(message: response.message));
+      }
+
+      return ApiResult.success(response.data);
     } catch (error) {
+      return ApiResult.failure(ApiErrorHandler.handle(error));
+    }
+  }
+  
+  @override
+  Future<ApiResult<SessionModel>> login(LoginDTO loginDTO) async {
+    try {
+      final updatedDTO = await _deviceInfoService.withDeviceInfo(loginDTO);
+
+      return _handleApiCall(apiCall: () => _apiService.login(updatedDTO));
+    } catch (error) {
+      if (ApiErrorHandler.isAuthenticationError(error)) {
+        throw UnverifiedUserException(phoneNumber: loginDTO.emailOrPhoneNumber);
+      }
       return ApiResult.failure(ApiErrorHandler.handle(error));
     }
   }
 
   @override
-  Future<ApiResult<SessionModel>> register(
-    String firstName,
-    String lastName,
+  Future<ApiResult<String>> requestOTP(
     String phoneNumber,
-    String password,
-    String confirmPassword,
+    OtpPurpose purpose,
   ) async {
-    try {
-      // final response = await _apiService.register(
-      //   RegisterDTO(
-      //     firstName: firstName,
-      //     lastName: lastName,
-      //     phoneNumber: phoneNumber,
-      //     password: password,
-      //     confirmPassword: confirmPassword,
-      //   ),
-      // );
-      // return ApiResult.success(response);
-      return ApiResult.success(
-        SessionModel(
-          user: UserModel(
-            id: "1",
-            firstName: firstName,
-            lastName: lastName,
-            phoneNumber: phoneNumber,
-          ),
-          tokens: TokensModel(
-            accessToken: "TEST_ACCESS_TOKEN",
-            refreshToken: "TEST_REFRESH_TOKEN",
-            expiresIn: 3600,
-            issuedAt: DateTime.now(),
-          ),
-        ),
-      );
-    } catch (error) {
-      return ApiResult.failure(ApiErrorHandler.handle(error));
-    }
+    return _handleApiCall(
+      apiCall:
+          () =>
+              purpose == OtpPurpose.registration
+                  ? _apiService.requestOTP({'phoneNumber': phoneNumber})
+                  : _apiService.forgotPassword({
+                    'emailOrPhoneNumber': phoneNumber,
+                  }),
+      setVerificationToken: true,
+    );
   }
 
   @override
-  Future<ApiResult<SessionModel>> verifyOtp(String code) async {
-    try {
-      // Edit this
-      // final response = await _apiService.post(
-      //   '/auth/verify-otp',
-      //   data: {
-      //     'code': code,
-      //   },
-      // );
-      // return ApiResult.success(OtpVerificationResponseModel.fromJson(response.data));
-
-      return ApiResult.success(
-        SessionModel(
-          user: UserModel(
-            id: "1",
-            firstName: "Test",
-            lastName: "User",
-            phoneNumber: "123456789",
-          ),
-          tokens: TokensModel(
-            accessToken: "TEST_ACCESS_TOKEN",
-            refreshToken: "TEST_REFRESH_TOKEN",
-            expiresIn: 3600,
-            issuedAt: DateTime.now(),
-          ),
-        ),
-      );
-    } catch (error) {
-      return ApiResult.failure(ApiErrorHandler.handle(error));
-    }
+  Future<ApiResult<String>> verifyOtp(String otp, OtpPurpose purpose) {
+    return _handleApiCall(
+      apiCall:
+          () =>
+              purpose == OtpPurpose.registration
+                  ? _apiService.verifyOtp({'otp': otp})
+                  : _apiService.verifyForgotPasswordOtp({'otp': otp}),
+      setVerificationToken: true,
+    );
   }
 
   @override
-  Future<ApiResult<void>> resendOtp() async {
-    try {
-      // Edit this
-      // final response = await _apiService.post('/auth/resend-otp');
-      // return ApiResult.success(OtpResendResponseModel.fromJson(response.data));
-
-      // For testing, return mock data
-      return ApiResult.success(null);
-    } catch (error) {
-      return ApiResult.failure(ApiErrorHandler.handle(error));
-    }
+  Future<ApiResult<bool>> resendOtp(OtpPurpose purpose) {
+    return _handleApiCall(
+      apiCall:
+          () =>
+              purpose == OtpPurpose.registration
+                  ? _apiService.resendOtp({})
+                  : _apiService.verifyForgotPasswordOtpResend({}),
+      requiresSuccess: true,
+    );
   }
 
   @override
-  Future<ApiResult<void>> forgotPassword(String emailOrPhoneNumber) async {
-    try {
-      // Edit this
-      // final response = await _apiService.post(
-      //   '/auth/forget-password',
-      //   data: {
-      //     'emailOrPhoneNumber': emailOrPhoneNumber,
-      //   },
-      // );
-      // return ApiResult.success(response.data);
-
-      return ApiResult.success(null);
-    } catch (error) {
-      return ApiResult.failure(ApiErrorHandler.handle(error));
-    }
+  Future<ApiResult<bool>> resetPassword(ResetPasswordDTO resetPasswordDTO) {
+    return _handleApiCall(
+      apiCall: () => _apiService.resetPassword(resetPasswordDTO),
+      requiresSuccess: true,
+    );
   }
 
   @override
-  Future<ApiResult<SessionModel>> resetPassword(
-    String newPassword,
-    String confirmPassword,
+  Future<ApiResult<SessionModel>> completeProfile(
+    CompleteProfileDTO completeProfileDTO,
   ) async {
-    try {
-      // Edit this
-      // final response = await _apiService.post(
-      //   '/auth/reset-password',
-      //   data: {
-      //     'newPassword': newPassword,
-      //     'confirmPassword': confirmPassword,
-      //   },
-      // );
-      // return ApiResult.success(response.data);
+    final updatedDTO = await _deviceInfoService.withDeviceInfo(completeProfileDTO);
+    return _handleApiCall(
+      apiCall: () => _apiService.completeProfile(updatedDTO),
+    );
+  }
 
-      return ApiResult.success(
-        SessionModel(
-          user: UserModel(
-            id: "1",
-            firstName: "Test",
-            lastName: "User",
-            phoneNumber: "123456789",
-          ),
-          tokens: TokensModel(
-            accessToken: "TEST_ACCESS_TOKEN",
-            refreshToken: "TEST_REFRESH_TOKEN",
-            expiresIn: 3600,
-            issuedAt: DateTime.now(),
-          ),
-        ),
-      );
-    } catch (error) {
-      return ApiResult.failure(ApiErrorHandler.handle(error));
-    }
+  @override
+  Future<ApiResult<SessionModel>> loginWithFacebook(String idToken) async {
+    final socialLoginDTO = {'idToken': idToken};
+    final payload = await _deviceInfoService.withDeviceInfo(socialLoginDTO);
+    return await _handleApiCall(
+      apiCall: () => _apiService.loginWithFacebook(payload),
+    );
+  }
+
+  @override
+  Future<ApiResult<SessionModel>> loginWithGoogle(String accessToken) async {
+    final socialLoginDTO = {'idToken': accessToken};
+    final payload = await _deviceInfoService.withDeviceInfo(socialLoginDTO);
+
+    return await _handleApiCall(
+      apiCall: () => _apiService.loginWithGoogle(payload),
+    );
   }
 }

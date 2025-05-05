@@ -9,5 +9,5 @@ class Session extends Equatable {
   const Session({required this.user, required this.tokens});
 
   @override
-  List<Object> get props => [user, tokens];
+  List<Object?> get props => [user, tokens];
 }

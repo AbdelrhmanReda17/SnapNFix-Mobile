@@ -7,7 +7,6 @@ import 'package:snapnfix/core/infrastructure/networking/api_error_model.dart';
 import 'package:snapnfix/core/infrastructure/networking/api_result.dart';
 import 'package:snapnfix/modules/reports/data/datasource/report_local_data_source.dart';
 import 'package:snapnfix/modules/reports/data/datasource/report_remote_data_source.dart';
-import 'package:snapnfix/modules/reports/data/model/media_model.dart';
 import 'package:snapnfix/modules/reports/data/model/report_model.dart';
 import 'package:snapnfix/modules/reports/domain/repositories/base_report_repository.dart';
 
@@ -23,12 +22,11 @@ class ReportRepository implements BaseReportRepository {
   );
 
   @override
-  Future<ApiResult<MediaModel>> autoCategorizeImage(File imageFile) async {
+  Future<ApiResult<ReportModel>> autoCategorizeImage(File imageFile) async {
     try {
       final isConnected = await _connectivityService.isConnected();
 
       if (!isConnected) {
-        // Handle the case when there is no internet connection
         return ApiResult.failure(
           ApiErrorModel(message: 'No internet connection'),
         );
@@ -71,36 +69,28 @@ class ReportRepository implements BaseReportRepository {
           'Report saved offline and will be submitted when online',
         );
       }
-      final reportMedia = await _remoteDataSource.autoCategorizeImage(
-        File(report.reportMedia.image),
-      );
-      reportMedia.when(
-        success: (data) {
-          report = report.copyWith(
-            reportMedia: report.reportMedia.copyWith(
-              category: data.category,
-              threshold: data.threshold,
-            ),
-          );
-          debugPrint('Image categorized successfully: ${data.category}');
-        },
-        failure: (error) {
-          debugPrint('Error categorizing image: ${error.message}');
-          return ApiResult.failure(error);
-        },
-      );
+
       final result = await _remoteDataSource.submitReport(report);
       return result.when(
         success: (data) {
+          _localDataSource.saveReportOffline(report);
           return ApiResult.success(data);
         },
         failure: (error) {
+          _localDataSource.saveReportOffline(report);
           return ApiResult.failure(error);
         },
       );
     } catch (e) {
       debugPrint('Error submitting report: $e');
-      return Future.error(ApiErrorHandler.handle(e));
+      try {
+        await _localDataSource.saveReportOffline(report);
+        return const ApiResult.success(
+          'Report saved offline due to error',
+        );
+      } catch (saveError) {
+        return ApiResult.failure(ApiErrorHandler.handle(saveError));
+      }
     }
   }
 
@@ -139,6 +129,15 @@ class ReportRepository implements BaseReportRepository {
   Stream<int> watchPendingReportsCount() {
     try {
       return _localDataSource.watchPendingReportsCount();
+    } catch (e) {
+      return Stream.error(ApiErrorHandler.handle(e));
+    }
+  }
+
+  @override
+  Stream<List<ReportModel>> watchPendingReports() {
+    try {
+      return _localDataSource.watchPendingReports();
     } catch (e) {
       return Stream.error(ApiErrorHandler.handle(e));
     }

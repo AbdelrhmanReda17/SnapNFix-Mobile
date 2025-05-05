@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class BaseDatePickerField extends StatelessWidget {
+class BaseDatePickerField extends StatefulWidget {
   final String hintText;
-  final DateTime? value;
-  final Future<void> Function() onTap;
+  final String? initialValue;
+  final ValueChanged<DateTime?>? onChanged;
   final String Function(DateTime date) dateFormatter;
   final EdgeInsetsGeometry? contentPadding;
   final InputBorder? focusedBorder;
@@ -17,8 +17,8 @@ class BaseDatePickerField extends StatelessWidget {
   const BaseDatePickerField({
     super.key,
     required this.hintText,
-    this.value,
-    required this.onTap,
+    this.initialValue,
+    this.onChanged,
     required this.dateFormatter,
     this.contentPadding,
     this.focusedBorder,
@@ -30,21 +30,50 @@ class BaseDatePickerField extends StatelessWidget {
   });
 
   @override
+  State<BaseDatePickerField> createState() => _BaseDatePickerFieldState();
+}
+
+class _BaseDatePickerFieldState extends State<BaseDatePickerField> {
+  DateTime? _selectedDate;
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.initialValue != null) {
+      _selectedDate = DateTime.tryParse(widget.initialValue!);
+    }
+  }
+
+  Future<void> _handleDatePicker() async {
+    final DateTime? picked = await showCustomDatePicker(
+      context: context,
+      initialDate: _selectedDate ?? DateTime.now(),
+      firstDate: DateTime(1900),
+      lastDate: DateTime.now(),
+    );
+
+    if (picked != null && picked != _selectedDate) {
+      setState(() => _selectedDate = picked);
+      widget.onChanged?.call(picked);
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
     final textStyles = Theme.of(context).textTheme;
 
     return GestureDetector(
-      onTap: onTap,
+      onTap: _handleDatePicker,
       child: Container(
         padding:
-            contentPadding ??
+            widget.contentPadding ??
             EdgeInsets.symmetric(horizontal: 10.w, vertical: 16.h),
         decoration: BoxDecoration(
-          color: backgroundColor ?? colorScheme.surface.withValues(alpha: 0.3),
+          color: widget.backgroundColor ?? colorScheme.surface.withOpacity(0.3),
           borderRadius: BorderRadius.circular(8.r),
           border: Border.all(
-            color: colorScheme.primary.withValues(alpha: 0.4),
+            color: colorScheme.primary.withOpacity(0.4),
             width: 1.3,
           ),
         ),
@@ -52,16 +81,18 @@ class BaseDatePickerField extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              value != null ? dateFormatter(value!) : hintText,
+              _selectedDate != null
+                  ? widget.dateFormatter(_selectedDate!)
+                  : widget.hintText,
               style:
-                  value != null
-                      ? textStyle ?? textStyles.bodyMedium
-                      : hintStyle ??
+                  _selectedDate != null
+                      ? widget.textStyle ?? textStyles.bodyMedium
+                      : widget.hintStyle ??
                           textStyles.bodyMedium?.copyWith(
-                            color: colorScheme.primary.withValues(alpha: 0.4),
+                            color: colorScheme.primary.withOpacity(0.4),
                           ),
             ),
-            icon ??
+            widget.icon ??
                 Icon(
                   Icons.calendar_today,
                   size: 20.r,
@@ -87,7 +118,6 @@ class BaseDatePickerField extends StatelessWidget {
     bool useRootNavigator = true,
     RouteSettings? routeSettings,
     TextDirection? textDirection,
-    TransitionBuilder? builder,
     DatePickerEntryMode initialEntryMode = DatePickerEntryMode.calendar,
     String? errorFormatText,
     String? errorInvalidText,

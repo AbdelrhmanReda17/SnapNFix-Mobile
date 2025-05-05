@@ -18,7 +18,7 @@ class DioFactory {
       dio!
         ..options.connectTimeout = timeOut
         ..options.receiveTimeout = timeOut;
-      // addDioHeaders();
+      addDioHeaders();
       addDioInterceptor();
       return dio!;
     } else {
@@ -38,6 +38,21 @@ class DioFactory {
 
   static void setTokenIntoHeaderAfterLogin(String token) {
     dio?.options.headers = {'Authorization': 'Bearer $token'};
+  }
+
+  static void setVerificationTokenHeader(String? verificationToken) {
+    if (verificationToken != null) {
+      dio?.options.headers = {
+        ...dio?.options.headers ?? {},
+        'Authorization': 'Bearer $verificationToken',
+      };
+    }
+  }
+
+  static void clearVerificationTokenHeader() {
+    if (dio?.options.headers != null) {
+      dio?.options.headers.remove('Authorization');
+    }
   }
 
   static void addDioInterceptor() {

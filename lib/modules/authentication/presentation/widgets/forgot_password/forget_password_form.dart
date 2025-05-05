@@ -13,19 +13,24 @@ class ForgetPasswordForm extends StatelessWidget {
     final localization = AppLocalizations.of(context)!;
     final cubit = context.read<ForgotPasswordCubit>();
 
+    debugPrint("ForgetPasswordForm: ${cubit.state}");
+
     return Form(
       key: cubit.formKey,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           BaseTextField(
-            hintText: localization.emailOrPhone,
-            controller: cubit.emailOrPhoneController,
-            validator: (value) => value!.isNotEmpty
-                  ? value.isValidEmailOrPhone
-                      ? null
-                      : localization.emailOrPhoneRequiredAndValid
-                  : localization.emailOrPhoneRequiredAndValid,
+            hintText: "Enter your email or phone number",
+            labelText: localization.emailOrPhone,
+            onChanged: cubit.setEmailOrPhone,
+            validator:
+                (value) =>
+                    value!.isNotEmpty
+                        ? value.isValidEmailOrPhone
+                            ? null
+                            : localization.emailOrPhoneRequiredAndValid
+                        : localization.emailOrPhoneRequiredAndValid,
           ),
         ],
       ),

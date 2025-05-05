@@ -1,5 +1,4 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:snapnfix/modules/reports/data/model/media_model.dart';
 import 'package:snapnfix/modules/reports/domain/entities/report.dart';
 import 'package:snapnfix/modules/reports/domain/entities/report_severity.dart';
 import 'package:snapnfix/modules/reports/domain/entities/report_status.dart';
@@ -8,9 +7,6 @@ part 'report_model.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class ReportModel extends Report {
-  @override
-  final MediaModel reportMedia;
-  
   const ReportModel({
     required super.id,
     required super.details,
@@ -18,10 +14,12 @@ class ReportModel extends Report {
     required super.longitude,
     required super.severity,
     required super.timestamp,
-    required this.reportMedia,
+    required super.image,
     required super.issueId,
+    super.category,
+    super.threshold,
     super.status = ReportStatus.pending,
-  }) : super(reportMedia: reportMedia);
+  });
 
   factory ReportModel.fromJson(Map<String, dynamic> json) {
     return _$ReportModelFromJson(json);
@@ -36,10 +34,11 @@ class ReportModel extends Report {
     double? longitude,
     ReportSeverity? severity,
     String? timestamp,
-    MediaModel? reportMedia,
+    String? image,
+    String? category,
+    double? threshold,
     ReportStatus? status,
     String? issueId,
-    
   }) {
     return ReportModel(
       id: id ?? this.id,
@@ -48,11 +47,11 @@ class ReportModel extends Report {
       longitude: longitude ?? this.longitude,
       severity: severity ?? this.severity,
       timestamp: timestamp ?? this.timestamp,
-      reportMedia: reportMedia ?? this.reportMedia,
+      image: image ?? this.image,
+      category: category ?? this.category,
+      threshold: threshold ?? this.threshold,
       status: status ?? this.status,
-       issueId: issueId ?? this.issueId,
-      
-
+      issueId: issueId ?? this.issueId,
     );
   }
 }

@@ -30,7 +30,7 @@ class IssueFilterSheetChipItem extends StatelessWidget {
       ),
       selected: isSelected,
       onSelected: onSelected,
-      backgroundColor: colorScheme.surfaceVariant,
+      backgroundColor: colorScheme.surfaceContainerHighest,
       selectedColor: chipColor ?? colorScheme.primary,
       checkmarkColor: colorScheme.onPrimary,
       padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),

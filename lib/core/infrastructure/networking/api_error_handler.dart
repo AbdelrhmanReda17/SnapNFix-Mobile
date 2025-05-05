@@ -1,11 +1,21 @@
-import 'dart:developer';
-
 import 'package:dio/dio.dart';
+import 'package:snapnfix/core/exceptions/unverified_user_exception.dart';
 
 import 'api_error_model.dart';
 
 class ApiErrorHandler {
   static ApiErrorModel handle(dynamic error) {
+    if (error == null) {
+      return ApiErrorModel(message: "Unknown error occurred");
+    }
+    if (error is UnverifiedUserException) {
+      return ApiErrorModel(
+        message: error.message,
+        errors: [
+          {'propertyName': 'PhoneNumberUnconfirmed', 'message': error.message},
+        ],
+      );
+    }
     if (error is DioException) {
       switch (error.type) {
         case DioExceptionType.connectionError:
@@ -24,6 +34,9 @@ class ApiErrorHandler {
             message: "Receive timeout in connection with the server",
           );
         case DioExceptionType.badResponse:
+          if (error.response?.data == null) {
+            return ApiErrorModel(message: "Unknown error occurred ");
+          }
           return _handleError(error.response!.data);
         case DioExceptionType.sendTimeout:
           return ApiErrorModel(
@@ -35,6 +48,30 @@ class ApiErrorHandler {
     } else {
       return ApiErrorModel(message: "Unknown error occurred");
     }
+  }
+
+  static bool isUnverifiedUser(dynamic error) {
+    if (error is DioException) {
+      final response = error.response?.data;
+      return response != null &&
+          response['errors']?.any(
+                (e) => e['propertyName'] == 'PhoneNumberUnconfirmed',
+              ) ==
+              true;
+    }
+    return false;
+  }
+
+  static bool isAuthenticationError(dynamic error) {
+    if (error is DioException) {
+      final response = error.response?.data;
+      return response != null &&
+          response['errors']?.any(
+                (e) => e['propertyName'] == 'Authentication',
+              ) ==
+              true;
+    }
+    return false;
   }
 }
 

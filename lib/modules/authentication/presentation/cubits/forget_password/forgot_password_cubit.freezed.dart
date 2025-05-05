@@ -21,21 +21,21 @@ mixin _$ForgotPasswordState {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function() success,
+    required TResult Function() requiresOtp,
     required TResult Function(ApiErrorModel error) error,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function()? success,
+    TResult? Function()? requiresOtp,
     TResult? Function(ApiErrorModel error)? error,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function()? success,
+    TResult Function()? requiresOtp,
     TResult Function(ApiErrorModel error)? error,
     required TResult orElse(),
   }) => throw _privateConstructorUsedError;
@@ -43,21 +43,21 @@ mixin _$ForgotPasswordState {
   TResult map<TResult extends Object?>({
     required TResult Function(_Initial value) initial,
     required TResult Function(_Loading value) loading,
-    required TResult Function(_Success value) success,
+    required TResult Function(_RequiresOtp value) requiresOtp,
     required TResult Function(_Error value) error,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Initial value)? initial,
     TResult? Function(_Loading value)? loading,
-    TResult? Function(_Success value)? success,
+    TResult? Function(_RequiresOtp value)? requiresOtp,
     TResult? Function(_Error value)? error,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Initial value)? initial,
     TResult Function(_Loading value)? loading,
-    TResult Function(_Success value)? success,
+    TResult Function(_RequiresOtp value)? requiresOtp,
     TResult Function(_Error value)? error,
     required TResult orElse(),
   }) => throw _privateConstructorUsedError;
@@ -130,7 +130,7 @@ class _$InitialImpl implements _Initial {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function() success,
+    required TResult Function() requiresOtp,
     required TResult Function(ApiErrorModel error) error,
   }) {
     return initial();
@@ -141,7 +141,7 @@ class _$InitialImpl implements _Initial {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function()? success,
+    TResult? Function()? requiresOtp,
     TResult? Function(ApiErrorModel error)? error,
   }) {
     return initial?.call();
@@ -152,7 +152,7 @@ class _$InitialImpl implements _Initial {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function()? success,
+    TResult Function()? requiresOtp,
     TResult Function(ApiErrorModel error)? error,
     required TResult orElse(),
   }) {
@@ -167,7 +167,7 @@ class _$InitialImpl implements _Initial {
   TResult map<TResult extends Object?>({
     required TResult Function(_Initial value) initial,
     required TResult Function(_Loading value) loading,
-    required TResult Function(_Success value) success,
+    required TResult Function(_RequiresOtp value) requiresOtp,
     required TResult Function(_Error value) error,
   }) {
     return initial(this);
@@ -178,7 +178,7 @@ class _$InitialImpl implements _Initial {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Initial value)? initial,
     TResult? Function(_Loading value)? loading,
-    TResult? Function(_Success value)? success,
+    TResult? Function(_RequiresOtp value)? requiresOtp,
     TResult? Function(_Error value)? error,
   }) {
     return initial?.call(this);
@@ -189,7 +189,7 @@ class _$InitialImpl implements _Initial {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Initial value)? initial,
     TResult Function(_Loading value)? loading,
-    TResult Function(_Success value)? success,
+    TResult Function(_RequiresOtp value)? requiresOtp,
     TResult Function(_Error value)? error,
     required TResult orElse(),
   }) {
@@ -249,7 +249,7 @@ class _$LoadingImpl implements _Loading {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function() success,
+    required TResult Function() requiresOtp,
     required TResult Function(ApiErrorModel error) error,
   }) {
     return loading();
@@ -260,7 +260,7 @@ class _$LoadingImpl implements _Loading {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function()? success,
+    TResult? Function()? requiresOtp,
     TResult? Function(ApiErrorModel error)? error,
   }) {
     return loading?.call();
@@ -271,7 +271,7 @@ class _$LoadingImpl implements _Loading {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function()? success,
+    TResult Function()? requiresOtp,
     TResult Function(ApiErrorModel error)? error,
     required TResult orElse(),
   }) {
@@ -286,7 +286,7 @@ class _$LoadingImpl implements _Loading {
   TResult map<TResult extends Object?>({
     required TResult Function(_Initial value) initial,
     required TResult Function(_Loading value) loading,
-    required TResult Function(_Success value) success,
+    required TResult Function(_RequiresOtp value) requiresOtp,
     required TResult Function(_Error value) error,
   }) {
     return loading(this);
@@ -297,7 +297,7 @@ class _$LoadingImpl implements _Loading {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Initial value)? initial,
     TResult? Function(_Loading value)? loading,
-    TResult? Function(_Success value)? success,
+    TResult? Function(_RequiresOtp value)? requiresOtp,
     TResult? Function(_Error value)? error,
   }) {
     return loading?.call(this);
@@ -308,7 +308,7 @@ class _$LoadingImpl implements _Loading {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Initial value)? initial,
     TResult Function(_Loading value)? loading,
-    TResult Function(_Success value)? success,
+    TResult Function(_RequiresOtp value)? requiresOtp,
     TResult Function(_Error value)? error,
     required TResult orElse(),
   }) {
@@ -324,20 +324,20 @@ abstract class _Loading implements ForgotPasswordState {
 }
 
 /// @nodoc
-abstract class _$$SuccessImplCopyWith<$Res> {
-  factory _$$SuccessImplCopyWith(
-    _$SuccessImpl value,
-    $Res Function(_$SuccessImpl) then,
-  ) = __$$SuccessImplCopyWithImpl<$Res>;
+abstract class _$$RequiresOtpImplCopyWith<$Res> {
+  factory _$$RequiresOtpImplCopyWith(
+    _$RequiresOtpImpl value,
+    $Res Function(_$RequiresOtpImpl) then,
+  ) = __$$RequiresOtpImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$SuccessImplCopyWithImpl<$Res>
-    extends _$ForgotPasswordStateCopyWithImpl<$Res, _$SuccessImpl>
-    implements _$$SuccessImplCopyWith<$Res> {
-  __$$SuccessImplCopyWithImpl(
-    _$SuccessImpl _value,
-    $Res Function(_$SuccessImpl) _then,
+class __$$RequiresOtpImplCopyWithImpl<$Res>
+    extends _$ForgotPasswordStateCopyWithImpl<$Res, _$RequiresOtpImpl>
+    implements _$$RequiresOtpImplCopyWith<$Res> {
+  __$$RequiresOtpImplCopyWithImpl(
+    _$RequiresOtpImpl _value,
+    $Res Function(_$RequiresOtpImpl) _then,
   ) : super(_value, _then);
 
   /// Create a copy of ForgotPasswordState
@@ -346,18 +346,18 @@ class __$$SuccessImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$SuccessImpl implements _Success {
-  const _$SuccessImpl();
+class _$RequiresOtpImpl implements _RequiresOtp {
+  const _$RequiresOtpImpl();
 
   @override
   String toString() {
-    return 'ForgotPasswordState.success()';
+    return 'ForgotPasswordState.requiresOtp()';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$SuccessImpl);
+        (other.runtimeType == runtimeType && other is _$RequiresOtpImpl);
   }
 
   @override
@@ -368,10 +368,10 @@ class _$SuccessImpl implements _Success {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function() success,
+    required TResult Function() requiresOtp,
     required TResult Function(ApiErrorModel error) error,
   }) {
-    return success();
+    return requiresOtp();
   }
 
   @override
@@ -379,10 +379,10 @@ class _$SuccessImpl implements _Success {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function()? success,
+    TResult? Function()? requiresOtp,
     TResult? Function(ApiErrorModel error)? error,
   }) {
-    return success?.call();
+    return requiresOtp?.call();
   }
 
   @override
@@ -390,12 +390,12 @@ class _$SuccessImpl implements _Success {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function()? success,
+    TResult Function()? requiresOtp,
     TResult Function(ApiErrorModel error)? error,
     required TResult orElse(),
   }) {
-    if (success != null) {
-      return success();
+    if (requiresOtp != null) {
+      return requiresOtp();
     }
     return orElse();
   }
@@ -405,10 +405,10 @@ class _$SuccessImpl implements _Success {
   TResult map<TResult extends Object?>({
     required TResult Function(_Initial value) initial,
     required TResult Function(_Loading value) loading,
-    required TResult Function(_Success value) success,
+    required TResult Function(_RequiresOtp value) requiresOtp,
     required TResult Function(_Error value) error,
   }) {
-    return success(this);
+    return requiresOtp(this);
   }
 
   @override
@@ -416,10 +416,10 @@ class _$SuccessImpl implements _Success {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Initial value)? initial,
     TResult? Function(_Loading value)? loading,
-    TResult? Function(_Success value)? success,
+    TResult? Function(_RequiresOtp value)? requiresOtp,
     TResult? Function(_Error value)? error,
   }) {
-    return success?.call(this);
+    return requiresOtp?.call(this);
   }
 
   @override
@@ -427,19 +427,19 @@ class _$SuccessImpl implements _Success {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Initial value)? initial,
     TResult Function(_Loading value)? loading,
-    TResult Function(_Success value)? success,
+    TResult Function(_RequiresOtp value)? requiresOtp,
     TResult Function(_Error value)? error,
     required TResult orElse(),
   }) {
-    if (success != null) {
-      return success(this);
+    if (requiresOtp != null) {
+      return requiresOtp(this);
     }
     return orElse();
   }
 }
 
-abstract class _Success implements ForgotPasswordState {
-  const factory _Success() = _$SuccessImpl;
+abstract class _RequiresOtp implements ForgotPasswordState {
+  const factory _RequiresOtp() = _$RequiresOtpImpl;
 }
 
 /// @nodoc
@@ -514,7 +514,7 @@ class _$ErrorImpl implements _Error {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function() success,
+    required TResult Function() requiresOtp,
     required TResult Function(ApiErrorModel error) error,
   }) {
     return error(this.error);
@@ -525,7 +525,7 @@ class _$ErrorImpl implements _Error {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function()? success,
+    TResult? Function()? requiresOtp,
     TResult? Function(ApiErrorModel error)? error,
   }) {
     return error?.call(this.error);
@@ -536,7 +536,7 @@ class _$ErrorImpl implements _Error {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function()? success,
+    TResult Function()? requiresOtp,
     TResult Function(ApiErrorModel error)? error,
     required TResult orElse(),
   }) {
@@ -551,7 +551,7 @@ class _$ErrorImpl implements _Error {
   TResult map<TResult extends Object?>({
     required TResult Function(_Initial value) initial,
     required TResult Function(_Loading value) loading,
-    required TResult Function(_Success value) success,
+    required TResult Function(_RequiresOtp value) requiresOtp,
     required TResult Function(_Error value) error,
   }) {
     return error(this);
@@ -562,7 +562,7 @@ class _$ErrorImpl implements _Error {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Initial value)? initial,
     TResult? Function(_Loading value)? loading,
-    TResult? Function(_Success value)? success,
+    TResult? Function(_RequiresOtp value)? requiresOtp,
     TResult? Function(_Error value)? error,
   }) {
     return error?.call(this);
@@ -573,7 +573,7 @@ class _$ErrorImpl implements _Error {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Initial value)? initial,
     TResult Function(_Loading value)? loading,
-    TResult Function(_Success value)? success,
+    TResult Function(_RequiresOtp value)? requiresOtp,
     TResult Function(_Error value)? error,
     required TResult orElse(),
   }) {

@@ -1,10 +1,10 @@
 part of 'login_cubit.dart';
 
 @freezed
-class LoginState<T> with _$LoginState<T> {
+class LoginState with _$LoginState {
   const factory LoginState.initial() = _Initial;
-
-  const factory LoginState.loading() = Loading;
-  const factory LoginState.success(T data) = Success<T>;
-  const factory LoginState.error(ApiErrorModel error) = Error;
+  const factory LoginState.loading() = _Loading;
+  const factory LoginState.authenticated(Session data) = _Authenticated;
+  const factory LoginState.requiresProfileCompletion() = _RequiresOtp;
+  const factory LoginState.error(ApiErrorModel error) = _Error;
 }

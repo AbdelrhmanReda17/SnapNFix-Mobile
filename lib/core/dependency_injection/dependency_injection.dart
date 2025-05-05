@@ -1,18 +1,21 @@
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
-import 'package:go_router/go_router.dart';
 import 'package:snapnfix/core/config/application_configurations.dart';
+import 'package:snapnfix/core/infrastructure/device_info/device_info_service.dart';
 import 'package:snapnfix/core/infrastructure/location/location_service.dart';
 import 'package:snapnfix/modules/authentication/data/datasources/authentication_remote_data_source.dart';
 import 'package:snapnfix/modules/authentication/data/repositories/authentication_repository.dart';
+import 'package:snapnfix/modules/authentication/data/services/social_authentication_service.dart';
 import 'package:snapnfix/modules/authentication/domain/repositories/base_authentication_repository.dart';
-import 'package:snapnfix/modules/authentication/domain/usecases/forgot_password_use_case.dart';
+import 'package:snapnfix/modules/authentication/domain/usecases/complete_profile_use_case.dart';
 import 'package:snapnfix/modules/authentication/domain/usecases/login_use_case.dart';
 import 'package:snapnfix/modules/authentication/domain/usecases/logout_use_case.dart';
-import 'package:snapnfix/modules/authentication/domain/usecases/register_use_case.dart';
+import 'package:snapnfix/modules/authentication/domain/usecases/request_otp_use_case.dart';
 import 'package:snapnfix/modules/authentication/domain/usecases/resend_otp_use_case.dart';
 import 'package:snapnfix/modules/authentication/domain/usecases/reset_password_use_case.dart';
+import 'package:snapnfix/modules/authentication/domain/usecases/social_sign_in_use_case.dart';
 import 'package:snapnfix/modules/authentication/domain/usecases/verify_otp_use_case.dart';
+import 'package:snapnfix/modules/authentication/presentation/cubits/complete_profile/complete_profile_cubit.dart';
 import 'package:snapnfix/modules/authentication/presentation/cubits/forget_password/forgot_password_cubit.dart';
 import 'package:snapnfix/modules/authentication/presentation/cubits/login/login_cubit.dart';
 import 'package:snapnfix/modules/authentication/presentation/cubits/otp/otp_cubit.dart';
@@ -37,6 +40,7 @@ import 'package:snapnfix/modules/reports/domain/usecases/submit_report_use_case.
 import 'package:snapnfix/modules/reports/domain/usecases/sync_prending_reports_use_case.dart';
 import 'package:snapnfix/modules/reports/domain/usecases/watch_pending_reports_count_use_case.dart';
 import 'package:snapnfix/modules/reports/presentation/cubits/submit_report_cubit.dart';
+import 'package:snapnfix/modules/reports/presentation/cubits/report_review_cubit.dart';
 import 'package:snapnfix/modules/settings/data/datasources/settings_remote_data_source.dart';
 import 'package:snapnfix/modules/settings/data/repositories/settings_repository_impl.dart';
 import 'package:snapnfix/modules/settings/domain/repositories/base_settings_repository.dart';
@@ -44,7 +48,6 @@ import 'package:snapnfix/modules/settings/domain/usecases/change_password_use_ca
 import 'package:snapnfix/modules/settings/domain/usecases/edit_profile_use_case.dart';
 import 'package:snapnfix/modules/settings/presentation/cubits/change_password_cubit.dart';
 import 'package:snapnfix/modules/settings/presentation/cubits/edit_profile_cubit.dart';
-import 'package:snapnfix/presentation/navigation/application_router.dart';
 import 'package:snapnfix/core/infrastructure/networking/api_constants.dart';
 import 'package:snapnfix/core/infrastructure/networking/api_service.dart';
 import 'package:snapnfix/core/infrastructure/networking/dio_factory.dart';
@@ -60,9 +63,6 @@ Future<void> setupGetIt() async {
 
   // Register application configurations immediately
   setupAppConfigurations();
-
-  // Now register router which depends on configurations
-  setupRouter();
 
   // Register networking components
   Dio dio = DioFactory.getDio();
@@ -89,54 +89,47 @@ void setupAppConfigurations() {
   getIt<ApplicationConfigurations>();
 }
 
-void setupRouter() {
-  // Register Router - depends on ApplicationConfigurations
-  getIt.registerLazySingleton<ApplicationRouter>(
-    () => ApplicationRouter(
-      appConfigurations: getIt<ApplicationConfigurations>(),
+void setupAuthenticationModule() {
+  getIt.registerLazySingleton<BaseAuthenticationRemoteDataSource>(
+    () => AuthenticationRemoteDataSource(
+      getIt<ApiService>(),
+      getIt<DeviceInfoService>(),
     ),
   );
 
-  // Register GoRouter
-  getIt.registerLazySingleton<GoRouter>(
-    () => getIt<ApplicationRouter>().router,
-  );
-}
-
-void setupAuthenticationModule() {
-  // Register Data Sources & Repository
-  getIt.registerLazySingleton<BaseAuthenticationRemoteDataSource>(
-    () => AuthenticationRemoteDataSource(getIt<ApiService>()),
+  getIt.registerLazySingleton<SocialAuthenticationService>(
+    () => SocialAuthenticationService(),
   );
 
   getIt.registerLazySingleton<BaseAuthenticationRepository>(
-    () => AuthenticationRepository(getIt<BaseAuthenticationRemoteDataSource>()),
+    () => AuthenticationRepository(
+      getIt<BaseAuthenticationRemoteDataSource>(),
+      getIt<ApplicationConfigurations>(),
+      getIt<SocialAuthenticationService>(),
+    ),
   );
 
-  // Register Use Cases
   getIt.registerLazySingleton<LoginUseCase>(
     () => LoginUseCase(getIt<BaseAuthenticationRepository>()),
   );
 
-  getIt.registerLazySingleton<RegisterUseCase>(
-    () => RegisterUseCase(getIt<BaseAuthenticationRepository>()),
+  getIt.registerLazySingleton<RequestOTPUseCase>(
+    () => RequestOTPUseCase(getIt<BaseAuthenticationRepository>()),
   );
 
   getIt.registerLazySingleton<LogoutUseCase>(
     () => LogoutUseCase(getIt<BaseAuthenticationRepository>()),
   );
 
-  // Register Cubits
   getIt.registerFactory<LoginCubit>(
-    () => LoginCubit(loginUseCase: getIt<LoginUseCase>()),
+    () => LoginCubit(
+      loginUseCase: getIt<LoginUseCase>(),
+      socialSignInUseCase: getIt<SocialSignInUseCase>(),
+    ),
   );
 
   getIt.registerFactory<RegisterCubit>(
-    () => RegisterCubit(registerUseCase: getIt<RegisterUseCase>()),
-  );
-
-  getIt.registerLazySingleton<ForgotPasswordUseCase>(
-    () => ForgotPasswordUseCase(getIt<BaseAuthenticationRepository>()),
+    () => RegisterCubit(getIt<RequestOTPUseCase>()),
   );
 
   getIt.registerLazySingleton<ResetPasswordUseCase>(
@@ -151,6 +144,10 @@ void setupAuthenticationModule() {
     () => ResendOtpUseCase(getIt<BaseAuthenticationRepository>()),
   );
 
+  getIt.registerLazySingleton<SocialSignInUseCase>(
+    () => SocialSignInUseCase(getIt<BaseAuthenticationRepository>()),
+  );
+
   getIt.registerFactory<OtpCubit>(
     () => OtpCubit(
       verifyOtpUseCase: getIt<VerifyOtpUseCase>(),
@@ -159,14 +156,22 @@ void setupAuthenticationModule() {
   );
 
   getIt.registerFactory<ForgotPasswordCubit>(
-    () => ForgotPasswordCubit(
-      forgotPasswordUseCase: getIt<ForgotPasswordUseCase>(),
-    ),
+    () =>
+        ForgotPasswordCubit(forgotPasswordUseCase: getIt<RequestOTPUseCase>()),
   );
 
   getIt.registerFactory<ResetPasswordCubit>(
-    () => ResetPasswordCubit(
-      resetPasswordUseCase: getIt<ResetPasswordUseCase>(),
+    () =>
+        ResetPasswordCubit(resetPasswordUseCase: getIt<ResetPasswordUseCase>()),
+  );
+
+  getIt.registerLazySingleton<CompleteProfileUseCase>(
+    () => CompleteProfileUseCase(getIt<BaseAuthenticationRepository>()),
+  );
+
+  getIt.registerFactory<CompleteProfileCubit>(
+    () => CompleteProfileCubit(
+      completeProfileUseCase: getIt<CompleteProfileUseCase>(),
     ),
   );
 }
@@ -187,6 +192,9 @@ Future<void> setupServices() async {
 
   // Location Service
   getIt.registerLazySingleton<LocationService>(() => LocationService());
+
+  // Device info Service
+  getIt.registerLazySingleton<DeviceInfoService>(() => DeviceInfoService());
 }
 
 void setupReportsModule() {
@@ -228,6 +236,10 @@ void setupReportsModule() {
   // Cubits
   getIt.registerFactory<SubmitReportCubit>(
     () => SubmitReportCubit(getIt<SubmitReportUseCase>()),
+  );
+
+  getIt.registerFactory<ReportReviewCubit>(
+    () => ReportReviewCubit(getIt<BaseReportRepository>()),
   );
 }
 
