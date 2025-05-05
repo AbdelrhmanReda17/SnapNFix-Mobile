@@ -144,8 +144,7 @@ class _$SocialAuthenticationSuccessImpl implements SocialAuthenticationSuccess {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$SocialAuthenticationSuccessImpl &&
-            (identical(other.idToken, idToken) ||
-                other.idToken == idToken));
+            (identical(other.idToken, idToken) || other.idToken == idToken));
   }
 
   @override
@@ -232,9 +231,8 @@ class _$SocialAuthenticationSuccessImpl implements SocialAuthenticationSuccess {
 
 abstract class SocialAuthenticationSuccess
     implements SocialAuthenticationResult {
-  const factory SocialAuthenticationSuccess({
-    required final String idToken,
-  }) = _$SocialAuthenticationSuccessImpl;
+  const factory SocialAuthenticationSuccess({required final String idToken}) =
+      _$SocialAuthenticationSuccessImpl;
 
   String get idToken;
 

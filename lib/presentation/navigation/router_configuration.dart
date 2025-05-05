@@ -57,6 +57,7 @@ class RouterConfiguration {
           ),
         ],
       ),
+      ..._buildGoRoutes([ApplicationRoutes.issueDetailsRoute]),
     ],
     redirect: (context, state) => _handleRedirect(context, state),
   );
