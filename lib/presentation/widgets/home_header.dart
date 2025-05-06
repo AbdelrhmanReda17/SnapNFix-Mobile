@@ -3,7 +3,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:snapnfix/core/config/application_configurations.dart';
 import 'package:snapnfix/core/dependency_injection/dependency_injection.dart';
 import 'package:go_router/go_router.dart';
+import 'package:snapnfix/modules/reports/presentation/widgets/offline_report_indicator.dart';
 import 'package:snapnfix/presentation/navigation/routes.dart';
+
 
 class HomeHeader extends StatelessWidget {
   const HomeHeader({super.key});
@@ -111,15 +113,20 @@ class HomeHeader extends StatelessWidget {
         Positioned(
           top: 16.h,
           right: 8.w,
-          child: IconButton(
-            icon: Icon(
-              Icons.notifications_outlined,
-              size: 32.r,
-              color: theme.colorScheme.primary,
-            ),
-            onPressed: () {},
-            padding: EdgeInsets.zero,
-            constraints: const BoxConstraints(),
+          child: Row(
+            children: [
+              IconButton(
+                icon: Icon(
+                  Icons.notifications_outlined,
+                  size: 32.r,
+                  color: theme.colorScheme.primary,
+                ),
+                onPressed: () {},
+                padding: EdgeInsets.zero,
+                constraints: const BoxConstraints(),
+              ),
+              const OfflineReportIndicator(),
+            ],
           ),
         ),
       ],
