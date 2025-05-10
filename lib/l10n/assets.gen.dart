@@ -65,6 +65,9 @@ class $AssetsImagesGen {
   AssetGenImage get facebookIcon =>
       const AssetGenImage('assets/images/facebook_icon.png');
 
+  /// File path: assets/images/favicon.ico
+  String get favicon => 'assets/images/favicon.ico';
+
   /// File path: assets/images/google_icon.png
   AssetGenImage get googleIcon =>
       const AssetGenImage('assets/images/google_icon.png');
@@ -101,12 +104,13 @@ class $AssetsImagesGen {
   AssetGenImage get text => const AssetGenImage('assets/images/text.png');
 
   /// List of all assets
-  List<AssetGenImage> get values => [
+  List<dynamic> get values => [
     pattern,
     snf,
     sNFDark,
     snapNFix,
     facebookIcon,
+    favicon,
     googleIcon,
     issue1,
     issue2,

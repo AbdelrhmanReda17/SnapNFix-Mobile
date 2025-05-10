@@ -14,30 +14,48 @@ class NetworkConnectionNotifier extends StatefulWidget {
 class _NetworkConnectionNotifierState extends State<NetworkConnectionNotifier> {
   final ConnectivityService _connectionService = getIt<ConnectivityService>();
   bool? _previousStatus;
+  bool _isFirstCheck = true;
 
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<bool>(
       stream: _connectionService.getNetworkStream,
       builder: (context, snapshot) {
-        final isConnected = snapshot.data ?? false;
+        bool? isConnected = snapshot.data;
 
-        if (_previousStatus != null && isConnected != _previousStatus) {
+        if (_isFirstCheck && isConnected != null) {
+          _isFirstCheck = false;
           _previousStatus = isConnected;
 
-          Future.microtask(() {
-            BaseToast.show(
-              context: context,
-              message: isConnected ? 'You are online' : 'You are offline',
-              type: isConnected ? ToastType.success : ToastType.error,
-              duration: const Duration(seconds: 2),
-            );
-          });
+          if (isConnected != _previousStatus && isConnected) {
+            _showNetworkToast(context, isConnected);
+          }
+          return const SizedBox.shrink();
         }
 
+        if (_previousStatus != null &&
+            isConnected != _previousStatus &&
+            isConnected != null) {
+          _previousStatus = isConnected;
+          _showNetworkToast(context, isConnected);
+        }
         _previousStatus = isConnected;
         return const SizedBox.shrink();
       },
     );
+  }
+
+  void _showNetworkToast(BuildContext context, bool isConnected) {
+    Future.microtask(() {
+      BaseToast.show(
+        context: context,
+        message:
+            isConnected
+                ? 'Connected to the internet'
+                : 'No internet connection',
+        type: isConnected ? ToastType.success : ToastType.error,
+        duration: const Duration(seconds: 2),
+      );
+    });
   }
 }

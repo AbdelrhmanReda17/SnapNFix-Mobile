@@ -1,11 +1,8 @@
-import 'package:json_annotation/json_annotation.dart';
 import 'package:snapnfix/modules/reports/domain/entities/report.dart';
 import 'package:snapnfix/modules/reports/domain/entities/report_severity.dart';
 import 'package:snapnfix/modules/reports/domain/entities/report_status.dart';
+import 'dart:io';
 
-part 'report_model.g.dart';
-
-@JsonSerializable(explicitToJson: true)
 class ReportModel extends Report {
   const ReportModel({
     required super.id,
@@ -21,12 +18,6 @@ class ReportModel extends Report {
     super.status = ReportStatus.pending,
   });
 
-  factory ReportModel.fromJson(Map<String, dynamic> json) {
-    return _$ReportModelFromJson(json);
-  }
-
-  Map<String, dynamic> toJson() => _$ReportModelToJson(this);
-
   ReportModel copyWith({
     String? id,
     String? details,
@@ -34,7 +25,7 @@ class ReportModel extends Report {
     double? longitude,
     ReportSeverity? severity,
     String? timestamp,
-    String? image,
+    File? image,
     String? category,
     double? threshold,
     ReportStatus? status,
@@ -52,6 +43,44 @@ class ReportModel extends Report {
       threshold: threshold ?? this.threshold,
       status: status ?? this.status,
       issueId: issueId ?? this.issueId,
+    );
+  }
+
+  // toJson
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'details': details,
+      'latitude': latitude,
+      'longitude': longitude,
+      'severity': severity.toString(),
+      'timestamp': timestamp,
+      'image': image.path,
+      'category': category,
+      'threshold': threshold,
+      'status': status.toString(),
+      'issueId': issueId,
+    };
+  }
+
+  // fromJson
+  factory ReportModel.fromJson(Map<String, dynamic> json) {
+    return ReportModel(
+      id: json['id'] as String,
+      details: json['details'] as String,
+      latitude: json['latitude'] as double,
+      longitude: json['longitude'] as double,
+      severity: ReportSeverity.values.firstWhere(
+        (e) => e.toString() == json['severity'],
+      ),
+      timestamp: json['timestamp'] as String,
+      image: File(json['image'] as String),
+      category: json['category'] as String?,
+      threshold: (json['threshold'] as num?)?.toDouble(),
+      status: ReportStatus.values.firstWhere(
+        (e) => e.toString() == json['status'],
+      ),
+      issueId: json['issueId'] as String,
     );
   }
 }

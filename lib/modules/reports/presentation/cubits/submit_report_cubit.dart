@@ -1,6 +1,9 @@
 import 'dart:io';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:snapnfix/core/infrastructure/location/location_service.dart';
 import 'package:snapnfix/core/infrastructure/networking/api_error_handler.dart';
 import 'package:snapnfix/modules/reports/data/model/report_model.dart';
@@ -18,8 +21,20 @@ class SubmitReportCubit extends Cubit<SubmitReportState> {
   SubmitReportCubit(this._submitReportUseCase)
     : super(SubmitReportState.initial());
 
-  void setAdditionalDetails(String value) {
-    emit(state.copyWith(details: value));
+  void setAdditionalDetails(String value) async {
+    final tempDir = await getTemporaryDirectory();
+    final tempPath = '${tempDir.path}/mock_issue.jpg';
+    final tempFile = File(tempPath);
+    final byteData = await rootBundle.load('assets/images/issue1.jpg');
+    await tempFile.writeAsBytes(
+      byteData.buffer.asUint8List(
+        byteData.offsetInBytes,
+        byteData.lengthInBytes,
+      ),
+    );
+    debugPrint('Temp file path: ${tempFile.path}');
+    debugPrint(value);
+    emit(state.copyWith(details: value, image: tempFile));
   }
 
   void setImage(File? image) {
@@ -52,7 +67,7 @@ class SubmitReportCubit extends Cubit<SubmitReportState> {
           id: const Uuid().v4(),
           details: state.details ?? '',
           severity: state.severity,
-          image: state.image?.path ?? '',
+          image: state.image!,
           latitude: state.position!.latitude,
           longitude: state.position!.longitude,
           timestamp: DateTime.now().toIso8601String(),

@@ -78,11 +78,11 @@ class _ReportCardState extends State<ReportCard>
                   children: [
                     Hero(
                       tag: 'report_image_${widget.report.id}',
-                      child: widget.report.image.isNotEmpty
-                          ? (widget.report.image.startsWith('http') || 
-                             widget.report.image.startsWith('assets')
+                      child: widget.report.image.uri.toString().isNotEmpty
+                          ? (widget.report.image.uri.toString().startsWith('http') || 
+                             widget.report.image.uri.toString().startsWith('assets')
                               ? Image.network(
-                                  widget.report.image,
+                                  widget.report.image.uri.toString(),
                                   height: 80.h,
                                   width: double.infinity,
                                   fit: BoxFit.cover,
@@ -96,7 +96,7 @@ class _ReportCardState extends State<ReportCard>
                                   },
                                 )
                               : Image.file(
-                                  File(widget.report.image),
+                                  File(widget.report.image.uri.toString()),
                                   height: 80.h,
                                   width: double.infinity,
                                   fit: BoxFit.cover,

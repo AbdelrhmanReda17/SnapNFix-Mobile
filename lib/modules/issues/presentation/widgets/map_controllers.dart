@@ -3,13 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class MapControllers extends StatelessWidget {
   final VoidCallback onSearchTap;
-  final VoidCallback onCenterTap;
 
-  const MapControllers({
-    super.key,
-    required this.onSearchTap,
-    required this.onCenterTap,
-  });
+  const MapControllers({super.key, required this.onSearchTap});
 
   @override
   Widget build(BuildContext context) {

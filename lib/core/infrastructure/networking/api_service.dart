@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:snapnfix/core/infrastructure/networking/api_constants.dart';
 import 'package:retrofit/retrofit.dart';
@@ -12,7 +14,9 @@ abstract class ApiService {
   factory ApiService(Dio dio, {required String baseUrl}) = _ApiService;
 
   @POST(ApiConstants.login)
-  Future<BaseResponse<SessionModel>> login(@Body() Map<String, dynamic> loginDTO);
+  Future<BaseResponse<SessionModel>> login(
+    @Body() Map<String, dynamic> loginDTO,
+  );
 
   @POST(ApiConstants.requestOTP)
   Future<BaseResponse<String>> requestOTP(
@@ -61,4 +65,13 @@ abstract class ApiService {
   Future<BaseResponse<SessionModel>> loginWithFacebook(
     @Body() Map<String, dynamic> facebookLoginDTO,
   );
+
+  @POST(ApiConstants.createReport)
+  @MultiPart()
+  Future<BaseResponse<String>> createReport({
+    @Part(name: 'Image') required File image,
+    @Part(name: 'Latitude') required double latitude,
+    @Part(name: 'Longitude') required double longitude,
+    @Part(name: 'Comment') required String comment,
+  });
 }

@@ -1,5 +1,7 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
+import 'package:snapnfix/core/config/application_configurations.dart';
 import 'package:snapnfix/core/dependency_injection/dependency_injection.dart';
 import 'package:snapnfix/core/utils/helpers/shared_pref_keys.dart';
 import 'package:snapnfix/core/infrastructure/storage/secure_storage_service.dart';
@@ -27,9 +29,10 @@ class DioFactory {
   }
 
   static void addDioHeaders() async {
-    final secureStorage = getIt<SecureStorageService>();
-    final token = await secureStorage.read(key: SharedPrefKeys.userToken);
+    final token =
+        getIt<ApplicationConfigurations>().currentSession?.tokens.accessToken;
 
+    debugPrint("From Dio Header: $token");
     dio?.options.headers = {
       'Accept': 'application/json',
       'Authorization': 'Bearer ${token ?? ""}',

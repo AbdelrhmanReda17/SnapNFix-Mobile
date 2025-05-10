@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:snapnfix/core/config/application_configurations.dart';
 import 'package:snapnfix/core/infrastructure/device_info/device_info_service.dart';
+import 'package:snapnfix/core/infrastructure/location/location_permission_handler.dart';
 import 'package:snapnfix/core/infrastructure/location/location_service.dart';
 import 'package:snapnfix/modules/authentication/data/datasources/authentication_remote_data_source.dart';
 import 'package:snapnfix/modules/authentication/data/repositories/authentication_repository.dart';
@@ -60,17 +61,14 @@ final getIt = GetIt.instance;
 Future<void> setupGetIt() async {
   // Register services first
   await setupServices();
-
-  // Register application configurations immediately
   setupAppConfigurations();
 
-  // Register networking components
+  await getIt<ApplicationConfigurations>().init();
   Dio dio = DioFactory.getDio();
   getIt.registerLazySingleton<ApiService>(
     () => ApiService(dio, baseUrl: ApiConstants.apiBaseUrl),
   );
 
-  // Register authentication dependencies
   setupReportsModule();
   setupAuthenticationModule();
   setupIssuesModule();
@@ -86,7 +84,6 @@ void setupAppConfigurations() {
   );
 
   // Initialize application configurations
-  getIt<ApplicationConfigurations>();
 }
 
 void setupAuthenticationModule() {
@@ -192,6 +189,10 @@ Future<void> setupServices() async {
 
   // Location Service
   getIt.registerLazySingleton<LocationService>(() => LocationService());
+
+  getIt.registerLazySingleton<LocationPermissionHandler>(
+    () => LocationPermissionHandler(getIt<LocationService>()),
+  );
 
   // Device info Service
   getIt.registerLazySingleton<DeviceInfoService>(() => DeviceInfoService());
@@ -313,10 +314,7 @@ void setupIssuesModule() {
 
   // Cubits
   getIt.registerFactory<IssuesMapCubit>(
-    () => IssuesMapCubit(
-      getIt<LocationService>(),
-      getIt<WatchNearbyIssuesUseCase>(),
-    ),
+    () => IssuesMapCubit(getIt<WatchNearbyIssuesUseCase>()),
   );
 
   getIt.registerFactory<IssueDetailsCubit>(

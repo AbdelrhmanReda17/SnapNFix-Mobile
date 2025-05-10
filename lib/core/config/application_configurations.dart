@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:snapnfix/core/config/application_constants.dart';
 import 'package:snapnfix/core/dependency_injection/dependency_injection.dart';
+import 'package:snapnfix/core/infrastructure/networking/dio_factory.dart';
 import 'package:snapnfix/core/utils/helpers/shared_pref_keys.dart';
 import 'package:snapnfix/core/infrastructure/storage/secure_storage_service.dart';
 import 'package:snapnfix/core/infrastructure/storage/shared_preferences_service.dart';
@@ -40,6 +41,7 @@ class ApplicationConfigurations with ChangeNotifier {
 
   // Initialize all settings
   Future<void> init() async {
+    debugPrint("Initializing application configurations...");
     await _loadOnboardingStatus();
     await _loadUserSession();
     await _loadLanguage();
@@ -64,11 +66,9 @@ class ApplicationConfigurations with ChangeNotifier {
     final sessionString = await _secureStorage.read(
       key: SharedPrefKeys.authenticationSession,
     );
-    debugPrint("Session String: $sessionString");
     if (sessionString != null && sessionString.isNotEmpty) {
       try {
         final sessionMap = json.decode(sessionString);
-        debugPrint("Session Map: $sessionMap");
         _currentSession = SessionModel.fromJson(sessionMap);
         debugPrint("Current Session: $_currentSession");
       } catch (e) {

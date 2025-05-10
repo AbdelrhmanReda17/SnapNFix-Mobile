@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:equatable/equatable.dart';
 import 'package:snapnfix/modules/reports/domain/entities/report_severity.dart';
 import 'package:snapnfix/modules/reports/domain/entities/report_status.dart';
@@ -10,7 +12,7 @@ class Report extends Equatable {
   final double longitude;
   final ReportSeverity severity;
   final String timestamp;
-  final String image;
+  final File image;
   final String? category;
   final double? threshold;
   final ReportStatus status;
