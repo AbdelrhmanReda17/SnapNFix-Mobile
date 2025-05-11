@@ -15,10 +15,10 @@ class SubmitReportForm extends StatelessWidget {
   final VoidCallback onSubmit;
 
   const SubmitReportForm({
-    Key? key,
+    super.key,
     required this.timeoutManager,
     required this.onSubmit,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

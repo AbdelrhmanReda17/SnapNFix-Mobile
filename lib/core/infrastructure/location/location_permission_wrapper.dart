@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:snapnfix/core/base_components/base_button.dart';
 import 'package:snapnfix/core/infrastructure/location/location_service.dart';
@@ -139,6 +140,7 @@ class _LocationPermissionWidgetState extends State<LocationPermissionWidget>
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
     if (_isLoading) {
       return const Center(
         child: Column(
@@ -154,19 +156,29 @@ class _LocationPermissionWidgetState extends State<LocationPermissionWidget>
 
     if (!_isLocationEnabled || _currentPosition == null) {
       return Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Icon(Icons.location_off, size: 48, color: Colors.red),
-            const SizedBox(height: 16),
-            Text(widget.message),
-            const SizedBox(height: 16),
-            BaseButton(
-              onPressed: _requestLocationPermission,
-              text: 'Enable Location',
-              textStyle: const TextStyle(color: Colors.white),
-            ),
-          ],
+        child: Padding(
+          padding: EdgeInsets.all(8.0.w),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(Icons.location_off, size: 60, color: colorScheme.primary),
+              const SizedBox(height: 16),
+              Text(
+                widget.message,
+                style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                  color: colorScheme.primary,
+                  fontSize: 20,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 16),
+              BaseButton(
+                onPressed: _requestLocationPermission,
+                text: 'Enable Location',
+                textStyle: const TextStyle(color: Colors.white),
+              ),
+            ],
+          ),
         ),
       );
     }

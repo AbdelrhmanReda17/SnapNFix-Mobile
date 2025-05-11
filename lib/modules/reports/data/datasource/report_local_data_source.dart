@@ -73,7 +73,7 @@ class ReportLocalDataSource implements BaseReportLocalDataSource {
     try {
       final image = await saveImagePermanently(report.image);
       final reportsDir = await _getOfflineReportsDirectory();
-      final updatedReport = report.copyWith(image: image);
+      final updatedReport = report.copyWithModel(image: image);
 
       if (!await reportsDir.exists()) {
         await reportsDir.create(recursive: true);

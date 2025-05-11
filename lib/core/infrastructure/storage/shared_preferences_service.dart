@@ -1,6 +1,11 @@
 import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:injectable/injectable.dart';
 
+
+
+
+@singleton
 class SharedPreferencesService {
   late final SharedPreferences _prefs;
 

@@ -5,7 +5,7 @@ import 'package:snapnfix/snapnfix_application.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await setupGetIt();
+  await configureDependencies();
   await ScreenUtil.ensureScreenSize();
   runApp(SnapNFixApplication());
 }

@@ -1,6 +1,7 @@
 import 'package:geolocator/geolocator.dart';
+import 'package:injectable/injectable.dart';
 
-
+@singleton
 class LocationService {
   static final LocationService _instance = LocationService._internal();
 

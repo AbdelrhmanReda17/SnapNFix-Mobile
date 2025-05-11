@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 class ReportTimeoutManager {
   Timer? _inactivityTimer;
   Timer? _countdownTimer;
-  static const int resetTimeInMinutes = 4;
+  static const int resetTimeInMinutes = 3;
   int secondsRemaining = resetTimeInMinutes * 60;
   final ValueNotifier<int> timeRemainingNotifier = ValueNotifier(
     resetTimeInMinutes * 60,
@@ -49,7 +49,14 @@ class ReportTimeoutManager {
       if (secondsRemaining > 0) {
         secondsRemaining--;
         timeRemainingNotifier.value = secondsRemaining;
+
+        // Add warning event when 30 seconds remaining
+        if (secondsRemaining == 30) {
+          _timeoutController.add(TimeoutEvent.warningShown);
+        }
       } else {
+        // When countdown reaches zero, trigger the form reset event
+        _timeoutController.add(TimeoutEvent.formReset);
         cancelCountdownTimer();
       }
     });

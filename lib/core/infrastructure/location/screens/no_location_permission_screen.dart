@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:snapnfix/core/dependency_injection/dependency_injection.dart';
 import 'package:snapnfix/core/infrastructure/location/location_service.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class NoLocationPermissionScreen extends StatelessWidget {
   final VoidCallback? onRetry;
@@ -12,8 +11,6 @@ class NoLocationPermissionScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
-    final localization = AppLocalizations.of(context);
-
     return Scaffold(
       body: Center(
         child: Padding(
@@ -25,7 +22,7 @@ class NoLocationPermissionScreen extends StatelessWidget {
               Icon(Icons.location_off, size: 80, color: colorScheme.primary),
               const SizedBox(height: 24),
               Text(
-                    'Location Permission Required',
+                'Location Permission Required',
                 style: textTheme.headlineSmall?.copyWith(
                   fontWeight: FontWeight.bold,
                 ),
@@ -33,7 +30,7 @@ class NoLocationPermissionScreen extends StatelessWidget {
               ),
               const SizedBox(height: 16),
               Text(
-                    'This feature requires location permission to work. Please enable location access in your device settings.',
+                'This feature requires location permission to work. Please enable location access in your device settings.',
                 style: textTheme.bodyMedium,
                 textAlign: TextAlign.center,
               ),
@@ -50,14 +47,11 @@ class NoLocationPermissionScreen extends StatelessWidget {
                     vertical: 16,
                   ),
                 ),
-                child: Text( 'Open Settings'),
+                child: Text('Open Settings'),
               ),
               if (onRetry != null) ...[
                 const SizedBox(height: 16),
-                TextButton(
-                  onPressed: onRetry,
-                  child: Text( 'Retry'),
-                ),
+                TextButton(onPressed: onRetry, child: Text('Retry')),
               ],
             ],
           ),

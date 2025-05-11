@@ -19,6 +19,8 @@ class _OfflineReportIndicatorState extends State<OfflineReportIndicator> {
   StreamSubscription? _connectivitySubscription;
   bool _isSyncing = false;
   final ConnectivityService _connectivityService = getIt<ConnectivityService>();
+  final GetPendingReportsCountUseCase _getpendingReportsUseCase =
+      getIt<GetPendingReportsCountUseCase>();
   int? _initialPendingCount;
 
   @override
@@ -29,12 +31,9 @@ class _OfflineReportIndicatorState extends State<OfflineReportIndicator> {
   }
 
   void _checkInitialPendingCount() {
-    final count = getIt<GetPendingReportsCountUseCase>().call();
-    if (mounted) {
-      setState(() {
-        _initialPendingCount = count;
-      });
-    }
+    setState(() {
+      _initialPendingCount = _getpendingReportsUseCase.call();
+    });
   }
 
   void _setupConnectivityMonitoring() {
@@ -54,6 +53,14 @@ class _OfflineReportIndicatorState extends State<OfflineReportIndicator> {
     }
   }
 
+  void _showReportSyncingToast(bool result) {
+    BaseToast.show(
+      context: context,
+      message: result ? 'Reports synced successfully' : 'Report Syncing failed',
+      type: result ? ToastType.success : ToastType.warning,
+    );
+  }
+
   Future<void> _syncReports() async {
     if (_isSyncing) return;
     setState(() {
@@ -63,22 +70,21 @@ class _OfflineReportIndicatorState extends State<OfflineReportIndicator> {
 
     try {
       final result = await syncPendingReports.call();
-
-      if (mounted) {
-        BaseToast.show(
-          context: context,
-
-          message: result ? 'Reports synced!' : 'Some reports failed',
-          type: result ? ToastType.success : ToastType.warning,
-        );
-      }
+      result.when(
+        success: (bool result) {
+          if (mounted) {
+            _showReportSyncingToast(result);
+          }
+        },
+        failure: (error) {
+          if (mounted) {
+            _showReportSyncingToast(false);
+          }
+        },
+      );
     } catch (e) {
       if (mounted) {
-        BaseToast.show(
-          message: 'Syncing failed',
-          type: ToastType.error,
-          context: context,
-        );
+        _showReportSyncingToast(false);
       }
     } finally {
       if (mounted) {

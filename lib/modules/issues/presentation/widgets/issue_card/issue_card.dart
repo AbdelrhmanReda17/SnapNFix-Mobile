@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:snapnfix/core/base_components/base_button.dart';
-import 'package:snapnfix/core/utils/helpers/spacing.dart';
 import 'package:snapnfix/modules/issues/domain/entities/issue.dart';
 import 'package:snapnfix/modules/issues/presentation/widgets/issue_card/issue_detail_item.dart';
 import 'package:snapnfix/modules/issues/presentation/widgets/issue_card/issue_image.dart';

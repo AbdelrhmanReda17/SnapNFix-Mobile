@@ -1,48 +1,81 @@
 import 'dart:io';
-
-import 'package:equatable/equatable.dart';
 import 'package:snapnfix/modules/reports/domain/entities/report_severity.dart';
 import 'package:snapnfix/modules/reports/domain/entities/report_status.dart';
+import 'package:geocoding/geocoding.dart';
 
-class Report extends Equatable {
-  final String id;
+class Report {
+  final String? id;
   final String? issueId;
-  final String details;
+  final String? details;
   final double latitude;
   final double longitude;
-  final ReportSeverity severity;
-  final String timestamp;
+  final DateTime? createdAt;
   final File image;
   final String? category;
-  final double? threshold;
-  final ReportStatus status;
-
+  final ReportSeverity? severity;
+  final ReportStatus? status;
   const Report({
-    required this.id,
+    this.id,
     this.issueId,
-    required this.details,
+    this.details,
     required this.latitude,
     required this.longitude,
-    required this.severity,
-    required this.timestamp,
+    this.createdAt,
     required this.image,
     this.category,
-    this.threshold,
+    this.severity = ReportSeverity.low,
     this.status = ReportStatus.pending,
   });
 
-  @override
-  List<Object?> get props => [
-    id,
-    issueId,
-    details,
-    latitude,
-    longitude,
-    severity,
-    timestamp,
-    image,
-    category,
-    threshold,
-    status,
-  ];
+
+  bool get isVerified => status == ReportStatus.verified;
+  bool get isPending => status == ReportStatus.pending;
+  bool get isRejected => status == ReportStatus.rejected;
+
+  bool get isHighSeverity => severity == ReportSeverity.high;
+  bool get isMediumSeverity => severity == ReportSeverity.medium;
+  bool get isLowSeverity => severity == ReportSeverity.low;
+  bool get timeToLive {
+    if (createdAt == null) return false;
+    final now = DateTime.now();
+    final difference = now.difference(createdAt!);
+    return difference.inHours < 24;
+  }
+
+  String get dateString {
+    if (createdAt == null) return '';
+    final now = DateTime.now();
+    final difference = now.difference(createdAt!);
+    if (difference.inHours < 24) {
+      return '${difference.inHours} hours ago';
+    } else if (difference.inDays < 30) {
+      return '${difference.inDays} days ago';
+    } else {
+      return '${createdAt!.day}/${createdAt!.month}/${createdAt!.year}';
+    }
+  }
+
+  Future<String> get locationString async {
+    try {
+      final placemarks = await placemarkFromCoordinates(
+        latitude,
+        longitude,
+      ).timeout(const Duration(seconds: 5));
+      if (placemarks.isNotEmpty) {
+        final place = placemarks.first;
+        if (place.street?.isNotEmpty == true ||
+            place.locality?.isNotEmpty == true) {
+          final address = [
+            place.street,
+            place.locality,
+            place.administrativeArea,
+          ].where((e) => e?.isNotEmpty == true).join(', ');
+          return address;
+        }
+      }
+      return '$latitude $longitude';
+    } catch (e) {
+      return '$latitude $longitude';
+    }
+  }
 }

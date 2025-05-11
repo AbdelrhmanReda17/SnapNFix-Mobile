@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:snapnfix/core/infrastructure/connectivity/connectivity_service.dart';
 import 'package:snapnfix/core/infrastructure/networking/api_error_handler.dart';
@@ -19,7 +17,6 @@ class ReportRepository implements BaseReportRepository {
     this._remoteDataSource,
     this._connectivityService,
   );
-
 
   @override
   Future<List<ReportModel>> getPendingReports() {
@@ -61,9 +58,7 @@ class ReportRepository implements BaseReportRepository {
       debugPrint('Error submitting report: $e');
       try {
         await _localDataSource.saveReportOffline(report);
-        return const ApiResult.success(
-          'Report saved offline due to error',
-        );
+        return const ApiResult.success('Report saved offline due to error');
       } catch (saveError) {
         return ApiResult.failure(ApiErrorHandler.handle(saveError));
       }
@@ -86,7 +81,7 @@ class ReportRepository implements BaseReportRepository {
         await result.when(
           success: (data) async {
             debugPrint('✅ Report submitted successfully: $data');
-            await _localDataSource.deleteOfflineReport(report.id);
+            await _localDataSource.deleteOfflineReport(report.id!);
             _localDataSource.decrementPendingReportsCount();
           },
           failure: (error) {

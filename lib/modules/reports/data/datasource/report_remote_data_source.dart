@@ -16,7 +16,7 @@ class ReportRemoteDataSource implements BaseReportRemoteDataSource {
     try {
       final response = await _apiService.createReport(
         image: report.image,
-        comment: report.details,
+        comment: report.details ?? '',
         latitude: report.latitude,
         longitude: report.longitude,
       );

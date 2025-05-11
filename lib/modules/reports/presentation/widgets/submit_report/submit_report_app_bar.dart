@@ -23,7 +23,6 @@ class SubmitReportAppBar extends StatelessWidget {
     return AppBar(
       backgroundColor: colorScheme.surface,
       automaticallyImplyLeading: false,
-      titleSpacing: 0,
       centerTitle: true,
       leading: BlocBuilder<SubmitReportCubit, SubmitReportState>(
         builder: (context, state) {
@@ -32,24 +31,15 @@ class SubmitReportAppBar extends StatelessWidget {
               valueListenable: timeoutManager.timeRemainingNotifier,
               builder: (context, secondsRemaining, _) {
                 return Center(
-                  child: Container(
-                    width: 56.w,
-                    height: 32.h,
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                      color: colorScheme.primaryContainer.withOpacity(0.2),
-                      borderRadius: BorderRadius.circular(16.r),
-                    ),
-                    child: Text(
-                      _formatTime(secondsRemaining),
-                      style: TextStyle(
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.w500,
-                        color:
-                            secondsRemaining <= 60
-                                ? colorScheme.error
-                                : colorScheme.primary,
-                      ),
+                  child: Text(
+                    _formatTime(secondsRemaining),
+                    style: TextStyle(
+                      fontSize: 14.sp,
+                      fontWeight: FontWeight.w500,
+                      color:
+                          secondsRemaining <= 60
+                              ? colorScheme.error
+                              : colorScheme.primary,
                     ),
                   ),
                 );

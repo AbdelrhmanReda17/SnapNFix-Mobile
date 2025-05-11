@@ -23,7 +23,7 @@ class ResetPasswordScreen extends StatelessWidget {
       buttonText: localization.resetPassword,
       form: const ResetPasswordForm(),
       blocListener: const ResetPasswordBlocListener(),
-      onSubmit: () => context.read<ResetPasswordCubit>().resetPassword(),
+      onSubmit: () async => await context.read<ResetPasswordCubit>().resetPassword(),
       showSocial: false,
       additionalContent: [
         Text(

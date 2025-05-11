@@ -6,11 +6,9 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:snapnfix/core/infrastructure/location/location_service.dart';
 import 'package:snapnfix/core/infrastructure/networking/api_error_handler.dart';
-import 'package:snapnfix/modules/reports/data/model/report_model.dart';
 import 'package:snapnfix/modules/reports/domain/entities/report_severity.dart';
 import 'package:snapnfix/modules/reports/domain/usecases/submit_report_use_case.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:uuid/uuid.dart';
 
 part 'submit_report_state.dart';
 part 'submit_report_cubit.freezed.dart';
@@ -63,16 +61,11 @@ class SubmitReportCubit extends Cubit<SubmitReportState> {
     emit(state.copyWith(position: position));
     try {
       final result = await _submitReportUseCase.call(
-        ReportModel(
-          id: const Uuid().v4(),
-          details: state.details ?? '',
-          severity: state.severity,
-          image: state.image!,
-          latitude: state.position!.latitude,
-          longitude: state.position!.longitude,
-          timestamp: DateTime.now().toIso8601String(),
-          issueId: '',
-        ),
+        details: state.details ?? '',
+        latitude: position.latitude,
+        longitude: position.longitude,
+        severity: state.severity,
+        imagePath: state.image!.path,
       );
 
       result.when(
@@ -100,6 +93,17 @@ class SubmitReportCubit extends Cubit<SubmitReportState> {
   }
 
   void resetState() {
+    emit(
+      state.copyWith(
+        image: null,
+        details: null,
+        severity: state.severity,
+        position: null,
+        isLoading: false,
+        error: null,
+        successMessage: null,
+      ),
+    );
     emit(SubmitReportState.initial());
   }
 }

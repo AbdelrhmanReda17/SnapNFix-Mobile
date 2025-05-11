@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:snapnfix/modules/issues/presentation/widgets/marker_dialog/issue_marker_dialog_content.dart';
-import 'package:snapnfix/modules/issues/presentation/widgets/marker_dialog/issue_marker_dialog_header.dart';
 import 'package:snapnfix/modules/issues/presentation/widgets/issue_card/issue_card.dart';
 import '../../../domain/entities/issue.dart';
 

@@ -410,7 +410,7 @@ class _ApiService implements ApiService {
           )
           .compose(
             _dio.options,
-            'api/SnapReport/Reports',
+            'api/Reports',
             queryParameters: queryParameters,
             data: _data,
           )

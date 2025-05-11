@@ -1,6 +1,7 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:snapnfix/core/infrastructure/location/location_permission_handler.dart';
 import 'package:snapnfix/core/infrastructure/location/location_service.dart';
 import 'package:snapnfix/core/dependency_injection/dependency_injection.dart';
@@ -9,7 +10,6 @@ import 'package:snapnfix/modules/reports/presentation/utils/report_timeout_manag
 import 'package:snapnfix/modules/reports/presentation/widgets/submit_report/submit_report_app_bar.dart';
 import 'package:snapnfix/modules/reports/presentation/widgets/submit_report/submit_report_form.dart';
 import 'package:snapnfix/modules/reports/presentation/widgets/submit_report/submit_report_bloc_listener.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SubmitReportScreen extends StatefulWidget {
   const SubmitReportScreen({super.key});
@@ -20,15 +20,29 @@ class SubmitReportScreen extends StatefulWidget {
 
 class _SubmitReportScreenState extends State<SubmitReportScreen> {
   final ReportTimeoutManager _timeoutManager = ReportTimeoutManager();
+  late StreamSubscription<TimeoutEvent> _timeoutSubscription;
 
   @override
   void initState() {
     super.initState();
     _timeoutManager.initialize();
+    _setupTimeoutListener();
+  }
+
+  void _setupTimeoutListener() {
+    _timeoutSubscription = _timeoutManager.timeoutStream.listen((event) {
+      if (event == TimeoutEvent.formReset) {
+        setState(() {
+          context.read<SubmitReportCubit>().resetState();
+          _timeoutManager.initialize();
+        });
+      }
+    });
   }
 
   @override
   void dispose() {
+    _timeoutSubscription.cancel();
     _timeoutManager.dispose();
     super.dispose();
   }
@@ -54,9 +68,9 @@ class _SubmitReportScreenState extends State<SubmitReportScreen> {
                 getIt<LocationPermissionHandler>().requestLocationAndExecute(
                   context,
                   onGranted: () async {
-                    await context
-                        .read<SubmitReportCubit>()
-                        .submitReport(getIt<LocationService>());
+                    await context.read<SubmitReportCubit>().submitReport(
+                      getIt<LocationService>(),
+                    );
                   },
                 );
               },

@@ -2,7 +2,9 @@ import 'dart:async';
 import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:injectable/injectable.dart';
 
+@singleton
 class ConnectivityService {
   final Connectivity _connectivity = Connectivity();
   final _internetStatusController = StreamController<bool>.broadcast();
