@@ -1,5 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:snapnfix/core/dependency_injection/dependency_injection.dart';
+import 'package:snapnfix/modules/issues/domain/usecases/get_area_issues_use_case.dart';
 import 'package:snapnfix/modules/issues/presentation/cubits/issue_details_cubit.dart';
 import 'package:snapnfix/modules/issues/presentation/cubits/issues_map_cubit.dart';
 import 'package:snapnfix/modules/issues/presentation/screens/issue_details_screen.dart';
@@ -17,9 +18,11 @@ import 'package:snapnfix/modules/settings/presentation/screens/privacy_policy_sc
 import 'package:snapnfix/modules/settings/presentation/screens/settings_dart.dart';
 import 'package:snapnfix/modules/settings/presentation/screens/support_screen.dart';
 import 'package:snapnfix/modules/settings/presentation/screens/terms_conditions_screen.dart';
+import 'package:snapnfix/presentation/cubits/area_issues_cubit.dart';
 import 'package:snapnfix/presentation/navigation/configuration/route_configuration.dart';
 import 'package:snapnfix/presentation/navigation/routes.dart';
 import 'package:snapnfix/presentation/screens/home_screen.dart';
+import 'package:snapnfix/presentation/screens/area_issues_chat_screen.dart';
 
 class ApplicationRoutes {
   static final homeRoute = RouteConfiguration(
@@ -122,12 +125,28 @@ class ApplicationRoutes {
     ],
   );
 
+  static final areaIssuesChatRoute = RouteConfiguration(
+    path: Routes.areaIssuesChat,
+    name: 'areaIssuesChat',
+    builder:
+        (context, state) => BlocProvider(
+          create: (context) => AreaIssuesCubit(
+            areaName: state.extra as String,
+            getAreaIssuesUseCase: getIt<GetAreaIssuesUseCase>(),
+          ),
+          child: AreaIssuesChatScreen(
+            area: state.extra as String,
+          ),
+        ),
+  );
+
   static final List<RouteConfiguration> routes = [
     homeRoute,
     mapRoute,
     reportsRoute,
     settingsRoute,
     submitReportRoute,
+    areaIssuesChatRoute,
   ];
 }
 

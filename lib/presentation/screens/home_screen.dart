@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:snapnfix/core/utils/helpers/spacing.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../widgets/home_header.dart';
 import '../widgets/horizontal_cards.dart';
 import '../widgets/report_section.dart';
-import '../widgets/channels_section.dart';
+import '../widgets/area_updates_section.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -15,14 +15,12 @@ class HomeScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const HomeHeader(),
-            verticalSpace(4),
+            SizedBox(height: 4.h),
             const HorizontalCards(),
-            verticalSpace(4),
+            SizedBox(height: 4.h),
             const ReportSection(),
-            verticalSpace(4),
-            const Expanded(
-              child: ChannelsSection(),
-            ),
+            SizedBox(height: 8.h),
+            const AreaUpdatesSection(),
           ],
         ),
       ],
