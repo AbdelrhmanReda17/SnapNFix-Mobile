@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:snapnfix/modules/reports/presentation/widgets/offline_report_indicator.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../widgets/home_header.dart';
 import '../widgets/horizontal_cards.dart';
 import '../widgets/report_section.dart';
+import '../widgets/channels_section.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -11,15 +11,18 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        OfflineReportIndicator(),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const HomeHeader(),
-            SizedBox(height: 6.h),
+            SizedBox(height: 4.h),
             const HorizontalCards(),
-            SizedBox(height: 10.h),
+            SizedBox(height: 4.h),
             const ReportSection(),
+            SizedBox(height: 4.h),
+            const Expanded(
+              child: ChannelsSection(),
+            ),
           ],
         ),
       ],
