@@ -80,11 +80,15 @@ class _ReportCardState extends State<ReportCard>
                     Hero(
                       tag: 'report_image_${widget.report.id}',
                       child:
-                          widget.report.image.isNotEmpty
-                              ? (widget.report.image.startsWith('http') ||
-                                      widget.report.image.startsWith('assets')
+                          widget.report.image.uri.toString().isNotEmpty
+                              ? (widget.report.image.uri.toString().startsWith(
+                                        'http',
+                                      ) ||
+                                      widget.report.image.uri
+                                          .toString()
+                                          .startsWith('assets')
                                   ? Image.network(
-                                    widget.report.image,
+                                    widget.report.image.uri.toString(),
                                     height: 80.h,
                                     width: double.infinity,
                                     fit: BoxFit.cover,
@@ -98,7 +102,7 @@ class _ReportCardState extends State<ReportCard>
                                     },
                                   )
                                   : Image.file(
-                                    File(widget.report.image),
+                                    File(widget.report.image.uri.toString()),
                                     height: 80.h,
                                     width: double.infinity,
                                     fit: BoxFit.cover,
@@ -145,7 +149,7 @@ class _ReportCardState extends State<ReportCard>
                             horizontalSpace(4),
                             Text(
                               _getStatusText(
-                                widget.report.status,
+                                widget.report.status!,
                                 localization,
                               ).toUpperCase(),
                               style: theme.textTheme.labelSmall?.copyWith(
@@ -170,7 +174,7 @@ class _ReportCardState extends State<ReportCard>
                           borderRadius: BorderRadius.circular(12.r),
                         ),
                         child: Text(
-                          _formatDate(widget.report.timestamp),
+                          widget.report.dateString,
                           style: theme.textTheme.labelSmall?.copyWith(
                             color: colorScheme.onSurface,
                           ),
@@ -205,7 +209,7 @@ class _ReportCardState extends State<ReportCard>
                           ),
                         ),
                         style: theme.textTheme.bodySmall?.copyWith(
-                          color: widget.report.severity.color,
+                          color: widget.report.severity!.color,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
@@ -215,12 +219,16 @@ class _ReportCardState extends State<ReportCard>
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                              widget.report.details,
-                              style: theme.textTheme.bodySmall?.copyWith(
-                                color: colorScheme.onSurface,
+                            if (widget.report.details != null) ...[
+                              Text(
+                                widget.report.details ?? '',
+                                style: theme.textTheme.labelMedium?.copyWith(
+                                  color: colorScheme.onSurface,
+                                  fontWeight: FontWeight.w500,
+                                ),
                               ),
-                            ),
+                              SizedBox(height: 4.h),
+                            ],
                             if (widget.report.issueId != null) ...[
                               verticalSpace(8),
                               InkWell(
@@ -266,16 +274,19 @@ class _ReportCardState extends State<ReportCard>
     };
   }
 
-  String _getStatusText(ReportStatus status, AppLocalizations localization) {
+  Color _getStatusColor(ReportStatus status) {
     return switch (status) {
-      ReportStatus.pending => localization.statusPending,
-      ReportStatus.valid => localization.statusValid,
-      ReportStatus.invalid => localization.statusInvalid,
+      ReportStatus.pending => Colors.orange,
+      ReportStatus.verified => Colors.green,
+      ReportStatus.rejected => Colors.red,
     };
   }
 
-  String _formatDate(String timestamp) {
-    final date = DateTime.parse(timestamp);
-    return '${date.day}/${date.month}/${date.year}';
+  String _getStatusText(ReportStatus status, AppLocalizations localization) {
+    return switch (status) {
+      ReportStatus.pending => localization.statusPending,
+      ReportStatus.verified => localization.statusValid,
+      ReportStatus.rejected => localization.statusInvalid,
+    };
   }
 }

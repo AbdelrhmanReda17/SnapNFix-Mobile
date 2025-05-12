@@ -22,7 +22,8 @@ class ForgotPasswordScreen extends StatelessWidget {
       form: const ForgetPasswordForm(),
       blocListener: const ForgetPasswordBlocListener(),
       onSubmit:
-          () => context.read<ForgotPasswordCubit>().emitForgotPasswordStates(),
+          () async =>
+              await context.read<ForgotPasswordCubit>().requestPasswordReset(),
       showSocial: false,
       showTerms: false,
       showBackButton: true,

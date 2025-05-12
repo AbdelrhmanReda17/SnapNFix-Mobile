@@ -26,8 +26,8 @@ class RegisterScreen extends StatelessWidget {
       },
       form: RegisterForm(),
       blocListener: const RegisterBlocListener(),
-      onSubmit: () {
-        context.read<RegisterCubit>().emitRegisterStates();
+      onSubmit: () async {
+        await context.read<RegisterCubit>().register();
       },
       showTerms: true,
       showSocial: false,

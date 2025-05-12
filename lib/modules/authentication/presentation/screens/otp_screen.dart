@@ -25,14 +25,14 @@ class OtpScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final localization = AppLocalizations.of(context)!;
+    final cubit = context.read<OtpCubit>();
     return AuthenticationContent(
       title: localization.verificationCodeTitle,
       subtitle: '${localization.pleaseEnterCode} $emailOrPhoneNumber',
       buttonText: localization.verify,
       form: OtpForm(
-        onSubmit: (otpCode) {
-          context.read<OtpCubit>().otpCode = otpCode;
-          context.read<OtpCubit>().updateOtpCode(
+        onSubmit: (otpCode) async {
+          await cubit.updateOtpCode(
             otpCode,
             purpose!,
             phoneNumber: emailOrPhoneNumber,
@@ -41,8 +41,8 @@ class OtpScreen extends StatelessWidget {
         },
       ),
       blocListener: const OtpBlocListener(),
-      onSubmit: () {
-        context.read<OtpCubit>().verifyOtp(
+      onSubmit: () async {
+        await cubit.verifyOtp(
           phoneNumber: emailOrPhoneNumber,
           password: password,
           purpose: purpose!,

@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:snapnfix/core/config/application_configurations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:snapnfix/core/dependency_injection/dependency_injection.dart';
 import 'package:snapnfix/core/utils/helpers/spacing.dart';
 import 'package:snapnfix/modules/settings/presentation/widgets/dark_mode_tile.dart';
 import 'package:snapnfix/modules/settings/presentation/widgets/language_tile.dart';
@@ -20,7 +21,7 @@ class _SettingsListViewState extends State<SettingsListView> {
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
     final textStyles = Theme.of(context).textTheme;
-    final appConfigs = ApplicationConfigurations.instance;
+    final appConfigs = getIt<ApplicationConfigurations>();
     final localization = AppLocalizations.of(context)!;
     return Card(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.zero),

@@ -23,14 +23,13 @@ class CompleteProfileScreen extends StatelessWidget {
       footerAction: localization.skip,
       form: CompleteProfileForm(password: password),
       blocListener: const CompleteProfileBlocListener(),
-      onSubmit: () {
+      onSubmit: () async {
         if (password != null) {
-          context.read<CompleteProfileCubit>().submitProfile(password!);
+          await context.read<CompleteProfileCubit>().submitProfile(password!);
         }
       },
       showSocial: false,
       showTerms: false,
-      
     );
   }
 }

@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:snapnfix/core/infrastructure/location/location_permission_wrapper.dart';
 import 'package:snapnfix/modules/issues/presentation/cubits/issues_map_cubit.dart';
 import 'package:snapnfix/modules/issues/presentation/cubits/issues_map_state.dart';
 import 'package:snapnfix/modules/issues/presentation/widgets/filter_sheet/issue_filter_sheet.dart';
-import 'package:snapnfix/presentation/widgets/loading_overlay.dart';
-import 'package:snapnfix/modules/issues/presentation/widgets/map_screen_error.dart';
+import 'package:snapnfix/modules/issues/presentation/widgets/issues_map.dart';
 import 'package:snapnfix/modules/issues/presentation/widgets/map_controllers.dart';
 import 'package:snapnfix/modules/issues/presentation/widgets/marker_dialog/issue_marker_dialog.dart';
+import 'package:snapnfix/modules/issues/presentation/widgets/nearby_issues_section.dart';
 
 class IssueMapScreen extends StatefulWidget {
   const IssueMapScreen({super.key});
@@ -16,121 +17,96 @@ class IssueMapScreen extends StatefulWidget {
   State<IssueMapScreen> createState() => _IssueMapScreenState();
 }
 
-class _IssueMapScreenState extends State<IssueMapScreen>
-    with WidgetsBindingObserver {
-  bool _isMapLoaded = false;
+class _IssueMapScreenState extends State<IssueMapScreen> {
+  bool _isInitialized = false;
+  late IssuesMapCubit _issuesMapCubit;
 
   @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addObserver(this);
-    context.read<IssuesMapCubit>().initialize();
-  }
-
-  @override
-  void dispose() {
-    WidgetsBinding.instance.removeObserver(this);
-    super.dispose();
-  }
-
-  @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    super.didChangeAppLifecycleState(state);
-    if (state == AppLifecycleState.resumed) {
-      context.read<IssuesMapCubit>().checkLocationPermission();
-    }
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _issuesMapCubit = context.read<IssuesMapCubit>();
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<IssuesMapCubit, IssuesMapState>(
-      listenWhen:
-          (previous, current) =>
-              previous.selectedIssue != current.selectedIssue &&
-              current.selectedIssue != null &&
-              current.showIssueDetail,
-      listener: (context, state) {
-        showDialog(
-          context: context,
-          barrierDismissible: true,
-          builder:
-              (context) => Dialog(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                insetPadding: const EdgeInsets.symmetric(horizontal: 16),
-                child: IssueMarkerDialog(
-                  issue: state.selectedIssue!,
-                  onReportTap: () {
-                    Navigator.pop(context);
-                    // TODO: Submit report action
-                  },
-                ),
-              ),
-        ).then((_) {
-          context.read<IssuesMapCubit>().onIssueDetailClosed();
-        });
-      },
-      child: BlocBuilder<IssuesMapCubit, IssuesMapState>(
-        builder: (context, state) {
-          if (state.status == MapStatus.error) {
-            return MapScreenError(
-              type: MapErrorType.general,
-              onActionPressed:
-                  () => context.read<IssuesMapCubit>().initialize(),
-            );
-          }
-          return Stack(
-            children: [
-              if (!state.hasLocationPermission &&
-                  state.status != MapStatus.loading)
-                MapScreenError(
-                  type: MapErrorType.permission,
-                  onActionPressed:
-                      () =>
-                          context.read<IssuesMapCubit>().openLocationSettings(),
-                )
-              else if (state.cameraPosition != null &&
-                  state.status != MapStatus.loading &&
-                  state.hasLocationPermission) ...[
-                _buildMap(context, state),
-                if (_isMapLoaded)
-                  MapControllers(
-                    onCenterTap:
-                        () =>
-                            context
-                                .read<IssuesMapCubit>()
-                                .centerOnUserLocation(),
-                    onSearchTap: () => IssueFilterSheet.show(context),
+    return LocationPermissionWidget(
+      builder: (Position position) {
+        if (!_isInitialized) {
+          _isInitialized = true;
+          _issuesMapCubit.initialize(position);
+        }
+        return BlocListener<IssuesMapCubit, IssuesMapState>(
+          listenWhen:
+              (previous, current) =>
+                  previous.selectedIssue != current.selectedIssue &&
+                  current.selectedIssue != null &&
+                  current.showIssueDetail,
+          listener: (context, state) {
+            showDialog(
+              context: context,
+              barrierDismissible: true,
+              builder:
+                  (context) => Dialog(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    insetPadding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: IssueMarkerDialog(
+                      issue: state.selectedIssue!,
+                      onReportTap: () {
+                        Navigator.pop(context);
+                      },
+                    ),
                   ),
-              ] else if (state.status == MapStatus.loading)
-                const LoadingOverlay(),
-            ],
-          );
-        },
-      ),
+            ).then((_) {
+              _issuesMapCubit.onIssueDetailClosed();
+            });
+          },
+          child: BlocBuilder<IssuesMapCubit, IssuesMapState>(
+            builder: (context, state) {
+              return Stack(
+                children: [
+                  if (state.status == MapStatus.loading) ...[
+                    const Center(child: CircularProgressIndicator()),
+                  ],
+                  if (state.status == MapStatus.error) ...[
+                    Center(child: Text(state.error ?? 'An error occurred')),
+                  ],
+                  if (state.cameraPosition != null) ...[
+                    IssuesMap(
+                      initialCameraPosition: state.cameraPosition!,
+                      myLocationEnabled: true,
+                      markers: state.markers,
+                      onMapCreated: _issuesMapCubit.onMapCreated,
+                      onCameraMove: _issuesMapCubit.onCameraMove,
+                    ),
+                    MapControllers(
+                      onSearchTap: () => IssueFilterSheet.show(context),
+                    ),
+                    if (state.filteredIssues.isNotEmpty) ...[
+                      NearbyIssuesSection(
+                        issues: state.filteredIssues,
+                        onIssueSelected: (issue) async {
+                          await _issuesMapCubit.onIssueTapped(
+                            issue.latitude,
+                            issue.longitude,
+                          );
+                        },
+                      ),
+                    ],
+                  ],
+                ],
+              );
+            },
+          ),
+        );
+      },
     );
   }
 
-  Widget _buildMap(BuildContext context, IssuesMapState state) {
-    if (state.cameraPosition == null) {
-      return const Center(child: LoadingOverlay());
-    }
-
-    return RepaintBoundary(
-      child: GoogleMap(
-        initialCameraPosition: state.cameraPosition!,
-        myLocationEnabled: state.hasLocationPermission,
-        myLocationButtonEnabled: true,
-        zoomControlsEnabled: true,
-        mapType: MapType.hybrid,
-        markers: state.markers,
-        onMapCreated: (controller) {
-          setState(() => _isMapLoaded = true);
-          context.read<IssuesMapCubit>().onMapCreated(controller);
-        },
-        onCameraMove: context.read<IssuesMapCubit>().onCameraMove,
-      ),
-    );
+  @override
+  void dispose() {
+    _issuesMapCubit.close();
+    super.dispose();
   }
 }

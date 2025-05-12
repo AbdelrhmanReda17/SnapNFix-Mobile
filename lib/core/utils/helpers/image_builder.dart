@@ -84,7 +84,7 @@ class ImageBuilder {
   /// Default loading placeholder
   static Widget _defaultLoadingPlaceholder(ColorScheme colorScheme) {
     return Container(
-      color: colorScheme.surfaceVariant,
+      color: colorScheme.surfaceContainerHighest,
       child: Center(
         child: CircularProgressIndicator(
           color: colorScheme.primary,

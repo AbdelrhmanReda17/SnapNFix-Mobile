@@ -2,13 +2,14 @@ import 'dart:async';
 import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:injectable/injectable.dart';
 
+@singleton
 class ConnectivityService {
   final Connectivity _connectivity = Connectivity();
   final _internetStatusController = StreamController<bool>.broadcast();
   Timer? _pollingTimer;
   bool _lastStatus = false;
-
 
   // Stream for listening to connectivity changes
   Stream<List<ConnectivityResult>> get connectivityStream {
@@ -25,8 +26,6 @@ class ConnectivityService {
     _pollingTimer = Timer.periodic(const Duration(seconds: 120), (_) {
       hasInternetConnection().then(_updateConnectionStatus);
     });
-
-    hasInternetConnection().then(_updateConnectionStatus);
 
     return _connectivity.onConnectivityChanged
         .asyncMap((_) => hasInternetConnection())
@@ -54,6 +53,9 @@ class ConnectivityService {
   Future<bool> hasInternetConnection() async {
     try {
       final connectivityResult = await _connectivity.checkConnectivity();
+      debugPrint(
+        '🌐 Connectivity: Checking internet connection, current status: ${_getReadableStatus(connectivityResult)}',
+      );
       if (connectivityResult.contains(ConnectivityResult.none)) {
         debugPrint('🌐 Connectivity: No radio connectivity available');
         return false;

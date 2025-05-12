@@ -26,27 +26,24 @@ class UserReportsScreen extends StatelessWidget {
       backgroundColor: theme.colorScheme.surface,
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(62.h),
-        child: Container(
-          color: colorScheme.onPrimary,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              AppBar(
-                backgroundColor: colorScheme.surface,
-                titleSpacing: 0,
-                centerTitle: true,
-                elevation: 0,
-                title: Text(
-                  localization.myReports,
-                  style: theme.textTheme.headlineLarge?.copyWith(
-                    fontWeight: FontWeight.w600,
-                    fontSize: 20.sp,
-                    color: colorScheme.primary,
-                  ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            AppBar(
+              backgroundColor: colorScheme.surface,
+              titleSpacing: 0,
+              centerTitle: true,
+              elevation: 0,
+              title: Text(
+                localization.myReports,
+                style: theme.textTheme.headlineLarge?.copyWith(
+                  fontWeight: FontWeight.w600,
+                  fontSize: 20.sp,
+                  color: colorScheme.primary,
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
       body: BlocBuilder<ReportReviewCubit, ReportReviewState>(

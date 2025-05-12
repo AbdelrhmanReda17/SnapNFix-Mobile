@@ -56,10 +56,12 @@ dependencies:
   carousel_slider: ^5.0.0
   geocoding: ^3.0.0
   flutter_card_swiper: ^7.0.2
+  injectable: ^2.5.0
 
 
 dev_dependencies:
   flutter_gen_runner: ^5.10.0
+  injectable_generator:
   build_runner: ^2.4.15
   flutter_test:
     sdk: flutter
