@@ -63,6 +63,8 @@ import '../../modules/issues/di/issues_repository_module.dart' as _i629;
 import '../../modules/issues/di/issues_usecase_module.dart' as _i528;
 import '../../modules/issues/domain/repositories/base_issue_repository.dart'
     as _i185;
+import '../../modules/issues/domain/usecases/get_area_issues_use_case.dart'
+    as _i735;
 import '../../modules/issues/domain/usecases/get_issue_details_use_case.dart'
     as _i39;
 import '../../modules/issues/domain/usecases/get_user_issues_use_case.dart'
@@ -283,6 +285,11 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i417.GetUserIssuesUseCase>(
       () => issuesUsecaseModule.provideGetUserIssuesUseCase(
+        gh<_i185.BaseIssueRepository>(),
+      ),
+    );
+    gh.lazySingleton<_i735.GetAreaIssuesUseCase>(
+      () => issuesUsecaseModule.provideGetAreaIssuesUseCase(
         gh<_i185.BaseIssueRepository>(),
       ),
     );
