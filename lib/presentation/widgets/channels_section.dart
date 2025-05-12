@@ -30,105 +30,101 @@ class _ChannelsSectionContent extends StatelessWidget {
 
     return BlocBuilder<ChannelsCubit, ChannelsState>(
       builder: (context, state) {
-        return Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16.w),
-                child: Text(
-                  localization.channels,
-                  style: TextStyle(
-                    fontSize: 16.sp,
-                    fontWeight: FontWeight.bold,
-                    color: colorScheme.primary,
-                  ),
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16.w),
+              child: Text(
+                localization.channels,
+                style: TextStyle(
+                  fontSize: 16.sp,
+                  fontWeight: FontWeight.bold,
+                  color: colorScheme.primary,
                 ),
               ),
-              verticalSpace(2),
-              SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                padding: EdgeInsets.symmetric(horizontal: 12.w),
-                child: Row(
-                  children:
-                      state.channels.map((channel) {
-                        return Padding(
-                          padding: EdgeInsets.only(right: 10.w),
-                          child: ChannelButton(
-                            label: channel,
-                            isSelected: channel == state.selectedChannel,
-                            onTap:
-                                () => context
-                                    .read<ChannelsCubit>()
-                                    .selectChannel(channel),
+            ),
+            verticalSpace(2),
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              padding: EdgeInsets.symmetric(horizontal: 12.w),
+              child: Row(
+                children:
+                    state.channels.map((channel) {
+                      return Padding(
+                        padding: EdgeInsets.only(right: 10.w),
+                        child: ChannelButton(
+                          label: channel,
+                          isSelected: channel == state.selectedChannel,
+                          onTap:
+                              () => context.read<ChannelsCubit>().selectChannel(
+                                channel,
+                              ),
+                        ),
+                      );
+                    }).toList(),
+              ),
+            ),
+            Expanded(
+              child: Container(
+                margin: EdgeInsets.symmetric(horizontal: 16.w),
+                decoration: BoxDecoration(
+                  color: colorScheme.surface,
+                  borderRadius: BorderRadius.circular(12.r),
+                  border: Border.all(
+                    color: colorScheme.outline.withValues(alpha: 0.1),
+                  ),
+                ),
+                child: Column(
+                  children: [
+                    _buildChannelHeader(context, colorScheme),
+                    Expanded(
+                      child: RefreshIndicator(
+                        onRefresh:
+                            () =>
+                                context.read<ChannelsCubit>().refreshUpdates(),
+                        color: colorScheme.primary,
+                        child: ListView.builder(
+                          physics: const AlwaysScrollableScrollPhysics(),
+                          padding: EdgeInsets.only(
+                            left: 16.w,
+                            right: 16.w,
+                            bottom: 8.h,
                           ),
-                        );
-                      }).toList(),
-                ),
-              ),
-              Expanded(
-                child: Container(
-                  margin: EdgeInsets.symmetric(horizontal: 16.w),
-                  decoration: BoxDecoration(
-                    color: colorScheme.surface,
-                    borderRadius: BorderRadius.circular(12.r),
-                    border: Border.all(
-                      color: colorScheme.outline.withValues(alpha: 0.1),
-                    ),
-                  ),
-                  child: Column(
-                    children: [
-                      _buildChannelHeader(context, colorScheme),
-                      Expanded(
-                        child: RefreshIndicator(
-                          onRefresh:
-                              () =>
-                                  context
-                                      .read<ChannelsCubit>()
-                                      .refreshUpdates(),
-                          color: colorScheme.primary,
-                          child: ListView.builder(
-                            physics: const AlwaysScrollableScrollPhysics(),
-                            padding: EdgeInsets.only(
-                              left: 16.w,
-                              right: 16.w,
-                              bottom: 8.h,
-                            ),
-                            itemCount:
+                          itemCount:
+                              context
+                                  .read<ChannelsCubit>()
+                                  .getFilteredUpdates()
+                                  .length,
+                          itemBuilder: (context, index) {
+                            final updates =
                                 context
                                     .read<ChannelsCubit>()
-                                    .getFilteredUpdates()
-                                    .length,
-                            itemBuilder: (context, index) {
-                              final updates =
-                                  context
+                                    .getFilteredUpdates();
+                            final update = updates[index];
+                            return GestureDetector(
+                              onTap:
+                                  () => context
                                       .read<ChannelsCubit>()
-                                      .getFilteredUpdates();
-                              final update = updates[index];
-                              return GestureDetector(
-                                onTap:
-                                    () => context
-                                        .read<ChannelsCubit>()
-                                        .navigateToIssueDetails(
-                                          context,
-                                          update.id,
-                                        ),
-                                child: _buildUpdateItem(
-                                  context,
-                                  update,
-                                  colorScheme,
-                                ),
-                              );
-                            },
-                          ),
+                                      .navigateToIssueDetails(
+                                        context,
+                                        update.id,
+                                      ),
+                              child: _buildUpdateItem(
+                                context,
+                                update,
+                                colorScheme,
+                              ),
+                            );
+                          },
                         ),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         );
       },
     );

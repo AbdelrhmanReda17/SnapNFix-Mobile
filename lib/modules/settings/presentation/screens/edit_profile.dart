@@ -67,7 +67,7 @@ class EditProfile extends StatelessWidget {
                           onPressed: () {
                             final cubit = context.read<EditProfileCubit>();
                             cubit.initializeUserData();
-                            cubit.profileImage.value = null;
+                            // cubit.profileImage.value = null;
                             cubit.formKey.currentState?.reset();
                           },
                           text: localization?.reset ?? 'Reset',

@@ -54,10 +54,10 @@ class _OfflineReportIndicatorState extends State<OfflineReportIndicator> {
     }
   }
 
-  void _showReportSyncingToast(bool result, AppLocalizations localization) {
+  void _showReportSyncingToast(bool result) {
     BaseToast.show(
       context: context,
-      message: result ? localization.reportsSynced : localization.someReportsFailed,
+      message: result ? AppLocalizations.of(context)!.reportsSynced : AppLocalizations.of(context)!.someReportsFailed,
       type: result ? ToastType.success : ToastType.warning,
     );
   }

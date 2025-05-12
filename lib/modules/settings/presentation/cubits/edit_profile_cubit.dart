@@ -32,6 +32,9 @@ class EditProfileCubit extends Cubit<EditProfileState> {
   DateTime? selectedDate;
   final profileImage = ValueNotifier<File?>(null);
 
+  bool _valuesModified = false;
+  final resetCounter = ValueNotifier<int>(0);
+
   final _imagePicker = ImagePicker();
 
   void initializeUserData() {
@@ -39,10 +42,18 @@ class EditProfileCubit extends Cubit<EditProfileState> {
     phoneNumber = _currentUser.phoneNumber;
     selectedGender = _currentUser.gender;
     selectedDate = _currentUser.dateOfBirth;
+    profileImage.value =
+        _currentUser.profileImage != null
+            ? File(_currentUser.profileImage!)
+            : null;
+
+    _valuesModified = false;
+    resetCounter.value += 1;
   }
 
   void setName(String value) {
     name = value;
+    _valuesModified = true;
   }
 
   void setPhoneNumber(String value) {
@@ -51,10 +62,12 @@ class EditProfileCubit extends Cubit<EditProfileState> {
 
   void setSelectedGender(UserGender? value) {
     selectedGender = value;
+    _valuesModified = true;
   }
 
   void setDateOfBirth(DateTime? value) {
     selectedDate = value;
+    _valuesModified = true;
   }
 
   String formatDate(DateTime date) {
@@ -106,4 +119,5 @@ class EditProfileCubit extends Cubit<EditProfileState> {
   }
 
   String? get userProfileImage => _currentUser.profileImage;
+  bool get hasBeenModified => _valuesModified;
 }

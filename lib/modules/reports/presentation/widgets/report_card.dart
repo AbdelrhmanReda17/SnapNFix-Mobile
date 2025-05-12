@@ -132,7 +132,7 @@ class _ReportCardState extends State<ReportCard>
                           vertical: 4.h,
                         ),
                         decoration: BoxDecoration(
-                          color: widget.report.status.color.withValues(alpha: 0.8),
+                          color: widget.report.status?.color.withValues(alpha: 0.8),
                           borderRadius: BorderRadius.circular(12.r),
                         ),
                         child: Row(
@@ -204,7 +204,7 @@ class _ReportCardState extends State<ReportCard>
                       Text(
                         localization.reportSeverity(
                           _getSeverityText(
-                            widget.report.severity,
+                            widget.report.severity!,
                             localization,
                           ),
                         ),

@@ -17,14 +17,20 @@ class EditProfileBlocListener extends StatelessWidget {
       listener: (context, state) {
         state.whenOrNull(
           success: (editProfileResponse) {
-            context.pop();
+            if (context.canPop()) {
+              context.pop();
+            }
             baseDialog(
               context: context,
               title: localization.successDialogTitle,
               message: localization.profileEditedSuccessfully,
               alertType: AlertType.success,
               confirmText: localization.gotItConfirmText,
-              onConfirm: () => context.pop(),
+              onConfirm: () {
+                if (context.canPop()) {
+                  context.pop();
+                }
+              },
               showCancelButton: false,
             );
           },
@@ -34,6 +40,7 @@ class EditProfileBlocListener extends StatelessWidget {
           loading: () {
             showDialog(
               context: context,
+              barrierDismissible: false,
               builder:
                   (context) => Center(
                     child: CircularProgressIndicator(
@@ -49,14 +56,20 @@ class EditProfileBlocListener extends StatelessWidget {
   }
 
   void setupErrorState(BuildContext context, String error) {
-    context.pop();
+    if (context.canPop()) {
+      context.pop();
+    }
     baseDialog(
       context: context,
       title: AppLocalizations.of(context)!.errorDialogTitle,
       message: error,
       alertType: AlertType.error,
       confirmText: AppLocalizations.of(context)!.gotItConfirmText,
-      onConfirm: () {},
+      onConfirm: () {
+        if (context.canPop()) {
+          context.pop();
+        }
+      },
       showCancelButton: false,
     );
   }
