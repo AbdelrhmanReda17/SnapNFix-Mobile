@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:intl/intl.dart';
 import 'package:snapnfix/core/base_components/base_date_picker_field.dart';
 import 'package:snapnfix/core/base_components/base_dropdown_field.dart';
 import 'package:snapnfix/core/base_components/base_text_field.dart';
@@ -23,11 +23,17 @@ class EditProfileForm extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           verticalSpace(8),
-          BaseTextField(hintText: localization.name, onChanged: cubit.setName),
+          BaseTextField(
+            hintText: localization.name,
+            onChanged: cubit.setName,
+            initialValue: cubit.name,
+          ),
           verticalSpace(20),
           BaseTextField(
             hintText: localization.phone,
-            onChanged: cubit.setPhoneNumber,
+            initialValue: cubit.phoneNumber,
+            enabled: false,
+            readOnly: true,
           ),
           verticalSpace(20),
           BaseDropdownField<UserGender>(
@@ -41,6 +47,9 @@ class EditProfileForm extends StatelessWidget {
           BaseDatePickerField(
             hintText: localization.dateOfBirth,
             onChanged: cubit.setDateOfBirth,
+            initialValue: cubit.selectedDate != null 
+                ? DateFormat('yyyy-MM-dd').format(cubit.selectedDate!)
+                : null,
             dateFormatter: cubit.formatDate,
           ),
         ],

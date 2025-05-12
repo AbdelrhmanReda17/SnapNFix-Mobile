@@ -4,6 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:snapnfix/core/config/application_configurations.dart';
+import 'package:snapnfix/core/dependency_injection/dependency_injection.dart';
+import 'package:snapnfix/modules/authentication/domain/entities/user.dart';
 import 'package:snapnfix/modules/authentication/domain/entities/user_gender.dart';
 import 'package:snapnfix/modules/settings/data/models/dtos/edit_profile_dto.dart';
 import 'package:snapnfix/modules/settings/domain/usecases/edit_profile_use_case.dart';
@@ -12,10 +15,14 @@ part 'edit_profile_cubit.freezed.dart';
 
 class EditProfileCubit extends Cubit<EditProfileState> {
   final EditProfileUseCase _editProfileUseCase;
+  final User _currentUser;
 
   EditProfileCubit({required EditProfileUseCase editProfileUseCase})
     : _editProfileUseCase = editProfileUseCase,
-      super(const EditProfileState.initial());
+      _currentUser = getIt<ApplicationConfigurations>().currentSession!.user,
+      super(const EditProfileState.initial()) {
+    initializeUserData();
+  }
 
   final formKey = GlobalKey<FormState>();
 
@@ -26,6 +33,13 @@ class EditProfileCubit extends Cubit<EditProfileState> {
   final profileImage = ValueNotifier<File?>(null);
 
   final _imagePicker = ImagePicker();
+
+  void initializeUserData() {
+    name = "${_currentUser.firstName} ${_currentUser.lastName}";
+    phoneNumber = _currentUser.phoneNumber;
+    selectedGender = _currentUser.gender;
+    selectedDate = _currentUser.dateOfBirth;
+  }
 
   void setName(String value) {
     name = value;
@@ -90,4 +104,6 @@ class EditProfileCubit extends Cubit<EditProfileState> {
       emit(EditProfileState.error(error: e.toString()));
     }
   }
+
+  String? get userProfileImage => _currentUser.profileImage;
 }

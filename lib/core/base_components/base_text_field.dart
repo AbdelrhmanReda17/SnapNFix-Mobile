@@ -16,6 +16,8 @@ class BaseTextField extends StatefulWidget {
   final int maxErrorLines;
   final String? initialValue;
   final ValueChanged<String>? onChanged;
+  final bool enabled;
+    final bool readOnly;
 
   const BaseTextField({
     super.key,
@@ -32,6 +34,8 @@ class BaseTextField extends StatefulWidget {
     this.maxErrorLines = 2,
     this.initialValue,
     this.onChanged,
+    this.enabled = true,
+    this.readOnly = false,
   });
 
   @override
@@ -94,6 +98,8 @@ class _BaseTextFieldState extends State<BaseTextField> {
             autovalidateMode: AutovalidateMode.onUserInteraction,
             autofocus: false,
             maxLines: widget.maxLines,
+            enabled: widget.enabled,
+            readOnly: widget.readOnly,
             decoration: InputDecoration(
               isDense: true,
               floatingLabelBehavior: FloatingLabelBehavior.never,
