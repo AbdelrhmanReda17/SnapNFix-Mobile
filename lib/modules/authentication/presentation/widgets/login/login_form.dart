@@ -28,7 +28,7 @@ class LoginForm extends StatelessWidget {
             children: [
               BaseTextField(
                 labelText: localizations.emailOrPhone,
-                hintText: "Enter your email or phone number",
+                hintText: localizations.enterEmailOrPhone,
                 onChanged: cubit.setEmailOrPhone,
                 validator:
                     (value) =>
@@ -41,7 +41,7 @@ class LoginForm extends StatelessWidget {
               verticalSpace(14),
               BasePasswordTextField(
                 text: localizations.password,
-                hintText: "Enter your password",
+                hintText: localizations.enterPassword,
                 onChanged: cubit.setPassword,
                 validator:
                     (value) =>

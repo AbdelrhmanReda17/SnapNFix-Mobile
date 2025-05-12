@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:snapnfix/modules/authentication/presentation/cubits/complete_profile/complete_profile_cubit.dart';
 import 'package:snapnfix/modules/authentication/presentation/widgets/authentication_content.dart';
 import 'package:snapnfix/modules/authentication/presentation/widgets/complete_profile/complete_profile_form.dart';
@@ -13,11 +14,13 @@ class CompleteProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final localization = AppLocalizations.of(context)!;
+
     return AuthenticationContent(
-      title: "Complete Profile",
-      subtitle: "Welcome, Let's get to know you better",
-      buttonText: "Complete",
-      footerAction: "Skip",
+      title: localization.completeProfileTitle,
+      subtitle: localization.completeProfileSubtitle,
+      buttonText: localization.complete,
+      footerAction: localization.skip,
       form: CompleteProfileForm(password: password),
       blocListener: const CompleteProfileBlocListener(),
       onSubmit: () {

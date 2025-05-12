@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:snapnfix/modules/authentication/domain/entities/user.dart';
 import 'package:snapnfix/presentation/navigation/routes.dart';
 
@@ -12,6 +13,7 @@ class ProfileContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
     final textStyles = Theme.of(context).textTheme;
+    final localization = AppLocalizations.of(context)!;
 
     return Container(
       height: 148.h,
@@ -24,7 +26,7 @@ class ProfileContainer extends StatelessWidget {
             titleSpacing: 0,
             centerTitle: true,
             title: Text(
-              "Settings",
+              localization.settings,
               style: textStyles.headlineLarge?.copyWith(
                 fontSize: 20.sp,
                 color: colorScheme.surface,
@@ -65,7 +67,7 @@ class ProfileContainer extends StatelessWidget {
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                         text: TextSpan(
-                          text: "Hello\n",
+                          text: "${localization.hello}\n",
                           style: textStyles.bodySmall?.copyWith(
                             color: colorScheme.surface,
                           ),

@@ -21,7 +21,7 @@ class ForgetPasswordForm extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           BaseTextField(
-            hintText: "Enter your email or phone number",
+            hintText: localization.enterEmailOrPhone,
             labelText: localization.emailOrPhone,
             onChanged: cubit.setEmailOrPhone,
             validator:

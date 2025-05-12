@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:snapnfix/core/base_components/base_button.dart';
 
 enum MapErrorType { general, permission }
@@ -20,6 +21,7 @@ class MapScreenError extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
+    final localization = AppLocalizations.of(context)!;
 
     return Center(
       child: Column(
@@ -37,7 +39,7 @@ class MapScreenError extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 32),
             child: Text(
-              title ?? _getDefaultTitle(),
+              title ?? _getDefaultTitle(localization),
               style: Theme.of(context).textTheme.titleLarge?.copyWith(
                 color: type == MapErrorType.general ? colorScheme.error : null,
               ),
@@ -49,7 +51,7 @@ class MapScreenError extends StatelessWidget {
             width: MediaQuery.of(context).size.width * 0.5,
             child: BaseButton(
               onPressed: onActionPressed,
-              text: actionText ?? _getDefaultActionText(),
+              text: actionText ?? _getDefaultActionText(localization),
               backgroundColor: colorScheme.primary,
               textStyle: TextStyle(
                 color: colorScheme.onPrimary,
@@ -71,21 +73,22 @@ class MapScreenError extends StatelessWidget {
     }
   }
 
-  String _getDefaultTitle() {
+  String _getDefaultTitle(AppLocalizations localization) {
     switch (type) {
       case MapErrorType.general:
-        return 'Something went wrong';
+        return localization.mapErrorGeneralTitle;
       case MapErrorType.permission:
-        return 'Location access required';
+        return localization.mapErrorPermissionTitle;
     }
   }
 
-  String _getDefaultActionText() {
+  String _getDefaultActionText(AppLocalizations localization) {
+
     switch (type) {
       case MapErrorType.general:
-        return 'Retry';
+        return localization.mapErrorGeneralActionText;
       case MapErrorType.permission:
-        return 'Open Settings';
+        return localization.errorPermissionActionText;
     }
   }
 }

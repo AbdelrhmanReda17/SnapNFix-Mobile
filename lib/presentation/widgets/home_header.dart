@@ -5,6 +5,7 @@ import 'package:snapnfix/core/dependency_injection/dependency_injection.dart';
 import 'package:go_router/go_router.dart';
 import 'package:snapnfix/modules/reports/presentation/widgets/offline_report_indicator.dart';
 import 'package:snapnfix/presentation/navigation/routes.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 
 class HomeHeader extends StatelessWidget {
@@ -21,6 +22,7 @@ class HomeHeader extends StatelessWidget {
 
     final user = session.user;
     final initials = '${user.firstName![0]}${user.lastName![0]}';
+    final localization = AppLocalizations.of(context)!;
 
     return Stack(
       children: [
@@ -60,7 +62,7 @@ class HomeHeader extends StatelessWidget {
                         text: TextSpan(
                           children: [
                             TextSpan(
-                              text: 'Hello, ',
+                              text: '${localization.hello} ',
                               style: theme.textTheme.bodyMedium?.copyWith(
                                 color: const Color.fromARGB(255, 47, 115, 94),
                                 fontSize: 16.sp,
@@ -79,7 +81,7 @@ class HomeHeader extends StatelessWidget {
                       ),
                       // SizedBox(height: 2.h),
                       Text(
-                        'Keep Our City Safe!',
+                        localization.homeSubtitle,
                         style: theme.textTheme.bodyMedium?.copyWith(
                           color: const Color.fromARGB(255, 47, 115, 94),
                           fontSize: 18.sp,
@@ -94,6 +96,7 @@ class HomeHeader extends StatelessWidget {
                             size: 14.sp,
                             color: Colors.grey,
                           ),
+                          // Get the current location of the user and display it here
                           Text(
                             '36 Dokki st, Giza',
                             style: theme.textTheme.bodySmall?.copyWith(

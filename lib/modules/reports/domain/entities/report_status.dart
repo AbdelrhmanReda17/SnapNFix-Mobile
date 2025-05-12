@@ -1,8 +1,12 @@
+import 'package:flutter/material.dart';
+
 enum ReportStatus {
-  pending('Pending'),
-  valid('Valid'),
-  invalid('Invalid');
+  pending('Pending', Color(0xFF4CAF50)),
+  valid('Valid',  Color(0xFFFF9800)),
+  invalid('Invalid', Color(0xFFF44336));
 
   final String value;
-  const ReportStatus(this.value);
+  final Color color;
+
+  const ReportStatus(this.value, this.color);
 }

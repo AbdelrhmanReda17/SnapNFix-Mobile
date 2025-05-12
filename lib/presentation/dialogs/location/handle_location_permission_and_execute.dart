@@ -29,8 +29,7 @@ Future<bool> handleLocationPermissionAndExecute({
     onServiceDisabled: () {
       return applicationOpenLocationSettingsDialog(
         title: localization?.locationRequired ?? 'Location Required',
-        message:
-            'Location services are disabled.\nTo submit a report, please enable location services.',
+        message: localization?.locationRequiredMessageWithNewLine ?? 'Location services are disabled.\nTo submit a report, please enable location services.',
         context: context,
         localization: localization,
         onCancel: () {

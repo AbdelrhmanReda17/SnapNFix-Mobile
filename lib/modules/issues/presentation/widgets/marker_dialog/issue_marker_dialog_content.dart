@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'issue_marker_dialog_detail_item.dart';
 import 'issue_marker_dialog_action.dart';
 import '../../../domain/entities/issue.dart';
@@ -17,6 +18,7 @@ class IssueMarkerDialogContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
+    final localization = AppLocalizations.of(context)!;
 
     return Padding(
       padding: EdgeInsets.all(16.r),
@@ -36,7 +38,7 @@ class IssueMarkerDialogContent extends StatelessWidget {
               Expanded(
                 child: IssueMarkerDialogDetailItem(
                   icon: Icons.report_problem_outlined,
-                  text: '${issue.reportsCount} Reports',
+                  text: localization.issueReportsNum(issue.reportsCount),
                   color: colorScheme.secondary,
                 ),
               ),

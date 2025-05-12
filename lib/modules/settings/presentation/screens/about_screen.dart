@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:snapnfix/core/utils/helpers/spacing.dart';
 import 'package:snapnfix/l10n/assets.gen.dart';
 import 'package:snapnfix/presentation/components/application_system_ui_overlay.dart';
 import 'package:package_info_plus/package_info_plus.dart';
@@ -32,36 +33,36 @@ class AboutScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            SizedBox(height: 24.h),
+            verticalSpace(24),
             Assets.images.snapNFix.image(width: 120.w, height: 120.h),
-            SizedBox(height: 24.h),
+            verticalSpace(24),
             Text(
-              'SnapNFix',
+              localization.snapNFix,
               style: textStyles.headlineMedium?.copyWith(
                 color: colorScheme.primary,
                 fontWeight: FontWeight.bold,
               ),
             ),
-            SizedBox(height: 8.h),
+            verticalSpace(8),
             FutureBuilder<PackageInfo>(
               future: PackageInfo.fromPlatform(),
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   return Text(
-                    'Version ${snapshot.data!.version}',
+                    localization.appVersion(snapshot.data!.version),
                     style: textStyles.bodyMedium,
                   );
                 }
                 return const SizedBox.shrink();
               },
             ),
-            SizedBox(height: 32.h),
+            verticalSpace(32),
             Text(
               localization.aboutDescription,
               style: textStyles.bodyLarge?.copyWith(height: 1.5),
               textAlign: TextAlign.center,
             ),
-            SizedBox(height: 32.h),
+            verticalSpace(32),
             _buildSection(
               localization.ourMission,
               localization.missionText,
@@ -74,9 +75,9 @@ class AboutScreen extends StatelessWidget {
               textStyles,
               colorScheme,
             ),
-            SizedBox(height: 24.h),
+            verticalSpace(24),
             Text(
-              '© 2025 SnapNFix. ${localization.allRightsReserved}',
+              '${localization.copyRights}. ${localization.allRightsReserved}',
               style: textStyles.bodySmall?.copyWith(
                 color: colorScheme.secondary,
               ),
@@ -103,9 +104,9 @@ class AboutScreen extends StatelessWidget {
             fontWeight: FontWeight.bold,
           ),
         ),
-        SizedBox(height: 8.h),
+        verticalSpace(8),
         Text(content, style: textStyles.bodyMedium?.copyWith(height: 1.5)),
-        SizedBox(height: 24.h),
+        verticalSpace(24),
       ],
     );
   }

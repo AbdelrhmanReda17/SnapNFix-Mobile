@@ -78,7 +78,7 @@ class _BaseTextFieldState extends State<BaseTextField> {
           Text(
             widget.labelText!,
             style: textStyles.bodyMedium?.copyWith(
-              color: colorScheme.primary.withOpacity(0.5),
+              color: colorScheme.primary.withValues(alpha: 0.5),
               fontSize: 14.sp,
             ),
           ),
@@ -99,22 +99,22 @@ class _BaseTextFieldState extends State<BaseTextField> {
               contentPadding:
                   widget.contentPadding ??
                   EdgeInsets.symmetric(horizontal: 16.w, vertical: 13.h),
-              border: _buildBorder(colorScheme.primary.withOpacity(0.2)),
+              border: _buildBorder(colorScheme.primary.withValues(alpha: 0.2)),
               focusedBorder: _buildBorder(colorScheme.primary),
-              enabledBorder: _buildBorder(colorScheme.primary.withOpacity(0.2)),
+              enabledBorder: _buildBorder(colorScheme.primary.withValues(alpha: 0.2)),
               errorBorder: _buildBorder(colorScheme.error),
               focusedErrorBorder: _buildBorder(colorScheme.error),
               hintText: widget.hintText,
               hintStyle:
                   widget.hintStyle ??
                   textStyles.bodyMedium?.copyWith(
-                    color: colorScheme.primary.withOpacity(0.5),
+                    color: colorScheme.primary.withValues(alpha: 0.5),
                     fontSize: 16.sp,
                   ),
               suffixIcon: widget.suffixIcon,
               fillColor:
                   widget.backgroundColor ??
-                  colorScheme.primary.withOpacity(0.1),
+                  colorScheme.primary.withValues(alpha: 0.1),
               filled: true,
               errorMaxLines: widget.maxErrorLines,
             ),

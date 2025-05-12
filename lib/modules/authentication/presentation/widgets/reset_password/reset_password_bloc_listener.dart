@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:snapnfix/modules/authentication/presentation/cubits/reset_password/reset_password_cubit.dart';
 import 'package:snapnfix/modules/authentication/presentation/mixins/authentication_listener_mixin.dart';
 import 'package:snapnfix/presentation/navigation/routes.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ResetPasswordBlocListener extends StatelessWidget
     with AuthenticationListenerMixin {
@@ -16,7 +17,7 @@ class ResetPasswordBlocListener extends StatelessWidget
           success: (isSucess) {
             handleSuccess(
               context,
-              message: 'Password reset successfully',
+              message: AppLocalizations.of(context)!.resetPasswordSuccessfully,
               route: Routes.login,
             );
           },

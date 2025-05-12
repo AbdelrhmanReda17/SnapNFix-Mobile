@@ -16,8 +16,8 @@ class RegisterScreen extends StatelessWidget {
     final localization = AppLocalizations.of(context)!;
 
     return AuthenticationContent(
-      title: "Get started now",
-      subtitle: "Your one-stop solution for all your needs",
+      title: localization.getStarted,
+      subtitle: localization.registerSubtitle,
       buttonText: localization.signUp,
       footerQuestion: localization.alreadyHaveAcc,
       footerAction: localization.signIn,

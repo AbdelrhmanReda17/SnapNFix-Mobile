@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class LocationDisplay extends StatefulWidget {
   final double latitude;
@@ -25,6 +26,8 @@ class _LocationDisplayState extends State<LocationDisplay> {
   String get _cacheKey => '${widget.latitude}_${widget.longitude}';
 
   Future<String> _getAddressWithRetry([int retryCount = 0]) async {
+    final localization = AppLocalizations.of(context)!;
+
     try {
       final timeout = _initialTimeout * (retryCount + 1);
       final placemarks = await placemarkFromCoordinates(
@@ -46,7 +49,7 @@ class _LocationDisplayState extends State<LocationDisplay> {
           return address;
         }
       }
-      throw Exception('No valid address found');
+      throw Exception(localization.noValidAddressFound);
       
     } on TimeoutException catch (e) {
       debugPrint('Geocoding timeout (attempt ${retryCount + 1}): $e');
@@ -87,10 +90,12 @@ class _LocationDisplayState extends State<LocationDisplay> {
 
   @override 
   Widget build(BuildContext context) {
+    final localization = AppLocalizations.of(context)!;
+
     return FutureBuilder<String>(
       future: _getAddressFromCoordinates(),
       builder: (context, snapshot) {
-        String displayText = snapshot.data ?? 'Loading location...';
+        String displayText = snapshot.data ?? localization.loadingLocation;
         if (snapshot.hasError) {
           displayText = _getFallbackAddress();
         }

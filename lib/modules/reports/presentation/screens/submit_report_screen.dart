@@ -27,7 +27,7 @@ class SubmitReportScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
     final textStyles = Theme.of(context).textTheme;
-    final localization = AppLocalizations.of(context);
+    final localization = AppLocalizations.of(context)!;
     return VisibilityDetector(
       key: const Key('submit_report_screen_visibility'),
       onVisibilityChanged: (visibilityInfo) {
@@ -48,7 +48,7 @@ class SubmitReportScreen extends StatelessWidget {
             titleSpacing: 0,
             centerTitle: true,
             title: Text(
-              "Report an Incident",
+              localization.reportAnIncident,
               style: textStyles.headlineLarge?.copyWith(
                 fontSize: 20.sp,
                 color: colorScheme.primary,
@@ -83,7 +83,7 @@ class SubmitReportScreen extends StatelessWidget {
                           },
                         );
                       },
-                      text: localization?.submitReport ?? 'Submit Report',
+                      text: localization.submitReport,
                       textStyle: textStyles.bodyLarge!.copyWith(
                         color: colorScheme.surface,
                         fontWeight: FontWeight.bold,
@@ -106,7 +106,7 @@ class SubmitReportScreen extends StatelessWidget {
     SubmitReportCubit cubit,
     BuildContext context,
   ) async {
-    final localization = AppLocalizations.of(context);
+    final localization = AppLocalizations.of(context)!;
     final locationService = getIt<LocationService>();
     final hasPermission = await locationService.checkLocationPermissions(
       onPermissionDenied: (title, message) {
@@ -119,9 +119,8 @@ class SubmitReportScreen extends StatelessWidget {
       },
       onServiceDisabled: () {
         return applicationOpenLocationSettingsDialog(
-          title: localization?.locationRequired ?? 'Location Required',
-          message:
-              'Location services are disabled.\nTo submit a report, please enable location services.',
+          title: localization.locationRequired,
+          message: localization.locationIsDisabled,
           context: context,
           localization: localization,
         );

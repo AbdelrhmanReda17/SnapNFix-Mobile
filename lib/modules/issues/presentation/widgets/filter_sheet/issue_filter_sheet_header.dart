@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class IssueFilterSheetHeader extends StatelessWidget {
@@ -14,12 +15,13 @@ class IssueFilterSheetHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
+    final localization = AppLocalizations.of(context)!;
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(
-          'Filter Issues',
+          localization.filterIssues,
           style: TextStyle(
             fontSize: 20.sp,
             fontWeight: FontWeight.w600,
@@ -41,7 +43,7 @@ class IssueFilterSheetHeader extends StatelessWidget {
               children: [
                 Icon(Icons.clear, size: 16.r, color: colorScheme.error),
                 SizedBox(width: 4.w),
-                Text('Clear All', style: TextStyle(fontSize: 14.sp)),
+                Text(localization.clearAll, style: TextStyle(fontSize: 14.sp)),
               ],
             ),
           ),

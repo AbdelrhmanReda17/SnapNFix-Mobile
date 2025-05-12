@@ -23,7 +23,7 @@ class UserReportsScreen extends StatelessWidget {
     );
 
     return Scaffold(
-      backgroundColor: theme.colorScheme.background,
+      backgroundColor: theme.colorScheme.surface,
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(62.h),
         child: Container(
@@ -32,7 +32,7 @@ class UserReportsScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               AppBar(
-                backgroundColor: colorScheme.background,
+                backgroundColor: colorScheme.surface,
                 titleSpacing: 0,
                 centerTitle: true,
                 elevation: 0,

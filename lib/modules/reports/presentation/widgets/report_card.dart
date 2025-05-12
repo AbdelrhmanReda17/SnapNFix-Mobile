@@ -78,43 +78,44 @@ class _ReportCardState extends State<ReportCard>
                   children: [
                     Hero(
                       tag: 'report_image_${widget.report.id}',
-                      child: widget.report.image.isNotEmpty
-                          ? (widget.report.image.startsWith('http') || 
-                             widget.report.image.startsWith('assets')
-                              ? Image.network(
-                                  widget.report.image,
-                                  height: 80.h,
-                                  width: double.infinity,
-                                  fit: BoxFit.cover,
-                                  errorBuilder: (context, error, stackTrace) {
-                                    return Image.asset(
-                                      'assets/images/issue1.jpg',
-                                      height: 80.h,
-                                      width: double.infinity,
-                                      fit: BoxFit.cover,
-                                    );
-                                  },
-                                )
-                              : Image.file(
-                                  File(widget.report.image),
-                                  height: 80.h,
-                                  width: double.infinity,
-                                  fit: BoxFit.cover,
-                                  errorBuilder: (context, error, stackTrace) {
-                                    return Image.asset(
-                                      'assets/images/issue1.jpg',
-                                      height: 80.h,
-                                      width: double.infinity,
-                                      fit: BoxFit.cover,
-                                    );
-                                  },
-                                ))
-                          : Image.asset(
-                              'assets/images/issue1.jpg',
-                              height: 80.h,
-                              width: double.infinity,
-                              fit: BoxFit.cover,
-                            ),
+                      child:
+                          widget.report.image.isNotEmpty
+                              ? (widget.report.image.startsWith('http') ||
+                                      widget.report.image.startsWith('assets')
+                                  ? Image.network(
+                                    widget.report.image,
+                                    height: 80.h,
+                                    width: double.infinity,
+                                    fit: BoxFit.cover,
+                                    errorBuilder: (context, error, stackTrace) {
+                                      return Image.asset(
+                                        'assets/images/issue1.jpg',
+                                        height: 80.h,
+                                        width: double.infinity,
+                                        fit: BoxFit.cover,
+                                      );
+                                    },
+                                  )
+                                  : Image.file(
+                                    File(widget.report.image),
+                                    height: 80.h,
+                                    width: double.infinity,
+                                    fit: BoxFit.cover,
+                                    errorBuilder: (context, error, stackTrace) {
+                                      return Image.asset(
+                                        'assets/images/issue1.jpg',
+                                        height: 80.h,
+                                        width: double.infinity,
+                                        fit: BoxFit.cover,
+                                      );
+                                    },
+                                  ))
+                              : Image.asset(
+                                'assets/images/issue1.jpg',
+                                height: 80.h,
+                                width: double.infinity,
+                                fit: BoxFit.cover,
+                              ),
                     ),
                     // Status indicator
                     Positioned(
@@ -126,9 +127,7 @@ class _ReportCardState extends State<ReportCard>
                           vertical: 4.h,
                         ),
                         decoration: BoxDecoration(
-                          color: _getStatusColor(
-                            widget.report.status,
-                          ).withOpacity(0.8),
+                          color: widget.report.status.color.withValues(alpha: 0.8),
                           borderRadius: BorderRadius.circular(12.r),
                         ),
                         child: Row(
@@ -166,7 +165,7 @@ class _ReportCardState extends State<ReportCard>
                           vertical: 4.h,
                         ),
                         decoration: BoxDecoration(
-                          color: colorScheme.surface.withOpacity(0.6),
+                          color: colorScheme.surface.withValues(alpha: 0.6),
                           borderRadius: BorderRadius.circular(12.r),
                         ),
                         child: Text(
@@ -198,9 +197,14 @@ class _ReportCardState extends State<ReportCard>
                       SizedBox(height: 4.h),
 
                       Text(
-                        'Severity: ${_getSeverityText(widget.report.severity, localization)}',
+                        localization.reportSeverity(
+                          _getSeverityText(
+                            widget.report.severity,
+                            localization,
+                          ),
+                        ),
                         style: theme.textTheme.bodySmall?.copyWith(
-                          color: _getSeverityColor(widget.report.severity),
+                          color: widget.report.severity.color,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
@@ -224,7 +228,6 @@ class _ReportCardState extends State<ReportCard>
                                     Routes.issueDetails,
                                     extra: widget.report.issueId,
                                   );
-
                                 },
                                 child: Text(
                                   localization.viewIssue(
@@ -249,22 +252,6 @@ class _ReportCardState extends State<ReportCard>
         ],
       ),
     );
-  }
-
-  Color _getStatusColor(ReportStatus status) {
-    return switch (status) {
-      ReportStatus.pending => Colors.orange,
-      ReportStatus.valid => Colors.green,
-      ReportStatus.invalid => Colors.red,
-    };
-  }
-
-  Color _getSeverityColor(ReportSeverity severity) {
-    return switch (severity) {
-      ReportSeverity.low => Colors.blue,
-      ReportSeverity.medium => Colors.orange,
-      ReportSeverity.high => Colors.red,
-    };
   }
 
   String _getSeverityText(

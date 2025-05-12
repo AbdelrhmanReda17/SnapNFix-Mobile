@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:snapnfix/modules/reports/domain/entities/report_severity.dart';
 import 'package:snapnfix/modules/reports/presentation/cubits/submit_report_cubit.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SubmitSeveritySelector extends StatelessWidget {
   const SubmitSeveritySelector({super.key});
@@ -15,7 +16,7 @@ class SubmitSeveritySelector extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Severity',
+          AppLocalizations.of(context)!.severity,
           style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: colorScheme.primary),
         ),
         SizedBox(height: 5.h),

@@ -18,6 +18,7 @@ Future<bool> applicationOpenLocationSettingsDialog({
     context: context,
     title: localization?.locationRequired ?? 'Location Required',
     message:
+        localization?.locationRequiredMessageWithNewLine ??
         'Location services are disabled.\nTo submit a report, please enable location services.',
     alertType: AlertType.info,
     confirmText: localization?.enableLocation ?? 'Enable',

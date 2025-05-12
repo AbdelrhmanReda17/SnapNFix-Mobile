@@ -33,7 +33,7 @@ class CustomCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       elevation: 6,
-      shadowColor: Colors.black.withOpacity(0.7),
+      shadowColor: Colors.black.withValues(alpha: 0.7),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.r)),
       child: Container(
         width: 280.w,
@@ -80,7 +80,7 @@ class CustomCard extends StatelessWidget {
                           style: TextStyle(
                             fontSize: 14.sp,
                             fontWeight: FontWeight.bold,
-                            color: colorScheme.onPrimary.withOpacity(0.8),
+                            color: colorScheme.onPrimary.withValues(alpha: 0.8),
                           ),
                         ),
                       ),
@@ -91,7 +91,7 @@ class CustomCard extends StatelessWidget {
                   description,
                   style: TextStyle(
                     fontSize: 12.sp,
-                    color: colorScheme.onPrimary.withOpacity(0.7),
+                    color: colorScheme.onPrimary.withValues(alpha: 0.7),
                   ),
                 ),
                 const Spacer(),
@@ -100,14 +100,21 @@ class CustomCard extends StatelessWidget {
                     child: TextButton(
                       onPressed: onButtonPressed,
                       style: TextButton.styleFrom(
-                        foregroundColor: colorScheme.onPrimary.withOpacity(0.9),
-                        backgroundColor: colorScheme.onPrimary.withOpacity(0.2),
+                        foregroundColor: colorScheme.onPrimary.withValues(
+                          alpha: 0.9,
+                        ),
+                        backgroundColor: colorScheme.onPrimary.withValues(
+                          alpha: 0.2,
+                        ),
                         minimumSize: Size(double.minPositive, 36.h),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8.r),
                         ),
                       ),
-                      child: Text(buttonText, style: TextStyle(fontSize: 12.sp)),
+                      child: Text(
+                        buttonText,
+                        style: TextStyle(fontSize: 12.sp),
+                      ),
                     ),
                   ),
               ],

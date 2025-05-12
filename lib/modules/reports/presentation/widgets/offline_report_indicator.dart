@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:snapnfix/core/base_components/base_toast.dart';
 import 'package:snapnfix/core/dependency_injection/dependency_injection.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:snapnfix/core/infrastructure/connectivity/connectivity_service.dart';
 import 'package:snapnfix/modules/reports/domain/usecases/get_pending_reports_count_use_case.dart';
 import 'package:snapnfix/modules/reports/domain/usecases/sync_prending_reports_use_case.dart';
@@ -60,6 +61,7 @@ class _OfflineReportIndicatorState extends State<OfflineReportIndicator> {
       _isSyncing = true;
     });
     final syncPendingReports = getIt<SyncPendingReportsUseCase>();
+    final localization = AppLocalizations.of(context)!;
 
     try {
       final result = await syncPendingReports.call();
@@ -68,14 +70,14 @@ class _OfflineReportIndicatorState extends State<OfflineReportIndicator> {
         BaseToast.show(
           context: context,
 
-          message: result ? 'Reports synced!' : 'Some reports failed',
+          message: result ? localization.reportsSynced : localization.someReportsFailed,
           type: result ? ToastType.success : ToastType.warning,
         );
       }
     } catch (e) {
       if (mounted) {
         BaseToast.show(
-          message: 'Syncing failed',
+          message: localization.syncingFailed,
           type: ToastType.error,
           context: context,
         );
@@ -93,6 +95,7 @@ class _OfflineReportIndicatorState extends State<OfflineReportIndicator> {
   Widget build(BuildContext context) {
     final watchPendingReportsCount = getIt<WatchPendingReportsCountUseCase>();
     final colorScheme = Theme.of(context).colorScheme;
+    final localization = AppLocalizations.of(context)!;
 
     void showToast(String message, ToastType type) {
       BaseToast.show(context: context, message: message, type: type);
@@ -110,11 +113,11 @@ class _OfflineReportIndicatorState extends State<OfflineReportIndicator> {
           onTap: () async {
             final isConnected = await _connectivityService.isConnected();
             if (!isConnected) {
-              showToast('No internet connection', ToastType.error);
+              showToast(localization.noInternetConnection, ToastType.error);
               return;
             }
             if (_isSyncing) {
-              showToast('Syncing in progress', ToastType.info);
+              showToast(localization.syncingInProgress, ToastType.info);
               return;
             }
             _syncReports();

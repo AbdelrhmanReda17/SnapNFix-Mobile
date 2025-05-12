@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:snapnfix/core/base_components/base_alert.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:snapnfix/modules/settings/presentation/cubits/change_password_cubit.dart';
 
 
@@ -11,6 +12,8 @@ class ChangePasswordBlocListener extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
+    final localization = AppLocalizations.of(context)!;
+
     return BlocListener<ChangePasswordCubit, ChangePasswordState>(
       listener: (context, state) {
         state.whenOrNull(
@@ -18,10 +21,10 @@ class ChangePasswordBlocListener extends StatelessWidget {
             context.pop();
             baseDialog(
               context: context,
-              title: 'Success',
-              message: 'Password changed successfully',
+              title: localization.successDialogTitle,
+              message: localization.passwordChangedSuccess,
               alertType: AlertType.success,
-              confirmText: 'Got it',
+              confirmText: localization.gotItConfirmText,
               onConfirm: () => context.pop(),
               showCancelButton: false,
             );
@@ -50,10 +53,10 @@ class ChangePasswordBlocListener extends StatelessWidget {
     context.pop();
     baseDialog(
       context: context,
-      title: 'Error',
+      title: AppLocalizations.of(context)!.errorDialogTitle,
       message: error,
       alertType: AlertType.error,
-      confirmText: 'Got it',
+      confirmText: AppLocalizations.of(context)!.gotItConfirmText,
       onConfirm: () {},
       showCancelButton: false,
     );

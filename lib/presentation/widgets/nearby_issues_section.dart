@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 class NearbyIssuesSection extends StatefulWidget {
   const NearbyIssuesSection({super.key});
   @override
@@ -32,6 +34,8 @@ class _NearbyIssuesSectionState extends State<NearbyIssuesSection> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final localization = AppLocalizations.of(context)!;
+
     return Column(
       children: [
         Expanded(
@@ -48,7 +52,7 @@ class _NearbyIssuesSectionState extends State<NearbyIssuesSection> {
                   ),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withOpacity(0.1),
+                      color: Colors.black.withValues(alpha: 0.1),
                       spreadRadius: 1,
                       blurRadius: 5,
                       offset: const Offset(0, -2),
@@ -87,7 +91,7 @@ class _NearbyIssuesSectionState extends State<NearbyIssuesSection> {
                           ),
                           SizedBox(width: 8.w),
                           Text(
-                            '${issues.length} ${issues.length == 1 ? 'Issue' : 'Issues'} found near you',
+                            '${issues.length} ${issues.length == 1 ? localization.issue : localization.issues} ${localization.foundNearYou}',
                             style: TextStyle(
                               color: theme.colorScheme.primary,
                               fontSize: 16.sp,
@@ -104,7 +108,7 @@ class _NearbyIssuesSectionState extends State<NearbyIssuesSection> {
                         padding: EdgeInsets.only(bottom: 16.h),
                         itemCount: issues.length,
                         itemBuilder: (context, index) {
-                          return _buildIssueCard(issues[index], theme);
+                          return _buildIssueCard(issues[index], theme, localization.fastReport);
                         },
                       ),
                     ),
@@ -118,12 +122,12 @@ class _NearbyIssuesSectionState extends State<NearbyIssuesSection> {
     );
   }
 
-  Widget _buildIssueCard(Map<String, dynamic> issue, ThemeData theme) {
+  Widget _buildIssueCard(Map<String, dynamic> issue, ThemeData theme, String buttonText) {
     return Card(
       margin: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.r)),
       elevation: 2,
-      shadowColor: Colors.black.withOpacity(0.2),
+      shadowColor: Colors.black.withValues(alpha: 0.2),
       child: Row(
         children: [
           Container(
@@ -190,7 +194,7 @@ class _NearbyIssuesSectionState extends State<NearbyIssuesSection> {
             child: ElevatedButton(
               onPressed: () {},
               style: ElevatedButton.styleFrom(
-                backgroundColor: theme.colorScheme.primary.withOpacity(0.9),
+                backgroundColor: theme.colorScheme.primary.withValues(alpha: 0.9),
                 padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10.r),
@@ -198,7 +202,7 @@ class _NearbyIssuesSectionState extends State<NearbyIssuesSection> {
                 minimumSize: Size(0, 30.h),
               ),
               child: Text(
-                'Fast report',
+                buttonText,
                 style: TextStyle(
                   color: theme.colorScheme.onPrimary,
                   fontSize: 12.sp,

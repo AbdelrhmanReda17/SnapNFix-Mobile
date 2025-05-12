@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:snapnfix/core/base_components/base_alert.dart';
 import 'package:snapnfix/core/infrastructure/networking/api_error_model.dart';
 
@@ -32,10 +33,10 @@ mixin AuthenticationListenerMixin {
     if (message != null) {
       baseDialog(
         context: context,
-        title: title ?? 'Success',
+        title: title ?? AppLocalizations.of(context)!.successDialogTitle,
         message: message,
         alertType: AlertType.success,
-        confirmText: 'Got it',
+        confirmText: AppLocalizations.of(context)!.gotItConfirmText,
         onConfirm: () {
           if (route != null) {
             if (extra != null) {
@@ -56,18 +57,14 @@ mixin AuthenticationListenerMixin {
     }
   }
 
-  void handleError(
-    BuildContext context,
-    ApiErrorModel error, {
-    String title = 'Error',
-  }) {
+  void handleError(BuildContext context, ApiErrorModel error, {String? title}) {
     context.pop();
     baseDialog(
       context: context,
-      title: title,
+      title: title ?? AppLocalizations.of(context)!.errorDialogTitle,
       message: error.getAllErrorMessages(),
       alertType: AlertType.error,
-      confirmText: 'Got it',
+      confirmText: AppLocalizations.of(context)!.gotItConfirmText,
       onConfirm: () {},
       showCancelButton: false,
     );

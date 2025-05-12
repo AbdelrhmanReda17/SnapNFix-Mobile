@@ -40,7 +40,7 @@ class AuthenticationFooter extends StatelessWidget {
             style: textStyles.bodySmall?.copyWith(
               color: isEnabled 
                 ? colorScheme.primary 
-                : colorScheme.primary.withOpacity(0.5),
+                : colorScheme.primary.withValues(alpha: 0.5),
             ),
           ),
         ),

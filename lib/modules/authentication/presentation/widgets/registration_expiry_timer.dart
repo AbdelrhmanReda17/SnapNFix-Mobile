@@ -24,8 +24,8 @@ class RegistrationExpiryTimer extends StatelessWidget {
       decoration: BoxDecoration(
         color:
             isNearExpiry
-                ? colorScheme.error.withOpacity(0.1)
-                : colorScheme.primary.withOpacity(0.1),
+                ? colorScheme.error.withValues(alpha: 0.1)
+                : colorScheme.primary.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(8.r),
         border: Border.all(
           color: isNearExpiry ? colorScheme.error : colorScheme.primary,
@@ -45,7 +45,7 @@ class RegistrationExpiryTimer extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "The code will expire in",
+                  localization.codeExpiresIn,
                   style: theme.textTheme.bodySmall?.copyWith(
                     color:
                         isNearExpiry ? colorScheme.error : colorScheme.primary,

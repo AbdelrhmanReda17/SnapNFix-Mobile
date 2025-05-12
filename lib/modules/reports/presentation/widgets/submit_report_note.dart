@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:snapnfix/core/utils/helpers/spacing.dart';
 
 class SubmitReportNote extends StatelessWidget {
   const SubmitReportNote({super.key});
@@ -8,6 +10,7 @@ class SubmitReportNote extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
+    final localization = AppLocalizations.of(context)!;
 
     return Card(
       margin: EdgeInsets.zero,
@@ -37,22 +40,22 @@ class SubmitReportNote extends StatelessWidget {
                 height: 75.h,
               ),
             ),
-            SizedBox(width: 12.w),
+            horizontalSpace(12.w),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Location & Time',
+                    localization.locationAndTime,
                     style: TextStyle(
                       color: colorScheme.primary,
                       fontSize: 14.sp,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
-                  SizedBox(height: 4.h),
+                  verticalSpace(4),
                   Text(
-                    'When you submit your report, the location and time will be automatically recorded',
+                    localization.locationAndTimeIsRecorded,
                     style: TextStyle(
                       color: colorScheme.primary.withValues(alpha: .7),
                       fontSize: 12.sp,

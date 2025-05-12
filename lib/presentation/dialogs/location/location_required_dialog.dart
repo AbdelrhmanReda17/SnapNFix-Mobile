@@ -15,7 +15,7 @@ void applicationLocationRequiredDialog({
     title: title,
     message: message,
     alertType: AlertType.error,
-    confirmText: 'Open Settings',
+    confirmText: localization?.errorPermissionActionText ?? 'Open Settings',
     onConfirm: () => getIt<LocationService>().openAppSettings(),
     showCancelButton: false,
   );

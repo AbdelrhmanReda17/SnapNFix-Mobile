@@ -97,13 +97,15 @@ class IssueDetailsScreen extends StatelessWidget {
 
   // will be replaced with general error handler like the LoadingOverlay one
   void setupErrorState(BuildContext context, ApiErrorModel apiErrorModel) {
+    final localization = AppLocalizations.of(context)!;
+
     context.pop();
     baseDialog(
       context: context,
-      title: 'Fetching Error',
+      title: localization.errorFetchingIssue,
       message: apiErrorModel.getAllErrorMessages(),
       alertType: AlertType.error,
-      confirmText: 'Got it',
+      confirmText: localization.gotItConfirmText,
       onConfirm: () {},
       showCancelButton: false,
     );

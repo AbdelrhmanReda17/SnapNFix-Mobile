@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class IssueFilterSheetActionButton extends StatelessWidget {
@@ -16,6 +17,7 @@ class IssueFilterSheetActionButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
+    final localization = AppLocalizations.of(context)!;
 
     return SafeArea(
       child: Container(
@@ -33,7 +35,9 @@ class IssueFilterSheetActionButton extends StatelessWidget {
             elevation: 0,
           ),
           child: Text(
-            hasFilters ? 'Apply Filters ($filterCount)' : 'Apply Filters',
+            hasFilters
+                ? '${localization.applyFilters} ($filterCount)'
+                : '${localization.applyFilters}',
             style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w600),
           ),
         ),

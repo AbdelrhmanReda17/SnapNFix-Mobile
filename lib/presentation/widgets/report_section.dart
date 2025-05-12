@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:snapnfix/core/utils/helpers/spacing.dart';
 import 'package:snapnfix/presentation/navigation/routes.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ReportSection extends StatelessWidget {
   const ReportSection({super.key});
@@ -9,13 +11,15 @@ class ReportSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final localization = AppLocalizations.of(context)!;
+
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 16.w),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Text(
-            "Spotted an Urban issue?",
+            localization.spottedIssue,
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 16.sp,
@@ -23,9 +27,9 @@ class ReportSection extends StatelessWidget {
               color: theme.colorScheme.primary,
             ),
           ),
-          SizedBox(height: 3.h),
+          verticalSpace(3),
           Text(
-            "Help us improve the city! Report any road issues,\nfrom potholes ,manholes and garbage, right here.",
+            localization.helpUsImprove,
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 12.sp,
@@ -33,7 +37,7 @@ class ReportSection extends StatelessWidget {
               height: 1.2.h,
             ),
           ),
-          SizedBox(height: 8.h),
+          verticalSpace(8),
           Center(
             child: ElevatedButton(
               onPressed: () => context.go(Routes.userReports),
@@ -62,19 +66,19 @@ class ReportSection extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
-                      "REPORT NOW",
+                      localization.reportNow,
                       style: TextStyle(
                         fontSize: 12.sp,
                         fontWeight: FontWeight.w400,
                         color: Colors.white,
                       ),
                     ),
-                    SizedBox(width: 8.w),
+                    horizontalSpace(8),
                     Container(
                       padding: EdgeInsets.all(4.r),
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        color: Colors.white.withOpacity(0.2),
+                        color: Colors.white.withValues(alpha: 0.2),
                       ),
                       child: Icon(
                         Icons.arrow_forward,
