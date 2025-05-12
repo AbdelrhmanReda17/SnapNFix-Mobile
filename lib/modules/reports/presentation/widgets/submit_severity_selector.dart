@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:snapnfix/core/utils/helpers/spacing.dart';
 import 'package:snapnfix/modules/reports/domain/entities/report_severity.dart';
 import 'package:snapnfix/modules/reports/presentation/cubits/submit_report_cubit.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -19,7 +20,7 @@ class SubmitSeveritySelector extends StatelessWidget {
           AppLocalizations.of(context)!.severity,
           style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: colorScheme.primary),
         ),
-        SizedBox(height: 5.h),
+        verticalSpace(5),
         BlocBuilder<SubmitReportCubit, SubmitReportState>(
           builder: (context, state) {
             return Row(
@@ -28,7 +29,7 @@ class SubmitSeveritySelector extends StatelessWidget {
                 for (final severity in ReportSeverity.values) ...[
                   _buildSeverityButton(severity, state.severity, cubit),
                   if (severity != ReportSeverity.values.last) ...[
-                    SizedBox(width: 8.w),
+                    horizontalSpace(8),
                   ],
                 ],
               ],

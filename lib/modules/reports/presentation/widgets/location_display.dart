@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:snapnfix/core/utils/helpers/spacing.dart';
 
 class LocationDisplay extends StatefulWidget {
   final double latitude;
@@ -107,7 +108,7 @@ class _LocationDisplayState extends State<LocationDisplay> {
               size: 16,
               color: Theme.of(context).colorScheme.onSurfaceVariant,
             ),
-            const SizedBox(width: 4),
+            horizontalSpace(4),
             Expanded(
               child: Text(
                 displayText,

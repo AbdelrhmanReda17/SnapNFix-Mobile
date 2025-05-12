@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:snapnfix/core/utils/helpers/spacing.dart';
 import 'package:snapnfix/presentation/navigation/routes.dart';
 import 'package:snapnfix/presentation/widgets/home_card.dart';
 
@@ -32,7 +33,7 @@ class HorizontalCards extends StatelessWidget {
             imageOffset: Offset(-7.w, 0.h),
             colorScheme: theme.colorScheme,
           ),
-          SizedBox(width: 12.w),
+          horizontalSpace(12),
           CustomCard(
             title: localization.pendingReports,
             mainValue: "3",
@@ -42,7 +43,7 @@ class HorizontalCards extends StatelessWidget {
             onButtonPressed: () => context.go(Routes.userReports),
             colorScheme: theme.colorScheme,
           ),
-          SizedBox(width: 12.w),
+          horizontalSpace(12),
           CustomCard(
             title: localization.resolvedReports,
             mainValue: "7",

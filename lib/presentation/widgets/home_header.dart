@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:snapnfix/core/config/application_configurations.dart';
 import 'package:snapnfix/core/dependency_injection/dependency_injection.dart';
 import 'package:go_router/go_router.dart';
+import 'package:snapnfix/core/utils/helpers/spacing.dart';
 import 'package:snapnfix/modules/reports/presentation/widgets/offline_report_indicator.dart';
 import 'package:snapnfix/presentation/navigation/routes.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -54,7 +55,7 @@ class HomeHeader extends StatelessWidget {
                       ),
                     ),
                   ),
-                  SizedBox(width: 12.w),
+                  horizontalSpace(12),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [

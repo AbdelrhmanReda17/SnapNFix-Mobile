@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:snapnfix/core/utils/helpers/spacing.dart';
 import 'package:snapnfix/presentation/components/application_system_ui_overlay.dart';
 
 class TermsConditionsScreen extends StatelessWidget {
@@ -48,7 +49,7 @@ class TermsConditionsScreen extends StatelessWidget {
               textStyles,
               colorScheme,
             ),
-            SizedBox(height: 24.h),
+            verticalSpace(24),
             Text(
               localization
                   .lastUpdated('{date}')
@@ -82,7 +83,7 @@ class TermsConditionsScreen extends StatelessWidget {
               fontWeight: FontWeight.bold,
             ),
           ),
-          SizedBox(height: 8.h),
+          verticalSpace(8),
           Text(content, style: textStyles.bodyMedium?.copyWith(height: 1.5)),
         ],
       ),

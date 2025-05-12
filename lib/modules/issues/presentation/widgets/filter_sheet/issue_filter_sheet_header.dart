@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:snapnfix/core/utils/helpers/spacing.dart';
 
 class IssueFilterSheetHeader extends StatelessWidget {
   final VoidCallback onClearFilters;
@@ -42,7 +43,7 @@ class IssueFilterSheetHeader extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Icon(Icons.clear, size: 16.r, color: colorScheme.error),
-                SizedBox(width: 4.w),
+                horizontalSpace(4),
                 Text(localization.clearAll, style: TextStyle(fontSize: 14.sp)),
               ],
             ),

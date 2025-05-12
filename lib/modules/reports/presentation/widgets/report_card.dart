@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
+import 'package:snapnfix/core/utils/helpers/spacing.dart';
 import 'package:snapnfix/modules/reports/data/model/report_model.dart';
 import 'package:snapnfix/modules/reports/domain/entities/report_severity.dart';
 import 'package:snapnfix/modules/reports/domain/entities/report_status.dart';
@@ -141,7 +142,7 @@ class _ReportCardState extends State<ReportCard>
                                 shape: BoxShape.circle,
                               ),
                             ),
-                            SizedBox(width: 4.w),
+                            horizontalSpace(4),
                             Text(
                               _getStatusText(
                                 widget.report.status,
@@ -194,7 +195,7 @@ class _ReportCardState extends State<ReportCard>
                           ),
                         ],
                       ),
-                      SizedBox(height: 4.h),
+                      verticalSpace(4),
 
                       Text(
                         localization.reportSeverity(
@@ -208,7 +209,7 @@ class _ReportCardState extends State<ReportCard>
                           fontWeight: FontWeight.w500,
                         ),
                       ),
-                      SizedBox(height: 4.h),
+                      verticalSpace(4),
                       SizeTransition(
                         sizeFactor: _expandAnimation,
                         child: Column(
@@ -221,7 +222,7 @@ class _ReportCardState extends State<ReportCard>
                               ),
                             ),
                             if (widget.report.issueId != null) ...[
-                              SizedBox(height: 8.h),
+                              verticalSpace(8),
                               InkWell(
                                 onTap: () {
                                   context.push(

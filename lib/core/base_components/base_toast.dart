@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:snapnfix/core/utils/helpers/spacing.dart';
 
 enum ToastType { info, success, error, warning }
 
@@ -30,7 +31,7 @@ class BaseToast {
           mainAxisSize: MainAxisSize.min,
           children: [
             _getIconForToastType(type),
-            SizedBox(width: 8.w),
+            horizontalSpace(8),
             Text(
               maxLines: 1,
               textWidthBasis: TextWidthBasis.longestLine,

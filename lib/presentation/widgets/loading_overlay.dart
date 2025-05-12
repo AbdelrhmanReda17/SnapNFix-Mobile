@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:snapnfix/core/utils/helpers/spacing.dart';
 
 class LoadingOverlay extends StatelessWidget {
   const LoadingOverlay({super.key});
@@ -13,7 +14,7 @@ class LoadingOverlay extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           CircularProgressIndicator(color: colorScheme.primary, strokeWidth: 2),
-          const SizedBox(height: 16),
+          verticalSpace(16),
           Text(
             AppLocalizations.of(context)!.loading,
             style: textTheme.bodyLarge!.copyWith(color: colorScheme.primary),

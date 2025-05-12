@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:snapnfix/core/base_components/base_button.dart';
+import 'package:snapnfix/core/utils/helpers/spacing.dart';
 
 enum MapErrorType { general, permission }
 
@@ -35,7 +36,7 @@ class MapScreenError extends StatelessWidget {
                     ? colorScheme.error
                     : colorScheme.primary,
           ),
-          const SizedBox(height: 16),
+          verticalSpace(16),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 32),
             child: Text(
@@ -46,7 +47,7 @@ class MapScreenError extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
           ),
-          const SizedBox(height: 24),
+          verticalSpace(24),
           SizedBox(
             width: MediaQuery.of(context).size.width * 0.5,
             child: BaseButton(

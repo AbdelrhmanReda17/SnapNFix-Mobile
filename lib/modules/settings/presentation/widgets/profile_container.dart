@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:snapnfix/core/utils/helpers/spacing.dart';
 import 'package:snapnfix/modules/authentication/domain/entities/user.dart';
 import 'package:snapnfix/presentation/navigation/routes.dart';
 
@@ -60,7 +61,7 @@ class ProfileContainer extends StatelessWidget {
                                 style: TextStyle(color: colorScheme.primary),
                               ),
                     ),
-                    SizedBox(width: 12.w),
+                    horizontalSpace(12),
                     SizedBox(
                       width: 200.w,
                       child: RichText(

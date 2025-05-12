@@ -7,6 +7,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:snapnfix/core/base_components/base_button.dart';
 import 'package:snapnfix/core/dependency_injection/dependency_injection.dart';
 import 'package:snapnfix/core/infrastructure/location/location_service.dart';
+import 'package:snapnfix/core/utils/helpers/spacing.dart';
 import 'package:snapnfix/modules/reports/presentation/cubits/submit_report_cubit.dart';
 import 'package:snapnfix/modules/reports/presentation/widgets/submit_additional_info.dart';
 import 'package:snapnfix/modules/reports/presentation/widgets/submit_photo_picker.dart';
@@ -62,13 +63,13 @@ class SubmitReportScreen extends StatelessWidget {
               padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 24.h),
               children: [
                 SubmitPhotoPicker(),
-                SizedBox(height: 10.h),
+                verticalSpace(10),
                 SubmitSeveritySelector(),
-                SizedBox(height: 10.h),
+                verticalSpace(10),
                 SubmitAdditionalDetails(),
-                SizedBox(height: 10.h),
+                verticalSpace(10),
                 SubmitReportNote(),
-                SizedBox(height: 10.h),
+                verticalSpace(10),
                 BlocBuilder<SubmitReportCubit, SubmitReportState>(
                   builder: (context, state) {
                     return BaseButton(

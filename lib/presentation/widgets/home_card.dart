@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:snapnfix/core/utils/helpers/spacing.dart';
 
 class CustomCard extends StatelessWidget {
   final String title;
@@ -59,7 +60,7 @@ class CustomCard extends StatelessWidget {
                     color: colorScheme.onPrimary,
                   ),
                 ),
-                SizedBox(height: 6.h),
+                verticalSpace(6),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
@@ -86,7 +87,7 @@ class CustomCard extends StatelessWidget {
                       ),
                   ],
                 ),
-                SizedBox(height: 6.h),
+                verticalSpace(6),
                 Text(
                   description,
                   style: TextStyle(

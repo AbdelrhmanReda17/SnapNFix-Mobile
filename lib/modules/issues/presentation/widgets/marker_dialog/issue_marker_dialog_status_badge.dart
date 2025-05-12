@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:snapnfix/core/utils/helpers/spacing.dart';
 import 'package:snapnfix/modules/issues/domain/entities/issue_status.dart';
 
 class IssueMarkerDialogStatusBadge extends StatelessWidget {
@@ -25,7 +26,7 @@ class IssueMarkerDialogStatusBadge extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Icon(_getStatusIcon(), size: size.r, color: _getStatusColor()),
-          SizedBox(width: 4.w),
+          horizontalSpace(4),
           Text(
             _getStatusText(),
             style: TextStyle(

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:snapnfix/core/utils/helpers/spacing.dart';
 
 class NearbyIssuesSection extends StatefulWidget {
   const NearbyIssuesSection({super.key});
@@ -89,7 +90,7 @@ class _NearbyIssuesSectionState extends State<NearbyIssuesSection> {
                             color: theme.colorScheme.primary,
                             size: 20.sp,
                           ),
-                          SizedBox(width: 8.w),
+                          horizontalSpace(8),
                           Text(
                             '${issues.length} ${issues.length == 1 ? localization.issue : localization.issues} ${localization.foundNearYou}',
                             style: TextStyle(
@@ -174,11 +175,11 @@ class _NearbyIssuesSectionState extends State<NearbyIssuesSection> {
                       color: theme.colorScheme.primary,
                     ),
                   ),
-                  SizedBox(height: 8.h),
+                  verticalSpace(8),
                   Row(
                     children: [
                       Icon(Icons.location_on, color: Colors.grey, size: 14.sp),
-                      SizedBox(width: 4.w),
+                      horizontalSpace(4),
                       Text(
                         issue['location'],
                         style: TextStyle(color: Colors.grey, fontSize: 12.sp),

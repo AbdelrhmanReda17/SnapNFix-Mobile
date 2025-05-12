@@ -6,6 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:snapnfix/core/utils/helpers/spacing.dart';
 import 'package:snapnfix/modules/reports/presentation/cubits/submit_report_cubit.dart';
 
 class SubmitPhotoPicker extends StatelessWidget {
@@ -64,7 +65,7 @@ class SubmitPhotoPicker extends StatelessWidget {
                           size: 42.sp,
                           color: colorScheme.primary,
                         ),
-                        SizedBox(height: 12.h),
+                        verticalSpace(12),
                         Text(
                           localization?.takeAPhoto ?? 'Take a photo',
                           style: TextStyle(

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:snapnfix/core/utils/helpers/spacing.dart';
 
 class RegistrationExpiryTimer extends StatelessWidget {
   final int remainingTime;
@@ -39,7 +40,7 @@ class RegistrationExpiryTimer extends StatelessWidget {
             color: isNearExpiry ? colorScheme.error : colorScheme.primary,
             size: 20.w,
           ),
-          SizedBox(width: 8.w),
+          horizontalSpace(8),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:snapnfix/core/utils/helpers/spacing.dart';
 
 class BaseTextField extends StatefulWidget {
   final String? labelText;
@@ -82,7 +83,7 @@ class _BaseTextFieldState extends State<BaseTextField> {
               fontSize: 14.sp,
             ),
           ),
-          SizedBox(height: 2.h),
+          verticalSpace(2),
         ],
         SizedBox(
           width: double.infinity,

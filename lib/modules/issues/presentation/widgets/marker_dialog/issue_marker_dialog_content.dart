@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:snapnfix/core/utils/helpers/spacing.dart';
 import 'issue_marker_dialog_detail_item.dart';
 import 'issue_marker_dialog_action.dart';
 import '../../../domain/entities/issue.dart';
@@ -34,7 +35,7 @@ class IssueMarkerDialogContent extends StatelessWidget {
                   color: colorScheme.primary,
                 ),
               ),
-              SizedBox(width: 12.w),
+              horizontalSpace(12),
               Expanded(
                 child: IssueMarkerDialogDetailItem(
                   icon: Icons.report_problem_outlined,
@@ -44,7 +45,7 @@ class IssueMarkerDialogContent extends StatelessWidget {
               ),
             ],
           ),
-          SizedBox(height: 16.h),
+          verticalSpace(16),
           IssueMarkerDialogAction(onTap: onReportTap),
         ],
       ),
