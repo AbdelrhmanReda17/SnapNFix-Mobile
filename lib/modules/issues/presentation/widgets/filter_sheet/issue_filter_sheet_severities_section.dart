@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:snapnfix/modules/issues/domain/entities/issue_severity.dart';
 import 'issue_filter_sheet_chip_item.dart';
 import 'issue_filter_sheet_section_title.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class IssueFilterSheetSeveritiesSection extends StatelessWidget {
   final List<IssueSeverity> selectedSeverities;
@@ -17,11 +18,12 @@ class IssueFilterSheetSeveritiesSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
+    final localization = AppLocalizations.of(context)!;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const IssueFilterSheetSectionTitle(title: 'Severities'),
+        IssueFilterSheetSectionTitle(title: localization.severities),
         Wrap(
           spacing: 8.w,
           runSpacing: 8.h,

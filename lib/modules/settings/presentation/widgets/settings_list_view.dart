@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:snapnfix/core/config/application_configurations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:snapnfix/core/dependency_injection/dependency_injection.dart';
+import 'package:snapnfix/core/utils/helpers/spacing.dart';
 import 'package:snapnfix/modules/settings/presentation/widgets/dark_mode_tile.dart';
 import 'package:snapnfix/modules/settings/presentation/widgets/language_tile.dart';
 import 'package:snapnfix/presentation/navigation/routes.dart';
@@ -55,10 +56,10 @@ class _SettingsListViewState extends State<SettingsListView> {
               ),
             ],
           ),
-          SizedBox(height: 7.h),
+          verticalSpace(7),
           DarkModeTile(),
           LanguageTile(),
-          SizedBox(height: 7.h),
+          verticalSpace(7),
           _buildSettingsTile(
             localization.termsAndConditions,
             () {
@@ -83,7 +84,7 @@ class _SettingsListViewState extends State<SettingsListView> {
             colorScheme,
             textStyles,
           ),
-          SizedBox(height: 7.h),
+          verticalSpace(7),
           _buildSettingsTile(
             localization.signOut,
             () {

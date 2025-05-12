@@ -19,7 +19,7 @@ class ChangePasswordForm extends StatelessWidget {
             onChanged: (context.read<ChangePasswordCubit>().setOldPassword),
             validator:
                 (value) =>
-                    value!.isNotEmpty ? null : " Current password is required",
+                    value!.isNotEmpty ? null : AppLocalizations.of(context)!.currentPasswordRequired,
           ),
           verticalSpace(20),
           BasePasswordTextField(

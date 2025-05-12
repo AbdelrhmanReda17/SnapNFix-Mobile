@@ -20,7 +20,7 @@ class ImageBuilder {
     if (imageName == null || imageName.isEmpty) {
       return Builder(
         builder: (context) {
-          return errorBuilder != null 
+          return errorBuilder != null
               ? errorBuilder(context, colorScheme)
               : _defaultErrorPlaceholder(colorScheme);
         },
@@ -34,31 +34,46 @@ class ImageBuilder {
         fit: fit,
         width: width,
         height: height,
-        placeholder: (context, url) => loadingBuilder != null
-            ? loadingBuilder(colorScheme)
-            : _defaultLoadingPlaceholder(colorScheme),
-        errorWidget: (context, url, error) => Builder(
-          builder: (context) {
-            return errorBuilder != null
-                ? errorBuilder(context, colorScheme)
-                : _defaultErrorPlaceholder(colorScheme);
-          },
-        ),
+        placeholder:
+            (context, url) =>
+                loadingBuilder != null
+                    ? loadingBuilder(colorScheme)
+                    : _defaultLoadingPlaceholder(colorScheme),
+        errorWidget:
+            (context, url, error) => Builder(
+              builder: (context) {
+                return errorBuilder != null
+                    ? errorBuilder(context, colorScheme)
+                    : _defaultErrorPlaceholder(colorScheme);
+              },
+            ),
       );
     }
 
     // Otherwise use the generated asset images
     switch (imageName) {
       case "issue1.jpg":
-        return Assets.images.issue1.image(fit: fit, width: width, height: height);
+        return Assets.images.issue1.image(
+          fit: fit,
+          width: width,
+          height: height,
+        );
       case "issue2.jpg":
-        return Assets.images.issue2.image(fit: fit, width: width, height: height);
+        return Assets.images.issue2.image(
+          fit: fit,
+          width: width,
+          height: height,
+        );
       case "issue3.jpg":
-        return Assets.images.issue3.image(fit: fit, width: width, height: height);
+        return Assets.images.issue3.image(
+          fit: fit,
+          width: width,
+          height: height,
+        );
       default:
         return Builder(
           builder: (context) {
-            return errorBuilder != null 
+            return errorBuilder != null
                 ? errorBuilder(context, colorScheme)
                 : _defaultErrorPlaceholder(colorScheme);
           },
@@ -82,12 +97,9 @@ class ImageBuilder {
   /// Default error placeholder to show when an image fails to load
   static Widget _defaultErrorPlaceholder(ColorScheme colorScheme) {
     return Container(
-      color: colorScheme.primary.withOpacity(0.05),
+      color: colorScheme.primary.withValues(alpha: 0.05),
       child: Center(
-        child: Icon(
-          Icons.broken_image,
-          color: colorScheme.primary,
-        ),
+        child: Icon(Icons.broken_image, color: colorScheme.primary),
       ),
     );
   }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:snapnfix/core/utils/helpers/spacing.dart';
 
 class RegistrationExpiryTimer extends StatelessWidget {
   final int remainingTime;
@@ -24,8 +25,8 @@ class RegistrationExpiryTimer extends StatelessWidget {
       decoration: BoxDecoration(
         color:
             isNearExpiry
-                ? colorScheme.error.withOpacity(0.1)
-                : colorScheme.primary.withOpacity(0.1),
+                ? colorScheme.error.withValues(alpha: 0.1)
+                : colorScheme.primary.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(8.r),
         border: Border.all(
           color: isNearExpiry ? colorScheme.error : colorScheme.primary,
@@ -39,13 +40,13 @@ class RegistrationExpiryTimer extends StatelessWidget {
             color: isNearExpiry ? colorScheme.error : colorScheme.primary,
             size: 20.w,
           ),
-          SizedBox(width: 8.w),
+          horizontalSpace(8),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "The code will expire in",
+                  localization.codeExpiresIn,
                   style: theme.textTheme.bodySmall?.copyWith(
                     color:
                         isNearExpiry ? colorScheme.error : colorScheme.primary,

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:snapnfix/core/base_components/base_button.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:snapnfix/core/utils/helpers/spacing.dart';
 
 final tips = [
   {
@@ -47,13 +49,14 @@ class SubmitReportTips extends StatelessWidget {
         size: 22.sp,
       ),
       onPressed: () => _showTipsDialog(context),
-      tooltip: 'Reporting Tips',
+      tooltip: AppLocalizations.of(context)!.reportingTips,
     );
   }
 
   void _showTipsDialog(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
+    final localization = AppLocalizations.of(context)!;
 
     showDialog(
       context: context,
@@ -95,10 +98,10 @@ class SubmitReportTips extends StatelessWidget {
                           size: 24.sp,
                         ),
                       ),
-                      SizedBox(width: 12.w),
+                      horizontalSpace(12.w),
                       Expanded(
                         child: Text(
-                          'Reporting Tips',
+                          localization.reportingTips,
                           style: textTheme.titleLarge?.copyWith(
                             fontWeight: FontWeight.bold,
                             color: colorScheme.primary,
@@ -107,9 +110,9 @@ class SubmitReportTips extends StatelessWidget {
                       ),
                     ],
                   ),
-                  SizedBox(height: 10.h),
+                  verticalSpace(10),
                   Divider(height: 1, thickness: 1, color: colorScheme.outline),
-                  SizedBox(height: 10.h),
+                  verticalSpace(10),
 
                   for (final tip in tips) ...[
                     _buildTipCard(
@@ -123,12 +126,12 @@ class SubmitReportTips extends StatelessWidget {
                         alpha: 0.8,
                       ),
                     ),
-                    if (tip != tips.last) ...[SizedBox(height: 16.h)],
+                    if (tip != tips.last) ...[horizontalSpace(16.h)],
                   ],
-                  SizedBox(height: 24.h),
+                  horizontalSpace(24.h),
                   BaseButton(
                     onPressed: () => Navigator.pop(context),
-                    text: 'Got it',
+                    text: localization.gotItConfirmText,
                     textStyle: textTheme.bodyLarge!.copyWith(
                       color: colorScheme.surface,
                       fontWeight: FontWeight.bold,
@@ -165,7 +168,7 @@ class SubmitReportTips extends StatelessWidget {
           ),
           child: Icon(icon, size: 20.sp, color: iconColor),
         ),
-        SizedBox(width: 12.w),
+        horizontalSpace(12.w),
         Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -177,7 +180,7 @@ class SubmitReportTips extends StatelessWidget {
                   color: Theme.of(context).colorScheme.primary,
                 ),
               ),
-              SizedBox(height: 2.h),
+              horizontalSpace(2.h),
               Text(
                 description,
                 style: textTheme.bodyMedium?.copyWith(

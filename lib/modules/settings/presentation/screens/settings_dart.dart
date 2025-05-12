@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:snapnfix/core/config/application_configurations.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:snapnfix/core/dependency_injection/dependency_injection.dart';
 import 'package:snapnfix/modules/settings/presentation/widgets/profile_container.dart';
 import 'package:snapnfix/modules/settings/presentation/widgets/settings_list_view.dart';
@@ -10,7 +11,7 @@ class SettingsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final session = getIt<ApplicationConfigurations>().currentSession;
     if (session == null) {
-      return const Center(child: Text('Please login to view settings'));
+      return Center(child: Text(AppLocalizations.of(context)!.loginToViewSettings));
     }
     return Column(
       children: [

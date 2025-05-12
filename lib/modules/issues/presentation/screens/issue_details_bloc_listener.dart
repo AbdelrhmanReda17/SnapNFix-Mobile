@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:snapnfix/core/base_components/base_alert.dart';
 import 'package:snapnfix/core/infrastructure/networking/api_error_model.dart';
 import 'package:snapnfix/modules/issues/presentation/cubits/issue_details_cubit.dart';
@@ -24,14 +25,15 @@ class IssueDetailsBlocListener extends StatelessWidget {
   }
 
   void _showError(BuildContext context, ApiErrorModel error) {
+    final localization = AppLocalizations.of(context)!;
     context.pop();
 
     baseDialog(
       context: context,
-      title: 'Error Fetching the Issue',
+      title: localization.errorFetchingIssue,
       message: error.getAllErrorMessages(),
       alertType: AlertType.error,
-      confirmText: 'OK',
+      confirmText: localization.ok,
       onConfirm: () {},
       showCancelButton: false,
     );

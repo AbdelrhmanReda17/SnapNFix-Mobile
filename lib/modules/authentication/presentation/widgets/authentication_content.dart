@@ -25,7 +25,6 @@ class AuthenticationContent extends StatelessWidget {
   final String? footerTimerText;
   final Widget? footer;
   final bool showBackButton;
- 
 
   const AuthenticationContent({
     super.key,
@@ -72,7 +71,7 @@ class AuthenticationContent extends StatelessWidget {
               ),
             ),
           ),
-        SizedBox(height: 45.h),
+        horizontalSpace(45.h),
         Image.asset('assets/images/SnapNFix.png', height: 70.h),
         Text(
           title,
@@ -84,7 +83,7 @@ class AuthenticationContent extends StatelessWidget {
           ),
           textAlign: TextAlign.center,
         ),
-        SizedBox(height: 8.h),
+        horizontalSpace(8.h),
         SizedBox(
           width: 280.w,
           height: 40.h,

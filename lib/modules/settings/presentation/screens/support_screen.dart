@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:snapnfix/core/utils/helpers/spacing.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:snapnfix/presentation/components/application_system_ui_overlay.dart';
@@ -32,7 +33,7 @@ class SupportScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             _buildSectionTitle(localization.contactUs, textStyles, colorScheme),
-            SizedBox(height: 16.h),
+            verticalSpace(16),
             _buildContactItem(
               icon: Icons.email_outlined,
               title: localization.email,
@@ -49,9 +50,9 @@ class SupportScreen extends StatelessWidget {
               textStyles: textStyles,
               colorScheme: colorScheme,
             ),
-            SizedBox(height: 24.h),
+            verticalSpace(24),
             _buildSectionTitle(localization.faqs, textStyles, colorScheme),
-            SizedBox(height: 16.h),
+            verticalSpace(16),
             _buildFaqItem(
               localization.howToReportFaqTitle,
               localization.howToReportFaqAnswer,

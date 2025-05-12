@@ -24,7 +24,7 @@ class CompleteProfileForm extends StatelessWidget {
         child: Column(
           children: [
             BaseTextField(
-              hintText: "Enter your first name",
+              hintText: localizations.enterFirstName,
               labelText: localizations.firstName,
               onChanged: cubit.setFirstName,
               validator:
@@ -37,7 +37,7 @@ class CompleteProfileForm extends StatelessWidget {
             ),
             verticalSpace(16),
             BaseTextField(
-              hintText: "Enter your last name",
+              hintText: localizations.enterLastName,
               labelText: localizations.lastName,
               onChanged: cubit.setLastName,
               validator:
@@ -52,7 +52,7 @@ class CompleteProfileForm extends StatelessWidget {
             if (password == null) ...[
               BasePasswordTextField(
                 text: localizations.password,
-                hintText: "Enter your password",
+                hintText: localizations.enterPassword,
                 onChanged: cubit.setPassword,
                 validator:
                     (value) =>
@@ -65,7 +65,7 @@ class CompleteProfileForm extends StatelessWidget {
               verticalSpace(12),
               BasePasswordTextField(
                 text: localizations.repeatPassword,
-                hintText: "Re-enter your password",
+                hintText: localizations.reEnterPassword,
                 onChanged: cubit.setRepeatPassword,
                 validator:
                     (value) =>

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:snapnfix/core/utils/helpers/spacing.dart';
 
 class BaseTextField extends StatefulWidget {
   final String? labelText;
@@ -15,6 +16,8 @@ class BaseTextField extends StatefulWidget {
   final int maxErrorLines;
   final String? initialValue;
   final ValueChanged<String>? onChanged;
+  final bool enabled;
+    final bool readOnly;
 
   const BaseTextField({
     super.key,
@@ -31,6 +34,8 @@ class BaseTextField extends StatefulWidget {
     this.maxErrorLines = 2,
     this.initialValue,
     this.onChanged,
+    this.enabled = true,
+    this.readOnly = false,
   });
 
   @override
@@ -78,11 +83,11 @@ class _BaseTextFieldState extends State<BaseTextField> {
           Text(
             widget.labelText!,
             style: textStyles.bodyMedium?.copyWith(
-              color: colorScheme.primary.withOpacity(0.5),
+              color: colorScheme.primary.withValues(alpha: 0.5),
               fontSize: 14.sp,
             ),
           ),
-          SizedBox(height: 2.h),
+          verticalSpace(2),
         ],
         SizedBox(
           width: double.infinity,
@@ -93,28 +98,30 @@ class _BaseTextFieldState extends State<BaseTextField> {
             autovalidateMode: AutovalidateMode.onUserInteraction,
             autofocus: false,
             maxLines: widget.maxLines,
+            enabled: widget.enabled,
+            readOnly: widget.readOnly,
             decoration: InputDecoration(
               isDense: true,
               floatingLabelBehavior: FloatingLabelBehavior.never,
               contentPadding:
                   widget.contentPadding ??
                   EdgeInsets.symmetric(horizontal: 16.w, vertical: 13.h),
-              border: _buildBorder(colorScheme.primary.withOpacity(0.2)),
+              border: _buildBorder(colorScheme.primary.withValues(alpha: 0.2)),
               focusedBorder: _buildBorder(colorScheme.primary),
-              enabledBorder: _buildBorder(colorScheme.primary.withOpacity(0.2)),
+              enabledBorder: _buildBorder(colorScheme.primary.withValues(alpha: 0.2)),
               errorBorder: _buildBorder(colorScheme.error),
               focusedErrorBorder: _buildBorder(colorScheme.error),
               hintText: widget.hintText,
               hintStyle:
                   widget.hintStyle ??
                   textStyles.bodyMedium?.copyWith(
-                    color: colorScheme.primary.withOpacity(0.5),
+                    color: colorScheme.primary.withValues(alpha: 0.5),
                     fontSize: 16.sp,
                   ),
               suffixIcon: widget.suffixIcon,
               fillColor:
                   widget.backgroundColor ??
-                  colorScheme.primary.withOpacity(0.1),
+                  colorScheme.primary.withValues(alpha: 0.1),
               filled: true,
               errorMaxLines: widget.maxErrorLines,
             ),

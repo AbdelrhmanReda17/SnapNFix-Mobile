@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:snapnfix/core/config/application_constants.dart';
 import 'package:snapnfix/core/dependency_injection/dependency_injection.dart';
 import 'package:snapnfix/core/utils/helpers/shared_pref_keys.dart';
+import 'package:snapnfix/core/utils/helpers/spacing.dart';
 import 'package:snapnfix/modules/onboarding/widgets/next_button.dart';
 import 'package:snapnfix/modules/onboarding/widgets/onboarding_page.dart';
 import 'package:snapnfix/modules/onboarding/widgets/page_indicator.dart';
@@ -37,7 +37,7 @@ class OnboardingScreenState extends State<OnboardingScreen> {
           children: [
             !(currentPage == ApplicationConstants.onboardingContent.length - 1)
                 ? SkipButton(controller: _controller)
-                : SizedBox(height: 50.h),
+                : verticalSpace(50),
             Expanded(
               child: PageView(
                 controller: _controller,
@@ -50,7 +50,7 @@ class OnboardingScreenState extends State<OnboardingScreen> {
               ),
             ),
             PageIndicator(controller: _controller),
-            SizedBox(height: 20.h),
+            verticalSpace(20),
             NextButton(
               progress:
                   currentPage /

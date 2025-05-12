@@ -1,10 +1,14 @@
+import 'package:flutter/material.dart';
+
 enum ReportStatus {
-  pending('Pending'),
-  verified('Verified'),
-  rejected('Rejected');
+  pending('Pending', Color(0xFF4CAF50)),
+  verified('Verified',  Color(0xFFFF9800)),
+  rejected('Rejected', Color(0xFFF44336));
 
   final String value;
-  const ReportStatus(this.value);
+  final Color color;
+
+  const ReportStatus(this.value, this.color);
 
   bool get isActive => this == pending || this == pending;
   bool get isFinal => this == verified || this == rejected;

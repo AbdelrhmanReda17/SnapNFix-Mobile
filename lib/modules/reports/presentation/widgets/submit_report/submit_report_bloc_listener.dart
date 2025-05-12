@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:snapnfix/core/base_components/base_alert.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:snapnfix/modules/reports/presentation/cubits/submit_report_cubit.dart';
 import 'package:go_router/go_router.dart';
 
@@ -10,6 +11,8 @@ class SubmitReportBlocListener extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
+    final localization = AppLocalizations.of(context)!;
+    
     return BlocListener<SubmitReportCubit, SubmitReportState>(
       listenWhen:
           (previous, current) =>
@@ -40,10 +43,10 @@ class SubmitReportBlocListener extends StatelessWidget {
           }
           baseDialog(
             context: context,
-            title: 'Error while submitting report',
+            title: localization.submittingReportError,
             message: state.error!,
             alertType: AlertType.error,
-            confirmText: 'Got it',
+            confirmText: localization.gotItConfirmText,
             onConfirm: () {},
             showCancelButton: false,
           );
@@ -58,10 +61,10 @@ class SubmitReportBlocListener extends StatelessWidget {
           }
           baseDialog(
             context: context,
-            title: 'Success',
+            title: localization.successDialogTitle,
             message: state.successMessage!,
             alertType: AlertType.success,
-            confirmText: 'Got it',
+            confirmText: localization.gotItConfirmText,
             onConfirm: () {},
             showCancelButton: false,
           );

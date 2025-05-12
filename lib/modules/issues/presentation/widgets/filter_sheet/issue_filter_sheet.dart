@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:snapnfix/core/utils/helpers/spacing.dart';
 import 'package:snapnfix/modules/issues/domain/entities/issue_category.dart';
 import 'package:snapnfix/modules/issues/domain/entities/issue_severity.dart';
 import 'package:snapnfix/modules/issues/domain/entities/issue_status.dart';
@@ -89,18 +90,18 @@ class _IssueFilterSheetState extends State<IssueFilterSheet> {
             onClearFilters: _clearFilters,
             hasFilters: _hasFilters(),
           ),
-          SizedBox(height: 24.h),
+          verticalSpace(24),
           // Filter sections
           IssueFilterSheetCategoriesSection(
             selectedCategories: selectedCategories,
             onToggleCategory: _toggleCategory,
           ),
-          SizedBox(height: 24.h),
+          verticalSpace(24),
           IssueFilterSheetSeveritiesSection(
             selectedSeverities: selectedSeverities,
             onToggleSeverity: _toggleSeverity,
           ),
-          SizedBox(height: 24.h),
+          verticalSpace(24),
           IssueFilterSheetStatusSection(
             selectedStatuses: selectedStatuses,
             onToggleStatus: _toggleStatus,
@@ -110,7 +111,7 @@ class _IssueFilterSheetState extends State<IssueFilterSheet> {
             hasFilters: _hasFilters(),
             filterCount: _filterCount(),
           ),
-          SizedBox(height: 16.h),
+          verticalSpace(16),
         ],
       ),
     );

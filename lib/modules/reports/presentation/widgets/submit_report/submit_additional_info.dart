@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:snapnfix/core/base_components/base_text_field.dart';
+import 'package:snapnfix/core/utils/helpers/spacing.dart';
 import 'package:snapnfix/modules/reports/presentation/cubits/submit_report_cubit.dart';
 
 class SubmitAdditionalDetails extends StatelessWidget {
@@ -22,7 +22,7 @@ class SubmitAdditionalDetails extends StatelessWidget {
           localization?.additionalDetails ?? 'Additional Details (Optional)',
           style: textTheme.bodyLarge!.copyWith(color: colorScheme.primary),
         ),
-        SizedBox(height: 8.h),
+        verticalSpace(8),
         BaseTextField(
           hintText:
               localization?.describeIncident ?? 'Describe the incident...',

@@ -3,9 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:snapnfix/core/base_components/base_button.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:snapnfix/core/utils/helpers/spacing.dart';
 import 'package:snapnfix/modules/settings/presentation/cubits/edit_profile_cubit.dart';
-import 'package:snapnfix/modules/settings/presentation/widgets/edit_profile/edit_password_bloc_listener.dart';
-import 'package:snapnfix/modules/settings/presentation/widgets/edit_profile/edit_password_form.dart';
+import 'package:snapnfix/modules/settings/presentation/widgets/edit_profile/edit_profile_bloc_listener.dart';
+import 'package:snapnfix/modules/settings/presentation/widgets/edit_profile/edit_profile_form.dart';
 import 'package:snapnfix/modules/settings/presentation/widgets/edit_profile/profile_image_section.dart';
 import 'package:snapnfix/presentation/components/application_system_ui_overlay.dart';
 
@@ -43,7 +44,7 @@ class EditProfile extends StatelessWidget {
               child: Column(
                 children: [
                   const EditProfileForm(),
-                  SizedBox(height: 30.h),
+                  verticalSpace(30),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -60,10 +61,15 @@ class EditProfile extends StatelessWidget {
                           ),
                         ),
                       ),
-                      SizedBox(width: 16.w),
+                      horizontalSpace(16),
                       Expanded(
                         child: BaseButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            final cubit = context.read<EditProfileCubit>();
+                            cubit.initializeUserData();
+                            // cubit.profileImage.value = null;
+                            cubit.formKey.currentState?.reset();
+                          },
                           text: localization?.reset ?? 'Reset',
                           textStyle: textTheme.bodyLarge!.copyWith(
                             color: colorScheme.primary,

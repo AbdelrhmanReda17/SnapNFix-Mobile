@@ -1,14 +1,36 @@
 {
   "@@locale": "en",
+  "snapNFix": "SnapNFix",
+  "@snapNFix": {
+    "description": "App name"
+  },
   "hello": "Hello!",
+  "@hello": {
+    "description": "Simple greeting"
+  },
   "welcome": "Welcome to our app",
+  "@welcome": {
+    "description": "Welcome message displayed on the home screen"
+  },
 
   "welcomeBack": "Welcome Back!",
+  "@welcomeBack": {
+    "description": "Greeting for returning users on login screen"
+  },
   "loginToContinue": "Login to continue",
+  "@loginToContinue": {
+    "description": "Subtitle on login screen"
+  },
   "firstName": "First Name",
+  "@firstName": {
+    "description": "Label for first name field in forms"
+  },
   "lastName": "Last Name",
+  "@lastName": {
+    "description": "Label for last name field in forms"
+  },
   "emailOrPhone": "Email or Phone",
-  "phone": "Phone Number",
+  "phoneNumber": "Phone Number",
   "password": "Password",
   "rememberMe": "Remember me",
   "forgetPassword": "Forget password?",
@@ -16,6 +38,8 @@
   "orContinueWith": "Or continue with",
   "notRegistered" : "Not Registered yet?",
   "createAccount": "Create an Account",
+  "signInToAccount": "Sign In to your account",
+  "enterEmailAndPassword": "Enter your email and password to log in to your account",
 
   "createAccountTitle": "Create Account",
   "registerToContinue": "Register to continue",
@@ -26,8 +50,9 @@
   "privacyPolicy":  "Privacy Policy",
   "signUp": "Sign Up",
   "alreadyHaveAcc": "Already have an account?",
-
-
+  "getStarted": "Get started now",
+  "registerSubtitle": "Your one-stop solution for all your needs",
+  "enterPhoneNumber": "Enter your phone number",
 
   "reportAnIncident": "Report an Incident",
   "takeAPhoto": "Take a photo",
@@ -45,6 +70,7 @@
   "submitReport": "Submit Report",
   "locationRequired": "Location Required",
   "locationRequiredMessage": "Location services are disabled. To submit a report, please enable location services.",
+  "locationRequiredMessageWithNewLine": "Location services are disabled.\nTo submit a report, please enable location services.",
   "cancel": "Cancel",
   "enableLocation": "Enable",
   "locationPermissionDenied": "Location permissions are denied",
@@ -53,7 +79,6 @@
   "unableToGetLocation": "Unable to get location",
   "pleaseAddPhoto": "Please take a photo of the incident",
   "reportSubmitted": "Report submitted successfully",
-
 
   "changePassword": "Change Password",
   "currentPassword": "Current Password",
@@ -70,6 +95,7 @@
   "passwordRequirementsNotMet": "Password doesn't meet all requirements",
   "passwordChangedSuccess": "Password changed successfully",
   "passwordChangeFailed": "Failed to change password",
+  "currentPasswordRequired": " Current password is required",
 
   "editProfile": "Edit Profile",
   "name": "Name",
@@ -78,12 +104,23 @@
   "dateOfBirth": "Date of Birth",
   "reset": "Reset",
   "save": "Save",
-
+  "profileEditedSuccessfully": "Profile Edited successfully",
 
   "notificationSettings" : "Notification Settings",
   "support" : "Support",
   "termsAndConditions" : "Terms & Condiftions",
   "about" : "About",
+  "appVersion": "Version {version}",
+  "@appVersion": {
+    "description": "App version",
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
+  "loginToViewSettings": "Please login to view settings",
+  "copyRights": "© 2025 SnapNFix",
   "signOut" :"Sign Out",
   "darkMode" : "Dark Mode",
   "language" : "Language",
@@ -105,14 +142,37 @@
   "verify": "Verify",
   "didnotReceiveCode": "Didn't Receive Code? ",
   "resendCode": "Resend Code",
+  "otpSentSuccessfully": "OTP resent successfully",
+  "otpVerifiedSuccessfullyAndPasswordResetRequired": "OTP verified successfully , you can now reset your password",
+  "otpVerifiedSuccessfullyAndProfileCompletionRequired": "OTP verified successfully , you can now complete your profile",
+
+  "registerationExpiredTitle": "Registration Expired",
+  "registerationExpiredMessage": "Your registration has expired. Please sign up again.",
+  "understood": "Understood",
+  "timeWarningMessageText": "Warning: Only 2 minutes remaining to complete verification!",
+  "dismiss": "Dismiss",
+  "codeExpiresIn": "The code will expire in",
 
   "forgotPasswordTitle": "Forgot Password",
   "forgotPasswordSubtitle": "Enter the phone number or Google Account Email associated with your account",
   "sendCode": "Send Verification Code",
+  "forgetPasswordFooterQuestion": "Issues with your email or phone number?",
+  "enterEmailOrPhone": "Enter your email or phone number",
 
   "resetPasswordTitle": "Reset Password",
   "resetPasswordSubtitle": "Enter you new password",
   "resetPassword": "Reset Password",
+  "resetPasswordSuccessfully": "Password reset successfully",
+
+  "completeProfileTitle": "Complete Profile",
+  "completeProfileSubtitle": "Welcome, Let's get to know you better",
+  "complete": "Complete",
+  "skip": "Skip",
+  "completeProfileSuccessMessage": "Your profile has been successfully completed.",
+  "enterFirstName": "Enter your first name",
+  "enterLastName": "Enter your last name",
+  "enterPassword": "Enter your password",
+  "reEnterPassword": "Re-enter your password",
 
   "website": "Website",
   "contactUs": "Contact Us",
@@ -235,6 +295,7 @@
   
   "myReports": "My Reports",
   "noReports": "No reports yet",
+  "reports": "Reports",
   "severityLow": "low",
   "severityMedium": "medium", 
   "severityHigh": "high",
@@ -248,6 +309,100 @@
         "type": "String"
       }
     }
-  }
+  },
+
+  "accessTokenError": "Failed to get access token",
+  "facebookSignInFailed": "Facebook sign in failed",
+  "unknownErrorOccurred": "Unknown error occurred",
+  "googleSignInFailed": "Google sign in failed",
+
+  "successDialogTitle": "Success",
+  "errorDialogTitle": "Error",
+  "gotItConfirmText": "Got it",
+
+  "errorFetchingIssue": "Error Fetching the Issue",
+  "ok": "OK",
+
+  "applyFilters": "Apply Filters",
+  "clearFilters": "Clear Filters",
+  "categories": "Categories",
+  "filterIssues": "Filter Issues",
+  "clearAll": "Clear All",
+  "severities": "Severities",
+  "status": "Status",
+  "fastReport": "Fast Report",
+
+  "year": "year",
+  "years": "years",
+  "month": "month",
+  "months": "months",
+  "day": "day",
+  "days": "days",
+  "hour": "hour",
+  "hours": "hours",
+  "minute": "minute",
+  "minutes": "minutes",
+  "ago": "ago",
+  "justNow": "Just now",
+
+  "mapErrorGeneralTitle": "Something went wrong",
+  "mapErrorPermissionTitle": "Location access required",
+  "mapErrorGeneralActionText": "Retry",
+  "errorPermissionActionText": "Open Settings",
+
+  "locationIsDisabled": "Location services are disabled.\nTo submit a report, please enable location services.",
+  "loadingLocation": "Loading location...",
+  "noValidAddressFound": "No valid address found",
+
+  "reportsSynced": "Reports synced!",
+  "someReportsFailed": "Some reports failed to sync",
+  "syncingFailed": "Syncing failed",
+  "noInternetConnection": "No internet connection",
+  "syncingInProgress": "Syncing in progress",
+
+  "reportSeverity": "Severity: {severity}",
+  "@reportSeverity": {
+    "description": "The severity of the report",
+    "placeholders": {
+      "severity": {
+        "type": "String"
+      }
+    }
+  },
+
+  "submittingReportError": "Error while submitting report",
+  "locationAndTime": "Location & Time",
+  "locationAndTimeIsRecorded": "When you submit your report, the location and time will be automatically recorded",
+  "reportingTips": "Reporting Tips",
+  "severity": "Severity",
+  "channels": "Channels",
+  
+  "homeSubtitle" : "Keep Our City Safe!",
+
+  "loyaltyPoints": "Loyalty Points",
+  "points": "Pts",
+  "earnMorePointsDescription": "Earn more points and enjoy benefits",
+  "claim": "Claim",
+  "pendingReports": "Pending Reports",
+  "reportsCountValue": "{count} reports",
+  "@reportsCountValue": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "issuesBeingReviewed": "Your issues are being reviewed.",
+  "viewDetails": "View Details",
+  "resolvedReports": "Resolved Reports",
+  "madeDifference": "You've made a difference!",
+  "loading": "Loading...",
+  "issue": "Issue",
+  "issues": "Issues",
+  "foundNearYou": "Found Near You",
+
+  "spottedIssue": "Spotted an Urban issue?",
+  "helpUsImprove": "Help us improve the city! Report any road issues,\nfrom potholes ,manholes and garbage, right here.",
+  "reportNow": "REPORT NOW"
 
 }

@@ -10,6 +10,7 @@ class ProfileImageSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
+    final cubit = context.read<EditProfileCubit>();
 
     return Container(
       width: double.infinity,
@@ -19,7 +20,7 @@ class ProfileImageSection extends StatelessWidget {
         child: Stack(
           children: [
             ValueListenableBuilder<File?>(
-              valueListenable: context.read<EditProfileCubit>().profileImage,
+              valueListenable: cubit.profileImage,
               builder: (context, profileImage, _) {
                 return CircleAvatar(
                   backgroundColor: colorScheme.surface,
@@ -28,7 +29,7 @@ class ProfileImageSection extends StatelessWidget {
                       profileImage != null ? FileImage(profileImage) : null,
 
                   child:
-                      profileImage == null
+                      (profileImage == null && (cubit.userProfileImage == null || cubit.userProfileImage!.isEmpty))
                           ? Icon(
                             Icons.person,
                             size: 50.r,
@@ -42,7 +43,7 @@ class ProfileImageSection extends StatelessWidget {
               bottom: 0,
               right: 0,
               child: GestureDetector(
-                onTap: () => context.read<EditProfileCubit>().pickImage(),
+                onTap: () => cubit.pickImage(),
                 child: Container(
                   decoration: BoxDecoration(
                     color: colorScheme.secondary,

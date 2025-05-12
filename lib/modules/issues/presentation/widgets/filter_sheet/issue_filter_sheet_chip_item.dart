@@ -40,7 +40,7 @@ class IssueFilterSheetChipItem extends StatelessWidget {
           color:
               isSelected
                   ? Colors.transparent
-                  : colorScheme.outline.withOpacity(0.5),
+                  : colorScheme.outline.withValues(alpha: 0.5),
         ),
       ),
     );
