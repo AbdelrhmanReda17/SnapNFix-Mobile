@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../widgets/home_header.dart';
 import '../widgets/horizontal_cards.dart';
 import '../widgets/report_section.dart';
-import '../widgets/channels_section.dart';
+import '../widgets/area_updates_section.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -19,10 +19,8 @@ class HomeScreen extends StatelessWidget {
             const HorizontalCards(),
             SizedBox(height: 4.h),
             const ReportSection(),
-            SizedBox(height: 4.h),
-            const Expanded(
-              child: ChannelsSection(),
-            ),
+            SizedBox(height: 8.h),
+            const AreaUpdatesSection(),
           ],
         ),
       ],
