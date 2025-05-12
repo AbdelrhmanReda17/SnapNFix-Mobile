@@ -32,7 +32,7 @@ class ProfileContainer extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
+            padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 10.h),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -54,7 +54,7 @@ class ProfileContainer extends StatelessWidget {
                                 ),
                               )
                               : Text(
-                                user.fullName[0],
+                                "${user.firstName![0]}${user.lastName![0]}",
                                 style: TextStyle(color: colorScheme.primary),
                               ),
                     ),
@@ -71,7 +71,7 @@ class ProfileContainer extends StatelessWidget {
                           ),
                           children: [
                             TextSpan(
-                              text: user.fullName,
+                              text: "${user.firstName} ${user.lastName}",
                               style: textStyles.bodyLarge?.copyWith(
                                 color: colorScheme.surface,
                               ),
@@ -86,7 +86,7 @@ class ProfileContainer extends StatelessWidget {
                   iconSize: 20.r,
                   icon: Icon(Icons.edit, color: colorScheme.surface),
                   onPressed: () {
-                    context.push(Routes.editProfile.key);
+                    context.push(Routes.editProfile);
                   },
                 ),
               ],

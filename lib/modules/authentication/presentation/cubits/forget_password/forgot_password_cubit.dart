@@ -1,0 +1,83 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:snapnfix/core/infrastructure/networking/api_error_model.dart';
+import 'package:snapnfix/modules/authentication/domain/entities/authentication_result.dart';
+import 'package:snapnfix/modules/authentication/domain/usecases/request_otp_use_case.dart';
+
+part 'forgot_password_state.dart';
+part 'forgot_password_cubit.freezed.dart';
+
+class ForgotPasswordCubit extends Cubit<ForgotPasswordState> {
+  final RequestOTPUseCase _requestOTPUseCase;
+
+  final formKey = GlobalKey<FormState>();
+
+  String _emailOrPhone = "";
+
+  String get emailOrPhone => _emailOrPhone;
+
+  ForgotPasswordCubit({required RequestOTPUseCase forgotPasswordUseCase})
+    : _requestOTPUseCase = forgotPasswordUseCase,
+      super(const ForgotPasswordState.initial());
+
+  void setEmailOrPhone(String value) {
+    _emailOrPhone = value.trim();
+  }
+
+  Future<void> requestPasswordReset() async {
+    if (!_validateForm()) return;
+
+    try {
+      emit(const ForgotPasswordState.loading());
+
+      final response = await _requestOTPUseCase.call(
+        phoneNumber: _emailOrPhone,
+        purpose: OtpPurpose.passwordReset,
+      );
+
+      response.when(
+        success: _handleRequestSuccess,
+        failure: _handleRequestFailure,
+      );
+    } catch (e) {
+      emit(
+        ForgotPasswordState.error(
+          ApiErrorModel(message: 'An unexpected error occurred'),
+        ),
+      );
+    }
+  }
+
+  bool _validateForm() {
+    if (!formKey.currentState!.validate()) {
+      emit(
+        ForgotPasswordState.error(
+          ApiErrorModel(message: 'Please enter your email or phone number'),
+        ),
+      );
+      return false;
+    }
+
+    if (_emailOrPhone.isEmpty) {
+      emit(
+        ForgotPasswordState.error(
+          ApiErrorModel(message: 'Email or phone number is required'),
+        ),
+      );
+      return false;
+    }
+
+    return true;
+  }
+
+  void _handleRequestSuccess(AuthenticationResult result) {
+    result.whenOrNull(
+      requiresOtp: (purpose) => emit(const ForgotPasswordState.requiresOtp()),
+    );
+  }
+
+  void _handleRequestFailure(ApiErrorModel error) {
+    emit(ForgotPasswordState.error(error));
+  }
+}

@@ -15,18 +15,23 @@ abstract class BaseReportLocalDataSource {
   Future<void> deleteOfflineReport(String reportId);
 
   // Image handling
-  Future<String> saveImagePermanently(File imageFile);
+  Future<File> saveImagePermanently(File imageFile);
 
   // Pending reports count management
   int getPendingReportsCount();
   void incrementPendingReportsCount();
   void decrementPendingReportsCount();
   Stream<int> watchPendingReportsCount();
+
+  // Watch pending reports
+  Stream<List<ReportModel>> watchPendingReports();
 }
 
 class ReportLocalDataSource implements BaseReportLocalDataSource {
   final SharedPreferencesService _sharedPreferencesService;
   final _pendingReportsCountController = StreamController<int>.broadcast();
+  final _pendingReportsController =
+      StreamController<List<ReportModel>>.broadcast();
 
   Future<Directory> _getOfflineReportsDirectory() async {
     final directory = await getApplicationDocumentsDirectory();
@@ -64,6 +69,28 @@ class ReportLocalDataSource implements BaseReportLocalDataSource {
   }
 
   @override
+  Future<void> saveReportOffline(ReportModel report) async {
+    try {
+      final image = await saveImagePermanently(report.image);
+      final reportsDir = await _getOfflineReportsDirectory();
+      final updatedReport = report.copyWithModel(image: image);
+
+      if (!await reportsDir.exists()) {
+        await reportsDir.create(recursive: true);
+      }
+
+      final reportFile = File('${reportsDir.path}/${report.id}.json');
+      await reportFile.writeAsString(json.encode(updatedReport.toJson()));
+      incrementPendingReportsCount();
+      debugPrint('Report saved offline: ${report.id}');
+      final reports = await getPendingReports();
+      _pendingReportsController.add(reports);
+    } catch (e) {
+      throw Exception("Failed to save report offline: $e");
+    }
+  }
+
+  @override
   Future<void> deleteOfflineReport(String reportId) async {
     try {
       final reportsDir = await _getOfflineReportsDirectory();
@@ -72,16 +99,19 @@ class ReportLocalDataSource implements BaseReportLocalDataSource {
         final jsonString = await reportFile.readAsString();
         final jsonMap = json.decode(jsonString);
         final report = ReportModel.fromJson(jsonMap);
-        final imagePath = report.reportMedia.image;
-        if (imagePath.contains('/offline_reports/')) {
-          final imageFile = File(imagePath);
-          if (await imageFile.exists()) {
-            await imageFile.delete();
-            debugPrint('Deleted offline image: $imagePath');
+        final image = report.image;
+        if (image.path.contains('/offline_reports/')) {
+          if (await image.exists()) {
+            await image.delete();
+            debugPrint('Deleted offline image: ${image.path}');
           }
         }
         await reportFile.delete();
         debugPrint('Deleted offline report file: $reportId');
+
+        // Emit updated reports list
+        final reports = await getPendingReports();
+        _pendingReportsController.add(reports);
       }
     } catch (e) {
       throw Exception("Failed to delete offline report: $e");
@@ -95,7 +125,6 @@ class ReportLocalDataSource implements BaseReportLocalDataSource {
       if (!await reportsDir.exists()) {
         return [];
       }
-
       final reportFiles =
           await reportsDir
               .list()
@@ -124,7 +153,7 @@ class ReportLocalDataSource implements BaseReportLocalDataSource {
   }
 
   @override
-  Future<String> saveImagePermanently(File originalImage) async {
+  Future<File> saveImagePermanently(File originalImage) async {
     try {
       final reportId = const Uuid().v4();
       final directory = await getApplicationDocumentsDirectory();
@@ -141,41 +170,11 @@ class ReportLocalDataSource implements BaseReportLocalDataSource {
       final savedImage = await originalImage.copy(savedPath);
       debugPrint('Image saved to permanent storage: $savedPath');
 
-      return savedImage.path;
+      return savedImage;
     } catch (e) {
       debugPrint('Error saving image: $e');
       // Return original path as fallback
-      return originalImage.path;
-    }
-  }
-
-  @override
-  Future<void> saveReportOffline(ReportModel report) async {
-    try {
-      final mediaModel = report.reportMedia;
-      String imagePath = mediaModel.image;
-
-      if (File(imagePath).existsSync() &&
-          !imagePath.contains('/offline_reports/')) {
-        imagePath = await saveImagePermanently(File(imagePath));
-      }
-
-      final updatedReport = report.copyWith(
-        reportMedia: mediaModel.copyWith(image: imagePath),
-      );
-
-      final reportsDir = await _getOfflineReportsDirectory();
-
-      if (!await reportsDir.exists()) {
-        await reportsDir.create(recursive: true);
-      }
-
-      final reportFile = File('${reportsDir.path}/${report.id}.json');
-      await reportFile.writeAsString(json.encode(updatedReport.toJson()));
-      incrementPendingReportsCount();
-      debugPrint('Report saved offline: ${report.id}');
-    } catch (e) {
-      throw Exception("Failed to save report offline: $e");
+      return originalImage;
     }
   }
 
@@ -184,7 +183,16 @@ class ReportLocalDataSource implements BaseReportLocalDataSource {
     return _pendingReportsCountController.stream;
   }
 
+  @override
+  Stream<List<ReportModel>> watchPendingReports() {
+    getPendingReports().then((reports) {
+      _pendingReportsController.add(reports);
+    });
+    return _pendingReportsController.stream;
+  }
+
   void dispose() {
     _pendingReportsCountController.close();
+    _pendingReportsController.close();
   }
 }

@@ -1,10 +1,10 @@
 part of 'register_cubit.dart';
 
 @freezed
-class RegisterState<T> with _$RegisterState<T> {
+class RegisterState with _$RegisterState {
   const factory RegisterState.initial() = _Initial;
-  
-  const factory RegisterState.loading() = Loading;
-  const factory RegisterState.success(T data) = Success<T>;
-  const factory RegisterState.error(ApiErrorModel error) = Error;
+  const factory RegisterState.loading() = _Loading;
+  const factory RegisterState.requiresOtp() = _RequiresOtp;
+  const factory RegisterState.authenticated(Session data) = _Authenticated;
+  const factory RegisterState.error(ApiErrorModel error) = _Error;
 }

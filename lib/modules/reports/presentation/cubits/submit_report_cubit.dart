@@ -1,32 +1,38 @@
 import 'dart:io';
-import 'dart:math';
-
-import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:snapnfix/core/infrastructure/location/location_service.dart';
 import 'package:snapnfix/core/infrastructure/networking/api_error_handler.dart';
-import 'package:snapnfix/modules/reports/data/model/media_model.dart';
-import 'package:snapnfix/modules/reports/data/model/report_model.dart';
 import 'package:snapnfix/modules/reports/domain/entities/report_severity.dart';
 import 'package:snapnfix/modules/reports/domain/usecases/submit_report_use_case.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:uuid/uuid.dart';
 
 part 'submit_report_state.dart';
 part 'submit_report_cubit.freezed.dart';
 
 class SubmitReportCubit extends Cubit<SubmitReportState> {
   final SubmitReportUseCase _submitReportUseCase;
-  final detailsController = TextEditingController();
 
   SubmitReportCubit(this._submitReportUseCase)
-    : super(SubmitReportState.initial()) {
-    detailsController.addListener(_updateDetails);
-  }
+    : super(SubmitReportState.initial());
 
-  void _updateDetails() {
-    emit(state.copyWith(details: detailsController.text));
+  void setAdditionalDetails(String value) async {
+    final tempDir = await getTemporaryDirectory();
+    final tempPath = '${tempDir.path}/mock_issue.jpg';
+    final tempFile = File(tempPath);
+    final byteData = await rootBundle.load('assets/images/issue1.jpg');
+    await tempFile.writeAsBytes(
+      byteData.buffer.asUint8List(
+        byteData.offsetInBytes,
+        byteData.lengthInBytes,
+      ),
+    );
+    debugPrint('Temp file path: ${tempFile.path}');
+    debugPrint(value);
+    emit(state.copyWith(details: value, image: tempFile));
   }
 
   void setImage(File? image) {
@@ -55,15 +61,11 @@ class SubmitReportCubit extends Cubit<SubmitReportState> {
     emit(state.copyWith(position: position));
     try {
       final result = await _submitReportUseCase.call(
-        ReportModel(
-          id: const Uuid().v4(),
-          details: detailsController.text,
-          severity: state.severity,
-          reportMedia: MediaModel(image: state.image?.path ?? ''),
-          latitude: state.position!.latitude,
-          longitude: state.position!.longitude,
-          timestamp: DateTime.now().toIso8601String(),
-        ),
+        details: state.details ?? '',
+        latitude: position.latitude,
+        longitude: position.longitude,
+        severity: state.severity,
+        imagePath: state.image!.path,
       );
 
       result.when(
@@ -91,13 +93,17 @@ class SubmitReportCubit extends Cubit<SubmitReportState> {
   }
 
   void resetState() {
+    emit(
+      state.copyWith(
+        image: null,
+        details: null,
+        severity: state.severity,
+        position: null,
+        isLoading: false,
+        error: null,
+        successMessage: null,
+      ),
+    );
     emit(SubmitReportState.initial());
-    detailsController.clear();
-  }
-
-  @override
-  Future<void> close() {
-    detailsController.dispose();
-    return super.close();
   }
 }

@@ -7,17 +7,17 @@ part of 'user_model.dart';
 // **************************************************************************
 
 UserModel _$UserModelFromJson(Map<String, dynamic> json) => UserModel(
-  id: json['id'] as String,
-  firstName: json['firstName'] as String,
-  lastName: json['lastName'] as String,
-  phoneNumber: json['phoneNumber'] as String?,
+  id: json['id'] as String?,
+  firstName: json['firstName'] as String?,
+  lastName: json['lastName'] as String?,
+  phoneNumber: json['phoneNumber'] as String,
   email: json['email'] as String?,
   profileImage: json['profileImage'] as String?,
   dateOfBirth:
       json['dateOfBirth'] == null
           ? null
           : DateTime.parse(json['dateOfBirth'] as String),
-  gender: $enumDecodeNullable(_$GenderEnumMap, json['gender']),
+  gender: $enumDecodeNullable(_$UserGenderEnumMap, json['gender']),
 );
 
 Map<String, dynamic> _$UserModelToJson(UserModel instance) => <String, dynamic>{
@@ -28,11 +28,11 @@ Map<String, dynamic> _$UserModelToJson(UserModel instance) => <String, dynamic>{
   'email': instance.email,
   'profileImage': instance.profileImage,
   'dateOfBirth': instance.dateOfBirth?.toIso8601String(),
-  'gender': _$GenderEnumMap[instance.gender],
+  'gender': _$UserGenderEnumMap[instance.gender],
 };
 
-const _$GenderEnumMap = {
-  Gender.male: 'male',
-  Gender.female: 'female',
-  Gender.notSpecified: 'notSpecified',
+const _$UserGenderEnumMap = {
+  UserGender.male: 'male',
+  UserGender.female: 'female',
+  UserGender.notSpecified: 'notSpecified',
 };

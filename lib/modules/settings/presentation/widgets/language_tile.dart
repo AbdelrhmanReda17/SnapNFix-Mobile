@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:snapnfix/core/config/application_configurations.dart';
 import 'package:snapnfix/core/config/application_constants.dart';
+import 'package:snapnfix/core/dependency_injection/dependency_injection.dart';
 
 class LanguageTile extends StatelessWidget {
   const LanguageTile({super.key});
@@ -9,7 +10,7 @@ class LanguageTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final localization = AppLocalizations.of(context)!;
-    final appConfigs = ApplicationConfigurations.instance;
+    final appConfigs = getIt<ApplicationConfigurations>();
     final colorScheme = Theme.of(context).colorScheme;
     final textStyles = Theme.of(context).textTheme;
     return ListenableBuilder(
@@ -39,7 +40,7 @@ class LanguageTile extends StatelessWidget {
     BuildContext context,
     AppLocalizations localization,
   ) {
-    final appConfigs = ApplicationConfigurations.instance;
+    final appConfigs = getIt<ApplicationConfigurations>();
     final colorScheme = Theme.of(context).colorScheme;
 
     showDialog(

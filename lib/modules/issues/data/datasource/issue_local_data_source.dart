@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:math';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:snapnfix/core/infrastructure/storage/shared_preferences_service.dart';
 import '../models/issue_model.dart';
 
@@ -156,7 +155,7 @@ class IssueLocalDataSource implements BaseIssueLocalDataSource {
               .map((issueJson) => IssueModel.fromJson(issueJson))
               .where((issue) {
                 final searchable = [
-                  issue.category.toLowerCase(),
+                  issue.category.displayName,
                   issue.latitude.toString(),
                   issue.longitude.toString(),
                 ].join(' ');
@@ -176,7 +175,7 @@ class IssueLocalDataSource implements BaseIssueLocalDataSource {
     double lat2,
     double lon2,
   ) {
-    const double earthRadius = 6371000; // Earth's radius in meters
+    const double earthRadius = 6371000;
     final double dLat = _toRadians(lat2 - lat1);
     final double dLon = _toRadians(lon2 - lon1);
 

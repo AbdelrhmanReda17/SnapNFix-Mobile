@@ -12,7 +12,12 @@
           "package_name": "com.snapnfix.mobile"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "769076416298-fsvonj0vn9prlr3v0iqsb09gn2n8494p.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyDROofL_kBvqbbISeHkv4vI7KSjafnHgQk"
@@ -20,7 +25,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "769076416298-ce5fbd4st9p5jb7soos6pjcb0gcod7e7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     },
@@ -31,7 +41,20 @@
           "package_name": "com.snapnfix.mobile.development"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "769076416298-h7bpp6ohkcj1c3bdrfm9m7cqnf8q4hmr.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.snapnfix.mobile.development",
+            "certificate_hash": "73783fe2a0dea2dff8885e8e8d6259fa4c3acbe2"
+          }
+        },
+        {
+          "client_id": "769076416298-fsvonj0vn9prlr3v0iqsb09gn2n8494p.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyDROofL_kBvqbbISeHkv4vI7KSjafnHgQk"
@@ -39,7 +62,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "769076416298-ce5fbd4st9p5jb7soos6pjcb0gcod7e7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

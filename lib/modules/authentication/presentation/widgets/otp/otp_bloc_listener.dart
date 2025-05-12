@@ -2,63 +2,95 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:snapnfix/core/base_components/base_alert.dart';
-import 'package:snapnfix/core/infrastructure/networking/api_error_model.dart';
 import 'package:snapnfix/modules/authentication/presentation/cubits/otp/otp_cubit.dart';
+import 'package:snapnfix/modules/authentication/presentation/mixins/authentication_listener_mixin.dart';
 import 'package:snapnfix/presentation/navigation/routes.dart';
 
-class OtpBlocListener extends StatelessWidget {
+class OtpBlocListener extends StatelessWidget with AuthenticationListenerMixin {
   const OtpBlocListener({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
     return BlocListener<OtpCubit, OtpState>(
       listener: (context, state) {
-        state.whenOrNull(
-          success: (verificationResponse) {
-            context.go(Routes.homeScreen.key);
+        state.maybeWhen(
+          initial: (canResend, remainingTime, registrationExpiryTime) {
+            if (registrationExpiryTime == 120) {
+              _showExpiryWarning(context);
+            }
           },
           resendSuccess: () {
-            context.pop(); 
+            handleSuccess(context, message: "OTP resent successfully");
+          },
+          successAndRequiresPasswordReset: () {
+            handleSuccess(
+              context,
+              message:
+                  "OTP verified successfully , you can now reset your password",
+              route: Routes.resetPassword,
+            );
+          },
+          successAndRequiresProfileCompletion: (phoneNumber, password) {
+            handleSuccess(
+              context,
+              message:
+                  "OTP verified successfully , you can now complete your profile",
+              route: Routes.completeProfile,
+              extra: {'phoneNumber': phoneNumber, 'password': password},
+            );
+          },
+          registrationExpired: () {
             baseDialog(
               context: context,
-              title: 'Code Resent',
-              message: 'Verification code has been resent successfully.',
-              alertType: AlertType.success,
-              confirmText: 'OK',
-              onConfirm: () {},
+              title: "Registration Expired",
+              message: "Your registration has expired. Please sign up again.",
+              alertType: AlertType.info,
+              confirmText: "Understood",
+              onConfirm: () {
+                context.pop();
+              },
               showCancelButton: false,
+              onCancel: () {
+                context.pop();
+              },
             );
           },
+          loading: () => showLoadingDialog(context),
           error: (error) {
-            setupErrorState(context, error);
+            handleError(context, error);
           },
-          loading: () {
-            showDialog(
-              context: context,
-              builder: (context) => Center(
-                child: CircularProgressIndicator(
-                  color: colorScheme.primary,
-                ),
-              ),
-            );
-          },
+          orElse: () {},
         );
       },
       child: const SizedBox.shrink(),
     );
   }
 
-  void setupErrorState(BuildContext context, ApiErrorModel apiErrorModel) {
-    context.pop(); // Dismiss the loading dialog
-    baseDialog(
-      context: context,
-      title: 'Verification Error',
-      message: apiErrorModel.getAllErrorMessages(),
-      alertType: AlertType.error,
-      confirmText: 'Got it',
-      onConfirm: () {},
-      showCancelButton: false,
+  void _showExpiryWarning(BuildContext context) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          'Warning: Only 2 minutes remaining to complete verification!',
+          style: theme.textTheme.bodyMedium?.copyWith(
+            color: Colors.white,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+        backgroundColor: colorScheme.error,
+        duration: const Duration(seconds: 5),
+        action: SnackBarAction(
+          label: 'Dismiss',
+          textColor: Colors.white,
+          onPressed: () {
+            ScaffoldMessenger.of(context).hideCurrentSnackBar();
+          },
+        ),
+        behavior: SnackBarBehavior.floating,
+        margin: const EdgeInsets.all(16),
+      ),
     );
   }
 }

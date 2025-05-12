@@ -26,6 +26,12 @@ mixin _$IssuesMapState {
   Issue? get selectedIssue => throw _privateConstructorUsedError;
   bool get showIssueDetail => throw _privateConstructorUsedError;
   String? get error => throw _privateConstructorUsedError;
+  List<IssueCategory> get selectedCategories =>
+      throw _privateConstructorUsedError;
+  List<IssueSeverity> get selectedSeverities =>
+      throw _privateConstructorUsedError;
+  List<IssueStatus> get selectedStatuses => throw _privateConstructorUsedError;
+  List<Issue> get filteredIssues => throw _privateConstructorUsedError;
 
   /// Create a copy of IssuesMapState
   /// with the given fields replaced by the non-null parameter values.
@@ -51,6 +57,10 @@ abstract class $IssuesMapStateCopyWith<$Res> {
     Issue? selectedIssue,
     bool showIssueDetail,
     String? error,
+    List<IssueCategory> selectedCategories,
+    List<IssueSeverity> selectedSeverities,
+    List<IssueStatus> selectedStatuses,
+    List<Issue> filteredIssues,
   });
 }
 
@@ -78,6 +88,10 @@ class _$IssuesMapStateCopyWithImpl<$Res, $Val extends IssuesMapState>
     Object? selectedIssue = freezed,
     Object? showIssueDetail = null,
     Object? error = freezed,
+    Object? selectedCategories = null,
+    Object? selectedSeverities = null,
+    Object? selectedStatuses = null,
+    Object? filteredIssues = null,
   }) {
     return _then(
       _value.copyWith(
@@ -126,6 +140,26 @@ class _$IssuesMapStateCopyWithImpl<$Res, $Val extends IssuesMapState>
                     ? _value.error
                     : error // ignore: cast_nullable_to_non_nullable
                         as String?,
+            selectedCategories:
+                null == selectedCategories
+                    ? _value.selectedCategories
+                    : selectedCategories // ignore: cast_nullable_to_non_nullable
+                        as List<IssueCategory>,
+            selectedSeverities:
+                null == selectedSeverities
+                    ? _value.selectedSeverities
+                    : selectedSeverities // ignore: cast_nullable_to_non_nullable
+                        as List<IssueSeverity>,
+            selectedStatuses:
+                null == selectedStatuses
+                    ? _value.selectedStatuses
+                    : selectedStatuses // ignore: cast_nullable_to_non_nullable
+                        as List<IssueStatus>,
+            filteredIssues:
+                null == filteredIssues
+                    ? _value.filteredIssues
+                    : filteredIssues // ignore: cast_nullable_to_non_nullable
+                        as List<Issue>,
           )
           as $Val,
     );
@@ -151,6 +185,10 @@ abstract class _$$IssuesMapStateImplCopyWith<$Res>
     Issue? selectedIssue,
     bool showIssueDetail,
     String? error,
+    List<IssueCategory> selectedCategories,
+    List<IssueSeverity> selectedSeverities,
+    List<IssueStatus> selectedStatuses,
+    List<Issue> filteredIssues,
   });
 }
 
@@ -177,6 +215,10 @@ class __$$IssuesMapStateImplCopyWithImpl<$Res>
     Object? selectedIssue = freezed,
     Object? showIssueDetail = null,
     Object? error = freezed,
+    Object? selectedCategories = null,
+    Object? selectedSeverities = null,
+    Object? selectedStatuses = null,
+    Object? filteredIssues = null,
   }) {
     return _then(
       _$IssuesMapStateImpl(
@@ -225,6 +267,26 @@ class __$$IssuesMapStateImplCopyWithImpl<$Res>
                 ? _value.error
                 : error // ignore: cast_nullable_to_non_nullable
                     as String?,
+        selectedCategories:
+            null == selectedCategories
+                ? _value._selectedCategories
+                : selectedCategories // ignore: cast_nullable_to_non_nullable
+                    as List<IssueCategory>,
+        selectedSeverities:
+            null == selectedSeverities
+                ? _value._selectedSeverities
+                : selectedSeverities // ignore: cast_nullable_to_non_nullable
+                    as List<IssueSeverity>,
+        selectedStatuses:
+            null == selectedStatuses
+                ? _value._selectedStatuses
+                : selectedStatuses // ignore: cast_nullable_to_non_nullable
+                    as List<IssueStatus>,
+        filteredIssues:
+            null == filteredIssues
+                ? _value._filteredIssues
+                : filteredIssues // ignore: cast_nullable_to_non_nullable
+                    as List<Issue>,
       ),
     );
   }
@@ -243,8 +305,16 @@ class _$IssuesMapStateImpl implements _IssuesMapState {
     this.selectedIssue,
     this.showIssueDetail = false,
     this.error,
+    final List<IssueCategory> selectedCategories = const [],
+    final List<IssueSeverity> selectedSeverities = const [],
+    final List<IssueStatus> selectedStatuses = const [],
+    final List<Issue> filteredIssues = const [],
   }) : _markers = markers,
-       _issues = issues;
+       _issues = issues,
+       _selectedCategories = selectedCategories,
+       _selectedSeverities = selectedSeverities,
+       _selectedStatuses = selectedStatuses,
+       _filteredIssues = filteredIssues;
 
   @override
   @JsonKey()
@@ -282,10 +352,48 @@ class _$IssuesMapStateImpl implements _IssuesMapState {
   final bool showIssueDetail;
   @override
   final String? error;
+  final List<IssueCategory> _selectedCategories;
+  @override
+  @JsonKey()
+  List<IssueCategory> get selectedCategories {
+    if (_selectedCategories is EqualUnmodifiableListView)
+      return _selectedCategories;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_selectedCategories);
+  }
+
+  final List<IssueSeverity> _selectedSeverities;
+  @override
+  @JsonKey()
+  List<IssueSeverity> get selectedSeverities {
+    if (_selectedSeverities is EqualUnmodifiableListView)
+      return _selectedSeverities;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_selectedSeverities);
+  }
+
+  final List<IssueStatus> _selectedStatuses;
+  @override
+  @JsonKey()
+  List<IssueStatus> get selectedStatuses {
+    if (_selectedStatuses is EqualUnmodifiableListView)
+      return _selectedStatuses;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_selectedStatuses);
+  }
+
+  final List<Issue> _filteredIssues;
+  @override
+  @JsonKey()
+  List<Issue> get filteredIssues {
+    if (_filteredIssues is EqualUnmodifiableListView) return _filteredIssues;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_filteredIssues);
+  }
 
   @override
   String toString() {
-    return 'IssuesMapState(status: $status, markers: $markers, issues: $issues, cameraPosition: $cameraPosition, hasLocationPermission: $hasLocationPermission, isFollowingUser: $isFollowingUser, selectedIssue: $selectedIssue, showIssueDetail: $showIssueDetail, error: $error)';
+    return 'IssuesMapState(status: $status, markers: $markers, issues: $issues, cameraPosition: $cameraPosition, hasLocationPermission: $hasLocationPermission, isFollowingUser: $isFollowingUser, selectedIssue: $selectedIssue, showIssueDetail: $showIssueDetail, error: $error, selectedCategories: $selectedCategories, selectedSeverities: $selectedSeverities, selectedStatuses: $selectedStatuses, filteredIssues: $filteredIssues)';
   }
 
   @override
@@ -306,7 +414,23 @@ class _$IssuesMapStateImpl implements _IssuesMapState {
                 other.selectedIssue == selectedIssue) &&
             (identical(other.showIssueDetail, showIssueDetail) ||
                 other.showIssueDetail == showIssueDetail) &&
-            (identical(other.error, error) || other.error == error));
+            (identical(other.error, error) || other.error == error) &&
+            const DeepCollectionEquality().equals(
+              other._selectedCategories,
+              _selectedCategories,
+            ) &&
+            const DeepCollectionEquality().equals(
+              other._selectedSeverities,
+              _selectedSeverities,
+            ) &&
+            const DeepCollectionEquality().equals(
+              other._selectedStatuses,
+              _selectedStatuses,
+            ) &&
+            const DeepCollectionEquality().equals(
+              other._filteredIssues,
+              _filteredIssues,
+            ));
   }
 
   @override
@@ -321,6 +445,10 @@ class _$IssuesMapStateImpl implements _IssuesMapState {
     selectedIssue,
     showIssueDetail,
     error,
+    const DeepCollectionEquality().hash(_selectedCategories),
+    const DeepCollectionEquality().hash(_selectedSeverities),
+    const DeepCollectionEquality().hash(_selectedStatuses),
+    const DeepCollectionEquality().hash(_filteredIssues),
   );
 
   /// Create a copy of IssuesMapState
@@ -346,6 +474,10 @@ abstract class _IssuesMapState implements IssuesMapState {
     final Issue? selectedIssue,
     final bool showIssueDetail,
     final String? error,
+    final List<IssueCategory> selectedCategories,
+    final List<IssueSeverity> selectedSeverities,
+    final List<IssueStatus> selectedStatuses,
+    final List<Issue> filteredIssues,
   }) = _$IssuesMapStateImpl;
 
   @override
@@ -366,6 +498,14 @@ abstract class _IssuesMapState implements IssuesMapState {
   bool get showIssueDetail;
   @override
   String? get error;
+  @override
+  List<IssueCategory> get selectedCategories;
+  @override
+  List<IssueSeverity> get selectedSeverities;
+  @override
+  List<IssueStatus> get selectedStatuses;
+  @override
+  List<Issue> get filteredIssues;
 
   /// Create a copy of IssuesMapState
   /// with the given fields replaced by the non-null parameter values.

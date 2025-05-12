@@ -43,7 +43,6 @@
   "passwordChangedSuccess": "تم تغيير كلمة المرور بنجاح",
   "passwordChangeFailed": "فشل تغيير كلمة المرور",
 
-
   "editProfile": "تعديل الملف الشخصي",
   "name": "الاسم",
   "phone": "رقم الهاتف",
@@ -76,6 +75,74 @@
   "pleaseEnterCode": "الرجاء إدخال الرمز الذي أرسلناه إلى ",
   "verify": "تحقق",
   "didnotReceiveCode": "لم تتلق الرمز؟ ",
-  "resendCode": "إعادة إرسال الرمز"
+  "resendCode": "إعادة إرسال الرمز",
+
+  "forgotPasswordTitle": "نسيت كلمة المرور",
+  "forgotPasswordSubtitle": "أدخل رقم الهاتف أو بريد حساب جوجل المرتبط بحسابك",
+  "sendCode": "إرسال رمز التحقق",
+  "resetPasswordTitle": "إعادة تعيين كلمة المرور",
+  "resetPasswordSubtitle": "أدخل كلمة المرور الجديدة",
+  "resetPassword": "إعادة تعيين كلمة المرور",
+
+  "website": "الموقع الإلكتروني",
+  "contactUs": "اتصل بنا",
+  "allRightsReserved": "جميع الحقوق محفوظة",
+  "aboutDescription": "سناب إن فيكس هي منصة مجتمعية تمكن المواطنين من الإبلاغ عن المشكلات في مجتمعهم ومتابعتها، مما يساعد في خلق بيئات أكثر أماناً وتحسيناً للجميع.",
+
+  "ourMission": "مهمتنا",
+  "missionText": "تمكين المجتمعات من خلال توفير نظام فعال وشفاف لتحديد وحل المشكلات المحلية، وتعزيز التعاون بين السكان وفرق الصيانة.",
+  
+  "keyFeatures": "الميزات الرئيسية",
+  "keyFeaturesText": "• الإبلاغ السريع والسهل عن المشكلات\n• تحديثات الحالة في الوقت الفعلي\n• تتبع المشكلات حسب الموقع\n• إبلاغ آمن وخاص\n• أدوات المشاركة المجتمعية",
+  
+  "email": "البريد الإلكتروني",
+  "faqs": "الأسئلة الشائعة",
+  "howToReportFaqTitle": "كيف يمكنني الإبلاغ عن مشكلة؟",
+  "howToReportFaqAnswer": "للإبلاغ عن مشكلة، انقر على زر + في شريط التنقل السفلي، والتقط صورة للمشكلة، وأضف التفاصيل، ثم أرسل.",
+  "resolutionTimeFaqTitle": "كم من الوقت يستغرق حل المشكلة؟",
+  "resolutionTimeFaqAnswer": "تختلف أوقات الحل حسب نوع وخطورة المشكلة. يمكنك متابعة حالة بلاغك في قسم 'بلاغاتي'.",
+  "editReportFaqTitle": "هل يمكنني تعديل بلاغي بعد إرساله؟",
+  "editReportFaqAnswer": "لا، ولكن يمكنك إضافة تعليقات لتوفير معلومات إضافية أو تحديثات على بلاغك.",
+  
+  "acceptanceOfTerms": "قبول الشروط",
+  "acceptanceOfTermsText": "بالوصول إلى واستخدام سناب إن فيكس، فإنك توافق على الالتزام بهذه الشروط والأحكام. إذا كنت لا توافق على أي جزء من هذه الشروط، يرجى عدم استخدام التطبيق.",
+  
+  "userResponsibilities": "مسؤوليات المستخدم",
+  "userResponsibilitiesText": "• يجب عليك تقديم معلومات دقيقة وصادقة عند الإبلاغ عن المشكلات\n• أنت مسؤول عن الحفاظ على سرية حسابك\n• توافق على عدم إساءة استخدام نظام الإبلاغ\n• يجب عليك احترام خصوصية وحقوق الآخرين عند استخدام التطبيق",
+  
+  "contentGuidelines": "إرشادات المحتوى",
+  "contentGuidelinesText": "• يجب أن يكون كل المحتوى المقدم مناسباً وذا صلة\n• يجب أن تظهر الصور بوضوح المشكلة المبلغ عنها\n• تجنب تضمين أفراد يمكن التعرف عليهم في الصور دون موافقة\n• لا تقدم بلاغات كاذبة أو مضللة",
+  
+  "lastUpdated": "آخر تحديث: {date}",
+
+  "issueDetails": "تفاصيل البلاغ #ISS-{issueId}",
+  "issueCategory": "{category}",
+  "issueSeverity": "{severity}",
+  "issueStatus": "{status}",
+  "issueReportsNum": "{reportsCount} بلاغ",
+  "issueLocation": "{location}",
+  "issuedAt": "{date}",
+  "issueDescriptionsTitle": "الوصف ({count})",
+  "imageNotAvailable": "الصورة غير متوفرة",
+  "imagesNotAvaiable": "لا توجد صور متاحة",
+  "noDescriptions": "لا يوجد وصف بعد",
+
+  "reportAnIncident": "الإبلاغ عن حادث",
+  "myReports": "بلاغاتي",
+  "noReports": "لا توجد بلاغات حتى الآن",
+  "severityLow": "منخفضة",
+  "severityMedium": "متوسطة", 
+  "severityHigh": "عالية",
+  "statusPending": "قيد الانتظار",
+  "statusValid": "صالح",
+  "statusInvalid": "غير صالح",
+  "viewIssue": "عرض المشكلة رقم {number}",
+  "@viewIssue": {
+    "placeholders": {
+      "number": {
+        "type": "String"
+      }
+    }
+  }
 
 }

@@ -1,5 +1,7 @@
 import 'package:geolocator/geolocator.dart';
+import 'package:injectable/injectable.dart';
 
+@singleton
 class LocationService {
   static final LocationService _instance = LocationService._internal();
 
@@ -33,14 +35,24 @@ class LocationService {
     return await Geolocator.getLastKnownPosition();
   }
 
+  Future<bool> hasLocationPermission() async {
+    final permission = await Geolocator.checkPermission();
+    return permission == LocationPermission.always ||
+        permission == LocationPermission.whileInUse;
+  }
+
   Future<bool> checkLocationPermissions({
-    required Function(String title, String message) onPermissionDenied,
-    required Future<bool> Function() onServiceDisabled,
+    Function(String title, bool permanent)? onPermissionDenied,
+    Future<bool> Function()? onServiceDisabled,
   }) async {
     bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {
-      final shouldProceed = await onServiceDisabled();
-      if (!shouldProceed) {
+      if (onServiceDisabled != null) {
+        final shouldProceed = await onServiceDisabled();
+        if (!shouldProceed) {
+          return false;
+        }
+      } else {
         return false;
       }
 
@@ -54,18 +66,17 @@ class LocationService {
     if (permission == LocationPermission.denied) {
       permission = await Geolocator.requestPermission();
       if (permission == LocationPermission.denied) {
-        onPermissionDenied(
-          'Location Permission Denied',
-          'Location permission is required to submit a report.',
-        );
+        if (onPermissionDenied != null) {
+          onPermissionDenied('Location Permission Denied', false);
+        }
         return false;
       }
     }
+
     if (permission == LocationPermission.deniedForever) {
-      onPermissionDenied(
-        'Location Permission Denied',
-        'Location permissions are permanently denied. Please enable them in settings.',
-      );
+      if (onPermissionDenied != null) {
+        onPermissionDenied('Location Permission Denied', true);
+      }
       return false;
     }
 
@@ -74,6 +85,10 @@ class LocationService {
 
   Future<void> openLocationSettings() async {
     await Geolocator.openLocationSettings();
+  }
+
+  Future<void> appLocationSettings() async {
+    await Geolocator.openAppSettings();
   }
 
   double calculateDistance(

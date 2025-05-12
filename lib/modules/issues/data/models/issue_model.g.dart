@@ -12,16 +12,19 @@ IssueModel _$IssueModelFromJson(Map<String, dynamic> json) => IssueModel(
   latitude: (json['latitude'] as num).toDouble(),
   longitude: (json['longitude'] as num).toDouble(),
   status: $enumDecode(_$IssueStatusEnumMap, json['status']),
-  category: json['category'] as String,
+  category: $enumDecode(_$IssueCategoryEnumMap, json['category']),
   createdAt: DateTime.parse(json['createdAt'] as String),
   resolvedAt:
       json['resolvedAt'] == null
           ? null
           : DateTime.parse(json['resolvedAt'] as String),
-  reports:
-      (json['reports'] as List<dynamic>)
-          .map((e) => ReportModel.fromJson(e as Map<String, dynamic>))
+  images: (json['images'] as List<dynamic>).map((e) => e as String).toList(),
+  descriptions:
+      (json['descriptions'] as List<dynamic>)
+          .map((e) => IssueDescriptionModel.fromJson(e as Map<String, dynamic>))
           .toList(),
+  reportsCount: (json['reportsCount'] as num).toInt(),
+  location: json['location'] as String,
 );
 
 Map<String, dynamic> _$IssueModelToJson(IssueModel instance) =>
@@ -30,11 +33,14 @@ Map<String, dynamic> _$IssueModelToJson(IssueModel instance) =>
       'latitude': instance.latitude,
       'longitude': instance.longitude,
       'status': _$IssueStatusEnumMap[instance.status]!,
-      'category': instance.category,
+      'category': _$IssueCategoryEnumMap[instance.category]!,
       'createdAt': instance.createdAt.toIso8601String(),
       'severity': _$IssueSeverityEnumMap[instance.severity]!,
       'resolvedAt': instance.resolvedAt?.toIso8601String(),
-      'reports': instance.reports,
+      'images': instance.images,
+      'reportsCount': instance.reportsCount,
+      'location': instance.location,
+      'descriptions': instance.descriptions,
     };
 
 const _$IssueSeverityEnumMap = {
@@ -47,4 +53,11 @@ const _$IssueStatusEnumMap = {
   IssueStatus.pending: 'pending',
   IssueStatus.inProgress: 'inProgress',
   IssueStatus.fixed: 'fixed',
+};
+
+const _$IssueCategoryEnumMap = {
+  IssueCategory.roadDamage: 'roadDamage',
+  IssueCategory.defectivePothole: 'defectivePothole',
+  IssueCategory.lighting: 'lighting',
+  IssueCategory.manhole: 'manhole',
 };

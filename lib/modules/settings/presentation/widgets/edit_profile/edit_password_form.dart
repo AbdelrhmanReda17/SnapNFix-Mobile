@@ -3,8 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:snapnfix/core/base_components/base_date_picker_field.dart';
-import 'package:snapnfix/core/base_components/base_dropdrown_field.dart';
+import 'package:snapnfix/core/base_components/base_dropdown_field.dart';
 import 'package:snapnfix/core/base_components/base_text_field.dart';
+import 'package:snapnfix/modules/authentication/domain/entities/user_gender.dart';
 import 'package:snapnfix/modules/settings/presentation/cubits/edit_profile_cubit.dart';
 
 class EditProfileForm extends StatelessWidget {
@@ -21,55 +22,25 @@ class EditProfileForm extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(height: 8.h),
-          BaseTextField(
-            hintText: localization.name,
-            controller: cubit.nameController,
-          ),
+          BaseTextField(hintText: localization.name, onChanged: cubit.setName),
           SizedBox(height: 20.h),
           BaseTextField(
             hintText: localization.phone,
-            controller: cubit.phoneController,
+            onChanged: cubit.setPhoneNumber,
           ),
           SizedBox(height: 20.h),
-          ValueListenableBuilder<String?>(
-            valueListenable: cubit.selectedGender,
-            builder: (context, selectedGender, _) {
-              return BaseDropdownField<String>(
-                hintText: localization.gender,
-                items: cubit.genderOptions,
-                value: selectedGender,
-                onChanged: (value) {
-                  if (value != null) {
-                    cubit.updateGender(value);
-                  }
-                },
-                itemLabelBuilder: (item) => item,
-              );
-            },
+          BaseDropdownField<UserGender>(
+            hintText: localization.gender,
+            items: UserGender.values,
+            initialValue: cubit.selectedGender,
+            onChanged: cubit.setSelectedGender,
+            itemLabelBuilder: (UserGender item) => item.name,
           ),
           SizedBox(height: 16.h),
-          ValueListenableBuilder<DateTime?>(
-            valueListenable: cubit.selectedDate,
-            builder: (context, selectedDate, _) {
-              return BaseDatePickerField(
-                hintText: localization.dateOfBirth,
-                value: selectedDate,
-                onTap: () async {
-                  final pickedDate =
-                      await BaseDatePickerField.showCustomDatePicker(
-                        context: context,
-                        initialDate: selectedDate ?? DateTime.now(),
-                        firstDate: DateTime(1900),
-                        lastDate: DateTime.now(),
-                      );
-
-                  if (pickedDate != null) {
-                    cubit.updateDate(pickedDate);
-                  }
-                },
-                dateFormatter: cubit.formatDate,
-              );
-            },
+          BaseDatePickerField(
+            hintText: localization.dateOfBirth,
+            onChanged: cubit.setDateOfBirth,
+            dateFormatter: cubit.formatDate,
           ),
         ],
       ),

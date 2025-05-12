@@ -9,6 +9,14 @@
         "args": ["--flavor", "Development", "--target", "lib/main_development.dart" ]
       },
       {
+        "name": "SnapNfix Profile",
+        "request": "launch",
+        "type": "dart",
+        "flutterMode": "profile",
+        "program": "lib/main_development.dart",
+        "args": ["--flavor", "Development", "--target", "lib/main_development.dart" ]
+      },
+      {
         "name": "SnapNfix Production",
         "request": "launch",
         "type": "dart",

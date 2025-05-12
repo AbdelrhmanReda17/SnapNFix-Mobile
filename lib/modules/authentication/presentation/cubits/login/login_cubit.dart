@@ -1,44 +1,120 @@
-import 'package:bloc/bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/widgets.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:snapnfix/core/infrastructure/networking/api_error_model.dart';
+import 'package:snapnfix/modules/authentication/domain/entities/authentication_result.dart';
+import 'package:snapnfix/modules/authentication/domain/entities/session.dart';
+import 'package:snapnfix/modules/authentication/domain/providers/social_authentication_provider.dart';
 import 'package:snapnfix/modules/authentication/domain/usecases/login_use_case.dart';
+import 'package:snapnfix/modules/authentication/domain/usecases/social_sign_in_use_case.dart';
 
 part 'login_state.dart';
 part 'login_cubit.freezed.dart';
 
 class LoginCubit extends Cubit<LoginState> {
-  final LoginUseCase loginUseCase;
-  LoginCubit({required this.loginUseCase}) : super(LoginState.initial());
+  final LoginUseCase _loginUseCase;
+  final SocialSignInUseCase _socialSignInUseCase;
 
-  TextEditingController emailOrPhoneController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
   final formKey = GlobalKey<FormState>();
 
-  void emitLoginStates() async {
-    if (!formKey.currentState!.validate()) {
-      return;
-    }
+  String _emailOrPhone = "";
+  String _password = "";
 
-    emit(const LoginState.loading());
-    final response = await loginUseCase.call(
-        phoneOrEmail: emailOrPhoneController.text,
-        password: passwordController.text,
-    );
-    response.when(
-      success: (loginResponse) async {
-        emit(LoginState.success(loginResponse));
-      },
-      failure: (ApiErrorModel error) {
-        emit(LoginState.error(error));
-      },
+  LoginCubit({
+    required LoginUseCase loginUseCase,
+    required SocialSignInUseCase socialSignInUseCase,
+  }) : _loginUseCase = loginUseCase,
+       _socialSignInUseCase = socialSignInUseCase,
+       super(const LoginState.initial());
+
+  void setEmailOrPhone(String value) {
+    _emailOrPhone = value.trim();
+  }
+
+  void setPassword(String value) {
+    _password = value;
+  }
+
+  Future<void> login() async {
+    if (!_validateForm()) return;
+
+    try {
+      emit(const LoginState.loading());
+
+      final response = await _loginUseCase.call(
+        phoneOrEmail: _emailOrPhone,
+        password: _password,
+      );
+
+      response.when(success: _handleLoginSuccess, failure: _handleLoginFailure);
+    } catch (e) {
+      emit(
+        LoginState.error(
+          ApiErrorModel(message: 'An unexpected error occurred'),
+        ),
+      );
+    }
+  }
+
+  bool _validateForm() {
+    if (!formKey.currentState!.validate()) {
+      emit(
+        LoginState.error(
+          ApiErrorModel(message: 'Please fill in all required fields'),
+        ),
+      );
+      return false;
+    }
+    return true;
+  }
+
+  void _handleLoginSuccess(AuthenticationResult result) {
+    result.whenOrNull(
+      authenticated: (session) => emit(LoginState.authenticated(session)),
+      requiresProfileCompletion:
+          () => emit(const LoginState.requiresProfileCompletion()),
     );
   }
 
-  @override
-  Future<void> close() {
-    emailOrPhoneController.dispose();
-    passwordController.dispose();
-    return super.close();
+  void _handleLoginFailure(ApiErrorModel error) {
+    emit(LoginState.error(error));
+  }
+
+  Future<void> signInWithGoogle() async {
+    await _socialSignIn(SocialAuthenticationProvider.google);
+  }
+
+  Future<void> signInWithFacebook() async {
+    await _socialSignIn(SocialAuthenticationProvider.facebook);
+  }
+
+  Future<void> _socialSignIn(SocialAuthenticationProvider provider) async {
+    try {
+      emit(const LoginState.loading());
+
+      final result =
+          provider == SocialAuthenticationProvider.google
+              ? await _socialSignInUseCase.callGoogleSignIn()
+              : await _socialSignInUseCase.callFacebookSignIn();
+
+      result.when(
+        success: (authResult) {
+          authResult.whenOrNull(
+            authenticated: (session) => emit(LoginState.authenticated(session)),
+            requiresProfileCompletion:
+                () => emit(const LoginState.requiresProfileCompletion()),
+          );
+        },
+        failure: (error) => emit(LoginState.error(error)),
+      );
+    } catch (e) {
+      emit(
+        LoginState.error(
+          ApiErrorModel(
+            message: 'An unexpected error occurred during social sign in',
+          ),
+        ),
+      );
+    }
   }
 }

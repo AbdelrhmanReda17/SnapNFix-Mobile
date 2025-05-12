@@ -19,6 +19,8 @@ class _OfflineReportIndicatorState extends State<OfflineReportIndicator> {
   StreamSubscription? _connectivitySubscription;
   bool _isSyncing = false;
   final ConnectivityService _connectivityService = getIt<ConnectivityService>();
+  final GetPendingReportsCountUseCase _getpendingReportsUseCase =
+      getIt<GetPendingReportsCountUseCase>();
   int? _initialPendingCount;
 
   @override
@@ -29,12 +31,9 @@ class _OfflineReportIndicatorState extends State<OfflineReportIndicator> {
   }
 
   void _checkInitialPendingCount() {
-    final count = getIt<GetPendingReportsCountUseCase>().call();
-    if (mounted) {
-      setState(() {
-        _initialPendingCount = count;
-      });
-    }
+    setState(() {
+      _initialPendingCount = _getpendingReportsUseCase.call();
+    });
   }
 
   void _setupConnectivityMonitoring() {
@@ -54,6 +53,14 @@ class _OfflineReportIndicatorState extends State<OfflineReportIndicator> {
     }
   }
 
+  void _showReportSyncingToast(bool result) {
+    BaseToast.show(
+      context: context,
+      message: result ? 'Reports synced successfully' : 'Report Syncing failed',
+      type: result ? ToastType.success : ToastType.warning,
+    );
+  }
+
   Future<void> _syncReports() async {
     if (_isSyncing) return;
     setState(() {
@@ -63,22 +70,21 @@ class _OfflineReportIndicatorState extends State<OfflineReportIndicator> {
 
     try {
       final result = await syncPendingReports.call();
-
-      if (mounted) {
-        BaseToast.show(
-          context: context,
-
-          message: result ? 'Reports synced!' : 'Some reports failed',
-          type: result ? ToastType.success : ToastType.warning,
-        );
-      }
+      result.when(
+        success: (bool result) {
+          if (mounted) {
+            _showReportSyncingToast(result);
+          }
+        },
+        failure: (error) {
+          if (mounted) {
+            _showReportSyncingToast(false);
+          }
+        },
+      );
     } catch (e) {
       if (mounted) {
-        BaseToast.show(
-          message: 'Syncing failed',
-          type: ToastType.error,
-          context: context,
-        );
+        _showReportSyncingToast(false);
       }
     } finally {
       if (mounted) {
@@ -119,43 +125,46 @@ class _OfflineReportIndicatorState extends State<OfflineReportIndicator> {
             }
             _syncReports();
           },
-          child: Container(
-            decoration: BoxDecoration(
-              color: colorScheme.primary.withValues(alpha: 0.1),
-              borderRadius: BorderRadius.circular(12.r),
-            ),
-            padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
-            margin: EdgeInsets.only(bottom: 16.h),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                _isSyncing
-                    ? SizedBox(
-                      width: 20.sp,
-                      height: 20.sp,
+          child: Stack(
+            children: [
+              Padding(
+                padding: EdgeInsets.only(right: 8.w),
+                child: _isSyncing 
+                  ? SizedBox(
+                      width: 24.sp,
+                      height: 24.sp,
                       child: CircularProgressIndicator(
                         color: colorScheme.primary,
                         strokeWidth: 2.w,
                       ),
                     )
-                    : Icon(
+                  : Icon(
                       Icons.cloud_upload_outlined,
-                      size: 20.sp,
+                      size: 24.sp,
                       color: colorScheme.primary,
                     ),
-                SizedBox(width: 8.w),
-                Text(
-                  _isSyncing ? 'Syncing reports' : '$count Offline Reports',
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                    color: colorScheme.primary,
-                    fontWeight: FontWeight.w500,
-                    fontSize: 13.sp,
+              ),
+              if (count > 0)
+                Positioned(
+                  right: 0,
+                  bottom: 0,
+                  child: Container(
+                    padding: EdgeInsets.all(4.r),
+                    decoration: BoxDecoration(
+                      color: colorScheme.primary,
+                      shape: BoxShape.circle,
+                    ),
+                    child: Text(
+                      count > 99 ? '99+' : count.toString(),
+                      style: TextStyle(
+                        color: colorScheme.onPrimary,
+                        fontSize: 10.sp,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                   ),
                 ),
-              ],
-            ),
+            ],
           ),
         );
       },

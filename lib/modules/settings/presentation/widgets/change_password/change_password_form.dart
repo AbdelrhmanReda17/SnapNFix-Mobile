@@ -14,60 +14,22 @@ class ChangePasswordForm extends StatelessWidget {
       key: context.read<ChangePasswordCubit>().formKey,
       child: Column(
         children: [
-          ValueListenableBuilder<bool>(
-            valueListenable:
-                context.read<ChangePasswordCubit>().oldPasswordVisible,
-            builder: (context, isVisible, child) {
-              return BasePasswordTextField(
-                text: AppLocalizations.of(context)!.currentPassword,
-                controller:
-                    context.read<ChangePasswordCubit>().oldPasswordController,
-                togglePasswordObscureText:
-                    () =>
-                        context
-                            .read<ChangePasswordCubit>()
-                            .toggleOldPasswordVisibility(),
-                isPasswordObscureText: !isVisible,
-              );
-            },
+          BasePasswordTextField(
+            text: AppLocalizations.of(context)!.currentPassword,
+            onChanged: (context.read<ChangePasswordCubit>().setOldPassword),
+            validator:
+                (value) =>
+                    value!.isNotEmpty ? null : " Current password is required",
           ),
           verticalSpace(20),
-          ValueListenableBuilder<bool>(
-            valueListenable:
-                context.read<ChangePasswordCubit>().newPasswordVisible,
-            builder: (context, isVisible, child) {
-              return BasePasswordTextField(
-                text: AppLocalizations.of(context)!.newPassword,
-                controller:
-                    context.read<ChangePasswordCubit>().newPasswordController,
-                togglePasswordObscureText:
-                    () =>
-                        context
-                            .read<ChangePasswordCubit>()
-                            .toggleNewPasswordVisibility(),
-                isPasswordObscureText: !isVisible,
-              );
-            },
+          BasePasswordTextField(
+            text: AppLocalizations.of(context)!.newPassword,
+            onChanged: (context.read<ChangePasswordCubit>().setNewPassword),
           ),
           verticalSpace(20),
-          ValueListenableBuilder<bool>(
-            valueListenable:
-                context.read<ChangePasswordCubit>().confirmPasswordVisible,
-            builder: (context, isVisible, child) {
-              return BasePasswordTextField(
-                text: AppLocalizations.of(context)!.repeatPassword,
-                controller:
-                    context
-                        .read<ChangePasswordCubit>()
-                        .confirmPasswordController,
-                togglePasswordObscureText:
-                    () =>
-                        context
-                            .read<ChangePasswordCubit>()
-                            .toggleConfirmPasswordVisibility(),
-                isPasswordObscureText: !isVisible,
-              );
-            },
+          BasePasswordTextField(
+            text: AppLocalizations.of(context)!.repeatPassword,
+            onChanged: (context.read<ChangePasswordCubit>().setConfirmPassword),
           ),
         ],
       ),
