@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:snapnfix/core/exceptions/unverified_user_exception.dart';
 import 'package:snapnfix/core/infrastructure/device_info/device_info_service.dart';
 import 'package:snapnfix/core/infrastructure/networking/api_error_handler.dart';

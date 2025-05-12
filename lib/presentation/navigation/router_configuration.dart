@@ -46,7 +46,8 @@ class RouterConfiguration {
         },
         routes: _buildGoRoutes(AuthenticationRoutes.routes),
       ),
-      StatefulShellRoute.indexedStack(
+      StatefulShellRoute(
+        // Removed .indexedStack for lazy navigation
         key: _shellNavigatorKey,
         builder: (context, state, navigationShell) {
           return ApplicationShell(navigationShell: navigationShell);
@@ -56,6 +57,10 @@ class RouterConfiguration {
             (route) => StatefulShellBranch(routes: _buildGoRoutes([route])),
           ),
         ],
+        // This is more efficient than keeping all tabs in memory
+        navigatorContainerBuilder: (context, navigationShell, children) {
+          return children[navigationShell.currentIndex];
+        },
       ),
       ..._buildGoRoutes([ApplicationRoutes.issueDetailsRoute]),
     ],

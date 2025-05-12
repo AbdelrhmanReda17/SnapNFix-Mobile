@@ -8,15 +8,15 @@ import 'package:snapnfix/modules/authentication/data/models/dtos/complete_profil
 import 'package:snapnfix/modules/authentication/data/models/dtos/login_dto.dart';
 import 'package:snapnfix/modules/authentication/data/models/dtos/reset_password_dto.dart';
 import 'package:snapnfix/modules/authentication/data/models/session_model.dart';
-import 'package:snapnfix/modules/authentication/data/services/social_authentication_service.dart';
 import 'package:snapnfix/modules/authentication/domain/entities/authentication_result.dart';
 import 'package:snapnfix/modules/authentication/domain/providers/social_authentication_provider.dart';
+import 'package:snapnfix/modules/authentication/domain/services/base_social_authentication_service.dart';
 import '../../domain/repositories/base_authentication_repository.dart';
 
 class AuthenticationRepository implements BaseAuthenticationRepository {
   final BaseAuthenticationRemoteDataSource remoteDataSource;
   final ApplicationConfigurations _appConfig;
-  final SocialAuthenticationService _socialAuthService;
+  final BaseSocialAuthenticationService _socialAuthService;
 
   AuthenticationRepository(
     this.remoteDataSource,

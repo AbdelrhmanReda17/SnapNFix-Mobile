@@ -25,8 +25,8 @@ class LoginScreen extends StatelessWidget {
       },
       form: LoginForm(),
       blocListener: const LoginBlocListener(),
-      onSubmit: () {
-        context.read<LoginCubit>().emitLoginStates();
+      onSubmit: () async {
+        await context.read<LoginCubit>().login();
       },
       showSocial: true,
     );

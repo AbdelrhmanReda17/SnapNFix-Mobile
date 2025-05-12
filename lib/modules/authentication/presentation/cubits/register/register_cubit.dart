@@ -12,7 +12,7 @@ part 'register_cubit.freezed.dart';
 class RegisterCubit extends Cubit<RegisterState> {
   final RequestOTPUseCase _requestOTPUseCase;
   final formKey = GlobalKey<FormState>();
-  
+
   String _phone = "";
   String _password = "";
   String _confirmPassword = "";
@@ -24,7 +24,7 @@ class RegisterCubit extends Cubit<RegisterState> {
   RegisterCubit(this._requestOTPUseCase) : super(const RegisterState.initial());
 
   void setPhone(String value) {
-    _phone = value;
+    _phone = value.trim();
   }
 
   void setPassword(String value) {
@@ -48,25 +48,60 @@ class RegisterCubit extends Cubit<RegisterState> {
     return super.close();
   }
 
-  Future<void> emitRegisterStates() async {
-    if (!formKey.currentState!.validate()) return;
+  Future<void> register() async {
+    if (!_validateForm()) return;
 
-    emit(const RegisterState.loading());
+    try {
+      emit(const RegisterState.loading());
 
-    final response = await _requestOTPUseCase.call(
-      phoneNumber: _phone,
-      purpose: OtpPurpose.registration,
+      final response = await _requestOTPUseCase.call(
+        phoneNumber: _phone,
+        purpose: OtpPurpose.registration,
+      );
+
+      if (isClosed) return;
+
+      response.when(
+        success: _handleRegistrationSuccess,
+        failure: _handleRegistrationFailure,
+      );
+    } catch (e) {
+      if (isClosed) return;
+      emit(
+        RegisterState.error(
+          ApiErrorModel(message: 'An unexpected error occurred'),
+        ),
+      );
+    }
+  }
+
+  bool _validateForm() {
+    if (!formKey.currentState!.validate()) {
+      emit(
+        RegisterState.error(
+          ApiErrorModel(message: 'Please fill in all required fields'),
+        ),
+      );
+      return false;
+    }
+
+    if (_password != _confirmPassword) {
+      emit(
+        RegisterState.error(ApiErrorModel(message: 'Passwords do not match')),
+      );
+      return false;
+    }
+
+    return true;
+  }
+
+  void _handleRegistrationSuccess(AuthenticationResult result) {
+    result.whenOrNull(
+      requiresOtp: (purpose) => emit(const RegisterState.requiresOtp()),
     );
+  }
 
-    if (isClosed) return; // Check if cubit is still active
-
-    response.when(
-      success: (authResult) {
-        authResult.whenOrNull(
-          requiresOtp: (purpose) => emit(const RegisterState.requiresOtp()),
-        );
-      },
-      failure: (error) => emit(RegisterState.error(error)),
-    );
+  void _handleRegistrationFailure(ApiErrorModel error) {
+    emit(RegisterState.error(error));
   }
 }

@@ -1,9 +1,6 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:snapnfix/core/infrastructure/connectivity/connectivity_service.dart';
 import 'package:snapnfix/core/infrastructure/networking/api_error_handler.dart';
-import 'package:snapnfix/core/infrastructure/networking/api_error_model.dart';
 import 'package:snapnfix/core/infrastructure/networking/api_result.dart';
 import 'package:snapnfix/modules/reports/data/datasource/report_local_data_source.dart';
 import 'package:snapnfix/modules/reports/data/datasource/report_remote_data_source.dart';
@@ -20,30 +17,6 @@ class ReportRepository implements BaseReportRepository {
     this._remoteDataSource,
     this._connectivityService,
   );
-
-  @override
-  Future<ApiResult<ReportModel>> autoCategorizeImage(File imageFile) async {
-    try {
-      final isConnected = await _connectivityService.isConnected();
-
-      if (!isConnected) {
-        return ApiResult.failure(
-          ApiErrorModel(message: 'No internet connection'),
-        );
-      }
-      final result = await _remoteDataSource.autoCategorizeImage(imageFile);
-      return result.when(
-        success: (data) {
-          return ApiResult.success(data);
-        },
-        failure: (error) {
-          return ApiResult.failure(error);
-        },
-      );
-    } catch (e) {
-      return ApiResult.failure(ApiErrorHandler.handle(e));
-    }
-  }
 
   @override
   Future<List<ReportModel>> getPendingReports() {
@@ -85,9 +58,7 @@ class ReportRepository implements BaseReportRepository {
       debugPrint('Error submitting report: $e');
       try {
         await _localDataSource.saveReportOffline(report);
-        return const ApiResult.success(
-          'Report saved offline due to error',
-        );
+        return const ApiResult.success('Report saved offline due to error');
       } catch (saveError) {
         return ApiResult.failure(ApiErrorHandler.handle(saveError));
       }
@@ -110,7 +81,7 @@ class ReportRepository implements BaseReportRepository {
         await result.when(
           success: (data) async {
             debugPrint('✅ Report submitted successfully: $data');
-            await _localDataSource.deleteOfflineReport(report.id);
+            await _localDataSource.deleteOfflineReport(report.id!);
             _localDataSource.decrementPendingReportsCount();
           },
           failure: (error) {

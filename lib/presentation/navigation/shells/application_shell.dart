@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:snapnfix/core/config/application_configurations.dart';
+import 'package:snapnfix/core/dependency_injection/dependency_injection.dart';
 import 'package:snapnfix/presentation/components/application_bottom_navigation_bar.dart';
 import 'package:snapnfix/presentation/components/application_floating_action_button.dart';
 import 'package:snapnfix/presentation/components/application_system_ui_overlay.dart';
@@ -16,7 +17,7 @@ class ApplicationShell extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
-    final appConfigs = ApplicationConfigurations.instance;
+    final appConfigs = getIt<ApplicationConfigurations>();
     final currentPath = GoRouterState.of(context).uri.toString();
 
     final effectiveIndex =

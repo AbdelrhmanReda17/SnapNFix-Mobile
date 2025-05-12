@@ -7,16 +7,20 @@ part of 'report_model.dart';
 // **************************************************************************
 
 ReportModel _$ReportModelFromJson(Map<String, dynamic> json) => ReportModel(
-  id: json['id'] as String,
-  details: json['details'] as String,
+  id: json['id'] as String?,
+  details: json['details'] as String?,
   latitude: (json['latitude'] as num).toDouble(),
   longitude: (json['longitude'] as num).toDouble(),
-  severity: $enumDecode(_$ReportSeverityEnumMap, json['severity']),
-  timestamp: json['timestamp'] as String,
-  image: json['image'] as String,
-  issueId: json['issueId'] as String?,
+  severity:
+      $enumDecodeNullable(_$ReportSeverityEnumMap, json['severity']) ??
+      ReportSeverity.low,
+  createdAt:
+      json['created_at'] == null
+          ? null
+          : DateTime.parse(json['created_at'] as String),
+  image: const FileConverter().fromJson(json['image'] as String?) ?? File(''),
+  issueId: json['issue_id'] as String?,
   category: json['category'] as String?,
-  threshold: (json['threshold'] as num?)?.toDouble(),
   status:
       $enumDecodeNullable(_$ReportStatusEnumMap, json['status']) ??
       ReportStatus.pending,
@@ -25,15 +29,14 @@ ReportModel _$ReportModelFromJson(Map<String, dynamic> json) => ReportModel(
 Map<String, dynamic> _$ReportModelToJson(ReportModel instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'issueId': instance.issueId,
+      'issue_id': instance.issueId,
       'details': instance.details,
       'latitude': instance.latitude,
       'longitude': instance.longitude,
-      'severity': _$ReportSeverityEnumMap[instance.severity]!,
-      'timestamp': instance.timestamp,
-      'image': instance.image,
+      'image': const FileConverter().toJson(instance.image),
+      'created_at': instance.createdAt?.toIso8601String(),
       'category': instance.category,
-      'threshold': instance.threshold,
+      'severity': _$ReportSeverityEnumMap[instance.severity],
       'status': _$ReportStatusEnumMap[instance.status]!,
     };
 
@@ -45,6 +48,6 @@ const _$ReportSeverityEnumMap = {
 
 const _$ReportStatusEnumMap = {
   ReportStatus.pending: 'pending',
-  ReportStatus.valid: 'valid',
-  ReportStatus.invalid: 'invalid',
+  ReportStatus.verified: 'verified',
+  ReportStatus.rejected: 'rejected',
 };

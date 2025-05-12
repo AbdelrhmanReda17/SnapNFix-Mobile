@@ -11,8 +11,9 @@ part 'otp_state.dart';
 part 'otp_cubit.freezed.dart';
 
 class OtpCubit extends Cubit<OtpState> {
-  final VerifyOtpUseCase verifyOtpUseCase;
-  final ResendOtpUseCase resendOtpUseCase;
+  final VerifyOtpUseCase _verifyOtpUseCase;
+  final ResendOtpUseCase _resendOtpUseCase;
+
   Timer? _resendTimer;
   Timer? _registrationTimer;
 
@@ -24,15 +25,18 @@ class OtpCubit extends Cubit<OtpState> {
   bool _canResend = false;
 
   final formKey = GlobalKey<FormState>();
-  String otpCode = "";
+  String _otpCode = "";
 
-  // Add getters for the footer
   int get remainingTime => _remainingResendTime;
   bool get canResend => _canResend;
   int get registrationTime => _remainingRegistrationTime;
 
-  OtpCubit({required this.verifyOtpUseCase, required this.resendOtpUseCase})
-    : super(const OtpState.initial()) {
+  OtpCubit({
+    required VerifyOtpUseCase verifyOtpUseCase,
+    required ResendOtpUseCase resendOtpUseCase,
+  }) : _verifyOtpUseCase = verifyOtpUseCase,
+       _resendOtpUseCase = resendOtpUseCase,
+       super(const OtpState.initial()) {
     _startTimers();
   }
 
@@ -52,21 +56,9 @@ class OtpCubit extends Cubit<OtpState> {
       if (_remainingResendTime <= 0) {
         timer.cancel();
         _canResend = true;
-        emit(
-          OtpState.initial(
-            canResend: true,
-            remainingTime: 0,
-            registrationExpiryTime: _remainingRegistrationTime,
-          ),
-        );
+        _emitInitialState();
       } else {
-        emit(
-          OtpState.initial(
-            canResend: false,
-            remainingTime: _remainingResendTime,
-            registrationExpiryTime: _remainingRegistrationTime,
-          ),
-        );
+        _emitInitialState();
       }
     });
   }
@@ -83,23 +75,21 @@ class OtpCubit extends Cubit<OtpState> {
         emit(const OtpState.registrationExpired());
         _cleanupTimers();
       } else if (_remainingRegistrationTime == 120) {
-        emit(
-          OtpState.initial(
-            canResend: _canResend,
-            remainingTime: _remainingResendTime,
-            registrationExpiryTime: _remainingRegistrationTime,
-          ),
-        );
+        _emitInitialState();
       } else {
-        emit(
-          OtpState.initial(
-            canResend: _canResend,
-            remainingTime: _remainingResendTime,
-            registrationExpiryTime: _remainingRegistrationTime,
-          ),
-        );
+        _emitInitialState();
       }
     });
+  }
+
+  void _emitInitialState() {
+    emit(
+      OtpState.initial(
+        canResend: _canResend,
+        remainingTime: _remainingResendTime,
+        registrationExpiryTime: _remainingRegistrationTime,
+      ),
+    );
   }
 
   Future<void> verifyOtp({
@@ -107,52 +97,82 @@ class OtpCubit extends Cubit<OtpState> {
     String? phoneNumber,
     String? password,
   }) async {
-    debugPrint("Verifying OTP: $otpCode, Purpose: $purpose");
-    debugPrint("Phone Number: $phoneNumber, Password: $password");
-    if (otpCode.length < 6) return;
+    if (!_validateOtp()) return;
+
+    try {
+      emit(const OtpState.loading());
+
+      final response = await _verifyOtpUseCase.call(
+        code: _otpCode,
+        purpose: purpose,
+      );
+
+      response.when(
+        success:
+            (result) => _handleVerificationSuccess(
+              result,
+              phoneNumber: phoneNumber,
+              password: password,
+            ),
+        failure: (error) => _handleVerificationFailure(error),
+      );
+    } catch (e) {
+      _handleVerificationFailure(
+        ApiErrorModel(message: 'An unexpected error occurred'),
+      );
+    }
+  }
+
+  bool _validateOtp() {
+    if (_otpCode.length < 6) {
+      emit(
+        OtpState.error(ApiErrorModel(message: 'Please enter a valid OTP code')),
+      );
+      return false;
+    }
 
     if (_remainingRegistrationTime <= 0) {
       emit(const OtpState.registrationExpired());
       _cleanupTimers();
-      return;
+      return false;
     }
 
-    emit(const OtpState.loading());
-    final response = await verifyOtpUseCase.call(
-      code: otpCode,
-      purpose: purpose,
-    );
+    return true;
+  }
 
-    response.when(
-      success: (res) {
-        res.whenOrNull(
-          requiresProfileCompletion: () {
-            _cleanupTimers();
-            debugPrint("Requires Profile Completion: $phoneNumber, $password");
-            emit(
-              OtpState.successAndRequiresProfileCompletion(
-                phoneNumber: phoneNumber!,
-                password: password!,
-              ),
-            );
-          },
-          requiresResetPassword: () {
-            _cleanupTimers();
-            emit(const OtpState.successAndRequiresPasswordReset());
-          },
-        );
-      },
-      failure: (error) {
-        emit(OtpState.error(error));
+  void _handleVerificationSuccess(
+    AuthenticationResult result, {
+    String? phoneNumber,
+    String? password,
+  }) {
+    result.whenOrNull(
+      requiresProfileCompletion: () {
+        _cleanupTimers();
+        if (phoneNumber == null || password == null) {
+          emit(
+            OtpState.error(
+              ApiErrorModel(message: 'Missing required parameters'),
+            ),
+          );
+          return;
+        }
         emit(
-          OtpState.initial(
-            canResend: _canResend,
-            remainingTime: _remainingResendTime,
-            registrationExpiryTime: _remainingRegistrationTime,
+          OtpState.successAndRequiresProfileCompletion(
+            phoneNumber: phoneNumber,
+            password: password,
           ),
         );
       },
+      requiresResetPassword: () {
+        _cleanupTimers();
+        emit(const OtpState.successAndRequiresPasswordReset());
+      },
     );
+  }
+
+  void _handleVerificationFailure(ApiErrorModel error) {
+    emit(OtpState.error(error));
+    _emitInitialState();
   }
 
   void _cleanupTimers() {
@@ -168,33 +188,49 @@ class OtpCubit extends Cubit<OtpState> {
     return super.close();
   }
 
-  void updateOtpCode(
+  Future<void> updateOtpCode(
     String code,
     OtpPurpose purpose, {
     String? phoneNumber,
     String? password,
-  }) {
-    otpCode = code;
+  }) async {
+    _otpCode = code;
     if (code.length == 6) {
-      verifyOtp(purpose: purpose, phoneNumber: phoneNumber, password: password);
+      await verifyOtp(
+        purpose: purpose,
+        phoneNumber: phoneNumber,
+        password: password,
+      );
     }
   }
 
   Future<void> resendOtp({required OtpPurpose purpose}) async {
     if (!_canResend) return;
 
-    emit(const OtpState.loading());
-    final response = await resendOtpUseCase.call(purpose: purpose);
+    try {
+      emit(const OtpState.loading());
 
-    response.when(
-      success: (_) {
-        emit(const OtpState.resendSuccess());
-        _startResendTimer();
-      },
-      failure: (error) {
-        emit(OtpState.error(error));
-        _startResendTimer();
-      },
-    );
+      final response = await _resendOtpUseCase.call(purpose: purpose);
+
+      response.when(
+        success: (_) {
+          emit(const OtpState.resendSuccess());
+          _startResendTimer();
+        },
+        failure: (error) {
+          emit(OtpState.error(error));
+          _startResendTimer();
+        },
+      );
+    } catch (e) {
+      emit(
+        OtpState.error(
+          ApiErrorModel(
+            message: 'An unexpected error occurred while resending OTP',
+          ),
+        ),
+      );
+      _startResendTimer();
+    }
   }
 }

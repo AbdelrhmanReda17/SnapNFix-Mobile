@@ -1,16 +1,16 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:injectable/injectable.dart';
 import 'package:snapnfix/core/config/application_constants.dart';
-import 'package:snapnfix/core/dependency_injection/dependency_injection.dart';
 import 'package:snapnfix/core/utils/helpers/shared_pref_keys.dart';
 import 'package:snapnfix/core/infrastructure/storage/secure_storage_service.dart';
 import 'package:snapnfix/core/infrastructure/storage/shared_preferences_service.dart';
 import 'package:snapnfix/modules/authentication/data/models/session_model.dart';
 
+@singleton
 class ApplicationConfigurations with ChangeNotifier {
-  // Private services
-  final _secureStorage = getIt<SecureStorageService>();
-  final _sharedPrefs = getIt<SharedPreferencesService>();
+  final SharedPreferencesService _sharedPrefs;
+  final SecureStorageService _secureStorage;
 
   // Private state variables
   bool _hasViewedOnboarding = false;
@@ -18,18 +18,8 @@ class ApplicationConfigurations with ChangeNotifier {
   String _language = "en";
   bool _isDarkMode = false;
 
-  // Singleton pattern
-  static final ApplicationConfigurations _instance =
-      ApplicationConfigurations._internal();
-
-  // Static getter for the singleton instance
-  static ApplicationConfigurations get instance => _instance;
-
-  // Factory constructor
-  factory ApplicationConfigurations() => _instance;
-
-  // Private constructor
-  ApplicationConfigurations._internal();
+  // Constructor with dependency injection
+  ApplicationConfigurations(this._sharedPrefs, this._secureStorage);
 
   // Getters
   bool get hasViewedOnboarding => _hasViewedOnboarding;
@@ -38,12 +28,12 @@ class ApplicationConfigurations with ChangeNotifier {
   bool get isDarkMode => _isDarkMode;
   bool get isAuthenticated => _currentSession != null;
 
-  // Initialize all settings
   Future<void> init() async {
+    debugPrint("Initializing application configurations...");
     await _loadOnboardingStatus();
     await _loadUserSession();
-    await _loadLanguage();
-    await _loadDarkMode();
+    await _loadLanguagePreference();
+    await _loadThemePreference();
   }
 
   // Onboarding methods
@@ -64,11 +54,9 @@ class ApplicationConfigurations with ChangeNotifier {
     final sessionString = await _secureStorage.read(
       key: SharedPrefKeys.authenticationSession,
     );
-    debugPrint("Session String: $sessionString");
     if (sessionString != null && sessionString.isNotEmpty) {
       try {
         final sessionMap = json.decode(sessionString);
-        debugPrint("Session Map: $sessionMap");
         _currentSession = SessionModel.fromJson(sessionMap);
         debugPrint("Current Session: $_currentSession");
       } catch (e) {
@@ -95,7 +83,7 @@ class ApplicationConfigurations with ChangeNotifier {
   }
 
   // Language methods
-  Future<void> _loadLanguage() async {
+  Future<void> _loadLanguagePreference() async {
     final storedLanguage = await _secureStorage.read(
       key: SharedPrefKeys.language,
     );
@@ -120,7 +108,7 @@ class ApplicationConfigurations with ChangeNotifier {
   }
 
   // Dark mode methods
-  Future<void> _loadDarkMode() async {
+  Future<void> _loadThemePreference() async {
     _isDarkMode = _sharedPrefs.getBool(SharedPrefKeys.isDarkMode);
   }
 

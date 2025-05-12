@@ -11,37 +11,73 @@ part 'forgot_password_cubit.freezed.dart';
 class ForgotPasswordCubit extends Cubit<ForgotPasswordState> {
   final RequestOTPUseCase _requestOTPUseCase;
 
+  final formKey = GlobalKey<FormState>();
+
+  String _emailOrPhone = "";
+
+  String get emailOrPhone => _emailOrPhone;
+
   ForgotPasswordCubit({required RequestOTPUseCase forgotPasswordUseCase})
     : _requestOTPUseCase = forgotPasswordUseCase,
       super(const ForgotPasswordState.initial());
 
-  final formKey = GlobalKey<FormState>();
-
-  String emailOrPhone = "";
-
   void setEmailOrPhone(String value) {
-    emailOrPhone = value;
+    _emailOrPhone = value.trim();
   }
 
-  Future<void> emitForgotPasswordStates() async {
-    if (!formKey.currentState!.validate()) return;
+  Future<void> requestPasswordReset() async {
+    if (!_validateForm()) return;
 
-    emit(const ForgotPasswordState.loading());
+    try {
+      emit(const ForgotPasswordState.loading());
 
-    final response = await _requestOTPUseCase.call(
-      phoneNumber: emailOrPhone,
-      purpose: OtpPurpose.passwordReset,
+      final response = await _requestOTPUseCase.call(
+        phoneNumber: _emailOrPhone,
+        purpose: OtpPurpose.passwordReset,
+      );
+
+      response.when(
+        success: _handleRequestSuccess,
+        failure: _handleRequestFailure,
+      );
+    } catch (e) {
+      emit(
+        ForgotPasswordState.error(
+          ApiErrorModel(message: 'An unexpected error occurred'),
+        ),
+      );
+    }
+  }
+
+  bool _validateForm() {
+    if (!formKey.currentState!.validate()) {
+      emit(
+        ForgotPasswordState.error(
+          ApiErrorModel(message: 'Please enter your email or phone number'),
+        ),
+      );
+      return false;
+    }
+
+    if (_emailOrPhone.isEmpty) {
+      emit(
+        ForgotPasswordState.error(
+          ApiErrorModel(message: 'Email or phone number is required'),
+        ),
+      );
+      return false;
+    }
+
+    return true;
+  }
+
+  void _handleRequestSuccess(AuthenticationResult result) {
+    result.whenOrNull(
+      requiresOtp: (purpose) => emit(const ForgotPasswordState.requiresOtp()),
     );
+  }
 
-    response.when(
-      success: (authResult) {
-        authResult.whenOrNull(
-          requiresOtp: (purpose) {
-            emit(ForgotPasswordState.requiresOtp());
-          },
-        );
-      },
-      failure: (error) => emit(ForgotPasswordState.error(error)),
-    );
+  void _handleRequestFailure(ApiErrorModel error) {
+    emit(ForgotPasswordState.error(error));
   }
 }

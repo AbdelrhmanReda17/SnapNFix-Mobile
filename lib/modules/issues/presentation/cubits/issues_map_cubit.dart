@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:snapnfix/core/infrastructure/location/location_service.dart';
 import 'package:snapnfix/core/infrastructure/networking/api_result.dart';
 import 'package:snapnfix/modules/issues/domain/entities/issue.dart';
 import 'package:snapnfix/modules/issues/domain/entities/issue_category.dart';
@@ -11,14 +11,80 @@ import 'package:snapnfix/modules/issues/domain/usecases/watch_nearby_issues_use_
 import 'package:snapnfix/modules/issues/presentation/cubits/issues_map_state.dart';
 
 class IssuesMapCubit extends Cubit<IssuesMapState> {
-  final LocationService _locationService;
+  final WatchNearbyIssuesUseCase _watchNearbyIssuesUseCase;
   GoogleMapController? _mapController;
   StreamSubscription? _issuesSubscription;
-  final WatchNearbyIssuesUseCase _watchNearbyIssuesUseCase;
+  bool _isClosed = false;
 
-  IssuesMapCubit(this._locationService, this._watchNearbyIssuesUseCase)
-    : super(IssuesMapState.initial());
+  IssuesMapCubit(this._watchNearbyIssuesUseCase)
+    : super(const IssuesMapState());
 
+  @override
+  Future<void> close() async {
+    _isClosed = true;
+    await _issuesSubscription?.cancel();
+    _mapController?.dispose();
+    return super.close();
+  }
+
+  Future<void> onIssueTapped(double latitude, double longitude) async {
+    if (_mapController == null) return;
+
+    await _mapController?.animateCamera(
+      CameraUpdate.newCameraPosition(
+        CameraPosition(
+          target: LatLng(latitude, longitude),
+          zoom: state.cameraPosition?.zoom ?? 17,
+        ),
+      ),
+    );
+  }
+
+  Future<void> initialize(Position position) async {
+    emit(state.copyWith(status: MapStatus.loading));
+
+    try {
+      emit(
+        state.copyWith(
+          status: MapStatus.loaded,
+          hasLocationPermission: true,
+          cameraPosition: CameraPosition(
+            target: LatLng(position.latitude, position.longitude),
+            zoom: 17,
+          ),
+        ),
+      );
+
+      await _startWatchingNearbyIssues(position.latitude, position.longitude);
+    } catch (e) {
+      emit(state.copyWith(status: MapStatus.error, error: e.toString()));
+    }
+  }
+
+  Future<void> centerOnUserLocation(Position position) async {
+    if (_mapController == null) return;
+
+    await _mapController?.animateCamera(
+      CameraUpdate.newCameraPosition(
+        CameraPosition(
+          target: LatLng(position.latitude, position.longitude),
+          zoom: state.cameraPosition?.zoom ?? 17,
+        ),
+      ),
+    );
+  }
+
+  // Map callbacks
+  void onMapCreated(GoogleMapController controller) {
+    _mapController = controller;
+  }
+
+  void onCameraMove(CameraPosition position) {
+    if (_mapController == null) return;
+    emit(state.copyWith(cameraPosition: position));
+  }
+
+  // Issues handling
   Future<void> _startWatchingNearbyIssues(
     double latitude,
     double longitude,
@@ -28,25 +94,35 @@ class IssuesMapCubit extends Cubit<IssuesMapState> {
     _issuesSubscription = _watchNearbyIssuesUseCase
         .call(latitude, longitude)
         .listen(
-          (result) => _handleIssuesUpdate(result),
-          onError:
-              (error) => emit(
+          (result) {
+            if (!_isClosed) _handleIssuesUpdate(result);
+          },
+          onError: (error) {
+            if (!_isClosed) {
+              emit(
                 state.copyWith(
                   status: MapStatus.error,
                   error: error.toString(),
                 ),
-              ),
+              );
+            }
+          },
+          cancelOnError: false,
         );
   }
 
   void _handleIssuesUpdate(ApiResult<List<Issue>> result) {
+    if (_isClosed) return;
+
     result.when(
       success: (issues) {
+        final filteredIssues = _applyFilters(issues);
         emit(
           state.copyWith(
             status: MapStatus.loaded,
             issues: issues,
-            markers: _createMarkers(issues),
+            filteredIssues: filteredIssues,
+            markers: _createMarkers(filteredIssues),
             error: null,
           ),
         );
@@ -59,53 +135,45 @@ class IssuesMapCubit extends Cubit<IssuesMapState> {
 
   Set<Marker> _createMarkers(List<Issue> issues) {
     return issues.map((issue) {
-      return Marker(
-        markerId: MarkerId(issue.id),
-        position: LatLng(issue.latitude, issue.longitude),
-        onTap: () => _onMarkerTapped(issue),
-        icon: BitmapDescriptor.defaultMarkerWithHue(
+      final hue =
           issue.severity == IssueSeverity.high
               ? BitmapDescriptor.hueRed
               : issue.severity == IssueSeverity.medium
               ? BitmapDescriptor.hueOrange
-              : BitmapDescriptor.hueGreen,
-        ),
+              : BitmapDescriptor.hueGreen;
+
+      return Marker(
+        markerId: MarkerId(issue.id),
+        position: LatLng(issue.latitude, issue.longitude),
+        onTap:
+            () => emit(
+              state.copyWith(selectedIssue: issue, showIssueDetail: true),
+            ),
+        icon: BitmapDescriptor.defaultMarkerWithHue(hue),
       );
     }).toSet();
   }
 
-  void _onMarkerTapped(Issue issue) {
-    emit(state.copyWith(selectedIssue: issue, showIssueDetail: true));
-  }
-
-  void onIssueDetailClosed() {
-    emit(state.copyWith(showIssueDetail: false, selectedIssue: null));
-  }
-
-  Future<void> checkLocationPermission() async {
-    final hasPermission = await _locationService.checkLocationPermissions(
-      onPermissionDenied: (_, __) {},
-      onServiceDisabled: () async => false,
-    );
-    if (hasPermission) {
-      await setMapToCurrentLocation();
-    } else {
-      emit(
-        state.copyWith(status: MapStatus.loaded, hasLocationPermission: false),
-      );
+  // Issue filters
+  List<Issue> _applyFilters(List<Issue> issues) {
+    if (state.selectedCategories.isEmpty &&
+        state.selectedSeverities.isEmpty &&
+        state.selectedStatuses.isEmpty) {
+      return issues;
     }
-  }
 
-  void clearFilters() {
-    emit(
-      state.copyWith(
-        selectedCategories: [],
-        selectedSeverities: [],
-        selectedStatuses: [],
-        filteredIssues: state.issues,
-        markers: _createMarkers(state.issues),
-      ),
-    );
+    return issues.where((issue) {
+      final matchesCategory =
+          state.selectedCategories.isEmpty ||
+          state.selectedCategories.contains(issue.category);
+      final matchesSeverity =
+          state.selectedSeverities.isEmpty ||
+          state.selectedSeverities.contains(issue.severity);
+      final matchesStatus =
+          state.selectedStatuses.isEmpty ||
+          state.selectedStatuses.contains(issue.status);
+      return matchesCategory && matchesSeverity && matchesStatus;
+    }).toList();
   }
 
   void applyFilters({
@@ -113,118 +181,37 @@ class IssuesMapCubit extends Cubit<IssuesMapState> {
     required List<IssueSeverity> selectedSeverities,
     required List<IssueStatus> selectedStatuses,
   }) {
-    final filteredIssues =
-        state.issues.where((issue) {
-          final matchesCategory =
-              selectedCategories.isEmpty ||
-              selectedCategories.contains(issue.category);
-          final matchesSeverity =
-              selectedSeverities.isEmpty ||
-              selectedSeverities.contains(issue.severity);
-          final matchesStatus =
-              selectedStatuses.isEmpty ||
-              selectedStatuses.contains(issue.status);
-          return matchesCategory && matchesSeverity && matchesStatus;
-        }).toList();
-
     emit(
       state.copyWith(
         selectedCategories: selectedCategories,
         selectedSeverities: selectedSeverities,
         selectedStatuses: selectedStatuses,
+      ),
+    );
+
+    final filteredIssues = _applyFilters(state.issues);
+    emit(
+      state.copyWith(
         filteredIssues: filteredIssues,
         markers: _createMarkers(filteredIssues),
       ),
     );
   }
 
-  Future<void> centerOnUserLocation() async {
-    if (state.cameraPosition == null) return;
-    final position = await _locationService.getCurrentPosition();
-    _mapController?.animateCamera(
-      CameraUpdate.newCameraPosition(
-        CameraPosition(
-          target: LatLng(position.latitude, position.longitude),
-          zoom: state.cameraPosition!.zoom,
-        ),
-      ),
-    );
-  }
-
-  Future<void> setMapToCurrentLocation() async {
-    final position = await _locationService.getCurrentPosition();
+  void clearFilters() {
     emit(
       state.copyWith(
-        status: MapStatus.loaded,
-        hasLocationPermission: true,
-        cameraPosition: CameraPosition(
-          target: LatLng(position.latitude, position.longitude),
-          zoom: 17,
-        ),
+        selectedCategories: const [],
+        selectedSeverities: const [],
+        selectedStatuses: const [],
+        filteredIssues: state.issues,
+        markers: _createMarkers(state.issues),
       ),
     );
-    await _startWatchingNearbyIssues(position.latitude, position.longitude);
   }
 
-  Future<void> openLocationSettings() async {
-    try {
-      await _locationService.openLocationSettings();
-    } catch (e) {
-      emit(
-        state.copyWith(
-          status: MapStatus.error,
-          error: 'Failed to open settings',
-        ),
-      );
-    }
-  }
-
-  Future<void> initialize() async {
-    emit(state.copyWith(status: MapStatus.loading));
-    try {
-      final hasPermission = await _locationService.checkLocationPermissions(
-        onPermissionDenied: (_, __) {},
-        onServiceDisabled: () async => false,
-      );
-      if (!hasPermission) {
-        emit(
-          state.copyWith(
-            status: MapStatus.loaded,
-            hasLocationPermission: false,
-          ),
-        );
-        return;
-      }
-      await setMapToCurrentLocation();
-    } catch (e) {
-      emit(
-        state.copyWith(
-          status: MapStatus.error,
-          error: 'Failed to check location permissions',
-        ),
-      );
-    }
-  }
-
-  void onMapCreated(GoogleMapController controller) {
-    _mapController = controller;
-  }
-
-  void onCameraMove(CameraPosition position) {
-    if (_mapController == null) return;
-    _locationService.checkIfLocationServiceEnabled().then((isEnabled) {
-      if (!isEnabled) {
-        emit(
-          state.copyWith(
-            status: MapStatus.error,
-            error: 'Location service disabled',
-          ),
-        );
-      } else {
-        emit(
-          state.copyWith(cameraPosition: position, status: MapStatus.loaded),
-        );
-      }
-    });
+  // Issue detail handling
+  void onIssueDetailClosed() {
+    emit(state.copyWith(showIssueDetail: false, selectedIssue: null));
   }
 }

@@ -5,6 +5,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:snapnfix/core/base_components/base_alert.dart';
 import 'package:snapnfix/core/config/application_configurations.dart';
+import 'package:snapnfix/core/dependency_injection/dependency_injection.dart';
 import 'package:snapnfix/core/infrastructure/networking/api_error_model.dart';
 import 'package:snapnfix/core/utils/extensions/navigation.dart';
 import 'package:snapnfix/modules/issues/domain/entities/issue.dart';
@@ -26,7 +27,7 @@ class IssueDetailsScreen extends StatelessWidget {
 
     final localization = AppLocalizations.of(context)!;
     final colorScheme = Theme.of(context).colorScheme;
-    final appConfigs = ApplicationConfigurations.instance;
+    final appConfigs = getIt<ApplicationConfigurations>();
 
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: ApplicationSystemUIOverlay.getDefaultStyle(appConfigs.isDarkMode),
@@ -72,7 +73,6 @@ class IssueDetailsScreen extends StatelessWidget {
         loading: () => {},
         loaded:
             (issue) => {
-              // Only fetch if the loaded issue is different
               if (issue.id != issueId) {cubit.getIssueDetails(issueId)},
             },
         orElse: () => {cubit.getIssueDetails(issueId)},
@@ -89,13 +89,14 @@ class IssueDetailsScreen extends StatelessWidget {
           const IssueDetailsBlocListener(),
           IssueImageSlider(images: issue.images),
           IssueDetails(issue: issue),
-          Expanded(child: IssueDescriptionsList(descriptions: issue.descriptions)),
+          Expanded(
+            child: IssueDescriptionsList(descriptions: issue.descriptions),
+          ),
         ],
       ),
     );
   }
 
-  // will be replaced with general error handler like the LoadingOverlay one
   void setupErrorState(BuildContext context, ApiErrorModel apiErrorModel) {
     context.pop();
     baseDialog(
