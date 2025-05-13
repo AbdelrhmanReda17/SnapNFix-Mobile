@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:snapnfix/core/utils/helpers/spacing.dart';
 
 class BaseDatePickerField extends StatefulWidget {
   final String hintText;
+  final String? labelText;
   final String? initialValue;
   final ValueChanged<DateTime?>? onChanged;
   final String Function(DateTime date) dateFormatter;
@@ -17,6 +19,7 @@ class BaseDatePickerField extends StatefulWidget {
   const BaseDatePickerField({
     super.key,
     required this.hintText,
+    this.labelText,
     this.initialValue,
     this.onChanged,
     required this.dateFormatter,
@@ -65,43 +68,60 @@ class _BaseDatePickerFieldState extends State<BaseDatePickerField> {
 
     return GestureDetector(
       onTap: _handleDatePicker,
-      child: Container(
-        padding:
-            widget.contentPadding ??
-            EdgeInsets.symmetric(horizontal: 10.w, vertical: 16.h),
-        decoration: BoxDecoration(
-          color:
-              widget.backgroundColor ??
-              colorScheme.surface.withValues(alpha: 0.3),
-          borderRadius: BorderRadius.circular(8.r),
-          border: Border.all(
-            color: colorScheme.primary.withValues(alpha: 0.4),
-            width: 1.3,
-          ),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          if (widget.labelText != null) ...[
             Text(
-              _selectedDate != null
-                  ? widget.dateFormatter(_selectedDate!)
-                  : widget.hintText,
-              style:
-                  _selectedDate != null
-                      ? widget.textStyle ?? textStyles.bodyMedium
-                      : widget.hintStyle ??
-                          textStyles.bodyMedium?.copyWith(
-                            color: colorScheme.primary.withValues(alpha: 0.4),
-                          ),
+              widget.labelText!,
+              style: textStyles.bodyMedium?.copyWith(
+                color: colorScheme.primary.withValues(alpha: 0.5),
+                fontSize: 14.sp,
+              ),
             ),
-            widget.icon ??
-                Icon(
-                  Icons.calendar_today,
-                  size: 20.r,
-                  color: colorScheme.primary,
-                ),
+            verticalSpace(2),
           ],
-        ),
+          Container(
+            padding:
+                widget.contentPadding ??
+                EdgeInsets.symmetric(horizontal: 10.w, vertical: 16.h),
+            decoration: BoxDecoration(
+              color:
+                  widget.backgroundColor ??
+                  colorScheme.surface.withValues(alpha: 0.3),
+              borderRadius: BorderRadius.circular(8.r),
+              border: Border.all(
+                color: colorScheme.primary.withValues(alpha: 0.4),
+                width: 1.3,
+              ),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  _selectedDate != null
+                      ? widget.dateFormatter(_selectedDate!)
+                      : widget.hintText,
+                  style:
+                      _selectedDate != null
+                          ? widget.textStyle ?? textStyles.bodyMedium
+                          : widget.hintStyle ??
+                              textStyles.bodyMedium?.copyWith(
+                                color: colorScheme.primary.withValues(
+                                  alpha: 0.3,
+                                ),
+                              ),
+                ),
+                widget.icon ??
+                    Icon(
+                      Icons.calendar_today,
+                      size: 20.r,
+                      color: colorScheme.primary,
+                    ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }

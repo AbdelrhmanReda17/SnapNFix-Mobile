@@ -10,8 +10,6 @@ import 'package:snapnfix/modules/settings/presentation/widgets/edit_profile/edit
 import 'package:snapnfix/modules/settings/presentation/widgets/edit_profile/profile_image_section.dart';
 import 'package:snapnfix/presentation/components/application_system_ui_overlay.dart';
 
-// TODO: Validate password fields and show error messages if they don't match or don't meet the requirements.
-// TODO: Add functionality to change the gender and date of birth fields.
 class EditProfile extends StatelessWidget {
   const EditProfile({super.key});
 

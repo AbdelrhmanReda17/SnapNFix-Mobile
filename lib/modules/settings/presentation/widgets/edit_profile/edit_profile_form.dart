@@ -31,14 +31,16 @@ class EditProfileForm extends StatelessWidget {
               verticalSpace(8),
               BaseTextField(
                 key: ValueKey('name_$resetCount'),
-                hintText: localization.name,
+                labelText: localization.name,
+                hintText: localization.enterName,
                 onChanged: cubit.setName,
                 initialValue: cubit.name,
               ),
               verticalSpace(20),
               BaseTextField(
                 key: ValueKey('phone_$resetCount'),
-                hintText: localization.phone,
+                labelText: localization.phoneNumber,
+                hintText: localization.enterPhoneNumber,
                 initialValue: cubit.phoneNumber,
                 inputTextStyle: textStyles.bodyMedium?.copyWith(
                   color: colorScheme.primary.withValues(alpha: 0.3),
@@ -50,16 +52,18 @@ class EditProfileForm extends StatelessWidget {
               verticalSpace(20),
               BaseDropdownField<UserGender>(
                 key: ValueKey('gender_$resetCount'),
-                hintText: localization.gender,
+                hintText: localization.selectGender,
+                labelText: localization.gender,
                 items: UserGender.values,
                 initialValue: cubit.selectedGender,
                 onChanged: cubit.setSelectedGender,
-                itemLabelBuilder: (UserGender item) => item.name,
+                itemLabelBuilder: (UserGender item) => item.displayName,
               ),
               verticalSpace(16),
               BaseDatePickerField(
                 key: ValueKey('date_of_birth_$resetCount'),
-                hintText: localization.dateOfBirth,
+                hintText: localization.selectDateOfBirth,
+                labelText: localization.dateOfBirth,
                 onChanged: cubit.setDateOfBirth,
                 initialValue:
                     cubit.selectedDate != null

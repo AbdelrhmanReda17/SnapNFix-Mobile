@@ -53,6 +53,9 @@
   "getStarted": "Get started now",
   "registerSubtitle": "Your one-stop solution for all your needs",
   "enterPhoneNumber": "Enter your phone number",
+  "enterName": "Enter your name",
+  "selectGender": "Select your gender (optional)",
+  "selectDateOfBirth": "Select your date of birth (optional)",
 
   "reportAnIncident": "Report an Incident",
   "takeAPhoto": "Take a photo",
@@ -172,7 +175,9 @@
   "enterFirstName": "Enter your first name",
   "enterLastName": "Enter your last name",
   "enterPassword": "Enter your password",
-  "reEnterPassword": "Re-enter your password",
+  "reEnterPassword": "Repeat your password",
+  "enterCurrentPassword": "Enter your current password",
+  "enterNewPassword": "Enter your new password",
 
   "website": "Website",
   "contactUs": "Contact Us",
