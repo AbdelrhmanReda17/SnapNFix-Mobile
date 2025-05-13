@@ -9,7 +9,6 @@ import 'package:snapnfix/modules/settings/presentation/widgets/change_password/c
 import 'package:snapnfix/modules/settings/presentation/widgets/change_password/change_password_form.dart';
 import 'package:snapnfix/presentation/components/application_system_ui_overlay.dart';
 
-// TODO: Validate password fields and show error messages if they don't match or don't meet the requirements.
 class ChangePassword extends StatelessWidget {
   const ChangePassword({super.key});
 

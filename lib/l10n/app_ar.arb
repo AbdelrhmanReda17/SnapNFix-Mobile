@@ -173,6 +173,11 @@
   "enterLastName": "أدخل اسم عائلتك",
   "enterPassword": "أدخل كلمة المرور",
   "reEnterPassword": "أعد إدخال كلمة المرور",
+  "enterCurrentPassword": "أدخل كلمة المرور الحالية",
+  "enterNewPassword": "أدخل كلمة المرور الجديدة",
+  "enterName": "أدخل اسمك",
+  "selectGender": "اختر الجنس (اختياري)",
+  "selectDateOfBirth": "اختر تاريخ الميلاد (اختياري)",
 
   "website": "الموقع الإلكتروني",
   "contactUs": "اتصل بنا",

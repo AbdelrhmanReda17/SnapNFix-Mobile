@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:snapnfix/core/base_components/base_password_text_field.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:snapnfix/core/utils/extensions/validations.dart';
 import 'package:snapnfix/core/utils/helpers/spacing.dart';
 import 'package:snapnfix/modules/settings/presentation/cubits/change_password_cubit.dart';
 
@@ -10,26 +11,47 @@ class ChangePasswordForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final cubit = context.read<ChangePasswordCubit>();
+    final localization = AppLocalizations.of(context)!;
+
     return Form(
-      key: context.read<ChangePasswordCubit>().formKey,
+      key: cubit.formKey,
       child: Column(
         children: [
           BasePasswordTextField(
-            text: AppLocalizations.of(context)!.currentPassword,
-            onChanged: (context.read<ChangePasswordCubit>().setOldPassword),
+            text: localization.currentPassword,
+            hintText: localization.enterCurrentPassword,
+            onChanged: cubit.setOldPassword,
             validator:
                 (value) =>
-                    value!.isNotEmpty ? null : AppLocalizations.of(context)!.currentPasswordRequired,
+                    value!.isNotEmpty
+                        ? null
+                        : localization.currentPasswordRequired,
           ),
           verticalSpace(20),
           BasePasswordTextField(
             text: AppLocalizations.of(context)!.newPassword,
-            onChanged: (context.read<ChangePasswordCubit>().setNewPassword),
+            hintText: localization.enterNewPassword,
+            onChanged: (cubit.setNewPassword),
+            validator:
+                (value) =>
+                    value!.isNotEmpty
+                        ? value.isValidPassword
+                            ? null
+                            : localization.passwordError
+                        : localization.passwordRequired,
           ),
           verticalSpace(20),
           BasePasswordTextField(
-            text: AppLocalizations.of(context)!.repeatPassword,
-            onChanged: (context.read<ChangePasswordCubit>().setConfirmPassword),
+            text: localization.repeatPassword,
+            hintText: localization.reEnterPassword,
+            onChanged: (cubit.setConfirmPassword),
+            validator: (value) =>
+                        value!.isNotEmpty
+                            ? value.isValidConfirmPassword(cubit.newPassword)
+                                ? null
+                                : localization.passwordsDoNotMatch
+                            : localization.confirmPasswordRequired,
           ),
         ],
       ),
