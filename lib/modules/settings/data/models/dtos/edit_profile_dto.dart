@@ -7,6 +7,7 @@ part 'edit_profile_dto.g.dart';
 class EditProfileDTO {
   final String? name;
   final String? phoneNumber;
+  final String? email;
   final String? gender;
   final DateTime? dateOfBirth;
 
@@ -16,6 +17,7 @@ class EditProfileDTO {
   EditProfileDTO({
     this.name,
     this.phoneNumber,
+    this.email,
     this.gender,
     this.dateOfBirth,
     this.profileImage,

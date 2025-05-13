@@ -22,6 +22,10 @@ extension Validations on String {
     return password == confirmPassword;
   }
 
+  bool _validateChangePassword(String oldPassword, String newPassword) {
+    return oldPassword != newPassword;
+  }
+
   bool _validateName(String fullName) {
     const fullNamePattern = r'^[a-zA-Z]{3,}$';
     final RegExp fullNameRegex = RegExp(fullNamePattern);
@@ -34,6 +38,8 @@ extension Validations on String {
   bool get isValidName => _validateName(this);
   bool isValidConfirmPassword(String confirmPassword) =>
       _validateConfirmPassword(this, confirmPassword);
+  bool isValidChangePassword(String oldPassword) => 
+      _validateChangePassword(oldPassword, this);
 
   bool get isValidEmailOrPhone => isValidEmail || isValidPhoneNumber;
 

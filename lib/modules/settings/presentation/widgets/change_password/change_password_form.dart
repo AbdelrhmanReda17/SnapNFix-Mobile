@@ -32,14 +32,23 @@ class ChangePasswordForm extends StatelessWidget {
           BasePasswordTextField(
             text: AppLocalizations.of(context)!.newPassword,
             hintText: localization.enterNewPassword,
-            onChanged: (cubit.setNewPassword),
-            validator:
-                (value) =>
-                    value!.isNotEmpty
-                        ? value.isValidPassword
-                            ? null
-                            : localization.passwordError
-                        : localization.passwordRequired,
+            onChanged: (value) {
+              cubit.setNewPassword;
+              cubit.formKey.currentState!.validate();
+            },
+            validator: (value) {
+              if (value!.isEmpty) {
+                return localization.passwordRequired;
+              }
+              if (!value.isValidPassword) {
+                return localization.passwordError;
+              }
+              // Check that new password is different from old password
+              if (value == cubit.oldPassword) {
+                return localization.newPasswordMustBeDifferent;
+              }
+              return null;
+            },
           ),
           verticalSpace(20),
           BasePasswordTextField(

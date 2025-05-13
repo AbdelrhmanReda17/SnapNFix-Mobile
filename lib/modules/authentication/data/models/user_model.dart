@@ -10,7 +10,7 @@ class UserModel extends User {
     super.id,
     super.firstName,
     super.lastName,
-    required super.phoneNumber,
+    super.phoneNumber,
     super.email,
     super.profileImage,
     super.dateOfBirth,
@@ -24,8 +24,7 @@ class UserModel extends User {
 
   factory UserModel.unverified({
     required String id,
-    required String phoneNumber,
-  }) => UserModel(phoneNumber: phoneNumber);
+  }) => UserModel();
 
   UserModel copyWithVerification() => UserModel(
     id: id,

@@ -10,7 +10,7 @@ UserModel _$UserModelFromJson(Map<String, dynamic> json) => UserModel(
   id: json['id'] as String?,
   firstName: json['firstName'] as String?,
   lastName: json['lastName'] as String?,
-  phoneNumber: json['phoneNumber'] as String,
+  phoneNumber: json['phoneNumber'] as String?,
   email: json['email'] as String?,
   profileImage: json['profileImage'] as String?,
   dateOfBirth:
