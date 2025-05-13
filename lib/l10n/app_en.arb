@@ -403,6 +403,42 @@
 
   "spottedIssue": "Spotted an Urban issue?",
   "helpUsImprove": "Help us improve the city! Report any road issues,\nfrom potholes ,manholes and garbage, right here.",
-  "reportNow": "REPORT NOW"
+  "reportNow": "REPORT NOW",
 
+  "number1": "1",
+  "@number1": {
+    "description": "Number 1"
+  },
+  "number2": "2",
+  "@number2": {
+    "description": "Number 2"
+  },
+  "number3": "3",
+  "@number3": {
+    "description": "Number 3"
+  },
+  "number4": "4",
+  "@number4": {
+    "description": "Number 4"
+  },
+  "number5": "5",
+  "@number5": {
+    "description": "Number 5"
+  },
+  "number6": "6",
+  "@number6": {
+    "description": "Number 6"
+  },
+  "number7": "7",
+  "@number7": {
+    "description": "Number 7"
+  },
+  "number8": "8",
+  "@number8": {
+    "description": "Number 8"
+  },
+  "number9": "9",
+  "@number9": {
+    "description": "Number 9"
+  }
 }

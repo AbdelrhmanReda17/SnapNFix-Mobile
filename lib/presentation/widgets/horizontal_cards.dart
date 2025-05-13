@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:snapnfix/core/utils/helpers/number_formatter.dart';
 import 'package:snapnfix/core/utils/helpers/spacing.dart';
 import 'package:snapnfix/presentation/navigation/routes.dart';
 import 'package:snapnfix/presentation/widgets/home_card.dart';
@@ -22,7 +23,7 @@ class HorizontalCards extends StatelessWidget {
         children: [
           CustomCard(
             title: localization.loyaltyPoints,
-            mainValue: "850",
+            mainValue: NumberFormatter.localizeNumber(850, localization),
             valueSuffix: localization.points,
             description: localization.earnMorePointsDescription,
             buttonText: localization.claim,
@@ -36,7 +37,7 @@ class HorizontalCards extends StatelessWidget {
           horizontalSpace(12),
           CustomCard(
             title: localization.pendingReports,
-            mainValue: "3",
+            mainValue: NumberFormatter.localizeNumber(3, localization),
             valueSuffix: localization.reports,
             description: localization.issuesBeingReviewed,
             buttonText: localization.viewDetails,
@@ -46,7 +47,7 @@ class HorizontalCards extends StatelessWidget {
           horizontalSpace(12),
           CustomCard(
             title: localization.resolvedReports,
-            mainValue: "7",
+            mainValue: NumberFormatter.localizeNumber(7, localization),
             valueSuffix: localization.reports,
             description: localization.madeDifference,
             buttonText: localization.viewDetails,

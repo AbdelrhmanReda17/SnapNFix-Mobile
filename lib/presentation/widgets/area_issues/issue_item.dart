@@ -2,19 +2,24 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:snapnfix/modules/issues/domain/entities/issue.dart';
 import 'package:intl/intl.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:snapnfix/core/utils/helpers/number_formatter.dart';
 
 class IssueItem extends StatelessWidget {
   final Issue issue;
-  final VoidCallback onTap;
+  final VoidCallback? onTap;
 
   const IssueItem({
     super.key,
     required this.issue,
-    required this.onTap,
+    this.onTap,
   });
+
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
+    final localization = AppLocalizations.of(context)!;
+
     return InkWell(
       onTap: onTap,
       child: Padding(
@@ -40,7 +45,7 @@ class IssueItem extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Issue #${issue.id}',
+                    'Issue #${NumberFormatter.localizeNumber(issue.id, localization)}',
                     style: TextStyle(
                       fontSize: 15.sp,
                       fontWeight: FontWeight.w600,

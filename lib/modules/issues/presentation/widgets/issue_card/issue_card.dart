@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:snapnfix/core/base_components/base_button.dart';
 import 'package:snapnfix/modules/issues/domain/entities/issue.dart';
 import 'package:snapnfix/modules/issues/presentation/widgets/issue_card/issue_detail_item.dart';
@@ -23,6 +24,7 @@ class IssueCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final localization = AppLocalizations.of(context)!;
 
     return Card(
       margin: EdgeInsets.only(bottom: 8.h),
@@ -60,7 +62,7 @@ class IssueCard extends StatelessWidget {
                       Expanded(
                         child: IssueDetailItem(
                           icon: Icons.report_problem_outlined,
-                          text: '${issue.reportsCount} Reports',
+                          text: localization.issueReportsNum(issue.reportsCount),
                           color: theme.colorScheme.secondary,
                         ),
                       ),
@@ -72,7 +74,7 @@ class IssueCard extends StatelessWidget {
                       width: double.infinity,
                       child: BaseButton(
                         onPressed: onReportTap,
-                        text: 'Fast Report',
+                        text: localization.reportNow,
                         backgroundColor: theme.colorScheme.primary,
                         textStyle: TextStyle(
                           fontSize: 16.sp,

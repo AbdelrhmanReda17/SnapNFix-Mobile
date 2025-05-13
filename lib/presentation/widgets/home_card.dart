@@ -122,8 +122,8 @@ class CustomCard extends StatelessWidget {
             ),
             if (imageAsset != null)
               Positioned(
-                right: 0,
-                top: 0,
+                // right: 0,
+                // top: 0,
                 child: Transform.translate(
                   offset: imageOffset ?? Offset.zero,
                   child: Image.asset(

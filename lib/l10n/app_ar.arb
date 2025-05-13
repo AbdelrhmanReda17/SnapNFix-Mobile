@@ -403,6 +403,42 @@
 
   "spottedIssue": "هل لاحظت مشكلة حضرية؟",
   "helpUsImprove": "ساعدنا في تحسين المدينة! أبلغ عن أي مشكلة في الطريق،\nمن الحفر والمجاري والقمامة، من هنا.",
-  "reportNow": "أبلغ الآن"
+  "reportNow": "أبلغ الآن",
 
+  "number1": "١",
+  "@number1": {
+    "description": "Number 1"
+  },
+  "number2": "٢",
+  "@number2": {
+    "description": "Number 2"
+  },
+  "number3": "٣",
+  "@number3": {
+    "description": "Number 3"
+  },
+  "number4": "٤",
+  "@number4": {
+    "description": "Number 4"
+  },
+  "number5": "٥",
+  "@number5": {
+    "description": "Number 5"
+  },
+  "number6": "٦",
+  "@number6": {
+    "description": "Number 6"
+  },
+  "number7": "٧",
+  "@number7": {
+    "description": "Number 7"
+  },
+  "number8": "٨",
+  "@number8": {
+    "description": "Number 8"
+  },
+  "number9": "٩",
+  "@number9": {
+    "description": "Number 9"
+  }
 }
