@@ -10,6 +10,7 @@ EditProfileDTO _$EditProfileDTOFromJson(Map<String, dynamic> json) =>
     EditProfileDTO(
       name: json['name'] as String?,
       phoneNumber: json['phoneNumber'] as String?,
+      email: json['email'] as String?,
       gender: json['gender'] as String?,
       dateOfBirth:
           json['dateOfBirth'] == null
@@ -21,6 +22,7 @@ Map<String, dynamic> _$EditProfileDTOToJson(EditProfileDTO instance) =>
     <String, dynamic>{
       'name': instance.name,
       'phoneNumber': instance.phoneNumber,
+      'email': instance.email,
       'gender': instance.gender,
       'dateOfBirth': instance.dateOfBirth?.toIso8601String(),
     };

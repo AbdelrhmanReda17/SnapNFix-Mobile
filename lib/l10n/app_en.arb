@@ -99,6 +99,7 @@
   "passwordChangedSuccess": "Password changed successfully",
   "passwordChangeFailed": "Failed to change password",
   "currentPasswordRequired": " Current password is required",
+  "newPasswordMustBeDifferent": "New password must be different from current password",
 
   "editProfile": "Edit Profile",
   "name": "Name",

@@ -96,6 +96,7 @@
   "passwordChangedSuccess": "تم تغيير كلمة المرور بنجاح",
   "passwordChangeFailed": "فشل تغيير كلمة المرور",
   "currentPasswordRequired": "كلمة المرور الحالية مطلوبة",
+  "newPasswordMustBeDifferent": "يجب أن تكون كلمة المرور الجديدة مختلفة عن كلمة المرور الحالية",
 
   "editProfile": "تعديل الملف الشخصي",
   "name": "الاسم",

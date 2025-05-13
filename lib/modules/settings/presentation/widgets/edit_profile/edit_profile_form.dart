@@ -37,7 +37,22 @@ class EditProfileForm extends StatelessWidget {
                 initialValue: cubit.name,
               ),
               verticalSpace(20),
-              BaseTextField(
+
+
+              if (cubit.isEmailRegistered)
+                BaseTextField(
+                  key: ValueKey('email_$resetCount'),
+                  labelText: localization.email,
+                  initialValue: cubit.email,
+                  inputTextStyle: textStyles.bodyMedium?.copyWith(
+                  color: colorScheme.primary.withValues(alpha: 0.3),
+                  fontSize: 16.sp,
+                  ),
+                  enabled: false,
+                  readOnly: true,
+                )
+              else
+                BaseTextField(
                 key: ValueKey('phone_$resetCount'),
                 labelText: localization.phoneNumber,
                 hintText: localization.enterPhoneNumber,
@@ -49,6 +64,8 @@ class EditProfileForm extends StatelessWidget {
                 enabled: false,
                 readOnly: true,
               ),
+
+
               verticalSpace(20),
               BaseDropdownField<UserGender>(
                 key: ValueKey('gender_$resetCount'),

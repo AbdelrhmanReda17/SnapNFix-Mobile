@@ -5,7 +5,7 @@ class User extends Equatable {
   final String? id;
   final String? firstName;
   final String? lastName;
-  final String phoneNumber;
+  final String? phoneNumber;
   final String? email;
   final String? profileImage;
   final DateTime? dateOfBirth;
@@ -15,7 +15,7 @@ class User extends Equatable {
     required this.id,
     this.firstName,
     this.lastName,
-    required this.phoneNumber,
+    this.phoneNumber,
     this.email,
     this.profileImage,
     this.dateOfBirth,

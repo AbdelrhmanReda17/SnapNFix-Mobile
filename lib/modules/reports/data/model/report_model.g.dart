@@ -15,11 +15,11 @@ ReportModel _$ReportModelFromJson(Map<String, dynamic> json) => ReportModel(
       $enumDecodeNullable(_$ReportSeverityEnumMap, json['severity']) ??
       ReportSeverity.low,
   createdAt:
-      json['created_at'] == null
+      json['createdAt'] == null
           ? null
-          : DateTime.parse(json['created_at'] as String),
-  image: const FileConverter().fromJson(json['image'] as String?) ?? File(''),
-  issueId: json['issue_id'] as String?,
+          : DateTime.parse(json['createdAt'] as String),
+  imagePath: json['imagePath'] as String,
+  issueId: json['issueId'] as String?,
   category: json['category'] as String?,
   status:
       $enumDecodeNullable(_$ReportStatusEnumMap, json['status']) ??
@@ -29,15 +29,15 @@ ReportModel _$ReportModelFromJson(Map<String, dynamic> json) => ReportModel(
 Map<String, dynamic> _$ReportModelToJson(ReportModel instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'issue_id': instance.issueId,
+      'issueId': instance.issueId,
       'details': instance.details,
       'latitude': instance.latitude,
       'longitude': instance.longitude,
-      'image': const FileConverter().toJson(instance.image),
-      'created_at': instance.createdAt?.toIso8601String(),
+      'createdAt': instance.createdAt?.toIso8601String(),
+      'imagePath': instance.imagePath,
       'category': instance.category,
       'severity': _$ReportSeverityEnumMap[instance.severity],
-      'status': _$ReportStatusEnumMap[instance.status]!,
+      'status': _$ReportStatusEnumMap[instance.status],
     };
 
 const _$ReportSeverityEnumMap = {

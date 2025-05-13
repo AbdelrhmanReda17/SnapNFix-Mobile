@@ -116,6 +116,8 @@ import '../../modules/settings/presentation/cubits/edit_profile_cubit.dart'
 import '../config/application_configurations.dart' as _i420;
 import '../infrastructure/connectivity/connectivity_service.dart' as _i1041;
 import '../infrastructure/device_info/device_info_service.dart' as _i871;
+import '../infrastructure/location/di/location_module.dart' as _i699;
+import '../infrastructure/location/location_permission_handler.dart' as _i658;
 import '../infrastructure/location/location_service.dart' as _i636;
 import '../infrastructure/networking/api_service.dart' as _i666;
 import '../infrastructure/storage/secure_storage_service.dart' as _i783;
@@ -136,6 +138,7 @@ extension GetItInjectableX on _i174.GetIt {
     final settingsDataModule = _$SettingsDataModule();
     final settingsRepositoryModule = _$SettingsRepositoryModule();
     final reportsRepositoryModule = _$ReportsRepositoryModule();
+    final locationModule = _$LocationModule();
     final reportsUsecaseModule = _$ReportsUsecaseModule();
     final reportsPresentationModule = _$ReportsPresentationModule();
     final settingsUsecaseModule = _$SettingsUsecaseModule();
@@ -212,6 +215,11 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i560.BaseReportLocalDataSource>(),
         gh<_i24.BaseReportRemoteDataSource>(),
         gh<_i1041.ConnectivityService>(),
+      ),
+    );
+    gh.lazySingleton<_i658.LocationPermissionHandler>(
+      () => locationModule.provideLocationPermissionHandler(
+        gh<_i636.LocationService>(),
       ),
     );
     gh.lazySingleton<_i628.SubmitReportUseCase>(
@@ -399,6 +407,8 @@ class _$SettingsDataModule extends _i993.SettingsDataModule {}
 class _$SettingsRepositoryModule extends _i606.SettingsRepositoryModule {}
 
 class _$ReportsRepositoryModule extends _i717.ReportsRepositoryModule {}
+
+class _$LocationModule extends _i699.LocationModule {}
 
 class _$ReportsUsecaseModule extends _i873.ReportsUsecaseModule {}
 

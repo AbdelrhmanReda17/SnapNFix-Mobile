@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'package:snapnfix/core/infrastructure/networking/api_error_model.dart';
 import 'package:snapnfix/core/infrastructure/networking/api_result.dart';
 import 'package:snapnfix/modules/reports/data/model/report_model.dart';
@@ -37,7 +36,7 @@ class SubmitReportUseCase {
         longitude: longitude,
         severity: severity,
         createdAt: DateTime.now(),
-        image: File(imagePath),
+        imagePath: imagePath,
         category: category,
       );
 

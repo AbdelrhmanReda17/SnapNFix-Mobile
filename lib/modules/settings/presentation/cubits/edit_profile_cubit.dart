@@ -27,18 +27,20 @@ class EditProfileCubit extends Cubit<EditProfileState> {
   final formKey = GlobalKey<FormState>();
 
   String name = "";
-  String phoneNumber = "";
+  String? phoneNumber = "";
+  String? email = "";
   UserGender? selectedGender;
   DateTime? selectedDate;
   final profileImage = ValueNotifier<File?>(null);
-
   bool _valuesModified = false;
   final resetCounter = ValueNotifier<int>(0);
-
   final _imagePicker = ImagePicker();
+
+  bool get isEmailRegistered => _currentUser.email != null && _currentUser.email!.isNotEmpty;
 
   void initializeUserData() {
     name = "${_currentUser.firstName} ${_currentUser.lastName}";
+    email = _currentUser.email;
     phoneNumber = _currentUser.phoneNumber;
     selectedGender = _currentUser.gender;
     selectedDate = _currentUser.dateOfBirth;
@@ -101,7 +103,8 @@ class EditProfileCubit extends Cubit<EditProfileState> {
       final response = await _editProfileUseCase(
         EditProfileDTO(
           name: name,
-          phoneNumber: phoneNumber,
+          phoneNumber: isEmailRegistered ? null : phoneNumber,
+          email: isEmailRegistered ? email : null,
           gender: selectedGender?.displayName,
           dateOfBirth: selectedDate,
           profileImage: profileImage.value,

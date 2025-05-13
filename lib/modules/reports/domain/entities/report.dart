@@ -1,16 +1,17 @@
 import 'dart:io';
+import 'package:equatable/equatable.dart';
 import 'package:snapnfix/modules/reports/domain/entities/report_severity.dart';
 import 'package:snapnfix/modules/reports/domain/entities/report_status.dart';
 import 'package:geocoding/geocoding.dart';
 
-class Report {
+class Report extends Equatable {
   final String? id;
   final String? issueId;
   final String? details;
   final double latitude;
   final double longitude;
   final DateTime? createdAt;
-  final File image;
+  final String imagePath;
   final String? category;
   final ReportSeverity? severity;
   final ReportStatus? status;
@@ -21,12 +22,13 @@ class Report {
     required this.latitude,
     required this.longitude,
     this.createdAt,
-    required this.image,
+    required this.imagePath,
     this.category,
     this.severity = ReportSeverity.low,
     this.status = ReportStatus.pending,
   });
 
+  File get image => File(imagePath);
 
   bool get isVerified => status == ReportStatus.verified;
   bool get isPending => status == ReportStatus.pending;
@@ -78,4 +80,18 @@ class Report {
       return '$latitude $longitude';
     }
   }
+  
+  @override
+  List<Object?> get props => [
+    id, 
+    issueId,
+    details,
+    latitude,
+    longitude,
+    createdAt,
+    image,
+    category,
+    severity,
+    status
+  ];
 }
