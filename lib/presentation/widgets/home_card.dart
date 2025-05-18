@@ -5,7 +5,7 @@ import 'package:snapnfix/core/utils/helpers/spacing.dart';
 class CustomCard extends StatelessWidget {
   final String title;
   final String mainValue;
-  final String valueSuffix; // New parameter for the suffix text
+  final String valueSuffix;
   final String description;
   final String buttonText;
   final VoidCallback? onButtonPressed;
@@ -120,12 +120,18 @@ class CustomCard extends StatelessWidget {
                   ),
               ],
             ),
-            if (imageAsset != null)
+                        if (imageAsset != null)
               Positioned(
-                // right: 0,
-                // top: 0,
+                right: Directionality.of(context) == TextDirection.ltr ? null : 0,
+                left: Directionality.of(context) == TextDirection.ltr ? 200 : null,
+                top: 0,
                 child: Transform.translate(
-                  offset: imageOffset ?? Offset.zero,
+                  offset: Directionality.of(context) == TextDirection.ltr
+                      ? (imageOffset ?? Offset.zero)
+                      : Offset(
+                          (imageOffset?.dx ?? 0) * 22,
+                          imageOffset?.dy ?? 0,
+                        ),
                   child: Image.asset(
                     imageAsset!,
                     width: imageWidth ?? 70.w,

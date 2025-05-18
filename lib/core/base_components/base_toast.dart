@@ -14,7 +14,7 @@ class BaseToast {
     double? bottomMargin,
   }) {
     final screenWidth = MediaQuery.of(context).size.width;
-    final messageWidth = width ?? screenWidth * 0.5;
+    final messageWidth = width ?? screenWidth * 0.65; // Increase default width
 
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
@@ -32,14 +32,13 @@ class BaseToast {
           children: [
             _getIconForToastType(type),
             horizontalSpace(8),
-            Text(
-              maxLines: 1,
-              textWidthBasis: TextWidthBasis.longestLine,
-              overflow: TextOverflow.ellipsis,
-              softWrap: false,
-              textAlign: TextAlign.start,
-              ' ${message.length > 23 ? "${message.substring(0, 20)}..." : message}',
-              style: TextStyle(fontSize: 13.sp, color: Colors.white),
+            Flexible( // Add Flexible to constrain the text
+              child: Text(
+                message,  // Don't truncate manually
+                maxLines: 2, // Allow 2 lines for longer messages
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(fontSize: 13.sp, color: Colors.white),
+              ),
             ),
           ],
         ),
