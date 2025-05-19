@@ -74,4 +74,12 @@ abstract class ApiService {
     @Part(name: 'Longitude') required double longitude,
     @Part(name: 'Comment') required String comment,
   });
+
+  @GET(ApiConstants.userReports)
+  Future<BaseResponse<List<dynamic>>> getUserReports({
+    @Query("Status") String? status,
+    @Query("Category") String? category,
+    @Query("PageNumber") required int page,
+    @Query("PageSize") required int limit,
+  });
 }

@@ -1,5 +1,5 @@
 import 'package:injectable/injectable.dart';
-import 'package:snapnfix/modules/reports/domain/repositories/base_report_repository.dart';
+import 'package:snapnfix/modules/reports/domain/usecases/get_user_reports_use_case.dart';
 import 'package:snapnfix/modules/reports/domain/usecases/submit_report_use_case.dart';
 import 'package:snapnfix/modules/reports/presentation/cubits/report_review_cubit.dart';
 import 'package:snapnfix/modules/reports/presentation/cubits/submit_report_cubit.dart';
@@ -12,6 +12,7 @@ abstract class ReportsPresentationModule {
   ) => SubmitReportCubit(submitReportUseCase);
 
   @factoryMethod
-  ReportReviewCubit provideReportReviewCubit(BaseReportRepository repository) =>
-      ReportReviewCubit(repository);
+  ReportReviewCubit provideReportReviewCubit(
+    GetUserReportsUseCase getUserReportsUseCase,
+  ) => ReportReviewCubit(getUserReportsUseCase);
 }

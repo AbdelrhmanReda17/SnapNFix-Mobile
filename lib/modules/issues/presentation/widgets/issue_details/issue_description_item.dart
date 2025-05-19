@@ -80,15 +80,15 @@ class IssueDescriptionItem extends StatelessWidget {
     final localization = AppLocalizations.of(context)!;
 
     if (difference.inDays > 365) {
-      return '${(difference.inDays / 365).floor()} ${(difference.inDays / 365).floor() == 1 ? '${localization.year}' : '${localization.years}'} ${localization.ago}';
+      return '${(difference.inDays / 365).floor()} ${(difference.inDays / 365).floor() == 1 ? localization.year : localization.years} ${localization.ago}';
     } else if (difference.inDays > 30) {
-      return '${(difference.inDays / 30).floor()} ${(difference.inDays / 30).floor() == 1 ? '${localization.month}' : '${localization.months}'} ${localization.ago}';
+      return '${(difference.inDays / 30).floor()} ${(difference.inDays / 30).floor() == 1 ? localization.month : localization.months} ${localization.ago}';
     } else if (difference.inDays > 0) {
-      return '${difference.inDays} ${difference.inDays == 1 ? '${localization.day}' : '${localization.days}'} ${localization.ago}';
+      return '${difference.inDays} ${difference.inDays == 1 ? localization.day : localization.days} ${localization.ago}';
     } else if (difference.inHours > 0) {
-      return '${difference.inHours} ${difference.inHours == 1 ? '${localization.hour}' : '${localization.hours}'} ${localization.ago}';
+      return '${difference.inHours} ${difference.inHours == 1 ? localization.hour : localization.hours} ${localization.ago}';
     } else if (difference.inMinutes > 0) {
-      return '${difference.inMinutes} ${difference.inMinutes == 1 ? '${localization.minute}' : '${localization.minutes}'} ${localization.ago}';
+      return '${difference.inMinutes} ${difference.inMinutes == 1 ? localization.minute : localization.minutes} ${localization.ago}';
     } else {
       return localization.justNow;
     }

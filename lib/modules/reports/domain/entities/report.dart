@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:equatable/equatable.dart';
+import 'package:snapnfix/core/utils/helpers/image_builder.dart';
 import 'package:snapnfix/modules/reports/domain/entities/report_severity.dart';
 import 'package:snapnfix/modules/reports/domain/entities/report_status.dart';
 import 'package:geocoding/geocoding.dart';
@@ -29,6 +30,7 @@ class Report extends Equatable {
   });
 
   File get image => File(imagePath);
+  bool get hasValidImagePath => ImageBuilder.isValidImagePath(imagePath);
 
   bool get isVerified => status == ReportStatus.verified;
   bool get isPending => status == ReportStatus.pending;
@@ -89,7 +91,7 @@ class Report extends Equatable {
     latitude,
     longitude,
     createdAt,
-    image,
+    imagePath,
     category,
     severity,
     status

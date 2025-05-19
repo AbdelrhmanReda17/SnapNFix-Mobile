@@ -40,11 +40,11 @@ class ReportModel extends Report {
   }) {
     return ReportModel(
       id: id,
-      details: details,
+      details: details ?? '',
       latitude: latitude,
       longitude: longitude,
       severity: severity,
-      createdAt: createdAt,
+      createdAt: createdAt ?? DateTime.now(),
       imagePath: image.path, // Store the path as a String
       issueId: issueId,
       category: category,

@@ -53,6 +53,7 @@ class SubmitPhotoPicker extends StatelessWidget {
             borderRadius: BorderRadius.circular(12),
           ),
           child: BlocBuilder<SubmitReportCubit, SubmitReportState>(
+            buildWhen: (previous, current) => previous.image != current.image,
             builder: (context, state) {
               final image = state.image;
               return image == null

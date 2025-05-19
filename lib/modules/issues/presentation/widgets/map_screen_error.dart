@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:snapnfix/core/base_components/base_button.dart';
 import 'package:snapnfix/core/utils/helpers/spacing.dart';
 
@@ -49,7 +50,7 @@ class MapScreenError extends StatelessWidget {
           ),
           verticalSpace(24),
           SizedBox(
-            width: MediaQuery.of(context).size.width * 0.5,
+            width: 0.5.sw,
             child: BaseButton(
               onPressed: onActionPressed,
               text: actionText ?? _getDefaultActionText(localization),

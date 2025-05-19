@@ -13,8 +13,8 @@ class BaseToast {
     double? width,
     double? bottomMargin,
   }) {
-    final screenWidth = MediaQuery.of(context).size.width;
-    final messageWidth = width ?? screenWidth * 0.5;
+    final screenWidth = 1.sw;
+    final messageWidth = width ?? 0.5.sw;
 
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
