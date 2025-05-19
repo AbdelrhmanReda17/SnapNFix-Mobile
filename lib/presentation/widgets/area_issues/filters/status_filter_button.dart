@@ -19,8 +19,8 @@ class StatusFilterButton extends StatelessWidget {
     return PopupMenuButton<IssueStatus?>(
       icon: Icon(
         Icons.filter_list,
-        color: selectedStatuses.isEmpty 
-            ? colorScheme.primary 
+        color: selectedStatuses.isEmpty
+            ? colorScheme.primary
             : colorScheme.primary.withOpacity(0.5),
         size: 22.sp,
       ),

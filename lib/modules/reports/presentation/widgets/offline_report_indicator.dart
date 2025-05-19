@@ -61,20 +61,15 @@ class _OfflineReportIndicatorState extends State<OfflineReportIndicator> {
 
   Future<void> _syncReports() async {
     if (_isSyncing) return;
-    
     if (!mounted) return;  // Add this check
     setState(() {
       _isSyncing = true;
     });
-    
     final syncPendingReports = getIt<SyncPendingReportsUseCase>();
 
     try {
       final result = await syncPendingReports.call();
-      
-      // Check if still mounted after the async operation
       if (!mounted) return;
-      
       result.when(
         success: (bool result) {
           if (mounted) {

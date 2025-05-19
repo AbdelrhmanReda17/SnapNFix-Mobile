@@ -116,7 +116,6 @@ class HomeHeader extends StatelessWidget {
         ),
         Positioned(
           top: 16.h,
-          // Use directional positioning
           right: Directionality.of(context) == TextDirection.ltr ? 8.w : null,
           left: Directionality.of(context) == TextDirection.ltr ? null : 8.w,
           child: Row(

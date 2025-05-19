@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:snapnfix/core/utils/helpers/spacing.dart';
-
 enum ToastType { info, success, error, warning }
-
 class BaseToast {
   static void show({
     required BuildContext context,
@@ -14,8 +12,7 @@ class BaseToast {
     double? bottomMargin,
   }) {
     final screenWidth = MediaQuery.of(context).size.width;
-    final messageWidth = width ?? screenWidth * 0.65; // Increase default width
-
+    final messageWidth = width ?? screenWidth * 0.65;
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         behavior: SnackBarBehavior.floating,
@@ -32,10 +29,10 @@ class BaseToast {
           children: [
             _getIconForToastType(type),
             horizontalSpace(8),
-            Flexible( // Add Flexible to constrain the text
+            Flexible(
               child: Text(
-                message,  // Don't truncate manually
-                maxLines: 2, // Allow 2 lines for longer messages
+                message,
+                maxLines: 2,
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(fontSize: 13.sp, color: Colors.white),
               ),
@@ -47,7 +44,6 @@ class BaseToast {
       ),
     );
   }
-
   static Color _getColorForToastType(ToastType type) {
     switch (type) {
       case ToastType.info:
@@ -60,7 +56,6 @@ class BaseToast {
         return Colors.orange;
     }
   }
-
   static Widget _getIconForToastType(ToastType type) {
     IconData iconData;
     switch (type) {
@@ -77,7 +72,6 @@ class BaseToast {
         iconData = Icons.warning_amber_outlined;
         break;
     }
-
     return Icon(iconData, color: Colors.white, size: 18.sp);
   }
 }
