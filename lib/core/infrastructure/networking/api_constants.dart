@@ -1,5 +1,5 @@
 class ApiConstants {
-  static const String apiBaseUrl = "https://snapnfix-backend.onrender.com/";
+  static const String apiBaseUrl = "https://snapnfix-backend-c6fjftasehgmewcm.uaenorth-01.azurewebsites.net/";
   static const String login = "api/auth/login";
   static const String completeProfile = "api/auth/register";
   static const String requestOTP = "api/auth/verify-phone/request-otp";

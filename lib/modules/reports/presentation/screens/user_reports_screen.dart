@@ -21,8 +21,6 @@ class _UserReportsScreenState extends State<UserReportsScreen> {
   @override
   void initState() {
     super.initState();
-
-    // Use post-frame callback to ensure the widget is fully built
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (mounted) {
         debugPrint('🚀 Triggering reports load from UserReportsScreen');
