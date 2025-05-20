@@ -8,14 +8,11 @@ import 'package:snapnfix/core/infrastructure/connectivity/connectivity_service.d
 import 'package:snapnfix/modules/reports/domain/usecases/get_pending_reports_count_use_case.dart';
 import 'package:snapnfix/modules/reports/domain/usecases/sync_prending_reports_use_case.dart';
 import 'package:snapnfix/modules/reports/domain/usecases/watch_pending_reports_count_use_case.dart';
-
 class OfflineReportIndicator extends StatefulWidget {
   const OfflineReportIndicator({super.key});
-
   @override
   State<OfflineReportIndicator> createState() => _OfflineReportIndicatorState();
 }
-
 class _OfflineReportIndicatorState extends State<OfflineReportIndicator> {
   StreamSubscription? _connectivitySubscription;
   bool _isSyncing = false;
@@ -74,7 +71,6 @@ class _OfflineReportIndicatorState extends State<OfflineReportIndicator> {
 
   Future<void> _syncReports() async {
     if (_isSyncing || !mounted) return;
-
     setState(() {
       _isSyncing = true;
     });
@@ -82,9 +78,7 @@ class _OfflineReportIndicatorState extends State<OfflineReportIndicator> {
 
     try {
       final result = await syncPendingReports.call();
-      
       if (!mounted) return;
-
       result.when(
         success: (bool result) {
           if (mounted) {
@@ -152,7 +146,7 @@ class _OfflineReportIndicatorState extends State<OfflineReportIndicator> {
             children: [
               Padding(
                 padding: EdgeInsets.only(right: 8.w),
-                child: _isSyncing 
+                child: _isSyncing
                   ? SizedBox(
                       width: 24.sp,
                       height: 24.sp,

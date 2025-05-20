@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:snapnfix/core/utils/helpers/spacing.dart';
-
 enum ToastType { info, success, error, warning }
-
 class BaseToast {
   static void show({
     required BuildContext context,
@@ -15,7 +13,6 @@ class BaseToast {
   }) {
     final screenWidth = 1.sw;
     final messageWidth = width ?? 0.5.sw;
-
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         behavior: SnackBarBehavior.floating,
@@ -32,14 +29,13 @@ class BaseToast {
           children: [
             _getIconForToastType(type),
             horizontalSpace(8),
-            Text(
-              maxLines: 1,
-              textWidthBasis: TextWidthBasis.longestLine,
-              overflow: TextOverflow.ellipsis,
-              softWrap: false,
-              textAlign: TextAlign.start,
-              ' ${message.length > 23 ? "${message.substring(0, 20)}..." : message}',
-              style: TextStyle(fontSize: 13.sp, color: Colors.white),
+            Flexible(
+              child: Text(
+                message,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(fontSize: 13.sp, color: Colors.white),
+              ),
             ),
           ],
         ),
@@ -48,7 +44,6 @@ class BaseToast {
       ),
     );
   }
-
   static Color _getColorForToastType(ToastType type) {
     switch (type) {
       case ToastType.info:
@@ -61,7 +56,6 @@ class BaseToast {
         return Colors.orange;
     }
   }
-
   static Widget _getIconForToastType(ToastType type) {
     IconData iconData;
     switch (type) {
@@ -78,7 +72,6 @@ class BaseToast {
         iconData = Icons.warning_amber_outlined;
         break;
     }
-
     return Icon(iconData, color: Colors.white, size: 18.sp);
   }
 }

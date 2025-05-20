@@ -101,7 +101,7 @@ class AreaIssuesCubit extends Cubit<AreaIssuesState> {
           return issues;
         }
         
-        return issues.where((issue) => 
+        return issues.where((issue) =>
           selectedStatuses.contains(issue.status)
         ).toList();
       },

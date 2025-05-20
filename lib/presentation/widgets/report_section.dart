@@ -40,7 +40,7 @@ class ReportSection extends StatelessWidget {
           verticalSpace(8),
           Center(
             child: ElevatedButton(
-              onPressed: () => context.go(Routes.userReports),
+              onPressed: () => context.go(Routes.submitReport),
               style: ElevatedButton.styleFrom(
                 padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 6.h),
                 shape: RoundedRectangleBorder(
