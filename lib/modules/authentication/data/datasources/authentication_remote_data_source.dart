@@ -10,7 +10,10 @@ import 'package:snapnfix/modules/authentication/data/models/dtos/complete_profil
 import 'package:snapnfix/modules/authentication/data/models/dtos/login_dto.dart';
 import 'package:snapnfix/modules/authentication/data/models/dtos/reset_password_dto.dart';
 import 'package:snapnfix/modules/authentication/data/models/session_model.dart';
+import 'package:snapnfix/modules/authentication/data/models/tokens_model.dart';
+import 'package:snapnfix/modules/authentication/data/models/user_model.dart';
 import 'package:snapnfix/modules/authentication/domain/entities/authentication_result.dart';
+import 'package:snapnfix/modules/authentication/domain/entities/tokens.dart';
 
 abstract class BaseAuthenticationRemoteDataSource {
   // Login and Register
@@ -65,13 +68,29 @@ class AuthenticationRemoteDataSource
       return ApiResult.failure(ApiErrorHandler.handle(error));
     }
   }
-  
+
   @override
   Future<ApiResult<SessionModel>> login(LoginDTO loginDTO) async {
     try {
-      final updatedDTO = await _deviceInfoService.withDeviceInfo(loginDTO);
+      // final updatedDTO = await _deviceInfoService.withDeviceInfo(loginDTO);
 
-      return _handleApiCall(apiCall: () => _apiService.login(updatedDTO));
+      // return _handleApiCall(apiCall: () => _apiService.login(updatedDTO));
+
+      return ApiResult.success(
+        SessionModel(
+          user: UserModel(
+            id: "1",
+            firstName: "Test",
+            lastName: "User",
+            phoneNumber: "123456789",
+          ),
+          tokens: TokensModel(
+            accessToken: "TEST_ACCESS_TOKEN",
+            refreshToken: "TEST_REFRESH_TOKEN",
+            expiresAt: DateTime.now().add(const Duration(days: 1)),
+          ),
+        ),
+      );
     } catch (error) {
       if (ApiErrorHandler.isAuthenticationError(error)) {
         throw UnverifiedUserException(phoneNumber: loginDTO.emailOrPhoneNumber);
@@ -133,7 +152,9 @@ class AuthenticationRemoteDataSource
   Future<ApiResult<SessionModel>> completeProfile(
     CompleteProfileDTO completeProfileDTO,
   ) async {
-    final updatedDTO = await _deviceInfoService.withDeviceInfo(completeProfileDTO);
+    final updatedDTO = await _deviceInfoService.withDeviceInfo(
+      completeProfileDTO,
+    );
     return _handleApiCall(
       apiCall: () => _apiService.completeProfile(updatedDTO),
     );

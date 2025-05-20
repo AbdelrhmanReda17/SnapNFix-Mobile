@@ -46,7 +46,7 @@ class ReportRepository implements BaseReportRepository {
       final result = await _remoteDataSource.submitReport(report);
       return result.when(
         success: (data) {
-          _localDataSource.saveReportOffline(report);
+          // _localDataSource.saveReportOffline(report);
           return ApiResult.success(data);
         },
         failure: (error) {
@@ -111,6 +111,35 @@ class ReportRepository implements BaseReportRepository {
       return _localDataSource.watchPendingReports();
     } catch (e) {
       return Stream.error(ApiErrorHandler.handle(e));
+    }
+  }
+
+  @override
+  Future<ApiResult<List<ReportModel>>> getUserReports({
+    String? status,
+    String? category,
+    int page = 1,
+    int limit = 10,
+  }) async {
+    try {
+      final isConnected = await _connectivityService.isConnected();
+      if (!isConnected) {
+        return ApiResult.failure(
+          ApiErrorHandler.handle(
+            'No internet connection. Please try again later.',
+          ),
+        );
+      }
+
+      return await _remoteDataSource.getUserReports(
+        status: status,
+        category: category,
+        page: page,
+        limit: limit,
+      );
+    } catch (e) {
+      debugPrint('Error getting user reports: $e');
+      return ApiResult.failure(ApiErrorHandler.handle(e));
     }
   }
 }

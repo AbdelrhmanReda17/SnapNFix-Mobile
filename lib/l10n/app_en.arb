@@ -330,6 +330,7 @@
   "ok": "OK",
 
   "applyFilters": "Apply Filters",
+  "filters": "Fitlers",
   "clearFilters": "Clear Filters",
   "categories": "Categories",
   "filterIssues": "Filter Issues",
@@ -410,6 +411,22 @@
   "spottedIssue": "Spotted an Urban issue?",
   "helpUsImprove": "Help us improve the city! Report any road issues,\nfrom potholes ,manholes and garbage, right here.",
   "reportNow": "REPORT NOW",
+  "tryAgain": "Try Again",
+  "@tryAgain": {
+    "description": "Button text for retry actions"
+  }, 
+  "loadingReports": "Loading reports...",
+  "@loadingReports": {
+    "description": "Message shown when reports are loading"
+  },
+  "loadingMore": "Loading more reports...",
+  "@loadingMore": {
+    "description": "Message shown when loading additional reports"
+  },
+  "failedToLoadReports": "Failed to load reports",
+  "@failedToLoadReports": {
+    "description": "Error message when reports fail to load"
+  },
 
   "number1": "1",
   "@number1": {
@@ -446,5 +463,19 @@
   "number9": "9",
   "@number9": {
     "description": "Number 9"
-  }
+  },
+  "category": "Category",
+  "noReportsForFilters": "No reports match the current filters",
+  "filter": "Filter",
+  "nFiltersApplied": "{count} Filters Applied",
+  "@nFiltersApplied": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "sort": "Sort",
+  "sortByDateNewest": "Date (Newest First)",
+  "sortByDateOldest": "Date (Oldest First)"
 }

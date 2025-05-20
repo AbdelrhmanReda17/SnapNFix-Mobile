@@ -14,4 +14,5 @@ class ApiConstants {
   static const String loginWithGoogle = "api/auth/google/login";
   static const String loginWithFacebook = "api/auth/facebook/login";
   static const String createReport = "api/Reports";
+  static const String userReports = "/api/SnapReports/my-reports";
 }

@@ -87,6 +87,8 @@ import '../../modules/reports/domain/repositories/base_report_repository.dart'
     as _i515;
 import '../../modules/reports/domain/usecases/get_pending_reports_count_use_case.dart'
     as _i742;
+import '../../modules/reports/domain/usecases/get_user_reports_use_case.dart'
+    as _i412;
 import '../../modules/reports/domain/usecases/submit_report_use_case.dart'
     as _i628;
 import '../../modules/reports/domain/usecases/sync_prending_reports_use_case.dart'
@@ -140,9 +142,9 @@ extension GetItInjectableX on _i174.GetIt {
     final reportsRepositoryModule = _$ReportsRepositoryModule();
     final locationModule = _$LocationModule();
     final reportsUsecaseModule = _$ReportsUsecaseModule();
-    final reportsPresentationModule = _$ReportsPresentationModule();
     final settingsUsecaseModule = _$SettingsUsecaseModule();
     final issuesRepositoryModule = _$IssuesRepositoryModule();
+    final reportsPresentationModule = _$ReportsPresentationModule();
     final issuesUsecaseModule = _$IssuesUsecaseModule();
     final settingsPresentationModule = _$SettingsPresentationModule();
     final issuesPresentationModule = _$IssuesPresentationModule();
@@ -242,8 +244,8 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i515.BaseReportRepository>(),
       ),
     );
-    gh.factory<_i26.ReportReviewCubit>(
-      () => reportsPresentationModule.provideReportReviewCubit(
+    gh.lazySingleton<_i412.GetUserReportsUseCase>(
+      () => reportsUsecaseModule.provideGetUserReportsUseCase(
         gh<_i515.BaseReportRepository>(),
       ),
     );
@@ -319,6 +321,11 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i382.EditProfileCubit>(
       () => settingsPresentationModule.provideEditProfileCubit(
         gh<_i182.EditProfileUseCase>(),
+      ),
+    );
+    gh.factory<_i26.ReportReviewCubit>(
+      () => reportsPresentationModule.provideReportReviewCubit(
+        gh<_i412.GetUserReportsUseCase>(),
       ),
     );
     gh.singleton<_i668.BaseAuthenticationRepository>(
@@ -412,11 +419,11 @@ class _$LocationModule extends _i699.LocationModule {}
 
 class _$ReportsUsecaseModule extends _i873.ReportsUsecaseModule {}
 
-class _$ReportsPresentationModule extends _i699.ReportsPresentationModule {}
-
 class _$SettingsUsecaseModule extends _i422.SettingsUsecaseModule {}
 
 class _$IssuesRepositoryModule extends _i629.IssuesRepositoryModule {}
+
+class _$ReportsPresentationModule extends _i699.ReportsPresentationModule {}
 
 class _$IssuesUsecaseModule extends _i528.IssuesUsecaseModule {}
 

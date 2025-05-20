@@ -330,6 +330,7 @@
   "ok": "حسنًا",
 
   "applyFilters": "تطبيق التصفية",
+  "filters": "تصفية",
   "clearFilters": "مسح التصفية",
   "categories": "الفئات",
   "filterIssues": "تصفية المشكلات",
@@ -410,6 +411,22 @@
   "spottedIssue": "هل لاحظت مشكلة حضرية؟",
   "helpUsImprove": "ساعدنا في تحسين المدينة! أبلغ عن أي مشكلة في الطريق،\nمن الحفر والمجاري والقمامة، من هنا.",
   "reportNow": "أبلغ الآن",
+  "tryAgain": "حاول مرة أخرى",
+  "@tryAgain": {
+    "description": "Button text for retry actions"
+  },
+  "loadingReports": "جاري تحميل البلاغات...",
+  "@loadingReports": {
+    "description": "Message shown when reports are loading"
+  },
+  "loadingMore": "جاري تحميل المزيد من البلاغات...",
+  "@loadingMore": {
+    "description": "Message shown when loading additional reports"
+  },
+  "failedToLoadReports": "فشل في تحميل البلاغات",
+  "@failedToLoadReports": {
+    "description": "Error message when reports fail to load"
+  },
 
   "number1": "١",
   "@number1": {
@@ -446,5 +463,19 @@
   "number9": "٩",
   "@number9": {
     "description": "Number 9"
-  }
+  },
+  "category": "الفئة",
+  "noReportsForFilters": "لا توجد بلاغات تطابق المرشحات الحالية",
+  "filter": "تصفية",
+  "nFiltersApplied": "{count} تصفيات مطبقة",
+  "@nFiltersApplied": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "sort": "ترتيب",
+  "sortByDateNewest": "التاريخ (الأحدث أولاً)",
+  "sortByDateOldest": "التاريخ (الأقدم أولاً)"
 }

@@ -1,6 +1,7 @@
 import 'package:injectable/injectable.dart';
 import 'package:snapnfix/modules/reports/domain/repositories/base_report_repository.dart';
 import 'package:snapnfix/modules/reports/domain/usecases/get_pending_reports_count_use_case.dart';
+import 'package:snapnfix/modules/reports/domain/usecases/get_user_reports_use_case.dart';
 import 'package:snapnfix/modules/reports/domain/usecases/submit_report_use_case.dart';
 import 'package:snapnfix/modules/reports/domain/usecases/sync_prending_reports_use_case.dart';
 import 'package:snapnfix/modules/reports/domain/usecases/watch_pending_reports_count_use_case.dart';
@@ -26,4 +27,9 @@ abstract class ReportsUsecaseModule {
   GetPendingReportsCountUseCase provideGetPendingReportsCountUseCase(
     BaseReportRepository repository,
   ) => GetPendingReportsCountUseCase(repository);
+
+  @lazySingleton
+  GetUserReportsUseCase provideGetUserReportsUseCase(
+    BaseReportRepository repository,
+  ) => GetUserReportsUseCase(repository);
 }

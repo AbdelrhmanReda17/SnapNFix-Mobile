@@ -24,8 +24,14 @@ class _OfflineReportIndicatorState extends State<OfflineReportIndicator> {
   @override
   void initState() {
     super.initState();
-    _setupConnectivityMonitoring();
+    // _setupConnectivityMonitoring();
     _checkInitialPendingCount();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        _setupConnectivityMonitoring();
+      }
+    });
   }
 
   void _checkInitialPendingCount() {
@@ -37,7 +43,7 @@ class _OfflineReportIndicatorState extends State<OfflineReportIndicator> {
   void _setupConnectivityMonitoring() {
     _connectivityService.monitorConnectivity(
       onStatusChanged: (isConnected) {
-        if (isConnected) {
+        if (isConnected && mounted) {
           _checkAndSyncPendingReports();
         }
       },
@@ -45,13 +51,17 @@ class _OfflineReportIndicatorState extends State<OfflineReportIndicator> {
   }
 
   Future<void> _checkAndSyncPendingReports() async {
+    if (!mounted) return;
+
     final pendingCount = getIt<GetPendingReportsCountUseCase>().call();
-    if (pendingCount > 0 && !_isSyncing) {
+    if (pendingCount > 0 && !_isSyncing && mounted) {
       _syncReports();
     }
   }
 
   void _showReportSyncingToast(bool result) {
+    if (!mounted) return;
+
     BaseToast.show(
       context: context,
       message: result ? AppLocalizations.of(context)!.reportsSynced : AppLocalizations.of(context)!.someReportsFailed,
@@ -60,8 +70,7 @@ class _OfflineReportIndicatorState extends State<OfflineReportIndicator> {
   }
 
   Future<void> _syncReports() async {
-    if (_isSyncing) return;
-    if (!mounted) return;  // Add this check
+    if (_isSyncing || !mounted) return;
     setState(() {
       _isSyncing = true;
     });
@@ -102,7 +111,9 @@ class _OfflineReportIndicatorState extends State<OfflineReportIndicator> {
     final localization = AppLocalizations.of(context)!;
 
     void showToast(String message, ToastType type) {
-      BaseToast.show(context: context, message: message, type: type);
+      if (mounted) {
+        BaseToast.show(context: context, message: message, type: type);
+      }
     }
 
     return StreamBuilder<int>(
@@ -115,7 +126,12 @@ class _OfflineReportIndicatorState extends State<OfflineReportIndicator> {
         }
         return GestureDetector(
           onTap: () async {
+            if (!mounted) return;
+            
             final isConnected = await _connectivityService.isConnected();
+            
+            if (!mounted) return;
+            
             if (!isConnected) {
               showToast(localization.noInternetConnection, ToastType.error);
               return;

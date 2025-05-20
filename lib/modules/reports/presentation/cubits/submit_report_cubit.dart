@@ -53,7 +53,7 @@ class SubmitReportCubit extends Cubit<SubmitReportState> {
 
   Future<void> submitReport(LocationService locationService) async {
     if (state.image == null) {
-      emit(state.copyWith(error: "Please provide an image."));
+      emit(state.copyWith(error: "Please Provide an Image."));
       return;
     }
     emit(state.copyWith(isLoading: true, error: null, successMessage: null));
