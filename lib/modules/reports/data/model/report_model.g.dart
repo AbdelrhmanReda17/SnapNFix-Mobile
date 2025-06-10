@@ -48,6 +48,6 @@ const _$ReportSeverityEnumMap = {
 
 const _$ReportStatusEnumMap = {
   ReportStatus.pending: 'pending',
-  ReportStatus.verified: 'verified',
-  ReportStatus.rejected: 'rejected',
+  ReportStatus.approved: 'approved',
+  ReportStatus.declined: 'declined',
 };

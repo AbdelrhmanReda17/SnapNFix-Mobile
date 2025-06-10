@@ -32,13 +32,14 @@ class Report extends Equatable {
   File get image => File(imagePath);
   bool get hasValidImagePath => ImageBuilder.isValidImagePath(imagePath);
 
-  bool get isVerified => status == ReportStatus.verified;
+  bool get isVerified => status == ReportStatus.approved;
   bool get isPending => status == ReportStatus.pending;
-  bool get isRejected => status == ReportStatus.rejected;
+  bool get isRejected => status == ReportStatus.declined;
 
   bool get isHighSeverity => severity == ReportSeverity.high;
   bool get isMediumSeverity => severity == ReportSeverity.medium;
   bool get isLowSeverity => severity == ReportSeverity.low;
+
   bool get timeToLive {
     if (createdAt == null) return false;
     final now = DateTime.now();
@@ -61,10 +62,7 @@ class Report extends Equatable {
 
   Future<String> get locationString async {
     try {
-      final placemarks = await placemarkFromCoordinates(
-        latitude,
-        longitude,
-      ).timeout(const Duration(seconds: 5));
+      final placemarks = await placemarkFromCoordinates(latitude, longitude);
       if (placemarks.isNotEmpty) {
         final place = placemarks.first;
         if (place.street?.isNotEmpty == true ||
@@ -82,10 +80,10 @@ class Report extends Equatable {
       return '$latitude $longitude';
     }
   }
-  
+
   @override
   List<Object?> get props => [
-    id, 
+    id,
     issueId,
     details,
     latitude,
@@ -94,6 +92,6 @@ class Report extends Equatable {
     imagePath,
     category,
     severity,
-    status
+    status,
   ];
 }

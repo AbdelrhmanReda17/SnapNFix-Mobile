@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 enum ReportStatus {
   pending('Pending', Color(0xFF4CAF50)),
-  verified('Verified',  Color(0xFFFF9800)),
-  rejected('Rejected', Color(0xFFF44336));
+  approved('Approved',  Color(0xFFFF9800)),
+  declined('declined', Color(0xFFF44336));
 
   final String value;
   final Color color;
@@ -11,7 +11,7 @@ enum ReportStatus {
   const ReportStatus(this.value, this.color);
 
   bool get isActive => this == pending || this == pending;
-  bool get isFinal => this == verified || this == rejected;
+  bool get isFinal => this == approved || this == declined;
 
   static ReportStatus fromString(String value) {
     return ReportStatus.values.firstWhere(

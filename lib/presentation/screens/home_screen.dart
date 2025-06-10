@@ -11,8 +11,7 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        ListView(
           children: [
             const HomeHeader(),
             SizedBox(height: 4.h),

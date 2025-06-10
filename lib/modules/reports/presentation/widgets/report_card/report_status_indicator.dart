@@ -53,8 +53,8 @@ class ReportStatusIndicator extends StatelessWidget {
   String _getStatusText(ReportStatus status, AppLocalizations localization) {
     return switch (status) {
       ReportStatus.pending => localization.statusPending,
-      ReportStatus.verified => localization.statusValid,
-      ReportStatus.rejected => localization.statusInvalid,
+      ReportStatus.approved => localization.statusValid,
+      ReportStatus.declined => localization.statusInvalid,
     };
   }
 }

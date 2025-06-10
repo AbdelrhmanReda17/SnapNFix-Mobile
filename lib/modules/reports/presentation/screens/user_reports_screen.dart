@@ -43,7 +43,20 @@ class _UserReportsScreenState extends State<UserReportsScreen> {
 
     return Scaffold(
       backgroundColor: colorScheme.surface,
-      appBar: _buildAppBar(theme, colorScheme, localization),
+      appBar: AppBar(
+            backgroundColor: colorScheme.surface,
+            titleSpacing: 0,
+            centerTitle: true,
+            elevation: 0,
+            title: Text(
+              localization.myReports,
+              style: theme.textTheme.headlineLarge?.copyWith(
+                fontWeight: FontWeight.w600,
+                fontSize: 20.sp,
+                color: colorScheme.primary,
+              ),
+            ),
+          ),
       body: Column(
         children: [
           _buildFilterToolbar(context),
@@ -67,35 +80,6 @@ class _UserReportsScreenState extends State<UserReportsScreen> {
                 }
                 return ReportsListView(state: state);
               },
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  PreferredSize _buildAppBar(
-    ThemeData theme,
-    ColorScheme colorScheme,
-    AppLocalizations localization,
-  ) {
-    return PreferredSize(
-      preferredSize: Size.fromHeight(62.h),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          AppBar(
-            backgroundColor: colorScheme.surface,
-            titleSpacing: 0,
-            centerTitle: true,
-            elevation: 0,
-            title: Text(
-              localization.myReports,
-              style: theme.textTheme.headlineLarge?.copyWith(
-                fontWeight: FontWeight.w600,
-                fontSize: 20.sp,
-                color: colorScheme.primary,
-              ),
             ),
           ),
         ],
@@ -137,7 +121,6 @@ class _UserReportsScreenState extends State<UserReportsScreen> {
           ),
           child: Row(
             children: [
-              // Filter button
               Expanded(
                 child: GestureDetector(
                   onTap: () => _showFilterBottomSheet(context, state),

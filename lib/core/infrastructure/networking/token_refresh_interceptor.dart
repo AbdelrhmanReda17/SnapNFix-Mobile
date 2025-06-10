@@ -146,7 +146,27 @@ class TokenRefreshInterceptor extends Interceptor {
       fullUrl = baseUrl.endsWith('/') ? '$baseUrl$path' : '$baseUrl/$path';
     }
 
-    debugPrint('🔄 Retrying request to: $fullUrl');
+    dynamic requestData = requestOptions.data;
+    if (requestOptions.data is FormData) {
+      final originalFormData = requestOptions.data as FormData;
+      final newFormData = FormData();
+      for (final field in originalFormData.fields) {
+        newFormData.fields.add(MapEntry(field.key, field.value));
+      }
+      for (final file in originalFormData.files) {
+        newFormData.files.add(
+          MapEntry(
+            file.key,
+            MultipartFile.fromBytes(
+              await file.value.finalize().expand((chunk) => chunk).toList(),
+              filename: file.value.filename,
+              contentType: file.value.contentType,
+            ),
+          ),
+        );
+      }
+      requestData = newFormData;
+    }
 
     try {
       final response = await _dio.request(
@@ -160,7 +180,7 @@ class TokenRefreshInterceptor extends Interceptor {
           responseType: requestOptions.responseType,
           contentType: requestOptions.contentType,
         ),
-        data: requestOptions.data,
+        data: requestData, // Use the potentially recreated FormData
         queryParameters: requestOptions.queryParameters,
         cancelToken: requestOptions.cancelToken,
         onSendProgress: requestOptions.onSendProgress,
@@ -186,3 +206,4 @@ class TokenRefreshInterceptor extends Interceptor {
     }
   }
 }
+

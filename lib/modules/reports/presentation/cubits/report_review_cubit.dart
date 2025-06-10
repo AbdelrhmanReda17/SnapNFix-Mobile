@@ -102,7 +102,7 @@ class ReportReviewCubit extends Cubit<ReportReviewState> {
           final updatedReports =
               refresh
                   ? List<ReportModel>.from(sortedReports)
-                  : _mergeDeduplicated(state.reports, sortedReports);
+                  : [...state.reports, ...sortedReports];
 
           // Fix: Only increment page if we haven't reached the end AND got new data
           if (!reachedEnd && sortedReports.isNotEmpty) {
