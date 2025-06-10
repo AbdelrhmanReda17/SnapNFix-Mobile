@@ -9,22 +9,17 @@ import 'package:path_provider/path_provider.dart';
 import 'package:uuid/uuid.dart';
 
 abstract class BaseReportLocalDataSource {
-  // Report persistence
   Future<void> saveReportOffline(ReportModel report);
   Future<List<ReportModel>> getPendingReports();
   Future<void> deleteOfflineReport(String reportId);
-
-  // Image handling
   Future<File> saveImagePermanently(File imageFile);
-
-  // Pending reports count management
   int getPendingReportsCount();
   void incrementPendingReportsCount();
   void decrementPendingReportsCount();
   Stream<int> watchPendingReportsCount();
-
-  // Watch pending reports
   Stream<List<ReportModel>> watchPendingReports();
+  Future<void> refreshCache(); // New method to manually refresh cache
+  void dispose();
 }
 
 class ReportLocalDataSource implements BaseReportLocalDataSource {
@@ -33,6 +28,14 @@ class ReportLocalDataSource implements BaseReportLocalDataSource {
   final _pendingReportsController =
       StreamController<List<ReportModel>>.broadcast();
 
+  // Cache for pending reports
+  List<ReportModel>? _cachedReports;
+  DateTime? _lastCacheUpdate;
+  final Duration _cacheValidDuration = const Duration(
+    minutes: 5,
+  ); // Cache validity period
+  bool _isLoadingReports = false;
+
   Future<Directory> _getOfflineReportsDirectory() async {
     final directory = await getApplicationDocumentsDirectory();
     return Directory('${directory.path}/offline_reports');
@@ -40,6 +43,77 @@ class ReportLocalDataSource implements BaseReportLocalDataSource {
 
   ReportLocalDataSource(this._sharedPreferencesService) {
     _pendingReportsCountController.add(getPendingReportsCount());
+    _initializeCache();
+  }
+
+  void _initializeCache() {
+    // Load reports asynchronously without blocking constructor
+    Future.microtask(() async {
+      try {
+        await _loadReportsFromDisk();
+      } catch (e) {
+        debugPrint('Failed to initialize cache: $e');
+      }
+    });
+  }
+
+  bool _isCacheValid() {
+    if (_cachedReports == null || _lastCacheUpdate == null) return false;
+    return DateTime.now().difference(_lastCacheUpdate!) < _cacheValidDuration;
+  }
+
+  Future<void> _loadReportsFromDisk() async {
+    if (_isLoadingReports) return;
+
+    _isLoadingReports = true;
+    try {
+      final reportsDir = await _getOfflineReportsDirectory();
+      if (!await reportsDir.exists()) {
+        _cachedReports = [];
+        _lastCacheUpdate = DateTime.now();
+        _pendingReportsController.add(_cachedReports!);
+        return;
+      }
+
+      final reportFiles =
+          await reportsDir
+              .list()
+              .where(
+                (entity) => entity is File && entity.path.endsWith('.json'),
+              )
+              .toList();
+
+      debugPrint('Found ${reportFiles.length} report files.');
+      final reports = <ReportModel>[];
+
+      for (var file in reportFiles) {
+        try {
+          final jsonMap = json.decode(await (file as File).readAsString());
+          final report = ReportModel.fromJson(jsonMap);
+          reports.add(report);
+        } catch (e) {
+          debugPrint('Failed to parse report file: ${file.path}');
+          // Clean up corrupted files
+          try {
+            await file.delete();
+          } catch (deleteError) {
+            debugPrint('Failed to delete corrupted file: $deleteError');
+          }
+        }
+      }
+
+      _cachedReports = reports;
+      _lastCacheUpdate = DateTime.now();
+      debugPrint('Loaded ${reports.length} reports to cache.');
+
+      // Update stream with cached data
+      _pendingReportsController.add(_cachedReports!);
+    } catch (e) {
+      debugPrint('Error loading reports from disk: $e');
+      throw Exception("Failed to get pending reports: $e");
+    } finally {
+      _isLoadingReports = false;
+    }
   }
 
   @override
@@ -73,18 +147,30 @@ class ReportLocalDataSource implements BaseReportLocalDataSource {
     try {
       final image = await saveImagePermanently(report.image);
       final reportsDir = await _getOfflineReportsDirectory();
-      final updatedReport = report.copyWithModel(image: image);
+      final updatedReport = report.copyWithModel(
+        image: image,
+        id: const Uuid().v4(),
+      );
 
       if (!await reportsDir.exists()) {
         await reportsDir.create(recursive: true);
       }
 
-      final reportFile = File('${reportsDir.path}/${report.id}.json');
+      final reportFile = File('${reportsDir.path}/${updatedReport.id}.json');
       await reportFile.writeAsString(json.encode(updatedReport.toJson()));
+
       incrementPendingReportsCount();
-      debugPrint('Report saved offline: ${report.id}');
-      final reports = await getPendingReports();
-      _pendingReportsController.add(reports);
+
+      // Update cache instead of reloading from disk
+      if (_cachedReports != null) {
+        _cachedReports!.add(updatedReport);
+        _pendingReportsController.add(_cachedReports!);
+      } else {
+        // If cache is not initialized, load from disk
+        await _loadReportsFromDisk();
+      }
+
+      debugPrint('Report saved offline: ${updatedReport.id}');
     } catch (e) {
       throw Exception("Failed to save report offline: $e");
     }
@@ -95,23 +181,35 @@ class ReportLocalDataSource implements BaseReportLocalDataSource {
     try {
       final reportsDir = await _getOfflineReportsDirectory();
       final reportFile = File('${reportsDir.path}/$reportId.json');
+
+      debugPrint('Deleting offline report file: $reportId');
+
       if (await reportFile.exists()) {
         final jsonString = await reportFile.readAsString();
         final jsonMap = json.decode(jsonString);
         final report = ReportModel.fromJson(jsonMap);
         final image = report.image;
+
+        // Delete associated image if it's in offline storage
         if (image.path.contains('/offline_reports/')) {
+          debugPrint('Deleting associated image');
           if (await image.exists()) {
             await image.delete();
             debugPrint('Deleted offline image: ${image.path}');
           }
         }
+
         await reportFile.delete();
         debugPrint('Deleted offline report file: $reportId');
 
-        // Emit updated reports list
-        final reports = await getPendingReports();
-        _pendingReportsController.add(reports);
+        // Update cache instead of reloading from disk
+        if (_cachedReports != null) {
+          _cachedReports!.removeWhere((report) => report.id == reportId);
+          _pendingReportsController.add(_cachedReports!);
+        } else {
+          // If cache is not initialized, load from disk
+          await _loadReportsFromDisk();
+        }
       }
     } catch (e) {
       throw Exception("Failed to delete offline report: $e");
@@ -120,36 +218,15 @@ class ReportLocalDataSource implements BaseReportLocalDataSource {
 
   @override
   Future<List<ReportModel>> getPendingReports() async {
-    try {
-      final reportsDir = await _getOfflineReportsDirectory();
-      if (!await reportsDir.exists()) {
-        return [];
-      }
-      final reportFiles =
-          await reportsDir
-              .list()
-              .where(
-                (entity) => entity is File && entity.path.endsWith('.json'),
-              )
-              .toList();
-      debugPrint('Found ${reportFiles.length} report files.');
-      final reports = <ReportModel>[];
-
-      for (var file in reportFiles) {
-        try {
-          final jsonMap = json.decode(await (file as File).readAsString());
-          final report = ReportModel.fromJson(jsonMap);
-          reports.add(report);
-        } catch (e) {
-          debugPrint('Failed to parse report file: ${file.path}');
-          await file.delete();
-        }
-      }
-      debugPrint('Parsed ${reports.length} reports successfully.');
-      return reports;
-    } catch (e) {
-      throw Exception("Failed to get pending reports: $e");
+    // Return cached data if valid
+    if (_isCacheValid()) {
+      debugPrint('Returning cached reports (${_cachedReports!.length} items)');
+      return List.from(_cachedReports!);
     }
+
+    // Load from disk if cache is invalid or empty
+    await _loadReportsFromDisk();
+    return List.from(_cachedReports ?? []);
   }
 
   @override
@@ -173,7 +250,6 @@ class ReportLocalDataSource implements BaseReportLocalDataSource {
       return savedImage;
     } catch (e) {
       debugPrint('Error saving image: $e');
-      // Return original path as fallback
       return originalImage;
     }
   }
@@ -185,12 +261,20 @@ class ReportLocalDataSource implements BaseReportLocalDataSource {
 
   @override
   Stream<List<ReportModel>> watchPendingReports() {
-    getPendingReports().then((reports) {
-      _pendingReportsController.add(reports);
-    });
+    if (_cachedReports == null && !_isLoadingReports) {
+      _loadReportsFromDisk();
+    }
     return _pendingReportsController.stream;
   }
 
+  @override
+  Future<void> refreshCache() async {
+    _cachedReports = null;
+    _lastCacheUpdate = null;
+    await _loadReportsFromDisk();
+  }
+
+  @override
   void dispose() {
     _pendingReportsCountController.close();
     _pendingReportsController.close();

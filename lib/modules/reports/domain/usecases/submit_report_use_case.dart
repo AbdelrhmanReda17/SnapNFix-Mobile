@@ -18,12 +18,6 @@ class SubmitReportUseCase {
     String? category,
   }) async {
     try {
-      if (details.isEmpty) {
-        return ApiResult.failure(
-          ApiErrorModel(message: 'Report details cannot be empty'),
-        );
-      }
-
       if (imagePath.isEmpty) {
         return ApiResult.failure(
           ApiErrorModel(message: 'Report image is required'),

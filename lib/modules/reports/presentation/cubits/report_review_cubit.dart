@@ -33,13 +33,31 @@ class ReportReviewCubit extends Cubit<ReportReviewState> {
   }) async {
     debugPrint('Loading reports - refresh: $refresh');
     try {
-      if (status != null || status == null && _status != null) _status = status;
-      if (category != null || category == null && _category != null) _category = category;
-      if (sortOption != null) _sortOption = sortOption;
+      // Fix: Proper filter assignment logic
+      if (status != null) {
+        _status = status;
+      } else if (refresh) {
+        // Clear status on refresh if not explicitly provided
+        _status = null;
+      }
 
+      if (category != null) {
+        _category = category;
+      } else if (refresh) {
+        // Clear category on refresh if not explicitly provided
+        _category = null;
+      }
+
+      if (sortOption != null) _sortOption = sortOption;
 
       if (refresh) {
         _currentPage = 1;
+      }
+
+      // Fix: Prevent loading more when already reached end
+      if (!refresh && state.hasReachedEnd) {
+        debugPrint('Already reached end, skipping load');
+        return;
       }
 
       final isFirstLoad = state.reports.isEmpty && !refresh;
@@ -53,7 +71,11 @@ class ReportReviewCubit extends Cubit<ReportReviewState> {
           reports: refresh ? [] : state.reports,
           isLoading: isFirstLoad || refresh,
           isLoadingMore: isPagination,
-          hasReachedEnd: false,
+          hasReachedEnd:
+              refresh
+                  ? false
+                  : state
+                      .hasReachedEnd, // Fix: Don't reset hasReachedEnd for pagination
           error: null,
           currentStatus: _status,
           currentCategory: _category,
@@ -71,17 +93,19 @@ class ReportReviewCubit extends Cubit<ReportReviewState> {
       );
 
       result.when(
-        success: (newReports) {
-          debugPrint('Received ${newReports.length} reports');
-
+        success: (response) {
+          final newReports = response.key;
           var sortedReports = _applySorting(newReports, _sortOption);
-          final reachedEnd = sortedReports.length < _pageSize;
+          final reachedEnd = response.value;
 
-          final updatedReports = refresh
-              ? List<ReportModel>.from(sortedReports)
-              : [...state.reports, ...sortedReports];
+          // Fix: Handle duplicate reports during pagination
+          final updatedReports =
+              refresh
+                  ? List<ReportModel>.from(sortedReports)
+                  : _mergeDeduplicated(state.reports, sortedReports);
 
-          if (!reachedEnd) {
+          // Fix: Only increment page if we haven't reached the end AND got new data
+          if (!reachedEnd && sortedReports.isNotEmpty) {
             _currentPage++;
           }
 
@@ -90,7 +114,10 @@ class ReportReviewCubit extends Cubit<ReportReviewState> {
               reports: updatedReports,
               isLoading: false,
               isLoadingMore: false,
-              hasReachedEnd: reachedEnd,
+              hasReachedEnd:
+                  reachedEnd ||
+                  sortedReports
+                      .isEmpty, // Fix: Also consider empty response as end
               error: null,
             ),
           );
@@ -116,45 +143,54 @@ class ReportReviewCubit extends Cubit<ReportReviewState> {
           isLoadingMore: false,
         ),
       );
+      debugPrint('Exception in loadReports: $e');
     }
   }
 
-  Future<void> refreshReports() async {
-    await loadReports(refresh: true);
+  // Add this helper method to prevent duplicates
+  List<ReportModel> _mergeDeduplicated(
+    List<ReportModel> existing,
+    List<ReportModel> newReports,
+  ) {
+    final existingIds = existing.map((r) => r.id).toSet();
+    final uniqueNewReports =
+        newReports.where((r) => !existingIds.contains(r.id)).toList();
+    return [...existing, ...uniqueNewReports];
   }
 
-  List<ReportModel> _applySorting(List<ReportModel> reports, SortOption option) {
+  List<ReportModel> _applySorting(
+    List<ReportModel> reports,
+    SortOption option,
+  ) {
     final sortedList = List<ReportModel>.from(reports);
     switch (option) {
       case SortOption.dateNewest:
-        sortedList.sort((a, b) => b.createdAt!.compareTo(a.createdAt!));
+        sortedList.sort((a, b) {
+          // Fix: Add null safety for createdAt comparison
+          if (a.createdAt == null && b.createdAt == null) return 0;
+          if (a.createdAt == null) return 1;
+          if (b.createdAt == null) return -1;
+          return b.createdAt!.compareTo(a.createdAt!);
+        });
         break;
       case SortOption.dateOldest:
-        sortedList.sort((a, b) => a.createdAt!.compareTo(b.createdAt!));
+        sortedList.sort((a, b) {
+          // Fix: Add null safety for createdAt comparison
+          if (a.createdAt == null && b.createdAt == null) return 0;
+          if (a.createdAt == null) return 1;
+          if (b.createdAt == null) return -1;
+          return a.createdAt!.compareTo(b.createdAt!);
+        });
         break;
     }
     return sortedList;
   }
 
-  // Apply filters with enum values
-  Future<void> applyFilters({
-    ReportStatus? status,
-    IssueCategory? category,
-  }) async {
-    await loadReports(refresh: true, status: status, category: category);
-  }
-
-  Future<void> applySorting(SortOption option) async {
-    await loadReports(
-      refresh: true,
-      sortOption: option,
-    );
-  }
-
-  // Clear all filters
+  // Fix: Reset state properly when clearing filters
   Future<void> clearFilters() async {
     _status = null;
     _category = null;
+    _currentPage = 1; // Reset pagination
 
     await loadReports(refresh: true);
   }

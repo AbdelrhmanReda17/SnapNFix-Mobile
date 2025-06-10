@@ -11,7 +11,7 @@ abstract class BaseAuthenticationRepository {
     required String phoneNumber,
     required OtpPurpose purpose,
   });
-  Future<void> logout();
+  Future<ApiResult<void>> logout();
 
   Future<ApiResult<AuthenticationResult>> verifyOTP({
     required String code,
@@ -33,4 +33,5 @@ abstract class BaseAuthenticationRepository {
 
   Future<ApiResult<AuthenticationResult>> loginWithGoogle();
   Future<ApiResult<AuthenticationResult>> loginWithFacebook();
+  
 }

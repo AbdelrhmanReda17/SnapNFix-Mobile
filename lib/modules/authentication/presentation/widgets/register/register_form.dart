@@ -16,8 +16,6 @@ class RegisterForm extends StatelessWidget {
     final localizations = AppLocalizations.of(context)!;
     final cubit = context.read<RegisterCubit>();
 
-    debugPrint("RegisterForm: ${cubit.state}");
-
     return Form(
       key: cubit.formKey,
       child: Padding(

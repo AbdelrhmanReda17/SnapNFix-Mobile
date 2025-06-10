@@ -8,11 +8,13 @@ import 'package:snapnfix/core/infrastructure/connectivity/connectivity_service.d
 import 'package:snapnfix/modules/reports/domain/usecases/get_pending_reports_count_use_case.dart';
 import 'package:snapnfix/modules/reports/domain/usecases/sync_prending_reports_use_case.dart';
 import 'package:snapnfix/modules/reports/domain/usecases/watch_pending_reports_count_use_case.dart';
+
 class OfflineReportIndicator extends StatefulWidget {
   const OfflineReportIndicator({super.key});
   @override
   State<OfflineReportIndicator> createState() => _OfflineReportIndicatorState();
 }
+
 class _OfflineReportIndicatorState extends State<OfflineReportIndicator> {
   StreamSubscription? _connectivitySubscription;
   bool _isSyncing = false;
@@ -24,7 +26,6 @@ class _OfflineReportIndicatorState extends State<OfflineReportIndicator> {
   @override
   void initState() {
     super.initState();
-    // _setupConnectivityMonitoring();
     _checkInitialPendingCount();
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -64,7 +65,10 @@ class _OfflineReportIndicatorState extends State<OfflineReportIndicator> {
 
     BaseToast.show(
       context: context,
-      message: result ? AppLocalizations.of(context)!.reportsSynced : AppLocalizations.of(context)!.someReportsFailed,
+      message:
+          result
+              ? AppLocalizations.of(context)!.reportsSynced
+              : AppLocalizations.of(context)!.someReportsFailed,
       type: result ? ToastType.success : ToastType.warning,
     );
   }
@@ -127,11 +131,11 @@ class _OfflineReportIndicatorState extends State<OfflineReportIndicator> {
         return GestureDetector(
           onTap: () async {
             if (!mounted) return;
-            
+
             final isConnected = await _connectivityService.isConnected();
-            
+
             if (!mounted) return;
-            
+
             if (!isConnected) {
               showToast(localization.noInternetConnection, ToastType.error);
               return;
@@ -146,20 +150,21 @@ class _OfflineReportIndicatorState extends State<OfflineReportIndicator> {
             children: [
               Padding(
                 padding: EdgeInsets.only(right: 8.w),
-                child: _isSyncing
-                  ? SizedBox(
-                      width: 24.sp,
-                      height: 24.sp,
-                      child: CircularProgressIndicator(
-                        color: colorScheme.primary,
-                        strokeWidth: 2.w,
-                      ),
-                    )
-                  : Icon(
-                      Icons.cloud_upload_outlined,
-                      size: 24.sp,
-                      color: colorScheme.primary,
-                    ),
+                child:
+                    _isSyncing
+                        ? SizedBox(
+                          width: 24.sp,
+                          height: 24.sp,
+                          child: CircularProgressIndicator(
+                            color: colorScheme.primary,
+                            strokeWidth: 2.w,
+                          ),
+                        )
+                        : Icon(
+                          Icons.cloud_upload_outlined,
+                          size: 24.sp,
+                          color: colorScheme.primary,
+                        ),
               ),
               if (count > 0)
                 Positioned(

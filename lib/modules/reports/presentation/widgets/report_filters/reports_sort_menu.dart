@@ -35,7 +35,10 @@ class ReportsSortMenu extends StatelessWidget {
         color: colorScheme.primary,
       ),
       onSelected: (SortOption option) {
-        context.read<ReportReviewCubit>().applySorting(option);
+        context.read<ReportReviewCubit>().loadReports(
+          sortOption: option,
+          refresh: true, 
+        );
       },
       itemBuilder: (BuildContext context) => <PopupMenuEntry<SortOption>>[
         _buildMenuItem(

@@ -47,12 +47,16 @@ import '../../modules/authentication/domain/usecases/verify_otp_use_case.dart'
     as _i21;
 import '../../modules/authentication/presentation/cubits/complete_profile/complete_profile_cubit.dart'
     as _i12;
+import '../../modules/authentication/presentation/cubits/forget_password/forgot_password_cubit.dart'
+    as _i13;
 import '../../modules/authentication/presentation/cubits/login/login_cubit.dart'
     as _i862;
 import '../../modules/authentication/presentation/cubits/otp/otp_cubit.dart'
     as _i328;
 import '../../modules/authentication/presentation/cubits/register/register_cubit.dart'
     as _i484;
+import '../../modules/authentication/presentation/cubits/reset_password/reset_password_cubit.dart'
+    as _i1033;
 import '../../modules/issues/data/datasource/issue_local_data_source.dart'
     as _i912;
 import '../../modules/issues/data/datasource/issue_remote_data_source.dart'
@@ -115,6 +119,7 @@ import '../../modules/settings/presentation/cubits/change_password_cubit.dart'
     as _i967;
 import '../../modules/settings/presentation/cubits/edit_profile_cubit.dart'
     as _i382;
+import '../../presentation/navigation/navigation_service.dart' as _i579;
 import '../config/application_configurations.dart' as _i420;
 import '../infrastructure/connectivity/connectivity_service.dart' as _i1041;
 import '../infrastructure/device_info/device_info_service.dart' as _i871;
@@ -165,6 +170,7 @@ extension GetItInjectableX on _i174.GetIt {
     gh.singleton<_i835.SharedPreferencesService>(
       () => _i835.SharedPreferencesService(),
     );
+    gh.lazySingleton<_i579.NavigationService>(() => _i579.NavigationService());
     gh.singleton<_i183.BaseSocialAuthenticationProvider>(
       () => authenticationDataModule.provideFacebookAuthProvider(),
       instanceName: 'facebookProvider',
@@ -385,10 +391,20 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i952.CompleteProfileUseCase>(),
       ),
     );
+    gh.factory<_i1033.ResetPasswordCubit>(
+      () => authenticationPresentationModule.provideResendOtpCubit(
+        gh<_i956.ResetPasswordUseCase>(),
+      ),
+    );
     gh.factory<_i862.LoginCubit>(
       () => authenticationPresentationModule.provideLoginCubit(
         gh<_i243.LoginUseCase>(),
         gh<_i958.SocialSignInUseCase>(),
+      ),
+    );
+    gh.factory<_i13.ForgotPasswordCubit>(
+      () => authenticationPresentationModule.provideForgotPasswordCubit(
+        gh<_i460.RequestOTPUseCase>(),
       ),
     );
     gh.factory<_i328.OtpCubit>(

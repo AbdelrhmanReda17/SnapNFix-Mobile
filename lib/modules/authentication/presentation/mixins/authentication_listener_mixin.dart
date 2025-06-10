@@ -57,7 +57,12 @@ mixin AuthenticationListenerMixin {
     }
   }
 
-  void handleError(BuildContext context, ApiErrorModel error, {String? title}) {
+  void handleError(
+    BuildContext context,
+    ApiErrorModel error, {
+    String? title,
+    String? route,
+  }) {
     context.pop();
     baseDialog(
       context: context,
@@ -65,7 +70,11 @@ mixin AuthenticationListenerMixin {
       message: error.getAllErrorMessages(),
       alertType: AlertType.error,
       confirmText: AppLocalizations.of(context)!.gotItConfirmText,
-      onConfirm: () {},
+      onConfirm: () {
+        if (route != null) {
+          context.go(route);
+        }
+      },
       showCancelButton: false,
     );
   }

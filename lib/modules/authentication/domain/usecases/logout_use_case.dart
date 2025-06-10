@@ -1,3 +1,4 @@
+import 'package:snapnfix/core/infrastructure/networking/api_result.dart';
 import 'package:snapnfix/modules/authentication/domain/repositories/base_authentication_repository.dart';
 
 class LogoutUseCase {
@@ -5,7 +6,7 @@ class LogoutUseCase {
 
   LogoutUseCase(this._repository);
 
-  Future<void> call() async {
-    await _repository.logout();
+  Future<ApiResult<void>> call() async {
+    return await _repository.logout();
   }
 }

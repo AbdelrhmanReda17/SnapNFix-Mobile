@@ -23,7 +23,6 @@ class _UserReportsScreenState extends State<UserReportsScreen> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (mounted) {
-        debugPrint('🚀 Triggering reports load from UserReportsScreen');
         context.read<ReportReviewCubit>().loadReports();
       }
     });
@@ -50,19 +49,7 @@ class _UserReportsScreenState extends State<UserReportsScreen> {
           _buildFilterToolbar(context),
 
           Expanded(
-            child: BlocConsumer<ReportReviewCubit, ReportReviewState>(
-              listenWhen:
-                  (previous, current) => previous.error != current.error,
-              listener: (context, state) {
-                if (state.error != null) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text(state.error!),
-                      backgroundColor: colorScheme.error,
-                    ),
-                  );
-                }
-              },
+            child: BlocBuilder<ReportReviewCubit, ReportReviewState>(
               buildWhen: (previous, current) {
                 final changed =
                     previous.isLoading != current.isLoading ||
@@ -72,17 +59,12 @@ class _UserReportsScreenState extends State<UserReportsScreen> {
                 return changed;
               },
               builder: (context, state) {
-                // Show loading indicator if loading initial data
                 if (state.isLoading && state.reports.isEmpty) {
                   return const LoadingOverlay();
                 }
-
-                // Show error view if there's an error and no reports to show
                 if (state.error != null && state.reports.isEmpty) {
                   return ReportsErrorView(errorMessage: state.error!);
                 }
-
-                // Show reports list (which might be empty)
                 return ReportsListView(state: state);
               },
             ),

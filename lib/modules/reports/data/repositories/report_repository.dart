@@ -46,7 +46,6 @@ class ReportRepository implements BaseReportRepository {
       final result = await _remoteDataSource.submitReport(report);
       return result.when(
         success: (data) {
-          // _localDataSource.saveReportOffline(report);
           return ApiResult.success(data);
         },
         failure: (error) {
@@ -77,10 +76,13 @@ class ReportRepository implements BaseReportRepository {
       if (!isConnected) return false;
       var allSuccessful = true;
       for (var report in pendingReports) {
+        debugPrint('Syncing offline report: $report');
         final result = await _remoteDataSource.submitReport(report);
         await result.when(
           success: (data) async {
-            debugPrint('✅ Report submitted successfully: $data');
+            debugPrint('✅ $data');
+
+            debugPrint('Deleting offline report: ${report.id}');
             await _localDataSource.deleteOfflineReport(report.id!);
             _localDataSource.decrementPendingReportsCount();
           },
@@ -115,7 +117,7 @@ class ReportRepository implements BaseReportRepository {
   }
 
   @override
-  Future<ApiResult<List<ReportModel>>> getUserReports({
+  Future<ApiResult<MapEntry<List<ReportModel>, bool>>> getUserReports({
     String? status,
     String? category,
     int page = 1,

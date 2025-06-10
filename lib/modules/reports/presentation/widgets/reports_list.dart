@@ -19,7 +19,7 @@ class ReportsListView extends StatelessWidget {
     return RefreshIndicator(
       onRefresh: () async {
         if (context.mounted) {
-          await context.read<ReportReviewCubit>().refreshReports();
+          await context.read<ReportReviewCubit>().loadReports(refresh: true);
         }
       },
       child: NotificationListener<ScrollNotification>(
@@ -80,7 +80,7 @@ class ReportsListView extends StatelessWidget {
     return RefreshIndicator(
       onRefresh: () async {
         if (context.mounted) {
-          await context.read<ReportReviewCubit>().refreshReports();
+          await context.read<ReportReviewCubit>().loadReports(refresh: true);
         }
       },
       child: ListView(
@@ -93,7 +93,6 @@ class ReportsListView extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Icon(
-                    // Show different icon if filters are active
                     hasActiveFilters
                         ? Icons.filter_list
                         : Icons.list_alt_outlined,
@@ -102,7 +101,6 @@ class ReportsListView extends StatelessWidget {
                   ),
                   SizedBox(height: 16.h),
                   Text(
-                    // Show different message based on filter state
                     hasActiveFilters
                         ? localization.noReportsForFilters
                         : localization.noReports,

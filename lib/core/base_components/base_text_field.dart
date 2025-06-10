@@ -17,7 +17,7 @@ class BaseTextField extends StatefulWidget {
   final String? initialValue;
   final ValueChanged<String>? onChanged;
   final bool enabled;
-    final bool readOnly;
+  final bool readOnly;
 
   const BaseTextField({
     super.key,
@@ -92,8 +92,6 @@ class _BaseTextFieldState extends State<BaseTextField> {
         SizedBox(
           width: double.infinity,
           child: TextFormField(
-            key: ValueKey(_controller.hashCode),
-            focusNode: FocusNode(),
             controller: _controller,
             autovalidateMode: AutovalidateMode.onUserInteraction,
             autofocus: false,
@@ -108,7 +106,9 @@ class _BaseTextFieldState extends State<BaseTextField> {
                   EdgeInsets.symmetric(horizontal: 16.w, vertical: 13.h),
               border: _buildBorder(colorScheme.primary.withValues(alpha: 0.2)),
               focusedBorder: _buildBorder(colorScheme.primary),
-              enabledBorder: _buildBorder(colorScheme.primary.withValues(alpha: 0.2)),
+              enabledBorder: _buildBorder(
+                colorScheme.primary.withValues(alpha: 0.2),
+              ),
               errorBorder: _buildBorder(colorScheme.error),
               focusedErrorBorder: _buildBorder(colorScheme.error),
               hintText: widget.hintText,

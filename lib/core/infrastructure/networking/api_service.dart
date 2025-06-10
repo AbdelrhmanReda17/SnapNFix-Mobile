@@ -4,8 +4,11 @@ import 'package:dio/dio.dart';
 import 'package:snapnfix/core/infrastructure/networking/api_constants.dart';
 import 'package:retrofit/retrofit.dart';
 import 'package:snapnfix/core/infrastructure/networking/base_response.dart';
+import 'package:snapnfix/core/infrastructure/networking/paginated_response.dart';
 import 'package:snapnfix/modules/authentication/data/models/dtos/reset_password_dto.dart';
 import 'package:snapnfix/modules/authentication/data/models/session_model.dart';
+import 'package:snapnfix/modules/authentication/data/models/tokens_model.dart';
+import 'package:snapnfix/modules/reports/data/model/report_model.dart';
 
 part 'api_service.g.dart';
 
@@ -66,20 +69,29 @@ abstract class ApiService {
     @Body() Map<String, dynamic> facebookLoginDTO,
   );
 
+  @POST(ApiConstants.logout)
+  Future<BaseResponse<void>> logout();
+
   @POST(ApiConstants.createReport)
   @MultiPart()
-  Future<BaseResponse<String>> createReport({
+  Future<BaseResponse<ReportModel>> createReport({
     @Part(name: 'Image') required File image,
     @Part(name: 'Latitude') required double latitude,
     @Part(name: 'Longitude') required double longitude,
+    @Part(name: 'Severity') required String severity,
     @Part(name: 'Comment') required String comment,
   });
 
   @GET(ApiConstants.userReports)
-  Future<BaseResponse<List<dynamic>>> getUserReports({
+  Future<BaseResponse<PaginatedResponse<ReportModel>>> getUserReports({
     @Query("Status") String? status,
     @Query("Category") String? category,
     @Query("PageNumber") required int page,
     @Query("PageSize") required int limit,
   });
+
+  @POST(ApiConstants.refreshToken)
+  Future<BaseResponse<TokensModel>> refreshToken(
+    @Body() Map<String, dynamic> refreshTokenDTO,
+  );
 }

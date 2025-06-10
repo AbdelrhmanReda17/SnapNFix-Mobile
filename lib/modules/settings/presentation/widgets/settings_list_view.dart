@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import 'package:snapnfix/core/config/application_configurations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:snapnfix/core/dependency_injection/dependency_injection.dart';
 import 'package:snapnfix/core/utils/helpers/spacing.dart';
+import 'package:snapnfix/modules/authentication/domain/usecases/logout_use_case.dart';
 import 'package:snapnfix/modules/settings/presentation/widgets/dark_mode_tile.dart';
 import 'package:snapnfix/modules/settings/presentation/widgets/language_tile.dart';
 import 'package:snapnfix/presentation/navigation/routes.dart';
@@ -17,11 +17,63 @@ class SettingsListView extends StatefulWidget {
 }
 
 class _SettingsListViewState extends State<SettingsListView> {
+  late final LogoutUseCase _logoutUseCase;
+  bool _isLoggingOut = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _logoutUseCase = getIt<LogoutUseCase>();
+  }
+
+  Future<void> _handleLogout() async {
+    if (_isLoggingOut) return;
+
+    setState(() {
+      _isLoggingOut = true;
+    });
+
+    try {
+      final result = await _logoutUseCase.call();
+      result.when(
+        success: (_) {
+          if (mounted) {
+            context.go(Routes.login);
+          }
+        },
+        failure: (error) {
+          if (mounted) {
+            setState(() {
+              _isLoggingOut = false;
+            });
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text("Logout failed. Please try again."),
+                backgroundColor: Theme.of(context).colorScheme.error,
+              ),
+            );
+          }
+        },
+      );
+    } catch (e) {
+      if (mounted) {
+        setState(() {
+          _isLoggingOut = false;
+        });
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text("Logout failed. Please try again."),
+            backgroundColor: Theme.of(context).colorScheme.error,
+          ),
+        );
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
     final textStyles = Theme.of(context).textTheme;
-    final appConfigs = getIt<ApplicationConfigurations>();
     final localization = AppLocalizations.of(context)!;
     return Card(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.zero),
@@ -87,9 +139,7 @@ class _SettingsListViewState extends State<SettingsListView> {
           verticalSpace(7),
           _buildSettingsTile(
             localization.signOut,
-            () {
-              appConfigs.logout();
-            },
+            _handleLogout,
             colorScheme,
             textStyles,
             hasIcon: false,
@@ -111,7 +161,7 @@ class _SettingsListViewState extends State<SettingsListView> {
     final WidgetStatesController statesController = WidgetStatesController();
 
     return InkWell(
-      onTap: onTap,
+      onTap: isSignOut && _isLoggingOut ? null : onTap,
       statesController: statesController,
       highlightColor: colorScheme.primary.withValues(alpha: 0.3),
       splashColor: colorScheme.primary.withValues(alpha: 0.3),
@@ -127,13 +177,23 @@ class _SettingsListViewState extends State<SettingsListView> {
                 color: isSignOut ? colorScheme.error : colorScheme.primary,
               ),
             ),
-            hasIcon
-                ? Icon(
-                  Icons.arrow_forward_ios_rounded,
-                  color: colorScheme.primary,
-                  size: 16.sp,
-                )
-                : const SizedBox.shrink(),
+            if (isSignOut && _isLoggingOut)
+              SizedBox(
+                width: 16.w,
+                height: 16.h,
+                child: CircularProgressIndicator(
+                  strokeWidth: 2,
+                  color: colorScheme.error,
+                ),
+              )
+            else if (hasIcon)
+              Icon(
+                Icons.arrow_forward_ios_rounded,
+                color: colorScheme.primary,
+                size: 16.sp,
+              )
+            else
+              const SizedBox.shrink(),
           ],
         ),
       ),

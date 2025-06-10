@@ -14,7 +14,7 @@ abstract class BaseReportRepository {
   Stream<List<ReportModel>> watchPendingReports();
 
   // Pagination
-  Future<ApiResult<List<ReportModel>>> getUserReports({
+  Future<ApiResult<MapEntry<List<ReportModel>, bool>>> getUserReports({
     String? status,
     String? category,
     int page = 1,

@@ -7,7 +7,7 @@ class GetUserReportsUseCase {
 
   GetUserReportsUseCase(this._repository);
 
-  Future<ApiResult<List<ReportModel>>> call({
+  Future<ApiResult<MapEntry<List<ReportModel>, bool>>> call({
     String? status,
     String? category,
     int page = 1,

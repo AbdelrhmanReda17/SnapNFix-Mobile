@@ -62,9 +62,15 @@ class AuthenticationRepository implements BaseAuthenticationRepository {
   }
 
   @override
-  Future<void> logout() async {
+  Future<ApiResult<void>> logout() async {
     try {
-      await _appConfig.logout();
+      return _handleApiCall(
+        call: () => remoteDataSource.logout(),
+        onSuccess: (_) async {
+          await _appConfig.logout();
+          return ApiResult.success(null);
+        },
+      );
     } catch (e) {
       throw Exception('Failed to logout: ${e.toString()}');
     }

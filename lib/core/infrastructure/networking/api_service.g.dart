@@ -11,7 +11,7 @@ part of 'api_service.dart';
 class _ApiService implements ApiService {
   _ApiService(this._dio, {this.baseUrl, this.errorLogger}) {
     baseUrl ??=
-        'https://snapnfix-backend-c6fjftasehgmewcm.uaenorth-01.azurewebsites.net/';
+        'https://snapnfix-gcdhftfvccduhahv.uaenorth-01.azurewebsites.net/';
   }
 
   final Dio _dio;
@@ -380,10 +380,38 @@ class _ApiService implements ApiService {
   }
 
   @override
-  Future<BaseResponse<String>> createReport({
+  Future<BaseResponse<void>> logout() async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _options = _setStreamType<BaseResponse<void>>(
+      Options(method: 'POST', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            'api/auth/logout',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late BaseResponse<void> _value;
+    try {
+      _value = BaseResponse<void>.fromJson(_result.data!, (json) => () {}());
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<BaseResponse<ReportModel>> createReport({
     required File image,
     required double latitude,
     required double longitude,
+    required String severity,
     required String comment,
   }) async {
     final _extra = <String, dynamic>{};
@@ -401,8 +429,9 @@ class _ApiService implements ApiService {
     );
     _data.fields.add(MapEntry('Latitude', latitude.toString()));
     _data.fields.add(MapEntry('Longitude', longitude.toString()));
+    _data.fields.add(MapEntry('Severity', severity));
     _data.fields.add(MapEntry('Comment', comment));
-    final _options = _setStreamType<BaseResponse<String>>(
+    final _options = _setStreamType<BaseResponse<ReportModel>>(
       Options(
             method: 'POST',
             headers: _headers,
@@ -411,18 +440,18 @@ class _ApiService implements ApiService {
           )
           .compose(
             _dio.options,
-            'api/Reports',
+            'api/SnapReports/create',
             queryParameters: queryParameters,
             data: _data,
           )
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late BaseResponse<String> _value;
+    late BaseResponse<ReportModel> _value;
     try {
-      _value = BaseResponse<String>.fromJson(
+      _value = BaseResponse<ReportModel>.fromJson(
         _result.data!,
-        (json) => json as String,
+        (json) => ReportModel.fromJson(json as Map<String, dynamic>),
       );
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options);
@@ -432,7 +461,7 @@ class _ApiService implements ApiService {
   }
 
   @override
-  Future<BaseResponse<List<dynamic>>> getUserReports({
+  Future<BaseResponse<PaginatedResponse<ReportModel>>> getUserReports({
     String? status,
     String? category,
     required int page,
@@ -448,25 +477,61 @@ class _ApiService implements ApiService {
     queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
-    final _options = _setStreamType<BaseResponse<List<dynamic>>>(
-      Options(method: 'GET', headers: _headers, extra: _extra)
+    final _options =
+        _setStreamType<BaseResponse<PaginatedResponse<ReportModel>>>(
+          Options(method: 'GET', headers: _headers, extra: _extra)
+              .compose(
+                _dio.options,
+                '/api/SnapReports/my-reports',
+                queryParameters: queryParameters,
+                data: _data,
+              )
+              .copyWith(
+                baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl),
+              ),
+        );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late BaseResponse<PaginatedResponse<ReportModel>> _value;
+    try {
+      _value = BaseResponse<PaginatedResponse<ReportModel>>.fromJson(
+        _result.data!,
+        (json) => PaginatedResponse<ReportModel>.fromJson(
+          json as Map<String, dynamic>,
+          (json) => ReportModel.fromJson(json as Map<String, dynamic>),
+        ),
+      );
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<BaseResponse<TokensModel>> refreshToken(
+    Map<String, dynamic> refreshTokenDTO,
+  ) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(refreshTokenDTO);
+    final _options = _setStreamType<BaseResponse<TokensModel>>(
+      Options(method: 'POST', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            '/api/SnapReports/my-reports',
+            'api/auth/refresh-token',
             queryParameters: queryParameters,
             data: _data,
           )
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late BaseResponse<List<dynamic>> _value;
+    late BaseResponse<TokensModel> _value;
     try {
-      _value = BaseResponse<List<dynamic>>.fromJson(
+      _value = BaseResponse<TokensModel>.fromJson(
         _result.data!,
-        (json) =>
-            json is List<dynamic>
-                ? json.map<dynamic>((i) => i as Map<String, dynamic>).toList()
-                : List.empty(),
+        (json) => TokensModel.fromJson(json as Map<String, dynamic>),
       );
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options);

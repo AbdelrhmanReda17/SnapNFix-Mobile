@@ -173,7 +173,7 @@ class _ReportsFilterSheetState extends State<ReportsFilterSheet> {
                       width: double.infinity,
                       child: ElevatedButton(
                         onPressed: () {
-                          context.read<ReportReviewCubit>().applyFilters(
+                          context.read<ReportReviewCubit>().loadReports(
                             status: _selectedStatus,
                             category: _selectedCategory,
                           );

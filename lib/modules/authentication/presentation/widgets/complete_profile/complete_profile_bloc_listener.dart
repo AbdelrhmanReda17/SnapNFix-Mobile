@@ -18,11 +18,12 @@ class CompleteProfileBlocListener extends StatelessWidget
           success: (session) {
             handleSuccess(
               context,
-              message: AppLocalizations.of(context)!.completeProfileSuccessMessage,
+              message:
+                  AppLocalizations.of(context)!.completeProfileSuccessMessage,
               route: Routes.home,
             );
           },
-          error: (error) => handleError(context, error),
+          error: (error) => handleError(context, error, route: Routes.register),
         );
       },
       child: const SizedBox.shrink(),

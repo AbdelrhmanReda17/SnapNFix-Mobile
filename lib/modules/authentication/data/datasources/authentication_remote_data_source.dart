@@ -10,10 +10,7 @@ import 'package:snapnfix/modules/authentication/data/models/dtos/complete_profil
 import 'package:snapnfix/modules/authentication/data/models/dtos/login_dto.dart';
 import 'package:snapnfix/modules/authentication/data/models/dtos/reset_password_dto.dart';
 import 'package:snapnfix/modules/authentication/data/models/session_model.dart';
-import 'package:snapnfix/modules/authentication/data/models/tokens_model.dart';
-import 'package:snapnfix/modules/authentication/data/models/user_model.dart';
 import 'package:snapnfix/modules/authentication/domain/entities/authentication_result.dart';
-import 'package:snapnfix/modules/authentication/domain/entities/tokens.dart';
 
 abstract class BaseAuthenticationRemoteDataSource {
   // Login and Register
@@ -38,6 +35,8 @@ abstract class BaseAuthenticationRemoteDataSource {
   // Third Party Login
   Future<ApiResult<SessionModel>> loginWithGoogle(String accessToken);
   Future<ApiResult<SessionModel>> loginWithFacebook(String accessToken);
+
+  Future<ApiResult<void>> logout();
 }
 
 class AuthenticationRemoteDataSource
@@ -51,6 +50,8 @@ class AuthenticationRemoteDataSource
     required Future<BaseResponse<T>> Function() apiCall,
     bool setVerificationToken = false,
     bool requiresSuccess = false,
+    bool removeVerificationToken = false,
+    bool isLoginOrRegister = false,
   }) async {
     try {
       final response = await apiCall();
@@ -63,6 +64,16 @@ class AuthenticationRemoteDataSource
         return ApiResult.failure(ApiErrorModel(message: response.message));
       }
 
+      if (removeVerificationToken && !setVerificationToken) {
+        DioFactory.clearVerificationTokenHeader();
+      }
+
+      if (isLoginOrRegister && response.data is SessionModel) {
+        DioFactory.setVerificationTokenHeader(
+          (response.data as SessionModel).tokens.accessToken,
+        );
+      }
+
       return ApiResult.success(response.data);
     } catch (error) {
       return ApiResult.failure(ApiErrorHandler.handle(error));
@@ -72,24 +83,10 @@ class AuthenticationRemoteDataSource
   @override
   Future<ApiResult<SessionModel>> login(LoginDTO loginDTO) async {
     try {
-      // final updatedDTO = await _deviceInfoService.withDeviceInfo(loginDTO);
-
-      // return _handleApiCall(apiCall: () => _apiService.login(updatedDTO));
-
-      return ApiResult.success(
-        SessionModel(
-          user: UserModel(
-            id: "1",
-            firstName: "Test",
-            lastName: "User",
-            phoneNumber: "123456789",
-          ),
-          tokens: TokensModel(
-            accessToken: "TEST_ACCESS_TOKEN",
-            refreshToken: "TEST_REFRESH_TOKEN",
-            expiresAt: DateTime.now().add(const Duration(days: 1)),
-          ),
-        ),
+      final updatedDTO = await _deviceInfoService.withDeviceInfo(loginDTO);
+      return _handleApiCall(
+        apiCall: () => _apiService.login(updatedDTO),
+        isLoginOrRegister: true,
       );
     } catch (error) {
       if (ApiErrorHandler.isAuthenticationError(error)) {
@@ -157,6 +154,7 @@ class AuthenticationRemoteDataSource
     );
     return _handleApiCall(
       apiCall: () => _apiService.completeProfile(updatedDTO),
+      isLoginOrRegister: true,
     );
   }
 
@@ -176,6 +174,15 @@ class AuthenticationRemoteDataSource
 
     return await _handleApiCall(
       apiCall: () => _apiService.loginWithGoogle(payload),
+    );
+  }
+
+  @override
+  Future<ApiResult<void>> logout() {
+    return _handleApiCall(
+      apiCall: () => _apiService.logout(),
+      requiresSuccess: true,
+      removeVerificationToken: true,
     );
   }
 }

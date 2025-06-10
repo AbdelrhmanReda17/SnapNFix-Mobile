@@ -7,6 +7,7 @@ import 'package:snapnfix/modules/settings/data/models/dtos/edit_profile_dto.dart
 abstract class BaseSettingsRemoteDataSource {
   Future<ApiResult<String>> changePassword(ChangePasswordDTO changePasswordDTO);
   Future<ApiResult<String>> editProfile(EditProfileDTO editProfileDTO);
+  // Future<ApiResult<String>> logout();
 }
 
 class SettingsRemoteDataSource implements BaseSettingsRemoteDataSource {
@@ -15,7 +16,9 @@ class SettingsRemoteDataSource implements BaseSettingsRemoteDataSource {
   SettingsRemoteDataSource(this._apiService);
 
   @override
-  Future<ApiResult<String>> changePassword(ChangePasswordDTO changePasswordDTO) async {
+  Future<ApiResult<String>> changePassword(
+    ChangePasswordDTO changePasswordDTO,
+  ) async {
     try {
       // final response = await _apiService.changePassword(loginDTO);
       return ApiResult.success('Password changed successfully');
@@ -23,7 +26,6 @@ class SettingsRemoteDataSource implements BaseSettingsRemoteDataSource {
       return ApiResult.failure(ApiErrorHandler.handle(error));
     }
   }
-
 
   @override
   Future<ApiResult<String>> editProfile(EditProfileDTO editProfileDTO) async {

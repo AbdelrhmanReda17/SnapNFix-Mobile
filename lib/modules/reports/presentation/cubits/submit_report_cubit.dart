@@ -70,6 +70,7 @@ class SubmitReportCubit extends Cubit<SubmitReportState> {
 
       result.when(
         success: (data) {
+          resetState();
           emit(state.copyWith(isLoading: false, successMessage: data));
         },
         failure: (error) {
