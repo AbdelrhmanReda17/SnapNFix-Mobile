@@ -1,8 +1,9 @@
 enum IssueCategory {
   roadDamage('Road Damage'),
-  defectivePothole('Defective Pothole'),
+  defectiveManhole('Defective Manhole'),
+  nonDefectiveManhole('Non-defective Manhole'),
   lighting('Lighting'),
-  manhole('Manhole');
+  pothole('Pothole');
 
   final String displayName;
   const IssueCategory(this.displayName);

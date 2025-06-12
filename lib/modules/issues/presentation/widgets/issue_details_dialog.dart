@@ -12,19 +12,20 @@ class IssueDetailsDialog {
     return showDialog(
       context: context,
       barrierDismissible: true,
-      builder: (context) => Dialog(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16),
-        ),
-        insetPadding: const EdgeInsets.symmetric(horizontal: 16),
-        child: IssueMarkerDialog(
-          issue: issue,
-          onReportTap: () {
-            Navigator.pop(context);
-            onReportTap?.call();
-          },
-        ),
-      ),
+      builder:
+          (context) => Dialog(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(16),
+            ),
+            insetPadding: const EdgeInsets.symmetric(horizontal: 16),
+            child: IssueMarkerDialog(
+              issue: issue,
+              onReportTap: () {
+                Navigator.pop(context);
+                onReportTap?.call();
+              },
+            ),
+          ),
     ).then((_) => onDialogClosed());
   }
 }

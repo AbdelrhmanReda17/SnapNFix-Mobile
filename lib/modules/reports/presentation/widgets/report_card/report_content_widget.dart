@@ -33,8 +33,10 @@ class ReportExpandedContent extends StatelessWidget {
             children: [
               Expanded(
                 child: LocationDisplay(
-                  latitude: report.latitude,
-                  longitude: report.longitude,
+                  road: report.road,
+                  city: report.city,
+                  state: report.state,
+                  country: report.country,
                 ),
               ),
             ],

@@ -132,7 +132,7 @@ class IssueLocalDataSource implements BaseIssueLocalDataSource {
                   issue.latitude,
                   issue.longitude,
                 );
-                return distance <= radiusInKm * 1000; // Convert km to meters
+                return distance <= radiusInKm ; // Convert km to meters
               })
               .toList();
 

@@ -72,7 +72,7 @@ class IssueRemoteDataSource implements BaseIssueRemoteDataSource {
             GetNearbyIssuesQuery(
               latitude: latitude,
               longitude: longitude,
-              radius: (radiusInKm * 1000).toInt(),
+              radius: (radiusInKm).toInt(),
             ),
           );
           return result;

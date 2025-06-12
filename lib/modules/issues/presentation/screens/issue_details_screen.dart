@@ -86,9 +86,7 @@ class IssueDetailsScreen extends StatelessWidget {
         children: [
           IssueImageSlider(images: issue.images),
           IssueDetails(issue: issue),
-          Expanded(
-            child: IssueDescriptionsList(descriptions: issue.descriptions),
-          ),
+          // Expanded(child: IssueDescriptionsList(descriptions: "ARasdasdasd")),
         ],
       ),
     );

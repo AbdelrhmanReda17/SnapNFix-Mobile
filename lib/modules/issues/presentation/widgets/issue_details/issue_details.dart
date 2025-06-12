@@ -96,10 +96,10 @@ class IssueDetails extends StatelessWidget {
 
           verticalSpace(16),
           // Descriptionss section header
-          Text(
-            localization.issueDescriptionsTitle(issue.descriptions.length),
-            style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.bold),
-          ),
+          // Text(
+          //   localization.issueDescriptionsTitle(issue.descriptions.length),
+          //   style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.bold),
+          // ),
         ],
       ),
     );
