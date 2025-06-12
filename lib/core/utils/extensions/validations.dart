@@ -27,7 +27,7 @@ extension Validations on String {
   }
 
   bool _validateName(String fullName) {
-    const fullNamePattern = r'^[a-zA-Z]{3,}$';
+    const fullNamePattern = r'^[a-zA-Z]{3,20}$';
     final RegExp fullNameRegex = RegExp(fullNamePattern);
     return fullNameRegex.hasMatch(fullName);
   }

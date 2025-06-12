@@ -3,12 +3,12 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:snapnfix/modules/reports/presentation/cubits/report_review_cubit.dart';
-import 'package:snapnfix/modules/reports/presentation/widgets/report_filters/reports_filter_sheet.dart';
+import 'package:snapnfix/modules/reports/presentation/cubits/user_reports_cubit.dart';
 import 'package:snapnfix/modules/reports/presentation/widgets/report_filters/reports_sort_menu.dart';
 import 'package:snapnfix/modules/reports/presentation/widgets/reports_error_view_widget.dart';
 import 'package:snapnfix/modules/reports/presentation/widgets/reports_list.dart';
 import 'package:snapnfix/presentation/widgets/loading_overlay.dart';
+import 'package:snapnfix/modules/reports/presentation/widgets/report_filters/reports_filter_sheet.dart';
 
 class UserReportsScreen extends StatefulWidget {
   const UserReportsScreen({super.key});
@@ -23,7 +23,7 @@ class _UserReportsScreenState extends State<UserReportsScreen> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (mounted) {
-        context.read<ReportReviewCubit>().loadReports();
+        context.read<UserReportsCubit>().loadReports();
       }
     });
   }
@@ -44,25 +44,25 @@ class _UserReportsScreenState extends State<UserReportsScreen> {
     return Scaffold(
       backgroundColor: colorScheme.surface,
       appBar: AppBar(
-            backgroundColor: colorScheme.surface,
-            titleSpacing: 0,
-            centerTitle: true,
-            elevation: 0,
-            title: Text(
-              localization.myReports,
-              style: theme.textTheme.headlineLarge?.copyWith(
-                fontWeight: FontWeight.w600,
-                fontSize: 20.sp,
-                color: colorScheme.primary,
-              ),
-            ),
+        backgroundColor: colorScheme.surface,
+        titleSpacing: 0,
+        centerTitle: true,
+        elevation: 0,
+        title: Text(
+          localization.myReports,
+          style: theme.textTheme.headlineLarge?.copyWith(
+            fontWeight: FontWeight.w600,
+            fontSize: 20.sp,
+            color: colorScheme.primary,
           ),
+        ),
+      ),
       body: Column(
         children: [
           _buildFilterToolbar(context),
 
           Expanded(
-            child: BlocBuilder<ReportReviewCubit, ReportReviewState>(
+            child: BlocBuilder<UserReportsCubit, UserReportsState>(
               buildWhen: (previous, current) {
                 final changed =
                     previous.isLoading != current.isLoading ||
@@ -87,12 +87,16 @@ class _UserReportsScreenState extends State<UserReportsScreen> {
     );
   }
 
+  void _showFilterBottomSheet(BuildContext context, UserReportsState state) {
+    ReportsFilterSheet.show(context);
+  }
+
   Widget _buildFilterToolbar(BuildContext context) {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
     final localization = AppLocalizations.of(context)!;
 
-    return BlocBuilder<ReportReviewCubit, ReportReviewState>(
+    return BlocBuilder<UserReportsCubit, UserReportsState>(
       buildWhen:
           (previous, current) =>
               previous.currentStatus != current.currentStatus ||
@@ -197,35 +201,6 @@ class _UserReportsScreenState extends State<UserReportsScreen> {
               ReportsSortMenu(currentSortOption: state.currentSortOption),
             ],
           ),
-        );
-      },
-    );
-  }
-
-  void _showFilterBottomSheet(BuildContext context, ReportReviewState state) {
-    // Get the cubit instance before opening the bottom sheet
-    final reportReviewCubit = context.read<ReportReviewCubit>();
-
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
-      builder: (BuildContext bottomSheetContext) {
-        return DraggableScrollableSheet(
-          initialChildSize: 0.85,
-          maxChildSize: 0.95,
-          minChildSize: 0.5,
-          expand: false,
-          builder: (context, scrollController) {
-            // Provide the cubit with a new BlocProvider
-            return BlocProvider<ReportReviewCubit>.value(
-              value: reportReviewCubit, // Use the captured cubit
-              child: ReportsFilterSheet(
-                selectedStatus: state.currentStatus,
-                selectedCategory: state.currentCategory,
-              ),
-            );
-          },
         );
       },
     );

@@ -2,20 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:snapnfix/modules/reports/presentation/cubits/report_review_cubit.dart';
+import 'package:snapnfix/modules/reports/presentation/cubits/user_reports_cubit.dart';
 
-enum SortOption {
-  dateNewest,
-  dateOldest,
-}
+enum SortOption { dateNewest, dateOldest }
 
 class ReportsSortMenu extends StatelessWidget {
   final SortOption currentSortOption;
 
-  const ReportsSortMenu({
-    super.key,
-    required this.currentSortOption,
-  });
+  const ReportsSortMenu({super.key, required this.currentSortOption});
 
   @override
   Widget build(BuildContext context) {
@@ -27,35 +21,31 @@ class ReportsSortMenu extends StatelessWidget {
       initialValue: currentSortOption,
       tooltip: localization.sort,
       position: PopupMenuPosition.under,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(8.r),
-      ),
-      icon: Icon(
-        Icons.sort,
-        color: colorScheme.primary,
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.r)),
+      icon: Icon(Icons.sort, color: colorScheme.primary),
       onSelected: (SortOption option) {
-        context.read<ReportReviewCubit>().loadReports(
+        context.read<UserReportsCubit>().loadReports(
           sortOption: option,
-          refresh: true, 
+          refresh: true,
         );
       },
-      itemBuilder: (BuildContext context) => <PopupMenuEntry<SortOption>>[
-        _buildMenuItem(
-          context,
-          value: SortOption.dateNewest,
-          text: localization.sortByDateNewest,
-          icon: Icons.arrow_downward,
-          isSelected: currentSortOption == SortOption.dateNewest,
-        ),
-        _buildMenuItem(
-          context,
-          value: SortOption.dateOldest,
-          text: localization.sortByDateOldest,
-          icon: Icons.arrow_upward,
-          isSelected: currentSortOption == SortOption.dateOldest,
-        ),
-      ],
+      itemBuilder:
+          (BuildContext context) => <PopupMenuEntry<SortOption>>[
+            _buildMenuItem(
+              context,
+              value: SortOption.dateNewest,
+              text: localization.sortByDateNewest,
+              icon: Icons.arrow_downward,
+              isSelected: currentSortOption == SortOption.dateNewest,
+            ),
+            _buildMenuItem(
+              context,
+              value: SortOption.dateOldest,
+              text: localization.sortByDateOldest,
+              icon: Icons.arrow_upward,
+              isSelected: currentSortOption == SortOption.dateOldest,
+            ),
+          ],
     );
   }
 
@@ -68,7 +58,7 @@ class ReportsSortMenu extends StatelessWidget {
   }) {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
-    
+
     return PopupMenuItem<SortOption>(
       value: value,
       child: Row(
@@ -88,11 +78,7 @@ class ReportsSortMenu extends StatelessWidget {
           ),
           const Spacer(),
           if (isSelected)
-            Icon(
-              Icons.check,
-              size: 16.sp,
-              color: colorScheme.primary,
-            ),
+            Icon(Icons.check, size: 16.sp, color: colorScheme.primary),
         ],
       ),
     );

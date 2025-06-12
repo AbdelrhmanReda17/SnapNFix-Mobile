@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:snapnfix/core/infrastructure/networking/api_error_model.dart';
-import 'package:snapnfix/modules/authentication/domain/entities/session.dart';
-import 'package:snapnfix/modules/authentication/domain/entities/user_gender.dart';
-import 'package:snapnfix/modules/authentication/domain/usecases/complete_profile_use_case.dart';
+import 'package:snapnfix/modules/authentication/index.dart';
+import 'package:snapnfix/core/index.dart';
 
 part 'complete_profile_state.dart';
 part 'complete_profile_cubit.freezed.dart';
@@ -78,7 +76,7 @@ class CompleteProfileCubit extends Cubit<CompleteProfileState> {
     } catch (e) {
       emit(
         CompleteProfileState.error(
-          ApiErrorModel(message: 'An unexpected error occurred'),
+          ApiError(message: 'An unexpected error occurred'),
         ),
       );
     }
@@ -88,7 +86,7 @@ class CompleteProfileCubit extends Cubit<CompleteProfileState> {
     if (!formKey.currentState!.validate()) {
       emit(
         CompleteProfileState.error(
-          ApiErrorModel(message: 'Please fill in all required fields'),
+          ApiError(message: 'Please fill in all required fields'),
         ),
       );
       return false;
@@ -96,9 +94,7 @@ class CompleteProfileCubit extends Cubit<CompleteProfileState> {
 
     if (_password != _repeatPassword) {
       emit(
-        CompleteProfileState.error(
-          ApiErrorModel(message: 'Passwords do not match'),
-        ),
+        CompleteProfileState.error(ApiError(message: 'Passwords do not match')),
       );
       return false;
     }
@@ -110,7 +106,7 @@ class CompleteProfileCubit extends Cubit<CompleteProfileState> {
     emit(CompleteProfileState.success(session));
   }
 
-  void _handleProfileCompletionFailure(ApiErrorModel error) {
+  void _handleProfileCompletionFailure(ApiError error) {
     emit(CompleteProfileState.error(error));
   }
 }

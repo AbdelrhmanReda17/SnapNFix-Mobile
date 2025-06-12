@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 enum ReportStatus {
-  pending('Pending', Color(0xFF4CAF50)),
-  approved('Approved',  Color(0xFFFF9800)),
-  declined('declined', Color(0xFFF44336));
+  pending('Pending', Color(0xFFFF9800)),
+  approved('Approved', Color(0xFF4CAF50)),
+  declined('Declined', Color(0xFFF44336));
 
   final String value;
   final Color color;

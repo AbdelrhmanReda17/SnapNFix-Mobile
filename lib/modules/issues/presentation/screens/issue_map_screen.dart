@@ -1,14 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:snapnfix/core/infrastructure/location/location_permission_wrapper.dart';
-import 'package:snapnfix/modules/issues/presentation/cubits/issues_map_cubit.dart';
-import 'package:snapnfix/modules/issues/presentation/cubits/issues_map_state.dart';
-import 'package:snapnfix/modules/issues/presentation/widgets/filter_sheet/issue_filter_sheet.dart';
-import 'package:snapnfix/modules/issues/presentation/widgets/issues_map.dart';
-import 'package:snapnfix/modules/issues/presentation/widgets/map_controllers.dart';
-import 'package:snapnfix/modules/issues/presentation/widgets/marker_dialog/issue_marker_dialog.dart';
-import 'package:snapnfix/modules/issues/presentation/widgets/nearby_issues_section.dart';
+import 'package:snapnfix/core/index.dart';
+import 'package:snapnfix/modules/issues/index.dart';
 
 class IssueMapScreen extends StatefulWidget {
   const IssueMapScreen({super.key});
@@ -38,29 +32,32 @@ class _IssueMapScreenState extends State<IssueMapScreen> {
         return BlocListener<IssuesMapCubit, IssuesMapState>(
           listenWhen:
               (previous, current) =>
-                  previous.selectedIssue != current.selectedIssue &&
-                  current.selectedIssue != null &&
+                  previous.selectedIssueId != current.selectedIssueId &&
+                  current.selectedIssueId != null &&
                   current.showIssueDetail,
           listener: (context, state) {
-            showDialog(
-              context: context,
-              barrierDismissible: true,
-              builder:
-                  (context) => Dialog(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                    insetPadding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: IssueMarkerDialog(
-                      issue: state.selectedIssue!,
-                      onReportTap: () {
-                        Navigator.pop(context);
-                      },
-                    ),
-                  ),
-            ).then((_) {
-              _issuesMapCubit.onIssueDetailClosed();
-            });
+            debugPrint(
+              'IssueMapScreen: Selected issue ID changed: ${state.selectedIssueId}',
+            );
+            // showDialog(
+            //   context: context,
+            //   barrierDismissible: true,
+            //   builder:
+            //       (context) => Dialog(
+            //         shape: RoundedRectangleBorder(
+            //           borderRadius: BorderRadius.circular(16),
+            //         ),
+            //         insetPadding: const EdgeInsets.symmetric(horizontal: 16),
+            //         child: IssueMarkerDialog(
+            //           issue: state.selectedIssue!,
+            //           onReportTap: () {
+            //             Navigator.pop(context);
+            //           },
+            //         ),
+            //       ),
+            // ).then((_) {
+            //   _issuesMapCubit.onIssueDetailClosed();
+            // });
           },
           child: BlocBuilder<IssuesMapCubit, IssuesMapState>(
             builder: (context, state) {
@@ -80,20 +77,20 @@ class _IssueMapScreenState extends State<IssueMapScreen> {
                       onMapCreated: _issuesMapCubit.onMapCreated,
                       onCameraMove: _issuesMapCubit.onCameraMove,
                     ),
-                    MapControllers(
-                      onSearchTap: () => IssueFilterSheet.show(context),
-                    ),
-                    if (state.filteredIssues.isNotEmpty) ...[
-                      NearbyIssuesSection(
-                        issues: state.filteredIssues,
-                        onIssueSelected: (issue) async {
-                          await _issuesMapCubit.onIssueTapped(
-                            issue.latitude,
-                            issue.longitude,
-                          );
-                        },
-                      ),
-                    ],
+                    // MapControllers(
+                    //   onSearchTap: () => IssueFilterSheet.show(context),
+                    // ),
+                    // if (state.filteredIssues.isNotEmpty) ...[
+                    //   NearbyIssuesSection(
+                    //     issues: state.filteredIssues,
+                    //     onIssueSelected: (issue) async {
+                    //       await _issuesMapCubit.onIssueTapped(
+                    //         issue.latitude,
+                    //         issue.longitude,
+                    //       );
+                    //     },
+                    //   ),
+                    // ],
                   ],
                 ],
               );

@@ -1,14 +1,14 @@
 import 'dart:async';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:snapnfix/core/infrastructure/networking/api_result.dart';
-import 'package:snapnfix/modules/issues/domain/entities/issue.dart';
-import 'package:snapnfix/modules/issues/domain/entities/issue_category.dart';
-import 'package:snapnfix/modules/issues/domain/entities/issue_severity.dart';
-import 'package:snapnfix/modules/issues/domain/entities/issue_status.dart';
-import 'package:snapnfix/modules/issues/domain/usecases/watch_nearby_issues_use_case.dart';
-import 'package:snapnfix/modules/issues/presentation/cubits/issues_map_state.dart';
+import 'package:snapnfix/modules/issues/index.dart';
+import 'package:snapnfix/core/index.dart';
+import 'package:snapnfix/modules/issues/data/models/markers.dart' as SnapNFix;
+part 'issues_map_state.dart';
+part 'issues_map_cubit.freezed.dart';
 
 class IssuesMapCubit extends Cubit<IssuesMapState> {
   final WatchNearbyIssuesUseCase _watchNearbyIssuesUseCase;
@@ -91,10 +91,13 @@ class IssuesMapCubit extends Cubit<IssuesMapState> {
   ) async {
     await _issuesSubscription?.cancel();
 
+    debugPrint('Starting to watch nearby issues at $latitude, $longitude');
+
     _issuesSubscription = _watchNearbyIssuesUseCase
         .call(latitude, longitude)
         .listen(
           (result) {
+            debugPrint('Received issues update: $result');
             if (!_isClosed) _handleIssuesUpdate(result);
           },
           onError: (error) {
@@ -111,107 +114,51 @@ class IssuesMapCubit extends Cubit<IssuesMapState> {
         );
   }
 
-  void _handleIssuesUpdate(ApiResult<List<Issue>> result) {
+  void _handleIssuesUpdate(Result<List<SnapNFix.Marker>, ApiError> result) {
     if (_isClosed) return;
+    debugPrint('Handling issues update: $result');
 
     result.when(
       success: (issues) {
-        final filteredIssues = _applyFilters(issues);
+        debugPrint('Issues updated: ${issues.length}');
         emit(
           state.copyWith(
             status: MapStatus.loaded,
             issues: issues,
-            filteredIssues: filteredIssues,
-            markers: _createMarkers(filteredIssues),
+            markers: _createMarkers(issues),
             error: null,
           ),
         );
       },
       failure: (error) {
-        emit(state.copyWith(status: MapStatus.error, error: error.message));
+        emit(state.copyWith(status: MapStatus.error, error: error.fullMessage));
       },
     );
   }
 
-  Set<Marker> _createMarkers(List<Issue> issues) {
-    return issues.map((issue) {
-      final hue =
-          issue.severity == IssueSeverity.high
-              ? BitmapDescriptor.hueRed
-              : issue.severity == IssueSeverity.medium
-              ? BitmapDescriptor.hueOrange
-              : BitmapDescriptor.hueGreen;
-
+  Set<Marker> _createMarkers(List<SnapNFix.Marker> issuesMarkers) {
+    debugPrint('Creating markers for ${issuesMarkers.length} issues');
+    return issuesMarkers.map((issueMarker) {
       return Marker(
-        markerId: MarkerId(issue.id),
-        position: LatLng(issue.latitude, issue.longitude),
+        markerId: MarkerId(issueMarker.issueId),
+        position: LatLng(
+          issueMarker.latitude as double,
+          issueMarker.longitude as double,
+        ),
         onTap:
             () => emit(
-              state.copyWith(selectedIssue: issue, showIssueDetail: true),
+              state.copyWith(
+                selectedIssueId: issueMarker.issueId,
+                showIssueDetail: true,
+              ),
             ),
-        icon: BitmapDescriptor.defaultMarkerWithHue(hue),
+        icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed),
       );
     }).toSet();
   }
 
-  // Issue filters
-  List<Issue> _applyFilters(List<Issue> issues) {
-    if (state.selectedCategories.isEmpty &&
-        state.selectedSeverities.isEmpty &&
-        state.selectedStatuses.isEmpty) {
-      return issues;
-    }
-
-    return issues.where((issue) {
-      final matchesCategory =
-          state.selectedCategories.isEmpty ||
-          state.selectedCategories.contains(issue.category);
-      final matchesSeverity =
-          state.selectedSeverities.isEmpty ||
-          state.selectedSeverities.contains(issue.severity);
-      final matchesStatus =
-          state.selectedStatuses.isEmpty ||
-          state.selectedStatuses.contains(issue.status);
-      return matchesCategory && matchesSeverity && matchesStatus;
-    }).toList();
-  }
-
-  void applyFilters({
-    required List<IssueCategory> selectedCategories,
-    required List<IssueSeverity> selectedSeverities,
-    required List<IssueStatus> selectedStatuses,
-  }) {
-    emit(
-      state.copyWith(
-        selectedCategories: selectedCategories,
-        selectedSeverities: selectedSeverities,
-        selectedStatuses: selectedStatuses,
-      ),
-    );
-
-    final filteredIssues = _applyFilters(state.issues);
-    emit(
-      state.copyWith(
-        filteredIssues: filteredIssues,
-        markers: _createMarkers(filteredIssues),
-      ),
-    );
-  }
-
-  void clearFilters() {
-    emit(
-      state.copyWith(
-        selectedCategories: const [],
-        selectedSeverities: const [],
-        selectedStatuses: const [],
-        filteredIssues: state.issues,
-        markers: _createMarkers(state.issues),
-      ),
-    );
-  }
-
   // Issue detail handling
   void onIssueDetailClosed() {
-    emit(state.copyWith(showIssueDetail: false, selectedIssue: null));
+    emit(state.copyWith(showIssueDetail: false, selectedIssueId: null));
   }
 }

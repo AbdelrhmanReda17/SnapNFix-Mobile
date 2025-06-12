@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:snapnfix/core/base_components/base_alert.dart';
-import 'package:snapnfix/core/infrastructure/networking/api_error_model.dart';
+
+import '../../../../core/base_components/index.dart';
+import '../../../../core/infrastructure/index.dart';
 
 mixin AuthenticationListenerMixin {
   void showLoadingDialog(BuildContext context) {
@@ -59,7 +60,7 @@ mixin AuthenticationListenerMixin {
 
   void handleError(
     BuildContext context,
-    ApiErrorModel error, {
+    ApiError error, {
     String? title,
     String? route,
   }) {
@@ -67,7 +68,7 @@ mixin AuthenticationListenerMixin {
     baseDialog(
       context: context,
       title: title ?? AppLocalizations.of(context)!.errorDialogTitle,
-      message: error.getAllErrorMessages(),
+      message: error.fullMessage,
       alertType: AlertType.error,
       confirmText: AppLocalizations.of(context)!.gotItConfirmText,
       onConfirm: () {

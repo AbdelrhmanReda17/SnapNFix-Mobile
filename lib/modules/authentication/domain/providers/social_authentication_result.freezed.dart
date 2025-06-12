@@ -12,8 +12,7 @@ part of 'social_authentication_result.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
-);
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$SocialAuthenticationResult {
@@ -22,58 +21,58 @@ mixin _$SocialAuthenticationResult {
     required TResult Function(String idToken) success,
     required TResult Function() cancelled,
     required TResult Function(String errorMessage) failure,
-  }) => throw _privateConstructorUsedError;
+  }) =>
+      throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(String idToken)? success,
     TResult? Function()? cancelled,
     TResult? Function(String errorMessage)? failure,
-  }) => throw _privateConstructorUsedError;
+  }) =>
+      throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String idToken)? success,
     TResult Function()? cancelled,
     TResult Function(String errorMessage)? failure,
     required TResult orElse(),
-  }) => throw _privateConstructorUsedError;
+  }) =>
+      throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(SocialAuthenticationSuccess value) success,
     required TResult Function(SocialAuthenticationCancelled value) cancelled,
     required TResult Function(SocialAuthenticationFailure value) failure,
-  }) => throw _privateConstructorUsedError;
+  }) =>
+      throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(SocialAuthenticationSuccess value)? success,
     TResult? Function(SocialAuthenticationCancelled value)? cancelled,
     TResult? Function(SocialAuthenticationFailure value)? failure,
-  }) => throw _privateConstructorUsedError;
+  }) =>
+      throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(SocialAuthenticationSuccess value)? success,
     TResult Function(SocialAuthenticationCancelled value)? cancelled,
     TResult Function(SocialAuthenticationFailure value)? failure,
     required TResult orElse(),
-  }) => throw _privateConstructorUsedError;
+  }) =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 abstract class $SocialAuthenticationResultCopyWith<$Res> {
-  factory $SocialAuthenticationResultCopyWith(
-    SocialAuthenticationResult value,
-    $Res Function(SocialAuthenticationResult) then,
-  ) =
-      _$SocialAuthenticationResultCopyWithImpl<
-        $Res,
-        SocialAuthenticationResult
-      >;
+  factory $SocialAuthenticationResultCopyWith(SocialAuthenticationResult value,
+          $Res Function(SocialAuthenticationResult) then) =
+      _$SocialAuthenticationResultCopyWithImpl<$Res,
+          SocialAuthenticationResult>;
 }
 
 /// @nodoc
-class _$SocialAuthenticationResultCopyWithImpl<
-  $Res,
-  $Val extends SocialAuthenticationResult
->
+class _$SocialAuthenticationResultCopyWithImpl<$Res,
+        $Val extends SocialAuthenticationResult>
     implements $SocialAuthenticationResultCopyWith<$Res> {
   _$SocialAuthenticationResultCopyWithImpl(this._value, this._then);
 
@@ -89,40 +88,36 @@ class _$SocialAuthenticationResultCopyWithImpl<
 /// @nodoc
 abstract class _$$SocialAuthenticationSuccessImplCopyWith<$Res> {
   factory _$$SocialAuthenticationSuccessImplCopyWith(
-    _$SocialAuthenticationSuccessImpl value,
-    $Res Function(_$SocialAuthenticationSuccessImpl) then,
-  ) = __$$SocialAuthenticationSuccessImplCopyWithImpl<$Res>;
+          _$SocialAuthenticationSuccessImpl value,
+          $Res Function(_$SocialAuthenticationSuccessImpl) then) =
+      __$$SocialAuthenticationSuccessImplCopyWithImpl<$Res>;
   @useResult
   $Res call({String idToken});
 }
 
 /// @nodoc
 class __$$SocialAuthenticationSuccessImplCopyWithImpl<$Res>
-    extends
-        _$SocialAuthenticationResultCopyWithImpl<
-          $Res,
-          _$SocialAuthenticationSuccessImpl
-        >
+    extends _$SocialAuthenticationResultCopyWithImpl<$Res,
+        _$SocialAuthenticationSuccessImpl>
     implements _$$SocialAuthenticationSuccessImplCopyWith<$Res> {
   __$$SocialAuthenticationSuccessImplCopyWithImpl(
-    _$SocialAuthenticationSuccessImpl _value,
-    $Res Function(_$SocialAuthenticationSuccessImpl) _then,
-  ) : super(_value, _then);
+      _$SocialAuthenticationSuccessImpl _value,
+      $Res Function(_$SocialAuthenticationSuccessImpl) _then)
+      : super(_value, _then);
 
   /// Create a copy of SocialAuthenticationResult
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({Object? idToken = null}) {
-    return _then(
-      _$SocialAuthenticationSuccessImpl(
-        idToken:
-            null == idToken
-                ? _value.idToken
-                : idToken // ignore: cast_nullable_to_non_nullable
-                    as String,
-      ),
-    );
+  $Res call({
+    Object? idToken = null,
+  }) {
+    return _then(_$SocialAuthenticationSuccessImpl(
+      idToken: null == idToken
+          ? _value.idToken
+          : idToken // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
   }
 }
 
@@ -156,9 +151,8 @@ class _$SocialAuthenticationSuccessImpl implements SocialAuthenticationSuccess {
   @override
   @pragma('vm:prefer-inline')
   _$$SocialAuthenticationSuccessImplCopyWith<_$SocialAuthenticationSuccessImpl>
-  get copyWith => __$$SocialAuthenticationSuccessImplCopyWithImpl<
-    _$SocialAuthenticationSuccessImpl
-  >(this, _$identity);
+      get copyWith => __$$SocialAuthenticationSuccessImplCopyWithImpl<
+          _$SocialAuthenticationSuccessImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -240,29 +234,26 @@ abstract class SocialAuthenticationSuccess
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$SocialAuthenticationSuccessImplCopyWith<_$SocialAuthenticationSuccessImpl>
-  get copyWith => throw _privateConstructorUsedError;
+      get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 abstract class _$$SocialAuthenticationCancelledImplCopyWith<$Res> {
   factory _$$SocialAuthenticationCancelledImplCopyWith(
-    _$SocialAuthenticationCancelledImpl value,
-    $Res Function(_$SocialAuthenticationCancelledImpl) then,
-  ) = __$$SocialAuthenticationCancelledImplCopyWithImpl<$Res>;
+          _$SocialAuthenticationCancelledImpl value,
+          $Res Function(_$SocialAuthenticationCancelledImpl) then) =
+      __$$SocialAuthenticationCancelledImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
 class __$$SocialAuthenticationCancelledImplCopyWithImpl<$Res>
-    extends
-        _$SocialAuthenticationResultCopyWithImpl<
-          $Res,
-          _$SocialAuthenticationCancelledImpl
-        >
+    extends _$SocialAuthenticationResultCopyWithImpl<$Res,
+        _$SocialAuthenticationCancelledImpl>
     implements _$$SocialAuthenticationCancelledImplCopyWith<$Res> {
   __$$SocialAuthenticationCancelledImplCopyWithImpl(
-    _$SocialAuthenticationCancelledImpl _value,
-    $Res Function(_$SocialAuthenticationCancelledImpl) _then,
-  ) : super(_value, _then);
+      _$SocialAuthenticationCancelledImpl _value,
+      $Res Function(_$SocialAuthenticationCancelledImpl) _then)
+      : super(_value, _then);
 
   /// Create a copy of SocialAuthenticationResult
   /// with the given fields replaced by the non-null parameter values.
@@ -367,40 +358,36 @@ abstract class SocialAuthenticationCancelled
 /// @nodoc
 abstract class _$$SocialAuthenticationFailureImplCopyWith<$Res> {
   factory _$$SocialAuthenticationFailureImplCopyWith(
-    _$SocialAuthenticationFailureImpl value,
-    $Res Function(_$SocialAuthenticationFailureImpl) then,
-  ) = __$$SocialAuthenticationFailureImplCopyWithImpl<$Res>;
+          _$SocialAuthenticationFailureImpl value,
+          $Res Function(_$SocialAuthenticationFailureImpl) then) =
+      __$$SocialAuthenticationFailureImplCopyWithImpl<$Res>;
   @useResult
   $Res call({String errorMessage});
 }
 
 /// @nodoc
 class __$$SocialAuthenticationFailureImplCopyWithImpl<$Res>
-    extends
-        _$SocialAuthenticationResultCopyWithImpl<
-          $Res,
-          _$SocialAuthenticationFailureImpl
-        >
+    extends _$SocialAuthenticationResultCopyWithImpl<$Res,
+        _$SocialAuthenticationFailureImpl>
     implements _$$SocialAuthenticationFailureImplCopyWith<$Res> {
   __$$SocialAuthenticationFailureImplCopyWithImpl(
-    _$SocialAuthenticationFailureImpl _value,
-    $Res Function(_$SocialAuthenticationFailureImpl) _then,
-  ) : super(_value, _then);
+      _$SocialAuthenticationFailureImpl _value,
+      $Res Function(_$SocialAuthenticationFailureImpl) _then)
+      : super(_value, _then);
 
   /// Create a copy of SocialAuthenticationResult
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({Object? errorMessage = null}) {
-    return _then(
-      _$SocialAuthenticationFailureImpl(
-        errorMessage:
-            null == errorMessage
-                ? _value.errorMessage
-                : errorMessage // ignore: cast_nullable_to_non_nullable
-                    as String,
-      ),
-    );
+  $Res call({
+    Object? errorMessage = null,
+  }) {
+    return _then(_$SocialAuthenticationFailureImpl(
+      errorMessage: null == errorMessage
+          ? _value.errorMessage
+          : errorMessage // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
   }
 }
 
@@ -435,9 +422,8 @@ class _$SocialAuthenticationFailureImpl implements SocialAuthenticationFailure {
   @override
   @pragma('vm:prefer-inline')
   _$$SocialAuthenticationFailureImplCopyWith<_$SocialAuthenticationFailureImpl>
-  get copyWith => __$$SocialAuthenticationFailureImplCopyWithImpl<
-    _$SocialAuthenticationFailureImpl
-  >(this, _$identity);
+      get copyWith => __$$SocialAuthenticationFailureImplCopyWithImpl<
+          _$SocialAuthenticationFailureImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -510,9 +496,8 @@ class _$SocialAuthenticationFailureImpl implements SocialAuthenticationFailure {
 
 abstract class SocialAuthenticationFailure
     implements SocialAuthenticationResult {
-  const factory SocialAuthenticationFailure({
-    required final String errorMessage,
-  }) = _$SocialAuthenticationFailureImpl;
+  const factory SocialAuthenticationFailure(
+      {required final String errorMessage}) = _$SocialAuthenticationFailureImpl;
 
   String get errorMessage;
 
@@ -520,5 +505,5 @@ abstract class SocialAuthenticationFailure
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$SocialAuthenticationFailureImplCopyWith<_$SocialAuthenticationFailureImpl>
-  get copyWith => throw _privateConstructorUsedError;
+      get copyWith => throw _privateConstructorUsedError;
 }

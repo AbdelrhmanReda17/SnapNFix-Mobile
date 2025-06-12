@@ -5,7 +5,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:snapnfix/core/infrastructure/location/location_service.dart';
-import 'package:snapnfix/core/infrastructure/networking/api_error_handler.dart';
 import 'package:snapnfix/modules/reports/domain/entities/report_severity.dart';
 import 'package:snapnfix/modules/reports/domain/usecases/submit_report_use_case.dart';
 import 'package:geolocator/geolocator.dart';
@@ -59,12 +58,21 @@ class SubmitReportCubit extends Cubit<SubmitReportState> {
     emit(state.copyWith(isLoading: true, error: null, successMessage: null));
     final position = await locationService.getCurrentPosition();
     emit(state.copyWith(position: position));
+
+    List<String>? address = await locationService.getAddressFromCoordinates(
+      position.latitude,
+      position.longitude,
+    );
     try {
       final result = await _submitReportUseCase.call(
         details: state.details ?? '',
         latitude: position.latitude,
         longitude: position.longitude,
         severity: state.severity,
+        city: address?[0] ?? '',
+        road: address?[1] ?? '',
+        state: address?[2] ?? '',
+        country: address?[3] ?? '',
         imagePath: state.image!.path,
       );
 
@@ -74,12 +82,7 @@ class SubmitReportCubit extends Cubit<SubmitReportState> {
           emit(state.copyWith(isLoading: false, successMessage: data));
         },
         failure: (error) {
-          emit(
-            state.copyWith(
-              isLoading: false,
-              error: error.getAllErrorMessages(),
-            ),
-          );
+          emit(state.copyWith(isLoading: false, error: error.fullMessage));
         },
       );
       resetState();
@@ -87,7 +90,7 @@ class SubmitReportCubit extends Cubit<SubmitReportState> {
       emit(
         state.copyWith(
           isLoading: false,
-          error: ApiErrorHandler.handle(error).getAllErrorMessages(),
+          error: "Failed to submit report - ${error.toString()}",
         ),
       );
     }

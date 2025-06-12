@@ -1,12 +1,12 @@
-import 'package:snapnfix/core/infrastructure/location/location_service.dart';
-import 'package:snapnfix/core/infrastructure/networking/api_error_handler.dart';
-import 'package:snapnfix/core/infrastructure/networking/api_result.dart';
 import 'package:snapnfix/modules/issues/data/datasource/issue_local_data_source.dart';
 import 'package:snapnfix/modules/issues/data/datasource/issue_remote_data_source.dart';
+import 'package:snapnfix/modules/issues/data/models/markers.dart';
 import 'package:snapnfix/modules/issues/domain/entities/issue.dart';
 import 'package:snapnfix/modules/issues/domain/repositories/base_issue_repository.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:geolocator/geolocator.dart';
+
+import 'package:snapnfix/core/index.dart';
 
 class IssueRepository implements BaseIssueRepository {
   final BaseIssueRemoteDataSource remoteDataSource;
@@ -22,90 +22,77 @@ class IssueRepository implements BaseIssueRepository {
   });
 
   @override
-  Future<ApiResult<Issue>> getIssueDetails(String issueId) async {
-    try {
-      final remoteResult = await remoteDataSource.getIssueDetails(issueId);
-
-      return await remoteResult.when(
-        success: (issue) async {
-          await localDataSource.cacheIssue(issue);
-          return ApiResult.success(issue);
-        },
-        failure: (error) async {
-          final cachedIssue = await localDataSource.getIssueById(issueId);
-          if (cachedIssue != null) {
-            return ApiResult.success(cachedIssue);
-          }
-          return ApiResult.failure(error);
-        },
-      );
-    } catch (error) {
-      return ApiResult.failure(ApiErrorHandler.handle(error));
-    }
+  Future<Result<Issue, ApiError>> getIssueDetails(String issueId) async {
+    final remoteResult = await remoteDataSource.getIssueDetails(issueId);
+    return await remoteResult.when(
+      success: (issue) async {
+        await localDataSource.cacheIssue(issue);
+        return Result.success(issue);
+      },
+      failure: (error) async {
+        final cachedIssue = await localDataSource.getIssueById(issueId);
+        if (cachedIssue != null) {
+          return Result.success(cachedIssue);
+        }
+        return Result.failure(error);
+      },
+    );
   }
 
   @override
-  Future<ApiResult<List<Issue>>> getNearbyIssues(
+  Future<Result<List<Marker>, ApiError>> getNearbyIssues(
     double latitude,
     double longitude,
     double radiusInKm,
   ) async {
-    try {
-      final remoteResult = await remoteDataSource.getNearbyIssues(
-        latitude,
-        longitude,
-        radiusInKm,
-      );
+    final remoteResult = await remoteDataSource.getNearbyIssues(
+      latitude,
+      longitude,
+      radiusInKm,
+    );
 
-      return await remoteResult.when(
-        success: (issues) async {
-          await localDataSource.cacheIssues(issues);
-          return ApiResult.success(issues as List<Issue>);
-        },
-        failure: (error) async {
-          final cachedIssues = await localDataSource.getNearbyIssues(
-            latitude,
-            longitude,
-            radiusInKm,
-          );
+    return await remoteResult.when(
+      success: (issues) async {
+        // await localDataSource.cacheIssues(issues);
+        return Result.success(issues);
+      },
+      failure: (error) async {
+        // final cachedIssues = await localDataSource.getNearbyIssues(
+        //   latitude,
+        //   longitude,
+        //   radiusInKm,
+        // );
 
-          if (cachedIssues.isNotEmpty) {
-            return ApiResult.success(cachedIssues as List<Issue>);
-          }
-          return ApiResult.failure(error);
-        },
-      );
-    } catch (error) {
-      return ApiResult.failure(ApiErrorHandler.handle(error));
-    }
+        // if (cachedIssues.isNotEmpty) {
+        //   return Result.success(cachedIssues);
+        // }
+        return Result.failure(error);
+      },
+    );
   }
 
   @override
-  Future<ApiResult<List<Issue>>> getUserIssues(String userId) async {
-    try {
-      final remoteResult = await remoteDataSource.getUserIssues(userId);
+  Future<Result<List<Issue>, ApiError>> getUserIssues(String userId) async {
+    final remoteResult = await remoteDataSource.getUserIssues(userId);
 
-      return await remoteResult.when(
-        success: (issues) async {
-          await localDataSource.cacheIssues(issues);
-          return ApiResult.success(issues as List<Issue>);
-        },
-        failure: (error) async {
-          final cachedIssues = await localDataSource.searchIssues(userId);
+    return await remoteResult.when(
+      success: (issues) async {
+        await localDataSource.cacheIssues(issues);
+        return Result.success(issues as List<Issue>);
+      },
+      failure: (error) async {
+        final cachedIssues = await localDataSource.searchIssues(userId);
 
-          if (cachedIssues.isNotEmpty) {
-            return ApiResult.success(cachedIssues as List<Issue>);
-          }
-          return ApiResult.failure(error);
-        },
-      );
-    } catch (error) {
-      return ApiResult.failure(ApiErrorHandler.handle(error));
-    }
+        if (cachedIssues.isNotEmpty) {
+          return Result.success(cachedIssues as List<Issue>);
+        }
+        return Result.failure(error);
+      },
+    );
   }
 
   @override
-  Stream<ApiResult<List<Issue>>> watchNearbyIssues(
+  Stream<Result<List<Marker>, ApiError>> watchNearbyIssues(
     double latitude,
     double longitude,
     double radiusInKm,
@@ -153,8 +140,8 @@ class IssueRepository implements BaseIssueRepository {
 
         final outputResult = await result.when(
           success: (issues) async {
-            await localDataSource.cacheIssues(issues);
-            return ApiResult<List<Issue>>.success(issues as List<Issue>);
+            // await localDataSource.cacheIssues(issues);
+            return Result<List<Marker>, ApiError>.success(issues);
           },
           failure: (error) async {
             final cachedIssues = await localDataSource.getNearbyIssues(
@@ -164,18 +151,20 @@ class IssueRepository implements BaseIssueRepository {
             );
 
             if (cachedIssues.isNotEmpty) {
-              return ApiResult<List<Issue>>.success(
-                cachedIssues as List<Issue>,
+              return Result<List<Marker>, ApiError>.success(
+                cachedIssues as List<Marker>,
               );
             }
-            return ApiResult<List<Issue>>.failure(error);
+            return Result<List<Marker>, ApiError>.failure(error);
           },
         );
 
         yield outputResult;
       }
     } catch (error) {
-      yield ApiResult.failure(ApiErrorHandler.handle(error));
+      yield Result<List<Marker>, ApiError>.failure(
+        error is ApiError ? error : ApiError(message: error.toString()),
+      );
     }
   }
 }

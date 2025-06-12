@@ -2,15 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:snapnfix/modules/reports/presentation/cubits/report_review_cubit.dart';
+import 'package:snapnfix/modules/reports/presentation/cubits/user_reports_cubit.dart';
 
 class ReportsErrorView extends StatelessWidget {
   final String errorMessage;
 
-  const ReportsErrorView({
-    super.key,
-    required this.errorMessage,
-  });
+  const ReportsErrorView({super.key, required this.errorMessage});
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +34,7 @@ class ReportsErrorView extends StatelessWidget {
             ElevatedButton(
               onPressed: () {
                 debugPrint('🔄 Retrying reports load from error view');
-                context.read<ReportReviewCubit>().loadReports(refresh: true);
+                context.read<UserReportsCubit>().loadReports(refresh: true);
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: colorScheme.primary,

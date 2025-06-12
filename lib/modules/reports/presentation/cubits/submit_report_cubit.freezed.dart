@@ -12,8 +12,7 @@ part of 'submit_report_cubit.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
-);
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$SubmitReportState {
@@ -35,19 +34,17 @@ mixin _$SubmitReportState {
 /// @nodoc
 abstract class $SubmitReportStateCopyWith<$Res> {
   factory $SubmitReportStateCopyWith(
-    SubmitReportState value,
-    $Res Function(SubmitReportState) then,
-  ) = _$SubmitReportStateCopyWithImpl<$Res, SubmitReportState>;
+          SubmitReportState value, $Res Function(SubmitReportState) then) =
+      _$SubmitReportStateCopyWithImpl<$Res, SubmitReportState>;
   @useResult
-  $Res call({
-    File? image,
-    ReportSeverity severity,
-    Position? position,
-    bool isLoading,
-    String? details,
-    String? error,
-    String? successMessage,
-  });
+  $Res call(
+      {File? image,
+      ReportSeverity severity,
+      Position? position,
+      bool isLoading,
+      String? details,
+      String? error,
+      String? successMessage});
 }
 
 /// @nodoc
@@ -73,77 +70,64 @@ class _$SubmitReportStateCopyWithImpl<$Res, $Val extends SubmitReportState>
     Object? error = freezed,
     Object? successMessage = freezed,
   }) {
-    return _then(
-      _value.copyWith(
-            image:
-                freezed == image
-                    ? _value.image
-                    : image // ignore: cast_nullable_to_non_nullable
-                        as File?,
-            severity:
-                null == severity
-                    ? _value.severity
-                    : severity // ignore: cast_nullable_to_non_nullable
-                        as ReportSeverity,
-            position:
-                freezed == position
-                    ? _value.position
-                    : position // ignore: cast_nullable_to_non_nullable
-                        as Position?,
-            isLoading:
-                null == isLoading
-                    ? _value.isLoading
-                    : isLoading // ignore: cast_nullable_to_non_nullable
-                        as bool,
-            details:
-                freezed == details
-                    ? _value.details
-                    : details // ignore: cast_nullable_to_non_nullable
-                        as String?,
-            error:
-                freezed == error
-                    ? _value.error
-                    : error // ignore: cast_nullable_to_non_nullable
-                        as String?,
-            successMessage:
-                freezed == successMessage
-                    ? _value.successMessage
-                    : successMessage // ignore: cast_nullable_to_non_nullable
-                        as String?,
-          )
-          as $Val,
-    );
+    return _then(_value.copyWith(
+      image: freezed == image
+          ? _value.image
+          : image // ignore: cast_nullable_to_non_nullable
+              as File?,
+      severity: null == severity
+          ? _value.severity
+          : severity // ignore: cast_nullable_to_non_nullable
+              as ReportSeverity,
+      position: freezed == position
+          ? _value.position
+          : position // ignore: cast_nullable_to_non_nullable
+              as Position?,
+      isLoading: null == isLoading
+          ? _value.isLoading
+          : isLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
+      details: freezed == details
+          ? _value.details
+          : details // ignore: cast_nullable_to_non_nullable
+              as String?,
+      error: freezed == error
+          ? _value.error
+          : error // ignore: cast_nullable_to_non_nullable
+              as String?,
+      successMessage: freezed == successMessage
+          ? _value.successMessage
+          : successMessage // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ) as $Val);
   }
 }
 
 /// @nodoc
 abstract class _$$SubmitReportStateImplCopyWith<$Res>
     implements $SubmitReportStateCopyWith<$Res> {
-  factory _$$SubmitReportStateImplCopyWith(
-    _$SubmitReportStateImpl value,
-    $Res Function(_$SubmitReportStateImpl) then,
-  ) = __$$SubmitReportStateImplCopyWithImpl<$Res>;
+  factory _$$SubmitReportStateImplCopyWith(_$SubmitReportStateImpl value,
+          $Res Function(_$SubmitReportStateImpl) then) =
+      __$$SubmitReportStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({
-    File? image,
-    ReportSeverity severity,
-    Position? position,
-    bool isLoading,
-    String? details,
-    String? error,
-    String? successMessage,
-  });
+  $Res call(
+      {File? image,
+      ReportSeverity severity,
+      Position? position,
+      bool isLoading,
+      String? details,
+      String? error,
+      String? successMessage});
 }
 
 /// @nodoc
 class __$$SubmitReportStateImplCopyWithImpl<$Res>
     extends _$SubmitReportStateCopyWithImpl<$Res, _$SubmitReportStateImpl>
     implements _$$SubmitReportStateImplCopyWith<$Res> {
-  __$$SubmitReportStateImplCopyWithImpl(
-    _$SubmitReportStateImpl _value,
-    $Res Function(_$SubmitReportStateImpl) _then,
-  ) : super(_value, _then);
+  __$$SubmitReportStateImplCopyWithImpl(_$SubmitReportStateImpl _value,
+      $Res Function(_$SubmitReportStateImpl) _then)
+      : super(_value, _then);
 
   /// Create a copy of SubmitReportState
   /// with the given fields replaced by the non-null parameter values.
@@ -158,60 +142,50 @@ class __$$SubmitReportStateImplCopyWithImpl<$Res>
     Object? error = freezed,
     Object? successMessage = freezed,
   }) {
-    return _then(
-      _$SubmitReportStateImpl(
-        image:
-            freezed == image
-                ? _value.image
-                : image // ignore: cast_nullable_to_non_nullable
-                    as File?,
-        severity:
-            null == severity
-                ? _value.severity
-                : severity // ignore: cast_nullable_to_non_nullable
-                    as ReportSeverity,
-        position:
-            freezed == position
-                ? _value.position
-                : position // ignore: cast_nullable_to_non_nullable
-                    as Position?,
-        isLoading:
-            null == isLoading
-                ? _value.isLoading
-                : isLoading // ignore: cast_nullable_to_non_nullable
-                    as bool,
-        details:
-            freezed == details
-                ? _value.details
-                : details // ignore: cast_nullable_to_non_nullable
-                    as String?,
-        error:
-            freezed == error
-                ? _value.error
-                : error // ignore: cast_nullable_to_non_nullable
-                    as String?,
-        successMessage:
-            freezed == successMessage
-                ? _value.successMessage
-                : successMessage // ignore: cast_nullable_to_non_nullable
-                    as String?,
-      ),
-    );
+    return _then(_$SubmitReportStateImpl(
+      image: freezed == image
+          ? _value.image
+          : image // ignore: cast_nullable_to_non_nullable
+              as File?,
+      severity: null == severity
+          ? _value.severity
+          : severity // ignore: cast_nullable_to_non_nullable
+              as ReportSeverity,
+      position: freezed == position
+          ? _value.position
+          : position // ignore: cast_nullable_to_non_nullable
+              as Position?,
+      isLoading: null == isLoading
+          ? _value.isLoading
+          : isLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
+      details: freezed == details
+          ? _value.details
+          : details // ignore: cast_nullable_to_non_nullable
+              as String?,
+      error: freezed == error
+          ? _value.error
+          : error // ignore: cast_nullable_to_non_nullable
+              as String?,
+      successMessage: freezed == successMessage
+          ? _value.successMessage
+          : successMessage // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ));
   }
 }
 
 /// @nodoc
 
 class _$SubmitReportStateImpl implements _SubmitReportState {
-  const _$SubmitReportStateImpl({
-    required this.image,
-    required this.severity,
-    required this.position,
-    required this.isLoading,
-    required this.details,
-    this.error,
-    this.successMessage,
-  });
+  const _$SubmitReportStateImpl(
+      {required this.image,
+      required this.severity,
+      required this.position,
+      required this.isLoading,
+      required this.details,
+      this.error,
+      this.successMessage});
 
   @override
   final File? image;
@@ -252,16 +226,8 @@ class _$SubmitReportStateImpl implements _SubmitReportState {
   }
 
   @override
-  int get hashCode => Object.hash(
-    runtimeType,
-    image,
-    severity,
-    position,
-    isLoading,
-    details,
-    error,
-    successMessage,
-  );
+  int get hashCode => Object.hash(runtimeType, image, severity, position,
+      isLoading, details, error, successMessage);
 
   /// Create a copy of SubmitReportState
   /// with the given fields replaced by the non-null parameter values.
@@ -270,21 +236,18 @@ class _$SubmitReportStateImpl implements _SubmitReportState {
   @pragma('vm:prefer-inline')
   _$$SubmitReportStateImplCopyWith<_$SubmitReportStateImpl> get copyWith =>
       __$$SubmitReportStateImplCopyWithImpl<_$SubmitReportStateImpl>(
-        this,
-        _$identity,
-      );
+          this, _$identity);
 }
 
 abstract class _SubmitReportState implements SubmitReportState {
-  const factory _SubmitReportState({
-    required final File? image,
-    required final ReportSeverity severity,
-    required final Position? position,
-    required final bool isLoading,
-    required final String? details,
-    final String? error,
-    final String? successMessage,
-  }) = _$SubmitReportStateImpl;
+  const factory _SubmitReportState(
+      {required final File? image,
+      required final ReportSeverity severity,
+      required final Position? position,
+      required final bool isLoading,
+      required final String? details,
+      final String? error,
+      final String? successMessage}) = _$SubmitReportStateImpl;
 
   @override
   File? get image;

@@ -1,8 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:snapnfix/modules/issues/domain/usecases/get_issue_details_use_case.dart';
+import 'package:snapnfix/modules/issues/index.dart';
+import 'package:snapnfix/core/index.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:snapnfix/core/infrastructure/networking/api_error_model.dart';
-import 'package:snapnfix/modules/issues/domain/entities/issue.dart';
 
 part 'issue_details_state.dart';
 part 'issue_details_cubit.freezed.dart';

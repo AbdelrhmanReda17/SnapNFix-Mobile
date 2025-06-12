@@ -1,10 +1,10 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'package:snapnfix/core/infrastructure/connectivity/connectivity_service.dart';
-import 'package:snapnfix/core/infrastructure/networking/api_error_handler.dart';
-import 'package:snapnfix/core/infrastructure/networking/api_result.dart';
-import 'package:snapnfix/modules/reports/data/datasource/report_local_data_source.dart';
-import 'package:snapnfix/modules/reports/data/datasource/report_remote_data_source.dart';
-import 'package:snapnfix/modules/reports/data/model/report_model.dart';
+import 'package:snapnfix/core/infrastructure/networking/error/api_error.dart';
+import 'package:snapnfix/core/utils/result.dart';
+import 'package:snapnfix/modules/reports/data/datasources/report_local_data_source.dart';
+import 'package:snapnfix/modules/reports/data/datasources/report_remote_data_source.dart';
+import 'package:snapnfix/modules/reports/data/models/report_model.dart';
 import 'package:snapnfix/modules/reports/domain/repositories/base_report_repository.dart';
 
 class ReportRepository implements BaseReportRepository {
@@ -23,7 +23,7 @@ class ReportRepository implements BaseReportRepository {
     try {
       return _localDataSource.getPendingReports();
     } catch (e) {
-      return Future.error(ApiErrorHandler.handle(e));
+      return Future.error('Failed to fetch pending reports: $e');
     }
   }
 
@@ -33,33 +33,43 @@ class ReportRepository implements BaseReportRepository {
   }
 
   @override
-  Future<ApiResult<String>> submitReport(ReportModel report) async {
+  Future<Result<String, ApiError>> submitReport(ReportModel report) async {
     try {
       final isConnected = await _connectivityService.isConnected();
       if (!isConnected) {
         await _localDataSource.saveReportOffline(report);
-        return const ApiResult.success(
-          'Report saved offline and will be submitted when online',
+        return const Result.success(
+          "No internet connection. Report saved offline.",
         );
       }
 
       final result = await _remoteDataSource.submitReport(report);
       return result.when(
         success: (data) {
-          return ApiResult.success(data);
+          return Result.success(
+            "Report submitted successfully with ID: ${report.id}",
+          );
         },
-        failure: (error) {
-          _localDataSource.saveReportOffline(report);
-          return ApiResult.failure(error);
+        failure: (error) async {
+          await _localDataSource.saveReportOffline(report);
+          return Result.failure(
+            ApiError(message: 'Failed to submit report. Saved offline.'),
+          );
         },
       );
     } catch (e) {
       debugPrint('Error submitting report: $e');
       try {
         await _localDataSource.saveReportOffline(report);
-        return const ApiResult.success('Report saved offline due to error');
+        return const Result.success(
+          "No internet connection. Report saved offline.",
+        );
       } catch (saveError) {
-        return ApiResult.failure(ApiErrorHandler.handle(saveError));
+        return Result.failure(
+          ApiError(
+            message: 'Failed to save report offline , Please try again later.',
+          ),
+        );
       }
     }
   }
@@ -67,57 +77,42 @@ class ReportRepository implements BaseReportRepository {
   @override
   Future<bool> syncPendingReports() async {
     try {
-      final pendingReportsCount = _localDataSource.getPendingReportsCount();
-      if (pendingReportsCount == 0) {
-        return true;
-      }
       final pendingReports = await _localDataSource.getPendingReports();
-      final isConnected = await _connectivityService.isConnected();
-      if (!isConnected) return false;
-      var allSuccessful = true;
-      for (var report in pendingReports) {
-        debugPrint('Syncing offline report: $report');
-        final result = await _remoteDataSource.submitReport(report);
-        await result.when(
-          success: (data) async {
-            debugPrint('✅ $data');
+      if (pendingReports.isEmpty) return true;
 
-            debugPrint('Deleting offline report: ${report.id}');
-            await _localDataSource.deleteOfflineReport(report.id!);
-            _localDataSource.decrementPendingReportsCount();
+      bool allSynced = true;
+
+      for (final report in pendingReports) {
+        final result = await _remoteDataSource.submitReport(report);
+
+        await result.when(
+          success: (_) async {
+            await _localDataSource.markReportAsSynced(report.id!);
           },
-          failure: (error) {
-            debugPrint('❌ Failed to submit report: ${error.message}');
-            allSuccessful = false;
+          failure: (_) {
+            allSynced = false;
           },
         );
       }
-      return allSuccessful;
+
+      return allSynced;
     } catch (e) {
-      return Future.error(ApiErrorHandler.handle(e));
+      return false;
     }
   }
 
   @override
-  Stream<int> watchPendingReportsCount() {
-    try {
-      return _localDataSource.watchPendingReportsCount();
-    } catch (e) {
-      return Stream.error(ApiErrorHandler.handle(e));
-    }
+  ValueListenable<int> watchPendingReportsCount() {
+    return _localDataSource.watchPendingReportsCount();
   }
 
   @override
-  Stream<List<ReportModel>> watchPendingReports() {
-    try {
-      return _localDataSource.watchPendingReports();
-    } catch (e) {
-      return Stream.error(ApiErrorHandler.handle(e));
-    }
+  ValueListenable<List<ReportModel>> watchPendingReports() {
+    return _localDataSource.watchPendingReports();
   }
 
   @override
-  Future<ApiResult<MapEntry<List<ReportModel>, bool>>> getUserReports({
+  Future<Result<MapEntry<List<ReportModel>, bool>, String>> getUserReports({
     String? status,
     String? category,
     int page = 1,
@@ -126,22 +121,24 @@ class ReportRepository implements BaseReportRepository {
     try {
       final isConnected = await _connectivityService.isConnected();
       if (!isConnected) {
-        return ApiResult.failure(
-          ApiErrorHandler.handle(
-            'No internet connection. Please try again later.',
-          ),
+        return Result.failure(
+          'No internet connection. Please try again later.',
         );
       }
-
-      return await _remoteDataSource.getUserReports(
+      final result = await _remoteDataSource.getUserReports(
         status: status,
         category: category,
         page: page,
         limit: limit,
       );
+      // Map ApiErrorModel to String if failure
+      return result.when(
+        success: (data) => Result.success(data),
+        failure: (error) => Result.failure(error.toString()),
+      );
     } catch (e) {
       debugPrint('Error getting user reports: $e');
-      return ApiResult.failure(ApiErrorHandler.handle(e));
+      return Result.failure(e.toString());
     }
   }
 }

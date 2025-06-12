@@ -1,12 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
-import 'package:snapnfix/core/config/application_constants.dart';
-import 'package:snapnfix/core/utils/helpers/shared_pref_keys.dart';
-import 'package:snapnfix/core/infrastructure/storage/secure_storage_service.dart';
-import 'package:snapnfix/core/infrastructure/storage/shared_preferences_service.dart';
-import 'package:snapnfix/modules/authentication/data/models/session_model.dart';
-import 'package:snapnfix/modules/authentication/data/models/tokens_model.dart';
+import '../../index.dart';
 
 @singleton
 class ApplicationConfigurations with ChangeNotifier {

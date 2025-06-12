@@ -1,37 +1,35 @@
-import 'package:snapnfix/core/infrastructure/networking/api_result.dart';
-import 'package:snapnfix/modules/authentication/domain/entities/authentication_result.dart';
-import 'package:snapnfix/modules/authentication/domain/entities/session.dart';
+import 'package:snapnfix/core/index.dart';
+import 'package:snapnfix/modules/authentication/index.dart';
 
 abstract class BaseAuthenticationRepository {
-  Future<ApiResult<AuthenticationResult>> login({
+  Future<Result<AuthenticationResult, ApiError>> login({
     required String phoneOrEmail,
     required String password,
   });
-  Future<ApiResult<AuthenticationResult>> requestOTP({
+  Future<Result<AuthenticationResult, ApiError>> requestOTP({
     required String phoneNumber,
     required OtpPurpose purpose,
   });
-  Future<ApiResult<void>> logout();
+  Future<Result<void, ApiError>> logout();
 
-  Future<ApiResult<AuthenticationResult>> verifyOTP({
+  Future<Result<AuthenticationResult, ApiError>> verifyOTP({
     required String code,
     required OtpPurpose purpose,
   });
 
-  Future<ApiResult<bool>> resendOTP({required OtpPurpose purpose});
+  Future<Result<bool, ApiError>> resendOTP({required OtpPurpose purpose});
 
-  Future<ApiResult<bool>> resetPassword({
+  Future<Result<bool, ApiError>> resetPassword({
     required String newPassword,
     required String confirmPassword,
   });
 
-  Future<ApiResult<Session>> completeProfile({
+  Future<Result<Session, ApiError>> register({
     required String firstName,
     required String lastName,
     required String password,
   });
 
-  Future<ApiResult<AuthenticationResult>> loginWithGoogle();
-  Future<ApiResult<AuthenticationResult>> loginWithFacebook();
-  
+  Future<Result<AuthenticationResult, ApiError>> loginWithGoogle();
+  Future<Result<AuthenticationResult, ApiError>> loginWithFacebook();
 }

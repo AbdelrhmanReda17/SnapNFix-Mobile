@@ -1,5 +1,6 @@
-import 'package:snapnfix/core/infrastructure/networking/api_result.dart';
-import 'package:snapnfix/modules/settings/data/models/dtos/change_password_dto.dart';
+import 'package:snapnfix/core/infrastructure/networking/error/api_error.dart';
+import 'package:snapnfix/core/utils/result.dart';
+import 'package:snapnfix/modules/settings/data/models/change_password_request.dart';
 import 'package:snapnfix/modules/settings/domain/repositories/base_settings_repository.dart';
 
 class ChangePasswordUseCase {
@@ -7,7 +8,9 @@ class ChangePasswordUseCase {
 
   ChangePasswordUseCase(this._repository);
 
-  Future<ApiResult<String>> call(ChangePasswordDTO changePasswordDTO) {
+  Future<Result<String, ApiError>> call(
+    ChangePasswordRequest changePasswordDTO,
+  ) {
     return _repository.changePassword(changePasswordDTO);
   }
 }

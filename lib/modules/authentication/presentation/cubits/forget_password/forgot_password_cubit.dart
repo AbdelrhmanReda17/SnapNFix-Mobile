@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:snapnfix/core/infrastructure/networking/api_error_model.dart';
-import 'package:snapnfix/modules/authentication/domain/entities/authentication_result.dart';
-import 'package:snapnfix/modules/authentication/domain/usecases/request_otp_use_case.dart';
+import 'package:snapnfix/modules/authentication/index.dart';
+import 'package:snapnfix/core/index.dart';
 
 part 'forgot_password_state.dart';
 part 'forgot_password_cubit.freezed.dart';
@@ -43,7 +42,7 @@ class ForgotPasswordCubit extends Cubit<ForgotPasswordState> {
     } catch (e) {
       emit(
         ForgotPasswordState.error(
-          ApiErrorModel(message: 'An unexpected error occurred'),
+          ApiError(message: 'An unexpected error occurred'),
         ),
       );
     }
@@ -53,7 +52,7 @@ class ForgotPasswordCubit extends Cubit<ForgotPasswordState> {
     if (!formKey.currentState!.validate()) {
       emit(
         ForgotPasswordState.error(
-          ApiErrorModel(message: 'Please enter your email or phone number'),
+          ApiError(message: 'Please enter your email or phone number'),
         ),
       );
       return false;
@@ -62,7 +61,7 @@ class ForgotPasswordCubit extends Cubit<ForgotPasswordState> {
     if (_emailOrPhone.isEmpty) {
       emit(
         ForgotPasswordState.error(
-          ApiErrorModel(message: 'Email or phone number is required'),
+          ApiError(message: 'Email or phone number is required'),
         ),
       );
       return false;
@@ -77,7 +76,7 @@ class ForgotPasswordCubit extends Cubit<ForgotPasswordState> {
     );
   }
 
-  void _handleRequestFailure(ApiErrorModel error) {
+  void _handleRequestFailure(ApiError error) {
     emit(ForgotPasswordState.error(error));
   }
 }

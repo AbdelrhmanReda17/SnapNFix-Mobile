@@ -92,10 +92,11 @@ class _LocationPermissionWidgetState extends State<LocationPermissionWidget>
     final isServiceEnabled =
         await _locationService.checkIfLocationServiceEnabled();
     final hasPermission = await _locationService.hasLocationPermission();
-
-    setState(() {
-      _isLocationEnabled = isServiceEnabled && hasPermission;
-    });
+    if (mounted) {
+      setState(() {
+        _isLocationEnabled = isServiceEnabled && hasPermission;
+      });
+    }
   }
 
   void _setupLocationStream() {

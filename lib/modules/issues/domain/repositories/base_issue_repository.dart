@@ -1,20 +1,19 @@
-import 'package:snapnfix/core/infrastructure/networking/api_result.dart';
+import 'package:snapnfix/core/infrastructure/networking/error/api_error.dart';
+import 'package:snapnfix/core/utils/result.dart';
+import 'package:snapnfix/modules/issues/data/models/markers.dart';
 import 'package:snapnfix/modules/issues/domain/entities/issue.dart';
 
 abstract class BaseIssueRepository {
-  Future<ApiResult<List<Issue>>> getNearbyIssues(
+  Future<Result<List<Marker>, ApiError>> getNearbyIssues(
     double latitude,
     double longitude,
     double radiusInKm,
   );
-
-  Future<ApiResult<Issue>> getIssueDetails(String issueId);
-
-  Stream<ApiResult<List<Issue>>> watchNearbyIssues(
+  Stream<Result<List<Marker>, ApiError>> watchNearbyIssues(
     double latitude,
     double longitude,
     double radiusInKm,
   );
-
-  Future<ApiResult<List<Issue>>> getUserIssues(String userId);
+  Future<Result<Issue, ApiError>> getIssueDetails(String issueId);
+  Future<Result<List<Issue>, ApiError>> getUserIssues(String userId);
 }

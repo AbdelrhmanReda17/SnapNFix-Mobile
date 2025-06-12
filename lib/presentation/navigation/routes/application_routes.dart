@@ -5,17 +5,17 @@ import 'package:snapnfix/modules/issues/presentation/cubits/issue_details_cubit.
 import 'package:snapnfix/modules/issues/presentation/cubits/issues_map_cubit.dart';
 import 'package:snapnfix/modules/issues/presentation/screens/issue_details_screen.dart';
 import 'package:snapnfix/modules/issues/presentation/screens/issue_map_screen.dart';
-import 'package:snapnfix/modules/reports/presentation/cubits/report_review_cubit.dart';
+import 'package:snapnfix/modules/reports/presentation/cubits/user_reports_cubit.dart';
 import 'package:snapnfix/modules/reports/presentation/cubits/submit_report_cubit.dart';
 import 'package:snapnfix/modules/reports/presentation/screens/submit_report_screen.dart';
 import 'package:snapnfix/modules/reports/presentation/screens/user_reports_screen.dart';
 import 'package:snapnfix/modules/settings/presentation/cubits/change_password_cubit.dart';
 import 'package:snapnfix/modules/settings/presentation/cubits/edit_profile_cubit.dart';
 import 'package:snapnfix/modules/settings/presentation/screens/about_screen.dart';
-import 'package:snapnfix/modules/settings/presentation/screens/change_password.dart';
-import 'package:snapnfix/modules/settings/presentation/screens/edit_profile.dart';
+import 'package:snapnfix/modules/settings/presentation/screens/change_password_screen.dart';
+import 'package:snapnfix/modules/settings/presentation/screens/edit_profile_screen.dart';
 import 'package:snapnfix/modules/settings/presentation/screens/privacy_policy_screen.dart';
-import 'package:snapnfix/modules/settings/presentation/screens/settings_dart.dart';
+import 'package:snapnfix/modules/settings/presentation/screens/settings_screen.dart';
 import 'package:snapnfix/modules/settings/presentation/screens/support_screen.dart';
 import 'package:snapnfix/modules/settings/presentation/screens/terms_conditions_screen.dart';
 import 'package:snapnfix/presentation/cubits/area_issues_cubit.dart';
@@ -56,7 +56,7 @@ class ApplicationRoutes {
     name: 'reports',
     builder:
         (context, state) => BlocProvider(
-          create: (context) => getIt<ReportReviewCubit>(),
+          create: (context) => getIt<UserReportsCubit>(),
           child: const UserReportsScreen(),
         ),
   );
@@ -72,7 +72,7 @@ class ApplicationRoutes {
       );
     },
   );
-  
+
   static final settingsRoute = RouteConfiguration(
     path: Routes.settings,
     name: 'settings',
@@ -130,13 +130,12 @@ class ApplicationRoutes {
     name: 'areaIssuesChat',
     builder:
         (context, state) => BlocProvider(
-          create: (context) => AreaIssuesCubit(
-            areaName: state.extra as String,
-            getAreaIssuesUseCase: getIt<GetAreaIssuesUseCase>(),
-          ),
-          child: AreaIssuesChatScreen(
-            area: state.extra as String,
-          ),
+          create:
+              (context) => AreaIssuesCubit(
+                areaName: state.extra as String,
+                getAreaIssuesUseCase: getIt<GetAreaIssuesUseCase>(),
+              ),
+          child: AreaIssuesChatScreen(area: state.extra as String),
         ),
   );
 
@@ -149,4 +148,3 @@ class ApplicationRoutes {
     areaIssuesChatRoute,
   ];
 }
-

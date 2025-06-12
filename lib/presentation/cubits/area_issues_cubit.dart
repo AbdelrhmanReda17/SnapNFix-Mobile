@@ -32,7 +32,7 @@ class AreaIssuesCubit extends Cubit<AreaIssuesState> {
           ));
         },
         failure: (error) {
-          emit(AreaIssuesState.error(error.message ?? 'Unknown error occurred'));
+          emit(AreaIssuesState.error(error.fullMessage ?? 'Unknown error occurred'));
         },
       );
     } catch (e) {

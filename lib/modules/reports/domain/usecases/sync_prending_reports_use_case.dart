@@ -1,5 +1,5 @@
-import 'package:snapnfix/core/infrastructure/networking/api_error_model.dart';
-import 'package:snapnfix/core/infrastructure/networking/api_result.dart';
+import 'package:snapnfix/core/infrastructure/networking/error/api_error.dart';
+import 'package:snapnfix/core/utils/result.dart';
 import 'package:snapnfix/modules/reports/domain/repositories/base_report_repository.dart';
 
 class SyncPendingReportsUseCase {
@@ -7,20 +7,20 @@ class SyncPendingReportsUseCase {
 
   SyncPendingReportsUseCase(this._repository);
 
-  Future<ApiResult<bool>> call() async {
+  Future<Result<bool, ApiError>> call() async {
     try {
       final success = await _repository.syncPendingReports();
       if (success) {
-        return const ApiResult.success(true);
+        return const Result.success(true);
       } else {
-        return ApiResult.failure(ApiErrorModel(
-          message: 'Failed to sync pending reports',
-        ));
+        return Result.failure(
+          ApiError(message: 'Failed to sync pending reports'),
+        );
       }
     } catch (e) {
-      return ApiResult.failure(ApiErrorModel(
-        message: 'Failed to sync pending reports: ${e.toString()}',
-      ));
+      return Result.failure(
+        ApiError(message: 'Failed to sync pending reports: ${e.toString()}'),
+      );
     }
   }
 }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:snapnfix/core/utils/helpers/image_builder.dart';
-import 'package:snapnfix/modules/reports/data/model/report_model.dart';
+import 'package:snapnfix/modules/reports/data/models/report_model.dart';
 import 'package:snapnfix/modules/reports/presentation/widgets/report_card/report_date_indicator.dart';
 import 'package:snapnfix/modules/reports/presentation/widgets/report_card/report_status_indicator.dart';
 

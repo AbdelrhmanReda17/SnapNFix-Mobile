@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:snapnfix/modules/reports/presentation/cubits/report_review_cubit.dart';
+import 'package:snapnfix/modules/reports/presentation/cubits/user_reports_cubit.dart';
 import 'package:snapnfix/modules/reports/presentation/widgets/report_card/report_card.dart';
 
 class ReportsListView extends StatelessWidget {
-  final ReportReviewState state;
+  final UserReportsState state;
 
   const ReportsListView({super.key, required this.state});
 
@@ -19,7 +19,7 @@ class ReportsListView extends StatelessWidget {
     return RefreshIndicator(
       onRefresh: () async {
         if (context.mounted) {
-          await context.read<ReportReviewCubit>().loadReports(refresh: true);
+          await context.read<UserReportsCubit>().loadReports(refresh: true);
         }
       },
       child: NotificationListener<ScrollNotification>(
@@ -32,7 +32,7 @@ class ReportsListView extends StatelessWidget {
                   scrollInfo.metrics.maxScrollExtent - 200) {
             if (context.mounted) {
               debugPrint('📜 Loading more reports from scroll');
-              context.read<ReportReviewCubit>().loadReports();
+              context.read<UserReportsCubit>().loadReports();
             }
             return true;
           }
@@ -80,7 +80,7 @@ class ReportsListView extends StatelessWidget {
     return RefreshIndicator(
       onRefresh: () async {
         if (context.mounted) {
-          await context.read<ReportReviewCubit>().loadReports(refresh: true);
+          await context.read<UserReportsCubit>().loadReports(refresh: true);
         }
       },
       child: ListView(
@@ -113,7 +113,7 @@ class ReportsListView extends StatelessWidget {
                       padding: EdgeInsets.only(top: 16.h),
                       child: TextButton.icon(
                         onPressed: () {
-                          context.read<ReportReviewCubit>().clearFilters();
+                          context.read<UserReportsCubit>().clearFilters();
                         },
                         icon: Icon(Icons.clear, size: 16.sp),
                         label: Text(localization.clearFilters),

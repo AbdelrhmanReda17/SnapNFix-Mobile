@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:snapnfix/modules/reports/domain/repositories/base_report_repository.dart';
 
 class WatchPendingReportsCountUseCase {
@@ -5,7 +6,7 @@ class WatchPendingReportsCountUseCase {
 
   WatchPendingReportsCountUseCase(this._repository);
 
-  Stream<int> call() {
+  ValueListenable<int> call() {
     return _repository.watchPendingReportsCount();
   }
 }

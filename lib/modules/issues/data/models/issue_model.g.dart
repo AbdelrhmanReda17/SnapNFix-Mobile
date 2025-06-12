@@ -7,25 +7,24 @@ part of 'issue_model.dart';
 // **************************************************************************
 
 IssueModel _$IssueModelFromJson(Map<String, dynamic> json) => IssueModel(
-  id: json['id'] as String,
-  severity: $enumDecode(_$IssueSeverityEnumMap, json['severity']),
-  latitude: (json['latitude'] as num).toDouble(),
-  longitude: (json['longitude'] as num).toDouble(),
-  status: $enumDecode(_$IssueStatusEnumMap, json['status']),
-  category: $enumDecode(_$IssueCategoryEnumMap, json['category']),
-  createdAt: DateTime.parse(json['createdAt'] as String),
-  resolvedAt:
-      json['resolvedAt'] == null
+      id: json['id'] as String,
+      severity: $enumDecode(_$IssueSeverityEnumMap, json['severity']),
+      latitude: (json['latitude'] as num).toDouble(),
+      longitude: (json['longitude'] as num).toDouble(),
+      status: $enumDecode(_$IssueStatusEnumMap, json['status']),
+      category: $enumDecode(_$IssueCategoryEnumMap, json['category']),
+      createdAt: DateTime.parse(json['createdAt'] as String),
+      resolvedAt: json['resolvedAt'] == null
           ? null
           : DateTime.parse(json['resolvedAt'] as String),
-  images: (json['images'] as List<dynamic>).map((e) => e as String).toList(),
-  descriptions:
-      (json['descriptions'] as List<dynamic>)
+      images:
+          (json['images'] as List<dynamic>).map((e) => e as String).toList(),
+      descriptions: (json['descriptions'] as List<dynamic>)
           .map((e) => IssueDescriptionModel.fromJson(e as Map<String, dynamic>))
           .toList(),
-  reportsCount: (json['reportsCount'] as num).toInt(),
-  location: json['location'] as String,
-);
+      reportsCount: (json['reportsCount'] as num).toInt(),
+      location: json['location'] as String,
+    );
 
 Map<String, dynamic> _$IssueModelToJson(IssueModel instance) =>
     <String, dynamic>{

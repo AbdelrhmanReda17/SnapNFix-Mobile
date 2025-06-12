@@ -12,8 +12,7 @@ part of 'area_issues_state.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
-);
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$AreaIssuesState {
@@ -21,56 +20,49 @@ mixin _$AreaIssuesState {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(
-      List<Issue> issues,
-      String areaName,
-      bool isSubscribed,
-      List<IssueStatus> selectedStatuses,
-    )
-    loaded,
+    required TResult Function(List<Issue> issues, String areaName,
+            bool isSubscribed, List<IssueStatus> selectedStatuses)
+        loaded,
     required TResult Function(String message) error,
-  }) => throw _privateConstructorUsedError;
+  }) =>
+      throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(
-      List<Issue> issues,
-      String areaName,
-      bool isSubscribed,
-      List<IssueStatus> selectedStatuses,
-    )?
-    loaded,
+    TResult? Function(List<Issue> issues, String areaName, bool isSubscribed,
+            List<IssueStatus> selectedStatuses)?
+        loaded,
     TResult? Function(String message)? error,
-  }) => throw _privateConstructorUsedError;
+  }) =>
+      throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(
-      List<Issue> issues,
-      String areaName,
-      bool isSubscribed,
-      List<IssueStatus> selectedStatuses,
-    )?
-    loaded,
+    TResult Function(List<Issue> issues, String areaName, bool isSubscribed,
+            List<IssueStatus> selectedStatuses)?
+        loaded,
     TResult Function(String message)? error,
     required TResult orElse(),
-  }) => throw _privateConstructorUsedError;
+  }) =>
+      throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_Initial value) initial,
     required TResult Function(_Loading value) loading,
     required TResult Function(_Loaded value) loaded,
     required TResult Function(_Error value) error,
-  }) => throw _privateConstructorUsedError;
+  }) =>
+      throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Initial value)? initial,
     TResult? Function(_Loading value)? loading,
     TResult? Function(_Loaded value)? loaded,
     TResult? Function(_Error value)? error,
-  }) => throw _privateConstructorUsedError;
+  }) =>
+      throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Initial value)? initial,
@@ -78,15 +70,15 @@ mixin _$AreaIssuesState {
     TResult Function(_Loaded value)? loaded,
     TResult Function(_Error value)? error,
     required TResult orElse(),
-  }) => throw _privateConstructorUsedError;
+  }) =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 abstract class $AreaIssuesStateCopyWith<$Res> {
   factory $AreaIssuesStateCopyWith(
-    AreaIssuesState value,
-    $Res Function(AreaIssuesState) then,
-  ) = _$AreaIssuesStateCopyWithImpl<$Res, AreaIssuesState>;
+          AreaIssuesState value, $Res Function(AreaIssuesState) then) =
+      _$AreaIssuesStateCopyWithImpl<$Res, AreaIssuesState>;
 }
 
 /// @nodoc
@@ -106,9 +98,8 @@ class _$AreaIssuesStateCopyWithImpl<$Res, $Val extends AreaIssuesState>
 /// @nodoc
 abstract class _$$InitialImplCopyWith<$Res> {
   factory _$$InitialImplCopyWith(
-    _$InitialImpl value,
-    $Res Function(_$InitialImpl) then,
-  ) = __$$InitialImplCopyWithImpl<$Res>;
+          _$InitialImpl value, $Res Function(_$InitialImpl) then) =
+      __$$InitialImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
@@ -116,9 +107,8 @@ class __$$InitialImplCopyWithImpl<$Res>
     extends _$AreaIssuesStateCopyWithImpl<$Res, _$InitialImpl>
     implements _$$InitialImplCopyWith<$Res> {
   __$$InitialImplCopyWithImpl(
-    _$InitialImpl _value,
-    $Res Function(_$InitialImpl) _then,
-  ) : super(_value, _then);
+      _$InitialImpl _value, $Res Function(_$InitialImpl) _then)
+      : super(_value, _then);
 
   /// Create a copy of AreaIssuesState
   /// with the given fields replaced by the non-null parameter values.
@@ -148,13 +138,9 @@ class _$InitialImpl implements _Initial {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(
-      List<Issue> issues,
-      String areaName,
-      bool isSubscribed,
-      List<IssueStatus> selectedStatuses,
-    )
-    loaded,
+    required TResult Function(List<Issue> issues, String areaName,
+            bool isSubscribed, List<IssueStatus> selectedStatuses)
+        loaded,
     required TResult Function(String message) error,
   }) {
     return initial();
@@ -165,13 +151,9 @@ class _$InitialImpl implements _Initial {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(
-      List<Issue> issues,
-      String areaName,
-      bool isSubscribed,
-      List<IssueStatus> selectedStatuses,
-    )?
-    loaded,
+    TResult? Function(List<Issue> issues, String areaName, bool isSubscribed,
+            List<IssueStatus> selectedStatuses)?
+        loaded,
     TResult? Function(String message)? error,
   }) {
     return initial?.call();
@@ -182,13 +164,9 @@ class _$InitialImpl implements _Initial {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(
-      List<Issue> issues,
-      String areaName,
-      bool isSubscribed,
-      List<IssueStatus> selectedStatuses,
-    )?
-    loaded,
+    TResult Function(List<Issue> issues, String areaName, bool isSubscribed,
+            List<IssueStatus> selectedStatuses)?
+        loaded,
     TResult Function(String message)? error,
     required TResult orElse(),
   }) {
@@ -243,9 +221,8 @@ abstract class _Initial implements AreaIssuesState {
 /// @nodoc
 abstract class _$$LoadingImplCopyWith<$Res> {
   factory _$$LoadingImplCopyWith(
-    _$LoadingImpl value,
-    $Res Function(_$LoadingImpl) then,
-  ) = __$$LoadingImplCopyWithImpl<$Res>;
+          _$LoadingImpl value, $Res Function(_$LoadingImpl) then) =
+      __$$LoadingImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
@@ -253,9 +230,8 @@ class __$$LoadingImplCopyWithImpl<$Res>
     extends _$AreaIssuesStateCopyWithImpl<$Res, _$LoadingImpl>
     implements _$$LoadingImplCopyWith<$Res> {
   __$$LoadingImplCopyWithImpl(
-    _$LoadingImpl _value,
-    $Res Function(_$LoadingImpl) _then,
-  ) : super(_value, _then);
+      _$LoadingImpl _value, $Res Function(_$LoadingImpl) _then)
+      : super(_value, _then);
 
   /// Create a copy of AreaIssuesState
   /// with the given fields replaced by the non-null parameter values.
@@ -285,13 +261,9 @@ class _$LoadingImpl implements _Loading {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(
-      List<Issue> issues,
-      String areaName,
-      bool isSubscribed,
-      List<IssueStatus> selectedStatuses,
-    )
-    loaded,
+    required TResult Function(List<Issue> issues, String areaName,
+            bool isSubscribed, List<IssueStatus> selectedStatuses)
+        loaded,
     required TResult Function(String message) error,
   }) {
     return loading();
@@ -302,13 +274,9 @@ class _$LoadingImpl implements _Loading {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(
-      List<Issue> issues,
-      String areaName,
-      bool isSubscribed,
-      List<IssueStatus> selectedStatuses,
-    )?
-    loaded,
+    TResult? Function(List<Issue> issues, String areaName, bool isSubscribed,
+            List<IssueStatus> selectedStatuses)?
+        loaded,
     TResult? Function(String message)? error,
   }) {
     return loading?.call();
@@ -319,13 +287,9 @@ class _$LoadingImpl implements _Loading {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(
-      List<Issue> issues,
-      String areaName,
-      bool isSubscribed,
-      List<IssueStatus> selectedStatuses,
-    )?
-    loaded,
+    TResult Function(List<Issue> issues, String areaName, bool isSubscribed,
+            List<IssueStatus> selectedStatuses)?
+        loaded,
     TResult Function(String message)? error,
     required TResult orElse(),
   }) {
@@ -380,16 +344,14 @@ abstract class _Loading implements AreaIssuesState {
 /// @nodoc
 abstract class _$$LoadedImplCopyWith<$Res> {
   factory _$$LoadedImplCopyWith(
-    _$LoadedImpl value,
-    $Res Function(_$LoadedImpl) then,
-  ) = __$$LoadedImplCopyWithImpl<$Res>;
+          _$LoadedImpl value, $Res Function(_$LoadedImpl) then) =
+      __$$LoadedImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({
-    List<Issue> issues,
-    String areaName,
-    bool isSubscribed,
-    List<IssueStatus> selectedStatuses,
-  });
+  $Res call(
+      {List<Issue> issues,
+      String areaName,
+      bool isSubscribed,
+      List<IssueStatus> selectedStatuses});
 }
 
 /// @nodoc
@@ -397,9 +359,8 @@ class __$$LoadedImplCopyWithImpl<$Res>
     extends _$AreaIssuesStateCopyWithImpl<$Res, _$LoadedImpl>
     implements _$$LoadedImplCopyWith<$Res> {
   __$$LoadedImplCopyWithImpl(
-    _$LoadedImpl _value,
-    $Res Function(_$LoadedImpl) _then,
-  ) : super(_value, _then);
+      _$LoadedImpl _value, $Res Function(_$LoadedImpl) _then)
+      : super(_value, _then);
 
   /// Create a copy of AreaIssuesState
   /// with the given fields replaced by the non-null parameter values.
@@ -411,43 +372,37 @@ class __$$LoadedImplCopyWithImpl<$Res>
     Object? isSubscribed = null,
     Object? selectedStatuses = null,
   }) {
-    return _then(
-      _$LoadedImpl(
-        issues:
-            null == issues
-                ? _value._issues
-                : issues // ignore: cast_nullable_to_non_nullable
-                    as List<Issue>,
-        areaName:
-            null == areaName
-                ? _value.areaName
-                : areaName // ignore: cast_nullable_to_non_nullable
-                    as String,
-        isSubscribed:
-            null == isSubscribed
-                ? _value.isSubscribed
-                : isSubscribed // ignore: cast_nullable_to_non_nullable
-                    as bool,
-        selectedStatuses:
-            null == selectedStatuses
-                ? _value._selectedStatuses
-                : selectedStatuses // ignore: cast_nullable_to_non_nullable
-                    as List<IssueStatus>,
-      ),
-    );
+    return _then(_$LoadedImpl(
+      issues: null == issues
+          ? _value._issues
+          : issues // ignore: cast_nullable_to_non_nullable
+              as List<Issue>,
+      areaName: null == areaName
+          ? _value.areaName
+          : areaName // ignore: cast_nullable_to_non_nullable
+              as String,
+      isSubscribed: null == isSubscribed
+          ? _value.isSubscribed
+          : isSubscribed // ignore: cast_nullable_to_non_nullable
+              as bool,
+      selectedStatuses: null == selectedStatuses
+          ? _value._selectedStatuses
+          : selectedStatuses // ignore: cast_nullable_to_non_nullable
+              as List<IssueStatus>,
+    ));
   }
 }
 
 /// @nodoc
 
 class _$LoadedImpl implements _Loaded {
-  const _$LoadedImpl({
-    required final List<Issue> issues,
-    required this.areaName,
-    this.isSubscribed = false,
-    final List<IssueStatus> selectedStatuses = const [],
-  }) : _issues = issues,
-       _selectedStatuses = selectedStatuses;
+  const _$LoadedImpl(
+      {required final List<Issue> issues,
+      required this.areaName,
+      this.isSubscribed = false,
+      final List<IssueStatus> selectedStatuses = const []})
+      : _issues = issues,
+        _selectedStatuses = selectedStatuses;
 
   final List<Issue> _issues;
   @override
@@ -487,20 +442,17 @@ class _$LoadedImpl implements _Loaded {
                 other.areaName == areaName) &&
             (identical(other.isSubscribed, isSubscribed) ||
                 other.isSubscribed == isSubscribed) &&
-            const DeepCollectionEquality().equals(
-              other._selectedStatuses,
-              _selectedStatuses,
-            ));
+            const DeepCollectionEquality()
+                .equals(other._selectedStatuses, _selectedStatuses));
   }
 
   @override
   int get hashCode => Object.hash(
-    runtimeType,
-    const DeepCollectionEquality().hash(_issues),
-    areaName,
-    isSubscribed,
-    const DeepCollectionEquality().hash(_selectedStatuses),
-  );
+      runtimeType,
+      const DeepCollectionEquality().hash(_issues),
+      areaName,
+      isSubscribed,
+      const DeepCollectionEquality().hash(_selectedStatuses));
 
   /// Create a copy of AreaIssuesState
   /// with the given fields replaced by the non-null parameter values.
@@ -515,13 +467,9 @@ class _$LoadedImpl implements _Loaded {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(
-      List<Issue> issues,
-      String areaName,
-      bool isSubscribed,
-      List<IssueStatus> selectedStatuses,
-    )
-    loaded,
+    required TResult Function(List<Issue> issues, String areaName,
+            bool isSubscribed, List<IssueStatus> selectedStatuses)
+        loaded,
     required TResult Function(String message) error,
   }) {
     return loaded(issues, areaName, isSubscribed, selectedStatuses);
@@ -532,13 +480,9 @@ class _$LoadedImpl implements _Loaded {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(
-      List<Issue> issues,
-      String areaName,
-      bool isSubscribed,
-      List<IssueStatus> selectedStatuses,
-    )?
-    loaded,
+    TResult? Function(List<Issue> issues, String areaName, bool isSubscribed,
+            List<IssueStatus> selectedStatuses)?
+        loaded,
     TResult? Function(String message)? error,
   }) {
     return loaded?.call(issues, areaName, isSubscribed, selectedStatuses);
@@ -549,13 +493,9 @@ class _$LoadedImpl implements _Loaded {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(
-      List<Issue> issues,
-      String areaName,
-      bool isSubscribed,
-      List<IssueStatus> selectedStatuses,
-    )?
-    loaded,
+    TResult Function(List<Issue> issues, String areaName, bool isSubscribed,
+            List<IssueStatus> selectedStatuses)?
+        loaded,
     TResult Function(String message)? error,
     required TResult orElse(),
   }) {
@@ -604,12 +544,11 @@ class _$LoadedImpl implements _Loaded {
 }
 
 abstract class _Loaded implements AreaIssuesState {
-  const factory _Loaded({
-    required final List<Issue> issues,
-    required final String areaName,
-    final bool isSubscribed,
-    final List<IssueStatus> selectedStatuses,
-  }) = _$LoadedImpl;
+  const factory _Loaded(
+      {required final List<Issue> issues,
+      required final String areaName,
+      final bool isSubscribed,
+      final List<IssueStatus> selectedStatuses}) = _$LoadedImpl;
 
   List<Issue> get issues;
   String get areaName;
@@ -626,9 +565,8 @@ abstract class _Loaded implements AreaIssuesState {
 /// @nodoc
 abstract class _$$ErrorImplCopyWith<$Res> {
   factory _$$ErrorImplCopyWith(
-    _$ErrorImpl value,
-    $Res Function(_$ErrorImpl) then,
-  ) = __$$ErrorImplCopyWithImpl<$Res>;
+          _$ErrorImpl value, $Res Function(_$ErrorImpl) then) =
+      __$$ErrorImplCopyWithImpl<$Res>;
   @useResult
   $Res call({String message});
 }
@@ -638,23 +576,22 @@ class __$$ErrorImplCopyWithImpl<$Res>
     extends _$AreaIssuesStateCopyWithImpl<$Res, _$ErrorImpl>
     implements _$$ErrorImplCopyWith<$Res> {
   __$$ErrorImplCopyWithImpl(
-    _$ErrorImpl _value,
-    $Res Function(_$ErrorImpl) _then,
-  ) : super(_value, _then);
+      _$ErrorImpl _value, $Res Function(_$ErrorImpl) _then)
+      : super(_value, _then);
 
   /// Create a copy of AreaIssuesState
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({Object? message = null}) {
-    return _then(
-      _$ErrorImpl(
-        null == message
-            ? _value.message
-            : message // ignore: cast_nullable_to_non_nullable
-                as String,
-      ),
-    );
+  $Res call({
+    Object? message = null,
+  }) {
+    return _then(_$ErrorImpl(
+      null == message
+          ? _value.message
+          : message // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
   }
 }
 
@@ -695,13 +632,9 @@ class _$ErrorImpl implements _Error {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(
-      List<Issue> issues,
-      String areaName,
-      bool isSubscribed,
-      List<IssueStatus> selectedStatuses,
-    )
-    loaded,
+    required TResult Function(List<Issue> issues, String areaName,
+            bool isSubscribed, List<IssueStatus> selectedStatuses)
+        loaded,
     required TResult Function(String message) error,
   }) {
     return error(message);
@@ -712,13 +645,9 @@ class _$ErrorImpl implements _Error {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(
-      List<Issue> issues,
-      String areaName,
-      bool isSubscribed,
-      List<IssueStatus> selectedStatuses,
-    )?
-    loaded,
+    TResult? Function(List<Issue> issues, String areaName, bool isSubscribed,
+            List<IssueStatus> selectedStatuses)?
+        loaded,
     TResult? Function(String message)? error,
   }) {
     return error?.call(message);
@@ -729,13 +658,9 @@ class _$ErrorImpl implements _Error {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(
-      List<Issue> issues,
-      String areaName,
-      bool isSubscribed,
-      List<IssueStatus> selectedStatuses,
-    )?
-    loaded,
+    TResult Function(List<Issue> issues, String areaName, bool isSubscribed,
+            List<IssueStatus> selectedStatuses)?
+        loaded,
     TResult Function(String message)? error,
     required TResult orElse(),
   }) {

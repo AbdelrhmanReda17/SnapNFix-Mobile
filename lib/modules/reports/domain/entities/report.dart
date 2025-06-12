@@ -11,6 +11,10 @@ class Report extends Equatable {
   final String? details;
   final double latitude;
   final double longitude;
+  final String road;
+  final String city;
+  final String state;
+  final String country;
   final DateTime? createdAt;
   final String imagePath;
   final String? category;
@@ -22,6 +26,10 @@ class Report extends Equatable {
     this.details,
     required this.latitude,
     required this.longitude,
+    required this.road,
+    required this.city,
+    required this.state,
+    required this.country,
     this.createdAt,
     required this.imagePath,
     this.category,

@@ -1,8 +1,13 @@
-import 'package:snapnfix/core/infrastructure/networking/api_result.dart';
-import 'package:snapnfix/modules/settings/data/models/dtos/change_password_dto.dart';
-import 'package:snapnfix/modules/settings/data/models/dtos/edit_profile_dto.dart';
+import 'package:snapnfix/core/infrastructure/networking/error/api_error.dart';
+import 'package:snapnfix/core/utils/result.dart';
+import 'package:snapnfix/modules/settings/data/models/change_password_request.dart';
+import 'package:snapnfix/modules/settings/data/models/edit_profile_request.dart';
 
 abstract class BaseSettingsRepository {
-  Future<ApiResult<String>> changePassword(ChangePasswordDTO changePasswordDTO);
-  Future<ApiResult<String>> editProfile(EditProfileDTO editProfileDTO);
+  Future<Result<String, ApiError>> changePassword(
+    ChangePasswordRequest changePasswordDTO,
+  );
+  Future<Result<String, ApiError>> editProfile(
+    EditProfileRequest editProfileDTO,
+  );
 }

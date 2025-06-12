@@ -12,8 +12,7 @@ part of 'area_updates_state.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
-);
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$AreaUpdatesState {
@@ -30,9 +29,8 @@ mixin _$AreaUpdatesState {
 /// @nodoc
 abstract class $AreaUpdatesStateCopyWith<$Res> {
   factory $AreaUpdatesStateCopyWith(
-    AreaUpdatesState value,
-    $Res Function(AreaUpdatesState) then,
-  ) = _$AreaUpdatesStateCopyWithImpl<$Res, AreaUpdatesState>;
+          AreaUpdatesState value, $Res Function(AreaUpdatesState) then) =
+      _$AreaUpdatesStateCopyWithImpl<$Res, AreaUpdatesState>;
   @useResult
   $Res call({String selectedArea, List<String> areas});
 }
@@ -51,32 +49,29 @@ class _$AreaUpdatesStateCopyWithImpl<$Res, $Val extends AreaUpdatesState>
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({Object? selectedArea = null, Object? areas = null}) {
-    return _then(
-      _value.copyWith(
-            selectedArea:
-                null == selectedArea
-                    ? _value.selectedArea
-                    : selectedArea // ignore: cast_nullable_to_non_nullable
-                        as String,
-            areas:
-                null == areas
-                    ? _value.areas
-                    : areas // ignore: cast_nullable_to_non_nullable
-                        as List<String>,
-          )
-          as $Val,
-    );
+  $Res call({
+    Object? selectedArea = null,
+    Object? areas = null,
+  }) {
+    return _then(_value.copyWith(
+      selectedArea: null == selectedArea
+          ? _value.selectedArea
+          : selectedArea // ignore: cast_nullable_to_non_nullable
+              as String,
+      areas: null == areas
+          ? _value.areas
+          : areas // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+    ) as $Val);
   }
 }
 
 /// @nodoc
 abstract class _$$AreaUpdatesStateImplCopyWith<$Res>
     implements $AreaUpdatesStateCopyWith<$Res> {
-  factory _$$AreaUpdatesStateImplCopyWith(
-    _$AreaUpdatesStateImpl value,
-    $Res Function(_$AreaUpdatesStateImpl) then,
-  ) = __$$AreaUpdatesStateImplCopyWithImpl<$Res>;
+  factory _$$AreaUpdatesStateImplCopyWith(_$AreaUpdatesStateImpl value,
+          $Res Function(_$AreaUpdatesStateImpl) then) =
+      __$$AreaUpdatesStateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String selectedArea, List<String> areas});
@@ -86,40 +81,37 @@ abstract class _$$AreaUpdatesStateImplCopyWith<$Res>
 class __$$AreaUpdatesStateImplCopyWithImpl<$Res>
     extends _$AreaUpdatesStateCopyWithImpl<$Res, _$AreaUpdatesStateImpl>
     implements _$$AreaUpdatesStateImplCopyWith<$Res> {
-  __$$AreaUpdatesStateImplCopyWithImpl(
-    _$AreaUpdatesStateImpl _value,
-    $Res Function(_$AreaUpdatesStateImpl) _then,
-  ) : super(_value, _then);
+  __$$AreaUpdatesStateImplCopyWithImpl(_$AreaUpdatesStateImpl _value,
+      $Res Function(_$AreaUpdatesStateImpl) _then)
+      : super(_value, _then);
 
   /// Create a copy of AreaUpdatesState
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({Object? selectedArea = null, Object? areas = null}) {
-    return _then(
-      _$AreaUpdatesStateImpl(
-        selectedArea:
-            null == selectedArea
-                ? _value.selectedArea
-                : selectedArea // ignore: cast_nullable_to_non_nullable
-                    as String,
-        areas:
-            null == areas
-                ? _value._areas
-                : areas // ignore: cast_nullable_to_non_nullable
-                    as List<String>,
-      ),
-    );
+  $Res call({
+    Object? selectedArea = null,
+    Object? areas = null,
+  }) {
+    return _then(_$AreaUpdatesStateImpl(
+      selectedArea: null == selectedArea
+          ? _value.selectedArea
+          : selectedArea // ignore: cast_nullable_to_non_nullable
+              as String,
+      areas: null == areas
+          ? _value._areas
+          : areas // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+    ));
   }
 }
 
 /// @nodoc
 
 class _$AreaUpdatesStateImpl implements _AreaUpdatesState {
-  const _$AreaUpdatesStateImpl({
-    required this.selectedArea,
-    required final List<String> areas,
-  }) : _areas = areas;
+  const _$AreaUpdatesStateImpl(
+      {required this.selectedArea, required final List<String> areas})
+      : _areas = areas;
 
   @override
   final String selectedArea;
@@ -148,10 +140,7 @@ class _$AreaUpdatesStateImpl implements _AreaUpdatesState {
 
   @override
   int get hashCode => Object.hash(
-    runtimeType,
-    selectedArea,
-    const DeepCollectionEquality().hash(_areas),
-  );
+      runtimeType, selectedArea, const DeepCollectionEquality().hash(_areas));
 
   /// Create a copy of AreaUpdatesState
   /// with the given fields replaced by the non-null parameter values.
@@ -160,16 +149,13 @@ class _$AreaUpdatesStateImpl implements _AreaUpdatesState {
   @pragma('vm:prefer-inline')
   _$$AreaUpdatesStateImplCopyWith<_$AreaUpdatesStateImpl> get copyWith =>
       __$$AreaUpdatesStateImplCopyWithImpl<_$AreaUpdatesStateImpl>(
-        this,
-        _$identity,
-      );
+          this, _$identity);
 }
 
 abstract class _AreaUpdatesState implements AreaUpdatesState {
-  const factory _AreaUpdatesState({
-    required final String selectedArea,
-    required final List<String> areas,
-  }) = _$AreaUpdatesStateImpl;
+  const factory _AreaUpdatesState(
+      {required final String selectedArea,
+      required final List<String> areas}) = _$AreaUpdatesStateImpl;
 
   @override
   String get selectedArea;

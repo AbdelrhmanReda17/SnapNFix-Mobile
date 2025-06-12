@@ -4,12 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
-import 'package:snapnfix/core/config/application_configurations.dart';
-import 'package:snapnfix/core/dependency_injection/dependency_injection.dart';
-import 'package:snapnfix/modules/authentication/domain/entities/user.dart';
-import 'package:snapnfix/modules/authentication/domain/entities/user_gender.dart';
-import 'package:snapnfix/modules/settings/data/models/dtos/edit_profile_dto.dart';
+import 'package:snapnfix/modules/authentication/index.dart';
+import 'package:snapnfix/modules/settings/data/models/edit_profile_request.dart';
 import 'package:snapnfix/modules/settings/domain/usecases/edit_profile_use_case.dart';
+import 'package:snapnfix/core/index.dart';
 part 'edit_profile_state.dart';
 part 'edit_profile_cubit.freezed.dart';
 
@@ -36,7 +34,8 @@ class EditProfileCubit extends Cubit<EditProfileState> {
   final resetCounter = ValueNotifier<int>(0);
   final _imagePicker = ImagePicker();
 
-  bool get isEmailRegistered => _currentUser.email != null && _currentUser.email!.isNotEmpty;
+  bool get isEmailRegistered =>
+      _currentUser.email != null && _currentUser.email!.isNotEmpty;
 
   void initializeUserData() {
     name = "${_currentUser.firstName} ${_currentUser.lastName}";
@@ -101,7 +100,7 @@ class EditProfileCubit extends Cubit<EditProfileState> {
 
     try {
       final response = await _editProfileUseCase(
-        EditProfileDTO(
+        EditProfileRequest(
           name: name,
           phoneNumber: isEmailRegistered ? null : phoneNumber,
           email: isEmailRegistered ? email : null,

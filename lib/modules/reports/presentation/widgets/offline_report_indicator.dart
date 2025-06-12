@@ -19,25 +19,15 @@ class _OfflineReportIndicatorState extends State<OfflineReportIndicator> {
   StreamSubscription? _connectivitySubscription;
   bool _isSyncing = false;
   final ConnectivityService _connectivityService = getIt<ConnectivityService>();
-  final GetPendingReportsCountUseCase _getpendingReportsUseCase =
-      getIt<GetPendingReportsCountUseCase>();
-  int? _initialPendingCount;
 
   @override
   void initState() {
     super.initState();
-    _checkInitialPendingCount();
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (mounted) {
         _setupConnectivityMonitoring();
       }
-    });
-  }
-
-  void _checkInitialPendingCount() {
-    setState(() {
-      _initialPendingCount = _getpendingReportsUseCase.call();
     });
   }
 
@@ -120,11 +110,9 @@ class _OfflineReportIndicatorState extends State<OfflineReportIndicator> {
       }
     }
 
-    return StreamBuilder<int>(
-      stream: watchPendingReportsCount.call(),
-      initialData: _initialPendingCount ?? 0,
-      builder: (context, snapshot) {
-        final count = snapshot.data ?? _initialPendingCount ?? 0;
+    return ValueListenableBuilder<int>(
+      valueListenable: watchPendingReportsCount.call(),
+      builder: (context, count, child) {
         if (count == 0) {
           return const SizedBox.shrink();
         }

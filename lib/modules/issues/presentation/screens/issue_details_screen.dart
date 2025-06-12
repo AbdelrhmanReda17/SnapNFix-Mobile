@@ -3,17 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:snapnfix/core/base_components/base_alert.dart';
-import 'package:snapnfix/core/config/application_configurations.dart';
-import 'package:snapnfix/core/dependency_injection/dependency_injection.dart';
-import 'package:snapnfix/core/infrastructure/networking/api_error_model.dart';
-import 'package:snapnfix/core/utils/extensions/navigation.dart';
-import 'package:snapnfix/modules/issues/domain/entities/issue.dart';
-import 'package:snapnfix/modules/issues/presentation/cubits/issue_details_cubit.dart';
-import 'package:snapnfix/modules/issues/presentation/screens/issue_details_bloc_listener.dart';
-import 'package:snapnfix/modules/issues/presentation/widgets/issue_details/images_slider/issue_images_slider.dart';
-import 'package:snapnfix/modules/issues/presentation/widgets/issue_details/issue_descriptions_list.dart';
-import 'package:snapnfix/modules/issues/presentation/widgets/issue_details/issue_details.dart';
+import 'package:snapnfix/core/index.dart';
+import 'package:snapnfix/modules/issues/index.dart';
 import 'package:snapnfix/presentation/components/application_system_ui_overlay.dart';
 import 'package:snapnfix/presentation/widgets/loading_overlay.dart';
 
@@ -44,20 +35,26 @@ class IssueDetailsScreen extends StatelessWidget {
           ),
           elevation: 0,
         ),
-
         body: SafeArea(
-          child: BlocBuilder<IssueDetailsCubit, IssueDetailsState>(
-            builder: (context, state) {
-              return state.maybeWhen(
-                loaded: (issue) => _buildIssueContent(issue),
-                loading: () => const LoadingOverlay(),
-                error: (error) {
-                  setupErrorState(context, error);
-                  return const SizedBox.shrink();
-                },
-                orElse: () => const LoadingOverlay(),
-              );
-            },
+          child: Column(
+            children: [
+              // Place the listener at the top level to handle all state changes
+              const IssueDetailsBlocListener(),
+              Expanded(
+                child: BlocBuilder<IssueDetailsCubit, IssueDetailsState>(
+                  builder: (context, state) {
+                    return state.maybeWhen(
+                      loaded: (issue) => _buildIssueContent(issue),
+                      loading: () => const LoadingOverlay(),
+                      error:
+                          (_) =>
+                              const LoadingOverlay(), // Show loading while error is being handled by listener
+                      orElse: () => const LoadingOverlay(),
+                    );
+                  },
+                ),
+              ),
+            ],
           ),
         ),
       ),
@@ -71,11 +68,12 @@ class IssueDetailsScreen extends StatelessWidget {
 
       currentState.maybeWhen(
         loading: () => {},
-        loaded:
-            (issue) => {
-              if (issue.id != issueId) {cubit.getIssueDetails(issueId)},
-            },
-        orElse: () => {cubit.getIssueDetails(issueId)},
+        loaded: (issue) {
+          if (issue.id != issueId) {
+            cubit.getIssueDetails(issueId);
+          }
+        },
+        orElse: () => cubit.getIssueDetails(issueId),
       );
     });
   }
@@ -86,7 +84,6 @@ class IssueDetailsScreen extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const IssueDetailsBlocListener(),
           IssueImageSlider(images: issue.images),
           IssueDetails(issue: issue),
           Expanded(
@@ -94,21 +91,6 @@ class IssueDetailsScreen extends StatelessWidget {
           ),
         ],
       ),
-    );
-  }
-
-  void setupErrorState(BuildContext context, ApiErrorModel apiErrorModel) {
-    final localization = AppLocalizations.of(context)!;
-
-    context.pop();
-    baseDialog(
-      context: context,
-      title: localization.errorFetchingIssue,
-      message: apiErrorModel.getAllErrorMessages(),
-      alertType: AlertType.error,
-      confirmText: localization.gotItConfirmText,
-      onConfirm: () {},
-      showCancelButton: false,
     );
   }
 }

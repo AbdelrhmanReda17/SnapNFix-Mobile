@@ -92,7 +92,7 @@
   "passwordUppercase": "Include at least one uppercase letter (e.g., A, B, C).",
   "passwordLowercase": "Include at least one lowercase letter (e.g., a, b, c).",
   "passwordNumber": "Include at least one number (e.g., 1, 2, 3).",
-  "passwordSpecial": "Include at least one special character (e.g., !, @, #, $).",
+  "passwordSpecial": "Include at least one special character (e.g., !, @, #).",
   "confirmButton": "Confirm",
   "passwordsDoNotMatch": "Passwords don't match",
   "passwordRequirementsNotMet": "Password doesn't meet all requirements",
@@ -306,8 +306,8 @@
   "severityMedium": "medium", 
   "severityHigh": "high",
   "statusPending": "pending",
-  "statusValid": "valid",
-  "statusInvalid": "invalid",
+  "statusValid": "approved",
+  "statusInvalid": "declined"
   "viewIssue": "View Issue #{number}",
   "@viewIssue": {
     "placeholders": {

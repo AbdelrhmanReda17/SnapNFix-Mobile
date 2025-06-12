@@ -1,13 +1,16 @@
-import 'package:snapnfix/core/infrastructure/networking/api_error_handler.dart';
-import 'package:snapnfix/core/infrastructure/networking/api_result.dart';
+import 'package:snapnfix/core/infrastructure/networking/error/api_error.dart';
+import 'package:snapnfix/core/utils/result.dart';
 import 'package:snapnfix/core/infrastructure/networking/api_service.dart';
-import 'package:snapnfix/modules/settings/data/models/dtos/change_password_dto.dart';
-import 'package:snapnfix/modules/settings/data/models/dtos/edit_profile_dto.dart';
+import 'package:snapnfix/modules/settings/data/models/change_password_request.dart';
+import 'package:snapnfix/modules/settings/data/models/edit_profile_request.dart';
 
 abstract class BaseSettingsRemoteDataSource {
-  Future<ApiResult<String>> changePassword(ChangePasswordDTO changePasswordDTO);
-  Future<ApiResult<String>> editProfile(EditProfileDTO editProfileDTO);
-  // Future<ApiResult<String>> logout();
+  Future<Result<String, ApiError>> changePassword(
+    ChangePasswordRequest changePasswordDTO,
+  );
+  Future<Result<String, ApiError>> editProfile(
+    EditProfileRequest editProfileDTO,
+  );
 }
 
 class SettingsRemoteDataSource implements BaseSettingsRemoteDataSource {
@@ -16,24 +19,36 @@ class SettingsRemoteDataSource implements BaseSettingsRemoteDataSource {
   SettingsRemoteDataSource(this._apiService);
 
   @override
-  Future<ApiResult<String>> changePassword(
-    ChangePasswordDTO changePasswordDTO,
+  Future<Result<String, ApiError>> changePassword(
+    ChangePasswordRequest changePasswordDTO,
   ) async {
     try {
       // final response = await _apiService.changePassword(loginDTO);
-      return ApiResult.success('Password changed successfully');
+      return Result.success('Password changed successfully');
     } catch (error) {
-      return ApiResult.failure(ApiErrorHandler.handle(error));
+      return Result.failure(
+        ApiError(
+          message: 'Failed to change password: ${error.toString()}',
+          code: error is ApiError ? error.code : null,
+        ),
+      );
     }
   }
 
   @override
-  Future<ApiResult<String>> editProfile(EditProfileDTO editProfileDTO) async {
+  Future<Result<String, ApiError>> editProfile(
+    EditProfileRequest editProfileDTO,
+  ) async {
     try {
       // final response = await _apiService.ChangeProfile(changeProfileDTO);
-      return ApiResult.success('Profile updated successfully');
+      return Result.success('Profile updated successfully');
     } catch (error) {
-      return ApiResult.failure(ApiErrorHandler.handle(error));
+      return Result.failure(
+        ApiError(
+          message: 'Failed to change password: ${error.toString()}',
+          code: error is ApiError ? error.code : null,
+        ),
+      );
     }
   }
 }

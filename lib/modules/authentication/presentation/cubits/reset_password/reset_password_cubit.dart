@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:snapnfix/core/infrastructure/networking/api_error_model.dart';
-import 'package:snapnfix/modules/authentication/domain/usecases/reset_password_use_case.dart';
+import 'package:snapnfix/modules/authentication/index.dart';
+import 'package:snapnfix/core/index.dart';
 
 part 'reset_password_state.dart';
 part 'reset_password_cubit.freezed.dart';
@@ -48,7 +48,7 @@ class ResetPasswordCubit extends Cubit<ResetPasswordState> {
     } catch (e) {
       emit(
         ResetPasswordState.error(
-          ApiErrorModel(message: 'An unexpected error occurred'),
+          ApiError(message: 'An unexpected error occurred'),
         ),
       );
     }
@@ -58,7 +58,7 @@ class ResetPasswordCubit extends Cubit<ResetPasswordState> {
     if (!formKey.currentState!.validate()) {
       emit(
         ResetPasswordState.error(
-          ApiErrorModel(message: 'Please fill in all required fields'),
+          ApiError(message: 'Please fill in all required fields'),
         ),
       );
       return false;
@@ -66,9 +66,7 @@ class ResetPasswordCubit extends Cubit<ResetPasswordState> {
 
     if (_newPassword != _confirmPassword) {
       emit(
-        ResetPasswordState.error(
-          ApiErrorModel(message: 'Passwords do not match'),
-        ),
+        ResetPasswordState.error(ApiError(message: 'Passwords do not match')),
       );
       return false;
     }
@@ -76,7 +74,7 @@ class ResetPasswordCubit extends Cubit<ResetPasswordState> {
     if (_newPassword.length < 8) {
       emit(
         ResetPasswordState.error(
-          ApiErrorModel(message: 'Password must be at least 8 characters long'),
+          ApiError(message: 'Password must be at least 8 characters long'),
         ),
       );
       return false;
@@ -89,7 +87,7 @@ class ResetPasswordCubit extends Cubit<ResetPasswordState> {
     emit(ResetPasswordState.success(result));
   }
 
-  void _handleResetPasswordFailure(ApiErrorModel error) {
+  void _handleResetPasswordFailure(ApiError error) {
     emit(ResetPasswordState.error(error));
   }
 }
