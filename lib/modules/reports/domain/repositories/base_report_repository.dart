@@ -3,6 +3,9 @@ import 'package:injectable/injectable.dart';
 import 'package:snapnfix/core/infrastructure/networking/error/api_error.dart';
 import 'package:snapnfix/core/utils/result.dart';
 import 'package:snapnfix/modules/reports/data/models/report_model.dart';
+import 'package:snapnfix/modules/reports/data/models/report_statistics_model.dart';
+import 'package:snapnfix/modules/reports/data/models/report_statistics_model.dart';
+import 'package:snapnfix/modules/reports/data/models/report_statistics_model.dart';
 
 @factoryMethod
 abstract class BaseReportRepository {
@@ -14,7 +17,6 @@ abstract class BaseReportRepository {
   int getPendingReportsCount();
   ValueListenable<int> watchPendingReportsCount();
   ValueListenable<List<ReportModel>> watchPendingReports();
-
   // Pagination
   Future<Result<MapEntry<List<ReportModel>, bool>, String>> getUserReports({
     String? status,
@@ -22,4 +24,7 @@ abstract class BaseReportRepository {
     int page = 1,
     int limit = 10,
   });
+
+  // Statistics
+  Future<Result<ReportStatisticsModel, ApiError>> getReportStatistics();
 }

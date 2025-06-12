@@ -638,6 +638,42 @@ class _ApiService implements ApiService {
   }
 
   @override
+  Future<ApiResponse<ReportStatisticsModel>> getReportStatistics() async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _options = _setStreamType<ApiResponse<ReportStatisticsModel>>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+        .compose(
+          _dio.options,
+          'api/SnapReports/statistics',
+          queryParameters: queryParameters,
+          data: _data,
+        )
+        .copyWith(
+            baseUrl: _combineBaseUrls(
+          _dio.options.baseUrl,
+          baseUrl,
+        )));
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late ApiResponse<ReportStatisticsModel> _value;
+    try {
+      _value = ApiResponse<ReportStatisticsModel>.fromJson(
+        _result.data!,
+        (json) => ReportStatisticsModel.fromJson(json as Map<String, dynamic>),
+      );
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
   Future<ApiResponse<List<IssueMarker>>> getNearbyIssues(
       GetNearbyIssuesQuery query) async {
     final _extra = <String, dynamic>{};
