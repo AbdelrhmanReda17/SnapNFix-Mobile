@@ -19,8 +19,8 @@ class HorizontalCards extends StatelessWidget {
 
     return BlocBuilder<ReportStatisticsCubit, ReportStatisticsState>(
       builder: (context, state) {
-        final pendingCount = state.statistics?.pendingReports ?? 3;
-        final approvedCount = state.statistics?.approvedReports ?? 7;
+        final pendingCount = state.statistics?.pendingReports ?? 0;
+        final approvedCount = state.statistics?.approvedReports ?? 0;
 
         return SizedBox(
           height: 220.h,
