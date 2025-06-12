@@ -17,11 +17,9 @@ class ReportStatisticsCubit extends Cubit<ReportStatisticsState> {
 
   Future<void> loadStatistics() async {
     if (isClosed) return;
-    
-    // First, load cached data immediately if available
+
     await _loadCachedData();
-    
-    // Then fetch fresh data from API
+
     await _fetchFreshData();
   }
 
@@ -50,8 +48,6 @@ class ReportStatisticsCubit extends Cubit<ReportStatisticsState> {
 
   Future<void> _fetchFreshData() async {
     if (isClosed) return;
-    
-    // Only show loading if we don't have cached data
     if (state.statistics == null) {
       emit(state.copyWith(isLoading: true, error: null));
     }
@@ -63,9 +59,7 @@ class ReportStatisticsCubit extends Cubit<ReportStatisticsState> {
     result.when(
       success: (statistics) async {
         if (!isClosed) {
-          // Cache the new data
           await _cacheStatistics(statistics);
-          
           emit(state.copyWith(
             statistics: statistics,
             isLoading: false,
@@ -76,14 +70,12 @@ class ReportStatisticsCubit extends Cubit<ReportStatisticsState> {
       },
       failure: (error) {
         if (!isClosed) {
-          // Only show error if we don't have cached data
           if (state.statistics == null) {
             emit(state.copyWith(
               isLoading: false,
               error: error.message,
             ));
           } else {
-            // We have cached data, just update loading state
             emit(state.copyWith(
               isLoading: false,
               error: null,
