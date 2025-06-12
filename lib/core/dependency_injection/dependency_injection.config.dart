@@ -159,8 +159,8 @@ extension GetItInjectableX on _i174.GetIt {
     final issuesRepositoryModule = _$IssuesRepositoryModule();
     final settingsUsecaseModule = _$SettingsUsecaseModule();
     final reportsRepositoryModule = _$ReportsRepositoryModule();
-    final settingsPresentationModule = _$SettingsPresentationModule();
     final issuesUsecaseModule = _$IssuesUsecaseModule();
+    final settingsPresentationModule = _$SettingsPresentationModule();
     final issuesPresentationModule = _$IssuesPresentationModule();
     final authenticationRepositoryModule = _$AuthenticationRepositoryModule();
     final reportsUsecaseModule = _$ReportsUsecaseModule();
@@ -245,8 +245,6 @@ extension GetItInjectableX on _i174.GetIt {
               gh<_i71.BaseReportRemoteDataSource>(),
               gh<_i1041.ConnectivityService>(),
             ));
-    gh.factory<_i382.EditProfileCubit>(() => settingsPresentationModule
-        .provideEditProfileCubit(gh<_i182.EditProfileUseCase>()));
     gh.lazySingleton<_i381.WatchNearbyIssuesUseCase>(() => issuesUsecaseModule
         .provideWatchNearbyIssuesUseCase(gh<_i185.BaseIssueRepository>()));
     gh.lazySingleton<_i39.GetIssueDetailsUseCase>(() => issuesUsecaseModule
@@ -255,6 +253,8 @@ extension GetItInjectableX on _i174.GetIt {
         .provideGetUserIssuesUseCase(gh<_i185.BaseIssueRepository>()));
     gh.lazySingleton<_i735.GetAreaIssuesUseCase>(() => issuesUsecaseModule
         .provideGetAreaIssuesUseCase(gh<_i185.BaseIssueRepository>()));
+    gh.factory<_i382.EditProfileCubit>(() => settingsPresentationModule
+        .provideEditProfileCubit(gh<_i182.EditProfileUseCase>()));
     gh.factory<_i967.ChangePasswordCubit>(() => settingsPresentationModule
         .provideChangePasswordCubit(gh<_i281.ChangePasswordUseCase>()));
     gh.factory<_i240.IssuesMapCubit>(() => issuesPresentationModule
@@ -346,9 +346,9 @@ class _$SettingsUsecaseModule extends _i422.SettingsUsecaseModule {}
 
 class _$ReportsRepositoryModule extends _i717.ReportsRepositoryModule {}
 
-class _$SettingsPresentationModule extends _i247.SettingsPresentationModule {}
-
 class _$IssuesUsecaseModule extends _i528.IssuesUsecaseModule {}
+
+class _$SettingsPresentationModule extends _i247.SettingsPresentationModule {}
 
 class _$IssuesPresentationModule extends _i519.IssuesPresentationModule {}
 

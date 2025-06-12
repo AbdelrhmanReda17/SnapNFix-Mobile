@@ -8,7 +8,7 @@ class WatchNearbyIssuesUseCase {
 
   WatchNearbyIssuesUseCase(this._repository);
 
-  Stream<Result<List<Marker>, ApiError>> call(
+  Stream<Result<List<IssueMarker>, ApiError>> call(
     double latitude,
     double longitude, {
     double radius = 1.0,

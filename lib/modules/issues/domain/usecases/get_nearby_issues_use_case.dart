@@ -8,7 +8,7 @@ class GetNearbyIssuesUseCase {
 
   GetNearbyIssuesUseCase(this._repository);
 
-  Future<Result<List<Marker>, ApiError>> call(
+  Future<Result<List<IssueMarker>, ApiError>> call(
     double latitude,
     double longitude, {
     double radius = 1.0,

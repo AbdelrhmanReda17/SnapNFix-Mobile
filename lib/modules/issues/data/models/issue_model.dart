@@ -10,8 +10,6 @@ part 'issue_model.g.dart';
 @JsonSerializable()
 class IssueModel extends Issue {
   @override
-  final List<IssueDescriptionModel> descriptions;
-
   const IssueModel({
     required super.id,
     required super.severity,
@@ -22,10 +20,9 @@ class IssueModel extends Issue {
     required super.createdAt,
     super.resolvedAt,
     required super.images,
-    required this.descriptions,
     required super.reportsCount,
     required super.location,
-  }): super(descriptions: descriptions);
+  });
 
   factory IssueModel.fromJson(Map<String, dynamic> json) =>
       _$IssueModelFromJson(json);

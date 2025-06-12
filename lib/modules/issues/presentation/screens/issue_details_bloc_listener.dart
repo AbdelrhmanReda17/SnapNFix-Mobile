@@ -30,7 +30,7 @@ class IssueDetailsBlocListener extends StatelessWidget {
       baseDialog(
         context: context,
         title: localization.errorFetchingIssue,
-        message: error.fullMessage,
+        message: error.message,
         alertType: AlertType.error,
         confirmText: localization.ok,
         onConfirm: () {},

@@ -47,7 +47,7 @@ class ReportRepository implements BaseReportRepository {
       return result.when(
         success: (data) {
           return Result.success(
-            "Report submitted successfully with ID: ${report.id}",
+            "Report submitted successfully with ID: ${data.id}",
           );
         },
         failure: (error) async {

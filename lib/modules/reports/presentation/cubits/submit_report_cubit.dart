@@ -82,7 +82,7 @@ class SubmitReportCubit extends Cubit<SubmitReportState> {
           emit(state.copyWith(isLoading: false, successMessage: data));
         },
         failure: (error) {
-          emit(state.copyWith(isLoading: false, error: error.fullMessage));
+          emit(state.copyWith(isLoading: false, error: error.message));
         },
       );
       resetState();

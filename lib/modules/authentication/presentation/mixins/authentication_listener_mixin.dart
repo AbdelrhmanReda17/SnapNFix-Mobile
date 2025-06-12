@@ -68,7 +68,7 @@ mixin AuthenticationListenerMixin {
     baseDialog(
       context: context,
       title: title ?? AppLocalizations.of(context)!.errorDialogTitle,
-      message: error.fullMessage,
+      message: error.message,
       alertType: AlertType.error,
       confirmText: AppLocalizations.of(context)!.gotItConfirmText,
       onConfirm: () {

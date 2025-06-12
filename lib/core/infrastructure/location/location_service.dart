@@ -41,7 +41,8 @@ class LocationService {
         final placemark = placemarks.first;
         return [
           placemark.street ?? '',
-          placemark.locality ?? '',
+          placemark.subAdministrativeArea ?? '',
+          // placemark.locality ?? '',
           placemark.administrativeArea ?? '',
           placemark.country ?? '',
         ].where((element) => element.isNotEmpty).toList();

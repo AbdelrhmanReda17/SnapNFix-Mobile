@@ -5,7 +5,7 @@ class IssuesMapState with _$IssuesMapState {
   const factory IssuesMapState({
     @Default(MapStatus.initial) MapStatus status,
     @Default({}) Set<Marker> markers,
-    @Default([]) List<SnapNFix.Marker> issues,
+    @Default([]) List<IssueMarker> issues,
     CameraPosition? cameraPosition,
     @Default(false) bool hasLocationPermission,
     @Default(false) bool isFollowingUser,

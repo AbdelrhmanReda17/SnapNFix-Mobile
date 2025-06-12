@@ -40,7 +40,7 @@ class IssueRepository implements BaseIssueRepository {
   }
 
   @override
-  Future<Result<List<Marker>, ApiError>> getNearbyIssues(
+  Future<Result<List<IssueMarker>, ApiError>> getNearbyIssues(
     double latitude,
     double longitude,
     double radiusInKm,
@@ -92,7 +92,7 @@ class IssueRepository implements BaseIssueRepository {
   }
 
   @override
-  Stream<Result<List<Marker>, ApiError>> watchNearbyIssues(
+  Stream<Result<List<IssueMarker>, ApiError>> watchNearbyIssues(
     double latitude,
     double longitude,
     double radiusInKm,
@@ -141,7 +141,7 @@ class IssueRepository implements BaseIssueRepository {
         final outputResult = await result.when(
           success: (issues) async {
             // await localDataSource.cacheIssues(issues);
-            return Result<List<Marker>, ApiError>.success(issues);
+            return Result<List<IssueMarker>, ApiError>.success(issues);
           },
           failure: (error) async {
             final cachedIssues = await localDataSource.getNearbyIssues(
@@ -151,18 +151,18 @@ class IssueRepository implements BaseIssueRepository {
             );
 
             if (cachedIssues.isNotEmpty) {
-              return Result<List<Marker>, ApiError>.success(
-                cachedIssues as List<Marker>,
+              return Result<List<IssueMarker>, ApiError>.success(
+                cachedIssues as List<IssueMarker>,
               );
             }
-            return Result<List<Marker>, ApiError>.failure(error);
+            return Result<List<IssueMarker>, ApiError>.failure(error);
           },
         );
 
         yield outputResult;
       }
     } catch (error) {
-      yield Result<List<Marker>, ApiError>.failure(
+      yield Result<List<IssueMarker>, ApiError>.failure(
         error is ApiError ? error : ApiError(message: error.toString()),
       );
     }

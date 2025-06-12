@@ -9,30 +9,27 @@ import 'area_issues_state.dart';
 
 class AreaIssuesCubit extends Cubit<AreaIssuesState> {
   final GetAreaIssuesUseCase _getAreaIssuesUseCase;
-  
+
   AreaIssuesCubit({
     required String areaName,
     required GetAreaIssuesUseCase getAreaIssuesUseCase,
   }) : _getAreaIssuesUseCase = getAreaIssuesUseCase,
-      super(const AreaIssuesState.initial()) {
+       super(const AreaIssuesState.initial()) {
     loadAreaIssues(areaName);
   }
 
   Future<void> loadAreaIssues(String areaName) async {
     emit(const AreaIssuesState.loading());
-    
+
     try {
       final result = await _getAreaIssuesUseCase(areaName);
-      
+
       result.when(
         success: (issues) {
-          emit(AreaIssuesState.loaded(
-            issues: issues,
-            areaName: areaName,
-          ));
+          emit(AreaIssuesState.loaded(issues: issues, areaName: areaName));
         },
         failure: (error) {
-          emit(AreaIssuesState.error(error.fullMessage ?? 'Unknown error occurred'));
+          emit(AreaIssuesState.error(error.message));
         },
       );
     } catch (e) {
@@ -43,12 +40,14 @@ class AreaIssuesCubit extends Cubit<AreaIssuesState> {
   void toggleSubscription() {
     state.maybeWhen(
       loaded: (issues, areaName, isSubscribed, selectedStatuses) {
-        emit(AreaIssuesState.loaded(
-          issues: issues,
-          areaName: areaName,
-          isSubscribed: !isSubscribed,
-          selectedStatuses: selectedStatuses,
-        ));
+        emit(
+          AreaIssuesState.loaded(
+            issues: issues,
+            areaName: areaName,
+            isSubscribed: !isSubscribed,
+            selectedStatuses: selectedStatuses,
+          ),
+        );
       },
       orElse: () {},
     );
@@ -58,19 +57,21 @@ class AreaIssuesCubit extends Cubit<AreaIssuesState> {
     state.maybeWhen(
       loaded: (issues, areaName, isSubscribed, selectedStatuses) {
         final currentStatuses = List<IssueStatus>.from(selectedStatuses);
-        
+
         if (currentStatuses.contains(status)) {
           currentStatuses.remove(status);
         } else {
           currentStatuses.add(status);
         }
-        
-        emit(AreaIssuesState.loaded(
-          issues: issues,
-          areaName: areaName,
-          isSubscribed: isSubscribed,
-          selectedStatuses: currentStatuses,
-        ));
+
+        emit(
+          AreaIssuesState.loaded(
+            issues: issues,
+            areaName: areaName,
+            isSubscribed: isSubscribed,
+            selectedStatuses: currentStatuses,
+          ),
+        );
       },
       orElse: () {},
     );
@@ -79,19 +80,24 @@ class AreaIssuesCubit extends Cubit<AreaIssuesState> {
   void clearFilters() {
     state.maybeWhen(
       loaded: (issues, areaName, isSubscribed, selectedStatuses) {
-        emit(AreaIssuesState.loaded(
-          issues: issues,
-          areaName: areaName,
-          isSubscribed: isSubscribed,
-          selectedStatuses: [],
-        ));
+        emit(
+          AreaIssuesState.loaded(
+            issues: issues,
+            areaName: areaName,
+            isSubscribed: isSubscribed,
+            selectedStatuses: [],
+          ),
+        );
       },
       orElse: () {},
     );
   }
 
   void navigateToIssueDetails(BuildContext context, String issueId) {
-    context.push(Routes.issueDetails.replaceAll(':issueId', issueId), extra: issueId);
+    context.push(
+      Routes.issueDetails.replaceAll(':issueId', issueId),
+      extra: issueId,
+    );
   }
 
   List<Issue> getFilteredIssues() {
@@ -100,12 +106,12 @@ class AreaIssuesCubit extends Cubit<AreaIssuesState> {
         if (selectedStatuses.isEmpty) {
           return issues;
         }
-        
-        return issues.where((issue) =>
-          selectedStatuses.contains(issue.status)
-        ).toList();
+
+        return issues
+            .where((issue) => selectedStatuses.contains(issue.status))
+            .toList();
       },
       orElse: () => [],
     );
   }
-} 
+}

@@ -140,7 +140,8 @@ class _ApiService implements ApiService {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
-    const Map<String, dynamic>? _data = null;
+    final _data = <String, dynamic>{};
+    _data.addAll(request);
     final _options = _setStreamType<ApiResponse<TokensModel>>(Options(
       method: 'POST',
       headers: _headers,
@@ -637,14 +638,14 @@ class _ApiService implements ApiService {
   }
 
   @override
-  Future<ApiResponse<List<Marker>>> getNearbyIssues(
+  Future<ApiResponse<List<IssueMarker>>> getNearbyIssues(
       GetNearbyIssuesQuery query) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     queryParameters.addAll(query.toJson());
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
-    final _options = _setStreamType<ApiResponse<List<Marker>>>(Options(
+    final _options = _setStreamType<ApiResponse<List<IssueMarker>>>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
@@ -661,13 +662,14 @@ class _ApiService implements ApiService {
           baseUrl,
         )));
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late ApiResponse<List<Marker>> _value;
+    late ApiResponse<List<IssueMarker>> _value;
     try {
-      _value = ApiResponse<List<Marker>>.fromJson(
+      _value = ApiResponse<List<IssueMarker>>.fromJson(
         _result.data!,
         (json) => json is List<dynamic>
             ? json
-                .map<Marker>((i) => Marker.fromJson(i as Map<String, dynamic>))
+                .map<IssueMarker>(
+                    (i) => IssueMarker.fromJson(i as Map<String, dynamic>))
                 .toList()
             : List.empty(),
       );
@@ -691,7 +693,7 @@ class _ApiService implements ApiService {
     )
         .compose(
           _dio.options,
-          'api/issue/:id',
+          'api/issue/${id}',
           queryParameters: queryParameters,
           data: _data,
         )

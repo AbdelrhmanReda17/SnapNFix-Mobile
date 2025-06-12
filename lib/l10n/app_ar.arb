@@ -308,7 +308,7 @@
   "statusPending": "قيد الانتظار",
   "statusValid": "صالح",
   "statusInvalid": "غير صالح",
-  "viewIssue": "عرض المشكلة رقم {number}",
+  "viewIssue": "عرض المشكلة ",
   "@viewIssue": {
     "placeholders": {
       "number": {

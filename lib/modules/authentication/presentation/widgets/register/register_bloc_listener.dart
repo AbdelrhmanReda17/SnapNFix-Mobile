@@ -28,7 +28,8 @@ class RegisterBlocListener extends StatelessWidget
             );
           },
           loading: () => showLoadingDialog(context),
-          error: (error) => handleError(context, error),
+          error:
+              (error) => handleError(context, error),
         );
       },
       child: const SizedBox.shrink(),

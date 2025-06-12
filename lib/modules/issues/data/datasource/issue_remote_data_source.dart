@@ -5,7 +5,7 @@ import 'package:snapnfix/modules/issues/data/models/markers.dart';
 import 'package:snapnfix/core/index.dart';
 
 abstract class BaseIssueRemoteDataSource {
-  Future<Result<List<Marker>, ApiError>> getNearbyIssues(
+  Future<Result<List<IssueMarker>, ApiError>> getNearbyIssues(
     double latitude,
     double longitude,
     double radiusInKm,
@@ -60,13 +60,13 @@ class IssueRemoteDataSource implements BaseIssueRemoteDataSource {
   }
 
   @override
-  Future<Result<List<Marker>, ApiError>> getNearbyIssues(
+  Future<Result<List<IssueMarker>, ApiError>> getNearbyIssues(
     double latitude,
     double longitude,
     double radiusInKm,
   ) async {
     try {
-      return await _handleApiCall<List<Marker>>(
+      return await _handleApiCall<List<IssueMarker>>(
         apiCall: () async {
           final result = _apiService.getNearbyIssues(
             GetNearbyIssuesQuery(

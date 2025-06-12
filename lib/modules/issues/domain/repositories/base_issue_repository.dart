@@ -4,12 +4,12 @@ import 'package:snapnfix/modules/issues/data/models/markers.dart';
 import 'package:snapnfix/modules/issues/domain/entities/issue.dart';
 
 abstract class BaseIssueRepository {
-  Future<Result<List<Marker>, ApiError>> getNearbyIssues(
+  Future<Result<List<IssueMarker>, ApiError>> getNearbyIssues(
     double latitude,
     double longitude,
     double radiusInKm,
   );
-  Stream<Result<List<Marker>, ApiError>> watchNearbyIssues(
+  Stream<Result<List<IssueMarker>, ApiError>> watchNearbyIssues(
     double latitude,
     double longitude,
     double radiusInKm,

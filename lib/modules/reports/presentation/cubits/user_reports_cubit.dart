@@ -21,7 +21,6 @@ class UserReportsCubit extends HydratedCubit<UserReportsState> {
   IssueCategory? _category;
   SortOption _sortOption = SortOption.dateNewest;
 
-  // Cache configuration
   static const Duration _cacheValidDuration = Duration(minutes: 10);
 
   UserReportsCubit(this._getUserReportsUseCase)
@@ -42,7 +41,7 @@ class UserReportsCubit extends HydratedCubit<UserReportsState> {
             reports: [],
             lastUpdated: null,
             isLoading: true,
-            hasReachedEnd: false, // Reset this flag when cache expires
+            hasReachedEnd: false, 
           ),
         );
       } else {
@@ -50,7 +49,6 @@ class UserReportsCubit extends HydratedCubit<UserReportsState> {
         emit(state.copyWith(isLoading: false));
       }
     } else {
-      // If no lastUpdated, ensure hasReachedEnd is false for first load
       emit(state.copyWith(hasReachedEnd: false, isLoading: true));
     }
   }

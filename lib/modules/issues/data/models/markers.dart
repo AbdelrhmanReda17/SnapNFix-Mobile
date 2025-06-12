@@ -1,9 +1,9 @@
-class Marker {
+class IssueMarker {
   String issueId;
   double latitude;
   double longitude;
 
-  Marker({
+  IssueMarker({
     required this.issueId,
     required this.latitude,
     required this.longitude,
@@ -13,8 +13,8 @@ class Marker {
     return {'issueId': issueId, 'latitude': latitude, 'longitude': longitude};
   }
 
-  factory Marker.fromJson(Map<String, dynamic> json) {
-    return Marker(
+  factory IssueMarker.fromJson(Map<String, dynamic> json) {
+    return IssueMarker(
       issueId: json['id'] as String,
       latitude: json['latitude'] as double,
       longitude: json['longitude'] as double,

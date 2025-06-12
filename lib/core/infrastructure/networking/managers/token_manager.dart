@@ -75,7 +75,7 @@ class TokenManager implements BaseTokenManager {
 
     try {
       debugPrint('Attempting to refresh token...');
-
+      debugPrint('Current refresh token: $currentRefreshToken');
       final response = await _apiService.refreshToken({
         'refreshToken': currentRefreshToken,
       });

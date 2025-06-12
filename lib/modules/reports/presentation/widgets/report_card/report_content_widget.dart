@@ -73,7 +73,7 @@ class ReportExpandedContent extends StatelessWidget {
                       context.push(Routes.issueDetails, extra: report.issueId);
                     },
                     child: Text(
-                      localization.viewIssue(report.issueId!),
+                      "View Issue",
                       style: theme.textTheme.labelMedium?.copyWith(
                         color: colorScheme.primary,
                         decoration: TextDecoration.underline,

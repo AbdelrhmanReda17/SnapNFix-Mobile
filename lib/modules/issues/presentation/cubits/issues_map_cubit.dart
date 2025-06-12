@@ -1,12 +1,15 @@
+// ignore_for_file: library_prefixes
+
 import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:snapnfix/modules/issues/data/models/markers.dart';
 import 'package:snapnfix/modules/issues/index.dart';
 import 'package:snapnfix/core/index.dart';
-import 'package:snapnfix/modules/issues/data/models/markers.dart' as SnapNFix;
+
 part 'issues_map_state.dart';
 part 'issues_map_cubit.freezed.dart';
 
@@ -114,37 +117,39 @@ class IssuesMapCubit extends Cubit<IssuesMapState> {
         );
   }
 
-  void _handleIssuesUpdate(Result<List<SnapNFix.Marker>, ApiError> result) {
+  void _handleIssuesUpdate(Result<List<IssueMarker>, ApiError> result) {
     if (_isClosed) return;
     debugPrint('Handling issues update: $result');
 
     result.when(
-      success: (issues) {
-        debugPrint('Issues updated: ${issues.length}');
+      success: (issueMarkers) {
+        debugPrint('Issues updated: ${issueMarkers.length}');
         emit(
           state.copyWith(
             status: MapStatus.loaded,
-            issues: issues,
-            markers: _createMarkers(issues),
+            issues: issueMarkers,
+            markers:
+                issueMarkers.isNotEmpty
+                    ? _createMarkers(issueMarkers)
+                    : <Marker>{},
             error: null,
           ),
         );
       },
       failure: (error) {
-        emit(state.copyWith(status: MapStatus.error, error: error.fullMessage));
+        emit(
+          state.copyWith(status: MapStatus.error, error: error.message),
+        );
       },
     );
   }
 
-  Set<Marker> _createMarkers(List<SnapNFix.Marker> issuesMarkers) {
-    debugPrint('Creating markers for ${issuesMarkers.length} issues');
-    return issuesMarkers.map((issueMarker) {
+  Set<Marker> _createMarkers(List<IssueMarker> issueMarkers) {
+    debugPrint('Creating markers for ${issueMarkers.length} issues');
+    return issueMarkers.map((issueMarker) {
       return Marker(
         markerId: MarkerId(issueMarker.issueId),
-        position: LatLng(
-          issueMarker.latitude as double,
-          issueMarker.longitude as double,
-        ),
+        position: LatLng(issueMarker.latitude, issueMarker.longitude),
         onTap:
             () => emit(
               state.copyWith(

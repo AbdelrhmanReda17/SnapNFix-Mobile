@@ -22,7 +22,9 @@ abstract class ApiService {
   Future<ApiResponse<void>> logout();
 
   @POST(ApiEndpoints.refreshToken)
-  Future<ApiResponse<TokensModel>> refreshToken(Map<String, dynamic> request);
+  Future<ApiResponse<TokensModel>> refreshToken(
+    @Body() Map<String, dynamic> request,
+  );
 
   @POST(ApiEndpoints.changePassword)
   Future<ApiResponse<void>> changePassword(
@@ -94,7 +96,7 @@ abstract class ApiService {
   );
 
   @GET(ApiEndpoints.getNearbyIssues)
-  Future<ApiResponse<List<Marker>>> getNearbyIssues(
+  Future<ApiResponse<List<IssueMarker>>> getNearbyIssues(
     @Queries() GetNearbyIssuesQuery query,
   );
 

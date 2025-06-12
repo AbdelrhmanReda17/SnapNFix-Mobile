@@ -308,7 +308,7 @@
   "statusPending": "pending",
   "statusValid": "approved",
   "statusInvalid": "declined"
-  "viewIssue": "View Issue #{number}",
+  "viewIssue": "View Issue",
   "@viewIssue": {
     "placeholders": {
       "number": {

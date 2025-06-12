@@ -60,7 +60,6 @@ class AuthenticationRemoteDataSource
       final response = await apiCall();
 
       if (setVerificationToken && response.data is String) {
-        debugPrint('Setting verification token: ${response.data}');
         HttpClientFactory.setAuthToken(response.data as String);
       }
 
@@ -80,13 +79,7 @@ class AuthenticationRemoteDataSource
 
       return Result.success(response.data as T);
     } catch (error) {
-      ApiError apiError;
-      if (error is Map<String, dynamic>) {
-        apiError = ApiError.fromJson(error);
-      } else {
-        apiError = ApiError(message: error.toString());
-      }
-      return Result.failure(apiError);
+      return Result.failure(ApiError(message: error.toString()));
     }
   }
 

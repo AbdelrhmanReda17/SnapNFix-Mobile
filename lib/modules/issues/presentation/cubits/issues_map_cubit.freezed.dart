@@ -18,7 +18,7 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$IssuesMapState {
   MapStatus get status => throw _privateConstructorUsedError;
   Set<Marker> get markers => throw _privateConstructorUsedError;
-  List<SnapNFix.Marker> get issues => throw _privateConstructorUsedError;
+  List<IssueMarker> get issues => throw _privateConstructorUsedError;
   CameraPosition? get cameraPosition => throw _privateConstructorUsedError;
   bool get hasLocationPermission => throw _privateConstructorUsedError;
   bool get isFollowingUser => throw _privateConstructorUsedError;
@@ -42,7 +42,7 @@ abstract class $IssuesMapStateCopyWith<$Res> {
   $Res call(
       {MapStatus status,
       Set<Marker> markers,
-      List<SnapNFix.Marker> issues,
+      List<IssueMarker> issues,
       CameraPosition? cameraPosition,
       bool hasLocationPermission,
       bool isFollowingUser,
@@ -88,7 +88,7 @@ class _$IssuesMapStateCopyWithImpl<$Res, $Val extends IssuesMapState>
       issues: null == issues
           ? _value.issues
           : issues // ignore: cast_nullable_to_non_nullable
-              as List<SnapNFix.Marker>,
+              as List<IssueMarker>,
       cameraPosition: freezed == cameraPosition
           ? _value.cameraPosition
           : cameraPosition // ignore: cast_nullable_to_non_nullable
@@ -128,7 +128,7 @@ abstract class _$$IssuesMapStateImplCopyWith<$Res>
   $Res call(
       {MapStatus status,
       Set<Marker> markers,
-      List<SnapNFix.Marker> issues,
+      List<IssueMarker> issues,
       CameraPosition? cameraPosition,
       bool hasLocationPermission,
       bool isFollowingUser,
@@ -172,7 +172,7 @@ class __$$IssuesMapStateImplCopyWithImpl<$Res>
       issues: null == issues
           ? _value._issues
           : issues // ignore: cast_nullable_to_non_nullable
-              as List<SnapNFix.Marker>,
+              as List<IssueMarker>,
       cameraPosition: freezed == cameraPosition
           ? _value.cameraPosition
           : cameraPosition // ignore: cast_nullable_to_non_nullable
@@ -203,11 +203,13 @@ class __$$IssuesMapStateImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$IssuesMapStateImpl implements _IssuesMapState {
+class _$IssuesMapStateImpl
+    with DiagnosticableTreeMixin
+    implements _IssuesMapState {
   const _$IssuesMapStateImpl(
       {this.status = MapStatus.initial,
       final Set<Marker> markers = const {},
-      final List<SnapNFix.Marker> issues = const [],
+      final List<IssueMarker> issues = const [],
       this.cameraPosition,
       this.hasLocationPermission = false,
       this.isFollowingUser = false,
@@ -229,10 +231,10 @@ class _$IssuesMapStateImpl implements _IssuesMapState {
     return EqualUnmodifiableSetView(_markers);
   }
 
-  final List<SnapNFix.Marker> _issues;
+  final List<IssueMarker> _issues;
   @override
   @JsonKey()
-  List<SnapNFix.Marker> get issues {
+  List<IssueMarker> get issues {
     if (_issues is EqualUnmodifiableListView) return _issues;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_issues);
@@ -255,8 +257,24 @@ class _$IssuesMapStateImpl implements _IssuesMapState {
   final String? error;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'IssuesMapState(status: $status, markers: $markers, issues: $issues, cameraPosition: $cameraPosition, hasLocationPermission: $hasLocationPermission, isFollowingUser: $isFollowingUser, selectedIssueId: $selectedIssueId, showIssueDetail: $showIssueDetail, error: $error)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'IssuesMapState'))
+      ..add(DiagnosticsProperty('status', status))
+      ..add(DiagnosticsProperty('markers', markers))
+      ..add(DiagnosticsProperty('issues', issues))
+      ..add(DiagnosticsProperty('cameraPosition', cameraPosition))
+      ..add(DiagnosticsProperty('hasLocationPermission', hasLocationPermission))
+      ..add(DiagnosticsProperty('isFollowingUser', isFollowingUser))
+      ..add(DiagnosticsProperty('selectedIssueId', selectedIssueId))
+      ..add(DiagnosticsProperty('showIssueDetail', showIssueDetail))
+      ..add(DiagnosticsProperty('error', error));
   }
 
   @override
@@ -307,7 +325,7 @@ abstract class _IssuesMapState implements IssuesMapState {
   const factory _IssuesMapState(
       {final MapStatus status,
       final Set<Marker> markers,
-      final List<SnapNFix.Marker> issues,
+      final List<IssueMarker> issues,
       final CameraPosition? cameraPosition,
       final bool hasLocationPermission,
       final bool isFollowingUser,
@@ -320,7 +338,7 @@ abstract class _IssuesMapState implements IssuesMapState {
   @override
   Set<Marker> get markers;
   @override
-  List<SnapNFix.Marker> get issues;
+  List<IssueMarker> get issues;
   @override
   CameraPosition? get cameraPosition;
   @override
