@@ -80,7 +80,6 @@
   "pleaseAddPhoto": "يرجى التقاط صورة للحادث",
   "reportSubmitted": "تم إرسال البلاغ بنجاح",
 
-  "changePassword": "تغيير كلمة المرور",
   "currentPassword": "كلمة المرور الحالية",
   "newPassword": "كلمة المرور الجديدة",
   "confirmNewPassword": "تأكيد كلمة المرور الجديدة",
@@ -93,8 +92,6 @@
   "confirmButton": "تأكيد",
   "passwordsDoNotMatch": "كلمات المرور غير متطابقة",
   "passwordRequirementsNotMet": "كلمة المرور لا تستوفي جميع المتطلبات",
-  "passwordChangedSuccess": "تم تغيير كلمة المرور بنجاح",
-  "passwordChangeFailed": "فشل تغيير كلمة المرور",
   "currentPasswordRequired": "كلمة المرور الحالية مطلوبة",
   "newPasswordMustBeDifferent": "يجب أن تكون كلمة المرور الجديدة مختلفة عن كلمة المرور الحالية",
 

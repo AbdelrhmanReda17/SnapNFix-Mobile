@@ -115,12 +115,8 @@ import '../../modules/settings/di/settings_repository_module.dart' as _i606;
 import '../../modules/settings/di/settings_usecase_module.dart' as _i422;
 import '../../modules/settings/domain/repositories/base_settings_repository.dart'
     as _i150;
-import '../../modules/settings/domain/usecases/change_password_use_case.dart'
-    as _i281;
 import '../../modules/settings/domain/usecases/edit_profile_use_case.dart'
     as _i182;
-import '../../modules/settings/presentation/cubits/change_password_cubit.dart'
-    as _i967;
 import '../../modules/settings/presentation/cubits/edit_profile_cubit.dart'
     as _i382;
 import '../../presentation/navigation/navigation_service.dart' as _i579;
@@ -159,16 +155,16 @@ extension GetItInjectableX on _i174.GetIt {
     final issuesDataModule = _$IssuesDataModule();
     final managerModule = _$ManagerModule();
     final settingsDataModule = _$SettingsDataModule();
-    final settingsRepositoryModule = _$SettingsRepositoryModule();
     final issuesRepositoryModule = _$IssuesRepositoryModule();
-    final settingsUsecaseModule = _$SettingsUsecaseModule();
     final reportsRepositoryModule = _$ReportsRepositoryModule();
+    final settingsRepositoryModule = _$SettingsRepositoryModule();
     final issuesUsecaseModule = _$IssuesUsecaseModule();
-    final settingsPresentationModule = _$SettingsPresentationModule();
     final issuesPresentationModule = _$IssuesPresentationModule();
     final authenticationRepositoryModule = _$AuthenticationRepositoryModule();
     final reportsUsecaseModule = _$ReportsUsecaseModule();
+    final settingsUsecaseModule = _$SettingsUsecaseModule();
     final reportsPresentationModule = _$ReportsPresentationModule();
+    final settingsPresentationModule = _$SettingsPresentationModule();
     final authenticationUseCaseModule = _$AuthenticationUseCaseModule();
     final authenticationPresentationModule =
         _$AuthenticationPresentationModule();
@@ -225,19 +221,12 @@ extension GetItInjectableX on _i174.GetIt {
         .provideReportRemoteDataSource(gh<_i666.ApiService>()));
     gh.lazySingleton<_i14.BaseSettingsRemoteDataSource>(() => settingsDataModule
         .provideSettingsRemoteDataSource(gh<_i666.ApiService>()));
-    gh.lazySingleton<_i150.BaseSettingsRepository>(() =>
-        settingsRepositoryModule.provideSettingsRepository(
-            gh<_i14.BaseSettingsRemoteDataSource>()));
     gh.lazySingleton<_i185.BaseIssueRepository>(
         () => issuesRepositoryModule.provideIssueRepository(
               gh<_i193.BaseIssueRemoteDataSource>(),
               gh<_i912.BaseIssueLocalDataSource>(),
               gh<_i636.LocationService>(),
             ));
-    gh.lazySingleton<_i281.ChangePasswordUseCase>(() => settingsUsecaseModule
-        .provideChangePasswordUseCase(gh<_i150.BaseSettingsRepository>()));
-    gh.lazySingleton<_i182.EditProfileUseCase>(() => settingsUsecaseModule
-        .provideEditProfileUseCase(gh<_i150.BaseSettingsRepository>()));
     gh.singleton<_i771.BaseAuthenticationRemoteDataSource>(
         () => authenticationDataModule.provideAuthRemoteDataSource(
               gh<_i666.ApiService>(),
@@ -249,6 +238,11 @@ extension GetItInjectableX on _i174.GetIt {
               gh<_i71.BaseReportRemoteDataSource>(),
               gh<_i1041.ConnectivityService>(),
             ));
+    gh.lazySingleton<_i150.BaseSettingsRepository>(
+        () => settingsRepositoryModule.provideSettingsRepository(
+              gh<_i14.BaseSettingsRemoteDataSource>(),
+              gh<_i420.ApplicationConfigurations>(),
+            ));
     gh.factory<_i36.GetReportStatisticsUseCase>(() =>
         _i36.GetReportStatisticsUseCase(gh<_i515.BaseReportRepository>()));
     gh.lazySingleton<_i381.WatchNearbyIssuesUseCase>(() => issuesUsecaseModule
@@ -259,10 +253,6 @@ extension GetItInjectableX on _i174.GetIt {
         .provideGetUserIssuesUseCase(gh<_i185.BaseIssueRepository>()));
     gh.lazySingleton<_i735.GetAreaIssuesUseCase>(() => issuesUsecaseModule
         .provideGetAreaIssuesUseCase(gh<_i185.BaseIssueRepository>()));
-    gh.factory<_i382.EditProfileCubit>(() => settingsPresentationModule
-        .provideEditProfileCubit(gh<_i182.EditProfileUseCase>()));
-    gh.factory<_i967.ChangePasswordCubit>(() => settingsPresentationModule
-        .provideChangePasswordCubit(gh<_i281.ChangePasswordUseCase>()));
     gh.factory<_i240.IssuesMapCubit>(() => issuesPresentationModule
         .provideIssuesMapCubit(gh<_i381.WatchNearbyIssuesUseCase>()));
     gh.singleton<_i668.BaseAuthenticationRepository>(
@@ -283,12 +273,16 @@ extension GetItInjectableX on _i174.GetIt {
             gh<_i515.BaseReportRepository>()));
     gh.lazySingleton<_i412.GetUserReportsUseCase>(() => reportsUsecaseModule
         .provideGetUserReportsUseCase(gh<_i515.BaseReportRepository>()));
+    gh.lazySingleton<_i182.EditProfileUseCase>(() => settingsUsecaseModule
+        .provideEditProfileUseCase(gh<_i150.BaseSettingsRepository>()));
     gh.factory<_i303.ReportStatisticsCubit>(() =>
         _i303.ReportStatisticsCubit(gh<_i36.GetReportStatisticsUseCase>()));
     gh.factory<_i366.IssueDetailsCubit>(() => issuesPresentationModule
         .provideIssueDetailsCubit(gh<_i39.GetIssueDetailsUseCase>()));
     gh.factory<_i758.SubmitReportCubit>(() => reportsPresentationModule
         .provideSubmitReportCubit(gh<_i628.SubmitReportUseCase>()));
+    gh.factory<_i382.EditProfileCubit>(() => settingsPresentationModule
+        .provideEditProfileCubit(gh<_i182.EditProfileUseCase>()));
     gh.factory<_i243.LoginUseCase>(() => authenticationUseCaseModule
         .provideLoginUseCase(gh<_i668.BaseAuthenticationRepository>()));
     gh.factory<_i460.RequestOTPUseCase>(() => authenticationUseCaseModule
@@ -346,17 +340,13 @@ class _$ManagerModule extends _i441.ManagerModule {}
 
 class _$SettingsDataModule extends _i993.SettingsDataModule {}
 
-class _$SettingsRepositoryModule extends _i606.SettingsRepositoryModule {}
-
 class _$IssuesRepositoryModule extends _i629.IssuesRepositoryModule {}
-
-class _$SettingsUsecaseModule extends _i422.SettingsUsecaseModule {}
 
 class _$ReportsRepositoryModule extends _i717.ReportsRepositoryModule {}
 
-class _$IssuesUsecaseModule extends _i528.IssuesUsecaseModule {}
+class _$SettingsRepositoryModule extends _i606.SettingsRepositoryModule {}
 
-class _$SettingsPresentationModule extends _i247.SettingsPresentationModule {}
+class _$IssuesUsecaseModule extends _i528.IssuesUsecaseModule {}
 
 class _$IssuesPresentationModule extends _i519.IssuesPresentationModule {}
 
@@ -365,7 +355,11 @@ class _$AuthenticationRepositoryModule
 
 class _$ReportsUsecaseModule extends _i873.ReportsUsecaseModule {}
 
+class _$SettingsUsecaseModule extends _i422.SettingsUsecaseModule {}
+
 class _$ReportsPresentationModule extends _i699.ReportsPresentationModule {}
+
+class _$SettingsPresentationModule extends _i247.SettingsPresentationModule {}
 
 class _$AuthenticationUseCaseModule extends _i796.AuthenticationUseCaseModule {}
 

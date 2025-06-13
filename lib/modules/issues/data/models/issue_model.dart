@@ -1,4 +1,3 @@
-import 'package:snapnfix/modules/issues/data/models/issue_description_model.dart';
 import 'package:snapnfix/modules/issues/domain/entities/issue.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:snapnfix/modules/issues/domain/entities/issue_category.dart';

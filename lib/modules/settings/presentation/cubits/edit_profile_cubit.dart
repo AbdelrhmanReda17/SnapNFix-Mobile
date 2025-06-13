@@ -24,7 +24,8 @@ class EditProfileCubit extends Cubit<EditProfileState> {
 
   final formKey = GlobalKey<FormState>();
 
-  String name = "";
+  String firstName = "";
+  String lastName = "";
   String? phoneNumber = "";
   String? email = "";
   UserGender? selectedGender;
@@ -38,11 +39,12 @@ class EditProfileCubit extends Cubit<EditProfileState> {
       _currentUser.email != null && _currentUser.email!.isNotEmpty;
 
   void initializeUserData() {
-    name = "${_currentUser.firstName} ${_currentUser.lastName}";
+    firstName = _currentUser.firstName ?? "";
+    lastName = _currentUser.lastName ?? "";
     email = _currentUser.email;
     phoneNumber = _currentUser.phoneNumber;
     selectedGender = _currentUser.gender;
-    selectedDate = _currentUser.dateOfBirth;
+    selectedDate = _currentUser.birthDate;
     profileImage.value =
         _currentUser.profileImage != null
             ? File(_currentUser.profileImage!)
@@ -52,8 +54,13 @@ class EditProfileCubit extends Cubit<EditProfileState> {
     resetCounter.value += 1;
   }
 
-  void setName(String value) {
-    name = value;
+  void setFirstName(String value) {
+    firstName = value;
+    _valuesModified = true;
+  }
+
+  void setLastName(String value) {
+    lastName = value;
     _valuesModified = true;
   }
 
@@ -99,13 +106,19 @@ class EditProfileCubit extends Cubit<EditProfileState> {
     emit(const EditProfileState.loading());
 
     try {
+      String? formattedDate;
+      if (selectedDate != null) {
+        formattedDate = formatDate(selectedDate!);
+      }
+
       final response = await _editProfileUseCase(
         EditProfileRequest(
-          name: name,
+          firstName: firstName,
+          lastName: lastName,
           phoneNumber: isEmailRegistered ? null : phoneNumber,
           email: isEmailRegistered ? email : null,
           gender: selectedGender?.displayName,
-          dateOfBirth: selectedDate,
+          birthDate: formattedDate,
           profileImage: profileImage.value,
         ),
       );
