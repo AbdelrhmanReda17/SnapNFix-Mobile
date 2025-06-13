@@ -9,36 +9,42 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:snapnfix/modules/issues/data/models/markers.dart';
 import 'package:snapnfix/modules/issues/index.dart';
-import 'package:snapnfix/core/index.dart';
 
 part 'issues_map_state.dart';
 part 'issues_map_cubit.freezed.dart';
 
 class IssuesMapCubit extends Cubit<IssuesMapState> {
   final GetNearbyIssuesUseCase _getNearbyIssuesUseCase;
-  final WatchNearbyIssuesUseCase _watchNearbyIssuesUseCase;
   GoogleMapController? _mapController;
-  StreamSubscription? _issuesSubscription;
   Timer? _debounceTimer;
   bool _isClosed = false;
 
-  // Store user's current position for viewport fetches
-  Position? _currentUserPosition;
-
   // Configuration
-  static const double _defaultRadius = 0.3;
-  static const Duration _debounceDelay = Duration(milliseconds: 800);
+  static const Duration _debounceDelay = Duration(milliseconds: 1200); // Increased delay
+  static const double _minZoom = 16.0;
+  static const double _maxZoom = 20.0;
+  static const double _defaultZoom = 17.5;
 
+  // Enhanced bounds tracking
   LatLngBounds? _lastQueriedBounds;
+  DateTime? _lastQueryTime;
+  static const Duration _minTimeBetweenQueries = Duration(seconds: 2);
+  
+  // Zoom-based thresholds for bounds comparison
+  static final Map<double, double> _zoomThresholds = {
+    16.0: 0.003,
+    17.0: 0.0015,
+    18.0: 0.0008,
+    19.0: 0.0004,
+    20.0: 0.0002,
+  };
 
-  IssuesMapCubit(this._getNearbyIssuesUseCase, this._watchNearbyIssuesUseCase)
-    : super(const IssuesMapState());
+  IssuesMapCubit(this._getNearbyIssuesUseCase) : super(const IssuesMapState());
 
   @override
   Future<void> close() async {
     _isClosed = true;
     _debounceTimer?.cancel();
-    await _issuesSubscription?.cancel();
     _mapController?.dispose();
     return super.close();
   }
@@ -47,25 +53,19 @@ class IssuesMapCubit extends Cubit<IssuesMapState> {
     emit(state.copyWith(status: MapStatus.loading));
 
     try {
-      // Store user position for viewport fetches
-      _currentUserPosition = position;
-
       emit(
         state.copyWith(
           status: MapStatus.loaded,
           cameraPosition: CameraPosition(
             target: LatLng(position.latitude, position.longitude),
-            zoom: 14.0,
+            zoom: _defaultZoom,
           ),
           hasLocationPermission: true,
           isFollowingUser: true,
-          minMaxZoomPreference: const MinMaxZoomPreference(8.0, 18.0),
+          minMaxZoomPreference: const MinMaxZoomPreference(_minZoom, _maxZoom),
           error: null,
         ),
       );
-
-      // Start watching nearby issues around user location
-      await _startWatchingNearbyIssues(position.latitude, position.longitude);
     } catch (e) {
       emit(state.copyWith(status: MapStatus.error, error: e.toString()));
     }
@@ -74,22 +74,16 @@ class IssuesMapCubit extends Cubit<IssuesMapState> {
   Future<void> centerOnUserLocation(Position position) async {
     if (_mapController == null) return;
 
-    // Update stored user position
-    _currentUserPosition = position;
-
     await _mapController?.animateCamera(
       CameraUpdate.newCameraPosition(
         CameraPosition(
           target: LatLng(position.latitude, position.longitude),
-          zoom: 15.0,
+          zoom: _defaultZoom,
         ),
       ),
     );
 
     emit(state.copyWith(isFollowingUser: true));
-
-    // Restart watching with new position
-    await _startWatchingNearbyIssues(position.latitude, position.longitude);
   }
 
   void onMapCreated(GoogleMapController controller) {
@@ -103,17 +97,20 @@ class IssuesMapCubit extends Cubit<IssuesMapState> {
   }
 
   Future<void> onBoundsChanged(LatLngBounds bounds) async {
-    if (_isClosed || _currentUserPosition == null) return;
+    if (_isClosed) return;
 
-    // Store the bounds to prevent duplicate API calls
+    // Enhanced filtering before debouncing
+    if (!_shouldQueryForBounds(bounds)) {
+      debugPrint('Skipping bounds query - not significant enough change');
+      return;
+    }
+
+    // Cancel any existing timer
     _debounceTimer?.cancel();
+
+    // Debounce the API calls to avoid too many requests
     _debounceTimer = Timer(_debounceDelay, () {
-      // Only load if we haven't queried with these bounds recently
-      if (_lastQueriedBounds == null ||
-          !_areLatLngBoundsSimilar(_lastQueriedBounds!, bounds)) {
-        _lastQueriedBounds = bounds;
-        _loadIssuesNearUser(bounds);
-      }
+      _loadIssuesForViewport(bounds);
     });
   }
 
@@ -124,9 +121,13 @@ class IssuesMapCubit extends Cubit<IssuesMapState> {
   ) async {
     if (_mapController == null) return;
 
+    // Animate to issue location with appropriate zoom
     await _mapController?.animateCamera(
       CameraUpdate.newCameraPosition(
-        CameraPosition(target: LatLng(latitude, longitude), zoom: 16),
+        CameraPosition(
+          target: LatLng(latitude, longitude),
+          zoom: math.min(11.0, _maxZoom), // Ensure we don't exceed max zoom
+        ),
       ),
     );
 
@@ -137,42 +138,104 @@ class IssuesMapCubit extends Cubit<IssuesMapState> {
     emit(state.copyWith(showIssueDetail: false, selectedIssueId: null));
   }
 
-  // Private methods
-  Future<void> _startWatchingNearbyIssues(
-    double latitude,
-    double longitude,
-  ) async {
-    await _issuesSubscription?.cancel();
+  // Enhanced bounds change detection
+  bool _shouldQueryForBounds(LatLngBounds bounds) {
+    // Time-based throttling
+    final now = DateTime.now();
+    if (_lastQueryTime != null && 
+        now.difference(_lastQueryTime!) < _minTimeBetweenQueries) {
+      return false;
+    }
 
-    debugPrint('Starting to watch nearby issues at $latitude, $longitude');
+    // First query always allowed
+    if (_lastQueriedBounds == null) {
+      return true;
+    }
 
-    _issuesSubscription = _watchNearbyIssuesUseCase
-        .call(latitude, longitude, radius: _defaultRadius, maxResults: 100)
-        .listen(_handleIssuesUpdate);
+    // Get current zoom level for dynamic threshold
+    final currentZoom = state.cameraPosition?.zoom ?? _defaultZoom;
+    final threshold = _getThresholdForZoom(currentZoom);
+
+    return !_areLatLngBoundsSimilar(_lastQueriedBounds!, bounds, threshold);
   }
 
-  // Changed method name and logic to fetch near user, not viewport center
-  Future<void> _loadIssuesNearUser(LatLngBounds bounds) async {
-    if (_isClosed || _mapController == null || _currentUserPosition == null)
-      // ignore: curly_braces_in_flow_control_structures
+  double _getThresholdForZoom(double zoom) {
+    // Find the closest zoom level threshold
+    double closestZoom = _zoomThresholds.keys.first;
+    double minDifference = (zoom - closestZoom).abs();
+
+    for (final zoomLevel in _zoomThresholds.keys) {
+      final difference = (zoom - zoomLevel).abs();
+      if (difference < minDifference) {
+        minDifference = difference;
+        closestZoom = zoomLevel;
+      }
+    }
+
+    return _zoomThresholds[closestZoom] ?? 0.001;
+  }
+
+  bool _areLatLngBoundsSimilar(
+    LatLngBounds bounds1, 
+    LatLngBounds bounds2, 
+    double threshold
+  ) {
+    // Calculate the center points
+    final center1Lat = (bounds1.northeast.latitude + bounds1.southwest.latitude) / 2;
+    final center1Lng = (bounds1.northeast.longitude + bounds1.southwest.longitude) / 2;
+    final center2Lat = (bounds2.northeast.latitude + bounds2.southwest.latitude) / 2;
+    final center2Lng = (bounds2.northeast.longitude + bounds2.southwest.longitude) / 2;
+
+    // Check if centers are within threshold
+    final centerDistance = math.sqrt(
+      math.pow(center1Lat - center2Lat, 2) + 
+      math.pow(center1Lng - center2Lng, 2)
+    );
+
+    if (centerDistance > threshold) {
+      return false;
+    }
+
+    // Also check if the bounds size changed significantly
+    final bounds1Width = bounds1.northeast.longitude - bounds1.southwest.longitude;
+    final bounds1Height = bounds1.northeast.latitude - bounds1.southwest.latitude;
+    final bounds2Width = bounds2.northeast.longitude - bounds2.southwest.longitude;
+    final bounds2Height = bounds2.northeast.latitude - bounds2.southwest.latitude;
+
+    final widthDiff = (bounds1Width - bounds2Width).abs();
+    final heightDiff = (bounds1Height - bounds2Height).abs();
+
+    // Allow for 20% change in bounds size before triggering new query
+    final sizeThreshold = threshold * 0.2;
+    
+    return widthDiff < sizeThreshold && heightDiff < sizeThreshold;
+  }
+
+  // Private methods
+  Future<void> _loadIssuesForViewport(LatLngBounds bounds) async {
+    if (_isClosed || _mapController == null) return;
+
+    // Double-check before making API call
+    if (!_shouldQueryForBounds(bounds)) {
+      debugPrint('Skipping viewport query - filtered out at execution time');
       return;
+    }
+
+    _lastQueriedBounds = bounds;
+    _lastQueryTime = DateTime.now();
 
     try {
-      final zoom = state.cameraPosition?.zoom ?? 14.0;
+      final zoom = state.cameraPosition?.zoom ?? _defaultZoom;
       final maxResults = _calculateMaxResultsForZoom(zoom);
 
       debugPrint(
-        'Loading issues near user - zoom: $zoom, maxResults: $maxResults',
-      );
-      debugPrint(
-        'User position: ${_currentUserPosition!.latitude}, ${_currentUserPosition!.longitude}',
+        'Loading issues for viewport - zoom: $zoom, maxResults: $maxResults',
       );
 
-      // Fetch issues around USER location with fixed radius, not viewport center
       final result = await _getNearbyIssuesUseCase.getNearbyIssues(
-        latitude: _currentUserPosition!.latitude,
-        longitude: _currentUserPosition!.longitude,
-        radiusInKm: _defaultRadius, // Keep fixed radius
+        latitude: 0, // Not used when viewport is provided
+        longitude: 0, // Not used when viewport is provided
+        radiusInKm: 0, // Will be calculated from viewport
         viewport: bounds,
         maxResults: maxResults,
       );
@@ -181,7 +244,7 @@ class IssuesMapCubit extends Cubit<IssuesMapState> {
 
       result.when(
         success: (issueMarkers) {
-          debugPrint('Loaded ${issueMarkers.length} issues near user');
+          debugPrint('Loaded ${issueMarkers.length} issues for viewport');
           emit(
             state.copyWith(
               status: MapStatus.loaded,
@@ -192,34 +255,14 @@ class IssuesMapCubit extends Cubit<IssuesMapState> {
           );
         },
         failure: (error) {
-          debugPrint('User nearby issues loading error: ${error.message}');
+          debugPrint('Viewport issues loading error: ${error.message}');
           // Don't emit error state for viewport updates, just log
+          // This prevents the UI from showing error states during normal map navigation
         },
       );
     } catch (e) {
-      debugPrint('Exception in nearby issues loading: $e');
+      debugPrint('Exception in viewport issues loading: $e');
     }
-  }
-
-  void _handleIssuesUpdate(Result<List<IssueMarker>, ApiError> result) {
-    if (_isClosed) return;
-
-    result.when(
-      success: (issueMarkers) {
-        debugPrint('Issues update: ${issueMarkers.length} issues');
-        emit(
-          state.copyWith(
-            status: MapStatus.loaded,
-            issues: issueMarkers,
-            markers: _createMarkers(issueMarkers),
-            error: null,
-          ),
-        );
-      },
-      failure: (error) {
-        emit(state.copyWith(status: MapStatus.error, error: error.message));
-      },
-    );
   }
 
   Set<Marker> _createMarkers(List<IssueMarker> issueMarkers) {
@@ -239,23 +282,11 @@ class IssuesMapCubit extends Cubit<IssuesMapState> {
   }
 
   int _calculateMaxResultsForZoom(double zoom) {
-    if (zoom < 10) return 30;
-    if (zoom < 13) return 60;
-    if (zoom < 15) return 100;
-    return 150;
-  }
-
-  bool _areLatLngBoundsSimilar(LatLngBounds bounds1, LatLngBounds bounds2) {
-    // Define a threshold for considering bounds similar (adjust as needed)
-    const threshold = 0.0002;
-
-    return (bounds1.northeast.latitude - bounds2.northeast.latitude).abs() <
-            threshold &&
-        (bounds1.northeast.longitude - bounds2.northeast.longitude).abs() <
-            threshold &&
-        (bounds1.southwest.latitude - bounds2.southwest.latitude).abs() <
-            threshold &&
-        (bounds1.southwest.longitude - bounds2.southwest.longitude).abs() <
-            threshold;
+    // Adjust max results based on zoom level
+    // Higher zoom = more detailed view = more markers allowed
+    if (zoom <= 6) return 20; // Very zoomed out - fewer markers
+    if (zoom <= 8) return 40; // Zoomed out - moderate markers
+    if (zoom <= 10) return 80; // Medium zoom - more markers
+    return 120; // Zoomed in - most markers
   }
 }

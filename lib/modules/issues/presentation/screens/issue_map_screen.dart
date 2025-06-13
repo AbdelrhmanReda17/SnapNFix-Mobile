@@ -38,9 +38,6 @@ class _IssueMapScreenState extends State<IssueMapScreen> {
                   current.selectedIssueId != null &&
                   current.showIssueDetail,
           listener: (context, state) {
-            debugPrint(
-              'IssueMapScreen: Selected issue ID changed: ${state.selectedIssueId}',
-            );
             showDialog(
               context: context,
               barrierDismissible: true,
@@ -63,49 +60,120 @@ class _IssueMapScreenState extends State<IssueMapScreen> {
           },
           child: BlocBuilder<IssuesMapCubit, IssuesMapState>(
             builder: (context, state) {
-              return Stack(
-                children: [
-                  if (state.status == MapStatus.loading) ...[
-                    const Center(child: CircularProgressIndicator()),
-                  ],
-                  if (state.status == MapStatus.error) ...[
-                    Center(child: Text(state.error ?? 'An error occurred')),
-                  ],
-                  if (state.cameraPosition != null) ...[
-                    IssuesMap(
-                      initialCameraPosition: state.cameraPosition!,
-                      myLocationEnabled: true,
-                      markers: state.markers,
-                      onMapCreated: _issuesMapCubit.onMapCreated,
-                      onCameraMove: _issuesMapCubit.onCameraMove,
-                      onBoundsChange: _issuesMapCubit.onBoundsChanged,
-                      minMaxZoomPreference: state.minMaxZoomPreference,
-                      cameraTargetBounds: state.cameraTargetBounds,
-                    ),
-
-                    // Location control button
-                    Positioned(
-                      right: 16,
-                      bottom: 100,
-                      child: FloatingActionButton(
-                        heroTag: 'location',
-                        mini: true,
-                        backgroundColor: Colors.white,
-                        child: Icon(
-                          Icons.my_location,
-                          color:
-                              state.isFollowingUser ? Colors.blue : Colors.grey,
+              return Scaffold(
+                body: Stack(
+                  children: [
+                    // Loading State
+                    if (state.status == MapStatus.loading) ...[
+                      const Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            CircularProgressIndicator(),
+                            SizedBox(height: 16),
+                            Text('Loading map...'),
+                          ],
                         ),
-                        onPressed:
-                            () => _getCurrentPosition().then((position) {
-                              if (position != null) {
-                                _issuesMapCubit.centerOnUserLocation(position);
-                              }
-                            }),
                       ),
-                    ),
+                    ],
+
+                    // Error State
+                    if (state.status == MapStatus.error) ...[
+                      Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.error_outline,
+                              size: 64,
+                              color: Theme.of(context).colorScheme.error,
+                            ),
+                            const SizedBox(height: 16),
+                            Text(
+                              state.error ?? 'An error occurred',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                color: Theme.of(context).colorScheme.error,
+                              ),
+                            ),
+                            const SizedBox(height: 16),
+                            ElevatedButton(
+                              onPressed:
+                                  () => _getCurrentPosition().then((pos) {
+                                    if (pos != null) {
+                                      _issuesMapCubit.initialize(pos);
+                                    }
+                                  }),
+                              child: const Text('Retry'),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+
+                    // Map Content
+                    if (state.cameraPosition != null) ...[
+                      IssuesMap(
+                        initialCameraPosition: state.cameraPosition!,
+                        myLocationEnabled: true,
+                        markers: state.markers,
+                        onMapCreated: _issuesMapCubit.onMapCreated,
+                        onCameraMove: _issuesMapCubit.onCameraMove,
+                        onBoundsChange: _issuesMapCubit.onBoundsChanged,
+                        minMaxZoomPreference: state.minMaxZoomPreference,
+                        cameraTargetBounds: state.cameraTargetBounds,
+                      ),
+
+                      // Zoom Level Indicator (for debugging)
+                      if (state.cameraPosition != null) ...[
+                        Positioned(
+                          top: 50,
+                          left: 16,
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 12,
+                              vertical: 6,
+                            ),
+                            decoration: BoxDecoration(
+                              color: Colors.black54,
+                              borderRadius: BorderRadius.circular(16),
+                            ),
+                            child: Text(
+                              'Zoom: ${state.cameraPosition!.zoom.toStringAsFixed(1)}',
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 12,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+
+                      // Issues Count Indicator
+                      Positioned(
+                        top: 80,
+                        left: 16,
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 12,
+                            vertical: 6,
+                          ),
+                          decoration: BoxDecoration(
+                            color: Colors.black54,
+                            borderRadius: BorderRadius.circular(16),
+                          ),
+                          child: Text(
+                            'Issues: ${state.issues.length}',
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 12,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
                   ],
-                ],
+                ),
               );
             },
           ),
@@ -116,11 +184,18 @@ class _IssueMapScreenState extends State<IssueMapScreen> {
 
   Future<Position?> _getCurrentPosition() async {
     try {
-      return await Geolocator.getCurrentPosition();
-    } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Could not get current position')),
+      return await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high,
       );
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Could not get current position: $e'),
+            backgroundColor: Theme.of(context).colorScheme.error,
+          ),
+        );
+      }
       return null;
     }
   }

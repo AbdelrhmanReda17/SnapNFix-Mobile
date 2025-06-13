@@ -161,8 +161,8 @@ extension GetItInjectableX on _i174.GetIt {
     final reportsRepositoryModule = _$ReportsRepositoryModule();
     final settingsRepositoryModule = _$SettingsRepositoryModule();
     final issuesUsecaseModule = _$IssuesUsecaseModule();
-    final authenticationRepositoryModule = _$AuthenticationRepositoryModule();
     final issuesPresentationModule = _$IssuesPresentationModule();
+    final authenticationRepositoryModule = _$AuthenticationRepositoryModule();
     final reportsUsecaseModule = _$ReportsUsecaseModule();
     final settingsUsecaseModule = _$SettingsUsecaseModule();
     final reportsPresentationModule = _$ReportsPresentationModule();
@@ -257,16 +257,13 @@ extension GetItInjectableX on _i174.GetIt {
         .provideGetUserIssuesUseCase(gh<_i185.BaseIssueRepository>()));
     gh.lazySingleton<_i735.GetAreaIssuesUseCase>(() => issuesUsecaseModule
         .provideGetAreaIssuesUseCase(gh<_i185.BaseIssueRepository>()));
+    gh.factory<_i240.IssuesMapCubit>(() => issuesPresentationModule
+        .provideIssuesMapCubit(gh<_i222.GetNearbyIssuesUseCase>()));
     gh.singleton<_i668.BaseAuthenticationRepository>(
         () => authenticationRepositoryModule.provideAuthRepository(
               gh<_i771.BaseAuthenticationRemoteDataSource>(),
               gh<_i600.BaseSocialAuthenticationService>(),
               gh<_i420.ApplicationConfigurations>(),
-            ));
-    gh.factory<_i240.IssuesMapCubit>(
-        () => issuesPresentationModule.provideIssuesMapCubit(
-              gh<_i222.GetNearbyIssuesUseCase>(),
-              gh<_i381.WatchNearbyIssuesUseCase>(),
             ));
     gh.lazySingleton<_i628.SubmitReportUseCase>(() => reportsUsecaseModule
         .provideSubmitReportUseCase(gh<_i515.BaseReportRepository>()));
@@ -355,10 +352,10 @@ class _$SettingsRepositoryModule extends _i606.SettingsRepositoryModule {}
 
 class _$IssuesUsecaseModule extends _i528.IssuesUsecaseModule {}
 
+class _$IssuesPresentationModule extends _i519.IssuesPresentationModule {}
+
 class _$AuthenticationRepositoryModule
     extends _i361.AuthenticationRepositoryModule {}
-
-class _$IssuesPresentationModule extends _i519.IssuesPresentationModule {}
 
 class _$ReportsUsecaseModule extends _i873.ReportsUsecaseModule {}
 
