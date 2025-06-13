@@ -42,6 +42,17 @@ class ApplicationConfigurations with ChangeNotifier {
     return Future.value();
   }
 
+  Future<void> updateSessionUser(UserModel user) {
+    if (_currentSession != null) {
+      _currentSession = _currentSession!.copyWith(user: user);
+      debugPrint("Updated Session User: ${_currentSession!.user}");
+      
+      notifyListeners();
+      return setUserSession(_currentSession!);
+    }
+    return Future.value();
+  }
+
   // Onboarding methods
   Future<void> _loadOnboardingStatus() async {
     _hasViewedOnboarding = _sharedPrefs.getBool(

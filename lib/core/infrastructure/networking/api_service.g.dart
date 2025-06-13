@@ -173,20 +173,20 @@ class _ApiService implements ApiService {
   }
 
   @override
-  Future<ApiResponse<void>> changePassword(ResetPasswordRequest request) async {
+  Future<ApiResponse<bool>> editProfile(Map<String, dynamic> request) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
-    _data.addAll(request.toJson());
-    final _options = _setStreamType<ApiResponse<void>>(Options(
-      method: 'POST',
+    _data.addAll(request);
+    final _options = _setStreamType<ApiResponse<bool>>(Options(
+      method: 'PUT',
       headers: _headers,
       extra: _extra,
     )
         .compose(
           _dio.options,
-          'api/auth/change-password',
+          '/api/Citizen/profile',
           queryParameters: queryParameters,
           data: _data,
         )
@@ -196,11 +196,11 @@ class _ApiService implements ApiService {
           baseUrl,
         )));
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late ApiResponse<void> _value;
+    late ApiResponse<bool> _value;
     try {
-      _value = ApiResponse<void>.fromJson(
+      _value = ApiResponse<bool>.fromJson(
         _result.data!,
-        (json) => () {}(),
+        (json) => json as bool,
       );
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options);

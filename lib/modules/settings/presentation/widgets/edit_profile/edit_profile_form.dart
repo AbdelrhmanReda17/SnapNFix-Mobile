@@ -30,11 +30,20 @@ class EditProfileForm extends StatelessWidget {
             children: [
               verticalSpace(8),
               BaseTextField(
-                key: ValueKey('name_$resetCount'),
-                labelText: localization.name,
-                hintText: localization.enterName,
-                onChanged: cubit.setName,
-                initialValue: cubit.name,
+                key: ValueKey('firstName_$resetCount'),
+                labelText: localization.firstName,
+                hintText: localization.enterFirstName,
+                onChanged: cubit.setFirstName,
+                initialValue: cubit.firstName,
+              ),
+              verticalSpace(20),
+
+              BaseTextField(
+                key: ValueKey('lastName_$resetCount'),
+                labelText: localization.lastName,
+                hintText: localization.enterLastName,
+                onChanged: cubit.setLastName,
+                initialValue: cubit.lastName,
               ),
               verticalSpace(20),
 

@@ -26,15 +26,10 @@ abstract class ApiService {
     @Body() Map<String, dynamic> request,
   );
 
-  @POST(ApiEndpoints.changePassword)
-  Future<ApiResponse<void>> changePassword(
-    @Body() ResetPasswordRequest request,
+  @PUT(ApiEndpoints.editProfile)
+  Future<ApiResponse<bool>> editProfile(
+    @Body() Map<String, dynamic> request,
   );
-
-  // @PUT(ApiEndpoints.editProfile)
-  // Future<ApiResponse<SessionModel>> editProfile(
-  //   @Body() EditProfileRequest request,
-  // );
 
   // OTP operations
   @POST(ApiEndpoints.requestOtp)

@@ -5,25 +5,41 @@ part "edit_profile_request.g.dart";
 
 @JsonSerializable()
 class EditProfileRequest {
-  final String? name;
-  final String? phoneNumber;
-  final String? email;
+  final String? firstName;
+  final String? lastName;
   final String? gender;
-  final DateTime? dateOfBirth;
+  final String? birthDate;
+
+  @JsonKey(includeToJson: false)
+  final String? phoneNumber;
+  @JsonKey(includeToJson: false)
+  final String? email;
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   final File? profileImage;
 
   EditProfileRequest({
-    this.name,
+    this.firstName,
+    this.lastName,
     this.phoneNumber,
     this.email,
     this.gender,
-    this.dateOfBirth,
+    this.birthDate,
     this.profileImage,
   });
 
   factory EditProfileRequest.fromJson(Map<String, dynamic> json) =>
       _$EditProfileRequestFromJson(json);
   Map<String, dynamic> toJson() => _$EditProfileRequestToJson(this);
+
+  Map<String, dynamic> toApiJson() {
+    final json = <String, dynamic>{};
+    
+    if (firstName != null) json['firstName'] = firstName;
+    if (lastName != null) json['lastName'] = lastName;
+    if (gender != null) json['gender'] = gender;
+    if (birthDate != null) json['birthDate'] = birthDate;
+    
+    return json;
+  }
 }

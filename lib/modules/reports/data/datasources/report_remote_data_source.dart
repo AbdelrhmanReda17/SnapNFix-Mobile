@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:snapnfix/core/index.dart';
 import 'package:snapnfix/modules/reports/data/models/report_model.dart';
 import 'package:snapnfix/modules/reports/data/models/get_reports_query.dart';

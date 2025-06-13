@@ -13,9 +13,9 @@ UserModel _$UserModelFromJson(Map<String, dynamic> json) => UserModel(
       phoneNumber: json['phoneNumber'] as String?,
       email: json['email'] as String?,
       profileImage: json['profileImage'] as String?,
-      dateOfBirth: json['dateOfBirth'] == null
+      birthDate: json['birthDate'] == null
           ? null
-          : DateTime.parse(json['dateOfBirth'] as String),
+          : DateTime.parse(json['birthDate'] as String),
       gender: $enumDecodeNullable(_$UserGenderEnumMap, json['gender']),
     );
 
@@ -26,7 +26,7 @@ Map<String, dynamic> _$UserModelToJson(UserModel instance) => <String, dynamic>{
       'phoneNumber': instance.phoneNumber,
       'email': instance.email,
       'profileImage': instance.profileImage,
-      'dateOfBirth': instance.dateOfBirth?.toIso8601String(),
+      'birthDate': instance.birthDate?.toIso8601String(),
       'gender': _$UserGenderEnumMap[instance.gender],
     };
 
