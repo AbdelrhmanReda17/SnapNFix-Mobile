@@ -9,15 +9,23 @@ class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});
   @override
   Widget build(BuildContext context) {
-    final session = getIt<ApplicationConfigurations>().currentSession;
-    if (session == null) {
-      return Center(child: Text(AppLocalizations.of(context)!.loginToViewSettings));
-    }
-    return Column(
-      children: [
-        ProfileContainer(user: session.user),
-        const Expanded(child: SettingsListView()),
-      ],
+    // Use AnimatedBuilder to listen to ApplicationConfigurations changes
+    return AnimatedBuilder(
+      animation: getIt<ApplicationConfigurations>(),
+      builder: (context, _) {
+        final session = getIt<ApplicationConfigurations>().currentSession;
+        if (session == null) {
+          return Center(
+            child: Text(AppLocalizations.of(context)!.loginToViewSettings),
+          );
+        }
+        return Column(
+          children: [
+            ProfileContainer(user: session.user),
+            const Expanded(child: SettingsListView()),
+          ],
+        );
+      },
     );
   }
 }

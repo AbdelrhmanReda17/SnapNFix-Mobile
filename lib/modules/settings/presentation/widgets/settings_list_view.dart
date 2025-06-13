@@ -85,14 +85,6 @@ class _SettingsListViewState extends State<SettingsListView> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               _buildSettingsTile(
-                localization.changePassword,
-                () {
-                  context.push(Routes.changePassword);
-                },
-                colorScheme,
-                textStyles,
-              ),
-              _buildSettingsTile(
                 localization.notificationSettings,
                 () {},
                 colorScheme,

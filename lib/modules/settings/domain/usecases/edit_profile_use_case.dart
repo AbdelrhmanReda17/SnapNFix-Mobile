@@ -8,7 +8,7 @@ class EditProfileUseCase {
 
   EditProfileUseCase(this._repository);
 
-  Future<Result<String, ApiError>> call(EditProfileRequest editProfileDTO) {
+  Future<Result<bool, ApiError>> call(EditProfileRequest editProfileDTO) {
     return _repository.editProfile(editProfileDTO);
   }
 }

@@ -9,10 +9,8 @@ import 'package:snapnfix/modules/reports/presentation/cubits/user_reports_cubit.
 import 'package:snapnfix/modules/reports/presentation/cubits/submit_report_cubit.dart';
 import 'package:snapnfix/modules/reports/presentation/screens/submit_report_screen.dart';
 import 'package:snapnfix/modules/reports/presentation/screens/user_reports_screen.dart';
-import 'package:snapnfix/modules/settings/presentation/cubits/change_password_cubit.dart';
 import 'package:snapnfix/modules/settings/presentation/cubits/edit_profile_cubit.dart';
 import 'package:snapnfix/modules/settings/presentation/screens/about_screen.dart';
-import 'package:snapnfix/modules/settings/presentation/screens/change_password_screen.dart';
 import 'package:snapnfix/modules/settings/presentation/screens/edit_profile_screen.dart';
 import 'package:snapnfix/modules/settings/presentation/screens/privacy_policy_screen.dart';
 import 'package:snapnfix/modules/settings/presentation/screens/settings_screen.dart';
@@ -86,16 +84,6 @@ class ApplicationRoutes {
             (context, state) => BlocProvider<EditProfileCubit>(
               create: (context) => getIt<EditProfileCubit>(),
               child: const EditProfile(),
-            ),
-      ),
-      RouteConfiguration(
-        path: 'change-password',
-        name: 'change-password',
-        transitionType: PageTransitionType.slide,
-        builder:
-            (context, state) => BlocProvider<ChangePasswordCubit>(
-              create: (context) => getIt<ChangePasswordCubit>(),
-              child: const ChangePassword(),
             ),
       ),
       RouteConfiguration(

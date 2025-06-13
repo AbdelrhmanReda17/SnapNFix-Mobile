@@ -83,7 +83,6 @@
   "pleaseAddPhoto": "Please take a photo of the incident",
   "reportSubmitted": "Report submitted successfully",
 
-  "changePassword": "Change Password",
   "currentPassword": "Current Password",
   "newPassword": "New Password",
   "confirmNewPassword": "Confirm New Password",
@@ -96,8 +95,6 @@
   "confirmButton": "Confirm",
   "passwordsDoNotMatch": "Passwords don't match",
   "passwordRequirementsNotMet": "Password doesn't meet all requirements",
-  "passwordChangedSuccess": "Password changed successfully",
-  "passwordChangeFailed": "Failed to change password",
   "currentPasswordRequired": " Current password is required",
   "newPasswordMustBeDifferent": "New password must be different from current password",
 

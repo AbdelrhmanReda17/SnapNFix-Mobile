@@ -6,8 +6,7 @@ class ApiEndpoints {
   static const String login = "api/auth/login";
   static const String register = "api/auth/register";
   static const String logout = "api/auth/logout";
-  static const String changePassword = "api/auth/change-password";
-  static const String editProfile = "api/auth/edit-profile";
+  static const String editProfile = "/api/Citizen/profile";
   static const String refreshToken = "api/auth/refresh-token";
 
   // OTP endpoints

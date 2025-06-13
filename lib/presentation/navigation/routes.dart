@@ -20,7 +20,6 @@ class Routes {
   static const String issueDetails = '/issue-details/:issueId';
 
   // Settings Routes
-  static const String changePassword = '/settings/change-password';
   static const String editProfile = '/settings/edit-profile';
   static const String support = '/settings/support';
   static const String termsAndConditions = '/settings/terms-and-conditions';
