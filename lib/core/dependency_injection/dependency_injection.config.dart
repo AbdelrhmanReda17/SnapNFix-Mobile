@@ -75,8 +75,6 @@ import '../../modules/issues/domain/usecases/get_nearby_issues_use_case.dart'
     as _i222;
 import '../../modules/issues/domain/usecases/get_user_issues_use_case.dart'
     as _i417;
-import '../../modules/issues/domain/usecases/watch_nearby_issues_use_case.dart'
-    as _i381;
 import '../../modules/issues/presentation/cubits/issue_details_cubit.dart'
     as _i366;
 import '../../modules/issues/presentation/cubits/issues_map_cubit.dart'
@@ -247,8 +245,6 @@ extension GetItInjectableX on _i174.GetIt {
               gh<_i14.BaseSettingsRemoteDataSource>(),
               gh<_i420.ApplicationConfigurations>(),
             ));
-    gh.lazySingleton<_i381.WatchNearbyIssuesUseCase>(() => issuesUsecaseModule
-        .provideWatchNearbyIssuesUseCase(gh<_i185.BaseIssueRepository>()));
     gh.lazySingleton<_i222.GetNearbyIssuesUseCase>(() => issuesUsecaseModule
         .provideGetNearbyIssuesUseCase(gh<_i185.BaseIssueRepository>()));
     gh.lazySingleton<_i39.GetIssueDetailsUseCase>(() => issuesUsecaseModule

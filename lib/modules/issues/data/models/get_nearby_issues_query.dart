@@ -4,25 +4,17 @@ part 'get_nearby_issues_query.g.dart';
 
 @JsonSerializable()
 class GetNearbyIssuesQuery {
-  final double latitude;
-  final double longitude;
-  final double radius;
-
-  // Optional viewport parameters
-  final double? northEastLat;
-  final double? northEastLng;
-  final double? southWestLat;
-  final double? southWestLng;
+  final double northEastLat;
+  final double northEastLng;
+  final double southWestLat;
+  final double southWestLng;
   final int? maxResults;
 
   GetNearbyIssuesQuery({
-    required this.latitude,
-    required this.longitude,
-    required this.radius,
-    this.northEastLat,
-    this.northEastLng,
-    this.southWestLat,
-    this.southWestLng,
+    required this.northEastLat,
+    required this.northEastLng,
+    required this.southWestLat,
+    required this.southWestLng,
     this.maxResults,
   });
 

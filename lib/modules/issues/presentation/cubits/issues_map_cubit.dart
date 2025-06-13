@@ -20,7 +20,9 @@ class IssuesMapCubit extends Cubit<IssuesMapState> {
   bool _isClosed = false;
 
   // Configuration
-  static const Duration _debounceDelay = Duration(milliseconds: 1200); // Increased delay
+  static const Duration _debounceDelay = Duration(
+    milliseconds: 1200,
+  ); // Increased delay
   static const double _minZoom = 16.0;
   static const double _maxZoom = 20.0;
   static const double _defaultZoom = 17.5;
@@ -29,7 +31,7 @@ class IssuesMapCubit extends Cubit<IssuesMapState> {
   LatLngBounds? _lastQueriedBounds;
   DateTime? _lastQueryTime;
   static const Duration _minTimeBetweenQueries = Duration(seconds: 2);
-  
+
   // Zoom-based thresholds for bounds comparison
   static final Map<double, double> _zoomThresholds = {
     16.0: 0.003,
@@ -142,7 +144,7 @@ class IssuesMapCubit extends Cubit<IssuesMapState> {
   bool _shouldQueryForBounds(LatLngBounds bounds) {
     // Time-based throttling
     final now = DateTime.now();
-    if (_lastQueryTime != null && 
+    if (_lastQueryTime != null &&
         now.difference(_lastQueryTime!) < _minTimeBetweenQueries) {
       return false;
     }
@@ -176,20 +178,24 @@ class IssuesMapCubit extends Cubit<IssuesMapState> {
   }
 
   bool _areLatLngBoundsSimilar(
-    LatLngBounds bounds1, 
-    LatLngBounds bounds2, 
-    double threshold
+    LatLngBounds bounds1,
+    LatLngBounds bounds2,
+    double threshold,
   ) {
     // Calculate the center points
-    final center1Lat = (bounds1.northeast.latitude + bounds1.southwest.latitude) / 2;
-    final center1Lng = (bounds1.northeast.longitude + bounds1.southwest.longitude) / 2;
-    final center2Lat = (bounds2.northeast.latitude + bounds2.southwest.latitude) / 2;
-    final center2Lng = (bounds2.northeast.longitude + bounds2.southwest.longitude) / 2;
+    final center1Lat =
+        (bounds1.northeast.latitude + bounds1.southwest.latitude) / 2;
+    final center1Lng =
+        (bounds1.northeast.longitude + bounds1.southwest.longitude) / 2;
+    final center2Lat =
+        (bounds2.northeast.latitude + bounds2.southwest.latitude) / 2;
+    final center2Lng =
+        (bounds2.northeast.longitude + bounds2.southwest.longitude) / 2;
 
     // Check if centers are within threshold
     final centerDistance = math.sqrt(
-      math.pow(center1Lat - center2Lat, 2) + 
-      math.pow(center1Lng - center2Lng, 2)
+      math.pow(center1Lat - center2Lat, 2) +
+          math.pow(center1Lng - center2Lng, 2),
     );
 
     if (centerDistance > threshold) {
@@ -197,17 +203,21 @@ class IssuesMapCubit extends Cubit<IssuesMapState> {
     }
 
     // Also check if the bounds size changed significantly
-    final bounds1Width = bounds1.northeast.longitude - bounds1.southwest.longitude;
-    final bounds1Height = bounds1.northeast.latitude - bounds1.southwest.latitude;
-    final bounds2Width = bounds2.northeast.longitude - bounds2.southwest.longitude;
-    final bounds2Height = bounds2.northeast.latitude - bounds2.southwest.latitude;
+    final bounds1Width =
+        bounds1.northeast.longitude - bounds1.southwest.longitude;
+    final bounds1Height =
+        bounds1.northeast.latitude - bounds1.southwest.latitude;
+    final bounds2Width =
+        bounds2.northeast.longitude - bounds2.southwest.longitude;
+    final bounds2Height =
+        bounds2.northeast.latitude - bounds2.southwest.latitude;
 
     final widthDiff = (bounds1Width - bounds2Width).abs();
     final heightDiff = (bounds1Height - bounds2Height).abs();
 
     // Allow for 20% change in bounds size before triggering new query
     final sizeThreshold = threshold * 0.2;
-    
+
     return widthDiff < sizeThreshold && heightDiff < sizeThreshold;
   }
 
@@ -232,11 +242,8 @@ class IssuesMapCubit extends Cubit<IssuesMapState> {
         'Loading issues for viewport - zoom: $zoom, maxResults: $maxResults',
       );
 
-      final result = await _getNearbyIssuesUseCase.getNearbyIssues(
-        latitude: 0, // Not used when viewport is provided
-        longitude: 0, // Not used when viewport is provided
-        radiusInKm: 0, // Will be calculated from viewport
-        viewport: bounds,
+      final result = await _getNearbyIssuesUseCase.call(
+        bounds: bounds,
         maxResults: maxResults,
       );
 

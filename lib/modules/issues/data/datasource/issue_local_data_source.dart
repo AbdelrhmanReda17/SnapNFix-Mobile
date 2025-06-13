@@ -1,15 +1,15 @@
 import 'dart:convert';
 import 'dart:math';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:snapnfix/core/infrastructure/storage/shared_preferences_service.dart';
 import 'package:snapnfix/modules/issues/data/models/markers.dart';
 import '../models/issue_model.dart';
 
 abstract class BaseIssueLocalDataSource {
-  Future<List<IssueMarker>> getNearbyIssues(
-    double latitude,
-    double longitude,
-    double radiusInKm,
-  );
+  Future<List<IssueMarker>> getNearbyIssues({
+    required LatLngBounds bounds,
+    required int maxResults,
+  });
 
   Future<IssueModel?> getIssueById(String id);
 
@@ -147,11 +147,10 @@ class IssueLocalDataSource implements BaseIssueLocalDataSource {
   }
 
   @override
-  Future<List<IssueMarker>> getNearbyIssues(
-    double latitude,
-    double longitude,
-    double radiusInKm,
-  ) async {
+  Future<List<IssueMarker>> getNearbyIssues({
+    required LatLngBounds bounds,
+    required int maxResults,
+  }) async {
     try {
       final cachedData = _prefs.getString(_issuesKey);
       if (cachedData == '') return [];
@@ -169,14 +168,13 @@ class IssueLocalDataSource implements BaseIssueLocalDataSource {
           (cachedIssuesMap['issues'] as List)
               .map((issueJson) => IssueModel.fromJson(issueJson))
               .where((issue) {
-                final distance = _calculateDistance(
-                  latitude,
-                  longitude,
-                  issue.latitude,
-                  issue.longitude,
-                );
-                return distance <= radiusInKm * 1000;
+                // Check if the issue is within the bounds
+                return issue.latitude >= bounds.southwest.latitude &&
+                    issue.latitude <= bounds.northeast.latitude &&
+                    issue.longitude >= bounds.southwest.longitude &&
+                    issue.longitude <= bounds.northeast.longitude;
               })
+              .take(maxResults)
               .map(
                 (issue) => IssueMarker(
                   issueId: issue.id,
@@ -217,30 +215,5 @@ class IssueLocalDataSource implements BaseIssueLocalDataSource {
     } catch (e) {
       return [];
     }
-  }
-
-  double _calculateDistance(
-    double lat1,
-    double lon1,
-    double lat2,
-    double lon2,
-  ) {
-    const double earthRadius = 6371000;
-    final double dLat = _toRadians(lat2 - lat1);
-    final double dLon = _toRadians(lon2 - lon1);
-
-    final double a =
-        (sin(dLat / 2) * sin(dLat / 2)) +
-        (cos(_toRadians(lat1)) *
-            cos(_toRadians(lat2)) *
-            sin(dLon / 2) *
-            sin(dLon / 2));
-
-    final double c = 2 * atan2(sqrt(a), sqrt(1 - a));
-    return earthRadius * c;
-  }
-
-  double _toRadians(double degree) {
-    return degree * pi / 180;
   }
 }
