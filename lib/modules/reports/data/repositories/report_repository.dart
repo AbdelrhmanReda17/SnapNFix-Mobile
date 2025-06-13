@@ -4,6 +4,7 @@ import 'package:snapnfix/core/infrastructure/networking/error/api_error.dart';
 import 'package:snapnfix/core/utils/result.dart';
 import 'package:snapnfix/modules/reports/data/datasources/report_local_data_source.dart';
 import 'package:snapnfix/modules/reports/data/datasources/report_remote_data_source.dart';
+import 'package:snapnfix/modules/reports/data/models/report_statistics_model.dart';
 import 'package:snapnfix/modules/reports/data/models/snap_report_model.dart';
 import 'package:snapnfix/modules/reports/domain/repositories/base_report_repository.dart';
 
@@ -136,9 +137,29 @@ class ReportRepository implements BaseReportRepository {
         success: (data) => Result.success(data),
         failure: (error) => Result.failure(error.toString()),
       );
-    } catch (e) {
-      debugPrint('Error getting user reports: $e');
+    } catch (e) {      debugPrint('Error getting user reports: $e');
       return Result.failure(e.toString());
+    }
+  }
+
+  @override
+  Future<Result<ReportStatisticsModel, ApiError>> getReportStatistics() async {
+    try {
+      final isConnected = await _connectivityService.isConnected();
+      if (!isConnected) {
+        return Result.failure(
+          ApiError(
+            message: 'No internet connection. Please try again later.',
+            code: 'no_internet',
+          ),
+        );
+      }
+      return await _remoteDataSource.getReportStatistics();
+    } catch (e) {
+      debugPrint('Error getting report statistics: $e');
+      return Result.failure(
+        ApiError(message: e.toString(), code: 'statistics_error'),
+      );
     }
   }
 }

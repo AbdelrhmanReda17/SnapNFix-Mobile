@@ -93,6 +93,8 @@ import '../../modules/reports/domain/repositories/base_report_repository.dart'
     as _i515;
 import '../../modules/reports/domain/usecases/get_pending_reports_count_use_case.dart'
     as _i742;
+import '../../modules/reports/domain/usecases/get_report_statistics_use_case.dart'
+    as _i36;
 import '../../modules/reports/domain/usecases/get_user_reports_use_case.dart'
     as _i412;
 import '../../modules/reports/domain/usecases/submit_report_use_case.dart'
@@ -101,6 +103,8 @@ import '../../modules/reports/domain/usecases/sync_prending_reports_use_case.dar
     as _i956;
 import '../../modules/reports/domain/usecases/watch_pending_reports_count_use_case.dart'
     as _i500;
+import '../../modules/reports/presentation/cubits/report_statistics_cubit.dart'
+    as _i303;
 import '../../modules/reports/presentation/cubits/submit_report_cubit.dart'
     as _i758;
 import '../../modules/reports/presentation/cubits/user_reports_cubit.dart'
@@ -247,6 +251,8 @@ extension GetItInjectableX on _i174.GetIt {
               gh<_i71.BaseReportRemoteDataSource>(),
               gh<_i1041.ConnectivityService>(),
             ));
+    gh.factory<_i36.GetReportStatisticsUseCase>(() =>
+        _i36.GetReportStatisticsUseCase(gh<_i515.BaseReportRepository>()));
     gh.lazySingleton<_i381.WatchNearbyIssuesUseCase>(() => issuesUsecaseModule
         .provideWatchNearbyIssuesUseCase(gh<_i185.BaseIssueRepository>()));
     gh.lazySingleton<_i222.GetNearbyIssuesUseCase>(() => issuesUsecaseModule
@@ -284,6 +290,8 @@ extension GetItInjectableX on _i174.GetIt {
             gh<_i515.BaseReportRepository>()));
     gh.lazySingleton<_i412.GetUserReportsUseCase>(() => reportsUsecaseModule
         .provideGetUserReportsUseCase(gh<_i515.BaseReportRepository>()));
+    gh.factory<_i303.ReportStatisticsCubit>(() =>
+        _i303.ReportStatisticsCubit(gh<_i36.GetReportStatisticsUseCase>()));
     gh.factory<_i366.IssueDetailsCubit>(() => issuesPresentationModule
         .provideIssueDetailsCubit(gh<_i39.GetIssueDetailsUseCase>()));
     gh.factory<_i758.SubmitReportCubit>(() => reportsPresentationModule

@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
 import 'package:snapnfix/modules/issues/data/models/get_nearby_issues_query.dart';
 import 'package:snapnfix/modules/issues/data/models/markers.dart';
+import 'package:snapnfix/modules/reports/data/models/report_statistics_model.dart';
 import '../../../index.dart';
 part 'api_service.g.dart';
 
@@ -89,11 +90,13 @@ abstract class ApiService {
   // Future<ApiResponse<ReportModel>> createFastReport(
   //   @Body() CreateFastReportRequest request,
   // );
-
   @GET(ApiEndpoints.userReports)
   Future<ApiResponse<PaginatedResponse<SnapReportModel>>> getUserReports(
     @Queries() GetReportsQuery query,
   );
+
+  @GET(ApiEndpoints.reportStatistics)
+  Future<ApiResponse<ReportStatisticsModel>> getReportStatistics();
 
   @GET(ApiEndpoints.getNearbyIssues)
   Future<ApiResponse<List<IssueMarker>>> getNearbyIssues(

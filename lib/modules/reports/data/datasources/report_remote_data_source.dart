@@ -1,4 +1,5 @@
 import 'package:snapnfix/core/index.dart';
+import 'package:snapnfix/modules/reports/data/models/report_statistics_model.dart';
 import 'package:snapnfix/modules/reports/data/models/snap_report_model.dart';
 import 'package:snapnfix/modules/reports/data/models/get_reports_query.dart';
 
@@ -13,6 +14,7 @@ abstract class BaseReportRemoteDataSource {
     int page = 1,
     int limit = 10,
   });
+  Future<Result<ReportStatisticsModel, ApiError>> getReportStatistics();
 }
 
 class ReportRemoteDataSource implements BaseReportRemoteDataSource {
@@ -98,5 +100,12 @@ class ReportRemoteDataSource implements BaseReportRemoteDataSource {
         ApiError(message: error.toString(), code: 'fetch_reports_error'),
       );
     }
+  }
+
+  @override
+  Future<Result<ReportStatisticsModel, ApiError>> getReportStatistics() async {
+    return await _handleApiCall<ReportStatisticsModel>(
+      apiCall: () => _apiService.getReportStatistics(),
+    );
   }
 }
