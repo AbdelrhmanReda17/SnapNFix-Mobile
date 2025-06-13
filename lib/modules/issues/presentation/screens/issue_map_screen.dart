@@ -123,54 +123,6 @@ class _IssueMapScreenState extends State<IssueMapScreen> {
                         minMaxZoomPreference: state.minMaxZoomPreference,
                         cameraTargetBounds: state.cameraTargetBounds,
                       ),
-
-                      // Zoom Level Indicator (for debugging)
-                      if (state.cameraPosition != null) ...[
-                        Positioned(
-                          top: 50,
-                          left: 16,
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 12,
-                              vertical: 6,
-                            ),
-                            decoration: BoxDecoration(
-                              color: Colors.black54,
-                              borderRadius: BorderRadius.circular(16),
-                            ),
-                            child: Text(
-                              'Zoom: ${state.cameraPosition!.zoom.toStringAsFixed(1)}',
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 12,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-
-                      // Issues Count Indicator
-                      Positioned(
-                        top: 80,
-                        left: 16,
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 12,
-                            vertical: 6,
-                          ),
-                          decoration: BoxDecoration(
-                            color: Colors.black54,
-                            borderRadius: BorderRadius.circular(16),
-                          ),
-                          child: Text(
-                            'Issues: ${state.issues.length}',
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 12,
-                            ),
-                          ),
-                        ),
-                      ),
                     ],
                   ],
                 ),
