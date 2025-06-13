@@ -5,6 +5,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:snapnfix/core/index.dart';
 import 'package:snapnfix/modules/issues/index.dart';
+import 'package:snapnfix/modules/reports/presentation/widgets/issue_reports/issue_reports_tabs.dart';
 import 'package:snapnfix/presentation/components/application_system_ui_overlay.dart';
 import 'package:snapnfix/presentation/widgets/loading_overlay.dart';
 
@@ -36,25 +37,27 @@ class IssueDetailsScreen extends StatelessWidget {
           elevation: 0,
         ),
         body: SafeArea(
-          child: Column(
-            children: [
-              // Place the listener at the top level to handle all state changes
-              const IssueDetailsBlocListener(),
-              Expanded(
-                child: BlocBuilder<IssueDetailsCubit, IssueDetailsState>(
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                const IssueDetailsBlocListener(),
+                BlocBuilder<IssueDetailsCubit, IssueDetailsState>(
                   builder: (context, state) {
                     return state.maybeWhen(
-                      loaded: (issue) => _buildIssueContent(issue),
+                      loaded:
+                          (issue) => _buildIssueContent(
+                            issue,
+                            localization,
+                            colorScheme,
+                          ),
                       loading: () => const LoadingOverlay(),
-                      error:
-                          (_) =>
-                              const LoadingOverlay(), // Show loading while error is being handled by listener
+                      error: (_) => const LoadingOverlay(),
                       orElse: () => const LoadingOverlay(),
                     );
                   },
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
@@ -78,33 +81,23 @@ class IssueDetailsScreen extends StatelessWidget {
     });
   }
 
-  Widget _buildIssueContent(Issue issue) {
+  Widget _buildIssueContent(
+    Issue issue,
+    AppLocalizations localization,
+    ColorScheme colorScheme,
+  ) {
     return Padding(
       padding: EdgeInsets.only(top: 16.0.h),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           IssueImageSlider(images: issue.images),
-          _buildLocation(issue.road, issue.city, issue.state, issue.country),
           IssueDetails(issue: issue),
-          // Expanded(child: IssueDescriptionsList(descriptions: "ARasdasdasd")),
+          SizedBox(
+            height: 400.h, // Set appropriate height
+            child: IssueReportsTabs(issueId: issue.id),
+          ),
         ],
-      ),
-    );
-  }
-
-  Widget _buildLocation(
-    String road,
-    String city,
-    String state,
-    String country,
-  ) {
-    return Center(
-      child: IssueMarkerDialogDetailItem(
-        icon: Icons.location_on_outlined,
-        text: '$road, $city, $state, $country',
-        iconTextSpacing: 2.w,
-        color: Colors.grey.shade700,
       ),
     );
   }

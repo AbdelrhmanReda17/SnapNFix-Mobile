@@ -5,12 +5,13 @@ part 'get_reports_query.g.dart';
 @JsonSerializable()
 class GetReportsQuery {
   const GetReportsQuery({
+    this.sort,
     this.status,
     this.category,
     this.page = 1,
     this.limit = 10,
   });
-
+  final String? sort;
   final String? status;
   final String? category;
   final int page;

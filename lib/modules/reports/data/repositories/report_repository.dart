@@ -4,6 +4,7 @@ import 'package:snapnfix/core/infrastructure/networking/error/api_error.dart';
 import 'package:snapnfix/core/utils/result.dart';
 import 'package:snapnfix/modules/reports/data/datasources/report_local_data_source.dart';
 import 'package:snapnfix/modules/reports/data/datasources/report_remote_data_source.dart';
+import 'package:snapnfix/modules/reports/data/models/fast_report_model.dart';
 import 'package:snapnfix/modules/reports/data/models/report_statistics_model.dart';
 import 'package:snapnfix/modules/reports/data/models/snap_report_model.dart';
 import 'package:snapnfix/modules/reports/domain/repositories/base_report_repository.dart';
@@ -76,6 +77,70 @@ class ReportRepository implements BaseReportRepository {
   }
 
   @override
+  Future<Result<MapEntry<List<FastReportModel>, bool>, String>> getIssueFastReports({
+    required String issueId,
+    String? sort,
+    int page = 1,
+    int limit = 10,
+  }) async {
+    try {
+      final isConnected = await _connectivityService.isConnected();
+      if (!isConnected) {
+        return Result.failure(
+          'No internet connection. Please try again later.',
+        );
+      }
+
+      final result = await _remoteDataSource.getIssueFastReports(
+        issueId: issueId,
+        sort: sort,
+        page: page,
+        limit: limit,
+      );
+
+      return result.when(
+        success: (data) => Result.success(data),
+        failure: (error) => Result.failure(error.toString()),
+      );
+    } catch (e) {
+      debugPrint('Error getting issue fast reports: $e');
+      return Result.failure(e.toString());
+    }
+  }
+
+  @override
+  Future<Result<MapEntry<List<SnapReportModel>, bool>, String>> getIssueSnapReports({
+    required String issueId,
+    String? sort,
+    int page = 1,
+    int limit = 10,
+  }) async {
+    try {
+      final isConnected = await _connectivityService.isConnected();
+      if (!isConnected) {
+        return Result.failure(
+          'No internet connection. Please try again later.',
+        );
+      }
+
+      final result = await _remoteDataSource.getIssueSnapReports(
+        issueId: issueId,
+        sort: sort,
+        page: page,
+        limit: limit,
+      );
+
+      return result.when(
+        success: (data) => Result.success(data),
+        failure: (error) => Result.failure(error.toString()),
+      );
+    } catch (e) {
+      debugPrint('Error getting issue snap reports: $e');
+      return Result.failure(e.toString());
+    }
+  }
+
+  @override
   Future<bool> syncPendingReports() async {
     try {
       final pendingReports = await _localDataSource.getPendingReports();
@@ -114,6 +179,7 @@ class ReportRepository implements BaseReportRepository {
 
   @override
   Future<Result<MapEntry<List<SnapReportModel>, bool>, String>> getUserReports({
+    String? sort,
     String? status,
     String? category,
     int page = 1,
@@ -127,6 +193,7 @@ class ReportRepository implements BaseReportRepository {
         );
       }
       final result = await _remoteDataSource.getUserReports(
+        sort: sort,
         status: status,
         category: category,
         page: page,
@@ -137,7 +204,8 @@ class ReportRepository implements BaseReportRepository {
         success: (data) => Result.success(data),
         failure: (error) => Result.failure(error.toString()),
       );
-    } catch (e) {      debugPrint('Error getting user reports: $e');
+    } catch (e) {
+      debugPrint('Error getting user reports: $e');
       return Result.failure(e.toString());
     }
   }

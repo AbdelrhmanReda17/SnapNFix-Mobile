@@ -6,12 +6,9 @@ import 'package:snapnfix/modules/issues/data/models/markers.dart';
 import 'package:snapnfix/core/index.dart';
 
 abstract class BaseIssueRemoteDataSource {
-  Future<Result<List<IssueMarker>, ApiError>> getNearbyIssues(
-    double latitude,
-    double longitude,
-    double radiusInKm, {
-    LatLngBounds? bounds,
-    int? maxResults,
+  Future<Result<List<IssueMarker>, ApiError>> getNearbyIssues({
+    required LatLngBounds bounds,
+    required int maxResults,
   });
 
   Future<Result<IssueModel, ApiError>> getIssueDetails(String issueId);
@@ -63,26 +60,20 @@ class IssueRemoteDataSource implements BaseIssueRemoteDataSource {
   }
 
   @override
-  Future<Result<List<IssueMarker>, ApiError>> getNearbyIssues(
-    double latitude,
-    double longitude,
-    double radiusInKm, {
-    LatLngBounds? bounds,
-    int? maxResults,
+  Future<Result<List<IssueMarker>, ApiError>> getNearbyIssues({
+    required LatLngBounds bounds,
+    required int maxResults,
   }) async {
     try {
       return await _handleApiCall<List<IssueMarker>>(
         apiCall: () async {
           final result = _apiService.getNearbyIssues(
             GetNearbyIssuesQuery(
-              latitude: latitude,
-              longitude: longitude,
-              northEastLat: bounds?.northeast.latitude,
-              northEastLng: bounds?.northeast.longitude,
-              southWestLat: bounds?.southwest.latitude,
-              southWestLng: bounds?.southwest.longitude,
+              northEastLat: bounds.northeast.latitude,
+              northEastLng: bounds.northeast.longitude,
+              southWestLat: bounds.southwest.latitude,
+              southWestLng: bounds.southwest.longitude,
               maxResults: maxResults,
-              radius: radiusInKm,
             ),
           );
           return result;

@@ -12,6 +12,8 @@ class FastReport extends Report {
     required ReportSeverity severity,
     this.isUserReport = false,
     super.createdAt,
+    super.firstName,
+    super.lastName,
   }) : super(issueId: issueId, severity: severity);
 
   @override

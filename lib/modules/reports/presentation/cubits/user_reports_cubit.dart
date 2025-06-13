@@ -125,6 +125,7 @@ class UserReportsCubit extends HydratedCubit<UserReportsState> {
 
       final categoryString = _category?.displayName;
       final statusString = _status?.value;
+      final sortString = _sortOption.name;
 
       debugPrint(
         'Fetching reports from network - page: $_currentPage, limit: $_pageSize',
@@ -133,6 +134,7 @@ class UserReportsCubit extends HydratedCubit<UserReportsState> {
       final result = await _getUserReportsUseCase.call(
         status: statusString,
         category: categoryString,
+        sort: sortString,
         page: _currentPage,
         limit: _pageSize,
       );
@@ -143,15 +145,15 @@ class UserReportsCubit extends HydratedCubit<UserReportsState> {
             'Reports fetched successfully - count: ${response.key.length}',
           );
           final newReports = response.key;
-          var sortedReports = _applySorting(newReports, _sortOption);
+          // No need to sort here as the API will return sorted data
           final reachedEnd = response.value;
 
           final updatedReports =
               refresh
-                  ? List<SnapReportModel>.from(sortedReports)
-                  : [...state.reports, ...sortedReports];
+                  ? List<SnapReportModel>.from(newReports)
+                  : [...state.reports, ...newReports];
 
-          if (!reachedEnd && sortedReports.isNotEmpty) {
+          if (!reachedEnd && newReports.isNotEmpty) {
             _currentPage++;
           }
 
@@ -160,7 +162,7 @@ class UserReportsCubit extends HydratedCubit<UserReportsState> {
               reports: updatedReports,
               isLoading: false,
               isLoadingMore: false,
-              hasReachedEnd: reachedEnd || sortedReports.isEmpty,
+              hasReachedEnd: reachedEnd || newReports.isEmpty,
               error: null,
               lastUpdated: DateTime.now(),
             ),
@@ -189,32 +191,6 @@ class UserReportsCubit extends HydratedCubit<UserReportsState> {
       );
       debugPrint('Exception in loadReports: $e');
     }
-  }
-
-  List<SnapReportModel> _applySorting(
-    List<SnapReportModel> reports,
-    SortOption option,
-  ) {
-    final sortedList = List<SnapReportModel>.from(reports);
-    switch (option) {
-      case SortOption.dateNewest:
-        sortedList.sort((a, b) {
-          if (a.createdAt == null && b.createdAt == null) return 0;
-          if (a.createdAt == null) return 1;
-          if (b.createdAt == null) return -1;
-          return b.createdAt!.compareTo(a.createdAt!);
-        });
-        break;
-      case SortOption.dateOldest:
-        sortedList.sort((a, b) {
-          if (a.createdAt == null && b.createdAt == null) return 0;
-          if (a.createdAt == null) return 1;
-          if (b.createdAt == null) return -1;
-          return a.createdAt!.compareTo(b.createdAt!);
-        });
-        break;
-    }
-    return sortedList;
   }
 
   Future<void> clearFilters() async {

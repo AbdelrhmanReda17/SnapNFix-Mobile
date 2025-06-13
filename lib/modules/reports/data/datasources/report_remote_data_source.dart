@@ -1,4 +1,5 @@
 import 'package:snapnfix/core/index.dart';
+import 'package:snapnfix/modules/reports/data/models/fast_report_model.dart';
 import 'package:snapnfix/modules/reports/data/models/report_statistics_model.dart';
 import 'package:snapnfix/modules/reports/data/models/snap_report_model.dart';
 import 'package:snapnfix/modules/reports/data/models/get_reports_query.dart';
@@ -11,10 +12,27 @@ abstract class BaseReportRemoteDataSource {
   getUserReports({
     String? status,
     String? category,
+    String? sort,
     int page = 1,
     int limit = 10,
   });
   Future<Result<ReportStatisticsModel, ApiError>> getReportStatistics();
+
+  Future<Result<MapEntry<List<FastReportModel>, bool>, ApiError>>
+  getIssueFastReports({
+    required String issueId,
+    String? sort,
+    int page = 1,
+    int limit = 10,
+  });
+
+  Future<Result<MapEntry<List<SnapReportModel>, bool>, ApiError>>
+  getIssueSnapReports({
+    required String issueId,
+    String? sort,
+    int page = 1,
+    int limit = 10,
+  });
 }
 
 class ReportRemoteDataSource implements BaseReportRemoteDataSource {
@@ -67,6 +85,7 @@ class ReportRemoteDataSource implements BaseReportRemoteDataSource {
   @override
   Future<Result<MapEntry<List<SnapReportModel>, bool>, ApiError>>
   getUserReports({
+    String? sort,
     String? status,
     String? category,
     int page = 1,
@@ -77,6 +96,7 @@ class ReportRemoteDataSource implements BaseReportRemoteDataSource {
         apiCall: () async {
           return await _apiService.getUserReports(
             GetReportsQuery(
+              sort: sort,
               status: status,
               category: category,
               page: page,
@@ -107,5 +127,68 @@ class ReportRemoteDataSource implements BaseReportRemoteDataSource {
     return await _handleApiCall<ReportStatisticsModel>(
       apiCall: () => _apiService.getReportStatistics(),
     );
+  }
+
+  @override
+  Future<Result<MapEntry<List<FastReportModel>, bool>, ApiError>>
+  getIssueFastReports({
+    required String issueId,
+    String? sort,
+    int page = 1,
+    int limit = 10,
+  }) async {
+    try {
+      final result = await _handleApiCall<PaginatedResponse<FastReportModel>>(
+        apiCall:
+            () => _apiService.getIssueFastReports(
+              issueId,
+              GetReportsQuery(sort: sort, page: page, limit: limit),
+            ),
+      );
+
+      return result.when(
+        success: (data) {
+          return Result.success(MapEntry(data.items, data.hasNextPage));
+        },
+        failure: (error) {
+          return Result.failure(error);
+        },
+      );
+    } catch (error) {
+      return Result.failure(
+        ApiError(message: error.toString(), code: 'fetch_fast_reports_error'),
+      );
+    }
+  }
+
+  @override
+  Future<Result<MapEntry<List<SnapReportModel>, bool>, ApiError>>
+  getIssueSnapReports({
+    required String issueId,
+    String? sort,
+    int page = 1,
+    int limit = 10,
+  }) async {
+    try {
+      final result = await _handleApiCall<PaginatedResponse<SnapReportModel>>(
+        apiCall:
+            () => _apiService.getIssueSnapReports(
+              issueId,
+              GetReportsQuery(sort: sort, page: page, limit: limit),
+            ),
+      );
+      return result.when(
+        success: (data) {
+          return Result.success(MapEntry(data.items, data.hasNextPage));
+        },
+        failure: (error) {
+          return Result.failure(error);
+        },
+      );
+    } catch (error) {
+      return Result.failure(
+        ApiError(message: error.toString(), code: 'fetch_snap_reports_error'),
+      );
+    }
   }
 }

@@ -32,6 +32,8 @@ class SnapReport extends Report {
     this.category,
     super.severity = ReportSeverity.low,
     this.status = ReportStatus.pending,
+    super.firstName,
+    super.lastName,
   });
 
   File get image => File(imagePath);
