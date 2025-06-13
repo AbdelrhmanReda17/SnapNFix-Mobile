@@ -161,7 +161,6 @@ extension GetItInjectableX on _i174.GetIt {
     final reportsRepositoryModule = _$ReportsRepositoryModule();
     final settingsRepositoryModule = _$SettingsRepositoryModule();
     final issuesUsecaseModule = _$IssuesUsecaseModule();
-    final settingsPresentationModule = _$SettingsPresentationModule();
     final authenticationRepositoryModule = _$AuthenticationRepositoryModule();
     final issuesPresentationModule = _$IssuesPresentationModule();
     final reportsUsecaseModule = _$ReportsUsecaseModule();
@@ -241,13 +240,13 @@ extension GetItInjectableX on _i174.GetIt {
               gh<_i71.BaseReportRemoteDataSource>(),
               gh<_i1041.ConnectivityService>(),
             ));
+    gh.factory<_i36.GetReportStatisticsUseCase>(() =>
+        _i36.GetReportStatisticsUseCase(gh<_i515.BaseReportRepository>()));
     gh.lazySingleton<_i150.BaseSettingsRepository>(
         () => settingsRepositoryModule.provideSettingsRepository(
               gh<_i14.BaseSettingsRemoteDataSource>(),
               gh<_i420.ApplicationConfigurations>(),
             ));
-    gh.factory<_i36.GetReportStatisticsUseCase>(() =>
-        _i36.GetReportStatisticsUseCase(gh<_i515.BaseReportRepository>()));
     gh.lazySingleton<_i381.WatchNearbyIssuesUseCase>(() => issuesUsecaseModule
         .provideWatchNearbyIssuesUseCase(gh<_i185.BaseIssueRepository>()));
     gh.lazySingleton<_i222.GetNearbyIssuesUseCase>(() => issuesUsecaseModule
@@ -258,8 +257,6 @@ extension GetItInjectableX on _i174.GetIt {
         .provideGetUserIssuesUseCase(gh<_i185.BaseIssueRepository>()));
     gh.lazySingleton<_i735.GetAreaIssuesUseCase>(() => issuesUsecaseModule
         .provideGetAreaIssuesUseCase(gh<_i185.BaseIssueRepository>()));
-    gh.factory<_i240.IssuesMapCubit>(() => issuesPresentationModule
-        .provideIssuesMapCubit(gh<_i381.WatchNearbyIssuesUseCase>()));
     gh.singleton<_i668.BaseAuthenticationRepository>(
         () => authenticationRepositoryModule.provideAuthRepository(
               gh<_i771.BaseAuthenticationRemoteDataSource>(),
