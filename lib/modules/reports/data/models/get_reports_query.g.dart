@@ -8,6 +8,7 @@ part of 'get_reports_query.dart';
 
 GetReportsQuery _$GetReportsQueryFromJson(Map<String, dynamic> json) =>
     GetReportsQuery(
+      sort: json['sort'] as String?,
       status: json['status'] as String?,
       category: json['category'] as String?,
       page: (json['page'] as num?)?.toInt() ?? 1,
@@ -16,6 +17,7 @@ GetReportsQuery _$GetReportsQueryFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$GetReportsQueryToJson(GetReportsQuery instance) =>
     <String, dynamic>{
+      'sort': instance.sort,
       'status': instance.status,
       'category': instance.category,
       'page': instance.page,

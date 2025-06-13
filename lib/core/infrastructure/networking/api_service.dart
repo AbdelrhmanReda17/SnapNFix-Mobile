@@ -4,7 +4,6 @@ import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
 import 'package:snapnfix/modules/issues/data/models/get_nearby_issues_query.dart';
 import 'package:snapnfix/modules/issues/data/models/markers.dart';
-import 'package:snapnfix/modules/reports/data/models/report_statistics_model.dart';
 import '../../../index.dart';
 part 'api_service.g.dart';
 
@@ -28,9 +27,7 @@ abstract class ApiService {
   );
 
   @PUT(ApiEndpoints.editProfile)
-  Future<ApiResponse<bool>> editProfile(
-    @Body() Map<String, dynamic> request,
-  );
+  Future<ApiResponse<bool>> editProfile(@Body() Map<String, dynamic> request);
 
   // OTP operations
   @POST(ApiEndpoints.requestOtp)
@@ -101,8 +98,15 @@ abstract class ApiService {
   @GET(ApiEndpoints.getIssueById)
   Future<ApiResponse<IssueModel>> getIssueById(@Path('id') String id);
 
-  // @GET(ApiEndpoints.getUserIssues)
-  // Future<ApiResponse<PaginatedData<IssueModel>>> getUserIssues(
-  //   @Queries() GetUserIssuesQuery query,
-  // );
+  @GET(ApiEndpoints.getIssueFastReport)
+  Future<ApiResponse<PaginatedResponse<FastReportModel>>> getIssueFastReports(
+    @Path('id') String id,
+    @Queries() GetReportsQuery query,
+  );
+
+  @GET(ApiEndpoints.getIssueSnapReport)
+  Future<ApiResponse<PaginatedResponse<SnapReportModel>>> getIssueSnapReports(
+    @Path('id') String id,
+    @Queries() GetReportsQuery query,
+  );
 }

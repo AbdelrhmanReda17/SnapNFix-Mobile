@@ -5,6 +5,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:snapnfix/core/index.dart';
 import 'package:snapnfix/modules/issues/index.dart';
+import 'package:snapnfix/modules/reports/presentation/widgets/issue_reports/issue_reports_tabs.dart';
 import 'package:snapnfix/presentation/components/application_system_ui_overlay.dart';
 import 'package:snapnfix/presentation/widgets/loading_overlay.dart';
 
@@ -92,7 +93,10 @@ class IssueDetailsScreen extends StatelessWidget {
         children: [
           IssueImageSlider(images: issue.images),
           IssueDetails(issue: issue),
-          // Expanded(child: IssueDescriptionsList(descriptions: "ARasdasdasd")),
+          SizedBox(
+            height: 400.h, // Set appropriate height
+            child: IssueReportsTabs(issueId: issue.id),
+          ),
         ],
       ),
     );

@@ -89,6 +89,10 @@ import '../../modules/reports/di/reports_repository_module.dart' as _i717;
 import '../../modules/reports/di/reports_usecase_module.dart' as _i873;
 import '../../modules/reports/domain/repositories/base_report_repository.dart'
     as _i515;
+import '../../modules/reports/domain/usecases/get_issue_fast_reports_use_case.dart'
+    as _i1007;
+import '../../modules/reports/domain/usecases/get_issue_snap_reports_use_case.dart'
+    as _i610;
 import '../../modules/reports/domain/usecases/get_pending_reports_count_use_case.dart'
     as _i742;
 import '../../modules/reports/domain/usecases/get_report_statistics_use_case.dart'
@@ -101,6 +105,10 @@ import '../../modules/reports/domain/usecases/sync_prending_reports_use_case.dar
     as _i956;
 import '../../modules/reports/domain/usecases/watch_pending_reports_count_use_case.dart'
     as _i500;
+import '../../modules/reports/presentation/cubits/issue_fast_reports_cubit.dart'
+    as _i948;
+import '../../modules/reports/presentation/cubits/issue_snap_reports_cubit.dart'
+    as _i987;
 import '../../modules/reports/presentation/cubits/report_statistics_cubit.dart'
     as _i303;
 import '../../modules/reports/presentation/cubits/submit_report_cubit.dart'
@@ -162,8 +170,8 @@ extension GetItInjectableX on _i174.GetIt {
     final issuesPresentationModule = _$IssuesPresentationModule();
     final authenticationRepositoryModule = _$AuthenticationRepositoryModule();
     final reportsUsecaseModule = _$ReportsUsecaseModule();
-    final settingsUsecaseModule = _$SettingsUsecaseModule();
     final reportsPresentationModule = _$ReportsPresentationModule();
+    final settingsUsecaseModule = _$SettingsUsecaseModule();
     final settingsPresentationModule = _$SettingsPresentationModule();
     final authenticationUseCaseModule = _$AuthenticationUseCaseModule();
     final authenticationPresentationModule =
@@ -273,12 +281,22 @@ extension GetItInjectableX on _i174.GetIt {
             gh<_i515.BaseReportRepository>()));
     gh.lazySingleton<_i412.GetUserReportsUseCase>(() => reportsUsecaseModule
         .provideGetUserReportsUseCase(gh<_i515.BaseReportRepository>()));
+    gh.lazySingleton<_i1007.GetIssueFastReportsUseCase>(() =>
+        reportsUsecaseModule.provideGetIssueFastReportsUseCase(
+            gh<_i515.BaseReportRepository>()));
+    gh.lazySingleton<_i610.GetIssueSnapReportsUseCase>(() =>
+        reportsUsecaseModule.provideGetIssueSnapReportsUseCase(
+            gh<_i515.BaseReportRepository>()));
+    gh.factory<_i948.IssueFastReportsCubit>(() => reportsPresentationModule
+        .provideUserReportsCubit(gh<_i1007.GetIssueFastReportsUseCase>()));
     gh.lazySingleton<_i182.EditProfileUseCase>(() => settingsUsecaseModule
         .provideEditProfileUseCase(gh<_i150.BaseSettingsRepository>()));
     gh.factory<_i303.ReportStatisticsCubit>(() =>
         _i303.ReportStatisticsCubit(gh<_i36.GetReportStatisticsUseCase>()));
     gh.factory<_i366.IssueDetailsCubit>(() => issuesPresentationModule
         .provideIssueDetailsCubit(gh<_i39.GetIssueDetailsUseCase>()));
+    gh.factory<_i987.IssueSnapReportsCubit>(() => reportsPresentationModule
+        .provideIssueSnapReportsCubit(gh<_i610.GetIssueSnapReportsUseCase>()));
     gh.factory<_i758.SubmitReportCubit>(() => reportsPresentationModule
         .provideSubmitReportCubit(gh<_i628.SubmitReportUseCase>()));
     gh.factory<_i382.EditProfileCubit>(() => settingsPresentationModule
@@ -355,9 +373,9 @@ class _$AuthenticationRepositoryModule
 
 class _$ReportsUsecaseModule extends _i873.ReportsUsecaseModule {}
 
-class _$SettingsUsecaseModule extends _i422.SettingsUsecaseModule {}
-
 class _$ReportsPresentationModule extends _i699.ReportsPresentationModule {}
+
+class _$SettingsUsecaseModule extends _i422.SettingsUsecaseModule {}
 
 class _$SettingsPresentationModule extends _i247.SettingsPresentationModule {}
 

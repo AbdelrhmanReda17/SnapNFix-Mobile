@@ -34,6 +34,8 @@ class ApiEndpoints {
   // Issues endpoints
   static const String getNearbyIssues = "api/issue/get-nearby-issues";
   static const String getIssueById = "api/issue/{id}";
+  static const String getIssueFastReport = "api/issue/{id}/snapreports";
+  static const String getIssueSnapReport = "api/issue/{id}/fastreports";
   static const String getUserIssues = "api/issue/get-user-issues";
 }
 
@@ -42,7 +44,6 @@ class NetworkConfig {
   static const Duration connectionTimeout = Duration(seconds: 60);
   static const Duration receiveTimeout = Duration(seconds: 60);
   static const Duration sendTimeout = Duration(seconds: 60);
-
   static const int maxRetryAttempts = 3;
   static const Duration retryDelay = Duration(seconds: 1);
 }

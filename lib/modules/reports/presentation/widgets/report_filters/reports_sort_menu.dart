@@ -4,7 +4,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:snapnfix/modules/reports/presentation/cubits/user_reports_cubit.dart';
 
-enum SortOption { dateNewest, dateOldest }
+enum SortOption {
+  dateNewest('dateNewest'),
+  dateOldest('dateOldest');
+
+  final String name;
+  const SortOption(this.name);
+}
 
 class ReportsSortMenu extends StatelessWidget {
   final SortOption currentSortOption;
