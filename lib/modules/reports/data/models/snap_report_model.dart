@@ -1,14 +1,14 @@
 import 'dart:io';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:snapnfix/modules/reports/domain/entities/report.dart';
 import 'package:snapnfix/modules/reports/domain/entities/report_severity.dart';
 import 'package:snapnfix/modules/reports/domain/entities/report_status.dart';
+import 'package:snapnfix/modules/reports/domain/entities/snap_report.dart';
 
-part 'report_model.g.dart';
+part 'snap_report_model.g.dart';
 
 @JsonSerializable()
-class ReportModel extends Report {
-  const ReportModel({
+class SnapReportModel extends SnapReport {
+  const SnapReportModel({
     super.id,
     required super.details,
     required super.latitude,
@@ -25,12 +25,12 @@ class ReportModel extends Report {
     super.status = ReportStatus.pending,
   });
 
-  factory ReportModel.fromJson(Map<String, dynamic> json) =>
-      _$ReportModelFromJson(json);
+  factory SnapReportModel.fromJson(Map<String, dynamic> json) =>
+      _$SnapReportModelFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ReportModelToJson(this);
+  Map<String, dynamic> toJson() => _$SnapReportModelToJson(this);
 
-  factory ReportModel.fromFile({
+  factory SnapReportModel.fromFile({
     String? id,
     String? details,
     required double latitude,
@@ -46,7 +46,7 @@ class ReportModel extends Report {
     String? category,
     ReportStatus? status = ReportStatus.pending,
   }) {
-    return ReportModel(
+    return SnapReportModel(
       id: id,
       details: details ?? '',
       latitude: latitude,
@@ -64,7 +64,7 @@ class ReportModel extends Report {
     );
   }
 
-  ReportModel copyWithModel({
+  SnapReportModel copyWithModel({
     String? id,
     String? issueId,
     String? details,
@@ -80,7 +80,7 @@ class ReportModel extends Report {
     String? state,
     String? country,
   }) {
-    return ReportModel(
+    return SnapReportModel(
       id: id ?? this.id,
       issueId: issueId ?? this.issueId,
       details: details ?? this.details,

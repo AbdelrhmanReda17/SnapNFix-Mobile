@@ -11,7 +11,12 @@ GetNearbyIssuesQuery _$GetNearbyIssuesQueryFromJson(
     GetNearbyIssuesQuery(
       latitude: (json['latitude'] as num).toDouble(),
       longitude: (json['longitude'] as num).toDouble(),
-      radius: (json['radius'] as num).toInt(),
+      radius: (json['radius'] as num).toDouble(),
+      northEastLat: (json['northEastLat'] as num?)?.toDouble(),
+      northEastLng: (json['northEastLng'] as num?)?.toDouble(),
+      southWestLat: (json['southWestLat'] as num?)?.toDouble(),
+      southWestLng: (json['southWestLng'] as num?)?.toDouble(),
+      maxResults: (json['maxResults'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$GetNearbyIssuesQueryToJson(
@@ -20,4 +25,9 @@ Map<String, dynamic> _$GetNearbyIssuesQueryToJson(
       'latitude': instance.latitude,
       'longitude': instance.longitude,
       'radius': instance.radius,
+      'northEastLat': instance.northEastLat,
+      'northEastLng': instance.northEastLng,
+      'southWestLat': instance.southWestLat,
+      'southWestLng': instance.southWestLng,
+      'maxResults': instance.maxResults,
     };

@@ -10,7 +10,7 @@ _$UserReportsStateImpl _$$UserReportsStateImplFromJson(
         Map<String, dynamic> json) =>
     _$UserReportsStateImpl(
       reports: (json['reports'] as List<dynamic>?)
-              ?.map((e) => ReportModel.fromJson(e as Map<String, dynamic>))
+              ?.map((e) => SnapReportModel.fromJson(e as Map<String, dynamic>))
               .toList() ??
           const [],
       isLoading: json['isLoading'] as bool? ?? true,

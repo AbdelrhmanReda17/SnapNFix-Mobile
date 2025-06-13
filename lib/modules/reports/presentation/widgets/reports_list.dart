@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:snapnfix/core/base_components/base_paginated_list_view.dart';
-import 'package:snapnfix/modules/reports/data/models/report_model.dart';
+import 'package:snapnfix/modules/reports/data/models/snap_report_model.dart';
 import 'package:snapnfix/modules/reports/presentation/cubits/user_reports_cubit.dart';
 import 'package:snapnfix/modules/reports/presentation/widgets/report_card/report_card.dart';
 
@@ -16,7 +16,7 @@ class ReportsListView extends StatelessWidget {
   Widget build(BuildContext context) {
     final localization = AppLocalizations.of(context)!;
 
-    return EnhancedPaginatedView<ReportModel>(
+    return EnhancedPaginatedView<SnapReportModel>(
       items: state.reports,
       isLoading: state.isLoading,
       isLoadingMore: state.isLoadingMore,

@@ -20,7 +20,10 @@ class IssueModel extends Issue {
     super.resolvedAt,
     required super.images,
     required super.reportsCount,
-    required super.location,
+    required super.road,
+    required super.city,
+    required super.state,
+    required super.country,
   });
 
   factory IssueModel.fromJson(Map<String, dynamic> json) =>

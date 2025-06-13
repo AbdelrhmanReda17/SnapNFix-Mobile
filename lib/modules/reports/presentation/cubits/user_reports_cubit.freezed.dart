@@ -20,7 +20,7 @@ UserReportsState _$UserReportsStateFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$UserReportsState {
-  List<ReportModel> get reports => throw _privateConstructorUsedError;
+  List<SnapReportModel> get reports => throw _privateConstructorUsedError;
   bool get isLoading => throw _privateConstructorUsedError;
   bool get isLoadingMore => throw _privateConstructorUsedError;
   bool get hasReachedEnd => throw _privateConstructorUsedError;
@@ -47,7 +47,7 @@ abstract class $UserReportsStateCopyWith<$Res> {
       _$UserReportsStateCopyWithImpl<$Res, UserReportsState>;
   @useResult
   $Res call(
-      {List<ReportModel> reports,
+      {List<SnapReportModel> reports,
       bool isLoading,
       bool isLoadingMore,
       bool hasReachedEnd,
@@ -87,7 +87,7 @@ class _$UserReportsStateCopyWithImpl<$Res, $Val extends UserReportsState>
       reports: null == reports
           ? _value.reports
           : reports // ignore: cast_nullable_to_non_nullable
-              as List<ReportModel>,
+              as List<SnapReportModel>,
       isLoading: null == isLoading
           ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
@@ -133,7 +133,7 @@ abstract class _$$UserReportsStateImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {List<ReportModel> reports,
+      {List<SnapReportModel> reports,
       bool isLoading,
       bool isLoadingMore,
       bool hasReachedEnd,
@@ -171,7 +171,7 @@ class __$$UserReportsStateImplCopyWithImpl<$Res>
       reports: null == reports
           ? _value._reports
           : reports // ignore: cast_nullable_to_non_nullable
-              as List<ReportModel>,
+              as List<SnapReportModel>,
       isLoading: null == isLoading
           ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
@@ -212,7 +212,7 @@ class __$$UserReportsStateImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$UserReportsStateImpl implements _UserReportsState {
   const _$UserReportsStateImpl(
-      {final List<ReportModel> reports = const [],
+      {final List<SnapReportModel> reports = const [],
       this.isLoading = true,
       this.isLoadingMore = false,
       this.hasReachedEnd = false,
@@ -226,10 +226,10 @@ class _$UserReportsStateImpl implements _UserReportsState {
   factory _$UserReportsStateImpl.fromJson(Map<String, dynamic> json) =>
       _$$UserReportsStateImplFromJson(json);
 
-  final List<ReportModel> _reports;
+  final List<SnapReportModel> _reports;
   @override
   @JsonKey()
-  List<ReportModel> get reports {
+  List<SnapReportModel> get reports {
     if (_reports is EqualUnmodifiableListView) return _reports;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_reports);
@@ -317,7 +317,7 @@ class _$UserReportsStateImpl implements _UserReportsState {
 
 abstract class _UserReportsState implements UserReportsState {
   const factory _UserReportsState(
-      {final List<ReportModel> reports,
+      {final List<SnapReportModel> reports,
       final bool isLoading,
       final bool isLoadingMore,
       final bool hasReachedEnd,
@@ -331,7 +331,7 @@ abstract class _UserReportsState implements UserReportsState {
       _$UserReportsStateImpl.fromJson;
 
   @override
-  List<ReportModel> get reports;
+  List<SnapReportModel> get reports;
   @override
   bool get isLoading;
   @override

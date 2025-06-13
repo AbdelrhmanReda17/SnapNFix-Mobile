@@ -24,7 +24,12 @@ mixin _$IssuesMapState {
   bool get isFollowingUser => throw _privateConstructorUsedError;
   String? get selectedIssueId => throw _privateConstructorUsedError;
   bool get showIssueDetail => throw _privateConstructorUsedError;
-  String? get error => throw _privateConstructorUsedError;
+  String? get error =>
+      throw _privateConstructorUsedError; // Add zoom and bounds preferences
+  MinMaxZoomPreference? get minMaxZoomPreference =>
+      throw _privateConstructorUsedError;
+  CameraTargetBounds? get cameraTargetBounds =>
+      throw _privateConstructorUsedError;
 
   /// Create a copy of IssuesMapState
   /// with the given fields replaced by the non-null parameter values.
@@ -48,7 +53,9 @@ abstract class $IssuesMapStateCopyWith<$Res> {
       bool isFollowingUser,
       String? selectedIssueId,
       bool showIssueDetail,
-      String? error});
+      String? error,
+      MinMaxZoomPreference? minMaxZoomPreference,
+      CameraTargetBounds? cameraTargetBounds});
 }
 
 /// @nodoc
@@ -75,6 +82,8 @@ class _$IssuesMapStateCopyWithImpl<$Res, $Val extends IssuesMapState>
     Object? selectedIssueId = freezed,
     Object? showIssueDetail = null,
     Object? error = freezed,
+    Object? minMaxZoomPreference = freezed,
+    Object? cameraTargetBounds = freezed,
   }) {
     return _then(_value.copyWith(
       status: null == status
@@ -113,6 +122,14 @@ class _$IssuesMapStateCopyWithImpl<$Res, $Val extends IssuesMapState>
           ? _value.error
           : error // ignore: cast_nullable_to_non_nullable
               as String?,
+      minMaxZoomPreference: freezed == minMaxZoomPreference
+          ? _value.minMaxZoomPreference
+          : minMaxZoomPreference // ignore: cast_nullable_to_non_nullable
+              as MinMaxZoomPreference?,
+      cameraTargetBounds: freezed == cameraTargetBounds
+          ? _value.cameraTargetBounds
+          : cameraTargetBounds // ignore: cast_nullable_to_non_nullable
+              as CameraTargetBounds?,
     ) as $Val);
   }
 }
@@ -134,7 +151,9 @@ abstract class _$$IssuesMapStateImplCopyWith<$Res>
       bool isFollowingUser,
       String? selectedIssueId,
       bool showIssueDetail,
-      String? error});
+      String? error,
+      MinMaxZoomPreference? minMaxZoomPreference,
+      CameraTargetBounds? cameraTargetBounds});
 }
 
 /// @nodoc
@@ -159,6 +178,8 @@ class __$$IssuesMapStateImplCopyWithImpl<$Res>
     Object? selectedIssueId = freezed,
     Object? showIssueDetail = null,
     Object? error = freezed,
+    Object? minMaxZoomPreference = freezed,
+    Object? cameraTargetBounds = freezed,
   }) {
     return _then(_$IssuesMapStateImpl(
       status: null == status
@@ -197,6 +218,14 @@ class __$$IssuesMapStateImplCopyWithImpl<$Res>
           ? _value.error
           : error // ignore: cast_nullable_to_non_nullable
               as String?,
+      minMaxZoomPreference: freezed == minMaxZoomPreference
+          ? _value.minMaxZoomPreference
+          : minMaxZoomPreference // ignore: cast_nullable_to_non_nullable
+              as MinMaxZoomPreference?,
+      cameraTargetBounds: freezed == cameraTargetBounds
+          ? _value.cameraTargetBounds
+          : cameraTargetBounds // ignore: cast_nullable_to_non_nullable
+              as CameraTargetBounds?,
     ));
   }
 }
@@ -215,7 +244,9 @@ class _$IssuesMapStateImpl
       this.isFollowingUser = false,
       this.selectedIssueId,
       this.showIssueDetail = false,
-      this.error})
+      this.error,
+      this.minMaxZoomPreference,
+      this.cameraTargetBounds})
       : _markers = markers,
         _issues = issues;
 
@@ -255,10 +286,15 @@ class _$IssuesMapStateImpl
   final bool showIssueDetail;
   @override
   final String? error;
+// Add zoom and bounds preferences
+  @override
+  final MinMaxZoomPreference? minMaxZoomPreference;
+  @override
+  final CameraTargetBounds? cameraTargetBounds;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'IssuesMapState(status: $status, markers: $markers, issues: $issues, cameraPosition: $cameraPosition, hasLocationPermission: $hasLocationPermission, isFollowingUser: $isFollowingUser, selectedIssueId: $selectedIssueId, showIssueDetail: $showIssueDetail, error: $error)';
+    return 'IssuesMapState(status: $status, markers: $markers, issues: $issues, cameraPosition: $cameraPosition, hasLocationPermission: $hasLocationPermission, isFollowingUser: $isFollowingUser, selectedIssueId: $selectedIssueId, showIssueDetail: $showIssueDetail, error: $error, minMaxZoomPreference: $minMaxZoomPreference, cameraTargetBounds: $cameraTargetBounds)';
   }
 
   @override
@@ -274,7 +310,9 @@ class _$IssuesMapStateImpl
       ..add(DiagnosticsProperty('isFollowingUser', isFollowingUser))
       ..add(DiagnosticsProperty('selectedIssueId', selectedIssueId))
       ..add(DiagnosticsProperty('showIssueDetail', showIssueDetail))
-      ..add(DiagnosticsProperty('error', error));
+      ..add(DiagnosticsProperty('error', error))
+      ..add(DiagnosticsProperty('minMaxZoomPreference', minMaxZoomPreference))
+      ..add(DiagnosticsProperty('cameraTargetBounds', cameraTargetBounds));
   }
 
   @override
@@ -295,7 +333,11 @@ class _$IssuesMapStateImpl
                 other.selectedIssueId == selectedIssueId) &&
             (identical(other.showIssueDetail, showIssueDetail) ||
                 other.showIssueDetail == showIssueDetail) &&
-            (identical(other.error, error) || other.error == error));
+            (identical(other.error, error) || other.error == error) &&
+            (identical(other.minMaxZoomPreference, minMaxZoomPreference) ||
+                other.minMaxZoomPreference == minMaxZoomPreference) &&
+            (identical(other.cameraTargetBounds, cameraTargetBounds) ||
+                other.cameraTargetBounds == cameraTargetBounds));
   }
 
   @override
@@ -309,7 +351,9 @@ class _$IssuesMapStateImpl
       isFollowingUser,
       selectedIssueId,
       showIssueDetail,
-      error);
+      error,
+      minMaxZoomPreference,
+      cameraTargetBounds);
 
   /// Create a copy of IssuesMapState
   /// with the given fields replaced by the non-null parameter values.
@@ -331,7 +375,9 @@ abstract class _IssuesMapState implements IssuesMapState {
       final bool isFollowingUser,
       final String? selectedIssueId,
       final bool showIssueDetail,
-      final String? error}) = _$IssuesMapStateImpl;
+      final String? error,
+      final MinMaxZoomPreference? minMaxZoomPreference,
+      final CameraTargetBounds? cameraTargetBounds}) = _$IssuesMapStateImpl;
 
   @override
   MapStatus get status;
@@ -350,7 +396,11 @@ abstract class _IssuesMapState implements IssuesMapState {
   @override
   bool get showIssueDetail;
   @override
-  String? get error;
+  String? get error; // Add zoom and bounds preferences
+  @override
+  MinMaxZoomPreference? get minMaxZoomPreference;
+  @override
+  CameraTargetBounds? get cameraTargetBounds;
 
   /// Create a copy of IssuesMapState
   /// with the given fields replaced by the non-null parameter values.

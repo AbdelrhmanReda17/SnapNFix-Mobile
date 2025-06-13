@@ -510,7 +510,7 @@ class _ApiService implements ApiService {
   }
 
   @override
-  Future<ApiResponse<ReportModel>> createSnapReport(
+  Future<ApiResponse<SnapReportModel>> createSnapReport(
     String comment,
     String severity,
     double latitude,
@@ -564,7 +564,7 @@ class _ApiService implements ApiService {
         filename: image.path.split(Platform.pathSeparator).last,
       ),
     ));
-    final _options = _setStreamType<ApiResponse<ReportModel>>(Options(
+    final _options = _setStreamType<ApiResponse<SnapReportModel>>(Options(
       method: 'POST',
       headers: _headers,
       extra: _extra,
@@ -582,11 +582,11 @@ class _ApiService implements ApiService {
           baseUrl,
         )));
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late ApiResponse<ReportModel> _value;
+    late ApiResponse<SnapReportModel> _value;
     try {
-      _value = ApiResponse<ReportModel>.fromJson(
+      _value = ApiResponse<SnapReportModel>.fromJson(
         _result.data!,
-        (json) => ReportModel.fromJson(json as Map<String, dynamic>),
+        (json) => SnapReportModel.fromJson(json as Map<String, dynamic>),
       );
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options);
@@ -596,7 +596,7 @@ class _ApiService implements ApiService {
   }
 
   @override
-  Future<ApiResponse<PaginatedResponse<ReportModel>>> getUserReports(
+  Future<ApiResponse<PaginatedResponse<SnapReportModel>>> getUserReports(
       GetReportsQuery query) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
@@ -604,7 +604,7 @@ class _ApiService implements ApiService {
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
     final _options =
-        _setStreamType<ApiResponse<PaginatedResponse<ReportModel>>>(Options(
+        _setStreamType<ApiResponse<PaginatedResponse<SnapReportModel>>>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
@@ -621,13 +621,13 @@ class _ApiService implements ApiService {
               baseUrl,
             )));
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late ApiResponse<PaginatedResponse<ReportModel>> _value;
+    late ApiResponse<PaginatedResponse<SnapReportModel>> _value;
     try {
-      _value = ApiResponse<PaginatedResponse<ReportModel>>.fromJson(
+      _value = ApiResponse<PaginatedResponse<SnapReportModel>>.fromJson(
         _result.data!,
-        (json) => PaginatedResponse<ReportModel>.fromJson(
+        (json) => PaginatedResponse<SnapReportModel>.fromJson(
           json as Map<String, dynamic>,
-          (json) => ReportModel.fromJson(json as Map<String, dynamic>),
+          (json) => SnapReportModel.fromJson(json as Map<String, dynamic>),
         ),
       );
     } on Object catch (e, s) {

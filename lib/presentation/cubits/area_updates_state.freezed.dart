@@ -17,7 +17,8 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$AreaUpdatesState {
   String get selectedArea => throw _privateConstructorUsedError;
-  List<String> get areas => throw _privateConstructorUsedError;
+  List<MapEntry<String, String>> get areas =>
+      throw _privateConstructorUsedError;
 
   /// Create a copy of AreaUpdatesState
   /// with the given fields replaced by the non-null parameter values.
@@ -32,7 +33,7 @@ abstract class $AreaUpdatesStateCopyWith<$Res> {
           AreaUpdatesState value, $Res Function(AreaUpdatesState) then) =
       _$AreaUpdatesStateCopyWithImpl<$Res, AreaUpdatesState>;
   @useResult
-  $Res call({String selectedArea, List<String> areas});
+  $Res call({String selectedArea, List<MapEntry<String, String>> areas});
 }
 
 /// @nodoc
@@ -61,7 +62,7 @@ class _$AreaUpdatesStateCopyWithImpl<$Res, $Val extends AreaUpdatesState>
       areas: null == areas
           ? _value.areas
           : areas // ignore: cast_nullable_to_non_nullable
-              as List<String>,
+              as List<MapEntry<String, String>>,
     ) as $Val);
   }
 }
@@ -74,7 +75,7 @@ abstract class _$$AreaUpdatesStateImplCopyWith<$Res>
       __$$AreaUpdatesStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String selectedArea, List<String> areas});
+  $Res call({String selectedArea, List<MapEntry<String, String>> areas});
 }
 
 /// @nodoc
@@ -101,7 +102,7 @@ class __$$AreaUpdatesStateImplCopyWithImpl<$Res>
       areas: null == areas
           ? _value._areas
           : areas // ignore: cast_nullable_to_non_nullable
-              as List<String>,
+              as List<MapEntry<String, String>>,
     ));
   }
 }
@@ -110,14 +111,15 @@ class __$$AreaUpdatesStateImplCopyWithImpl<$Res>
 
 class _$AreaUpdatesStateImpl implements _AreaUpdatesState {
   const _$AreaUpdatesStateImpl(
-      {required this.selectedArea, required final List<String> areas})
+      {required this.selectedArea,
+      required final List<MapEntry<String, String>> areas})
       : _areas = areas;
 
   @override
   final String selectedArea;
-  final List<String> _areas;
+  final List<MapEntry<String, String>> _areas;
   @override
-  List<String> get areas {
+  List<MapEntry<String, String>> get areas {
     if (_areas is EqualUnmodifiableListView) return _areas;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_areas);
@@ -154,13 +156,14 @@ class _$AreaUpdatesStateImpl implements _AreaUpdatesState {
 
 abstract class _AreaUpdatesState implements AreaUpdatesState {
   const factory _AreaUpdatesState(
-      {required final String selectedArea,
-      required final List<String> areas}) = _$AreaUpdatesStateImpl;
+          {required final String selectedArea,
+          required final List<MapEntry<String, String>> areas}) =
+      _$AreaUpdatesStateImpl;
 
   @override
   String get selectedArea;
   @override
-  List<String> get areas;
+  List<MapEntry<String, String>> get areas;
 
   /// Create a copy of AreaUpdatesState
   /// with the given fields replaced by the non-null parameter values.

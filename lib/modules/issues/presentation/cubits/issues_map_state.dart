@@ -12,6 +12,9 @@ class IssuesMapState with _$IssuesMapState {
     String? selectedIssueId,
     @Default(false) bool showIssueDetail,
     String? error,
+    // Add zoom and bounds preferences
+    MinMaxZoomPreference? minMaxZoomPreference,
+    CameraTargetBounds? cameraTargetBounds,
   }) = _IssuesMapState;
 
   factory IssuesMapState.initial() => const IssuesMapState();

@@ -120,18 +120,23 @@ class CustomCard extends StatelessWidget {
                   ),
               ],
             ),
-                        if (imageAsset != null)
+            if (imageAsset != null)
               Positioned(
-                right: Directionality.of(context) == TextDirection.ltr ? null : 0,
-                left: Directionality.of(context) == TextDirection.ltr ? 200 : null,
+                right:
+                    Directionality.of(context) == TextDirection.ltr ? null : 0,
+                left:
+                    Directionality.of(context) == TextDirection.ltr
+                        ? 200
+                        : null,
                 top: 0,
                 child: Transform.translate(
-                  offset: Directionality.of(context) == TextDirection.ltr
-                      ? (imageOffset ?? Offset.zero)
-                      : Offset(
-                          (imageOffset?.dx ?? 0) * 22,
-                          imageOffset?.dy ?? 0,
-                        ),
+                  offset:
+                      Directionality.of(context) == TextDirection.ltr
+                          ? (imageOffset ?? Offset.zero)
+                          : Offset(
+                            (imageOffset?.dx ?? 0) * 22,
+                            imageOffset?.dy ?? 0,
+                          ),
                   child: Image.asset(
                     imageAsset!,
                     width: imageWidth ?? 70.w,

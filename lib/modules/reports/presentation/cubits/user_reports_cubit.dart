@@ -3,7 +3,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 
 import 'package:snapnfix/modules/issues/domain/entities/issue_category.dart';
-import 'package:snapnfix/modules/reports/data/models/report_model.dart';
+import 'package:snapnfix/modules/reports/data/models/snap_report_model.dart';
 import 'package:snapnfix/modules/reports/domain/entities/report_status.dart';
 import 'package:snapnfix/modules/reports/domain/usecases/get_user_reports_use_case.dart';
 import 'package:snapnfix/modules/reports/presentation/widgets/report_filters/reports_sort_menu.dart';
@@ -41,7 +41,7 @@ class UserReportsCubit extends HydratedCubit<UserReportsState> {
             reports: [],
             lastUpdated: null,
             isLoading: true,
-            hasReachedEnd: false, 
+            hasReachedEnd: false,
           ),
         );
       } else {
@@ -148,7 +148,7 @@ class UserReportsCubit extends HydratedCubit<UserReportsState> {
 
           final updatedReports =
               refresh
-                  ? List<ReportModel>.from(sortedReports)
+                  ? List<SnapReportModel>.from(sortedReports)
                   : [...state.reports, ...sortedReports];
 
           if (!reachedEnd && sortedReports.isNotEmpty) {
@@ -191,11 +191,11 @@ class UserReportsCubit extends HydratedCubit<UserReportsState> {
     }
   }
 
-  List<ReportModel> _applySorting(
-    List<ReportModel> reports,
+  List<SnapReportModel> _applySorting(
+    List<SnapReportModel> reports,
     SortOption option,
   ) {
-    final sortedList = List<ReportModel>.from(reports);
+    final sortedList = List<SnapReportModel>.from(reports);
     switch (option) {
       case SortOption.dateNewest:
         sortedList.sort((a, b) {

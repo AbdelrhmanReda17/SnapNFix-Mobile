@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:snapnfix/modules/issues/data/models/get_nearby_issues_query.dart';
 import 'package:snapnfix/modules/issues/data/models/issue_model.dart';
 import 'package:snapnfix/modules/issues/data/models/markers.dart';
@@ -8,8 +9,10 @@ abstract class BaseIssueRemoteDataSource {
   Future<Result<List<IssueMarker>, ApiError>> getNearbyIssues(
     double latitude,
     double longitude,
-    double radiusInKm,
-  );
+    double radiusInKm, {
+    LatLngBounds? bounds,
+    int? maxResults,
+  });
 
   Future<Result<IssueModel, ApiError>> getIssueDetails(String issueId);
 
@@ -63,8 +66,10 @@ class IssueRemoteDataSource implements BaseIssueRemoteDataSource {
   Future<Result<List<IssueMarker>, ApiError>> getNearbyIssues(
     double latitude,
     double longitude,
-    double radiusInKm,
-  ) async {
+    double radiusInKm, {
+    LatLngBounds? bounds,
+    int? maxResults,
+  }) async {
     try {
       return await _handleApiCall<List<IssueMarker>>(
         apiCall: () async {
@@ -72,7 +77,12 @@ class IssueRemoteDataSource implements BaseIssueRemoteDataSource {
             GetNearbyIssuesQuery(
               latitude: latitude,
               longitude: longitude,
-              radius: (radiusInKm).toInt(),
+              northEastLat: bounds?.northeast.latitude,
+              northEastLng: bounds?.northeast.longitude,
+              southWestLat: bounds?.southwest.latitude,
+              southWestLng: bounds?.southwest.longitude,
+              maxResults: maxResults,
+              radius: radiusInKm,
             ),
           );
           return result;

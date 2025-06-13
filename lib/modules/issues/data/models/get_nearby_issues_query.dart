@@ -6,14 +6,28 @@ part 'get_nearby_issues_query.g.dart';
 class GetNearbyIssuesQuery {
   final double latitude;
   final double longitude;
-  final int radius;
+  final double radius;
+
+  // Optional viewport parameters
+  final double? northEastLat;
+  final double? northEastLng;
+  final double? southWestLat;
+  final double? southWestLng;
+  final int? maxResults;
+
   GetNearbyIssuesQuery({
     required this.latitude,
     required this.longitude,
     required this.radius,
+    this.northEastLat,
+    this.northEastLng,
+    this.southWestLat,
+    this.southWestLng,
+    this.maxResults,
   });
 
-  Map<String, dynamic> toJson() {
-    return {'latitude': latitude, 'longitude': longitude, 'radius': radius};
-  }
+  factory GetNearbyIssuesQuery.fromJson(Map<String, dynamic> json) =>
+      _$GetNearbyIssuesQueryFromJson(json);
+
+  Map<String, dynamic> toJson() => _$GetNearbyIssuesQueryToJson(this);
 }

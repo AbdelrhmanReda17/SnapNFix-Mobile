@@ -1,11 +1,14 @@
 import 'package:snapnfix/core/index.dart';
-import 'package:snapnfix/modules/reports/data/models/report_model.dart';
 import 'package:snapnfix/modules/reports/data/models/report_statistics_model.dart';
+import 'package:snapnfix/modules/reports/data/models/snap_report_model.dart';
 import 'package:snapnfix/modules/reports/data/models/get_reports_query.dart';
 
 abstract class BaseReportRemoteDataSource {
-  Future<Result<ReportModel, ApiError>> submitReport(ReportModel report);
-  Future<Result<MapEntry<List<ReportModel>, bool>, ApiError>> getUserReports({
+  Future<Result<SnapReportModel, ApiError>> submitReport(
+    SnapReportModel report,
+  );
+  Future<Result<MapEntry<List<SnapReportModel>, bool>, ApiError>>
+  getUserReports({
     String? status,
     String? category,
     int page = 1,
@@ -36,7 +39,9 @@ class ReportRemoteDataSource implements BaseReportRemoteDataSource {
   }
 
   @override
-  Future<Result<ReportModel, ApiError>> submitReport(ReportModel report) async {
+  Future<Result<SnapReportModel, ApiError>> submitReport(
+    SnapReportModel report,
+  ) async {
     try {
       return await _handleApiCall(
         apiCall:
@@ -60,14 +65,15 @@ class ReportRemoteDataSource implements BaseReportRemoteDataSource {
   }
 
   @override
-  Future<Result<MapEntry<List<ReportModel>, bool>, ApiError>> getUserReports({
+  Future<Result<MapEntry<List<SnapReportModel>, bool>, ApiError>>
+  getUserReports({
     String? status,
     String? category,
     int page = 1,
     int limit = 10,
   }) async {
     try {
-      final result = await _handleApiCall<PaginatedResponse<ReportModel>>(
+      final result = await _handleApiCall<PaginatedResponse<SnapReportModel>>(
         apiCall: () async {
           return await _apiService.getUserReports(
             GetReportsQuery(
@@ -80,15 +86,17 @@ class ReportRemoteDataSource implements BaseReportRemoteDataSource {
         },
       );
 
-      return result.when<Result<MapEntry<List<ReportModel>, bool>, ApiError>>(
-        success: (data) {
-          return Result.success(MapEntry(data.items, data.hasNextPage));
-        },
-        failure: (error) {
-          return Result.failure(error);
-        },
-      );
-    } catch (error) {      return Result.failure(
+      return result
+          .when<Result<MapEntry<List<SnapReportModel>, bool>, ApiError>>(
+            success: (data) {
+              return Result.success(MapEntry(data.items, data.hasNextPage));
+            },
+            failure: (error) {
+              return Result.failure(error);
+            },
+          );
+    } catch (error) {
+      return Result.failure(
         ApiError(message: error.toString(), code: 'fetch_reports_error'),
       );
     }

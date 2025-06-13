@@ -26,7 +26,7 @@ class IssueDetailsScreen extends StatelessWidget {
         appBar: AppBar(
           backgroundColor: colorScheme.surface,
           title: Text(
-            localization.issueDetails(issueId),
+            "Issue Details",
             style: TextStyle(color: colorScheme.primary, fontSize: 20.sp),
           ),
           iconTheme: IconThemeData(
@@ -82,12 +82,29 @@ class IssueDetailsScreen extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.only(top: 16.0.h),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           IssueImageSlider(images: issue.images),
+          _buildLocation(issue.road, issue.city, issue.state, issue.country),
           IssueDetails(issue: issue),
           // Expanded(child: IssueDescriptionsList(descriptions: "ARasdasdasd")),
         ],
+      ),
+    );
+  }
+
+  Widget _buildLocation(
+    String road,
+    String city,
+    String state,
+    String country,
+  ) {
+    return Center(
+      child: IssueMarkerDialogDetailItem(
+        icon: Icons.location_on_outlined,
+        text: '$road, $city, $state, $country',
+        iconTextSpacing: 2.w,
+        color: Colors.grey.shade700,
       ),
     );
   }

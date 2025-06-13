@@ -1,9 +1,8 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 import 'package:snapnfix/modules/reports/data/models/offline_report_entity.dart';
-import 'package:snapnfix/modules/reports/data/models/report_model.dart';
+import 'package:snapnfix/modules/reports/data/models/snap_report_model.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:snapnfix/modules/reports/domain/entities/report_severity.dart';
 import 'package:uuid/uuid.dart';
@@ -12,9 +11,9 @@ import 'package:hive_flutter/hive_flutter.dart';
 abstract class BaseReportLocalDataSource {
   Future<void> initialize();
 
-  Future<String> saveReportOffline(ReportModel report);
+  Future<String> saveReportOffline(SnapReportModel report);
 
-  Future<List<ReportModel>> getPendingReports();
+  Future<List<SnapReportModel>> getPendingReports();
 
   Future<void> markReportAsSynced(String reportId);
 
@@ -23,7 +22,7 @@ abstract class BaseReportLocalDataSource {
   Future<File> saveImagePermanently(File imageFile);
 
   // Reactive ValueListenables
-  ValueListenable<List<ReportModel>> watchPendingReports();
+  ValueListenable<List<SnapReportModel>> watchPendingReports();
   ValueListenable<int> watchPendingReportsCount();
 
   // Utility methods
@@ -41,7 +40,7 @@ class ReportLocalDataSource implements BaseReportLocalDataSource {
   Directory? _imagesDirectory;
   final _pendingCountNotifier = ValueNotifier<int>(0);
   // Stream management
-  final _pendingReportsNotifier = ValueNotifier<List<ReportModel>>([]);
+  final _pendingReportsNotifier = ValueNotifier<List<SnapReportModel>>([]);
 
   Box<OfflineReportEntity>? _reportsBox;
 
@@ -101,7 +100,7 @@ class ReportLocalDataSource implements BaseReportLocalDataSource {
   }
 
   @override
-  Future<List<ReportModel>> getPendingReports() async {
+  Future<List<SnapReportModel>> getPendingReports() async {
     try {
       _ensureInitialized();
 
@@ -220,7 +219,7 @@ class ReportLocalDataSource implements BaseReportLocalDataSource {
   }
 
   @override
-  Future<String> saveReportOffline(ReportModel report) async {
+  Future<String> saveReportOffline(SnapReportModel report) async {
     try {
       _ensureInitialized();
 
@@ -259,7 +258,7 @@ class ReportLocalDataSource implements BaseReportLocalDataSource {
   }
 
   @override
-  ValueListenable<List<ReportModel>> watchPendingReports() {
+  ValueListenable<List<SnapReportModel>> watchPendingReports() {
     return _pendingReportsNotifier;
   }
 
@@ -278,8 +277,8 @@ class ReportLocalDataSource implements BaseReportLocalDataSource {
     }
   }
 
-  ReportModel _entityToModel(OfflineReportEntity entity) {
-    return ReportModel(
+  SnapReportModel _entityToModel(OfflineReportEntity entity) {
+    return SnapReportModel(
       id: entity.id,
       imagePath: entity.imagePath,
       details: entity.details,
