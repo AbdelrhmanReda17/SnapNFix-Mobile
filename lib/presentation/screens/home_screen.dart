@@ -10,7 +10,8 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Stack(
-      children: [        ListView(
+      children: [
+        ListView(
           children: [
             const HomeHeader(),
             SizedBox(height: 4.h),

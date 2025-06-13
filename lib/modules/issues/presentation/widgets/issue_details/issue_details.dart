@@ -24,6 +24,7 @@ class IssueDetails extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
+
               Expanded(
                 flex: 5,
                 child: Text(
