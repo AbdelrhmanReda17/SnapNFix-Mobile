@@ -395,11 +395,10 @@
         "type": "String"
       }
     }
-  },
-  "issuesBeingReviewed": "يتم مراجعة مشكلاتك.",
+  },  "issuesBeingReviewed": "يتم مراجعة مشكلاتك.",
   "viewDetails": "عرض التفاصيل",
-  "resolvedReports": "بلاغات تم حلها",
-  "madeDifference": "لقد أحدثت فرقًا!",
+  "approvedReports": "بلاغات معتمدة",
+  "aiRecognized": "الذكاء الاصطناعي تعرف على بلاغاتك!",
   "loading": "جارٍ التحميل...",
   "issue": "مشكلة",
   "issues": "مشكلات",

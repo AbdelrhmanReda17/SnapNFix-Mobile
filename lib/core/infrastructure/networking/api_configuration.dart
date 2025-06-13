@@ -25,10 +25,10 @@ class ApiEndpoints {
   // Social login endpoints
   static const String googleLogin = "api/auth/google/login";
   static const String facebookLogin = "api/auth/facebook/login";
-
   // Reports endpoints
   static const String createSnapReport = "api/SnapReports/create";
   static const String userReports = "api/SnapReports/my-reports";
+  static const String reportStatistics = "api/SnapReports/statistics";
   static const String createFastReport = "api/FastReports/create";
 
   // Issues endpoints
