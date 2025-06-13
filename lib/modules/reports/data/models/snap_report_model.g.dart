@@ -1,12 +1,13 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'report_model.dart';
+part of 'snap_report_model.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-ReportModel _$ReportModelFromJson(Map<String, dynamic> json) => ReportModel(
+SnapReportModel _$SnapReportModelFromJson(Map<String, dynamic> json) =>
+    SnapReportModel(
       id: json['id'] as String?,
       details: json['details'] as String?,
       latitude: (json['latitude'] as num).toDouble(),
@@ -28,10 +29,12 @@ ReportModel _$ReportModelFromJson(Map<String, dynamic> json) => ReportModel(
           ReportStatus.pending,
     );
 
-Map<String, dynamic> _$ReportModelToJson(ReportModel instance) =>
+Map<String, dynamic> _$SnapReportModelToJson(SnapReportModel instance) =>
     <String, dynamic>{
       'id': instance.id,
       'issueId': instance.issueId,
+      'severity': _$ReportSeverityEnumMap[instance.severity],
+      'createdAt': instance.createdAt?.toIso8601String(),
       'details': instance.details,
       'latitude': instance.latitude,
       'longitude': instance.longitude,
@@ -39,10 +42,8 @@ Map<String, dynamic> _$ReportModelToJson(ReportModel instance) =>
       'city': instance.city,
       'state': instance.state,
       'country': instance.country,
-      'createdAt': instance.createdAt?.toIso8601String(),
       'imagePath': instance.imagePath,
       'category': instance.category,
-      'severity': _$ReportSeverityEnumMap[instance.severity],
       'status': _$ReportStatusEnumMap[instance.status],
     };
 

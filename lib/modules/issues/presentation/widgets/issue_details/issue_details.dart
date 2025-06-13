@@ -75,7 +75,9 @@ class IssueDetails extends StatelessWidget {
               Expanded(
                 child: IssueMarkerDialogDetailItem(
                   icon: Icons.location_on_outlined,
-                  text: localization.issueLocation(issue.location),
+                  text: localization.issueLocation(
+                    '${issue.road}, ${issue.city}, ${issue.state}, ${issue.country}',
+                  ),
                   color: colorScheme.secondary,
                   iconTextSpacing: 2.w,
                 ),

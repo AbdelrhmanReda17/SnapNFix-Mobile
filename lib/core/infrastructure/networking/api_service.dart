@@ -73,7 +73,7 @@ abstract class ApiService {
 
   @POST(ApiEndpoints.createSnapReport)
   @MultiPart()
-  Future<ApiResponse<ReportModel>> createSnapReport(
+  Future<ApiResponse<SnapReportModel>> createSnapReport(
     @Part(name: "comment") String comment,
     @Part(name: "severity") String severity,
     @Part(name: "latitude") double latitude,
@@ -91,7 +91,7 @@ abstract class ApiService {
   // );
 
   @GET(ApiEndpoints.userReports)
-  Future<ApiResponse<PaginatedResponse<ReportModel>>> getUserReports(
+  Future<ApiResponse<PaginatedResponse<SnapReportModel>>> getUserReports(
     @Queries() GetReportsQuery query,
   );
 

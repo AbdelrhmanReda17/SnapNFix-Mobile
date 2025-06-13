@@ -4,7 +4,7 @@ import 'package:snapnfix/core/infrastructure/networking/error/api_error.dart';
 import 'package:snapnfix/core/utils/result.dart';
 import 'package:snapnfix/modules/reports/data/datasources/report_local_data_source.dart';
 import 'package:snapnfix/modules/reports/data/datasources/report_remote_data_source.dart';
-import 'package:snapnfix/modules/reports/data/models/report_model.dart';
+import 'package:snapnfix/modules/reports/data/models/snap_report_model.dart';
 import 'package:snapnfix/modules/reports/domain/repositories/base_report_repository.dart';
 
 class ReportRepository implements BaseReportRepository {
@@ -19,7 +19,7 @@ class ReportRepository implements BaseReportRepository {
   );
 
   @override
-  Future<List<ReportModel>> getPendingReports() {
+  Future<List<SnapReportModel>> getPendingReports() {
     try {
       return _localDataSource.getPendingReports();
     } catch (e) {
@@ -33,7 +33,7 @@ class ReportRepository implements BaseReportRepository {
   }
 
   @override
-  Future<Result<String, ApiError>> submitReport(ReportModel report) async {
+  Future<Result<String, ApiError>> submitReport(SnapReportModel report) async {
     try {
       final isConnected = await _connectivityService.isConnected();
       if (!isConnected) {
@@ -107,12 +107,12 @@ class ReportRepository implements BaseReportRepository {
   }
 
   @override
-  ValueListenable<List<ReportModel>> watchPendingReports() {
+  ValueListenable<List<SnapReportModel>> watchPendingReports() {
     return _localDataSource.watchPendingReports();
   }
 
   @override
-  Future<Result<MapEntry<List<ReportModel>, bool>, String>> getUserReports({
+  Future<Result<MapEntry<List<SnapReportModel>, bool>, String>> getUserReports({
     String? status,
     String? category,
     int page = 1,

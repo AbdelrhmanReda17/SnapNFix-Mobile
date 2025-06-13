@@ -1,4 +1,3 @@
-import 'package:snapnfix/modules/issues/data/models/issue_description_model.dart';
 import 'package:snapnfix/modules/issues/domain/entities/issue.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:snapnfix/modules/issues/domain/entities/issue_category.dart';
@@ -21,7 +20,10 @@ class IssueModel extends Issue {
     super.resolvedAt,
     required super.images,
     required super.reportsCount,
-    required super.location,
+    required super.road,
+    required super.city,
+    required super.state,
+    required super.country,
   });
 
   factory IssueModel.fromJson(Map<String, dynamic> json) =>

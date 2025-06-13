@@ -1,6 +1,6 @@
 import 'package:snapnfix/core/infrastructure/networking/error/api_error.dart';
 import 'package:snapnfix/core/utils/result.dart';
-import 'package:snapnfix/modules/reports/data/models/report_model.dart';
+import 'package:snapnfix/modules/reports/data/models/snap_report_model.dart';
 import 'package:snapnfix/modules/reports/domain/entities/report_severity.dart';
 import 'package:snapnfix/modules/reports/domain/repositories/base_report_repository.dart';
 
@@ -26,7 +26,7 @@ class SubmitReportUseCase {
         return Result.failure(ApiError(message: 'Report image is required'));
       }
 
-      final report = ReportModel(
+      final report = SnapReportModel(
         details: details,
         latitude: latitude,
         longitude: longitude,

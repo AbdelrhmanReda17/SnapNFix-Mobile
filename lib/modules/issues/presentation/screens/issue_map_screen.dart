@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:snapnfix/core/index.dart';
 import 'package:snapnfix/modules/issues/index.dart';
+import 'package:snapnfix/modules/issues/presentation/widgets/issues_map.dart';
 
 class IssueMapScreen extends StatefulWidget {
   const IssueMapScreen({super.key});
@@ -39,25 +41,25 @@ class _IssueMapScreenState extends State<IssueMapScreen> {
             debugPrint(
               'IssueMapScreen: Selected issue ID changed: ${state.selectedIssueId}',
             );
-            // showDialog(
-            //   context: context,
-            //   barrierDismissible: true,
-            //   builder:
-            //       (context) => Dialog(
-            //         shape: RoundedRectangleBorder(
-            //           borderRadius: BorderRadius.circular(16),
-            //         ),
-            //         insetPadding: const EdgeInsets.symmetric(horizontal: 16),
-            //         child: IssueMarkerDialog(
-            //           issue: state.selectedIssue!,
-            //           onReportTap: () {
-            //             Navigator.pop(context);
-            //           },
-            //         ),
-            //       ),
-            // ).then((_) {
-            //   _issuesMapCubit.onIssueDetailClosed();
-            // });
+            showDialog(
+              context: context,
+              barrierDismissible: true,
+              builder:
+                  (context) => Dialog(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    insetPadding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: IssueMarkerDialog(
+                      issueId: state.selectedIssueId!,
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                    ),
+                  ),
+            ).then((_) {
+              _issuesMapCubit.onIssueDetailClosed();
+            });
           },
           child: BlocBuilder<IssuesMapCubit, IssuesMapState>(
             builder: (context, state) {
@@ -76,21 +78,32 @@ class _IssueMapScreenState extends State<IssueMapScreen> {
                       markers: state.markers,
                       onMapCreated: _issuesMapCubit.onMapCreated,
                       onCameraMove: _issuesMapCubit.onCameraMove,
+                      onBoundsChange: _issuesMapCubit.onBoundsChanged,
+                      minMaxZoomPreference: state.minMaxZoomPreference,
+                      cameraTargetBounds: state.cameraTargetBounds,
                     ),
-                    // MapControllers(
-                    //   onSearchTap: () => IssueFilterSheet.show(context),
-                    // ),
-                    // if (state.filteredIssues.isNotEmpty) ...[
-                    //   NearbyIssuesSection(
-                    //     issues: state.filteredIssues,
-                    //     onIssueSelected: (issue) async {
-                    //       await _issuesMapCubit.onIssueTapped(
-                    //         issue.latitude,
-                    //         issue.longitude,
-                    //       );
-                    //     },
-                    //   ),
-                    // ],
+
+                    // Location control button
+                    Positioned(
+                      right: 16,
+                      bottom: 100,
+                      child: FloatingActionButton(
+                        heroTag: 'location',
+                        mini: true,
+                        backgroundColor: Colors.white,
+                        child: Icon(
+                          Icons.my_location,
+                          color:
+                              state.isFollowingUser ? Colors.blue : Colors.grey,
+                        ),
+                        onPressed:
+                            () => _getCurrentPosition().then((position) {
+                              if (position != null) {
+                                _issuesMapCubit.centerOnUserLocation(position);
+                              }
+                            }),
+                      ),
+                    ),
                   ],
                 ],
               );
@@ -101,9 +114,19 @@ class _IssueMapScreenState extends State<IssueMapScreen> {
     );
   }
 
+  Future<Position?> _getCurrentPosition() async {
+    try {
+      return await Geolocator.getCurrentPosition();
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Could not get current position')),
+      );
+      return null;
+    }
+  }
+
   @override
   void dispose() {
-    _issuesMapCubit.close();
     super.dispose();
   }
 }

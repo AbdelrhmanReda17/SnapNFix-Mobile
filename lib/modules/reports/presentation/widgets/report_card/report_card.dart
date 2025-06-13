@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:snapnfix/modules/reports/data/models/report_model.dart';
+import 'package:snapnfix/modules/reports/data/models/snap_report_model.dart';
 import 'package:snapnfix/modules/reports/presentation/widgets/report_card/report_content_widget.dart';
 import 'package:snapnfix/modules/reports/presentation/widgets/report_card/report_image_stack.dart';
 
-
 class ReportCard extends StatefulWidget {
-  final ReportModel report;
+  final SnapReportModel report;
 
   const ReportCard({super.key, required this.report});
 
@@ -52,7 +51,6 @@ class _ReportCardState extends State<ReportCard>
 
   @override
   Widget build(BuildContext context) {
-
     return Card(
       elevation: 2,
       clipBehavior: Clip.antiAlias,
@@ -67,7 +65,10 @@ class _ReportCardState extends State<ReportCard>
               children: [
                 // Header with image
                 ReportImageStack(report: widget.report),
-                ReportExpandedContent(report: widget.report, expandAnimation: _expandAnimation),
+                ReportExpandedContent(
+                  report: widget.report,
+                  expandAnimation: _expandAnimation,
+                ),
               ],
             ),
           ),

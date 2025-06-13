@@ -11,8 +11,14 @@ class WatchNearbyIssuesUseCase {
   Stream<Result<List<IssueMarker>, ApiError>> call(
     double latitude,
     double longitude, {
-    double radius = 1.0,
+    double radius = 0.3,
+    int? maxResults,
   }) {
-    return _repository.watchNearbyIssues(latitude, longitude, radius);
+    return _repository.watchNearbyIssues(
+      latitude,
+      longitude,
+      radius,
+      maxResults: maxResults,
+    );
   }
 }

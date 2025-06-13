@@ -3,13 +3,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
 import 'package:snapnfix/core/utils/helpers/spacing.dart';
-import 'package:snapnfix/modules/reports/data/models/report_model.dart';
+import 'package:snapnfix/modules/reports/data/models/snap_report_model.dart';
 import 'package:snapnfix/modules/reports/domain/entities/report_severity.dart';
 import 'package:snapnfix/modules/reports/presentation/widgets/location_display.dart';
 import 'package:snapnfix/presentation/navigation/routes.dart';
 
 class ReportExpandedContent extends StatelessWidget {
-  final ReportModel report;
+  final SnapReportModel report;
   final Animation<double> expandAnimation;
 
   const ReportExpandedContent({

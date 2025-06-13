@@ -14,7 +14,10 @@ class Issue extends Equatable {
   final DateTime? resolvedAt;
   final List<String> images;
   final int reportsCount;
-  final String location;
+  final String road;
+  final String city;
+  final String state;
+  final String country;
 
   const Issue({
     required this.id,
@@ -27,7 +30,10 @@ class Issue extends Equatable {
     this.resolvedAt,
     required this.images,
     required this.reportsCount,
-    required this.location,
+    required this.road,
+    required this.city,
+    required this.state,
+    required this.country,
   });
 
   @override
@@ -42,6 +48,9 @@ class Issue extends Equatable {
     severity,
     images,
     reportsCount,
-    location,
+    road,
+    city,
+    state,
+    country,
   ];
 }

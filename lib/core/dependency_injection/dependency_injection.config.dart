@@ -71,6 +71,8 @@ import '../../modules/issues/domain/usecases/get_area_issues_use_case.dart'
     as _i735;
 import '../../modules/issues/domain/usecases/get_issue_details_use_case.dart'
     as _i39;
+import '../../modules/issues/domain/usecases/get_nearby_issues_use_case.dart'
+    as _i222;
 import '../../modules/issues/domain/usecases/get_user_issues_use_case.dart'
     as _i417;
 import '../../modules/issues/domain/usecases/watch_nearby_issues_use_case.dart'
@@ -161,8 +163,8 @@ extension GetItInjectableX on _i174.GetIt {
     final reportsRepositoryModule = _$ReportsRepositoryModule();
     final issuesUsecaseModule = _$IssuesUsecaseModule();
     final settingsPresentationModule = _$SettingsPresentationModule();
-    final issuesPresentationModule = _$IssuesPresentationModule();
     final authenticationRepositoryModule = _$AuthenticationRepositoryModule();
+    final issuesPresentationModule = _$IssuesPresentationModule();
     final reportsUsecaseModule = _$ReportsUsecaseModule();
     final reportsPresentationModule = _$ReportsPresentationModule();
     final authenticationUseCaseModule = _$AuthenticationUseCaseModule();
@@ -247,6 +249,8 @@ extension GetItInjectableX on _i174.GetIt {
             ));
     gh.lazySingleton<_i381.WatchNearbyIssuesUseCase>(() => issuesUsecaseModule
         .provideWatchNearbyIssuesUseCase(gh<_i185.BaseIssueRepository>()));
+    gh.lazySingleton<_i222.GetNearbyIssuesUseCase>(() => issuesUsecaseModule
+        .provideGetNearbyIssuesUseCase(gh<_i185.BaseIssueRepository>()));
     gh.lazySingleton<_i39.GetIssueDetailsUseCase>(() => issuesUsecaseModule
         .provideGetIssueDetailsUseCase(gh<_i185.BaseIssueRepository>()));
     gh.lazySingleton<_i417.GetUserIssuesUseCase>(() => issuesUsecaseModule
@@ -257,13 +261,16 @@ extension GetItInjectableX on _i174.GetIt {
         .provideEditProfileCubit(gh<_i182.EditProfileUseCase>()));
     gh.factory<_i967.ChangePasswordCubit>(() => settingsPresentationModule
         .provideChangePasswordCubit(gh<_i281.ChangePasswordUseCase>()));
-    gh.factory<_i240.IssuesMapCubit>(() => issuesPresentationModule
-        .provideIssuesMapCubit(gh<_i381.WatchNearbyIssuesUseCase>()));
     gh.singleton<_i668.BaseAuthenticationRepository>(
         () => authenticationRepositoryModule.provideAuthRepository(
               gh<_i771.BaseAuthenticationRemoteDataSource>(),
               gh<_i600.BaseSocialAuthenticationService>(),
               gh<_i420.ApplicationConfigurations>(),
+            ));
+    gh.factory<_i240.IssuesMapCubit>(
+        () => issuesPresentationModule.provideIssuesMapCubit(
+              gh<_i222.GetNearbyIssuesUseCase>(),
+              gh<_i381.WatchNearbyIssuesUseCase>(),
             ));
     gh.lazySingleton<_i628.SubmitReportUseCase>(() => reportsUsecaseModule
         .provideSubmitReportUseCase(gh<_i515.BaseReportRepository>()));
@@ -350,10 +357,10 @@ class _$IssuesUsecaseModule extends _i528.IssuesUsecaseModule {}
 
 class _$SettingsPresentationModule extends _i247.SettingsPresentationModule {}
 
-class _$IssuesPresentationModule extends _i519.IssuesPresentationModule {}
-
 class _$AuthenticationRepositoryModule
     extends _i361.AuthenticationRepositoryModule {}
+
+class _$IssuesPresentationModule extends _i519.IssuesPresentationModule {}
 
 class _$ReportsUsecaseModule extends _i873.ReportsUsecaseModule {}
 

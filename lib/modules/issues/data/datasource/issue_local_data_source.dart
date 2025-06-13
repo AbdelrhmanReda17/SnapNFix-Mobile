@@ -1,16 +1,19 @@
 import 'dart:convert';
 import 'dart:math';
 import 'package:snapnfix/core/infrastructure/storage/shared_preferences_service.dart';
+import 'package:snapnfix/modules/issues/data/models/markers.dart';
 import '../models/issue_model.dart';
 
 abstract class BaseIssueLocalDataSource {
-  Future<List<IssueModel>> getNearbyIssues(
+  Future<List<IssueMarker>> getNearbyIssues(
     double latitude,
     double longitude,
     double radiusInKm,
   );
 
   Future<IssueModel?> getIssueById(String id);
+
+  Future<bool> isIssueFresh(String id);
 
   Future<void> cacheIssue(IssueModel issue);
 
@@ -26,12 +29,14 @@ class IssueLocalDataSource implements BaseIssueLocalDataSource {
 
   static const Duration _cacheValidDuration = Duration(hours: 1);
   static const String _issuesKey = 'cached_issues';
+  static const String _issueTimestampsKey = 'cached_issue_timestamps';
 
   final SharedPreferencesService _prefs;
 
   @override
   Future<void> cacheIssue(IssueModel issue) async {
     try {
+      // Cache the issue data
       final cachedData = _prefs.getString(_issuesKey);
       final Map<String, dynamic> cachedIssuesMap;
 
@@ -57,10 +62,38 @@ class IssueLocalDataSource implements BaseIssueLocalDataSource {
       }
 
       await _prefs.setString(_issuesKey, json.encode(cachedIssuesMap));
+
+      // Store individual issue timestamp
+      final timestamps = _getTimestampsMap();
+      timestamps[issue.id] = DateTime.now().toIso8601String();
+      await _prefs.setString(_issueTimestampsKey, json.encode(timestamps));
     } catch (e) {
       // Handle cache error
       print('Cache error: $e');
     }
+  }
+
+  @override
+  Future<bool> isIssueFresh(String id) async {
+    try {
+      final timestamps = _getTimestampsMap();
+      final timestamp = timestamps[id];
+
+      if (timestamp == null) return false;
+
+      final cachedTime = DateTime.parse(timestamp);
+      return DateTime.now().difference(cachedTime) <= _cacheValidDuration;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  Map<String, dynamic> _getTimestampsMap() {
+    final timestampsString = _prefs.getString(_issueTimestampsKey);
+    if (timestampsString == '') {
+      return {};
+    }
+    return json.decode(timestampsString) as Map<String, dynamic>;
   }
 
   @override
@@ -72,6 +105,16 @@ class IssueLocalDataSource implements BaseIssueLocalDataSource {
       };
 
       await _prefs.setString(_issuesKey, json.encode(cachedData));
+
+      // Update individual timestamps
+      final timestamps = _getTimestampsMap();
+      final now = DateTime.now().toIso8601String();
+
+      for (final issue in issues) {
+        timestamps[issue.id] = now;
+      }
+
+      await _prefs.setString(_issueTimestampsKey, json.encode(timestamps));
     } catch (e) {
       print('Cache error: $e');
     }
@@ -80,6 +123,7 @@ class IssueLocalDataSource implements BaseIssueLocalDataSource {
   @override
   Future<void> clearCache() async {
     await _prefs.remove(_issuesKey);
+    await _prefs.remove(_issueTimestampsKey);
   }
 
   @override
@@ -103,7 +147,7 @@ class IssueLocalDataSource implements BaseIssueLocalDataSource {
   }
 
   @override
-  Future<List<IssueModel>> getNearbyIssues(
+  Future<List<IssueMarker>> getNearbyIssues(
     double latitude,
     double longitude,
     double radiusInKm,
@@ -125,15 +169,21 @@ class IssueLocalDataSource implements BaseIssueLocalDataSource {
           (cachedIssuesMap['issues'] as List)
               .map((issueJson) => IssueModel.fromJson(issueJson))
               .where((issue) {
-                // Filter issues within the radius
                 final distance = _calculateDistance(
                   latitude,
                   longitude,
                   issue.latitude,
                   issue.longitude,
                 );
-                return distance <= radiusInKm ; // Convert km to meters
+                return distance <= radiusInKm * 1000;
               })
+              .map(
+                (issue) => IssueMarker(
+                  issueId: issue.id,
+                  latitude: issue.latitude,
+                  longitude: issue.longitude,
+                ),
+              )
               .toList();
 
       return issues;
