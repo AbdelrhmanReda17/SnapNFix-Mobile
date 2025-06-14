@@ -9,6 +9,7 @@ class GoogleLoginRequest {
   String? deviceType;
   String? deviceName;
   String? platform;
+  String? fcmToken;
 
   GoogleLoginRequest({required this.idToken});
 
@@ -18,6 +19,7 @@ class GoogleLoginRequest {
     this.deviceType,
     this.deviceName,
     this.platform,
+    this.fcmToken,
   });
 
   factory GoogleLoginRequest.fromJson(Map<String, dynamic> json) =>

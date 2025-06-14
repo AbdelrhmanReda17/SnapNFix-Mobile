@@ -16,7 +16,8 @@ RegisterRequest _$RegisterRequestFromJson(Map<String, dynamic> json) =>
       ..deviceId = json['deviceId'] as String?
       ..deviceType = json['deviceType'] as String?
       ..deviceName = json['deviceName'] as String?
-      ..platform = json['platform'] as String?;
+      ..platform = json['platform'] as String?
+      ..fcmToken = json['fcmToken'] as String?;
 
 Map<String, dynamic> _$RegisterRequestToJson(RegisterRequest instance) =>
     <String, dynamic>{
@@ -28,4 +29,5 @@ Map<String, dynamic> _$RegisterRequestToJson(RegisterRequest instance) =>
       'deviceType': instance.deviceType,
       'deviceName': instance.deviceName,
       'platform': instance.platform,
+      'fcmToken': instance.fcmToken,
     };

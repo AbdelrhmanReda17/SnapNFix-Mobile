@@ -6,12 +6,14 @@ class DeviceInfoService {
   String deviceName;
   String deviceType;
   String platform;
+  String? fcmToken; // Add FCM token
 
   DeviceInfoService({
     required this.deviceId,
     required this.deviceName,
     required this.deviceType,
     required this.platform,
+    this.fcmToken, // Add FCM token parameter
   });
 
   Future<void> initializeDeviceInfo() async {
@@ -32,5 +34,10 @@ class DeviceInfoService {
     } else {
       throw UnsupportedError('Unsupported platform');
     }
+  }
+
+  /// Update FCM token
+  void updateFCMToken(String? newToken) {
+    fcmToken = newToken;
   }
 }

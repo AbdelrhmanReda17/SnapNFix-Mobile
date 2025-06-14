@@ -139,6 +139,8 @@ import '../infrastructure/device_info/di/device_info_module.dart' as _i984;
 import '../infrastructure/location/di/location_module.dart' as _i699;
 import '../infrastructure/location/location_permission_handler.dart' as _i658;
 import '../infrastructure/location/location_service.dart' as _i636;
+import '../infrastructure/messaging/di/fcm_module.dart' as _i727;
+import '../infrastructure/messaging/fcm_service.dart' as _i458;
 import '../infrastructure/networking/api_service.dart' as _i666;
 import '../infrastructure/networking/di/manager_module.dart' as _i441;
 import '../infrastructure/networking/di/network_module.dart' as _i358;
@@ -159,11 +161,12 @@ extension GetItInjectableX on _i174.GetIt {
       environment,
       environmentFilter,
     );
-    final deviceInfoModule = _$DeviceInfoModule();
+    final fCMModule = _$FCMModule();
     final networkModule = _$NetworkModule();
     final reportsDataModule = _$ReportsDataModule();
     final authenticationDataModule = _$AuthenticationDataModule();
     final locationModule = _$LocationModule();
+    final deviceInfoModule = _$DeviceInfoModule();
     final issuesDataModule = _$IssuesDataModule();
     final managerModule = _$ManagerModule();
     final settingsDataModule = _$SettingsDataModule();
@@ -182,11 +185,8 @@ extension GetItInjectableX on _i174.GetIt {
         _$AuthenticationPresentationModule();
     gh.singleton<_i1041.ConnectivityService>(
         () => _i1041.ConnectivityService());
-    await gh.singletonAsync<_i871.DeviceInfoService>(
-      () => deviceInfoModule.provideDeviceInfoService(),
-      preResolve: true,
-    );
     gh.singleton<_i636.LocationService>(() => _i636.LocationService());
+    gh.singleton<_i458.FCMService>(() => fCMModule.provideFCMService());
     gh.singleton<_i361.Dio>(() => networkModule.provideDio());
     gh.singleton<_i783.SecureStorageService>(
         () => _i783.SecureStorageService());
@@ -210,6 +210,10 @@ extension GetItInjectableX on _i174.GetIt {
               gh<_i986.SharedPreferencesService>(),
               gh<_i986.SecureStorageService>(),
             ));
+    await gh.singletonAsync<_i871.DeviceInfoService>(
+      () => deviceInfoModule.provideDeviceInfoService(gh<_i458.FCMService>()),
+      preResolve: true,
+    );
     gh.lazySingleton<_i912.BaseIssueLocalDataSource>(() => issuesDataModule
         .provideIssueLocalDataSource(gh<_i835.SharedPreferencesService>()));
     gh.singleton<_i990.BaseTokenManager>(() => managerModule
@@ -350,7 +354,7 @@ extension GetItInjectableX on _i174.GetIt {
   }
 }
 
-class _$DeviceInfoModule extends _i984.DeviceInfoModule {}
+class _$FCMModule extends _i727.FCMModule {}
 
 class _$NetworkModule extends _i358.NetworkModule {}
 
@@ -359,6 +363,8 @@ class _$ReportsDataModule extends _i922.ReportsDataModule {}
 class _$AuthenticationDataModule extends _i65.AuthenticationDataModule {}
 
 class _$LocationModule extends _i699.LocationModule {}
+
+class _$DeviceInfoModule extends _i984.DeviceInfoModule {}
 
 class _$IssuesDataModule extends _i962.IssuesDataModule {}
 

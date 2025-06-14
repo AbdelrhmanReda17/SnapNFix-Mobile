@@ -53,11 +53,11 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyDROofL_kBvqbbISeHkv4vI7KSjafnHgQk',
-    appId: '1:769076416298:android:af06beb46470b8f8979853',
-    messagingSenderId: '769076416298',
-    projectId: 'snapnfix-mobile',
-    storageBucket: 'snapnfix-mobile.firebasestorage.app',
+    apiKey: 'AIzaSyDefXK39qaVTxTd0h7qa6QvOFSlmVK6OK4',
+    appId: '1:1091073399966:android:e7b45d2f2bcb636e7baf8f',
+    messagingSenderId: '1091073399966',
+    projectId: 'snapnfix-7a5e7',
+    databaseURL: 'https://snapnfix-7a5e7-default-rtdb.firebaseio.com',
+    storageBucket: 'snapnfix-7a5e7.firebasestorage.app',
   );
-
 }
