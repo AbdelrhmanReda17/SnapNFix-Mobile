@@ -3,12 +3,15 @@ import 'dart:io';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:injectable/injectable.dart';
 import 'package:snapnfix/core/infrastructure/device_info/device_info_service.dart';
+import 'package:snapnfix/core/infrastructure/messaging/fcm_service.dart';
 
 @module
 abstract class DeviceInfoModule {
   @preResolve
   @singleton
-  Future<DeviceInfoService> provideDeviceInfoService() async {
+  Future<DeviceInfoService> provideDeviceInfoService(
+    FCMService fcmService,
+  ) async {
     final deviceInfo = DeviceInfoPlugin();
 
     String deviceId = '';
@@ -37,11 +40,15 @@ abstract class DeviceInfoModule {
       platform = Platform.operatingSystem;
     }
 
+    // Get FCM token once during initialization
+    final fcmToken = await fcmService.getCachedToken();
+
     return DeviceInfoService(
       deviceId: deviceId,
       deviceName: deviceName,
       deviceType: deviceType,
       platform: platform,
+      fcmToken: fcmToken,
     );
   }
 }

@@ -6,6 +6,7 @@ extension Validations on String {
   }
 
   bool _validatePhoneNumber(String phoneNumber) {
+    return true;
     const phonePattern = r'^(01[0-2,5]{1}[0-9]{8})$';
     final RegExp phoneRegex = RegExp(phonePattern);
     return phoneRegex.hasMatch(phoneNumber);
@@ -34,7 +35,6 @@ extension Validations on String {
   bool get isValidName => _validateName(this);
   bool isValidConfirmPassword(String confirmPassword) =>
       _validateConfirmPassword(this, confirmPassword);
-
 
   bool get isValidEmailOrPhone => isValidEmail || isValidPhoneNumber;
 

@@ -18,7 +18,6 @@ class AreaIssuesChatScreen extends StatelessWidget {
     final colorScheme = Theme.of(context).colorScheme;
     final heroTag = 'area-hero-$area'; // Generate tag based on area name
 
-    // Mock health metrics for the area - in a real app, these would come from a service
     final healthScore = _getAreaHealthScore(area);
     final openIssues = _getAreaOpenIssuesCount(area);
     final fixedThisMonth = _getAreaFixedThisMonth(area);

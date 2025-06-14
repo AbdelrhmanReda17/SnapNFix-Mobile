@@ -14,7 +14,8 @@ FacebookLoginRequest _$FacebookLoginRequestFromJson(
       ..deviceId = json['deviceId'] as String?
       ..deviceType = json['deviceType'] as String?
       ..deviceName = json['deviceName'] as String?
-      ..platform = json['platform'] as String?;
+      ..platform = json['platform'] as String?
+      ..fcmToken = json['fcmToken'] as String?;
 
 Map<String, dynamic> _$FacebookLoginRequestToJson(
         FacebookLoginRequest instance) =>
@@ -24,4 +25,5 @@ Map<String, dynamic> _$FacebookLoginRequestToJson(
       'deviceType': instance.deviceType,
       'deviceName': instance.deviceName,
       'platform': instance.platform,
+      'fcmToken': instance.fcmToken,
     };

@@ -13,7 +13,8 @@ GoogleLoginRequest _$GoogleLoginRequestFromJson(Map<String, dynamic> json) =>
       ..deviceId = json['deviceId'] as String?
       ..deviceType = json['deviceType'] as String?
       ..deviceName = json['deviceName'] as String?
-      ..platform = json['platform'] as String?;
+      ..platform = json['platform'] as String?
+      ..fcmToken = json['fcmToken'] as String?;
 
 Map<String, dynamic> _$GoogleLoginRequestToJson(GoogleLoginRequest instance) =>
     <String, dynamic>{
@@ -22,4 +23,5 @@ Map<String, dynamic> _$GoogleLoginRequestToJson(GoogleLoginRequest instance) =>
       'deviceType': instance.deviceType,
       'deviceName': instance.deviceName,
       'platform': instance.platform,
+      'fcmToken': instance.fcmToken,
     };

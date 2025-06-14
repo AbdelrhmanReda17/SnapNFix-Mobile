@@ -5,6 +5,7 @@ import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:injectable/injectable.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:snapnfix/core/config/application_configurations.dart';
+import 'package:snapnfix/core/infrastructure/messaging/fcm_service.dart';
 import 'package:snapnfix/core/infrastructure/networking/http_client_factory.dart';
 import 'package:snapnfix/core/infrastructure/storage/shared_preferences_service.dart';
 import 'package:snapnfix/modules/reports/data/datasources/report_local_data_source.dart';
@@ -50,7 +51,6 @@ Future<void> configureDependencies() async {
 
 Future<void> _setupHydratedStorageDirectory() async {
   try {
-    
     final path = (await getTemporaryDirectory()).path;
     debugPrint('Setting up HydratedStorage at: $path');
     HydratedBloc.storage = await HydratedStorage.build(
@@ -83,6 +83,12 @@ Future<void> _initializeServices() async {
       final reportLocalDataSource = getIt<BaseReportLocalDataSource>();
       await reportLocalDataSource.initialize();
       debugPrint('✅ Report local data source initialized');
+    }
+
+    if (getIt.isRegistered<FCMService>()) {
+      final fcmService = getIt<FCMService>();
+      await fcmService.initialize();
+      debugPrint('✅ FCMService initialized');
     }
   } catch (e) {
     debugPrint('❌ Error initializing services: $e');

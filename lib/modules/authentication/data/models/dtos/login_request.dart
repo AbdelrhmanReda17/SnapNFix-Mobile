@@ -10,6 +10,7 @@ class LoginRequest {
   String? deviceType;
   String? deviceName;
   String? platform;
+  String? fcmToken;
 
   LoginRequest({required this.emailOrPhoneNumber, required this.password});
 
@@ -20,6 +21,7 @@ class LoginRequest {
     this.deviceType,
     this.deviceName,
     this.platform,
+    this.fcmToken,
   });
 
   factory LoginRequest.fromJson(Map<String, dynamic> json) =>

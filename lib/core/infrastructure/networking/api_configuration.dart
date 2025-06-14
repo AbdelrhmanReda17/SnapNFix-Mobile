@@ -34,9 +34,15 @@ class ApiEndpoints {
   // Issues endpoints
   static const String getNearbyIssues = "api/issue/get-nearby-issues";
   static const String getIssueById = "api/issue/{id}";
-  static const String getIssueFastReport = "api/issue/{id}/snapreports";
-  static const String getIssueSnapReport = "api/issue/{id}/fastreports";
+  static const String getIssueSnapReport = "api/issue/{id}/snapreports";
+  static const String getIssueFastReport = "api/issue/{id}/fastreports";
   static const String getUserIssues = "api/issue/get-user-issues";
+
+  // Area updates endpoints
+  static const String getAreaIssues = "api/area-issues/{areaName}";
+  static const String getAreaHealth = "api/area-health/{areaName}";
+  static const String getSubscribedAreas = "api/area-issues/subscribed-areas";
+  static const String subscribeToArea = "api/area-issues/subscribe";
 }
 
 /// Network configuration constants
