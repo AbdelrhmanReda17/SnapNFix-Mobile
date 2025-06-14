@@ -12,11 +12,9 @@ class AreaIssuesChatScreen extends StatelessWidget {
 
   AreaIssuesChatScreen({String? area, Map<String, dynamic>? extra, super.key})
     : area = area ?? extra?['area'] as String;
-
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
-    final heroTag = 'area-hero-$area'; // Generate tag based on area name
 
     final healthScore = _getAreaHealthScore(area);
     final openIssues = _getAreaOpenIssuesCount(area);
@@ -30,35 +28,13 @@ class AreaIssuesChatScreen extends StatelessWidget {
             areaName: area,
             getAreaIssuesUseCase: getIt<GetAreaIssuesUseCase>(),
           ),
-      child: Scaffold(
-        appBar: AppBar(
+      child: Scaffold(        appBar: AppBar(
           title: Row(
             children: [
-              Hero(
-                tag: heroTag,
-                child: Container(
-                  width: 40.w,
-                  height: 40.w,
-                  decoration: BoxDecoration(
-                    gradient: RadialGradient(
-                      center: Alignment.center,
-                      radius: 0.8.r,
-                      colors: [const Color(0xFF23576D), colorScheme.primary],
-                      stops: const [0.0, 1.0],
-                    ),
-                    shape: BoxShape.circle,
-                  ),
-                  child: Center(
-                    child: Text(
-                      area[0],
-                      style: TextStyle(
-                        fontSize: 18.sp,
-                        fontWeight: FontWeight.bold,
-                        color: colorScheme.onPrimary,
-                      ),
-                    ),
-                  ),
-                ),
+              Icon(
+                Icons.home_work,
+                color: colorScheme.primary,
+                size: 24.sp,
               ),
               SizedBox(width: 12.w),
               Text(
@@ -67,7 +43,6 @@ class AreaIssuesChatScreen extends StatelessWidget {
               ),
             ],
           ),
-          // Removed the analytics icon action
         ),
         body: Column(
           children: [

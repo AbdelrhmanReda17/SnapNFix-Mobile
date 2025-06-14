@@ -54,10 +54,9 @@ class AreaUpdatesSectionContent extends StatelessWidget {
             builder: (context, state) {
               return AnimatedSwitcher(
                 duration: const Duration(milliseconds: 300),
-                child:
-                    state.areas.isEmpty
-                        ? _buildEmptyState(colorScheme)
-                        : _buildAreaCards(context, state, colorScheme),
+                child: state.areas.isEmpty
+                    ? _buildEmptyState(colorScheme)
+                    : _buildAreaCards(context, state, colorScheme),
               );
             },
           ),
@@ -95,122 +94,141 @@ class AreaUpdatesSectionContent extends StatelessWidget {
     ColorScheme colorScheme,
   ) {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 16.w),
-      child: MasonryGridView.count(
-        crossAxisCount: 2,
-        mainAxisSpacing: 16.h,
-        crossAxisSpacing: 16.w,
-        shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
-        itemCount: state.areas.length,
-        itemBuilder: (context, index) {
-          final area = state.areas[index];
-          final isSelected =
-              area.key == state.selectedArea; // Fixed: compare with area.key
+    final screenWidth = MediaQuery.of(context).size.width;    // Calculate responsive grid based on screen width
+    int crossAxisCount = 2;
+    double cardSpacing = 8.w;
 
-          // Create different card heights for visual interest
-          final isEven = index % 2 == 0;
-          final cardHeight = isEven ? 80.h : 95.h;
+    if (screenWidth > 600) {
+      crossAxisCount = 3;
+      cardSpacing = 10.w;
+    } else if (screenWidth < 380) {
+      crossAxisCount = 1;
+      cardSpacing = 12.w;
+    }
 
-          // Get area icon based on name
-          final IconData areaIcon = Icons.apartment;
+    return ConstrainedBox(
+      constraints: BoxConstraints(
+          maxHeight: MediaQuery.of(context).size.height * 0.6),
+      child: SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 16.w),
+          child: MasonryGridView.count(
+            crossAxisCount: crossAxisCount,
+            mainAxisSpacing: cardSpacing,
+            crossAxisSpacing: cardSpacing,
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            itemCount: state.areas.length,
+            itemBuilder: (context, index) {
+              final area = state.areas[index];
+              final isSelected = area.key == state.selectedArea;              // Dynamic but controlled card height with more compact spacing
+              final baseHeight = 75.h;
+              final maxHeight = 90.h;
+              final calculatedHeight = baseHeight + (index % 3 * 5.h);
+              final cardHeight = calculatedHeight.clamp(baseHeight, maxHeight);// Use consistent icon for all areas
+              final IconData areaIcon = Icons.home_work;
 
-          return Material(
-            color: Colors.transparent,
-            child: InkWell(
-              onTap: () {
-                context.read<AreaUpdatesCubit>().selectArea(
-                  area.key,
-                ); // Use area.key
-                context.push(Routes.areaIssuesChat, extra: area.key);
-              },
-              borderRadius: BorderRadius.circular(16.r),
-              child: AnimatedContainer(
-                duration: const Duration(milliseconds: 300),
-                height: cardHeight,
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                    colors:
-                        isSelected
-                            ? [
-                              colorScheme.secondary,
-                              colorScheme.secondaryContainer,
-                            ]
-                            : [
-                              colorScheme.surfaceContainerHighest,
-                              colorScheme.surface,
-                            ],
-                  ),
+              return Material(
+                color: Colors.transparent,
+                child: InkWell(
+                  onTap: () {
+                    context.read<AreaUpdatesCubit>().selectArea(area.key);
+                    context.push(Routes.areaIssuesChat, extra: area.key);
+                  },
                   borderRadius: BorderRadius.circular(16.r),
-                  boxShadow: [
-                    BoxShadow(
-                      color: colorScheme.shadow.withValues(
-                        alpha: isDarkMode ? 0.3 : 0.1,
+                  child: AnimatedContainer(
+                    duration: const Duration(milliseconds: 300),
+                    height: cardHeight,
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                        colors: isSelected
+                            ? [
+                                colorScheme.secondary,
+                                colorScheme.secondaryContainer,
+                              ]
+                            : [
+                                colorScheme.surfaceContainerHighest,
+                                colorScheme.surface,
+                              ],
                       ),
-                      spreadRadius: isDarkMode ? 1 : 2,
-                      blurRadius: isDarkMode ? 3 : 8,
-                      offset: Offset(0, isDarkMode ? 2 : 3),
-                    ),
-                  ],
-                ),
-                padding: EdgeInsets.all(16.r),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Icon(
-                          areaIcon,
-                          color:
-                              isSelected ? Colors.white : colorScheme.primary,
-                          size: 24.sp,
-                        ),
-                        Container(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: 8.w,
-                            vertical: 4.h,
+                      borderRadius: BorderRadius.circular(16.r),
+                      boxShadow: [
+                        BoxShadow(
+                          color: colorScheme.shadow.withValues(
+                            alpha: isDarkMode ? 0.3 : 0.1,
                           ),
-                          decoration: BoxDecoration(
-                            color:
-                                isSelected
-                                    ? Colors.white.withOpacity(0.2)
-                                    : colorScheme.primaryContainer,
-                            borderRadius: BorderRadius.circular(12.r),
-                          ),
-                          child: Text(
-                            area.value,
-                            style: TextStyle(
-                              fontSize: 14.sp,
-                              fontWeight: FontWeight.bold,
-                              color:
-                                  isSelected
-                                      ? Colors.white
-                                      : colorScheme.onPrimaryContainer,
-                            ),
-                          ),
+                          spreadRadius: isDarkMode ? 1 : 2,
+                          blurRadius: isDarkMode ? 3 : 8,
+                          offset: Offset(0, isDarkMode ? 2 : 3),
                         ),
                       ],
+                    ),                    padding: EdgeInsets.all(12.r),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        // Top row with icon and badge
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [                            Icon(
+                              areaIcon,
+                              color: isSelected
+                                  ? Colors.white
+                                  : colorScheme.primary,
+                              size: 20.sp,
+                            ),
+                            if (area.value.isNotEmpty)
+                              Container(                                padding: EdgeInsets.symmetric(
+                                  horizontal: 6.w,
+                                  vertical: 2.h,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: isSelected
+                                      ? Colors.white.withOpacity(0.2)
+                                      : colorScheme.primaryContainer,
+                                  borderRadius: BorderRadius.circular(8.r),
+                                ),
+                                child: Text(
+                                  area.value,
+                                  style: TextStyle(
+                                    fontSize: 10.sp,
+                                    fontWeight: FontWeight.w600,
+                                    color: isSelected
+                                        ? Colors.white
+                                        : colorScheme.onPrimaryContainer,
+                                  ),
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 1,
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                          ],
+                        ),                        // Area name with reduced spacing
+                        Padding(
+                          padding: EdgeInsets.only(top: 4.h),
+                          child: Text(
+                            area.key,
+                            style: TextStyle(
+                              fontSize: 13.sp,
+                              fontWeight: FontWeight.bold,
+                              color: isSelected
+                                  ? Colors.white
+                                  : colorScheme.onSurface,
+                              height: 1.2,
+                            ),
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 2,
+                          ),                        ),
+                      ],
                     ),
-                    const Spacer(),
-                    Text(
-                      area.key,
-                      style: TextStyle(
-                        fontSize: 16.sp,
-                        fontWeight: FontWeight.bold,
-                        color:
-                            isSelected ? Colors.white : colorScheme.onSurface,
-                      ),
-                    ),
-                  ],
+                  ),
                 ),
-              ),
-            ),
-          );
-        },
+              );
+            },
+          ),
+        ),
       ),
     );
   }
