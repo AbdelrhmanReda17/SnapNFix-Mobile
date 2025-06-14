@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 extension Validations on String {
   bool _validateEmail(String email) {
     const emailPattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$';
@@ -29,6 +31,19 @@ extension Validations on String {
     return fullNameRegex.hasMatch(fullName);
   }
 
+  String? validateReportDescription(BuildContext context) {
+    final localization = AppLocalizations.of(context)!;
+    if (isEmpty) {
+      // return localization.reportDescriptionRequired;
+      return "Report description is required";
+    }
+    if (length < 10) {
+      // return localization.reportDescriptionMinLength;
+      return "Report description must be at least 10 characters long";
+    }
+    return null;
+  }
+
   bool get isValidEmail => _validateEmail(this);
   bool get isValidPhoneNumber => _validatePhoneNumber(this);
   bool get isValidPassword => _validatePassword(this);
@@ -39,4 +54,6 @@ extension Validations on String {
   bool get isValidEmailOrPhone => isValidEmail || isValidPhoneNumber;
 
   bool get isNotEmpty => this.isNotEmpty;
+
+  bool get isValidReportDescription => isNotEmpty && length >= 10;
 }

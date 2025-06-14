@@ -3,10 +3,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
 import 'package:snapnfix/core/utils/helpers/spacing.dart';
+import 'package:snapnfix/modules/issues/domain/entities/issue_severity.dart';
 import 'package:snapnfix/modules/reports/data/models/snap_report_model.dart';
 import 'package:snapnfix/modules/reports/domain/entities/report_severity.dart';
 import 'package:snapnfix/modules/reports/presentation/widgets/location_display.dart';
 import 'package:snapnfix/presentation/navigation/routes.dart';
+import 'package:snapnfix/presentation/widgets/issue_severity_icons_indicator.dart';
 
 class ReportExpandedContent extends StatelessWidget {
   final SnapReportModel report;
@@ -42,17 +44,27 @@ class ReportExpandedContent extends StatelessWidget {
             ],
           ),
           verticalSpace(4),
-          if (report.severity != null)
-            Text(
-              localization.reportSeverity(
-                _getSeverityText(report.severity!, localization),
-              ),
-              style: theme.textTheme.bodySmall?.copyWith(
-                color: report.severity!.color,
-                fontWeight: FontWeight.w500,
-              ),
+          if (report.severity != null) ...[
+            Row(
+              children: [
+                Text(
+                  localization.reportSeverity(''),
+                  style: theme.textTheme.bodySmall?.copyWith(
+                    color: colorScheme.onSurfaceVariant,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                horizontalSpace(8),
+                IssueSeverityIconsIndicator(
+                  severity: _mapReportSeverityToIssueSeverity(report.severity!),
+                  iconSize: 16,
+                  showLabel: true,
+                  spacing: 6,
+                ),
+              ],
             ),
-          verticalSpace(4),
+            verticalSpace(8),
+          ],
           SizeTransition(
             sizeFactor: expandAnimation,
             child: Column(
@@ -91,14 +103,11 @@ class ReportExpandedContent extends StatelessWidget {
     );
   }
 
-  String _getSeverityText(
-    ReportSeverity severity,
-    AppLocalizations localization,
-  ) {
+  IssueSeverity _mapReportSeverityToIssueSeverity(ReportSeverity severity) {
     return switch (severity) {
-      ReportSeverity.low => localization.severityLow,
-      ReportSeverity.medium => localization.severityMedium,
-      ReportSeverity.high => localization.severityHigh,
+      ReportSeverity.low => IssueSeverity.low,
+      ReportSeverity.medium => IssueSeverity.medium,
+      ReportSeverity.high => IssueSeverity.high,
     };
   }
 }

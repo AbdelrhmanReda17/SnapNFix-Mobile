@@ -45,7 +45,7 @@ Map<String, dynamic> _$IssueModelToJson(IssueModel instance) =>
     };
 
 const _$IssueSeverityEnumMap = {
-  IssueSeverity.unspecified: 'unspecified',
+  IssueSeverity.notSpecified: 'notSpecified',
   IssueSeverity.low: 'low',
   IssueSeverity.medium: 'medium',
   IssueSeverity.high: 'high',

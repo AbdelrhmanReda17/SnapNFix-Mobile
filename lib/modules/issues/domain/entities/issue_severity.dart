@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 enum IssueSeverity {
-  unspecified(
-    displayName: 'Unspecified',
+  notSpecified(
+    displayName: 'NotSpecified',
     color: Color(0xFF9E9E9E),
     icon: Icons.priority_high,
   ),

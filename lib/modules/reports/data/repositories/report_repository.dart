@@ -7,6 +7,7 @@ import 'package:snapnfix/modules/reports/data/datasources/report_remote_data_sou
 import 'package:snapnfix/modules/reports/data/models/fast_report_model.dart';
 import 'package:snapnfix/modules/reports/data/models/report_statistics_model.dart';
 import 'package:snapnfix/modules/reports/data/models/snap_report_model.dart';
+import 'package:snapnfix/modules/reports/domain/entities/report_severity.dart';
 import 'package:snapnfix/modules/reports/domain/repositories/base_report_repository.dart';
 
 class ReportRepository implements BaseReportRepository {
@@ -75,6 +76,36 @@ class ReportRepository implements BaseReportRepository {
       }
     }
   }
+
+  @override
+  Future<Result<bool, ApiError>> submitFastReport(
+    String issueId,
+    String comment,
+    ReportSeverity severity,
+  ) async {
+    try {
+      final isConnected = await _connectivityService.isConnected();
+      if (!isConnected) {
+        return Result.failure(
+          ApiError(
+            message: 'No internet connection. Please try again later.',
+            code: 'no_internet',
+          ),
+        );
+      }
+
+      return await _remoteDataSource.submitFastReport(
+        issueId: issueId,
+        comment: comment,
+        severity: severity,
+      );
+    } catch (e) {
+      debugPrint('Error submitting fast report: $e');
+      return Result.failure(
+        ApiError(message: e.toString(), code: 'fast_report_error'),
+      );
+    }
+  } 
 
   @override
   Future<Result<MapEntry<List<FastReportModel>, bool>, String>> getIssueFastReports({
