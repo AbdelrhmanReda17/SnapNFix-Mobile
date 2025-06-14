@@ -5,11 +5,17 @@ import 'package:snapnfix/core/utils/result.dart';
 import 'package:snapnfix/modules/reports/data/models/fast_report_model.dart';
 import 'package:snapnfix/modules/reports/data/models/report_statistics_model.dart';
 import 'package:snapnfix/modules/reports/data/models/snap_report_model.dart';
+import 'package:snapnfix/modules/reports/domain/entities/report_severity.dart';
 
 @factoryMethod
 abstract class BaseReportRepository {
   // Online Reporting
   Future<Result<String, ApiError>> submitReport(SnapReportModel report);
+  Future<Result<bool, ApiError>> submitFastReport(
+    String issueId,
+    String comment,
+    ReportSeverity severity,
+  );
   // Offline Reporting
   Future<List<SnapReportModel>> getPendingReports();
   Future<bool> syncPendingReports();

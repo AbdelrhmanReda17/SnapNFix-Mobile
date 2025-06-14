@@ -49,7 +49,7 @@ class _IssueMapScreenState extends State<IssueMapScreen> {
                     insetPadding: const EdgeInsets.symmetric(horizontal: 16),
                     child: IssueMarkerDialog(
                       issueId: state.selectedIssueId!,
-                      onTap: () {
+                      onTap: () async {
                         Navigator.pop(context);
                       },
                     ),

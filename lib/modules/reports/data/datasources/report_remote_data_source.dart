@@ -3,11 +3,20 @@ import 'package:snapnfix/modules/reports/data/models/fast_report_model.dart';
 import 'package:snapnfix/modules/reports/data/models/report_statistics_model.dart';
 import 'package:snapnfix/modules/reports/data/models/snap_report_model.dart';
 import 'package:snapnfix/modules/reports/data/models/get_reports_query.dart';
+import 'package:snapnfix/modules/reports/data/models/create_fast_report_request.dart';
+import 'package:snapnfix/modules/reports/domain/entities/report_severity.dart';
 
 abstract class BaseReportRemoteDataSource {
   Future<Result<SnapReportModel, ApiError>> submitReport(
     SnapReportModel report,
   );
+
+  Future<Result<bool, ApiError>> submitFastReport({
+    required String issueId,
+    required String comment,
+    required ReportSeverity severity,
+  });
+
   Future<Result<MapEntry<List<SnapReportModel>, bool>, ApiError>>
   getUserReports({
     String? status,
@@ -16,6 +25,7 @@ abstract class BaseReportRemoteDataSource {
     int page = 1,
     int limit = 10,
   });
+
   Future<Result<ReportStatisticsModel, ApiError>> getReportStatistics();
 
   Future<Result<MapEntry<List<FastReportModel>, bool>, ApiError>>
@@ -78,6 +88,32 @@ class ReportRemoteDataSource implements BaseReportRemoteDataSource {
     } catch (error) {
       return Result.failure(
         ApiError(message: error.toString(), code: 'report_submission_error'),
+      );
+    }
+  }
+
+  @override
+  Future<Result<bool, ApiError>> submitFastReport({
+    required String issueId,
+    required String comment,
+    required ReportSeverity severity,
+  }) async {
+    try {
+      final request = CreateFastReportRequest(
+        issueId: issueId,
+        comment: comment,
+        severity: severity,
+      );
+
+      return await _handleApiCall(
+        apiCall: () => _apiService.createFastReport(request),
+      );
+    } catch (error) {
+      return Result.failure(
+        ApiError(
+          message: error.toString(),
+          code: 'fast_report_submission_error',
+        ),
       );
     }
   }

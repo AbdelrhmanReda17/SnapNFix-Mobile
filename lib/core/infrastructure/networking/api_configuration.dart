@@ -29,7 +29,7 @@ class ApiEndpoints {
   static const String createSnapReport = "api/SnapReports/create";
   static const String userReports = "api/SnapReports/my-reports";
   static const String reportStatistics = "api/SnapReports/statistics";
-  static const String createFastReport = "api/FastReports/create";
+  static const String createFastReport = "/api/FastReport/create";
 
   // Issues endpoints
   static const String getNearbyIssues = "api/issue/get-nearby-issues";

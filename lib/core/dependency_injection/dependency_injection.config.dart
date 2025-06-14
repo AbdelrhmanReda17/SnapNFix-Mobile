@@ -99,6 +99,8 @@ import '../../modules/reports/domain/usecases/get_report_statistics_use_case.dar
     as _i36;
 import '../../modules/reports/domain/usecases/get_user_reports_use_case.dart'
     as _i412;
+import '../../modules/reports/domain/usecases/submit_fast_report_use_case.dart'
+    as _i773;
 import '../../modules/reports/domain/usecases/submit_report_use_case.dart'
     as _i628;
 import '../../modules/reports/domain/usecases/sync_prending_reports_use_case.dart'
@@ -111,6 +113,8 @@ import '../../modules/reports/presentation/cubits/issue_snap_reports_cubit.dart'
     as _i987;
 import '../../modules/reports/presentation/cubits/report_statistics_cubit.dart'
     as _i303;
+import '../../modules/reports/presentation/cubits/submit_fast_report_cubit.dart'
+    as _i312;
 import '../../modules/reports/presentation/cubits/submit_report_cubit.dart'
     as _i758;
 import '../../modules/reports/presentation/cubits/user_reports_cubit.dart'
@@ -271,6 +275,8 @@ extension GetItInjectableX on _i174.GetIt {
             ));
     gh.lazySingleton<_i628.SubmitReportUseCase>(() => reportsUsecaseModule
         .provideSubmitReportUseCase(gh<_i515.BaseReportRepository>()));
+    gh.lazySingleton<_i773.SubmitFastReportUseCase>(() => reportsUsecaseModule
+        .provideSubmitFastReportUseCase(gh<_i515.BaseReportRepository>()));
     gh.lazySingleton<_i956.SyncPendingReportsUseCase>(() => reportsUsecaseModule
         .provideSyncPendingReportsUseCase(gh<_i515.BaseReportRepository>()));
     gh.lazySingleton<_i500.WatchPendingReportsCountUseCase>(() =>
@@ -299,6 +305,8 @@ extension GetItInjectableX on _i174.GetIt {
         .provideIssueSnapReportsCubit(gh<_i610.GetIssueSnapReportsUseCase>()));
     gh.factory<_i758.SubmitReportCubit>(() => reportsPresentationModule
         .provideSubmitReportCubit(gh<_i628.SubmitReportUseCase>()));
+    gh.factory<_i312.SubmitFastReportCubit>(() => reportsPresentationModule
+        .provideSubmitFastReportCubit(gh<_i773.SubmitFastReportUseCase>()));
     gh.factory<_i382.EditProfileCubit>(() => settingsPresentationModule
         .provideEditProfileCubit(gh<_i182.EditProfileUseCase>()));
     gh.factory<_i243.LoginUseCase>(() => authenticationUseCaseModule

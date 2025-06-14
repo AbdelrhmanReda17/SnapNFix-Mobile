@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:snapnfix/index.dart';
+import 'package:snapnfix/modules/reports/presentation/widgets/fast_report/fast_report_dialog.dart';
 
 class IssueMarkerDialog extends StatefulWidget {
   final String issueId;
@@ -119,7 +120,16 @@ class _IssueMarkerDialogState extends State<IssueMarkerDialog> {
           IssueCard(
             issue: issue,
             showReportButton: true,
-            onReportTap: widget.onTap,
+            onReportTap: () async {
+            final success = await FastReportDialog.show(
+              context: context,
+              issueId: widget.issueId,
+              onSuccess: widget.onTap,
+            );
+            if (success == true) {
+              widget.onTap();
+            }
+          },
           ),
         ],
       ),
