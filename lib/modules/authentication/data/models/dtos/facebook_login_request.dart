@@ -9,6 +9,7 @@ class FacebookLoginRequest {
   String? deviceType;
   String? deviceName;
   String? platform;
+  String? fcmToken;
 
   FacebookLoginRequest({required this.idToken});
 
@@ -18,6 +19,7 @@ class FacebookLoginRequest {
     this.deviceType,
     this.deviceName,
     this.platform,
+    this.fcmToken,
   });
 
   factory FacebookLoginRequest.fromJson(Map<String, dynamic> json) =>

@@ -12,6 +12,7 @@ class RegisterRequest {
   String? deviceType;
   String? deviceName;
   String? platform;
+  String? fcmToken;
 
   RegisterRequest({
     required this.firstName,
@@ -27,6 +28,7 @@ class RegisterRequest {
     this.deviceType,
     this.deviceName,
     this.platform,
+    this.fcmToken,
   }) : confirmPassword = password;
 
   factory RegisterRequest.fromJson(Map<String, dynamic> json) =>

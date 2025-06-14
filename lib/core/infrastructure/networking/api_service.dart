@@ -82,6 +82,7 @@ abstract class ApiService {
   // Future<ApiResponse<ReportModel>> createFastReport(
   //   @Body() CreateFastReportRequest request,
   // );
+
   @GET(ApiEndpoints.userReports)
   Future<ApiResponse<PaginatedResponse<SnapReportModel>>> getUserReports(
     @Queries() GetReportsQuery query,

@@ -6,6 +6,7 @@ import 'package:snapnfix/core/infrastructure/networking/responses/api_response.d
 import 'package:snapnfix/core/infrastructure/networking/http_client_factory.dart';
 import 'package:snapnfix/modules/authentication/data/models/index.dart';
 import 'package:snapnfix/modules/authentication/domain/entities/authentication_result.dart';
+import 'package:flutter/material.dart';
 
 abstract class BaseAuthenticationRemoteDataSource {
   // Login and Register
@@ -87,7 +88,6 @@ class AuthenticationRemoteDataSource
     required String emailOrPhoneNumber,
     required String password,
   }) async {
-    await _deviceInfoService.initializeDeviceInfo();
     final loginRequest = LoginRequest.withDeviceInfo(
       emailOrPhoneNumber: emailOrPhoneNumber,
       password: password,
@@ -95,7 +95,9 @@ class AuthenticationRemoteDataSource
       deviceType: _deviceInfoService.deviceType,
       deviceName: _deviceInfoService.deviceName,
       platform: _deviceInfoService.platform,
+      fcmToken: "ANA 3ATEF L SHB7",
     );
+    debugPrint(loginRequest.toJson().toString());
 
     return _handleApiCall(
       apiCall: () => _apiService.login(loginRequest),
@@ -165,7 +167,6 @@ class AuthenticationRemoteDataSource
     required String lastName,
     required String password,
   }) async {
-    await _deviceInfoService.initializeDeviceInfo();
     final registerRequest = RegisterRequest.withDeviceInfo(
       firstName: firstName,
       lastName: lastName,
@@ -174,6 +175,7 @@ class AuthenticationRemoteDataSource
       deviceType: _deviceInfoService.deviceType,
       deviceName: _deviceInfoService.deviceName,
       platform: _deviceInfoService.platform,
+      fcmToken: _deviceInfoService.fcmToken,
     );
     return _handleApiCall(
       apiCall: () => _apiService.register(registerRequest),
@@ -185,13 +187,13 @@ class AuthenticationRemoteDataSource
   Future<Result<SessionModel, ApiError>> loginWithFacebook(
     String idToken,
   ) async {
-    await _deviceInfoService.initializeDeviceInfo();
     final loginWithFacebookRequest = FacebookLoginRequest.withDeviceInfo(
       idToken: idToken,
       deviceId: _deviceInfoService.deviceId,
       deviceType: _deviceInfoService.deviceType,
       deviceName: _deviceInfoService.deviceName,
       platform: _deviceInfoService.platform,
+      fcmToken: _deviceInfoService.fcmToken,
     );
     return await _handleApiCall(
       apiCall: () => _apiService.loginWithFacebook(loginWithFacebookRequest),
@@ -202,13 +204,13 @@ class AuthenticationRemoteDataSource
   Future<Result<SessionModel, ApiError>> loginWithGoogle(
     String accessToken,
   ) async {
-    await _deviceInfoService.initializeDeviceInfo();
     final loginWithGoogleRequest = GoogleLoginRequest.withDeviceInfo(
       idToken: accessToken,
       deviceId: _deviceInfoService.deviceId,
       deviceType: _deviceInfoService.deviceType,
       deviceName: _deviceInfoService.deviceName,
       platform: _deviceInfoService.platform,
+      fcmToken: _deviceInfoService.fcmToken,
     );
     return await _handleApiCall(
       apiCall: () => _apiService.loginWithGoogle(loginWithGoogleRequest),
