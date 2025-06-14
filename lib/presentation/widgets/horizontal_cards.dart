@@ -11,11 +11,14 @@ import 'package:snapnfix/presentation/widgets/enhanced_card.dart';
 
 class HorizontalCards extends StatelessWidget {
   const HorizontalCards({super.key});
-
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final localization = AppLocalizations.of(context)!;
+    final screenHeight = MediaQuery.of(context).size.height;
+    
+    // Responsive height based on screen size
+    final cardSectionHeight = screenHeight < 700 ? 200.h : 220.h;
 
     return BlocBuilder<ReportStatisticsCubit, ReportStatisticsState>(
       builder: (context, state) {
@@ -24,21 +27,21 @@ class HorizontalCards extends StatelessWidget {
         final isLoading = state.isLoading;
 
         return SizedBox(
-          height: 240.h,
+          height: cardSectionHeight,
           child:
               state.error != null
                   ? _buildErrorView(context, state.error!)
                   : ListView.builder(
                     scrollDirection: Axis.horizontal,
-                    padding: EdgeInsets.symmetric(horizontal: 16.w),
+                    padding: EdgeInsets.symmetric(horizontal: 12.w), // Reduced padding
                     physics: const BouncingScrollPhysics(),
                     itemCount: 3,
                     itemBuilder: (context, index) {
                       return Padding(
                         padding: EdgeInsets.only(
-                          right: index < 2 ? 12.w : 0,
-                          top: 8.h,
-                          bottom: 16.h,
+                          right: index < 2 ? 10.w : 0, // Reduced spacing
+                          top: 6.h, // Reduced top padding
+                          bottom: 12.h, // Reduced bottom padding
                         ),
                         child: _buildCard(
                           context,
@@ -56,31 +59,44 @@ class HorizontalCards extends StatelessWidget {
       },
     );
   }
-
   Widget _buildErrorView(BuildContext context, String message) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final iconSize = screenWidth < 350 ? 40.h : 48.h;
+    final fontSize = screenWidth < 350 ? 13.sp : 14.sp;
+    
     return Center(
       child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 24.w),
+        padding: EdgeInsets.symmetric(horizontal: 20.w), // Reduced padding
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             Icon(
               Icons.error_outline,
               color: Theme.of(context).colorScheme.error,
-              size: 48.h,
+              size: iconSize,
             ),
-            SizedBox(height: 16.h),
+            SizedBox(height: 12.h), // Reduced spacing
             Text(
               message,
               textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.bodyLarge,
+              style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                fontSize: fontSize,
+              ),
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
             ),
-            SizedBox(height: 16.h),
+            SizedBox(height: 12.h), // Reduced spacing
             FilledButton(
               onPressed: () {
                 context.read<ReportStatisticsCubit>().loadStatistics();
               },
-              child: Text("Retry"),
+              style: FilledButton.styleFrom(
+                padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+              ),
+              child: Text(
+                "Retry",
+                style: TextStyle(fontSize: fontSize),
+              ),
             ),
           ],
         ),

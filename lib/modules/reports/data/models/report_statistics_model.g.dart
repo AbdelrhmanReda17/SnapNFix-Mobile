@@ -9,7 +9,6 @@ part of 'report_statistics_model.dart';
 ReportStatisticsModel _$ReportStatisticsModelFromJson(
         Map<String, dynamic> json) =>
     ReportStatisticsModel(
-      totalReports: (json['totalReports'] as num).toInt(),
       pendingReports: (json['pendingReports'] as num).toInt(),
       approvedReports: (json['approvedReports'] as num).toInt(),
     );
@@ -17,7 +16,6 @@ ReportStatisticsModel _$ReportStatisticsModelFromJson(
 Map<String, dynamic> _$ReportStatisticsModelToJson(
         ReportStatisticsModel instance) =>
     <String, dynamic>{
-      'totalReports': instance.totalReports,
       'pendingReports': instance.pendingReports,
       'approvedReports': instance.approvedReports,
     };

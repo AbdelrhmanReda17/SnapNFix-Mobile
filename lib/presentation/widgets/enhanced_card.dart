@@ -84,17 +84,22 @@ class _EnhancedCardState extends State<EnhancedCard>
         animation: _scaleAnimation,
         builder: (context, child) {
           return Transform.scale(scale: _scaleAnimation.value, child: child);
-        },
-        child: Container(
-          width: 300.w,
-          padding: EdgeInsets.all(20.w),
+        },        child: Container(
+          width: MediaQuery.of(context).size.width * 0.75, // More responsive width
+          constraints: BoxConstraints(
+            minWidth: 260.w,
+            maxWidth: 320.w,
+            minHeight: 180.h,
+            maxHeight: 220.h,
+          ),
+          padding: EdgeInsets.all(16.w), // Reduced padding for more space
           decoration: BoxDecoration(
             gradient: widget.isLoading ? null : widget.cardStyle.gradient,
             color:
                 widget.isLoading
                     ? theme.colorScheme.surfaceVariant
                     : widget.cardStyle.backgroundColor,
-            borderRadius: BorderRadius.circular(24.r),
+            borderRadius: BorderRadius.circular(20.r), // Slightly smaller radius
             boxShadow: [
               BoxShadow(
                 color: theme.colorScheme.shadow.withValues(
@@ -114,84 +119,115 @@ class _EnhancedCardState extends State<EnhancedCard>
       ),
     );
   }
-
   Widget _buildLoadingState(ThemeData theme) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final indicatorSize = screenWidth < 350 ? 20.0 : 24.0;
+    final fontSize = screenWidth < 350 ? 11.sp : 12.sp;
+    
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          CircularProgressIndicator(
-            color: theme.colorScheme.primary,
-            strokeWidth: 3.0,
+          SizedBox(
+            width: indicatorSize,
+            height: indicatorSize,
+            child: CircularProgressIndicator(
+              color: theme.colorScheme.primary,
+              strokeWidth: 2.5,
+            ),
           ),
-          SizedBox(height: 16.h),
-          Text('Loading...', style: theme.textTheme.bodyMedium),
+          SizedBox(height: 12.h), // Reduced spacing
+          Text(
+            'Loading...', 
+            style: theme.textTheme.bodyMedium?.copyWith(
+              fontSize: fontSize,
+            ),
+          ),
         ],
       ),
     );
   }
-
   Widget _buildCardContent(ThemeData theme) {
     final isDarkMode = theme.brightness == Brightness.dark;
     final textColor = isDarkMode ? Colors.white : theme.colorScheme.onPrimary;
+    final screenWidth = MediaQuery.of(context).size.width;
+    
+    // Responsive font sizes based on screen width
+    final titleFontSize = screenWidth < 350 ? 14.sp : 15.sp;
+    final valueFontSize = screenWidth < 350 ? 26.sp : 28.sp;
+    final suffixFontSize = screenWidth < 350 ? 12.sp : 13.sp;
+    final descriptionFontSize = screenWidth < 350 ? 11.sp : 12.sp;
+    final buttonFontSize = screenWidth < 350 ? 12.sp : 13.sp;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Row(
           children: [
-            Icon(widget.iconData, size: 28.sp, color: textColor),
-            SizedBox(width: 10.w),
+            Icon(widget.iconData, size: 24.sp, color: textColor), // Smaller icon
+            SizedBox(width: 8.w), // Reduced spacing
             Expanded(
               child: Text(
                 widget.title,
                 style: theme.textTheme.titleMedium?.copyWith(
                   color: textColor,
                   fontWeight: FontWeight.w600,
+                  fontSize: titleFontSize,
                 ),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
               ),
             ),
             if (widget.imageAsset != null) ...[
-              Image.asset(widget.imageAsset!, width: 60.w, height: 60.w),
+              Image.asset(widget.imageAsset!, width: 50.w, height: 50.w), // Smaller image
             ],
           ],
         ),
-        SizedBox(height: 16.h),
+        SizedBox(height: 12.h), // Reduced spacing
         Row(
           crossAxisAlignment: CrossAxisAlignment.baseline,
           textBaseline: TextBaseline.alphabetic,
           children: [
-            Text(
-              widget.mainValue,
-              style: theme.textTheme.headlineMedium?.copyWith(
-                color: textColor,
-                fontWeight: FontWeight.bold,
-                fontSize: 32.sp,
+            Flexible(
+              child: Text(
+                widget.mainValue,
+                style: theme.textTheme.headlineMedium?.copyWith(
+                  color: textColor,
+                  fontWeight: FontWeight.bold,
+                  fontSize: valueFontSize,
+                ),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
               ),
             ),
             SizedBox(width: 4.w),
-            Text(
-              widget.valueSuffix,
-              style: theme.textTheme.bodyLarge?.copyWith(
-                color: textColor.withOpacity(0.8),
+            Flexible(
+              child: Text(
+                widget.valueSuffix,
+                style: theme.textTheme.bodyLarge?.copyWith(
+                  color: textColor.withOpacity(0.8),
+                  fontSize: suffixFontSize,
+                ),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
               ),
             ),
           ],
         ),
-        SizedBox(height: 8.h),
+        SizedBox(height: 6.h), // Reduced spacing
         Expanded(
           child: Text(
             widget.description,
             style: theme.textTheme.bodyMedium?.copyWith(
               color: textColor.withOpacity(0.9),
+              fontSize: descriptionFontSize,
+              height: 1.3, // Better line height for readability
             ),
-            maxLines: 2,
+            maxLines: 3, // Allow one more line
             overflow: TextOverflow.ellipsis,
           ),
         ),
-        SizedBox(height: 16.h),
+        SizedBox(height: 12.h), // Reduced spacing
         SizedBox(
           width: double.infinity,
           child: ElevatedButton(
@@ -204,15 +240,20 @@ class _EnhancedCardState extends State<EnhancedCard>
                       ? Colors.white
                       : widget.cardStyle.gradient?.colors.last ??
                           theme.colorScheme.primary,
-              padding: EdgeInsets.symmetric(vertical: 12.h),
+              padding: EdgeInsets.symmetric(vertical: 10.h), // Reduced padding
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12.r),
+                borderRadius: BorderRadius.circular(10.r), // Smaller radius
               ),
               elevation: 0,
             ),
             child: Text(
               widget.buttonText,
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14.sp),
+              style: TextStyle(
+                fontWeight: FontWeight.bold, 
+                fontSize: buttonFontSize,
+              ),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
             ),
           ),
         ),

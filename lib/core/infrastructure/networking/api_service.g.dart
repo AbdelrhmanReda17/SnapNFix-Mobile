@@ -808,7 +808,7 @@ class _ApiService implements ApiService {
     )
             .compose(
               _dio.options,
-              'api/issue/${id}/snapreports',
+              'api/issue/${id}/fastreports',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -852,7 +852,7 @@ class _ApiService implements ApiService {
     )
             .compose(
               _dio.options,
-              'api/issue/${id}/fastreports',
+              'api/issue/${id}/snapreports',
               queryParameters: queryParameters,
               data: _data,
             )

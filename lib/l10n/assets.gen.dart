@@ -27,6 +27,9 @@ class $AssetsIconsGen {
   /// File path: assets/icons/settings.svg
   String get settings => 'assets/icons/settings.svg';
 
+  /// File path: assets/icons/siren-icon.svg
+  String get sirenIcon => 'assets/icons/siren-icon.svg';
+
   /// File path: assets/icons/time_and_location.svg
   String get timeAndLocation => 'assets/icons/time_and_location.svg';
 
@@ -35,7 +38,7 @@ class $AssetsIconsGen {
 
   /// List of all assets
   List<String> get values =>
-      [favicon, home, map, settings, timeAndLocation, userReports];
+      [favicon, home, map, settings, sirenIcon, timeAndLocation, userReports];
 }
 
 class $AssetsImagesGen {
