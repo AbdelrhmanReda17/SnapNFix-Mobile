@@ -7,24 +7,23 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ReportSection extends StatelessWidget {
   const ReportSection({super.key});
-
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final localization = AppLocalizations.of(context)!;
+    final isDarkMode = theme.brightness == Brightness.dark;
 
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 16.w),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Text(
+        children: [          Text(
             localization.spottedIssue,
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 16.sp,
               fontWeight: FontWeight.bold,
-              color: theme.colorScheme.primary,
+              color: isDarkMode ? Colors.white : theme.colorScheme.primary,
             ),
           ),
           verticalSpace(3),
@@ -33,7 +32,7 @@ class ReportSection extends StatelessWidget {
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 12.sp,
-              color: Colors.grey,
+              color: theme.colorScheme.onSurface.withOpacity(0.6),
               height: 1.2.h,
             ),
           ),
@@ -51,7 +50,9 @@ class ReportSection extends StatelessWidget {
               ),
               child: Container(
                 decoration: BoxDecoration(
-                  gradient: LinearGradient(
+                  // Use solid color in dark mode, gradient in light mode
+                  color: isDarkMode ? theme.colorScheme.primary : null,
+                  gradient: isDarkMode ? null : LinearGradient(
                     colors: [
                       theme.colorScheme.primary,
                       const Color(0xFF23576D)

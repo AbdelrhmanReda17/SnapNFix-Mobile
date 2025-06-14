@@ -58,23 +58,21 @@ class HomeHeader extends StatelessWidget {
                   horizontalSpace(12),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      RichText(
+                    children: [                      RichText(
                         text: TextSpan(
                           children: [
                             TextSpan(
                               text: '${localization.hello} ',
                               style: theme.textTheme.bodyMedium?.copyWith(
-                                color: const Color.fromARGB(255, 47, 115, 94),
+                                color: theme.colorScheme.onSurface.withOpacity(0.8),
                                 fontSize: 16.sp,
                               ),
                             ),
                             TextSpan(
                               text: "${user.firstName![0]}${user.lastName![0]}",
-
                               style: theme.textTheme.bodyMedium?.copyWith(
                                 fontSize: 16.sp,
-                                color: const Color.fromARGB(255, 47, 115, 94),
+                                color: theme.colorScheme.onSurface.withOpacity(0.8),
                               ),
                             ),
                           ],
@@ -84,24 +82,22 @@ class HomeHeader extends StatelessWidget {
                       Text(
                         localization.homeSubtitle,
                         style: theme.textTheme.bodyMedium?.copyWith(
-                          color: const Color.fromARGB(255, 47, 115, 94),
+                          color: theme.colorScheme.onSurface,
                           fontSize: 18.sp,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                       // SizedBox(height: 2.h),
                       Row(
-                        children: [
-                          Icon(
+                        children: [                          Icon(
                             Icons.location_on,
                             size: 14.sp,
-                            color: Colors.grey,
+                            color: theme.colorScheme.onSurface.withOpacity(0.6),
                           ),
-                          // Get the current location of the user and display it here
                           Text(
                             '36 Dokki st, Giza',
                             style: theme.textTheme.bodySmall?.copyWith(
-                              color: Colors.grey,
+                              color: theme.colorScheme.onSurface.withOpacity(0.6),
                               fontSize: 12.sp,
                             ),
                           ),

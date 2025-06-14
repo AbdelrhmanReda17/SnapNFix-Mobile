@@ -18,10 +18,13 @@ class DarkModeTile extends StatelessWidget {
       listenable: appConfigs,
       builder: (context, _) {
         return ListTile(
-          tileColor: colorScheme.surface.withValues(alpha: 0.8),
-          title: Text(
+          tileColor: colorScheme.surface.withValues(alpha: 0.8),          title: Text(
             localization.darkMode,
-            style: textSyles.bodyMedium?.copyWith(color: colorScheme.primary),
+            style: textSyles.bodyMedium?.copyWith(
+              color: Theme.of(context).brightness == Brightness.dark 
+                  ? Colors.white 
+                  : colorScheme.primary,
+            ),
           ),
           onTap: () => appConfigs.toggleDarkMode(!appConfigs.isDarkMode),
           trailing: BaseSwitch(

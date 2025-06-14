@@ -73,8 +73,7 @@ class ApplicationThemes {
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8.r),
-          borderSide: BorderSide(color: colorScheme.error),
-        ),
+          borderSide: BorderSide(color: colorScheme.error),        ),
         contentPadding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
       ),
     );

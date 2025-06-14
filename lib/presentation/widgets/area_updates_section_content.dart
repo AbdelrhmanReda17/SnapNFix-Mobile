@@ -138,15 +138,14 @@ class AreaUpdatesSectionContent extends StatelessWidget {
                   borderRadius: BorderRadius.circular(16.r),
                   child: AnimatedContainer(
                     duration: const Duration(milliseconds: 300),
-                    height: cardHeight,
-                    decoration: BoxDecoration(
+                    height: cardHeight,                    decoration: BoxDecoration(
                       gradient: LinearGradient(
                         begin: Alignment.topLeft,
                         end: Alignment.bottomRight,
                         colors: isSelected
                             ? [
-                                colorScheme.secondary,
-                                colorScheme.secondaryContainer,
+                                colorScheme.primary,
+                                colorScheme.primary.withOpacity(0.8),
                               ]
                             : [
                                 colorScheme.surfaceContainerHighest,
@@ -164,7 +163,7 @@ class AreaUpdatesSectionContent extends StatelessWidget {
                           offset: Offset(0, isDarkMode ? 2 : 3),
                         ),
                       ],
-                    ),                    padding: EdgeInsets.all(12.r),
+                    ),padding: EdgeInsets.all(12.r),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -179,15 +178,14 @@ class AreaUpdatesSectionContent extends StatelessWidget {
                                   : colorScheme.primary,
                               size: 20.sp,
                             ),
-                            if (area.value.isNotEmpty)
-                              Container(                                padding: EdgeInsets.symmetric(
+                            if (area.value.isNotEmpty)                              Container(                                padding: EdgeInsets.symmetric(
                                   horizontal: 6.w,
                                   vertical: 2.h,
                                 ),
                                 decoration: BoxDecoration(
                                   color: isSelected
                                       ? Colors.white.withOpacity(0.2)
-                                      : colorScheme.primaryContainer,
+                                      : colorScheme.surfaceVariant,
                                   borderRadius: BorderRadius.circular(8.r),
                                 ),
                                 child: Text(
@@ -197,7 +195,7 @@ class AreaUpdatesSectionContent extends StatelessWidget {
                                     fontWeight: FontWeight.w600,
                                     color: isSelected
                                         ? Colors.white
-                                        : colorScheme.onPrimaryContainer,
+                                        : colorScheme.onSurfaceVariant,
                                   ),
                                   overflow: TextOverflow.ellipsis,
                                   maxLines: 1,

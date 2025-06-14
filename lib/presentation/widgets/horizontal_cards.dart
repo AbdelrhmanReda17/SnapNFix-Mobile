@@ -16,8 +16,7 @@ class HorizontalCards extends StatelessWidget {
     final theme = Theme.of(context);
     final localization = AppLocalizations.of(context)!;
     final screenHeight = MediaQuery.of(context).size.height;
-    
-    // Responsive height based on screen size
+
     final cardSectionHeight = screenHeight < 700 ? 200.h : 220.h;
 
     return BlocBuilder<ReportStatisticsCubit, ReportStatisticsState>(
@@ -33,15 +32,15 @@ class HorizontalCards extends StatelessWidget {
                   ? _buildErrorView(context, state.error!)
                   : ListView.builder(
                     scrollDirection: Axis.horizontal,
-                    padding: EdgeInsets.symmetric(horizontal: 12.w), // Reduced padding
+                    padding: EdgeInsets.symmetric(horizontal: 12.w),
                     physics: const BouncingScrollPhysics(),
                     itemCount: 3,
                     itemBuilder: (context, index) {
                       return Padding(
                         padding: EdgeInsets.only(
-                          right: index < 2 ? 10.w : 0, // Reduced spacing
-                          top: 6.h, // Reduced top padding
-                          bottom: 12.h, // Reduced bottom padding
+                          right: index < 2 ? 10.w : 0,
+                          top: 6.h,
+                          bottom: 12.h,
                         ),
                         child: _buildCard(
                           context,
@@ -66,7 +65,7 @@ class HorizontalCards extends StatelessWidget {
     
     return Center(
       child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 20.w), // Reduced padding
+        padding: EdgeInsets.symmetric(horizontal: 20.w),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -75,7 +74,7 @@ class HorizontalCards extends StatelessWidget {
               color: Theme.of(context).colorScheme.error,
               size: iconSize,
             ),
-            SizedBox(height: 12.h), // Reduced spacing
+            SizedBox(height: 12.h), 
             Text(
               message,
               textAlign: TextAlign.center,
@@ -85,7 +84,7 @@ class HorizontalCards extends StatelessWidget {
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
             ),
-            SizedBox(height: 12.h), // Reduced spacing
+            SizedBox(height: 12.h), 
             FilledButton(
               onPressed: () {
                 context.read<ReportStatisticsCubit>().loadStatistics();
@@ -116,7 +115,6 @@ class HorizontalCards extends StatelessWidget {
     final primaryColor = theme.colorScheme.primary;
     final isDarkMode = theme.brightness == Brightness.dark;
 
-    // Use a single style based on theme mode
     final cardStyle =
         isDarkMode
             ? CardStyle(
@@ -133,7 +131,7 @@ class HorizontalCards extends StatelessWidget {
               ),
             );
 
-    // Card content based on index
+
     if (index == 0) {
       return EnhancedCard(
         title: localization.loyaltyPoints,

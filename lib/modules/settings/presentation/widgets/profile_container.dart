@@ -9,12 +9,12 @@ import 'package:snapnfix/presentation/navigation/routes.dart';
 class ProfileContainer extends StatelessWidget {
   const ProfileContainer({super.key, required this.user});
   final User user;
-
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
     final textStyles = Theme.of(context).textTheme;
     final localization = AppLocalizations.of(context)!;
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
 
     return Container(
       height: 148.h,
@@ -27,10 +27,9 @@ class ProfileContainer extends StatelessWidget {
             titleSpacing: 0,
             centerTitle: true,
             title: Text(
-              localization.settings,
-              style: textStyles.headlineLarge?.copyWith(
+              localization.settings,              style: textStyles.headlineLarge?.copyWith(
                 fontSize: 20.sp,
-                color: colorScheme.surface,
+                color: isDarkMode ? Colors.white : colorScheme.onPrimary,
               ),
             ),
           ),
@@ -55,10 +54,11 @@ class ProfileContainer extends StatelessWidget {
                                   height: 60.h,
                                   fit: BoxFit.cover,
                                 ),
-                              )
-                              : Text(
+                              )                              : Text(
                                 "${user.firstName![0]}${user.lastName![0]}",
-                                style: TextStyle(color: colorScheme.primary),
+                                style: TextStyle(
+                                  color: isDarkMode ? Colors.white : colorScheme.primary,
+                                ),
                               ),
                     ),
                     horizontalSpace(12),
@@ -66,17 +66,14 @@ class ProfileContainer extends StatelessWidget {
                       width: 200.w,
                       child: RichText(
                         maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                        text: TextSpan(
-                          text: "${localization.hello}\n",
-                          style: textStyles.bodySmall?.copyWith(
-                            color: colorScheme.surface,
+                        overflow: TextOverflow.ellipsis,                        text: TextSpan(
+                          text: "${localization.hello}\n",                          style: textStyles.bodySmall?.copyWith(
+                            color: isDarkMode ? Colors.white : colorScheme.onPrimary,
                           ),
                           children: [
                             TextSpan(
-                              text: "${user.firstName} ${user.lastName}",
-                              style: textStyles.bodyLarge?.copyWith(
-                                color: colorScheme.surface,
+                              text: "${user.firstName} ${user.lastName}",                              style: textStyles.bodyLarge?.copyWith(
+                                color: isDarkMode ? Colors.white : colorScheme.onPrimary,
                               ),
                             ),
                           ],
@@ -87,7 +84,10 @@ class ProfileContainer extends StatelessWidget {
                 ),
                 IconButton(
                   iconSize: 20.r,
-                  icon: Icon(Icons.edit, color: colorScheme.surface),
+                  icon: Icon(
+                    Icons.edit, 
+                    color: isDarkMode ? Colors.white : colorScheme.onPrimary,
+                  ),
                   onPressed: () {
                     context.push(Routes.editProfile);
                   },

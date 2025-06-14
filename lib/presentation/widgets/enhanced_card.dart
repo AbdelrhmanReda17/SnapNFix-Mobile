@@ -85,21 +85,21 @@ class _EnhancedCardState extends State<EnhancedCard>
         builder: (context, child) {
           return Transform.scale(scale: _scaleAnimation.value, child: child);
         },        child: Container(
-          width: MediaQuery.of(context).size.width * 0.75, // More responsive width
+          width: MediaQuery.of(context).size.width * 0.75, 
           constraints: BoxConstraints(
             minWidth: 260.w,
             maxWidth: 320.w,
             minHeight: 180.h,
             maxHeight: 220.h,
           ),
-          padding: EdgeInsets.all(16.w), // Reduced padding for more space
+          padding: EdgeInsets.all(16.w), 
           decoration: BoxDecoration(
             gradient: widget.isLoading ? null : widget.cardStyle.gradient,
             color:
                 widget.isLoading
                     ? theme.colorScheme.surfaceVariant
                     : widget.cardStyle.backgroundColor,
-            borderRadius: BorderRadius.circular(20.r), // Slightly smaller radius
+            borderRadius: BorderRadius.circular(20.r), 
             boxShadow: [
               BoxShadow(
                 color: theme.colorScheme.shadow.withValues(
@@ -136,7 +136,7 @@ class _EnhancedCardState extends State<EnhancedCard>
               strokeWidth: 2.5,
             ),
           ),
-          SizedBox(height: 12.h), // Reduced spacing
+          SizedBox(height: 12.h), 
           Text(
             'Loading...', 
             style: theme.textTheme.bodyMedium?.copyWith(
@@ -151,8 +151,7 @@ class _EnhancedCardState extends State<EnhancedCard>
     final isDarkMode = theme.brightness == Brightness.dark;
     final textColor = isDarkMode ? Colors.white : theme.colorScheme.onPrimary;
     final screenWidth = MediaQuery.of(context).size.width;
-    
-    // Responsive font sizes based on screen width
+ 
     final titleFontSize = screenWidth < 350 ? 14.sp : 15.sp;
     final valueFontSize = screenWidth < 350 ? 26.sp : 28.sp;
     final suffixFontSize = screenWidth < 350 ? 12.sp : 13.sp;
@@ -164,8 +163,8 @@ class _EnhancedCardState extends State<EnhancedCard>
       children: [
         Row(
           children: [
-            Icon(widget.iconData, size: 24.sp, color: textColor), // Smaller icon
-            SizedBox(width: 8.w), // Reduced spacing
+            Icon(widget.iconData, size: 24.sp, color: textColor), 
+            SizedBox(width: 8.w), 
             Expanded(
               child: Text(
                 widget.title,
@@ -183,7 +182,7 @@ class _EnhancedCardState extends State<EnhancedCard>
             ],
           ],
         ),
-        SizedBox(height: 12.h), // Reduced spacing
+        SizedBox(height: 12.h), 
         Row(
           crossAxisAlignment: CrossAxisAlignment.baseline,
           textBaseline: TextBaseline.alphabetic,
@@ -214,20 +213,20 @@ class _EnhancedCardState extends State<EnhancedCard>
             ),
           ],
         ),
-        SizedBox(height: 6.h), // Reduced spacing
+        SizedBox(height: 6.h), 
         Expanded(
           child: Text(
             widget.description,
             style: theme.textTheme.bodyMedium?.copyWith(
               color: textColor.withOpacity(0.9),
               fontSize: descriptionFontSize,
-              height: 1.3, // Better line height for readability
+              height: 1.3,
             ),
-            maxLines: 3, // Allow one more line
+            maxLines: 3, 
             overflow: TextOverflow.ellipsis,
           ),
         ),
-        SizedBox(height: 12.h), // Reduced spacing
+        SizedBox(height: 12.h), 
         SizedBox(
           width: double.infinity,
           child: ElevatedButton(
@@ -240,9 +239,9 @@ class _EnhancedCardState extends State<EnhancedCard>
                       ? Colors.white
                       : widget.cardStyle.gradient?.colors.last ??
                           theme.colorScheme.primary,
-              padding: EdgeInsets.symmetric(vertical: 10.h), // Reduced padding
+              padding: EdgeInsets.symmetric(vertical: 10.h),
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10.r), // Smaller radius
+                borderRadius: BorderRadius.circular(10.r), 
               ),
               elevation: 0,
             ),
