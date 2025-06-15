@@ -105,6 +105,7 @@ class ReportExpandedContent extends StatelessWidget {
 
   IssueSeverity _mapReportSeverityToIssueSeverity(ReportSeverity severity) {
     return switch (severity) {
+      ReportSeverity.notSpecified => IssueSeverity.notSpecified,
       ReportSeverity.low => IssueSeverity.low,
       ReportSeverity.medium => IssueSeverity.medium,
       ReportSeverity.high => IssueSeverity.high,

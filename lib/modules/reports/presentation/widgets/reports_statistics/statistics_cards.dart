@@ -7,10 +7,10 @@ import 'package:snapnfix/core/utils/helpers/number_formatter.dart';
 import 'package:snapnfix/modules/reports/presentation/cubits/report_statistics_cubit.dart';
 import 'package:snapnfix/modules/reports/presentation/cubits/report_statistics_state.dart';
 import 'package:snapnfix/presentation/navigation/routes.dart';
-import 'package:snapnfix/presentation/widgets/enhanced_card.dart';
+import 'package:snapnfix/modules/reports/presentation/widgets/reports_statistics/statistics_card/statistics_card.dart';
 
-class HorizontalCards extends StatelessWidget {
-  const HorizontalCards({super.key});
+class StatisticsCards extends StatelessWidget {
+  const StatisticsCards({super.key});
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -58,11 +58,12 @@ class HorizontalCards extends StatelessWidget {
       },
     );
   }
+
   Widget _buildErrorView(BuildContext context, String message) {
     final screenWidth = MediaQuery.of(context).size.width;
     final iconSize = screenWidth < 350 ? 40.h : 48.h;
     final fontSize = screenWidth < 350 ? 13.sp : 14.sp;
-    
+
     return Center(
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 20.w),
@@ -74,17 +75,17 @@ class HorizontalCards extends StatelessWidget {
               color: Theme.of(context).colorScheme.error,
               size: iconSize,
             ),
-            SizedBox(height: 12.h), 
+            SizedBox(height: 12.h),
             Text(
               message,
               textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                fontSize: fontSize,
-              ),
+              style: Theme.of(
+                context,
+              ).textTheme.bodyLarge?.copyWith(fontSize: fontSize),
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
             ),
-            SizedBox(height: 12.h), 
+            SizedBox(height: 12.h),
             FilledButton(
               onPressed: () {
                 context.read<ReportStatisticsCubit>().loadStatistics();
@@ -92,10 +93,7 @@ class HorizontalCards extends StatelessWidget {
               style: FilledButton.styleFrom(
                 padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
               ),
-              child: Text(
-                "Retry",
-                style: TextStyle(fontSize: fontSize),
-              ),
+              child: Text("Retry", style: TextStyle(fontSize: fontSize)),
             ),
           ],
         ),
@@ -131,9 +129,8 @@ class HorizontalCards extends StatelessWidget {
               ),
             );
 
-
     if (index == 0) {
-      return EnhancedCard(
+      return StatisticsCard(
         title: localization.loyaltyPoints,
         mainValue: NumberFormatter.localizeNumber(850, localization),
         valueSuffix: localization.points,
@@ -145,7 +142,7 @@ class HorizontalCards extends StatelessWidget {
         iconData: Icons.workspace_premium,
       );
     } else if (index == 1) {
-      return EnhancedCard(
+      return StatisticsCard(
         title: localization.pendingReports,
         mainValue: NumberFormatter.localizeNumber(pendingCount, localization),
         valueSuffix: localization.reports,
@@ -157,7 +154,7 @@ class HorizontalCards extends StatelessWidget {
         iconData: Icons.pending_actions,
       );
     } else {
-      return EnhancedCard(
+      return StatisticsCard(
         title: localization.approvedReports,
         mainValue: NumberFormatter.localizeNumber(approvedCount, localization),
         valueSuffix: localization.reports,

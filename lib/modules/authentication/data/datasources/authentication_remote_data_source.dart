@@ -95,7 +95,7 @@ class AuthenticationRemoteDataSource
       deviceType: _deviceInfoService.deviceType,
       deviceName: _deviceInfoService.deviceName,
       platform: _deviceInfoService.platform,
-      fcmToken: "ANA 3ATEF L SHB7",
+      fcmToken: _deviceInfoService.fcmToken,
     );
     debugPrint(loginRequest.toJson().toString());
 

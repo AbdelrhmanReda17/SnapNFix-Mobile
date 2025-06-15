@@ -84,7 +84,7 @@ class ReportSeveritySelector extends StatelessWidget {
               severity.displayName,
               style: TextStyle(
                 color: isSelected ? Colors.white : severity.color,
-                fontSize: 14.sp,
+                fontSize: 12.sp,
               ),
             ),
           ),
