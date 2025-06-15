@@ -11,11 +11,14 @@ FastReportModel _$FastReportModelFromJson(Map<String, dynamic> json) =>
       id: json['id'] as String?,
       issueId: json['issueId'] as String,
       comment: json['comment'] as String,
-      severity: $enumDecode(_$ReportSeverityEnumMap, json['severity']),
+      severity: ReportSeverity.medium,
       isUserReport: json['isUserReport'] as bool? ?? false,
-      createdAt: json['createdAt'] == null
-          ? null
-          : DateTime.parse(json['createdAt'] as String),
+      createdAt:
+          json['createdAt'] == null
+              ? null
+              : DateTime.parse(json['createdAt'] as String),
+      firstName: json['userFirstName'] as String?,
+      lastName: json['userLastName'] as String?,
     );
 
 Map<String, dynamic> _$FastReportModelToJson(FastReportModel instance) =>
@@ -26,6 +29,8 @@ Map<String, dynamic> _$FastReportModelToJson(FastReportModel instance) =>
       'createdAt': instance.createdAt?.toIso8601String(),
       'comment': instance.comment,
       'isUserReport': instance.isUserReport,
+      'userFirstName': instance.firstName,
+      'userLastName': instance.lastName,
     };
 
 const _$ReportSeverityEnumMap = {

@@ -29,7 +29,7 @@ class SubmitReportAppBar extends StatelessWidget {
       centerTitle: true,
       leading: BlocBuilder<SubmitReportCubit, SubmitReportState>(
         builder: (context, state) {
-          if (state.image != null || state.details != null) {
+          if (state.image != null || state.comment != null) {
             return ValueListenableBuilder<int>(
               valueListenable: timeoutManager.timeRemainingNotifier,
               builder: (context, secondsRemaining, _) {

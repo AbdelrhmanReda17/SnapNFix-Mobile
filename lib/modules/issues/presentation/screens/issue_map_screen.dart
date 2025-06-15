@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:snapnfix/core/index.dart';
 import 'package:snapnfix/modules/issues/index.dart';
-import 'package:snapnfix/modules/issues/presentation/widgets/issues_map.dart';
 
 class IssueMapScreen extends StatefulWidget {
   const IssueMapScreen({super.key});

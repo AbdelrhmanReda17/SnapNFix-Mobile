@@ -20,7 +20,7 @@ mixin _$SubmitReportState {
   ReportSeverity get severity => throw _privateConstructorUsedError;
   Position? get position => throw _privateConstructorUsedError;
   bool get isLoading => throw _privateConstructorUsedError;
-  String? get details => throw _privateConstructorUsedError;
+  String? get comment => throw _privateConstructorUsedError;
   String? get error => throw _privateConstructorUsedError;
   String? get successMessage => throw _privateConstructorUsedError;
 
@@ -42,7 +42,7 @@ abstract class $SubmitReportStateCopyWith<$Res> {
       ReportSeverity severity,
       Position? position,
       bool isLoading,
-      String? details,
+      String? comment,
       String? error,
       String? successMessage});
 }
@@ -66,7 +66,7 @@ class _$SubmitReportStateCopyWithImpl<$Res, $Val extends SubmitReportState>
     Object? severity = null,
     Object? position = freezed,
     Object? isLoading = null,
-    Object? details = freezed,
+    Object? comment = freezed,
     Object? error = freezed,
     Object? successMessage = freezed,
   }) {
@@ -87,9 +87,9 @@ class _$SubmitReportStateCopyWithImpl<$Res, $Val extends SubmitReportState>
           ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
               as bool,
-      details: freezed == details
-          ? _value.details
-          : details // ignore: cast_nullable_to_non_nullable
+      comment: freezed == comment
+          ? _value.comment
+          : comment // ignore: cast_nullable_to_non_nullable
               as String?,
       error: freezed == error
           ? _value.error
@@ -116,7 +116,7 @@ abstract class _$$SubmitReportStateImplCopyWith<$Res>
       ReportSeverity severity,
       Position? position,
       bool isLoading,
-      String? details,
+      String? comment,
       String? error,
       String? successMessage});
 }
@@ -138,7 +138,7 @@ class __$$SubmitReportStateImplCopyWithImpl<$Res>
     Object? severity = null,
     Object? position = freezed,
     Object? isLoading = null,
-    Object? details = freezed,
+    Object? comment = freezed,
     Object? error = freezed,
     Object? successMessage = freezed,
   }) {
@@ -159,9 +159,9 @@ class __$$SubmitReportStateImplCopyWithImpl<$Res>
           ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
               as bool,
-      details: freezed == details
-          ? _value.details
-          : details // ignore: cast_nullable_to_non_nullable
+      comment: freezed == comment
+          ? _value.comment
+          : comment // ignore: cast_nullable_to_non_nullable
               as String?,
       error: freezed == error
           ? _value.error
@@ -183,7 +183,7 @@ class _$SubmitReportStateImpl implements _SubmitReportState {
       required this.severity,
       required this.position,
       required this.isLoading,
-      required this.details,
+      required this.comment,
       this.error,
       this.successMessage});
 
@@ -196,7 +196,7 @@ class _$SubmitReportStateImpl implements _SubmitReportState {
   @override
   final bool isLoading;
   @override
-  final String? details;
+  final String? comment;
   @override
   final String? error;
   @override
@@ -204,7 +204,7 @@ class _$SubmitReportStateImpl implements _SubmitReportState {
 
   @override
   String toString() {
-    return 'SubmitReportState(image: $image, severity: $severity, position: $position, isLoading: $isLoading, details: $details, error: $error, successMessage: $successMessage)';
+    return 'SubmitReportState(image: $image, severity: $severity, position: $position, isLoading: $isLoading, comment: $comment, error: $error, successMessage: $successMessage)';
   }
 
   @override
@@ -219,7 +219,7 @@ class _$SubmitReportStateImpl implements _SubmitReportState {
                 other.position == position) &&
             (identical(other.isLoading, isLoading) ||
                 other.isLoading == isLoading) &&
-            (identical(other.details, details) || other.details == details) &&
+            (identical(other.comment, comment) || other.comment == comment) &&
             (identical(other.error, error) || other.error == error) &&
             (identical(other.successMessage, successMessage) ||
                 other.successMessage == successMessage));
@@ -227,7 +227,7 @@ class _$SubmitReportStateImpl implements _SubmitReportState {
 
   @override
   int get hashCode => Object.hash(runtimeType, image, severity, position,
-      isLoading, details, error, successMessage);
+      isLoading, comment, error, successMessage);
 
   /// Create a copy of SubmitReportState
   /// with the given fields replaced by the non-null parameter values.
@@ -245,7 +245,7 @@ abstract class _SubmitReportState implements SubmitReportState {
       required final ReportSeverity severity,
       required final Position? position,
       required final bool isLoading,
-      required final String? details,
+      required final String? comment,
       final String? error,
       final String? successMessage}) = _$SubmitReportStateImpl;
 
@@ -258,7 +258,7 @@ abstract class _SubmitReportState implements SubmitReportState {
   @override
   bool get isLoading;
   @override
-  String? get details;
+  String? get comment;
   @override
   String? get error;
   @override

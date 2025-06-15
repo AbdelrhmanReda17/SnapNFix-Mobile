@@ -5,20 +5,17 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:snapnfix/core/base_components/base_paginated_list_view.dart';
 import 'package:snapnfix/modules/reports/data/models/snap_report_model.dart';
 import 'package:snapnfix/modules/reports/presentation/cubits/issue_snap_reports_cubit.dart';
-import 'package:snapnfix/modules/reports/presentation/widgets/report_card/report_card.dart';
+import 'package:snapnfix/modules/reports/presentation/widgets/issue_reports/issue_comments_card.dart';
 
 class IssueSnapReportsList extends StatelessWidget {
   final String issueId;
 
-  const IssueSnapReportsList({
-    super.key,
-    required this.issueId,
-  });
+  const IssueSnapReportsList({super.key, required this.issueId});
 
   @override
   Widget build(BuildContext context) {
     final localization = AppLocalizations.of(context)!;
-    
+
     return BlocBuilder<IssueSnapReportsCubit, IssueSnapReportsState>(
       builder: (context, state) {
         return EnhancedPaginatedView<SnapReportModel>(
@@ -28,22 +25,29 @@ class IssueSnapReportsList extends StatelessWidget {
           hasReachedEnd: state.hasReachedEnd,
           error: state.error,
           itemBuilder: (context, report, index) {
-            return ReportCard(report: report);
+            return IssueCommentsCard(
+              isSnapReport: true,
+              imageUrl: report.imagePath,
+              firstName: report.firstName,
+              lastName: report.lastName,
+              createdAt: report.createdAt,
+              severity: report.severity?.displayName,
+              comment: report.comment ?? "No details provided",
+            );
           },
           onRefresh: () async {
-            await context
-                .read<IssueSnapReportsCubit>()
-                .refreshReports(issueId);
+            await context.read<IssueSnapReportsCubit>().refreshReports(issueId);
           },
           onLoadMore: () {
-            context
-                .read<IssueSnapReportsCubit>()
-                .loadReports(issueId: issueId);
+            context.read<IssueSnapReportsCubit>().loadReports(issueId: issueId);
           },
           separator: SizedBox(height: 16.h),
           padding: EdgeInsets.all(16.r),
-          emptyStateBuilder: (context) => _buildEmptyState(context, localization),
-          errorStateBuilder: (context, error) => _buildErrorState(context, error, localization),
+          emptyStateBuilder:
+              (context) => _buildEmptyState(context, localization),
+          errorStateBuilder:
+              (context, error) =>
+                  _buildErrorState(context, error, localization),
         );
       },
     );
@@ -51,7 +55,7 @@ class IssueSnapReportsList extends StatelessWidget {
 
   Widget _buildEmptyState(BuildContext context, AppLocalizations localization) {
     final theme = Theme.of(context);
-    
+
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -71,7 +75,7 @@ class IssueSnapReportsList extends StatelessWidget {
           Text(
             'Be the first to snap and report',
             style: theme.textTheme.bodyMedium?.copyWith(
-              color: theme.colorScheme.onSurface.withOpacity(0.6),
+              color: theme.colorScheme.onSurface.withValues(alpha: 0.6),
             ),
             textAlign: TextAlign.center,
           ),
@@ -106,9 +110,7 @@ class IssueSnapReportsList extends StatelessWidget {
             SizedBox(height: 16.h),
             ElevatedButton(
               onPressed: () {
-                context
-                    .read<IssueSnapReportsCubit>()
-                    .refreshReports(issueId);
+                context.read<IssueSnapReportsCubit>().refreshReports(issueId);
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: colorScheme.primary,

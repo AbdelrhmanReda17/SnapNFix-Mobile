@@ -164,10 +164,10 @@ extension GetItInjectableX on _i174.GetIt {
     final fCMModule = _$FCMModule();
     final networkModule = _$NetworkModule();
     final reportsDataModule = _$ReportsDataModule();
-    final authenticationDataModule = _$AuthenticationDataModule();
     final locationModule = _$LocationModule();
-    final deviceInfoModule = _$DeviceInfoModule();
+    final authenticationDataModule = _$AuthenticationDataModule();
     final issuesDataModule = _$IssuesDataModule();
+    final deviceInfoModule = _$DeviceInfoModule();
     final managerModule = _$ManagerModule();
     final settingsDataModule = _$SettingsDataModule();
     final issuesRepositoryModule = _$IssuesRepositoryModule();
@@ -175,10 +175,10 @@ extension GetItInjectableX on _i174.GetIt {
     final settingsRepositoryModule = _$SettingsRepositoryModule();
     final issuesUsecaseModule = _$IssuesUsecaseModule();
     final issuesPresentationModule = _$IssuesPresentationModule();
-    final authenticationRepositoryModule = _$AuthenticationRepositoryModule();
     final reportsUsecaseModule = _$ReportsUsecaseModule();
     final reportsPresentationModule = _$ReportsPresentationModule();
     final settingsUsecaseModule = _$SettingsUsecaseModule();
+    final authenticationRepositoryModule = _$AuthenticationRepositoryModule();
     final settingsPresentationModule = _$SettingsPresentationModule();
     final authenticationUseCaseModule = _$AuthenticationUseCaseModule();
     final authenticationPresentationModule =
@@ -195,6 +195,8 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i810.BaseReportLocalDataSource>(
         () => reportsDataModule.provideReportLocalDataSource());
     gh.lazySingleton<_i579.NavigationService>(() => _i579.NavigationService());
+    gh.lazySingleton<_i658.LocationPermissionHandler>(() => locationModule
+        .provideLocationPermissionHandler(gh<_i636.LocationService>()));
     gh.singleton<_i183.BaseSocialAuthenticationProvider>(
       () => authenticationDataModule.provideFacebookAuthProvider(),
       instanceName: 'facebookProvider',
@@ -203,23 +205,17 @@ extension GetItInjectableX on _i174.GetIt {
       () => authenticationDataModule.provideGoogleAuthProvider(),
       instanceName: 'googleProvider',
     );
-    gh.lazySingleton<_i658.LocationPermissionHandler>(() => locationModule
-        .provideLocationPermissionHandler(gh<_i636.LocationService>()));
     gh.singleton<_i420.ApplicationConfigurations>(
         () => _i420.ApplicationConfigurations(
               gh<_i986.SharedPreferencesService>(),
               gh<_i986.SecureStorageService>(),
             ));
+    gh.lazySingleton<_i912.BaseIssueLocalDataSource>(() => issuesDataModule
+        .provideIssueLocalDataSource(gh<_i835.SharedPreferencesService>()));
     await gh.singletonAsync<_i871.DeviceInfoService>(
       () => deviceInfoModule.provideDeviceInfoService(gh<_i458.FCMService>()),
       preResolve: true,
     );
-    gh.lazySingleton<_i912.BaseIssueLocalDataSource>(() => issuesDataModule
-        .provideIssueLocalDataSource(gh<_i835.SharedPreferencesService>()));
-    gh.singleton<_i990.BaseTokenManager>(() => managerModule
-        .provideTokenManager(gh<_i420.ApplicationConfigurations>()));
-    gh.singleton<_i846.TokenRefreshInterceptor>(() => networkModule
-        .provideTokenRefreshInterceptor(gh<_i990.BaseTokenManager>()));
     gh.singleton<_i600.BaseSocialAuthenticationService>(
         () => authenticationDataModule.provideSocialAuthService(
               gh<_i183.BaseSocialAuthenticationProvider>(
@@ -227,6 +223,10 @@ extension GetItInjectableX on _i174.GetIt {
               gh<_i183.BaseSocialAuthenticationProvider>(
                   instanceName: 'facebookProvider'),
             ));
+    gh.singleton<_i990.BaseTokenManager>(() => managerModule
+        .provideTokenManager(gh<_i420.ApplicationConfigurations>()));
+    gh.singleton<_i846.TokenRefreshInterceptor>(() => networkModule
+        .provideTokenRefreshInterceptor(gh<_i990.BaseTokenManager>()));
     gh.singleton<_i666.ApiService>(() => networkModule.provideApiService(
           gh<_i361.Dio>(),
           gh<_i846.TokenRefreshInterceptor>(),
@@ -254,8 +254,6 @@ extension GetItInjectableX on _i174.GetIt {
               gh<_i71.BaseReportRemoteDataSource>(),
               gh<_i1041.ConnectivityService>(),
             ));
-    gh.factory<_i36.GetReportStatisticsUseCase>(() =>
-        _i36.GetReportStatisticsUseCase(gh<_i515.BaseReportRepository>()));
     gh.lazySingleton<_i150.BaseSettingsRepository>(
         () => settingsRepositoryModule.provideSettingsRepository(
               gh<_i14.BaseSettingsRemoteDataSource>(),
@@ -271,12 +269,6 @@ extension GetItInjectableX on _i174.GetIt {
         .provideGetAreaIssuesUseCase(gh<_i185.BaseIssueRepository>()));
     gh.factory<_i240.IssuesMapCubit>(() => issuesPresentationModule
         .provideIssuesMapCubit(gh<_i222.GetNearbyIssuesUseCase>()));
-    gh.singleton<_i668.BaseAuthenticationRepository>(
-        () => authenticationRepositoryModule.provideAuthRepository(
-              gh<_i771.BaseAuthenticationRemoteDataSource>(),
-              gh<_i600.BaseSocialAuthenticationService>(),
-              gh<_i420.ApplicationConfigurations>(),
-            ));
     gh.lazySingleton<_i628.SubmitReportUseCase>(() => reportsUsecaseModule
         .provideSubmitReportUseCase(gh<_i515.BaseReportRepository>()));
     gh.lazySingleton<_i773.SubmitFastReportUseCase>(() => reportsUsecaseModule
@@ -301,12 +293,18 @@ extension GetItInjectableX on _i174.GetIt {
         .provideUserReportsCubit(gh<_i1007.GetIssueFastReportsUseCase>()));
     gh.lazySingleton<_i182.EditProfileUseCase>(() => settingsUsecaseModule
         .provideEditProfileUseCase(gh<_i150.BaseSettingsRepository>()));
-    gh.factory<_i303.ReportStatisticsCubit>(() =>
-        _i303.ReportStatisticsCubit(gh<_i36.GetReportStatisticsUseCase>()));
+    gh.singleton<_i668.BaseAuthenticationRepository>(
+        () => authenticationRepositoryModule.provideAuthRepository(
+              gh<_i771.BaseAuthenticationRemoteDataSource>(),
+              gh<_i600.BaseSocialAuthenticationService>(),
+              gh<_i420.ApplicationConfigurations>(),
+            ));
     gh.factory<_i366.IssueDetailsCubit>(() => issuesPresentationModule
         .provideIssueDetailsCubit(gh<_i39.GetIssueDetailsUseCase>()));
     gh.factory<_i987.IssueSnapReportsCubit>(() => reportsPresentationModule
         .provideIssueSnapReportsCubit(gh<_i610.GetIssueSnapReportsUseCase>()));
+    gh.factory<_i36.GetReportStatisticsUseCase>(() =>
+        _i36.GetReportStatisticsUseCase(gh<_i515.BaseReportRepository>()));
     gh.factory<_i758.SubmitReportCubit>(() => reportsPresentationModule
         .provideSubmitReportCubit(gh<_i628.SubmitReportUseCase>()));
     gh.factory<_i312.SubmitFastReportCubit>(() => reportsPresentationModule
@@ -339,6 +337,8 @@ extension GetItInjectableX on _i174.GetIt {
             ));
     gh.factory<_i1033.ResetPasswordCubit>(() => authenticationPresentationModule
         .provideResendOtpCubit(gh<_i956.ResetPasswordUseCase>()));
+    gh.factory<_i303.ReportStatisticsCubit>(() =>
+        _i303.ReportStatisticsCubit(gh<_i36.GetReportStatisticsUseCase>()));
     gh.factory<_i12.CompleteProfileCubit>(() => authenticationPresentationModule
         .provideCompleteProfileCubit(gh<_i154.CompleteProfileUseCase>()));
     gh.factory<_i13.ForgotPasswordCubit>(() => authenticationPresentationModule
@@ -360,13 +360,13 @@ class _$NetworkModule extends _i358.NetworkModule {}
 
 class _$ReportsDataModule extends _i922.ReportsDataModule {}
 
-class _$AuthenticationDataModule extends _i65.AuthenticationDataModule {}
-
 class _$LocationModule extends _i699.LocationModule {}
 
-class _$DeviceInfoModule extends _i984.DeviceInfoModule {}
+class _$AuthenticationDataModule extends _i65.AuthenticationDataModule {}
 
 class _$IssuesDataModule extends _i962.IssuesDataModule {}
+
+class _$DeviceInfoModule extends _i984.DeviceInfoModule {}
 
 class _$ManagerModule extends _i441.ManagerModule {}
 
@@ -382,14 +382,14 @@ class _$IssuesUsecaseModule extends _i528.IssuesUsecaseModule {}
 
 class _$IssuesPresentationModule extends _i519.IssuesPresentationModule {}
 
-class _$AuthenticationRepositoryModule
-    extends _i361.AuthenticationRepositoryModule {}
-
 class _$ReportsUsecaseModule extends _i873.ReportsUsecaseModule {}
 
 class _$ReportsPresentationModule extends _i699.ReportsPresentationModule {}
 
 class _$SettingsUsecaseModule extends _i422.SettingsUsecaseModule {}
+
+class _$AuthenticationRepositoryModule
+    extends _i361.AuthenticationRepositoryModule {}
 
 class _$SettingsPresentationModule extends _i247.SettingsPresentationModule {}
 

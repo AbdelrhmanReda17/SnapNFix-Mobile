@@ -74,7 +74,7 @@ class _SettingsListViewState extends State<SettingsListView> {
     final colorScheme = Theme.of(context).colorScheme;
     final textStyles = Theme.of(context).textTheme;
     final localization = AppLocalizations.of(context)!;
-    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+
     return Card(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.zero),
       margin: const EdgeInsets.all(0),

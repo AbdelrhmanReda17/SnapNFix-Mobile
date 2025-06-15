@@ -10,7 +10,7 @@ part 'snap_report_model.g.dart';
 class SnapReportModel extends SnapReport {
   const SnapReportModel({
     super.id,
-    required super.details,
+    required super.comment,
     required super.latitude,
     required super.longitude,
     super.severity = ReportSeverity.low,
@@ -32,7 +32,7 @@ class SnapReportModel extends SnapReport {
 
   factory SnapReportModel.fromFile({
     String? id,
-    String? details,
+    String? comment,
     required double latitude,
     required double longitude,
     ReportSeverity? severity = ReportSeverity.low,
@@ -48,7 +48,7 @@ class SnapReportModel extends SnapReport {
   }) {
     return SnapReportModel(
       id: id,
-      details: details ?? '',
+      comment: comment ?? '',
       latitude: latitude,
       longitude: longitude,
       severity: severity,
@@ -67,7 +67,7 @@ class SnapReportModel extends SnapReport {
   SnapReportModel copyWithModel({
     String? id,
     String? issueId,
-    String? details,
+    String? comment,
     double? latitude,
     double? longitude,
     DateTime? createdAt,
@@ -83,7 +83,7 @@ class SnapReportModel extends SnapReport {
     return SnapReportModel(
       id: id ?? this.id,
       issueId: issueId ?? this.issueId,
-      details: details ?? this.details,
+      comment: comment ?? this.comment,
       latitude: latitude ?? this.latitude,
       longitude: longitude ?? this.longitude,
       createdAt: createdAt ?? this.createdAt,

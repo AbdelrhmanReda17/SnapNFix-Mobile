@@ -39,7 +39,7 @@ class _IssueDetailsState extends State<IssueDetails> {
 
             FaqItem(
               title: 'Location Information',
-              icon: Icons.location_on,
+              icon: Icons.map_outlined,
               isExpanded: _isLocationExpanded,
               onTap:
                   () => setState(

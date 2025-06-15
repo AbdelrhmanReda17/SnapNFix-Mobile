@@ -11,7 +11,7 @@ class OfflineReportEntity extends HiveObject {
   late String imagePath;
 
   @HiveField(2)
-  String? details;
+  String? comment;
 
   @HiveField(3)
   late double latitude;
@@ -43,7 +43,7 @@ class OfflineReportEntity extends HiveObject {
   OfflineReportEntity({
     required this.id,
     required this.imagePath,
-    this.details,
+    this.comment,
     required this.latitude,
     required this.longitude,
     this.severity,

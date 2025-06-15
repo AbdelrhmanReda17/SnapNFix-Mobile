@@ -18,7 +18,7 @@ class LocationContent extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Divider(color: colorScheme.outlineVariant.withOpacity(0.5)),
+        Divider(color: colorScheme.outlineVariant.withValues(alpha: 0.5)),
         SizedBox(height: 8.h),
         DetailItem(label: 'Road', value: issue.road),
         DetailItem(label: 'City', value: issue.city),

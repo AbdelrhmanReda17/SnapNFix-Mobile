@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:snapnfix/core/core.dart';
 
 class FaqItem extends StatelessWidget {
   final String title;
@@ -27,12 +28,11 @@ class FaqItem extends StatelessWidget {
         borderRadius: BorderRadius.circular(12.r),
         boxShadow: [
           BoxShadow(
-            color: colorScheme.shadow.withOpacity(0.08),
+            color: colorScheme.shadow.withValues(alpha: 0.2),
             blurRadius: 8,
             offset: const Offset(0, 2),
           ),
         ],
-        border: Border.all(color: colorScheme.outlineVariant.withOpacity(0.5)),
       ),
       child: Column(
         children: [
@@ -44,8 +44,15 @@ class FaqItem extends StatelessWidget {
               padding: EdgeInsets.all(16.r),
               child: Row(
                 children: [
-                  Icon(icon, size: 22.sp, color: colorScheme.primary),
-                  SizedBox(width: 12.w),
+                  Container(
+                    padding: EdgeInsets.all(8.r),
+                    decoration: BoxDecoration(
+                      color: colorScheme.primary.withValues(alpha: 0.12),
+                      shape: BoxShape.circle,
+                    ),
+                    child: Icon(icon, size: 24.sp, color: colorScheme.primary),
+                  ),
+                  horizontalSpace(16),
                   Expanded(
                     child: Text(
                       title,

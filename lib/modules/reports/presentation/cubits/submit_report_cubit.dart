@@ -31,7 +31,7 @@ class SubmitReportCubit extends Cubit<SubmitReportState> {
     );
     debugPrint('Temp file path: ${tempFile.path}');
     debugPrint(value);
-    emit(state.copyWith(details: value, image: tempFile));
+    emit(state.copyWith(comment: value, image: tempFile));
   }
 
   void setImage(File? image) {
@@ -65,7 +65,7 @@ class SubmitReportCubit extends Cubit<SubmitReportState> {
     );
     try {
       final result = await _submitReportUseCase.call(
-        details: state.details ?? '',
+        comment: state.comment ?? '',
         latitude: position.latitude,
         longitude: position.longitude,
         severity: state.severity,
@@ -100,7 +100,7 @@ class SubmitReportCubit extends Cubit<SubmitReportState> {
     emit(
       state.copyWith(
         image: null,
-        details: null,
+        comment: null,
         severity: state.severity,
         position: null,
         isLoading: false,

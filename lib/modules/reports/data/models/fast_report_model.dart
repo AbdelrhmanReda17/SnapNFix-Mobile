@@ -6,6 +6,12 @@ part 'fast_report_model.g.dart';
 
 @JsonSerializable()
 class FastReportModel extends FastReport {
+  @JsonKey(name: 'userFirstName')
+  final String? firstName;
+
+  @JsonKey(name: 'userLastName')
+  final String? lastName;
+
   const FastReportModel({
     super.id,
     required super.issueId,
@@ -13,7 +19,9 @@ class FastReportModel extends FastReport {
     required super.severity,
     super.isUserReport = false,
     super.createdAt,
-  });
+    this.firstName,
+    this.lastName,
+  }) : super(firstName: firstName, lastName: lastName);
 
   factory FastReportModel.fromJson(Map<String, dynamic> json) =>
       _$FastReportModelFromJson(json);

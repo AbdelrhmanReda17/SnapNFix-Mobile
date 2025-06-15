@@ -10,7 +10,7 @@ class SubmitReportUseCase {
   SubmitReportUseCase(this._repository);
 
   Future<Result<String, ApiError>> call({
-    required String details,
+    required String comment,
     required double latitude,
     required double longitude,
     required ReportSeverity severity,
@@ -27,7 +27,7 @@ class SubmitReportUseCase {
       }
 
       final report = SnapReportModel(
-        details: details,
+        comment: comment,
         latitude: latitude,
         longitude: longitude,
         city: city,

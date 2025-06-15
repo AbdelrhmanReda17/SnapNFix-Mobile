@@ -231,7 +231,7 @@ class ReportLocalDataSource implements BaseReportLocalDataSource {
       final offlineReport = OfflineReportEntity(
         id: reportId,
         imagePath: savedImage.path,
-        details: report.details,
+        comment: report.comment,
         latitude: report.latitude,
         longitude: report.longitude,
         severity: report.severity?.displayName,
@@ -281,7 +281,7 @@ class ReportLocalDataSource implements BaseReportLocalDataSource {
     return SnapReportModel(
       id: entity.id,
       imagePath: entity.imagePath,
-      details: entity.details,
+      comment: entity.comment,
       latitude: entity.latitude,
       longitude: entity.longitude,
       road: entity.road,

@@ -7,7 +7,7 @@ class SubmitReportState with _$SubmitReportState {
     required ReportSeverity severity,
     required Position? position,
     required bool isLoading,
-    required String? details,
+    required String? comment,
     String? error,
     String? successMessage,
   }) = _SubmitReportState;
@@ -17,7 +17,7 @@ class SubmitReportState with _$SubmitReportState {
     severity: ReportSeverity.low,
     position: null,
     isLoading: false,
-    details: null,
+    comment: null,
     error: null,
     successMessage: null,
   );

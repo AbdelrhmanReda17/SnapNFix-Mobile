@@ -6,7 +6,7 @@ import 'package:snapnfix/modules/reports/domain/entities/report_status.dart';
 import 'package:geocoding/geocoding.dart';
 
 class SnapReport extends Report {
-  final String? details;
+  final String? comment;
   final double latitude;
   final double longitude;
   final String road;
@@ -20,7 +20,7 @@ class SnapReport extends Report {
   const SnapReport({
     super.id,
     super.issueId,
-    this.details,
+    this.comment,
     required this.latitude,
     required this.longitude,
     required this.road,
@@ -91,7 +91,7 @@ class SnapReport extends Report {
   @override
   List<Object?> get props => [
     ...super.props,
-    details,
+    comment,
     latitude,
     longitude,
     road,

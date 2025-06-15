@@ -5,6 +5,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:snapnfix/core/base_components/base_paginated_list_view.dart';
 import 'package:snapnfix/modules/reports/data/models/fast_report_model.dart';
 import 'package:snapnfix/modules/reports/presentation/cubits/issue_fast_reports_cubit.dart';
+import 'package:snapnfix/modules/reports/presentation/widgets/issue_reports/issue_comments_card.dart';
 
 class IssueFastReportsList extends StatelessWidget {
   final String issueId;
@@ -24,7 +25,13 @@ class IssueFastReportsList extends StatelessWidget {
           hasReachedEnd: state.hasReachedEnd,
           error: state.error,
           itemBuilder: (context, report, index) {
-            return _buildFastReportCard(context, report);
+            return IssueCommentsCard(
+              isSnapReport: false,
+              firstName: report.firstName,
+              lastName: report.lastName,
+              createdAt: report.createdAt,
+              comment: report.comment,
+            );
           },
           onRefresh: () async {
             await context.read<IssueFastReportsCubit>().refreshReports(issueId);
@@ -41,81 +48,6 @@ class IssueFastReportsList extends StatelessWidget {
                   _buildErrorState(context, error, localization),
         );
       },
-    );
-  }
-
-  Widget _buildFastReportCard(BuildContext context, FastReportModel report) {
-    final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
-
-    return Card(
-      elevation: 2,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.r)),
-      child: Padding(
-        padding: EdgeInsets.all(16.r),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                CircleAvatar(
-                  radius: 20.r,
-                  backgroundColor: colorScheme.primary.withOpacity(0.1),
-                  child: Icon(
-                    Icons.person,
-                    color: colorScheme.primary,
-                    size: 20.sp,
-                  ),
-                ),
-                SizedBox(width: 12.w),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        '${report.firstName ?? 'Anonymous'} ${report.lastName ?? ''}',
-                        style: theme.textTheme.titleSmall?.copyWith(
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      if (report.createdAt != null)
-                        Text(
-                          _formatDate(report.createdAt!),
-                          style: theme.textTheme.bodySmall?.copyWith(
-                            color: colorScheme.onSurface.withOpacity(0.6),
-                          ),
-                        ),
-                    ],
-                  ),
-                ),
-                if (report.severity != null)
-                  Container(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: 8.w,
-                      vertical: 4.h,
-                    ),
-                    decoration: BoxDecoration(
-                      color: report.severity!.color.withOpacity(0.1),
-                      borderRadius: BorderRadius.circular(12.r),
-                      border: Border.all(
-                        color: report.severity!.color.withOpacity(0.3),
-                      ),
-                    ),
-                    child: Text(
-                      report.severity!.displayName,
-                      style: theme.textTheme.labelSmall?.copyWith(
-                        color: report.severity!.color,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  ),
-              ],
-            ),
-            SizedBox(height: 12.h),
-            Text(report.comment, style: theme.textTheme.bodyMedium),
-          ],
-        ),
-      ),
     );
   }
 
@@ -141,7 +73,7 @@ class IssueFastReportsList extends StatelessWidget {
           Text(
             'Be the first to add a quick report',
             style: theme.textTheme.bodyMedium?.copyWith(
-              color: theme.colorScheme.onSurface.withOpacity(0.6),
+              color: theme.colorScheme.onSurface.withValues(alpha: 0.6),
             ),
             textAlign: TextAlign.center,
           ),
@@ -188,20 +120,5 @@ class IssueFastReportsList extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  String _formatDate(DateTime date) {
-    final now = DateTime.now();
-    final difference = now.difference(date);
-
-    if (difference.inDays > 0) {
-      return '${difference.inDays} days ago';
-    } else if (difference.inHours > 0) {
-      return '${difference.inHours} hours ago';
-    } else if (difference.inMinutes > 0) {
-      return '${difference.inMinutes} minutes ago';
-    } else {
-      return 'Just now';
-    }
   }
 }

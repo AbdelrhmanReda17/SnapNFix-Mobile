@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:snapnfix/core/index.dart';
 import 'package:snapnfix/modules/reports/presentation/cubits/issue_fast_reports_cubit.dart';
 import 'package:snapnfix/modules/reports/presentation/cubits/issue_snap_reports_cubit.dart';
@@ -35,7 +34,6 @@ class _IssueReportsTabsState extends State<IssueReportsTabs>
 
   @override
   Widget build(BuildContext context) {
-    final localization = AppLocalizations.of(context)!;
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
 
@@ -57,26 +55,31 @@ class _IssueReportsTabsState extends State<IssueReportsTabs>
       child: Column(
         children: [
           Container(
-            margin: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+            margin: EdgeInsets.only(top: 8.h),
             decoration: BoxDecoration(
               color: colorScheme.surface,
               borderRadius: BorderRadius.circular(12.r),
-              border: Border.all(color: colorScheme.outline.withOpacity(0.2)),
+              border: Border.all(
+                color: colorScheme.outline.withValues(alpha: .2),
+              ),
             ),
             child: TabBar(
+              dividerColor: Colors.transparent,
               controller: _tabController,
               indicator: BoxDecoration(
-                borderRadius: BorderRadius.circular(10.r),
+                borderRadius: BorderRadius.circular(12.r),
                 color: colorScheme.primary,
               ),
               labelColor: colorScheme.onPrimary,
-              unselectedLabelColor: colorScheme.onSurface.withOpacity(0.6),
+              unselectedLabelColor: colorScheme.onSurface.withValues(
+                alpha: 0.6,
+              ),
               labelStyle: TextStyle(
-                fontSize: 14.sp,
+                fontSize: 16.sp,
                 fontWeight: FontWeight.w600,
               ),
               unselectedLabelStyle: TextStyle(
-                fontSize: 14.sp,
+                fontSize: 16.sp,
                 fontWeight: FontWeight.normal,
               ),
               tabs: [

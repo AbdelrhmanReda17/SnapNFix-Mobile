@@ -74,7 +74,7 @@ class ReportRemoteDataSource implements BaseReportRemoteDataSource {
       return await _handleApiCall(
         apiCall:
             () => _apiService.createSnapReport(
-              report.details ?? '',
+              report.comment ?? '',
               report.severity!.displayName,
               report.latitude,
               report.longitude,

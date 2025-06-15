@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:snapnfix/modules/issues/domain/entities/issue.dart';
+import 'package:snapnfix/presentation/widgets/issue_severity_icons_indicator.dart';
 import './info_item.dart';
 
 class IssueInfoContent extends StatelessWidget {
@@ -22,16 +23,33 @@ class IssueInfoContent extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Divider(color: colorScheme.outlineVariant.withOpacity(0.5)),
+        Divider(color: colorScheme.outlineVariant.withValues(alpha: 0.5)),
         SizedBox(height: 8.h),
         InfoItem(
           icon: Icons.warning_amber_rounded,
-          text: 'Severity: ${localization.issueSeverity(issue.severity.toString())}',
           color: issue.severity.color,
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                '${localization.severity}: ',
+                style: TextStyle(
+                  fontSize: 14.sp,
+                  color: Theme.of(context).colorScheme.onSurfaceVariant,
+                  height: 1.4,
+                ),
+              ),
+              IssueSeverityIconsIndicator(
+                severity: issue.severity,
+                iconSize: 16,
+                showLabel: true,
+              ),
+            ],
+          ),
         ),
         SizedBox(height: 12.h),
         InfoItem(
-          icon: Icons.report_problem_rounded,
+          icon: Icons.people,
           text: 'Reports: ${localization.issueReportsNum(issue.reportsCount)}',
           color: colorScheme.secondary,
         ),
@@ -39,7 +57,7 @@ class IssueInfoContent extends StatelessWidget {
         InfoItem(
           icon: Icons.calendar_today_outlined,
           text: 'Created: ${DateFormat('MMM d, yyyy').format(issue.createdAt)}',
-          color: colorScheme.tertiary,
+          color: colorScheme.secondary,
         ),
       ],
     );

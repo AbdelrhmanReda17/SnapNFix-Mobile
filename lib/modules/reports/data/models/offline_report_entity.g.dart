@@ -19,7 +19,7 @@ class OfflineReportEntityAdapter extends TypeAdapter<OfflineReportEntity> {
     return OfflineReportEntity(
       id: fields[0] as String,
       imagePath: fields[1] as String,
-      details: fields[2] as String?,
+      comment: fields[2] as String?,
       latitude: fields[3] as double,
       longitude: fields[4] as double,
       severity: fields[5] as String?,
@@ -41,7 +41,7 @@ class OfflineReportEntityAdapter extends TypeAdapter<OfflineReportEntity> {
       ..writeByte(1)
       ..write(obj.imagePath)
       ..writeByte(2)
-      ..write(obj.details)
+      ..write(obj.comment)
       ..writeByte(3)
       ..write(obj.latitude)
       ..writeByte(4)

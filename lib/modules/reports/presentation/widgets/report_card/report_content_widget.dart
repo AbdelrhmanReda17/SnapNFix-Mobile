@@ -70,9 +70,9 @@ class ReportExpandedContent extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                if (report.details != null) ...[
+                if (report.comment != null) ...[
                   Text(
-                    report.details ?? '',
+                    report.comment ?? '',
                     style: theme.textTheme.labelMedium?.copyWith(
                       color: colorScheme.onSurface,
                       fontWeight: FontWeight.w500,

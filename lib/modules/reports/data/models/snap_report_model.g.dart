@@ -9,7 +9,7 @@ part of 'snap_report_model.dart';
 SnapReportModel _$SnapReportModelFromJson(Map<String, dynamic> json) =>
     SnapReportModel(
       id: json['id'] as String?,
-      details: json['details'] as String?,
+      comment: json['comment'] as String?,
       latitude: (json['latitude'] as num).toDouble(),
       longitude: (json['longitude'] as num).toDouble(),
       severity:
@@ -35,7 +35,7 @@ Map<String, dynamic> _$SnapReportModelToJson(SnapReportModel instance) =>
       'issueId': instance.issueId,
       'severity': _$ReportSeverityEnumMap[instance.severity],
       'createdAt': instance.createdAt?.toIso8601String(),
-      'details': instance.details,
+      'comment': instance.comment,
       'latitude': instance.latitude,
       'longitude': instance.longitude,
       'road': instance.road,
