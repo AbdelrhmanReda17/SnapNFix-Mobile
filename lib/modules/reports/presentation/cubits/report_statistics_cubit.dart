@@ -54,33 +54,31 @@ class ReportStatisticsCubit extends Cubit<ReportStatisticsState> {
 
     final result = await _getReportStatisticsUseCase.call();
 
-    if (isClosed) return;
+    if (isClosed) return; 
 
     result.when(
       success: (statistics) async {
-        if (!isClosed) {
-          await _cacheStatistics(statistics);
-          emit(state.copyWith(
-            statistics: statistics,
-            isLoading: false,
-            lastUpdated: DateTime.now(),
-            error: null,
-          ));
-        }
+        if (isClosed) return;
+        await _cacheStatistics(statistics);
+        emit(state.copyWith(
+          statistics: statistics,
+          isLoading: false,
+          lastUpdated: DateTime.now(),
+          error: null,
+        ));
       },
       failure: (error) {
-        if (!isClosed) {
-          if (state.statistics == null) {
-            emit(state.copyWith(
-              isLoading: false,
-              error: error.message,
-            ));
-          } else {
-            emit(state.copyWith(
-              isLoading: false,
-              error: null,
-            ));
-          }
+        if (isClosed) return; 
+        if (state.statistics == null) {
+          emit(state.copyWith(
+            isLoading: false,
+            error: error.message,
+          ));
+        } else {
+          emit(state.copyWith(
+            isLoading: false,
+            error: null,
+          ));
         }
       },
     );
