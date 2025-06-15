@@ -9,6 +9,7 @@ import 'package:snapnfix/presentation/navigation/routes.dart';
 class ProfileContainer extends StatelessWidget {
   const ProfileContainer({super.key, required this.user});
   final User user;
+
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
@@ -17,7 +18,8 @@ class ProfileContainer extends StatelessWidget {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
 
     return Container(
-      height: 148.h,
+      height: 150.h,
+      width: double.infinity,
       color: colorScheme.primary,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -27,75 +29,122 @@ class ProfileContainer extends StatelessWidget {
             titleSpacing: 0,
             centerTitle: true,
             title: Text(
-              localization.settings,              style: textStyles.headlineLarge?.copyWith(
+              localization.settings,
+              style: textStyles.headlineLarge?.copyWith(
                 fontSize: 20.sp,
                 color: isDarkMode ? Colors.white : colorScheme.onPrimary,
               ),
             ),
           ),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 10.h),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    CircleAvatar(
-                      radius: 30.r,
-                      backgroundColor: colorScheme.surface,
-                      child:
-                          user.profileImage != null
-                              ? ClipRRect(
-                                borderRadius: BorderRadius.circular(30.r),
-                                child: Image.network(
-                                  user.profileImage!,
-                                  width: 60.w,
-                                  height: 60.h,
-                                  fit: BoxFit.cover,
-                                ),
-                              )                              : Text(
-                                "${user.firstName![0]}${user.lastName![0]}",
-                                style: TextStyle(
-                                  color: isDarkMode ? Colors.white : colorScheme.primary,
-                                ),
+          Expanded(
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 10.h),
+              child: Row(
+                children: [
+                  // Avatar - Fixed width
+                  CircleAvatar(
+                    radius: 30.r,
+                    backgroundColor: colorScheme.surface,
+                    child:
+                        user.profileImage != null
+                            ? ClipRRect(
+                              borderRadius: BorderRadius.circular(30.r),
+                              child: Image.network(
+                                user.profileImage!,
+                                width: 60.w,
+                                height: 60.h,
+                                fit: BoxFit.cover,
+                                errorBuilder: (context, error, stackTrace) {
+                                  return _buildInitialsAvatar(
+                                    colorScheme,
+                                    isDarkMode,
+                                  );
+                                },
                               ),
-                    ),
-                    horizontalSpace(12),
-                    SizedBox(
-                      width: 200.w,
-                      child: RichText(
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,                        text: TextSpan(
-                          text: "${localization.hello}\n",                          style: textStyles.bodySmall?.copyWith(
-                            color: isDarkMode ? Colors.white : colorScheme.onPrimary,
-                          ),
-                          children: [
-                            TextSpan(
-                              text: "${user.firstName} ${user.lastName}",                              style: textStyles.bodyLarge?.copyWith(
-                                color: isDarkMode ? Colors.white : colorScheme.onPrimary,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                IconButton(
-                  iconSize: 20.r,
-                  icon: Icon(
-                    Icons.edit, 
-                    color: isDarkMode ? Colors.white : colorScheme.onPrimary,
+                            )
+                            : _buildInitialsAvatar(colorScheme, isDarkMode),
                   ),
-                  onPressed: () {
-                    context.push(Routes.editProfile);
-                  },
-                ),
-              ],
+
+                  // Spacing
+                  horizontalSpace(12),
+
+                  // User info - Flexible to take remaining space
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          localization.hello,
+                          style: textStyles.bodySmall?.copyWith(
+                            color:
+                                isDarkMode
+                                    ? Colors.white
+                                    : colorScheme.onPrimary,
+                            fontSize: 12.sp,
+                          ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        SizedBox(height: 2.h),
+                        Text(
+                          "${user.firstName ?? ''} ${user.lastName ?? ''}"
+                              .trim(),
+                          style: textStyles.bodyLarge?.copyWith(
+                            color:
+                                isDarkMode
+                                    ? Colors.white
+                                    : colorScheme.onPrimary,
+                            fontSize: 16.sp,
+                            fontWeight: FontWeight.w600,
+                          ),
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  // Edit button - Fixed width
+                  SizedBox(
+                    width: 40.w,
+                    height: 40.h,
+                    child: IconButton(
+                      iconSize: 20.r,
+                      icon: Icon(
+                        Icons.edit,
+                        color:
+                            isDarkMode ? Colors.white : colorScheme.onPrimary,
+                      ),
+                      onPressed: () {
+                        context.push(Routes.editProfile);
+                      },
+                      padding: EdgeInsets.zero,
+                      constraints: const BoxConstraints(),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildInitialsAvatar(ColorScheme colorScheme, bool isDarkMode) {
+    final firstName = user.firstName ?? '';
+    final lastName = user.lastName ?? '';
+    final initials =
+        '${firstName.isNotEmpty ? firstName[0] : ''}${lastName.isNotEmpty ? lastName[0] : ''}'
+            .toUpperCase();
+
+    return Text(
+      initials.isNotEmpty ? initials : '?',
+      style: TextStyle(
+        color: isDarkMode ? Colors.white : colorScheme.primary,
+        fontSize: 18.sp,
+        fontWeight: FontWeight.bold,
       ),
     );
   }

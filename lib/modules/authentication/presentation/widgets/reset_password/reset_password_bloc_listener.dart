@@ -6,7 +6,7 @@ import 'package:snapnfix/presentation/navigation/routes.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ResetPasswordBlocListener extends StatelessWidget
-    with AuthenticationListenerMixin {
+    with ListenerMixin {
   const ResetPasswordBlocListener({super.key});
 
   @override
@@ -17,8 +17,8 @@ class ResetPasswordBlocListener extends StatelessWidget
           success: (isSucess) {
             handleSuccess(
               context,
-              message: AppLocalizations.of(context)!.resetPasswordSuccessfully,
-              route: Routes.login,
+              successMessage: AppLocalizations.of(context)!.resetPasswordSuccessfully,
+              navigationRoute: Routes.login,
             );
           },
           loading: () => showLoadingDialog(context),

@@ -54,10 +54,13 @@ class ReportSeveritySelector extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             for (final severity in ReportSeverity.values) ...[
-              _buildSeverityButton(severity, context),
-              if (severity != ReportSeverity.values.last) ...[
-                horizontalSpace(8),
-              ],
+              if (severity != ReportSeverity.values.first) ...[
+                _buildSeverityButton(severity, context),
+                if (severity != ReportSeverity.values.last) ...[
+                  horizontalSpace(8),
+                ],
+              ] else
+                SizedBox.shrink(),
             ],
           ],
         ),

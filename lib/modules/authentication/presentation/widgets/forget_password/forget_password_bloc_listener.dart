@@ -6,8 +6,7 @@ import 'package:snapnfix/modules/authentication/presentation/cubits/forget_passw
 import 'package:snapnfix/modules/authentication/presentation/mixins/authentication_listener_mixin.dart';
 import 'package:snapnfix/presentation/navigation/routes.dart';
 
-class ForgetPasswordBlocListener extends StatelessWidget
-    with AuthenticationListenerMixin {
+class ForgetPasswordBlocListener extends StatelessWidget with ListenerMixin {
   const ForgetPasswordBlocListener({super.key});
 
   @override
@@ -17,14 +16,15 @@ class ForgetPasswordBlocListener extends StatelessWidget
       listener: (context, state) {
         state.whenOrNull(
           requiresOtp: () {
-            context.pop();
-            context.pushReplacement(
-              Routes.otp,
-              extra: {
-                'emailOrPhoneNumber': cubit.emailOrPhone,
-                'purpose': OtpPurpose.passwordReset,
-              },
-            );
+            dismissLoadingAndExecute(context, () {
+              context.pushReplacement(
+                Routes.otp,
+                extra: {
+                  'emailOrPhoneNumber': cubit.emailOrPhone,
+                  'purpose': OtpPurpose.passwordReset,
+                },
+              );
+            });
           },
           loading: () => showLoadingDialog(context),
           error: (error) => handleError(context, error),

@@ -79,6 +79,7 @@ class AuthenticationRemoteDataSource
 
       return Result.success(response.data as T);
     } catch (error) {
+      debugPrint('API call failed: $error');
       return Result.failure(ApiError(message: error.toString()));
     }
   }
@@ -97,8 +98,6 @@ class AuthenticationRemoteDataSource
       platform: _deviceInfoService.platform,
       fcmToken: _deviceInfoService.fcmToken,
     );
-    debugPrint(loginRequest.toJson().toString());
-
     return _handleApiCall(
       apiCall: () => _apiService.login(loginRequest),
       isLoginOrRegister: true,

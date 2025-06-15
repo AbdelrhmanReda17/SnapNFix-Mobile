@@ -5,10 +5,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:snapnfix/core/utils/helpers/spacing.dart';
 import 'package:snapnfix/core/base_components/base_icon_button.dart';
 import 'package:snapnfix/modules/authentication/presentation/cubits/login/login_cubit.dart';
-import 'package:snapnfix/modules/authentication/presentation/mixins/authentication_listener_mixin.dart';
 
-class AuthenticationSocial extends StatelessWidget
-    with AuthenticationListenerMixin {
+class AuthenticationSocial extends StatelessWidget  {
   const AuthenticationSocial({super.key});
 
   @override

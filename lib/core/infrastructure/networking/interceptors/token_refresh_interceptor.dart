@@ -72,7 +72,6 @@ class TokenRefreshInterceptor extends Interceptor {
 
       try {
         await _refreshTokenIfNeeded();
-
         // Retry the original request with new token
         final retryResponse = await _retryRequest(err.requestOptions);
         handler.resolve(retryResponse);
@@ -80,8 +79,6 @@ class TokenRefreshInterceptor extends Interceptor {
       } catch (e) {
         debugPrint('Token refresh failed in onError: $e');
         await _handleTokenRefreshFailure();
-
-        // Convert to 401 error to indicate authentication failure
         final authError = DioException(
           requestOptions: err.requestOptions,
           response: err.response,
@@ -92,7 +89,6 @@ class TokenRefreshInterceptor extends Interceptor {
         return;
       }
     }
-
     handler.next(err);
   }
 
