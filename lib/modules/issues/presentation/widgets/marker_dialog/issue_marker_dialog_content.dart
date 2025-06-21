@@ -28,10 +28,9 @@ class IssueMarkerDialogContent extends StatelessWidget {
         children: [
           Row(
             children: [
-              Expanded(
-                child: IssueMarkerDialogDetailItem(
+              Expanded(                child: IssueMarkerDialogDetailItem(
                   icon: Icons.category,
-                  text: issue.category.displayName,
+                  text: issue.category.getLocalizedName(localization),
                   color: colorScheme.primary,
                 ),
               ),

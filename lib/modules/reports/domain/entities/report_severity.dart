@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 enum ReportSeverity {
   low(displayName: 'Low', color: Color(0xFF4CAF50), priority: 1),
@@ -14,6 +15,17 @@ enum ReportSeverity {
     required this.color,
     required this.priority,
   });
+
+  String getLocalizedName(AppLocalizations localization) {
+    switch (this) {
+      case ReportSeverity.low:
+        return localization.low;
+      case ReportSeverity.medium:
+        return localization.medium;
+      case ReportSeverity.high:
+        return localization.high;
+    }
+  }
 
   @override
   String toString() => displayName;

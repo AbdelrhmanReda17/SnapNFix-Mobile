@@ -470,7 +470,192 @@
       }
     }
   },
-  "sort": "Sort",
-  "sortByDateNewest": "Date (Newest First)",
-  "sortByDateOldest": "Date (Oldest First)"
+  "sort": "Sort",  "sortByDateNewest": "Date (Newest First)",
+  "sortByDateOldest": "Date (Oldest First)",
+
+  "issueDetailsTitle": "Issue Details",
+  "areaUpdates": "Area Updates",
+  "noAreasToDisplay": "No areas to display",
+  "filterByStatus": "Filter by status",
+  "subscribe": "Subscribe",
+  "unsubscribe": "Unsubscribe",
+  "updates": "Updates",
+  "male": "Male",
+  "female": "Female",
+  "notSpecified": "Not Specified",  "channelUpdates": "{channel} Updates",
+  "@channelUpdates": {
+    "description": "Updates for a specific channel",
+    "placeholders": {
+      "channel": {
+        "type": "String"
+      }
+    }
+  },
+
+  "goodLighting": "Good Lighting",
+  "goodLightingDesc": "Make sure your photo is well-lit to show all details clearly.",
+  "clearView": "Clear View",
+  "clearViewDesc": "Capture the issue clearly as the main focus of the image.",
+  "contextMatters": "Context Matters",
+  "contextMattersDesc": "Include surrounding area to help locate the issue.",
+  "addDetails": "Add Details",
+  "addDetailsDesc": "Describe what happened or any additional important information.",
+
+  "nasrCity": "Nasr City",
+  "downtown": "Downtown",
+  "maadi": "Maadi",
+  "zamalek": "Zamalek",
+  "heliopolis": "Heliopolis",
+  "cairo": "Cairo",
+
+  "improving": "Improving",
+  "declining": "Declining",
+  "stable": "Stable",
+
+  "roadDamage": "Road Damage",
+  "infrastructure": "Infrastructure",
+  "publicSafety": "Public Safety",
+  "cleanliness": "Cleanliness",
+  "lighting": "Lighting",
+  "traffic": "Traffic",
+  "other": "Other",
+
+  "selectCategory": "Select Category",
+  "selectSeverity": "Select Severity",
+  "selectStatus": "Select Status",
+  "allCategories": "All Categories",
+  "allSeverities": "All Severities",
+  "allStatuses": "All Statuses",
+
+  "reportSubmittedSuccessfully": "Report submitted successfully!",
+  "submittingReport": "Submitting report...",
+  "reportSubmissionFailed": "Failed to submit report",
+  "pleaseCheckConnection": "Please check your internet connection and try again.",
+
+  "takePhoto": "Take Photo",
+  "retakePhoto": "Retake Photo",
+  "deletePhoto": "Delete Photo",
+  "photoRequired": "Photo is required",
+  "photoTaken": "Photo taken successfully",
+
+  "locationAccuracy": "Location Accuracy",
+  "highAccuracy": "High",
+  "mediumAccuracy": "Medium",
+  "lowAccuracy": "Low",
+
+  "reportingInstructions": "Reporting Instructions",
+  "step1": "1. Take a clear photo of the issue",
+  "step2": "2. Add description (optional)",
+  "step3": "3. Set severity level", 
+  "step4": "4. Submit your report",
+
+  "sessionTimeout": "Session Timeout",
+  "sessionTimeoutMessage": "Your session will expire soon. Please save your work.",
+  "extendSession": "Extend Session",
+  "timeRemaining": "Time remaining",  "networkError": "Network Error",
+  "serverError": "Server Error",
+  "unexpectedError": "An unexpected error occurred",
+  "connectionTimeout": "Connection timeout",
+  "requestFailed": "Request failed",
+
+  "filterReports": "Filter Reports",
+  "gettingYourLocation": "Getting your location...",
+  "locationInformation": "Location Information",
+  "issueInformation": "Issue Information",
+  "areaHealthStatus": "Area Health Status",
+  "goodCondition": "Good condition",
+  "avgFixTime": "Avg Fix Time",
+  "fixedMonth": "Fixed (Month)",
+  "openIssues": "Open Issues",
+  "noIssuesFoundIn": "No issues found in {area}",
+  "@noIssuesFoundIn": {
+    "placeholders": {
+      "area": {
+        "type": "String"
+      }
+    }
+  },
+  "mokattamIssues": "Mokattam Issues",
+  "fastReport": "Fast Report",  "description": "Description",
+  "road": "Road",
+  "city": "City",
+  "state": "State",
+  "country": "Country",
+  "egypt": "Egypt",
+  "alGiza": "Al Giza",
+  "gizaGovernorate": "Giza Governorate",  "pending": "Pending",
+  "inProgress": "In Progress", 
+  "fixed": "Fixed",
+  "approved": "Approved",
+  "declined": "Declined",
+  "submit": "Submit",
+  "high": "High",
+  "medium": "Medium",  "low": "Low",
+  "garbage": "Garbage",  "defectiveManhole": "Defective Manhole",
+  "pothole": "Pothole",  "fastReports": "Fast Reports",  "snapReports": "Snap Reports",
+  "anonymous": "Anonymous",
+  "reportsLabel": "Reports",
+  "createdLabel": "Created",
+  "applyFilter": "Apply Filter","clearAllFilters": "Clear All Filters",  "reportNow": "Report Now",
+  "statusFilters": "Status Filters",
+
+  "excellentCondition": "Excellent condition",
+  "fairCondition": "Fair condition",
+  "poorCondition": "Poor condition",
+  "criticalCondition": "Critical condition",
+  "justNow": "Just now",
+  "dayAgo": "{count} day ago",
+  "@dayAgo": {
+    "description": "One day ago",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "daysAgo": "{count} days ago",
+  "@daysAgo": {
+    "description": "Multiple days ago",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "hourAgo": "{count} hour ago",
+  "@hourAgo": {
+    "description": "One hour ago",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "hoursAgo": "{count} hours ago",
+  "@hoursAgo": {
+    "description": "Multiple hours ago",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "minuteAgo": "{count} minute ago",
+  "@minuteAgo": {
+    "description": "One minute ago",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "minutesAgo": "{count} minutes ago",
+  "@minutesAgo": {
+    "description": "Multiple minutes ago",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  }
 }

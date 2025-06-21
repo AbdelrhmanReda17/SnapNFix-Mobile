@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:snapnfix/core/dependency_injection/dependency_injection.dart';
 import 'package:snapnfix/modules/issues/domain/usecases/get_area_issues_use_case.dart';
 import 'package:snapnfix/presentation/cubits/area_issues_cubit.dart';
@@ -11,10 +12,10 @@ class AreaIssuesChatScreen extends StatelessWidget {
   final String area;
 
   AreaIssuesChatScreen({String? area, Map<String, dynamic>? extra, super.key})
-    : area = area ?? extra?['area'] as String;
-  @override
+    : area = area ?? extra?['area'] as String;  @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
+    final localization = AppLocalizations.of(context)!;
 
     final healthScore = _getAreaHealthScore(area);
     final openIssues = _getAreaOpenIssuesCount(area);
@@ -45,10 +46,10 @@ class AreaIssuesChatScreen extends StatelessWidget {
           ),
         ),
         body: Column(
-          children: [
-            // Area health card
+          children: [            // Area health card
             _buildAreaHealthCard(
               context,
+              localization,
               healthScore,
               openIssues,
               fixedThisMonth,
@@ -66,10 +67,10 @@ class AreaIssuesChatScreen extends StatelessWidget {
       ),
     );
   }
-
   // Build health card widget
   Widget _buildAreaHealthCard(
     BuildContext context,
+    AppLocalizations localization,
     double healthScore,
     int openIssues,
     int fixedThisMonth,
@@ -126,16 +127,15 @@ class AreaIssuesChatScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Area Health Status',
+                        localization.areaHealthStatus,
                         style: TextStyle(
                           fontSize: 16.sp,
                           fontWeight: FontWeight.bold,
                           color: colorScheme.onSurface,
                         ),
                       ),
-                      SizedBox(height: 4.h),
-                      Text(
-                        _getHealthDescription(healthScore),
+                      SizedBox(height: 4.h),                      Text(
+                        _getHealthDescription(healthScore, localization),
                         style: TextStyle(
                           fontSize: 12.sp,
                           color: healthColor,
@@ -163,9 +163,8 @@ class AreaIssuesChatScreen extends StatelessWidget {
                         size: 14.sp,
                         color: _getTrendColor(trend),
                       ),
-                      SizedBox(width: 4.w),
-                      Text(
-                        trend,
+                      SizedBox(width: 4.w),                      Text(
+                        _getLocalizedTrend(trend, localization),
                         style: TextStyle(
                           fontSize: 12.sp,
                           fontWeight: FontWeight.w500,
@@ -191,26 +190,25 @@ class AreaIssuesChatScreen extends StatelessWidget {
             padding: EdgeInsets.all(16.w),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                _buildMetricItem(
+              children: [                _buildMetricItem(
                   context,
                   Icons.error_outline,
                   openIssues.toString(),
-                  'Open Issues',
+                  localization.openIssues,
                   Colors.orange,
                 ),
                 _buildMetricItem(
                   context,
                   Icons.check_circle_outline,
                   fixedThisMonth.toString(),
-                  'Fixed (Month)',
+                  localization.fixedMonth,
                   Colors.green,
                 ),
                 _buildMetricItem(
                   context,
                   Icons.timer_outlined,
                   '${avgResolutionTime.toStringAsFixed(1)}h',
-                  'Avg Fix Time',
+                  localization.avgFixTime,
                   Colors.blue,
                 ),
               ],
@@ -331,19 +329,30 @@ class AreaIssuesChatScreen extends StatelessWidget {
     } else {
       return Colors.red;
     }
+  }  String _getHealthDescription(double health, AppLocalizations localization) {
+    if (health > 0.8) {
+      return localization.excellentCondition;
+    } else if (health > 0.7) {
+      return localization.goodCondition;
+    } else if (health > 0.5) {
+      return localization.fairCondition;
+    } else if (health > 0.3) {
+      return localization.poorCondition;
+    } else {
+      return localization.criticalCondition;
+    }
   }
 
-  String _getHealthDescription(double health) {
-    if (health > 0.8) {
-      return 'Excellent condition';
-    } else if (health > 0.7) {
-      return 'Good condition';
-    } else if (health > 0.5) {
-      return 'Fair condition';
-    } else if (health > 0.3) {
-      return 'Poor condition';
-    } else {
-      return 'Critical condition';
+  String _getLocalizedTrend(String trend, AppLocalizations localization) {
+    switch (trend) {
+      case 'Improving':
+        return localization.improving;
+      case 'Stable':
+        return localization.stable;
+      case 'Declining':
+        return localization.declining;
+      default:
+        return trend;
     }
   }
 

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 enum IssueSeverity {
   notSpecified(
@@ -27,6 +28,19 @@ enum IssueSeverity {
     required this.color,
     required this.icon,
   });
+
+  String getLocalizedName(AppLocalizations localization) {
+    switch (this) {
+      case IssueSeverity.notSpecified:
+        return localization.notSpecified;
+      case IssueSeverity.low:
+        return localization.low;
+      case IssueSeverity.medium:
+        return localization.medium;
+      case IssueSeverity.high:
+        return localization.high;
+    }
+  }
 
   @override
   String toString() => displayName;

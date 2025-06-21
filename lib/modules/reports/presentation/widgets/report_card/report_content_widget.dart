@@ -85,9 +85,8 @@ class ReportExpandedContent extends StatelessWidget {
                   InkWell(
                     onTap: () {
                       context.push(Routes.issueDetails, extra: report.issueId);
-                    },
-                    child: Text(
-                      "View Issue",
+                    },                    child: Text(
+                      localization.viewDetails,
                       style: theme.textTheme.labelMedium?.copyWith(
                         color: colorScheme.primary,
                         decoration: TextDecoration.underline,

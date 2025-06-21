@@ -112,14 +112,12 @@ class SubmitReportTips extends StatelessWidget {
                   ),
                   verticalSpace(10),
                   Divider(height: 1, thickness: 1, color: colorScheme.outline),
-                  verticalSpace(10),
-
-                  for (final tip in tips) ...[
+                  verticalSpace(10),                  for (final tip in tips) ...[
                     _buildTipCard(
                       context: context,
                       icon: tip['icon'] as IconData,
-                      title: tip['title'] as String,
-                      description: tip['description'] as String,
+                      title: _getTipTitle(tip['title'] as String, localization),
+                      description: _getTipDescription(tip['title'] as String, localization),
                       iconBackgroundColor: (tip['iconBackgroundColor'] as Color)
                           .withValues(alpha: 0.1),
                       iconColor: (tip['iconColor'] as Color).withValues(
@@ -190,7 +188,36 @@ class SubmitReportTips extends StatelessWidget {
             ],
           ),
         ),
-      ],
-    );
+      ],    );
+  }
+
+  String _getTipTitle(String key, AppLocalizations localization) {
+    switch (key) {
+      case 'Good Lighting':
+        return localization.goodLighting;
+      case 'Clear View':
+        return localization.clearView;
+      case 'Context Matters':
+        return localization.contextMatters;
+      case 'Add Details':
+        return localization.addDetails;
+      default:
+        return key;
+    }
+  }
+
+  String _getTipDescription(String key, AppLocalizations localization) {
+    switch (key) {
+      case 'Good Lighting':
+        return localization.goodLightingDesc;
+      case 'Clear View':
+        return localization.clearViewDesc;
+      case 'Context Matters':
+        return localization.contextMattersDesc;
+      case 'Add Details':
+        return localization.addDetailsDesc;
+      default:
+        return '';
+    }
   }
 }

@@ -1,3 +1,6 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 enum UserGender {
   male("Male"),
   female("Female"),
@@ -9,6 +12,22 @@ enum UserGender {
   @override
   String toString() {
     return displayName;
+  }
+
+  String getLocalizedDisplayName(BuildContext context) {
+    final localization = AppLocalizations.of(context)!;
+    switch (this) {
+      case UserGender.male:
+        return localization.male;
+      case UserGender.female:
+        return localization.female;
+      case UserGender.notSpecified:
+        return localization.notSpecified;
+    }
+  }
+
+  static List<String> getLocalizedStringValues(BuildContext context) {
+    return UserGender.values.map((e) => e.getLocalizedDisplayName(context)).toList();
   }
 
   get getStringValues {

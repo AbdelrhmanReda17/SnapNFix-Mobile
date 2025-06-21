@@ -75,15 +75,14 @@ class EditProfileForm extends StatelessWidget {
               ),
 
 
-              verticalSpace(20),
-              BaseDropdownField<UserGender>(
+              verticalSpace(20),              BaseDropdownField<UserGender>(
                 key: ValueKey('gender_$resetCount'),
                 hintText: localization.selectGender,
                 labelText: localization.gender,
                 items: UserGender.values,
                 initialValue: cubit.selectedGender,
                 onChanged: cubit.setSelectedGender,
-                itemLabelBuilder: (UserGender item) => item.displayName,
+                itemLabelBuilder: (UserGender item) => item.getLocalizedDisplayName(context),
               ),
               verticalSpace(16),
               BaseDatePickerField(

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:snapnfix/core/utils/helpers/spacing.dart';
 import 'package:snapnfix/modules/issues/domain/entities/issue_severity.dart';
 
@@ -17,9 +18,10 @@ class IssueSeverityIconsIndicator extends StatelessWidget {
     this.showLabel = false,
     this.spacing = 4,
   });
-
   @override
   Widget build(BuildContext context) {
+    final localization = AppLocalizations.of(context)!;
+    
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -27,7 +29,7 @@ class IssueSeverityIconsIndicator extends StatelessWidget {
         if (showLabel) ...[
           horizontalSpace(spacing),
           Text(
-            severity.displayName,
+            severity.getLocalizedName(localization),
             style: TextStyle(
               color: _getSeverityColor(),
               fontSize: 12.sp,

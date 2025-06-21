@@ -47,16 +47,15 @@ class IssueInfoContent extends StatelessWidget {
             ],
           ),
         ),
-        SizedBox(height: 12.h),
-        InfoItem(
+        SizedBox(height: 12.h),        InfoItem(
           icon: Icons.people,
-          text: 'Reports: ${localization.issueReportsNum(issue.reportsCount)}',
+          text: '${localization.reportsLabel}: ${localization.issueReportsNum(issue.reportsCount)}',
           color: colorScheme.secondary,
         ),
         SizedBox(height: 12.h),
         InfoItem(
           icon: Icons.calendar_today_outlined,
-          text: 'Created: ${DateFormat('MMM d, yyyy').format(issue.createdAt)}',
+          text: '${localization.createdLabel}: ${DateFormat('MMM d, yyyy').format(issue.createdAt)}',
           color: colorScheme.secondary,
         ),
       ],

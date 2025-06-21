@@ -25,9 +25,8 @@ class IssueDetailsScreen extends StatelessWidget {
       value: ApplicationSystemUIOverlay.getDefaultStyle(appConfigs.isDarkMode),
       child: Scaffold(
         appBar: AppBar(
-          backgroundColor: colorScheme.surface,
-          title: Text(
-            "Issue Details",
+          backgroundColor: colorScheme.surface,          title: Text(
+            localization.issueDetailsTitle,
             style: TextStyle(color: colorScheme.primary, fontSize: 20.sp),
           ),
           iconTheme: IconThemeData(

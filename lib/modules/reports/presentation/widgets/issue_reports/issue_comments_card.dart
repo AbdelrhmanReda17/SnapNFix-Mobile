@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:snapnfix/core/core.dart';
 import 'package:snapnfix/modules/issues/domain/entities/issue_severity.dart';
 import 'package:snapnfix/presentation/widgets/issue_severity_icons_indicator.dart';
@@ -88,19 +89,17 @@ class IssueCommentsCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Row(
-                    children: [
-                      Text(
-                        _formatName(),
+                    children: [                      Text(
+                        _formatName(context),
                         style: theme.textTheme.titleSmall?.copyWith(
                           fontWeight: FontWeight.w600,
                         ),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),
-                      Spacer(),
-                      if (createdAt != null)
+                      Spacer(),                      if (createdAt != null)
                         Text(
-                          _formatDate(createdAt!),
+                          _formatDate(createdAt!, context),
                           style: theme.textTheme.bodySmall?.copyWith(
                             color: colorScheme.onSurface.withValues(alpha: 0.6),
                           ),
@@ -130,13 +129,12 @@ class IssueCommentsCard extends StatelessWidget {
       ),
     );
   }
-
-  String _formatName() {
+  String _formatName(BuildContext context) {
     final firstNameValue = firstName?.trim() ?? '';
     final lastNameValue = lastName?.trim() ?? '';
 
     if (firstNameValue.isEmpty && lastNameValue.isEmpty) {
-      return 'Anonymous';
+      return AppLocalizations.of(context)!.anonymous;
     } else if (firstNameValue.isEmpty) {
       return lastNameValue;
     } else if (lastNameValue.isEmpty) {
@@ -159,20 +157,25 @@ class IssueCommentsCard extends StatelessWidget {
       default:
         return IssueSeverity.notSpecified;
     }
-  }
-
-  String _formatDate(DateTime date) {
+  }  String _formatDate(DateTime date, BuildContext context) {
+    final localization = AppLocalizations.of(context)!;
     final now = DateTime.now();
     final difference = now.difference(date);
 
     if (difference.inDays > 0) {
-      return '${difference.inDays} ${difference.inDays == 1 ? 'day' : 'days'} ago';
+      return difference.inDays == 1 
+        ? localization.dayAgo(difference.inDays)
+        : localization.daysAgo(difference.inDays);
     } else if (difference.inHours > 0) {
-      return '${difference.inHours} ${difference.inHours == 1 ? 'hour' : 'hours'} ago';
+      return difference.inHours == 1 
+        ? localization.hourAgo(difference.inHours)
+        : localization.hoursAgo(difference.inHours);
     } else if (difference.inMinutes > 0) {
-      return '${difference.inMinutes} ${difference.inMinutes == 1 ? 'minute' : 'minutes'} ago';
+      return difference.inMinutes == 1 
+        ? localization.minuteAgo(difference.inMinutes)
+        : localization.minutesAgo(difference.inMinutes);
     } else {
-      return 'Just now';
+      return localization.justNow;
     }
   }
 }

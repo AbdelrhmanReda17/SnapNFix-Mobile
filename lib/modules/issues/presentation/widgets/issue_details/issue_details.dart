@@ -35,10 +35,8 @@ class _IssueDetailsState extends State<IssueDetails> {
           children: [
             // Header with title and status badge
             _buildHeader(textStyles, colorScheme, localization),
-            verticalSpace(24),
-
-            FaqItem(
-              title: 'Location Information',
+            verticalSpace(24),            FaqItem(
+              title: localization.locationInformation,
               icon: Icons.map_outlined,
               isExpanded: _isLocationExpanded,
               onTap:
@@ -52,7 +50,7 @@ class _IssueDetailsState extends State<IssueDetails> {
             SizedBox(height: 12.h),
 
             FaqItem(
-              title: 'Issue Information',
+              title: localization.issueInformation,
               icon: Icons.info_outline,
               isExpanded: _isIssueInfoExpanded,
               onTap:
@@ -80,9 +78,8 @@ class _IssueDetailsState extends State<IssueDetails> {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Expanded(
-          child: Text(
-            localization.issueCategory(widget.issue.category.displayName),
+        Expanded(          child: Text(
+            widget.issue.category.getLocalizedName(localization),
             style: textStyles.headlineMedium?.copyWith(
               fontSize: 22.sp,
               fontWeight: FontWeight.bold,

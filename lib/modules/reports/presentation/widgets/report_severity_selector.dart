@@ -64,9 +64,10 @@ class ReportSeveritySelector extends StatelessWidget {
       ],
     );
   }
-
   Widget _buildSeverityButton(ReportSeverity severity, BuildContext context) {
     final isSelected = selectedSeverity == severity;
+    final localization = AppLocalizations.of(context)!;
+    
     return Expanded(
       child: GestureDetector(
         onTap: () => onSeverityChanged(severity),
@@ -81,7 +82,7 @@ class ReportSeveritySelector extends StatelessWidget {
           ),
           child: Center(
             child: Text(
-              severity.displayName,
+              severity.getLocalizedName(localization),
               style: TextStyle(
                 color: isSelected ? Colors.white : severity.color,
                 fontSize: 14.sp,

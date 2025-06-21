@@ -52,9 +52,8 @@ class IssueItem extends StatelessWidget {
                       color: colorScheme.onSurface,
                     ),
                   ),
-                  SizedBox(height: 2.h),
-                  Text(
-                    issue.status.displayName,
+                  SizedBox(height: 2.h),                  Text(
+                    issue.status.getLocalizedName(AppLocalizations.of(context)!),
                     style: TextStyle(
                       fontSize: 14.sp,
                       color: issue.status.color,

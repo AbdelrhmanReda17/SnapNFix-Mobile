@@ -27,12 +27,10 @@ class ReportDescriptionInput extends StatelessWidget {
   Widget build(BuildContext context) {
     final localization = AppLocalizations.of(context);
     final colorScheme = Theme.of(context).colorScheme;
-    final textTheme = Theme.of(context).textTheme;
-
-    final displayLabel =
+    final textTheme = Theme.of(context).textTheme;    final displayLabel =
         labelText ??
         (isRequired
-            ? 'Description'
+            ? localization?.description ?? 'Description'
             : localization?.additionalDetails ??
                 'Additional Details (Optional)');
 

@@ -470,8 +470,146 @@
         "type": "int"
       }
     }
-  },
-  "sort": "ترتيب",
+  },  "sort": "ترتيب",
   "sortByDateNewest": "التاريخ (الأحدث أولاً)",
-  "sortByDateOldest": "التاريخ (الأقدم أولاً)"
+  "sortByDateOldest": "التاريخ (الأقدم أولاً)",
+
+  "issueDetailsTitle": "تفاصيل المشكلة",
+  "areaUpdates": "تحديثات المنطقة",
+  "noAreasToDisplay": "لا توجد مناطق للعرض",
+  "filterByStatus": "تصفية حسب الحالة",
+  "subscribe": "اشتراك",
+  "unsubscribe": "إلغاء الاشتراك",
+  "updates": "التحديثات",
+  "male": "ذكر",
+  "female": "أنثى",
+  "notSpecified": "غير محدد",  "channelUpdates": "تحديثات {channel}",
+  "@channelUpdates": {
+    "description": "Updates for a specific channel",
+    "placeholders": {
+      "channel": {
+        "type": "String"
+      }
+    }
+  },
+
+  "goodLighting": "إضاءة جيدة",
+  "goodLightingDesc": "تأكد من أن صورتك مضاءة جيداً لإظهار جميع التفاصيل بوضوح.",
+  "clearView": "رؤية واضحة",
+  "clearViewDesc": "التقط المشكلة بوضوح كتركيز رئيسي للصورة.",
+  "contextMatters": "السياق مهم",
+  "contextMattersDesc": "أدرج المنطقة المحيطة للمساعدة في تحديد موقع المشكلة.",
+  "addDetails": "أضف التفاصيل",
+  "addDetailsDesc": "صف ما حدث أو أي معلومات إضافية مهمة.",
+
+  "nasrCity": "مدينة نصر",
+  "downtown": "وسط البلد",
+  "maadi": "المعادي",
+  "zamalek": "الزمالك",
+  "heliopolis": "مصر الجديدة",
+  "cairo": "القاهرة",
+
+  "improving": "في تحسن",
+  "declining": "في تراجع",
+  "stable": "مستقر",
+
+  "roadDamage": "أضرار الطرق",
+  "infrastructure": "البنية التحتية",
+  "publicSafety": "السلامة العامة",
+  "cleanliness": "النظافة",
+  "lighting": "الإضاءة",
+  "traffic": "المرور",
+  "other": "أخرى",
+
+  "selectCategory": "اختر الفئة",
+  "selectSeverity": "اختر درجة الخطورة",
+  "selectStatus": "اختر الحالة",
+  "allCategories": "جميع الفئات",
+  "allSeverities": "جميع درجات الخطورة",
+  "allStatuses": "جميع الحالات",
+
+  "reportSubmittedSuccessfully": "تم إرسال البلاغ بنجاح!",
+  "submittingReport": "جاري إرسال البلاغ...",
+  "reportSubmissionFailed": "فشل في إرسال البلاغ",
+  "pleaseCheckConnection": "يرجى التحقق من اتصال الإنترنت والمحاولة مرة أخرى.",
+
+  "takePhoto": "التقاط صورة",
+  "retakePhoto": "إعادة التقاط الصورة",
+  "deletePhoto": "حذف الصورة",
+  "photoRequired": "الصورة مطلوبة",
+  "photoTaken": "تم التقاط الصورة بنجاح",
+
+  "locationAccuracy": "دقة الموقع",
+  "highAccuracy": "عالية",
+  "mediumAccuracy": "متوسطة",
+  "lowAccuracy": "منخفضة",
+
+  "reportingInstructions": "تعليمات الإبلاغ",
+  "step1": "1. التقط صورة واضحة للمشكلة",
+  "step2": "2. أضف وصفاً (اختياري)",
+  "step3": "3. حدد مستوى الخطورة",
+  "step4": "4. أرسل البلاغ",
+
+  "sessionTimeout": "انتهاء مهلة الجلسة",
+  "sessionTimeoutMessage": "ستنتهي جلستك قريباً. يرجى حفظ عملك.",
+  "extendSession": "تمديد الجلسة",
+  "timeRemaining": "الوقت المتبقي",  "networkError": "خطأ في الشبكة",
+  "serverError": "خطأ في الخادم",
+  "unexpectedError": "حدث خطأ غير متوقع",
+  "connectionTimeout": "انتهت مهلة الاتصال",
+  "requestFailed": "فشل الطلب",
+
+  "filterReports": "تصفية البلاغات",
+  "gettingYourLocation": "جاري تحديد موقعك...",
+  "locationInformation": "معلومات الموقع",
+  "issueInformation": "معلومات المشكلة",
+  "areaHealthStatus": "حالة صحة المنطقة",
+  "goodCondition": "حالة جيدة",
+  "avgFixTime": "متوسط وقت الإصلاح",
+  "fixedMonth": "مُصلح (شهر)",
+  "openIssues": "المشاكل المفتوحة",
+  "noIssuesFoundIn": "لم يتم العثور على مشاكل في {area}",
+  "@noIssuesFoundIn": {
+    "placeholders": {
+      "area": {
+        "type": "String"
+      }
+    }
+  },
+  "mokattamIssues": "مشاكل المقطم",  "fastReport": "بلاغ سريع",
+  "description": "الوصف",
+  "road": "الطريق",
+  "city": "المدينة",
+  "state": "المحافظة",
+  "country": "البلد",
+  "egypt": "مصر",
+  "alGiza": "الجيزة",
+  "gizaGovernorate": "محافظة الجيزة",  "pending": "قيد الانتظار",
+  "inProgress": "قيد التنفيذ",
+  "fixed": "تم الإصلاح",
+  "approved": "موافق عليه",
+  "declined": "مرفوض",
+  "submit": "إرسال",
+  "high": "عالي",
+  "medium": "متوسط",  "low": "منخفض",
+  "garbage": "قمامة",  "defectiveManhole": "غطاء بالوعة تالف",
+  "pothole": "حفرة في الطريق",  "fastReports": "تقارير سريعة",  "snapReports": "تقارير مصورة",
+  "anonymous": "مجهول",
+  "reportsLabel": "بلاغات",
+  "createdLabel": "تم الإنشاء",  "applyFilter": "تطبيق التصفية","clearAllFilters": "مسح جميع المرشحات",
+  "reportNow": "أبلغ الآن",
+  "statusFilters": "مرشحات الحالة",
+
+  "excellentCondition": "حالة ممتازة",
+  "fairCondition": "حالة مقبولة",
+  "poorCondition": "حالة سيئة",
+  "criticalCondition": "حالة حرجة",
+
+  "justNow": "الآن",
+  "dayAgo": "منذ {count} يوم",
+  "daysAgo": "منذ {count} أيام",
+  "hourAgo": "منذ {count} ساعة",
+  "hoursAgo": "منذ {count} ساعات",
+  "minuteAgo": "منذ {count} دقيقة",
+  "minutesAgo": "منذ {count} دقائق"
 }

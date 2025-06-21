@@ -190,9 +190,8 @@ class _ChannelsSectionContent extends StatelessWidget {
                                 color: status.color,
                                 size: 20.r,
                               ),
-                              horizontalSpace(8.w),
-                              Text(
-                                status.displayName,
+                              horizontalSpace(8.w),                              Text(
+                                status.getLocalizedName(AppLocalizations.of(context)!),
                                 style: TextStyle(
                                   color: colorScheme.onSurface,
                                   fontSize: 14.sp,
@@ -282,9 +281,8 @@ class _ChannelsSectionContent extends StatelessWidget {
                     fontWeight: FontWeight.w600,
                     color: colorScheme.onSurface,
                   ),
-                ),
-                Text(
-                  update.status.displayName,
+                ),                Text(
+                  update.status.getLocalizedName(AppLocalizations.of(context)!),
                   style: TextStyle(fontSize: 12.sp, color: update.status.color),
                 ),
               ],

@@ -23,15 +23,14 @@ class ReportsFilterSheetCategoriesSection extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        ReportsFilterSheetSectionTitle(title: localization.categories),
-        Wrap(
+        ReportsFilterSheetSectionTitle(title: localization.categories),        Wrap(
           spacing: 8.w,
           runSpacing: 8.h,
           children:
               IssueCategory.values
                   .map(
                     (category) => ReportsFilterSheetChipItem(
-                      label: category.displayName,
+                      label: category.getLocalizedName(localization),
                       isSelected: selectedCategory == category,
                       onSelected:
                           (selected) => onToggleCategory(

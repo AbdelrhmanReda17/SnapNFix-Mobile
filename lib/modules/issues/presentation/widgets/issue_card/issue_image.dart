@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:snapnfix/modules/issues/domain/entities/issue.dart';
 import 'package:snapnfix/modules/issues/presentation/widgets/issue_card/issue_status_badge.dart';
 import 'package:snapnfix/modules/issues/presentation/widgets/marker_dialog/issue_marker_dialog_image.dart';
@@ -53,9 +54,8 @@ class IssueImage extends StatelessWidget {
                 ],
               ),
             ),
-            padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
-            child: Text(
-              issue.category.displayName,
+            padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),            child: Text(
+              issue.category.getLocalizedName(AppLocalizations.of(context)!),
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 16.sp,

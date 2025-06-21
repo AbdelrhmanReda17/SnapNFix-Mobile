@@ -27,9 +27,8 @@ class StatusBadge extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Icon(status.icon, color: status.color, size: 16.sp),
-          SizedBox(width: 6.w),
-          Text(
-            localization.issueStatus(status.toString()),
+          SizedBox(width: 6.w),          Text(
+            status.getLocalizedName(localization),
             style: TextStyle(
               fontSize: 13.sp,
               fontWeight: FontWeight.w600,

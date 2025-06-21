@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:snapnfix/modules/issues/domain/entities/issue_status.dart';
 class IssueStatusBadge extends StatelessWidget {
   final IssueStatus status;
@@ -32,10 +33,9 @@ class IssueStatusBadge extends StatelessWidget {
           if (showIcon) ...[
             Icon(status.icon, size: size.r, color: status.color),
             if (showText) SizedBox(width: 4.w),
-          ],
-          if (showText)
+          ],          if (showText)
             Text(
-              status.displayName,
+              status.getLocalizedName(AppLocalizations.of(context)!),
               style: TextStyle(
                 color: status.color,
                 fontSize: 12.sp,

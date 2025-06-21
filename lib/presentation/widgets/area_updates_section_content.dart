@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
 import '../cubits/area_updates_cubit.dart';
 import '../cubits/area_updates_state.dart';
@@ -9,10 +10,10 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 class AreaUpdatesSectionContent extends StatelessWidget {
   const AreaUpdatesSectionContent({super.key});
-
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
+    final localization = AppLocalizations.of(context)!;
 
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 16.h),
@@ -31,9 +32,8 @@ class AreaUpdatesSectionContent extends StatelessWidget {
                     borderRadius: BorderRadius.circular(2.r),
                   ),
                 ),
-                SizedBox(width: 8.w),
-                Text(
-                  'Area Updates',
+                SizedBox(width: 8.w),                Text(
+                  localization.areaUpdates,
                   style: TextStyle(
                     fontSize: 18.sp,
                     fontWeight: FontWeight.w600,
@@ -53,9 +53,8 @@ class AreaUpdatesSectionContent extends StatelessWidget {
           BlocBuilder<AreaUpdatesCubit, AreaUpdatesState>(
             builder: (context, state) {
               return AnimatedSwitcher(
-                duration: const Duration(milliseconds: 300),
-                child: state.areas.isEmpty
-                    ? _buildEmptyState(colorScheme)
+                duration: const Duration(milliseconds: 300),                child: state.areas.isEmpty
+                    ? _buildEmptyState(colorScheme, localization)
                     : _buildAreaCards(context, state, colorScheme),
               );
             },
@@ -64,8 +63,7 @@ class AreaUpdatesSectionContent extends StatelessWidget {
       ),
     );
   }
-
-  Widget _buildEmptyState(ColorScheme colorScheme) {
+  Widget _buildEmptyState(ColorScheme colorScheme, AppLocalizations localization) {
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -77,7 +75,7 @@ class AreaUpdatesSectionContent extends StatelessWidget {
           ),
           SizedBox(height: 16.h),
           Text(
-            'No areas to display',
+            localization.noAreasToDisplay,
             style: TextStyle(
               fontSize: 16.sp,
               color: colorScheme.onSurface.withValues(alpha: 0.7),
