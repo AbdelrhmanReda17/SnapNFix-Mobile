@@ -12,12 +12,12 @@ class SubmitFastReportCubit extends Cubit<SubmitFastReportState> {
 
   SubmitFastReportCubit(this._submitFastReportUseCase)
       : super(const SubmitFastReportState.initial());
-
   Future<void> submitFastReport({
     required String issueId,
     required String comment,
     required ReportSeverity severity,
   }) async {
+    if (isClosed) return;
     emit(const SubmitFastReportState.loading());
 
     final result = await _submitFastReportUseCase.call(
@@ -26,11 +26,14 @@ class SubmitFastReportCubit extends Cubit<SubmitFastReportState> {
       severity: severity,
     );
 
+    if (isClosed) return;
     result.when(
       success: (data) {
+        if (isClosed) return;
         emit(SubmitFastReportState.success(data));
       },
       failure: (error) {
+        if (isClosed) return;
         emit(SubmitFastReportState.error(error));
       },
     );

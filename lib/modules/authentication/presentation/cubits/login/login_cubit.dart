@@ -30,11 +30,11 @@ class LoginCubit extends Cubit<LoginState> {
   void setPassword(String value) {
     _password = value;
   }
-
   Future<void> login() async {
     if (!_validateForm()) return;
 
     try {
+      if (isClosed) return;
       emit(const LoginState.loading());
 
       final response = await _loginUseCase.call(
@@ -42,8 +42,10 @@ class LoginCubit extends Cubit<LoginState> {
         password: _password,
       );
 
+      if (isClosed) return;
       response.when(success: _handleLoginSuccess, failure: _handleLoginFailure);
     } catch (e) {
+      if (isClosed) return;
       emit(LoginState.error(ApiError(message: 'An unexpected error occurred')));
     }
   }
@@ -59,8 +61,8 @@ class LoginCubit extends Cubit<LoginState> {
     }
     return true;
   }
-
   void _handleLoginSuccess(AuthenticationResult result) {
+    if (isClosed) return;
     result.whenOrNull(
       authenticated: (session) => emit(LoginState.authenticated(session)),
       requiresProfileCompletion:
@@ -69,6 +71,7 @@ class LoginCubit extends Cubit<LoginState> {
   }
 
   void _handleLoginFailure(ApiError error) {
+    if (isClosed) return;
     emit(LoginState.error(error));
   }
 
@@ -79,9 +82,9 @@ class LoginCubit extends Cubit<LoginState> {
   Future<void> signInWithFacebook() async {
     await _socialSignIn(SocialAuthenticationProvider.facebook);
   }
-
   Future<void> _socialSignIn(SocialAuthenticationProvider provider) async {
     try {
+      if (isClosed) return;
       emit(const LoginState.loading());
 
       final result =
@@ -89,17 +92,23 @@ class LoginCubit extends Cubit<LoginState> {
               ? await _socialSignInUseCase.callGoogleSignIn()
               : await _socialSignInUseCase.callFacebookSignIn();
 
+      if (isClosed) return;
       result.when(
         success: (authResult) {
+          if (isClosed) return;
           authResult.whenOrNull(
             authenticated: (session) => emit(LoginState.authenticated(session)),
             requiresProfileCompletion:
                 () => emit(const LoginState.requiresProfileCompletion()),
           );
         },
-        failure: (error) => emit(LoginState.error(error)),
+        failure: (error) {
+          if (isClosed) return;
+          emit(LoginState.error(error));
+        },
       );
     } catch (e) {
+      if (isClosed) return;
       emit(
         LoginState.error(
           ApiError(

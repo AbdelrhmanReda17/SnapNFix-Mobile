@@ -49,20 +49,25 @@ class SubmitReportCubit extends Cubit<SubmitReportState> {
   void setPosition(Position position) {
     emit(state.copyWith(position: position));
   }
-
   Future<void> submitReport(LocationService locationService) async {
     if (state.image == null) {
+      if (isClosed) return;
       emit(state.copyWith(error: "Please Provide an Image."));
       return;
     }
+    
+    if (isClosed) return;
     emit(state.copyWith(isLoading: true, error: null, successMessage: null));
+    
     final position = await locationService.getCurrentPosition();
+    if (isClosed) return;
     emit(state.copyWith(position: position));
 
     List<String>? address = await locationService.getAddressFromCoordinates(
       position.latitude,
       position.longitude,
     );
+    
     try {
       final result = await _submitReportUseCase.call(
         comment: state.comment ?? '',
@@ -76,17 +81,21 @@ class SubmitReportCubit extends Cubit<SubmitReportState> {
         imagePath: state.image!.path,
       );
 
+      if (isClosed) return;
       result.when(
         success: (data) {
+          if (isClosed) return;
           resetState();
           emit(state.copyWith(isLoading: false, successMessage: data));
         },
         failure: (error) {
+          if (isClosed) return;
           emit(state.copyWith(isLoading: false, error: error.message));
         },
       );
       resetState();
     } catch (error) {
+      if (isClosed) return;
       emit(
         state.copyWith(
           isLoading: false,

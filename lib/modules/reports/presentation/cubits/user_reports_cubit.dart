@@ -59,7 +59,6 @@ class UserReportsCubit extends HydratedCubit<UserReportsState> {
     final difference = now.difference(state.lastUpdated!);
     return difference < _cacheValidDuration;
   }
-
   Future<void> loadReports({
     bool refresh = false,
     ReportStatus? status,
@@ -70,6 +69,8 @@ class UserReportsCubit extends HydratedCubit<UserReportsState> {
     debugPrint(
       'Loading reports - refresh: $refresh, forceNetwork: $forceNetwork',
     );
+    if (isClosed) return;
+    
     try {
       // Update filters
       if (status != null) {
@@ -139,8 +140,11 @@ class UserReportsCubit extends HydratedCubit<UserReportsState> {
         limit: _pageSize,
       );
 
+      if (isClosed) return;
+
       result.when(
         success: (response) {
+          if (isClosed) return;
           debugPrint(
             'Reports fetched successfully - count: ${response.key.length}',
           );
@@ -171,6 +175,7 @@ class UserReportsCubit extends HydratedCubit<UserReportsState> {
           debugPrint('State updated - total reports: ${updatedReports.length}');
         },
         failure: (error) {
+          if (isClosed) return;
           emit(
             state.copyWith(
               error: error,
@@ -182,6 +187,7 @@ class UserReportsCubit extends HydratedCubit<UserReportsState> {
         },
       );
     } catch (e) {
+      if (isClosed) return;
       emit(
         state.copyWith(
           error: e.toString(),
@@ -192,8 +198,8 @@ class UserReportsCubit extends HydratedCubit<UserReportsState> {
       debugPrint('Exception in loadReports: $e');
     }
   }
-
   Future<void> clearFilters() async {
+    if (isClosed) return;
     _status = null;
     _category = null;
     _currentPage = 1;
@@ -201,6 +207,7 @@ class UserReportsCubit extends HydratedCubit<UserReportsState> {
   }
 
   Future<void> refreshReports() async {
+    if (isClosed) return;
     await loadReports(refresh: true, forceNetwork: true);
   }
 

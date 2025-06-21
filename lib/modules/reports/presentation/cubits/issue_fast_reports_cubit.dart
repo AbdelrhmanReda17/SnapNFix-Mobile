@@ -16,12 +16,13 @@ class IssueFastReportsCubit extends Cubit<IssueFastReportsState> {
 
   IssueFastReportsCubit(this._getIssueFastReportsUseCase)
     : super(const IssueFastReportsState());
-
   Future<void> loadReports({
     required String issueId,
     bool refresh = false,
     String? sort,
   }) async {
+    if (isClosed) return;
+    
     try {
       // Reset if different issue
       if (_currentIssueId != issueId) {
@@ -58,8 +59,11 @@ class IssueFastReportsCubit extends Cubit<IssueFastReportsState> {
         limit: _pageSize,
       );
 
+      if (isClosed) return;
+
       result.when(
         success: (newReports) {
+          if (isClosed) return;
           final updatedReports =
               refresh
                   ? List<FastReportModel>.from(newReports.key)
@@ -80,6 +84,7 @@ class IssueFastReportsCubit extends Cubit<IssueFastReportsState> {
           );
         },
         failure: (error) {
+          if (isClosed) return;
           emit(
             state.copyWith(
               error: error,
@@ -90,6 +95,7 @@ class IssueFastReportsCubit extends Cubit<IssueFastReportsState> {
         },
       );
     } catch (e) {
+      if (isClosed) return;
       emit(
         state.copyWith(
           error: e.toString(),
@@ -99,8 +105,8 @@ class IssueFastReportsCubit extends Cubit<IssueFastReportsState> {
       );
     }
   }
-
   Future<void> refreshReports(String issueId) async {
+    if (isClosed) return;
     await loadReports(issueId: issueId, refresh: true);
   }
 }

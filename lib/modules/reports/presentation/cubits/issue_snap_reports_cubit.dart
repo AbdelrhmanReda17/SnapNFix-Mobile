@@ -16,12 +16,13 @@ class IssueSnapReportsCubit extends Cubit<IssueSnapReportsState> {
 
   IssueSnapReportsCubit(this._getIssueSnapReportsUseCase)
     : super(const IssueSnapReportsState());
-
   Future<void> loadReports({
     required String issueId,
     bool refresh = false,
     String? sort,
   }) async {
+    if (isClosed) return;
+    
     try {
       // Reset if different issue
       if (_currentIssueId != issueId) {
@@ -58,8 +59,11 @@ class IssueSnapReportsCubit extends Cubit<IssueSnapReportsState> {
         limit: _pageSize,
       );
 
+      if (isClosed) return;
+
       result.when(
         success: (newReports) {
+          if (isClosed) return;
           final updatedReports =
               refresh
                   ? List<SnapReportModel>.from(newReports.key)
@@ -80,6 +84,7 @@ class IssueSnapReportsCubit extends Cubit<IssueSnapReportsState> {
           );
         },
         failure: (error) {
+          if (isClosed) return;
           emit(
             state.copyWith(
               error: error,
@@ -90,6 +95,7 @@ class IssueSnapReportsCubit extends Cubit<IssueSnapReportsState> {
         },
       );
     } catch (e) {
+      if (isClosed) return;
       emit(
         state.copyWith(
           error: e.toString(),
@@ -99,8 +105,8 @@ class IssueSnapReportsCubit extends Cubit<IssueSnapReportsState> {
       );
     }
   }
-
   Future<void> refreshReports(String issueId) async {
+    if (isClosed) return;
     await loadReports(issueId: issueId, refresh: true);
   }
 }
