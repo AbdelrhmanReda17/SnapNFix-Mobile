@@ -10,17 +10,21 @@ class LocationContent extends StatelessWidget {
   const LocationContent({
     super.key,
     required this.issue,
-  });
-  @override
+  });  @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
     final localization = AppLocalizations.of(context)!;
+    final screenWidth = MediaQuery.of(context).size.width;
+    final isTablet = screenWidth > 600;
     
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Divider(color: colorScheme.outlineVariant.withValues(alpha: 0.5)),
-        SizedBox(height: 8.h),
+        Divider(
+          color: colorScheme.outlineVariant.withValues(alpha: 0.4),
+          height: isTablet ? 16.h : 12.h,
+        ),
+        SizedBox(height: isTablet ? 6.h : 4.h),
         DetailItem(label: localization.road, value: issue.road),
         DetailItem(label: localization.city, value: issue.city),
         DetailItem(label: localization.state, value: issue.state),

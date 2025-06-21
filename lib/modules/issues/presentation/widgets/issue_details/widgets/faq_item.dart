@@ -19,18 +19,20 @@ class FaqItem extends StatelessWidget {
     required this.content,
     required this.colorScheme,
   });
-
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final isTablet = screenWidth > 600;
+    
     return Container(
       decoration: BoxDecoration(
         color: colorScheme.surface,
-        borderRadius: BorderRadius.circular(12.r),
+        borderRadius: BorderRadius.circular(10.r),
         boxShadow: [
           BoxShadow(
-            color: colorScheme.shadow.withValues(alpha: 0.2),
-            blurRadius: 8,
-            offset: const Offset(0, 2),
+            color: colorScheme.shadow.withValues(alpha: 0.15),
+            blurRadius: 6,
+            offset: const Offset(0, 1),
           ),
         ],
       ),
@@ -39,28 +41,37 @@ class FaqItem extends StatelessWidget {
           // FAQ header - always visible
           InkWell(
             onTap: onTap,
-            borderRadius: BorderRadius.circular(12.r),
+            borderRadius: BorderRadius.circular(10.r),
             child: Padding(
-              padding: EdgeInsets.all(16.r),
+              padding: EdgeInsets.symmetric(
+                horizontal: isTablet ? 20.r : 12.r,
+                vertical: isTablet ? 16.r : 12.r,
+              ),
               child: Row(
                 children: [
                   Container(
-                    padding: EdgeInsets.all(8.r),
+                    padding: EdgeInsets.all(isTablet ? 8.r : 6.r),
                     decoration: BoxDecoration(
                       color: colorScheme.primary.withValues(alpha: 0.12),
                       shape: BoxShape.circle,
                     ),
-                    child: Icon(icon, size: 24.sp, color: colorScheme.primary),
+                    child: Icon(
+                      icon, 
+                      size: isTablet ? 22.sp : 20.sp, 
+                      color: colorScheme.primary
+                    ),
                   ),
-                  horizontalSpace(16),
+                  horizontalSpace(isTablet ? 16 : 12),
                   Expanded(
                     child: Text(
                       title,
                       style: TextStyle(
-                        fontSize: 16.sp,
+                        fontSize: isTablet ? 16.sp : 14.sp,
                         fontWeight: FontWeight.w600,
                         color: colorScheme.onSurface,
                       ),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
                     ),
                   ),
                   AnimatedRotation(
@@ -69,7 +80,7 @@ class FaqItem extends StatelessWidget {
                     child: Icon(
                       Icons.keyboard_arrow_down,
                       color: colorScheme.primary,
-                      size: 24.sp,
+                      size: isTablet ? 22.sp : 20.sp,
                     ),
                   ),
                 ],
@@ -81,7 +92,11 @@ class FaqItem extends StatelessWidget {
           AnimatedCrossFade(
             firstChild: const SizedBox(height: 0),
             secondChild: Padding(
-              padding: EdgeInsets.only(left: 16.r, right: 16.r, bottom: 16.r),
+              padding: EdgeInsets.only(
+                left: isTablet ? 20.r : 12.r, 
+                right: isTablet ? 20.r : 12.r, 
+                bottom: isTablet ? 16.r : 12.r,
+              ),
               child: content,
             ),
             crossFadeState:

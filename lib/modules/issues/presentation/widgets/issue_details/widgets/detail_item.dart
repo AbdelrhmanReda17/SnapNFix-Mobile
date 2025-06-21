@@ -6,24 +6,26 @@ class DetailItem extends StatelessWidget {
   final String? value;
 
   const DetailItem({super.key, required this.label, required this.value});
-
   @override
   Widget build(BuildContext context) {
     if (value == null || value!.isEmpty) return const SizedBox.shrink();
 
+    final screenWidth = MediaQuery.of(context).size.width;
+    final isTablet = screenWidth > 600;
+
     return Padding(
-      padding: EdgeInsets.only(bottom: 8.h),
+      padding: EdgeInsets.only(bottom: isTablet ? 8.h : 6.h),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(
-            width: 80.w,
+            width: isTablet ? 90.w : 75.w,
             child: Text(
               '$label:',
               style: TextStyle(
                 color: Theme.of(context).colorScheme.onSurfaceVariant,
                 fontWeight: FontWeight.w500,
-                fontSize: 14.sp,
+                fontSize: isTablet ? 14.sp : 13.sp,
               ),
             ),
           ),
@@ -32,8 +34,8 @@ class DetailItem extends StatelessWidget {
               value!,
               style: TextStyle(
                 color: Theme.of(context).colorScheme.onSurface,
-                fontSize: 14.sp,
-                height: 1.4,
+                fontSize: isTablet ? 14.sp : 13.sp,
+                height: 1.3,
               ),
             ),
           ),

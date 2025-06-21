@@ -38,7 +38,7 @@ class StatisticsCards extends StatelessWidget {
                     itemBuilder: (context, index) {
                       return Padding(
                         padding: EdgeInsets.only(
-                          right: index < 2 ? 10.w : 0,
+                          right: index <= 2 ? 10.w : 0,
                           top: 6.h,
                           bottom: 12.h,
                         ),

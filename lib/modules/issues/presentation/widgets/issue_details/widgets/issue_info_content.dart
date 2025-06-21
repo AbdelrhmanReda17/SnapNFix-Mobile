@@ -17,14 +17,19 @@ class IssueInfoContent extends StatelessWidget {
     required this.colorScheme,
     required this.localization,
   });
-
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final isTablet = screenWidth > 600;
+    
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Divider(color: colorScheme.outlineVariant.withValues(alpha: 0.5)),
-        SizedBox(height: 8.h),
+        Divider(
+          color: colorScheme.outlineVariant.withValues(alpha: 0.4),
+          height: isTablet ? 16.h : 12.h,
+        ),
+        SizedBox(height: isTablet ? 6.h : 4.h),
         InfoItem(
           icon: Icons.warning_amber_rounded,
           color: issue.severity.color,
@@ -34,25 +39,26 @@ class IssueInfoContent extends StatelessWidget {
               Text(
                 '${localization.severity}: ',
                 style: TextStyle(
-                  fontSize: 14.sp,
+                  fontSize: isTablet ? 14.sp : 13.sp,
                   color: Theme.of(context).colorScheme.onSurfaceVariant,
-                  height: 1.4,
+                  height: 1.3,
                 ),
               ),
               IssueSeverityIconsIndicator(
                 severity: issue.severity,
-                iconSize: 16,
+                iconSize: isTablet ? 16 : 14,
                 showLabel: true,
               ),
             ],
           ),
         ),
-        SizedBox(height: 12.h),        InfoItem(
+        SizedBox(height: isTablet ? 10.h : 8.h),
+        InfoItem(
           icon: Icons.people,
           text: '${localization.reportsLabel}: ${localization.issueReportsNum(issue.reportsCount)}',
           color: colorScheme.secondary,
         ),
-        SizedBox(height: 12.h),
+        SizedBox(height: isTablet ? 10.h : 8.h),
         InfoItem(
           icon: Icons.calendar_today_outlined,
           text: '${localization.createdLabel}: ${DateFormat('MMM d, yyyy').format(issue.createdAt)}',

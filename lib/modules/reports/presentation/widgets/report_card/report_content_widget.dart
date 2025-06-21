@@ -79,17 +79,32 @@ class ReportExpandedContent extends StatelessWidget {
                     ),
                   ),
                   SizedBox(height: 4.h),
-                ],
-                if (report.issueId != null) ...[
+                ],                if (report.issueId != null) ...[
                   verticalSpace(8),
-                  InkWell(
-                    onTap: () {
-                      context.push(Routes.issueDetails, extra: report.issueId);
-                    },                    child: Text(
-                      localization.viewDetails,
-                      style: theme.textTheme.labelMedium?.copyWith(
-                        color: colorScheme.primary,
-                        decoration: TextDecoration.underline,
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: SizedBox(
+                      height: 32.h,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          context.push(Routes.issueDetails, extra: report.issueId);
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: colorScheme.primary,
+                          foregroundColor: colorScheme.onPrimary,
+                          padding: EdgeInsets.symmetric(vertical: 6.h, horizontal: 12.w),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(6.r),
+                          ),
+                          minimumSize: Size(80.w, 32.h),
+                        ),
+                        child: Text(
+                          localization.viewDetails,
+                          style: theme.textTheme.labelSmall?.copyWith(
+                            color: colorScheme.onPrimary,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
                       ),
                     ),
                   ),
