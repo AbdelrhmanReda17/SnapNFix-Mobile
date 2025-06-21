@@ -54,10 +54,13 @@ class ReportSeveritySelector extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             for (final severity in ReportSeverity.values) ...[
-              _buildSeverityButton(severity, context),
-              if (severity != ReportSeverity.values.last) ...[
-                horizontalSpace(8),
-              ],
+              if (severity != ReportSeverity.values.first) ...[
+                _buildSeverityButton(severity, context),
+                if (severity != ReportSeverity.values.last) ...[
+                  horizontalSpace(8),
+                ],
+              ] else
+                SizedBox.shrink(),
             ],
           ],
         ),
@@ -85,7 +88,7 @@ class ReportSeveritySelector extends StatelessWidget {
               severity.getLocalizedName(localization),
               style: TextStyle(
                 color: isSelected ? Colors.white : severity.color,
-                fontSize: 14.sp,
+                fontSize: 12.sp,
               ),
             ),
           ),

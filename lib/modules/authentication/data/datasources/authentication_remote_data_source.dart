@@ -79,6 +79,7 @@ class AuthenticationRemoteDataSource
 
       return Result.success(response.data as T);
     } catch (error) {
+      debugPrint('API call failed: $error');
       return Result.failure(ApiError(message: error.toString()));
     }
   }
@@ -95,10 +96,8 @@ class AuthenticationRemoteDataSource
       deviceType: _deviceInfoService.deviceType,
       deviceName: _deviceInfoService.deviceName,
       platform: _deviceInfoService.platform,
-      fcmToken: "ANA 3ATEF L SHB7",
+      fcmToken: _deviceInfoService.fcmToken,
     );
-    debugPrint(loginRequest.toJson().toString());
-
     return _handleApiCall(
       apiCall: () => _apiService.login(loginRequest),
       isLoginOrRegister: true,

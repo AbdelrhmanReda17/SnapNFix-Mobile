@@ -1,9 +1,11 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:snapnfix/core/dependency_injection/dependency_injection.dart';
 import 'package:snapnfix/core/infrastructure/networking/error/api_error.dart';
 import 'package:snapnfix/core/utils/result.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:snapnfix/presentation/navigation/navigation_service.dart';
 
 class FCMService {
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
@@ -166,10 +168,9 @@ class FCMService {
       // Parse payload and navigate accordingly
       // Example: if payload contains route information
       debugPrint('Handling notification navigation with payload: $payload');
-
-      // You can use a navigation service or a method to handle the navigation
-      // For example:
-      // Navigator.pushNamed(context, '/someRoute', arguments: payload);
+      getIt<NavigationService>().handleNotificationNavigation(
+        payload as Map<String, dynamic>,
+      );
     }
   }
 

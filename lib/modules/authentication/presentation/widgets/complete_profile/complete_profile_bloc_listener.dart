@@ -5,8 +5,7 @@ import 'package:snapnfix/modules/authentication/presentation/cubits/complete_pro
 import 'package:snapnfix/modules/authentication/presentation/mixins/authentication_listener_mixin.dart';
 import 'package:snapnfix/presentation/navigation/routes.dart';
 
-class CompleteProfileBlocListener extends StatelessWidget
-    with AuthenticationListenerMixin {
+class CompleteProfileBlocListener extends StatelessWidget with ListenerMixin {
   const CompleteProfileBlocListener({super.key});
 
   @override
@@ -18,12 +17,15 @@ class CompleteProfileBlocListener extends StatelessWidget
           success: (session) {
             handleSuccess(
               context,
-              message:
+              showSuccessMessage: true,
+              successMessage:
                   AppLocalizations.of(context)!.completeProfileSuccessMessage,
-              route: Routes.home,
+              navigationRoute: Routes.home,
             );
           },
-          error: (error) => handleError(context, error, route: Routes.register),
+          error:
+              (error) =>
+                  handleError(context, error, fallbackRoute: Routes.register),
         );
       },
       child: const SizedBox.shrink(),

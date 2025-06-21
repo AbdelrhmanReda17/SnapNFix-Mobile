@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:snapnfix/core/utils/extensions/navigation.dart';
 import 'package:snapnfix/core/utils/helpers/spacing.dart';
+import 'package:snapnfix/core/utils/helpers/responsive_dimensions.dart';
 
 enum AlertType {
   success(
@@ -42,162 +43,291 @@ enum AlertType {
   });
 }
 
-void baseDialog({
+Future<bool?> baseDialog({
   required BuildContext context,
   required String title,
   required String message,
   required AlertType alertType,
   required String confirmText,
   Function()? onCancel,
-  required Function()? onConfirm,
+  Function()? onConfirm,
   bool showCancelButton = true,
   String? cancelText,
+  bool barrierDismissible = true,
 }) {
-  final colorScheme = Theme.of(context).colorScheme;
-  showDialog(
+  return showDialog<bool>(
     context: context,
+    barrierDismissible: barrierDismissible,
+    useRootNavigator: true,
     builder: (context) {
-      return WillPopScope(
-        onWillPop: () async {
-          if (!showCancelButton && onConfirm != null) {
-            onConfirm();
-            return true;
-          }
-          return showCancelButton;
-        },
-        child: Dialog(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
-          ),
-          child: Container(
-            padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
-            decoration: BoxDecoration(
-              color: alertType.containerColor,
-              borderRadius: BorderRadius.circular(10.r),
-            ),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      children: [
-                        Icon(alertType.icon, color: alertType.textColor),
-                        horizontalSpace(8),
-                        Text(
-                          title,
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: alertType.textColor,
-                          ),
-                        ),
-                      ],
-                    ),
-                    IconButton(
-                      icon: Icon(Icons.close, color: alertType.textColor),
-                      onPressed: () => Navigator.pop(context),
-                    ),
-                  ],
-                ),
-                verticalSpace(8),
-                Text(
-                  message,
-                  style: TextStyle(
-                    color: alertType.textColor,
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-                verticalSpace(8),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: alertType.buttonColor,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(5),
-                        ),
-                        padding: EdgeInsets.symmetric(
-                          horizontal: 16.w,
-                          vertical: 8.h,
-                        ),
-                      ),
-                      onPressed: () {
-                        context.pop();
-                        if (onConfirm != null) {
-                          onConfirm();
-                        }
-                      },
-                      child: Text(
-                        confirmText,
-                        style: TextStyle(
-                          color: colorScheme.surface,
-                          fontSize: 16.sp,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ),
-                    horizontalSpace(8),
-                    showCancelButton
-                        ? ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: alertType.buttonColor.withValues(
-                              alpha: 0.1,
-                            ),
-                            foregroundColor: alertType.buttonColor.withValues(
-                              alpha: 0.1,
-                            ),
-                            shadowColor: alertType.buttonColor.withValues(
-                              alpha: 0.1,
-                            ),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(5),
-                            ),
-                            padding: EdgeInsets.symmetric(
-                              horizontal: 16.w,
-                              vertical: 8.h,
-                            ),
-                          ),
-                          onPressed: () {
-                            if (onCancel != null) {
-                              onCancel();
-                            }
-                            Navigator.pop(context);
-                          },
-                          child: Text(
-                            cancelText ?? 'Cancel',
-                            style: TextStyle(
-                              color: alertType.buttonColor,
-                              fontSize: 16.sp,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        )
-                        : SizedBox.shrink(),
-                  ],
-                ),
-
-                // Text(
-                //   'Hello World',
-                //   style: TextStyle(
-                //     color: alertType.textColor,
-                //     fontSize: 18.sp,
-                //     fontWeight: FontWeight.w500,
-                //   ),
-                // ),
-              ],
-            ),
-          ),
-        ),
+      return _BaseAlertDialog(
+        title: title,
+        message: message,
+        alertType: alertType,
+        confirmText: confirmText,
+        cancelText: cancelText,
+        showCancelButton: showCancelButton,
+        onConfirm: onConfirm,
+        onCancel: onCancel,
       );
     },
-  ).then((value) {
-    // Handle dialog dismissal (clicking outside)
-    if (value == null && !showCancelButton && onConfirm != null) {
-      onConfirm();
-    }
+  );
+}
+
+class _BaseAlertDialog extends StatelessWidget {
+  final String title;
+  final String message;
+  final AlertType alertType;
+  final String confirmText;
+  final String? cancelText;
+  final bool showCancelButton;
+  final VoidCallback? onConfirm;
+  final VoidCallback? onCancel;
+
+  const _BaseAlertDialog({
+    required this.title,
+    required this.message,
+    required this.alertType,
+    required this.confirmText,
+    this.cancelText,
+    required this.showCancelButton,
+    this.onConfirm,
+    this.onCancel,
   });
+
+  @override
+  Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final dimensions = getResponsiveDimensions(context);
+
+        // Responsive dialog constraints
+        final dialogMaxWidth =
+            dimensions.isTablet
+                ? dimensions.screenWidth * 0.6
+                : dimensions.screenWidth * 0.85;
+
+        final dialogMinWidth = dimensions.isTablet ? 400.0 : 280.0;
+        final dialogMaxHeight = dimensions.screenHeight * 0.8;
+
+        return PopScope(
+          canPop: true,
+          onPopInvokedWithResult: (didPop, result) {
+            if (didPop && !showCancelButton && onConfirm != null) {
+              // If there's no cancel button and dialog is dismissed, treat as confirm
+              Future.microtask(() => onConfirm!());
+            }
+          },
+          child: Dialog(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12.r),
+            ),
+            child: ConstrainedBox(
+              constraints: BoxConstraints(
+                maxWidth: dialogMaxWidth,
+                minWidth: dialogMinWidth,
+                maxHeight: dialogMaxHeight,
+              ),
+              child: IntrinsicHeight(
+                child: Container(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: dimensions.isTablet ? 24.w : 16.w,
+                    vertical: dimensions.isTablet ? 24.h : 16.h,
+                  ),
+                  decoration: BoxDecoration(
+                    color: alertType.containerColor,
+                    borderRadius: BorderRadius.circular(12.r),
+                  ),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      _buildHeader(context, dimensions),
+                      verticalSpace(dimensions.isTablet ? 16 : 12),
+                      _buildMessageContent(dimensions, dialogMaxHeight),
+                      verticalSpace(dimensions.isTablet ? 20 : 16),
+                      _buildActionButtons(context, colorScheme, dimensions),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildHeader(BuildContext context, ResponsiveDimensions dimensions) {
+    return Row(
+      children: [
+        Expanded(
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(
+                alertType.icon,
+                color: alertType.textColor,
+                size: dimensions.isTablet ? 24.sp : 20.sp,
+              ),
+              horizontalSpace(dimensions.isTablet ? 12 : 8),
+              Flexible(
+                child: Text(
+                  title,
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: alertType.textColor,
+                    fontSize: dimensions.isTablet ? 18.sp : 16.sp,
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+            ],
+          ),
+        ),
+        IconButton(
+          icon: Icon(
+            Icons.close,
+            color: alertType.textColor,
+            size: dimensions.isTablet ? 24.sp : 20.sp,
+          ),
+          onPressed: () => _handleDialogDismiss(context, false),
+          constraints: BoxConstraints(
+            minWidth: dimensions.isTablet ? 40.w : 32.w,
+            minHeight: dimensions.isTablet ? 40.h : 32.h,
+          ),
+          padding: EdgeInsets.all(dimensions.isTablet ? 8.w : 4.w),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildMessageContent(
+    ResponsiveDimensions dimensions,
+    double maxDialogHeight,
+  ) {
+    final maxMessageHeight = maxDialogHeight * 0.6;
+
+    return ConstrainedBox(
+      constraints: BoxConstraints(maxHeight: maxMessageHeight),
+      child: SingleChildScrollView(
+        child: Text(
+          message,
+          style: TextStyle(
+            color: alertType.textColor,
+            fontSize: dimensions.isTablet ? 16.sp : 14.sp,
+            fontWeight: FontWeight.w500,
+            height: 1.4,
+          ),
+          textAlign: TextAlign.left,
+        ),
+      ),
+    );
+  }
+
+  Widget _buildActionButtons(
+    BuildContext context,
+    ColorScheme colorScheme,
+    ResponsiveDimensions dimensions,
+  ) {
+    // Responsive button layout
+    if (dimensions.isSmallScreen &&
+        (confirmText.length > 8 || (cancelText?.length ?? 0) > 8)) {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          _buildConfirmButton(context, colorScheme, dimensions),
+          if (showCancelButton) ...[
+            verticalSpace(8),
+            _buildCancelButton(context, dimensions),
+          ],
+        ],
+      );
+    }
+
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: [
+        _buildConfirmButton(context, colorScheme, dimensions),
+        if (showCancelButton) ...[
+          horizontalSpace(dimensions.isTablet ? 12 : 8),
+          _buildCancelButton(context, dimensions),
+        ],
+      ],
+    );
+  }
+
+  Widget _buildConfirmButton(
+    BuildContext context,
+    ColorScheme colorScheme,
+    ResponsiveDimensions dimensions,
+  ) {
+    return ElevatedButton(
+      style: ElevatedButton.styleFrom(
+        backgroundColor: alertType.buttonColor,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.r)),
+        padding: EdgeInsets.symmetric(
+          horizontal: dimensions.isTablet ? 24.w : 16.w,
+          vertical: dimensions.isTablet ? 12.h : 8.h,
+        ),
+      ),
+      onPressed: () => _handleDialogDismiss(context, true),
+      child: Text(
+        confirmText,
+        style: TextStyle(
+          color: colorScheme.surface,
+          fontSize: dimensions.isTablet ? 16.sp : 14.sp,
+          fontWeight: FontWeight.w500,
+        ),
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
+      ),
+    );
+  }
+
+  Widget _buildCancelButton(
+    BuildContext context,
+    ResponsiveDimensions dimensions,
+  ) {
+    return ElevatedButton(
+      style: ElevatedButton.styleFrom(
+        backgroundColor: alertType.buttonColor.withValues(alpha: 0.1),
+        foregroundColor: alertType.buttonColor.withValues(alpha: 0.1),
+        shadowColor: alertType.buttonColor.withValues(alpha: 0.1),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.r)),
+        padding: EdgeInsets.symmetric(
+          horizontal: dimensions.isTablet ? 24.w : 16.w,
+          vertical: dimensions.isTablet ? 12.h : 8.h,
+        ),
+      ),
+      onPressed: () {
+        if (onCancel != null) {
+          onCancel!();
+        }
+        Navigator.of(context).pop(false);
+      },
+      child: Text(
+        cancelText ?? 'Cancel',
+        style: TextStyle(
+          color: alertType.buttonColor,
+          fontSize: dimensions.isTablet ? 16.sp : 14.sp,
+          fontWeight: FontWeight.w500,
+        ),
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
+      ),
+    );
+  }
+
+  void _handleDialogDismiss(BuildContext context, bool isConfirmed) {
+    Navigator.of(context).pop(isConfirmed);
+
+    // Execute callback after dialog is dismissed
+    if (isConfirmed && onConfirm != null) {
+      Future.microtask(() => onConfirm!());
+    }
+  }
 }

@@ -7,7 +7,7 @@ import 'package:snapnfix/modules/authentication/presentation/cubits/otp/otp_cubi
 import 'package:snapnfix/modules/authentication/presentation/mixins/authentication_listener_mixin.dart';
 import 'package:snapnfix/presentation/navigation/routes.dart';
 
-class OtpBlocListener extends StatelessWidget with AuthenticationListenerMixin {
+class OtpBlocListener extends StatelessWidget with ListenerMixin {
   const OtpBlocListener({super.key});
 
   @override
@@ -23,23 +23,34 @@ class OtpBlocListener extends StatelessWidget with AuthenticationListenerMixin {
             }
           },
           resendSuccess: () {
-            handleSuccess(context, message: localization.otpSentSuccessfully);
+            handleSuccess(
+              context,
+              showSuccessMessage: true,
+              successMessage: localization.otpSentSuccessfully,
+            );
           },
           successAndRequiresPasswordReset: () {
             handleSuccess(
               context,
-              message:
+              showSuccessMessage: true,
+              successMessage:
                   localization.otpVerifiedSuccessfullyAndPasswordResetRequired,
-              route: Routes.resetPassword,
+              navigationRoute: Routes.resetPassword,
             );
           },
           successAndRequiresProfileCompletion: (phoneNumber, password) {
             handleSuccess(
               context,
-              message:
-                  localization.otpVerifiedSuccessfullyAndProfileCompletionRequired,
-              route: Routes.completeProfile,
-              extra: {'phoneNumber': phoneNumber, 'password': password},
+              showSuccessMessage: true,
+
+              successMessage:
+                  localization
+                      .otpVerifiedSuccessfullyAndProfileCompletionRequired,
+              navigationRoute: Routes.completeProfile,
+              navigationExtra: {
+                'phoneNumber': phoneNumber,
+                'password': password,
+              },
             );
           },
           registrationExpired: () {

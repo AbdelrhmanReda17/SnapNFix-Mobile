@@ -5,8 +5,7 @@ import 'package:snapnfix/modules/authentication/presentation/cubits/login/login_
 import 'package:snapnfix/modules/authentication/presentation/mixins/authentication_listener_mixin.dart';
 import 'package:snapnfix/presentation/navigation/routes.dart';
 
-class LoginBlocListener extends StatelessWidget
-    with AuthenticationListenerMixin {
+class LoginBlocListener extends StatelessWidget with ListenerMixin {
   const LoginBlocListener({super.key});
 
   @override
@@ -15,9 +14,15 @@ class LoginBlocListener extends StatelessWidget
       listener: (context, state) {
         state.whenOrNull(
           authenticated: (session) {
-            context.go(Routes.home);
+            dismissLoadingAndExecute(context, () {
+              context.go(Routes.home);
+            });
           },
-          requiresProfileCompletion: () {},
+          requiresProfileCompletion: () {
+            dismissLoadingAndExecute(context, () {
+              context.go(Routes.completeProfile);
+            });
+          },
           loading: () => showLoadingDialog(context),
           error: (error) => handleError(context, error),
         );

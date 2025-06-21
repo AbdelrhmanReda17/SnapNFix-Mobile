@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 enum ReportSeverity {
+  notSpecified(displayName: 'Not specified', color: Colors.grey, priority: 0),
   low(displayName: 'Low', color: Color(0xFF4CAF50), priority: 1),
   medium(displayName: 'Medium', color: Color(0xFFFF9800), priority: 2),
   high(displayName: 'High', color: Color(0xFFF44336), priority: 3);

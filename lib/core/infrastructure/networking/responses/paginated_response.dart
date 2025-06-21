@@ -5,9 +5,7 @@ part 'paginated_response.g.dart';
 @JsonSerializable(genericArgumentFactories: true)
 class PaginatedResponse<T> {
   final List<T> items;
-
   final int pageNumber;
-
   final int totalPages;
   final int pageSize;
   final int totalCount;

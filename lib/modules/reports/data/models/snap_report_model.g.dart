@@ -48,6 +48,7 @@ Map<String, dynamic> _$SnapReportModelToJson(SnapReportModel instance) =>
     };
 
 const _$ReportSeverityEnumMap = {
+  ReportSeverity.notSpecified: 'notSpecified',
   ReportSeverity.low: 'low',
   ReportSeverity.medium: 'medium',
   ReportSeverity.high: 'high',
