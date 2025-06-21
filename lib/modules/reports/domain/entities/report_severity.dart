@@ -16,9 +16,10 @@ enum ReportSeverity {
     required this.color,
     required this.priority,
   });
-
   String getLocalizedName(AppLocalizations localization) {
     switch (this) {
+      case ReportSeverity.notSpecified:
+        return localization.notSpecified;
       case ReportSeverity.low:
         return localization.low;
       case ReportSeverity.medium:
