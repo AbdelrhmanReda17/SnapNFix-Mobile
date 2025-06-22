@@ -9,11 +9,6 @@ enum UserGender {
   final String displayName;
   const UserGender(this.displayName);
 
-  @override
-  String toString() {
-    return displayName;
-  }
-
   String getLocalizedDisplayName(BuildContext context) {
     final localization = AppLocalizations.of(context)!;
     switch (this) {
@@ -27,7 +22,9 @@ enum UserGender {
   }
 
   static List<String> getLocalizedStringValues(BuildContext context) {
-    return UserGender.values.map((e) => e.getLocalizedDisplayName(context)).toList();
+    return UserGender.values
+        .map((e) => e.getLocalizedDisplayName(context))
+        .toList();
   }
 
   get getStringValues {

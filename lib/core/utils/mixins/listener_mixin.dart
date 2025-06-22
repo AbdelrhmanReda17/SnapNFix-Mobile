@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import '../../../../core/base_components/index.dart';
-import '../../../../core/infrastructure/index.dart';
+import '../../base_components/index.dart';
+import '../../infrastructure/index.dart';
 
 /// Mixin that provides authentication-related UI state management
 /// and navigation functionality for authentication flows.

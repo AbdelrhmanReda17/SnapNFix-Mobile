@@ -95,7 +95,9 @@ class EditProfileCubit extends Cubit<EditProfileState> {
       }
     } catch (e) {
       emit(
-        EditProfileState.error(error: 'Failed to pick image: ${e.toString()}'),
+        EditProfileState.error(
+          error: ApiError(message: 'Failed to pick image: ${e.toString()}'),
+        ),
       );
     }
   }
@@ -117,7 +119,7 @@ class EditProfileCubit extends Cubit<EditProfileState> {
           lastName: lastName,
           phoneNumber: isEmailRegistered ? null : phoneNumber,
           email: isEmailRegistered ? email : null,
-          gender: selectedGender?.displayName,
+          gender: selectedGender,
           birthDate: formattedDate,
           profileImage: profileImage.value,
         ),
@@ -125,11 +127,16 @@ class EditProfileCubit extends Cubit<EditProfileState> {
 
       response.when(
         success: (data) => emit(EditProfileState.success(data)),
-        failure:
-            (error) => emit(EditProfileState.error(error: error.toString())),
+        failure: (error) => emit(EditProfileState.error(error: error)),
       );
     } catch (e) {
-      emit(EditProfileState.error(error: e.toString()));
+      emit(
+        EditProfileState.error(
+          error: ApiError(
+            message: 'An unexpected error occurred: ${e.toString()}',
+          ),
+        ),
+      );
     }
   }
 

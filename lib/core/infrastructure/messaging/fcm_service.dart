@@ -139,9 +139,7 @@ class FCMService {
     );
   }
 
-  /// Configure notification tap handling
   void _configureNotificationTaps() {
-    // Handle notification opened from terminated state
     FirebaseMessaging.instance.getInitialMessage().then((
       RemoteMessage? message,
     ) {

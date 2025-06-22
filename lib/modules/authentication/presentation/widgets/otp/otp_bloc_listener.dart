@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:snapnfix/core/base_components/base_alert.dart';
 import 'package:snapnfix/modules/authentication/presentation/cubits/otp/otp_cubit.dart';
-import 'package:snapnfix/modules/authentication/presentation/mixins/authentication_listener_mixin.dart';
+import 'package:snapnfix/core/utils/mixins/listener_mixin.dart';
 import 'package:snapnfix/presentation/navigation/routes.dart';
 
 class OtpBlocListener extends StatelessWidget with ListenerMixin {

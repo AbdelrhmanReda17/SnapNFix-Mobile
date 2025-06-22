@@ -30,10 +30,7 @@ class SettingsRepository implements BaseSettingsRepository {
             lastName: editProfileDTO.lastName ?? currentUser.lastName,
             email: currentUser.email,
             phoneNumber: currentUser.phoneNumber,
-            gender:
-                editProfileDTO.gender != null
-                    ? UserGender.fromString(editProfileDTO.gender!)
-                    : currentUser.gender,
+            gender: editProfileDTO.gender,
             birthDate:
                 editProfileDTO.birthDate != null
                     ? DateTime.parse(editProfileDTO.birthDate!)

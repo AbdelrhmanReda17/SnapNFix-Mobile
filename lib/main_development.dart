@@ -11,7 +11,7 @@ void main() async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await configureDependencies();
   await ScreenUtil.ensureScreenSize();
-  runApp(  DevicePreview(
+  runApp(DevicePreview(
     enabled: true,
     builder: (context) => SnapNFixApplication(),
     ),

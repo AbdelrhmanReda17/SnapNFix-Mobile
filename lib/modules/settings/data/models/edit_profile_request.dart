@@ -1,13 +1,14 @@
 import 'dart:io';
 
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:snapnfix/modules/authentication/domain/entities/user_gender.dart';
 part "edit_profile_request.g.dart";
 
 @JsonSerializable()
 class EditProfileRequest {
   final String? firstName;
   final String? lastName;
-  final String? gender;
+  final UserGender? gender;
   final String? birthDate;
 
   @JsonKey(includeToJson: false)
@@ -32,14 +33,4 @@ class EditProfileRequest {
       _$EditProfileRequestFromJson(json);
   Map<String, dynamic> toJson() => _$EditProfileRequestToJson(this);
 
-  Map<String, dynamic> toApiJson() {
-    final json = <String, dynamic>{};
-    
-    if (firstName != null) json['firstName'] = firstName;
-    if (lastName != null) json['lastName'] = lastName;
-    if (gender != null) json['gender'] = gender;
-    if (birthDate != null) json['birthDate'] = birthDate;
-    
-    return json;
-  }
 }

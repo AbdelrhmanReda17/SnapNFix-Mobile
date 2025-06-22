@@ -30,7 +30,6 @@ class SettingsRemoteDataSource implements BaseSettingsRemoteDataSource {
       }
       return Result.failure(apiError);
     }
-
   }
 
   @override
@@ -40,7 +39,7 @@ class SettingsRemoteDataSource implements BaseSettingsRemoteDataSource {
     try {
       return await _handleApiCall<bool>(
         apiCall: () => _apiService.editProfile(
-          editProfileDTO.toApiJson(),
+          editProfileDTO.toJson(),
         ),
       );
     } catch (error) {

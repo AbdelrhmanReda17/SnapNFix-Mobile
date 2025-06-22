@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'package:snapnfix/core/infrastructure/networking/api_configuration.dart';
 import 'package:snapnfix/core/infrastructure/networking/interceptors/error_interceptor.dart';
+import 'package:snapnfix/core/infrastructure/networking/interceptors/language_interceptor.dart';
 
 class HttpClientFactory {
   HttpClientFactory._();
@@ -18,12 +19,9 @@ class HttpClientFactory {
 
     _configureTimeouts(dio);
     _configureHeaders(dio, null);
-
-    // Set base URL
     dio.options.baseUrl = ApiEndpoints.baseUrl;
-
-    // Add default interceptors
     dio.interceptors.addAll([
+      LanguageInterceptor(),
       PrettyDioLogger(
         requestHeader: true,
         requestBody: true,
@@ -37,14 +35,11 @@ class HttpClientFactory {
     return dio;
   }
 
-  // Method to add interceptors dynamically (e.g., for authentication)
   static void addInterceptor(Interceptor interceptor) {
     final client = getClient();
-    // Remove if already exists to avoid duplicates
     client.interceptors.removeWhere(
       (i) => i.runtimeType == interceptor.runtimeType,
     );
-    // Add before ErrorInterceptor (which should be last)
     final errorInterceptorIndex = client.interceptors.indexWhere(
       (i) => i is ErrorInterceptor,
     );
@@ -55,7 +50,6 @@ class HttpClientFactory {
     }
   }
 
-  // Method to remove specific interceptor
   static void removeInterceptor<T extends Interceptor>() {
     final client = getClient();
     client.interceptors.removeWhere((i) => i is T);
@@ -96,5 +90,4 @@ class HttpClientFactory {
     _instance = null;
     debugPrint('HTTP client instance reset');
   }
-
 }
