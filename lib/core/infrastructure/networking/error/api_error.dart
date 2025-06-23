@@ -56,7 +56,7 @@ class ApiError {
 
   String get fullMessage {
     if (details.isEmpty) return message;
-    return 'Details: ${details.join('\n')}';
+    return details.join('\n');
   }
 
   @override

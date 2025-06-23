@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:snapnfix/core/infrastructure/device_info/device_info_service.dart';
 import 'package:snapnfix/core/infrastructure/networking/error/api_error.dart';
 import 'package:snapnfix/core/utils/result.dart';
@@ -79,8 +80,11 @@ class AuthenticationRemoteDataSource
 
       return Result.success(response.data as T);
     } catch (error) {
-      debugPrint('API call failed: $error');
-      return Result.failure(ApiError(message: error.toString()));
+      return Result.failure(
+        error is DioException && error.error is ApiError
+            ? error.error as ApiError
+            : ApiError(message: 'An unexpected error occurred'),
+      );
     }
   }
 

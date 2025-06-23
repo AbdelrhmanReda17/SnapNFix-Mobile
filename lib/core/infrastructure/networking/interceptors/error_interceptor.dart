@@ -1,11 +1,15 @@
 import 'package:dio/dio.dart'
     show DioException, DioExceptionType, ErrorInterceptorHandler, Interceptor;
+import 'package:flutter/material.dart';
 import 'package:snapnfix/core/infrastructure/networking/error/api_error.dart';
 
 class ErrorInterceptor extends Interceptor {
   @override
   void onError(DioException err, ErrorInterceptorHandler handler) {
     final apiError = _transformDioError(err);
+    debugPrint('API Error: ${apiError.message}');
+    debugPrint('API Error Details: ${apiError.fullMessage}');
+
     final transformedError = DioException(
       requestOptions: err.requestOptions,
       response: err.response,
@@ -56,14 +60,12 @@ class ErrorInterceptor extends Interceptor {
       try {
         return ApiError.fromJson(response!.data);
       } catch (e) {
-        // Fallback if JSON parsing fails
         return ApiError(
           message: 'Failed to parse error response',
           code: 'PARSE_ERROR',
         );
       }
     }
-
     return ApiError(
       message: _getStatusMessage(response?.statusCode),
       statusCode: response?.statusCode,

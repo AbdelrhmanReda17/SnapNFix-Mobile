@@ -50,23 +50,8 @@ class ForgotPasswordCubit extends Cubit<ForgotPasswordState> {
 
   bool _validateForm() {
     if (!formKey.currentState!.validate()) {
-      emit(
-        ForgotPasswordState.error(
-          ApiError(message: 'Please enter your email or phone number'),
-        ),
-      );
       return false;
     }
-
-    if (_emailOrPhone.isEmpty) {
-      emit(
-        ForgotPasswordState.error(
-          ApiError(message: 'Email or phone number is required'),
-        ),
-      );
-      return false;
-    }
-
     return true;
   }
 

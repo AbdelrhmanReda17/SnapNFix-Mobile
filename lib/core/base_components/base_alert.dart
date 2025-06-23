@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:snapnfix/core/utils/extensions/navigation.dart';
 import 'package:snapnfix/core/utils/helpers/spacing.dart';
 import 'package:snapnfix/core/utils/helpers/responsive_dimensions.dart';
 
@@ -98,6 +97,7 @@ class _BaseAlertDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
+    final isRTL = Directionality.of(context) == TextDirection.rtl;
 
     return LayoutBuilder(
       builder: (context, constraints) {
@@ -116,7 +116,6 @@ class _BaseAlertDialog extends StatelessWidget {
           canPop: true,
           onPopInvokedWithResult: (didPop, result) {
             if (didPop && !showCancelButton && onConfirm != null) {
-              // If there's no cancel button and dialog is dismissed, treat as confirm
               Future.microtask(() => onConfirm!());
             }
           },
@@ -142,13 +141,21 @@ class _BaseAlertDialog extends StatelessWidget {
                   ),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    crossAxisAlignment:
+                        isRTL
+                            ? CrossAxisAlignment.end
+                            : CrossAxisAlignment.start,
                     children: [
-                      _buildHeader(context, dimensions),
+                      _buildHeader(context, dimensions, isRTL),
                       verticalSpace(dimensions.isTablet ? 16 : 12),
-                      _buildMessageContent(dimensions, dialogMaxHeight),
+                      _buildMessageContent(dimensions, dialogMaxHeight, isRTL),
                       verticalSpace(dimensions.isTablet ? 20 : 16),
-                      _buildActionButtons(context, colorScheme, dimensions),
+                      _buildActionButtons(
+                        context,
+                        colorScheme,
+                        dimensions,
+                        isRTL,
+                      ),
                     ],
                   ),
                 ),
@@ -160,12 +167,17 @@ class _BaseAlertDialog extends StatelessWidget {
     );
   }
 
-  Widget _buildHeader(BuildContext context, ResponsiveDimensions dimensions) {
+  Widget _buildHeader(
+    BuildContext context,
+    ResponsiveDimensions dimensions,
+    bool isRTL,
+  ) {
     return Row(
       children: [
         Expanded(
           child: Row(
             mainAxisSize: MainAxisSize.min,
+            textDirection: isRTL ? TextDirection.rtl : TextDirection.ltr,
             children: [
               Icon(
                 alertType.icon,
@@ -183,6 +195,8 @@ class _BaseAlertDialog extends StatelessWidget {
                   ),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
+                  textAlign: isRTL ? TextAlign.right : TextAlign.left,
+                  textDirection: isRTL ? TextDirection.rtl : TextDirection.ltr,
                 ),
               ),
             ],
@@ -208,6 +222,7 @@ class _BaseAlertDialog extends StatelessWidget {
   Widget _buildMessageContent(
     ResponsiveDimensions dimensions,
     double maxDialogHeight,
+    bool isRTL,
   ) {
     final maxMessageHeight = maxDialogHeight * 0.6;
 
@@ -222,7 +237,8 @@ class _BaseAlertDialog extends StatelessWidget {
             fontWeight: FontWeight.w500,
             height: 1.4,
           ),
-          textAlign: TextAlign.left,
+          textAlign: isRTL ? TextAlign.right : TextAlign.left,
+          textDirection: isRTL ? TextDirection.rtl : TextDirection.ltr,
         ),
       ),
     );
@@ -232,6 +248,7 @@ class _BaseAlertDialog extends StatelessWidget {
     BuildContext context,
     ColorScheme colorScheme,
     ResponsiveDimensions dimensions,
+    bool isRTL,
   ) {
     // Responsive button layout
     if (dimensions.isSmallScreen &&
@@ -239,24 +256,29 @@ class _BaseAlertDialog extends StatelessWidget {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          _buildConfirmButton(context, colorScheme, dimensions),
+          _buildConfirmButton(context, colorScheme, dimensions, isRTL),
           if (showCancelButton) ...[
             verticalSpace(8),
-            _buildCancelButton(context, dimensions),
+            _buildCancelButton(context, dimensions, isRTL),
           ],
         ],
       );
     }
 
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.end,
-      children: [
-        _buildConfirmButton(context, colorScheme, dimensions),
-        if (showCancelButton) ...[
-          horizontalSpace(dimensions.isTablet ? 12 : 8),
-          _buildCancelButton(context, dimensions),
-        ],
+    // For RTL, we want to reverse the button order
+    final buttons = [
+      _buildConfirmButton(context, colorScheme, dimensions, isRTL),
+      if (showCancelButton) ...[
+        horizontalSpace(dimensions.isTablet ? 12 : 8),
+        _buildCancelButton(context, dimensions, isRTL),
       ],
+    ];
+
+    return Row(
+      mainAxisAlignment:
+          isRTL ? MainAxisAlignment.start : MainAxisAlignment.end,
+      textDirection: isRTL ? TextDirection.rtl : TextDirection.ltr,
+      children: isRTL ? buttons.reversed.toList() : buttons,
     );
   }
 
@@ -264,6 +286,7 @@ class _BaseAlertDialog extends StatelessWidget {
     BuildContext context,
     ColorScheme colorScheme,
     ResponsiveDimensions dimensions,
+    bool isRTL,
   ) {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
@@ -284,6 +307,7 @@ class _BaseAlertDialog extends StatelessWidget {
         ),
         maxLines: 1,
         overflow: TextOverflow.ellipsis,
+        textDirection: isRTL ? TextDirection.rtl : TextDirection.ltr,
       ),
     );
   }
@@ -291,6 +315,7 @@ class _BaseAlertDialog extends StatelessWidget {
   Widget _buildCancelButton(
     BuildContext context,
     ResponsiveDimensions dimensions,
+    bool isRTL,
   ) {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
@@ -318,6 +343,7 @@ class _BaseAlertDialog extends StatelessWidget {
         ),
         maxLines: 1,
         overflow: TextOverflow.ellipsis,
+        textDirection: isRTL ? TextDirection.rtl : TextDirection.ltr,
       ),
     );
   }

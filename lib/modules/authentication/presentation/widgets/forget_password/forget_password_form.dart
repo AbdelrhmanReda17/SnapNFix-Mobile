@@ -13,8 +13,6 @@ class ForgetPasswordForm extends StatelessWidget {
     final localization = AppLocalizations.of(context)!;
     final cubit = context.read<ForgotPasswordCubit>();
 
-    debugPrint("ForgetPasswordForm: ${cubit.state}");
-
     return Form(
       key: cubit.formKey,
       child: Column(

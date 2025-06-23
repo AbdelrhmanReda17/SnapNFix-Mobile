@@ -124,11 +124,13 @@ mixin ListenerMixin {
     VoidCallback? onConfirm,
   }) {
     final localizations = AppLocalizations.of(context)!;
+    debugPrint('Showing error dialog: ${error.message}');
+    debugPrint('Error details: ${error.fullMessage}');
 
     baseDialog(
       context: context,
-      title: title ?? localizations.errorDialogTitle,
-      message: error.message,
+      title: localizations.errorDialogTitle,
+      message: error.fullMessage,
       alertType: AlertType.error,
       confirmText: localizations.gotItConfirmText,
       onConfirm: onConfirm,
