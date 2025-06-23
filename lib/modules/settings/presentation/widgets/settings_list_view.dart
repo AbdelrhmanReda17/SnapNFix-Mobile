@@ -5,6 +5,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:snapnfix/core/dependency_injection/dependency_injection.dart';
 import 'package:snapnfix/core/utils/helpers/spacing.dart';
 import 'package:snapnfix/modules/authentication/domain/usecases/logout_use_case.dart';
+import 'package:snapnfix/modules/reports/presentation/cubits/user_reports_cubit.dart';
 import 'package:snapnfix/modules/settings/presentation/widgets/dark_mode_tile.dart';
 import 'package:snapnfix/modules/settings/presentation/widgets/language_tile.dart';
 import 'package:snapnfix/presentation/navigation/routes.dart';
@@ -38,6 +39,7 @@ class _SettingsListViewState extends State<SettingsListView> {
       result.when(
         success: (_) {
           if (mounted) {
+            getIt<UserReportsCubit>().clear();
             context.go(Routes.login);
           }
         },
@@ -70,7 +72,8 @@ class _SettingsListViewState extends State<SettingsListView> {
     }
   }
 
-  @override  Widget build(BuildContext context) {
+  @override
+  Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
     final textStyles = Theme.of(context).textTheme;
     final localization = AppLocalizations.of(context)!;
@@ -162,14 +165,16 @@ class _SettingsListViewState extends State<SettingsListView> {
         padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [            Text(
+          children: [
+            Text(
               title,
               style: textStyles.bodyMedium?.copyWith(
-                color: isSignOut 
-                    ? colorScheme.error 
-                    : (Theme.of(context).brightness == Brightness.dark 
-                        ? Colors.white 
-                        : colorScheme.primary),
+                color:
+                    isSignOut
+                        ? colorScheme.error
+                        : (Theme.of(context).brightness == Brightness.dark
+                            ? Colors.white
+                            : colorScheme.primary),
               ),
             ),
             if (isSignOut && _isLoggingOut)
@@ -180,12 +185,14 @@ class _SettingsListViewState extends State<SettingsListView> {
                   strokeWidth: 2,
                   color: colorScheme.error,
                 ),
-              )            else if (hasIcon)
+              )
+            else if (hasIcon)
               Icon(
                 Icons.arrow_forward_ios_rounded,
-                color: Theme.of(context).brightness == Brightness.dark 
-                    ? Colors.white 
-                    : colorScheme.primary,
+                color:
+                    Theme.of(context).brightness == Brightness.dark
+                        ? Colors.white
+                        : colorScheme.primary,
                 size: 16.sp,
               )
             else

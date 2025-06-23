@@ -137,7 +137,6 @@ class StatisticsCards extends StatelessWidget {
         description: localization.earnMorePointsDescription,
         buttonText: localization.claim,
         onButtonPressed: () => context.go(Routes.submitReport),
-        isLoading: isLoading,
         cardStyle: cardStyle,
         iconData: Icons.workspace_premium,
       );
@@ -149,7 +148,6 @@ class StatisticsCards extends StatelessWidget {
         description: localization.issuesBeingReviewed,
         buttonText: localization.viewDetails,
         onButtonPressed: () => context.go(Routes.userReports),
-        isLoading: isLoading,
         cardStyle: cardStyle,
         iconData: Icons.pending_actions,
       );
@@ -161,7 +159,6 @@ class StatisticsCards extends StatelessWidget {
         description: localization.aiRecognized,
         buttonText: localization.viewDetails,
         onButtonPressed: () => context.go(Routes.userReports),
-        isLoading: isLoading,
         cardStyle: cardStyle,
         iconData: Icons.check_circle,
       );

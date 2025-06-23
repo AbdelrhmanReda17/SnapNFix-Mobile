@@ -163,8 +163,6 @@ class FCMService {
   /// Handle navigation based on notification data
   void _handleNotificationNavigation(String? payload) {
     if (payload != null) {
-      // Parse payload and navigate accordingly
-      // Example: if payload contains route information
       debugPrint('Handling notification navigation with payload: $payload');
       getIt<NavigationService>().handleNotificationNavigation(
         payload as Map<String, dynamic>,
@@ -176,7 +174,6 @@ class FCMService {
   Future<Result<String?, ApiError>> getDeviceToken() async {
     try {
       String? token = await _firebaseMessaging.getToken();
-      debugPrint('FCM Token: $token');
       return Result.success(token);
     } catch (e) {
       debugPrint('Error getting FCM token: $e');
@@ -268,6 +265,8 @@ class FCMService {
 /// Top-level function for background message handling
 @pragma('vm:entry-point')
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  debugPrint("Handling a background message: ${message.messageId}");
-  // You can show notifications here too if needed
+  debugPrint('Handling a background message: ${message.messageId}');
+  await getIt.allReady();
+  final fcmService = getIt<FCMService>();
+  fcmService._handleNotificationNavigation(message.data.toString());
 }

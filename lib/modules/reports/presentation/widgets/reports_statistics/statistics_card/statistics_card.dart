@@ -18,7 +18,6 @@ class StatisticsCard extends StatefulWidget {
   final String buttonText;
   final VoidCallback onButtonPressed;
   final String? imageAsset;
-  final bool isLoading;
   final CardStyle cardStyle;
   final IconData iconData;
 
@@ -30,7 +29,6 @@ class StatisticsCard extends StatefulWidget {
     required this.description,
     required this.buttonText,
     required this.onButtonPressed,
-    required this.isLoading,
     required this.cardStyle,
     required this.iconData,
     this.imageAsset,
@@ -74,9 +72,6 @@ class _StatisticsCardState extends State<StatisticsCard>
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final isDarkMode = theme.brightness == Brightness.dark;
-    final dimensions = getResponsiveDimensions(context);
     return LayoutBuilder(
       builder: (context, constraints) {
         final theme = Theme.of(context);
@@ -100,11 +95,8 @@ class _StatisticsCardState extends State<StatisticsCard>
               constraints: _getCardConstraints(dimensions),
               padding: _getCardPadding(dimensions),
               decoration: BoxDecoration(
-                gradient: widget.isLoading ? null : widget.cardStyle.gradient,
-                color:
-                    widget.isLoading
-                        ? theme.colorScheme.primaryContainer
-                        : widget.cardStyle.backgroundColor,
+                gradient: widget.cardStyle.gradient,
+                color: widget.cardStyle.backgroundColor,
                 borderRadius: BorderRadius.circular(
                   _getBorderRadius(dimensions),
                 ),
@@ -119,10 +111,7 @@ class _StatisticsCardState extends State<StatisticsCard>
                   ),
                 ],
               ),
-              child:
-                  widget.isLoading
-                      ? _buildLoadingState(theme, dimensions)
-                      : _buildCardContent(theme, dimensions),
+              child: _buildCardContent(theme, dimensions),
             ),
           ),
         );

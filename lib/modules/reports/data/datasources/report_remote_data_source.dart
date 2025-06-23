@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:snapnfix/core/index.dart';
 import 'package:snapnfix/modules/reports/data/models/fast_report_model.dart';
 import 'package:snapnfix/modules/reports/data/models/report_statistics_model.dart';
