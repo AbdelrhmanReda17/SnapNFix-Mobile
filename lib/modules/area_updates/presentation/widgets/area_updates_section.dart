@@ -4,21 +4,16 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:snapnfix/core/base_components/base_button.dart';
 import 'package:snapnfix/core/dependency_injection/dependency_injection.dart';
-import 'package:snapnfix/modules/area_updates/domain/repositories/base_area_updates_repository.dart';
 import 'package:snapnfix/modules/area_updates/presentation/cubits/area_subscription_cubit.dart';
 import 'package:snapnfix/modules/area_updates/presentation/cubits/area_subscription_state.dart';
 import 'package:snapnfix/presentation/navigation/routes.dart';
 
 class AreaUpdatesSection extends StatelessWidget {
   const AreaUpdatesSection({super.key});
-
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create:
-          (context) =>
-              AreaSubscriptionCubit(getIt<BaseAreaUpdatesRepository>())
-                ..initialize(),
+      create: (context) => getIt<AreaSubscriptionCubit>()..initialize(),
       child: const AreaUpdatesSectionContent(),
     );
   }
@@ -251,27 +246,12 @@ class _SubscribedAreasWidget extends StatelessWidget {
                 areaName: area,
                 colorScheme: colorScheme,
                 onTap: () {
-                  context.push(
-                    Routes.areaIssuesChat.replaceAll(':area', area),
+                  context.push(                    Routes.areaIssuesChat.replaceAll(':area', area),
                     extra: area,
                   );
                 },
               );
             },
-          ),
-        ),
-
-        SizedBox(height: 12.h),
-
-        // Manage subscriptions button
-        Align(
-          alignment: Alignment.centerRight,
-          child: TextButton.icon(
-            onPressed: () {
-              context.push(Routes.areaIssuesChat);
-            },
-            icon: Icon(Icons.settings_outlined, size: 16.sp),
-            label: Text('Manage Areas', style: TextStyle(fontSize: 14.sp)),
           ),
         ),
       ],

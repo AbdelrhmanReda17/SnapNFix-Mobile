@@ -1,3 +1,4 @@
+export 'area_updates/index.dart';
 export 'authentication/index.dart';
 export 'issues/index.dart';
 export 'onboarding/index.dart';

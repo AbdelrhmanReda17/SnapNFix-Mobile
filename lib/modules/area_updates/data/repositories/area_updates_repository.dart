@@ -7,7 +7,7 @@ import 'package:snapnfix/modules/area_updates/domain/repositories/base_area_upda
 import 'package:snapnfix/modules/issues/domain/entities/issue.dart';
 
 class AreaUpdatesRepository implements BaseAreaUpdatesRepository {
-  final AreaUpdatesRemoteDataSource _remoteDataSource;
+  final BaseAreaUpdatesRemoteDataSource _remoteDataSource;
 
   AreaUpdatesRepository(this._remoteDataSource);
 

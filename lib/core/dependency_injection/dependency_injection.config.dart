@@ -13,6 +13,29 @@ import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
 
 import '../../index.dart' as _i986;
+import '../../modules/area_updates/data/datasources/area_updates_remote_data_source.dart'
+    as _i758;
+import '../../modules/area_updates/di/area_updates_data_module.dart' as _i1028;
+import '../../modules/area_updates/di/area_updates_presentation_module.dart'
+    as _i962;
+import '../../modules/area_updates/di/area_updates_repository_module.dart'
+    as _i887;
+import '../../modules/area_updates/di/area_updates_usecase_module.dart'
+    as _i636;
+import '../../modules/area_updates/domain/repositories/base_area_updates_repository.dart'
+    as _i415;
+import '../../modules/area_updates/domain/usecases/get_all_areas_use_case.dart'
+    as _i805;
+import '../../modules/area_updates/domain/usecases/get_subscribed_areas_use_case.dart'
+    as _i317;
+import '../../modules/area_updates/domain/usecases/subscribe_to_area_use_case.dart'
+    as _i370;
+import '../../modules/area_updates/domain/usecases/unsubscribe_from_area_use_case.dart'
+    as _i831;
+import '../../modules/area_updates/presentation/cubits/all_areas_cubit.dart'
+    as _i141;
+import '../../modules/area_updates/presentation/cubits/area_subscription_cubit.dart'
+    as _i820;
 import '../../modules/authentication/data/datasources/authentication_remote_data_source.dart'
     as _i771;
 import '../../modules/authentication/di/authentication_data_module.dart'
@@ -169,8 +192,10 @@ extension GetItInjectableX on _i174.GetIt {
     final issuesDataModule = _$IssuesDataModule();
     final deviceInfoModule = _$DeviceInfoModule();
     final managerModule = _$ManagerModule();
+    final areaUpdatesDataModule = _$AreaUpdatesDataModule();
     final settingsDataModule = _$SettingsDataModule();
     final issuesRepositoryModule = _$IssuesRepositoryModule();
+    final areaUpdatesRepositoryModule = _$AreaUpdatesRepositoryModule();
     final reportsRepositoryModule = _$ReportsRepositoryModule();
     final settingsRepositoryModule = _$SettingsRepositoryModule();
     final issuesUsecaseModule = _$IssuesUsecaseModule();
@@ -179,6 +204,8 @@ extension GetItInjectableX on _i174.GetIt {
     final reportsPresentationModule = _$ReportsPresentationModule();
     final settingsUsecaseModule = _$SettingsUsecaseModule();
     final authenticationRepositoryModule = _$AuthenticationRepositoryModule();
+    final areaUpdatesPresentationModule = _$AreaUpdatesPresentationModule();
+    final areaUpdatesUseCaseModule = _$AreaUpdatesUseCaseModule();
     final settingsPresentationModule = _$SettingsPresentationModule();
     final authenticationUseCaseModule = _$AuthenticationUseCaseModule();
     final authenticationPresentationModule =
@@ -231,6 +258,9 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i361.Dio>(),
           gh<_i846.TokenRefreshInterceptor>(),
         ));
+    gh.singleton<_i758.BaseAreaUpdatesRemoteDataSource>(() =>
+        areaUpdatesDataModule
+            .provideAreaUpdatesRemoteDataSource(gh<_i666.ApiService>()));
     gh.lazySingleton<_i193.BaseIssueRemoteDataSource>(() =>
         issuesDataModule.provideIssueRemoteDataSource(gh<_i666.ApiService>()));
     gh.lazySingleton<_i71.BaseReportRemoteDataSource>(() => reportsDataModule
@@ -248,6 +278,9 @@ extension GetItInjectableX on _i174.GetIt {
               gh<_i666.ApiService>(),
               gh<_i871.DeviceInfoService>(),
             ));
+    gh.singleton<_i415.BaseAreaUpdatesRepository>(() =>
+        areaUpdatesRepositoryModule.provideAreaUpdatesRepository(
+            gh<_i758.BaseAreaUpdatesRemoteDataSource>()));
     gh.lazySingleton<_i515.BaseReportRepository>(
         () => reportsRepositoryModule.provideReportRepository(
               gh<_i810.BaseReportLocalDataSource>(),
@@ -301,6 +334,20 @@ extension GetItInjectableX on _i174.GetIt {
             ));
     gh.factory<_i366.IssueDetailsCubit>(() => issuesPresentationModule
         .provideIssueDetailsCubit(gh<_i39.GetIssueDetailsUseCase>()));
+    gh.factory<_i820.AreaSubscriptionCubit>(() => areaUpdatesPresentationModule
+        .provideAreaSubscriptionCubit(gh<_i415.BaseAreaUpdatesRepository>()));
+    gh.factory<_i141.AllAreasCubit>(() => areaUpdatesPresentationModule
+        .provideAllAreasCubit(gh<_i415.BaseAreaUpdatesRepository>()));
+    gh.factory<_i317.GetSubscribedAreasUseCase>(() =>
+        areaUpdatesUseCaseModule.provideGetSubscribedAreasUseCase(
+            gh<_i415.BaseAreaUpdatesRepository>()));
+    gh.factory<_i805.GetAllAreasUseCase>(() => areaUpdatesUseCaseModule
+        .provideGetAllAreasUseCase(gh<_i415.BaseAreaUpdatesRepository>()));
+    gh.factory<_i370.SubscribeToAreaUseCase>(() => areaUpdatesUseCaseModule
+        .provideSubscribeToAreaUseCase(gh<_i415.BaseAreaUpdatesRepository>()));
+    gh.factory<_i831.UnsubscribeFromAreaUseCase>(() =>
+        areaUpdatesUseCaseModule.provideUnsubscribeFromAreaUseCase(
+            gh<_i415.BaseAreaUpdatesRepository>()));
     gh.factory<_i987.IssueSnapReportsCubit>(() => reportsPresentationModule
         .provideIssueSnapReportsCubit(gh<_i610.GetIssueSnapReportsUseCase>()));
     gh.factory<_i36.GetReportStatisticsUseCase>(() =>
@@ -370,9 +417,13 @@ class _$DeviceInfoModule extends _i984.DeviceInfoModule {}
 
 class _$ManagerModule extends _i441.ManagerModule {}
 
+class _$AreaUpdatesDataModule extends _i1028.AreaUpdatesDataModule {}
+
 class _$SettingsDataModule extends _i993.SettingsDataModule {}
 
 class _$IssuesRepositoryModule extends _i629.IssuesRepositoryModule {}
+
+class _$AreaUpdatesRepositoryModule extends _i887.AreaUpdatesRepositoryModule {}
 
 class _$ReportsRepositoryModule extends _i717.ReportsRepositoryModule {}
 
@@ -390,6 +441,11 @@ class _$SettingsUsecaseModule extends _i422.SettingsUsecaseModule {}
 
 class _$AuthenticationRepositoryModule
     extends _i361.AuthenticationRepositoryModule {}
+
+class _$AreaUpdatesPresentationModule
+    extends _i962.AreaUpdatesPresentationModule {}
+
+class _$AreaUpdatesUseCaseModule extends _i636.AreaUpdatesUseCaseModule {}
 
 class _$SettingsPresentationModule extends _i247.SettingsPresentationModule {}
 
