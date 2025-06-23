@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:injectable/injectable.dart';
+import 'package:snapnfix/presentation/navigation/router_configuration.dart';
 import 'package:snapnfix/presentation/navigation/routes.dart';
 
 @lazySingleton
@@ -58,9 +59,11 @@ class NavigationService {
 
   // Add method to navigate to user reports
   void navigateToUserReports() {
-    final context = navigatorKey.currentContext;
-    if (context != null) {
-      context.go(Routes.userReports);
+    debugPrint('Navigating to user reports');
+    try {
+      RouterConfiguration.router.go(Routes.userReports);
+    } catch (e) {
+      debugPrint('Error navigating to user reports: $e');
     }
   }
 

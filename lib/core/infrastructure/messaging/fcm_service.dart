@@ -6,6 +6,7 @@ import 'package:snapnfix/core/infrastructure/networking/error/api_error.dart';
 import 'package:snapnfix/core/utils/result.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:snapnfix/presentation/navigation/navigation_service.dart';
+import 'dart:convert';
 
 class FCMService {
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
@@ -87,7 +88,9 @@ class FCMService {
   /// Handle notification tap
   void _onNotificationTap(NotificationResponse response) {
     debugPrint('Notification tapped: ${response.payload}');
-    // Handle navigation based on notification payload
+    debugPrint(
+      'Notification tapped: ${response.notificationResponseType} ${response.id} ${response.notificationResponseType.name} ${response.toString()}  ${response.notificationResponseType.index} ${response.data} ${response.data}',
+    );
     _handleNotificationNavigation(response.payload);
   }
 
@@ -96,11 +99,13 @@ class FCMService {
     FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
       debugPrint('Got a message whilst in the foreground!');
       debugPrint('Message data: ${message.data}');
-
+      debugPrint(
+        'Message notification:${message.notification?.toString()} ${message.notification?.body}  ${message.notification?.title}  ${message.notification?.bodyLocArgs}',
+      );
       if (message.notification != null) {
-        debugPrint('Message notification: ${message.notification}');
-
-        // Show local notification for foreground messages
+        debugPrint(
+          'Message notification:${message.notification?.toString()} ${message.notification?.body}  ${message.notification?.title}  ${message.notification?.bodyLocArgs}',
+        );
         await _showLocalNotification(message);
       }
     });
@@ -162,11 +167,20 @@ class FCMService {
 
   /// Handle navigation based on notification data
   void _handleNotificationNavigation(String? payload) {
-    if (payload != null) {
+    getIt<NavigationService>().handleNotificationNavigation({});
+
+    if (payload != null && payload != '{}' && payload.isNotEmpty) {
       debugPrint('Handling notification navigation with payload: $payload');
-      getIt<NavigationService>().handleNotificationNavigation(
-        payload as Map<String, dynamic>,
-      );
+      try {
+        final Map<String, dynamic> data = Map<String, dynamic>.from(
+          jsonDecode(payload),
+        );
+        getIt<NavigationService>().handleNotificationNavigation(data);
+      } catch (e) {
+        debugPrint('Failed to parse notification payload: $e');
+      }
+    } else {
+      debugPrint('No payload to handle for notification navigation.');
     }
   }
 

@@ -23,14 +23,6 @@ class SnapNFixApplication extends StatelessWidget {
         listenable: appConfigs,
         builder: (context, _) {
           return MaterialApp.router(
-            builder: (context, child) {
-              return Navigator(
-                key: getIt<NavigationService>().navigatorKey,
-                onGenerateRoute:
-                    (settings) =>
-                        MaterialPageRoute(builder: (context) => child!),
-              );
-            },
             title: 'SnapNFix',
             supportedLocales: AppLocalizations.supportedLocales,
             scaffoldMessengerKey:
