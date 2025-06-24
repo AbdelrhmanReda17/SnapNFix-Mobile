@@ -46,7 +46,7 @@ class IssueMarkerDialogStatusBadge extends StatelessWidget {
         return Colors.orange;
       case IssueStatus.inProgress:
         return Colors.blue;
-      case IssueStatus.fixed:
+      case IssueStatus.completed:
         return Colors.green;
     }
   }
@@ -57,7 +57,7 @@ class IssueMarkerDialogStatusBadge extends StatelessWidget {
         return Icons.pending;
       case IssueStatus.inProgress:
         return Icons.engineering;
-      case IssueStatus.fixed:
+      case IssueStatus.completed:
         return Icons.check_circle;
     }
   }

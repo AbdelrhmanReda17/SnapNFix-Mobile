@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:snapnfix/core/utils/helpers/responsive_dimensions.dart';
 
-// Class to hold card style properties
 class CardStyle {
   final Color? backgroundColor;
   final LinearGradient? gradient;
@@ -77,6 +77,7 @@ class _StatisticsCardState extends State<StatisticsCard>
         final theme = Theme.of(context);
         final isDarkMode = theme.brightness == Brightness.dark;
         final dimensions = getResponsiveDimensions(context);
+        final localization = AppLocalizations.of(context)!;
 
         return GestureDetector(
           onTapDown: (_) => _onTapDown(),
@@ -182,7 +183,11 @@ class _StatisticsCardState extends State<StatisticsCard>
     return dimensions.screenWidth < 350 ? 16.r : 20.r;
   }
 
-  Widget _buildLoadingState(ThemeData theme, ResponsiveDimensions dimensions) {
+  Widget _buildLoadingState(
+    String text,
+    ThemeData theme,
+    ResponsiveDimensions dimensions,
+  ) {
     final indicatorSize =
         dimensions.isTablet
             ? 28.0
@@ -206,7 +211,7 @@ class _StatisticsCardState extends State<StatisticsCard>
           ),
           SizedBox(height: dimensions.isTablet ? 16.h : 12.h),
           Text(
-            'Loading...',
+            text,
             style: theme.textTheme.bodyMedium?.copyWith(fontSize: fontSize),
           ),
         ],
@@ -216,7 +221,7 @@ class _StatisticsCardState extends State<StatisticsCard>
 
   Widget _buildCardContent(ThemeData theme, ResponsiveDimensions dimensions) {
     final isDarkMode = theme.brightness == Brightness.dark;
-    final textColor = isDarkMode ? Colors.white : theme.colorScheme.onPrimary;
+    final textColor = theme.colorScheme.onPrimary;
     final fontSizes = getResponsiveFontSizes(dimensions);
 
     return Column(
@@ -347,10 +352,10 @@ class _StatisticsCardState extends State<StatisticsCard>
       child: ElevatedButton(
         onPressed: widget.onButtonPressed,
         style: ElevatedButton.styleFrom(
-          backgroundColor: isDarkMode ? theme.colorScheme.secondary : textColor,
+          backgroundColor: isDarkMode ? theme.colorScheme.primary : textColor,
           foregroundColor:
               isDarkMode
-                  ? Colors.white
+                  ? theme.colorScheme.tertiary
                   : widget.cardStyle.gradient?.colors.last ??
                       theme.colorScheme.primary,
           padding: EdgeInsets.symmetric(

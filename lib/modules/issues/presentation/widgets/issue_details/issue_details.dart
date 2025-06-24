@@ -36,7 +36,6 @@ class _IssueDetailsState extends State<IssueDetails> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Header with title and status badge
           _buildHeader(textStyles, colorScheme, localization),
           verticalSpace(isTablet ? 20 : 16),
           

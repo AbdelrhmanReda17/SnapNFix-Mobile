@@ -26,11 +26,13 @@ class EditProfile extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: colorScheme.primary,
         systemOverlayStyle: statusBarStyle,
+        elevation: 0,
+        scrolledUnderElevation: 0,
         title: Text(
           localization?.editProfile ?? 'Edit Profile',
-          style: TextStyle(color: colorScheme.surface, fontSize: 18.sp),
+          style: TextStyle(color: colorScheme.onPrimary, fontSize: 20.sp),
         ),
-        iconTheme: IconThemeData(color: colorScheme.surface, size: 20.sp),
+        iconTheme: IconThemeData(color: colorScheme.onPrimary, size: 20.sp),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -55,7 +57,7 @@ class EditProfile extends StatelessWidget {
                                       .emitEditProfile(),
                           text: localization?.save ?? 'Save Changes',
                           textStyle: textTheme.bodyLarge!.copyWith(
-                            color: colorScheme.surface,
+                            color: colorScheme.onPrimary,
                           ),
                         ),
                       ),

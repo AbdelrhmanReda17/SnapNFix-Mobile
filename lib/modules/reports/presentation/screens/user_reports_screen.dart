@@ -51,9 +51,8 @@ class _UserReportsScreenState extends State<UserReportsScreen> {
         title: Text(
           localization.myReports,
           style: theme.textTheme.headlineLarge?.copyWith(
-            fontWeight: FontWeight.w600,
             fontSize: 20.sp,
-            color: colorScheme.primary,
+            color: colorScheme.tertiary,
           ),
         ),
       ),
@@ -106,7 +105,6 @@ class _UserReportsScreenState extends State<UserReportsScreen> {
         final hasActiveFilters =
             state.currentStatus != null || state.currentCategory != null;
 
-        // Count active filters
         int filterCount = 0;
         if (state.currentStatus != null) filterCount++;
         if (state.currentCategory != null) filterCount++;
@@ -117,7 +115,7 @@ class _UserReportsScreenState extends State<UserReportsScreen> {
             color: colorScheme.surface,
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withValues(alpha: 0.05),
+                color: colorScheme.shadow.withValues(alpha: 0.05),
                 blurRadius: 1.r,
                 spreadRadius: 1.r,
               ),
@@ -143,7 +141,7 @@ class _UserReportsScreenState extends State<UserReportsScreen> {
                         color:
                             hasActiveFilters
                                 ? colorScheme.primary
-                                : colorScheme.outline.withValues(alpha: 0.3),
+                                : colorScheme.tertiary.withValues(alpha: 0.1),
                       ),
                     ),
                     child: Row(
@@ -151,10 +149,7 @@ class _UserReportsScreenState extends State<UserReportsScreen> {
                         Icon(
                           Icons.filter_list,
                           size: 20.sp,
-                          color:
-                              hasActiveFilters
-                                  ? colorScheme.primary
-                                  : colorScheme.onSurfaceVariant,
+                          color: colorScheme.primary,
                         ),
                         SizedBox(width: 8.w),
                         Text(
@@ -170,7 +165,9 @@ class _UserReportsScreenState extends State<UserReportsScreen> {
                             color:
                                 hasActiveFilters
                                     ? colorScheme.primary
-                                    : colorScheme.onSurfaceVariant,
+                                    : colorScheme.tertiary.withValues(
+                                      alpha: 0.7,
+                                    ),
                           ),
                         ),
                         if (hasActiveFilters) ...[

@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
+import 'package:snapnfix/core/utils/helpers/spacing.dart';
 import '../cubits/area_updates_cubit.dart';
 import '../cubits/area_updates_state.dart';
 import '../navigation/routes.dart';
@@ -32,7 +33,8 @@ class AreaUpdatesSectionContent extends StatelessWidget {
                     borderRadius: BorderRadius.circular(2.r),
                   ),
                 ),
-                SizedBox(width: 8.w),                Text(
+                horizontalSpace(8),
+                Text(
                   localization.areaUpdates,
                   style: TextStyle(
                     fontSize: 18.sp,
@@ -53,9 +55,11 @@ class AreaUpdatesSectionContent extends StatelessWidget {
           BlocBuilder<AreaUpdatesCubit, AreaUpdatesState>(
             builder: (context, state) {
               return AnimatedSwitcher(
-                duration: const Duration(milliseconds: 300),                child: state.areas.isEmpty
-                    ? _buildEmptyState(colorScheme, localization)
-                    : _buildAreaCards(context, state, colorScheme),
+                duration: const Duration(milliseconds: 300),
+                child:
+                    state.areas.isEmpty
+                        ? _buildEmptyState(colorScheme, localization)
+                        : _buildAreaCards(context, state, colorScheme),
               );
             },
           ),
@@ -63,7 +67,11 @@ class AreaUpdatesSectionContent extends StatelessWidget {
       ),
     );
   }
-  Widget _buildEmptyState(ColorScheme colorScheme, AppLocalizations localization) {
+
+  Widget _buildEmptyState(
+    ColorScheme colorScheme,
+    AppLocalizations localization,
+  ) {
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -92,7 +100,10 @@ class AreaUpdatesSectionContent extends StatelessWidget {
     ColorScheme colorScheme,
   ) {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
-    final screenWidth = MediaQuery.of(context).size.width;    // Calculate responsive grid based on screen width
+    final screenWidth =
+        MediaQuery.of(
+          context,
+        ).size.width; // Calculate responsive grid based on screen width
     int crossAxisCount = 2;
     double cardSpacing = 8.w;
 
@@ -106,7 +117,8 @@ class AreaUpdatesSectionContent extends StatelessWidget {
 
     return ConstrainedBox(
       constraints: BoxConstraints(
-          maxHeight: MediaQuery.of(context).size.height * 0.6),
+        maxHeight: MediaQuery.of(context).size.height * 0.6,
+      ),
       child: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 16.w),
@@ -119,11 +131,14 @@ class AreaUpdatesSectionContent extends StatelessWidget {
             itemCount: state.areas.length,
             itemBuilder: (context, index) {
               final area = state.areas[index];
-              final isSelected = area.key == state.selectedArea;              // Dynamic but controlled card height with more compact spacing
+              final isSelected =
+                  area.key ==
+                  state
+                      .selectedArea; // Dynamic but controlled card height with more compact spacing
               final baseHeight = 75.h;
               final maxHeight = 90.h;
               final calculatedHeight = baseHeight + (index % 3 * 5.h);
-              final cardHeight = calculatedHeight.clamp(baseHeight, maxHeight);// Use consistent icon for all areas
+              final cardHeight = calculatedHeight.clamp(baseHeight, maxHeight);
               final IconData areaIcon = Icons.home_work;
 
               return Material(
@@ -136,19 +151,21 @@ class AreaUpdatesSectionContent extends StatelessWidget {
                   borderRadius: BorderRadius.circular(16.r),
                   child: AnimatedContainer(
                     duration: const Duration(milliseconds: 300),
-                    height: cardHeight,                    decoration: BoxDecoration(
+                    height: cardHeight,
+                    decoration: BoxDecoration(
                       gradient: LinearGradient(
                         begin: Alignment.topLeft,
                         end: Alignment.bottomRight,
-                        colors: isSelected
-                            ? [
-                                colorScheme.primary,
-                                colorScheme.primary.withOpacity(0.8),
-                              ]
-                            : [
-                                colorScheme.surfaceContainerHighest,
-                                colorScheme.surface,
-                              ],
+                        colors:
+                            isSelected
+                                ? [
+                                  colorScheme.primary,
+                                  colorScheme.primary.withValues(alpha: 0.8),
+                                ]
+                                : [
+                                  colorScheme.surfaceContainerHighest,
+                                  colorScheme.surface,
+                                ],
                       ),
                       borderRadius: BorderRadius.circular(16.r),
                       boxShadow: [
@@ -161,7 +178,8 @@ class AreaUpdatesSectionContent extends StatelessWidget {
                           offset: Offset(0, isDarkMode ? 2 : 3),
                         ),
                       ],
-                    ),padding: EdgeInsets.all(12.r),
+                    ),
+                    padding: EdgeInsets.all(12.r),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -169,21 +187,28 @@ class AreaUpdatesSectionContent extends StatelessWidget {
                         // Top row with icon and badge
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [                            Icon(
+                          children: [
+                            Icon(
                               areaIcon,
-                              color: isSelected
-                                  ? Colors.white
-                                  : colorScheme.primary,
+                              color:
+                                  isSelected
+                                      ? colorScheme.onPrimary
+                                      : colorScheme.primary,
                               size: 20.sp,
                             ),
-                            if (area.value.isNotEmpty)                              Container(                                padding: EdgeInsets.symmetric(
+                            if (area.value.isNotEmpty)
+                              Container(
+                                padding: EdgeInsets.symmetric(
                                   horizontal: 6.w,
                                   vertical: 2.h,
                                 ),
                                 decoration: BoxDecoration(
-                                  color: isSelected
-                                      ? Colors.white.withOpacity(0.2)
-                                      : colorScheme.surfaceVariant,
+                                  color:
+                                      isSelected
+                                          ? colorScheme.onPrimary.withValues(
+                                            alpha: 0.2,
+                                          )
+                                          : colorScheme.surfaceTint,
                                   borderRadius: BorderRadius.circular(8.r),
                                 ),
                                 child: Text(
@@ -191,9 +216,10 @@ class AreaUpdatesSectionContent extends StatelessWidget {
                                   style: TextStyle(
                                     fontSize: 10.sp,
                                     fontWeight: FontWeight.w600,
-                                    color: isSelected
-                                        ? Colors.white
-                                        : colorScheme.onSurfaceVariant,
+                                    color:
+                                        isSelected
+                                            ? colorScheme.onPrimary
+                                            : colorScheme.onSurfaceVariant,
                                   ),
                                   overflow: TextOverflow.ellipsis,
                                   maxLines: 1,
@@ -201,7 +227,7 @@ class AreaUpdatesSectionContent extends StatelessWidget {
                                 ),
                               ),
                           ],
-                        ),                        // Area name with reduced spacing
+                        ), // Area name with reduced spacing
                         Padding(
                           padding: EdgeInsets.only(top: 4.h),
                           child: Text(
@@ -209,14 +235,16 @@ class AreaUpdatesSectionContent extends StatelessWidget {
                             style: TextStyle(
                               fontSize: 13.sp,
                               fontWeight: FontWeight.bold,
-                              color: isSelected
-                                  ? Colors.white
-                                  : colorScheme.onSurface,
+                              color:
+                                  isSelected
+                                      ? colorScheme.onPrimary
+                                      : colorScheme.onSurface,
                               height: 1.2,
                             ),
                             overflow: TextOverflow.ellipsis,
                             maxLines: 2,
-                          ),                        ),
+                          ),
+                        ),
                       ],
                     ),
                   ),

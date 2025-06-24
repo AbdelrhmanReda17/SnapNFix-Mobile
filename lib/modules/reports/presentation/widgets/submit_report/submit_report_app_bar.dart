@@ -53,11 +53,12 @@ class SubmitReportAppBar extends StatelessWidget {
           }
           return const SizedBox.shrink();
         },
-      ),      title: Text(
+      ),
+      title: Text(
         localization.reportAnIncident,
         style: textStyles.headlineLarge?.copyWith(
           fontSize: 20.sp,
-          color: colorScheme.primary,
+          color: colorScheme.tertiary,
         ),
       ),
       actions: [

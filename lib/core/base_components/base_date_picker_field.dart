@@ -75,7 +75,7 @@ class _BaseDatePickerFieldState extends State<BaseDatePickerField> {
             Text(
               widget.labelText!,
               style: textStyles.bodyMedium?.copyWith(
-                color: colorScheme.primary.withValues(alpha: 0.5),
+                color: colorScheme.tertiary.withValues(alpha: 0.5),
                 fontSize: 14.sp,
               ),
             ),
@@ -88,10 +88,10 @@ class _BaseDatePickerFieldState extends State<BaseDatePickerField> {
             decoration: BoxDecoration(
               color:
                   widget.backgroundColor ??
-                  colorScheme.surface.withValues(alpha: 0.3),
+                  colorScheme.primary.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(8.r),
               border: Border.all(
-                color: colorScheme.primary.withValues(alpha: 0.4),
+                color: colorScheme.primary.withValues(alpha: 0.2),
                 width: 1.3,
               ),
             ),
@@ -107,8 +107,8 @@ class _BaseDatePickerFieldState extends State<BaseDatePickerField> {
                           ? widget.textStyle ?? textStyles.bodyMedium
                           : widget.hintStyle ??
                               textStyles.bodyMedium?.copyWith(
-                                color: colorScheme.primary.withValues(
-                                  alpha: 0.3,
+                                color: colorScheme.tertiary.withValues(
+                                  alpha: 0.5,
                                 ),
                               ),
                 ),

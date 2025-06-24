@@ -54,7 +54,7 @@ const _$IssueSeverityEnumMap = {
 const _$IssueStatusEnumMap = {
   IssueStatus.pending: 'pending',
   IssueStatus.inProgress: 'inProgress',
-  IssueStatus.fixed: 'fixed',
+  IssueStatus.completed: 'completed',
 };
 
 const _$IssueCategoryEnumMap = {

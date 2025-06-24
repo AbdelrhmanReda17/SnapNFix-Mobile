@@ -16,8 +16,8 @@ FastReportModel _$FastReportModelFromJson(Map<String, dynamic> json) =>
       createdAt: json['createdAt'] == null
           ? null
           : DateTime.parse(json['createdAt'] as String),
-      firstName: json['userFirstName'] as String?,
-      lastName: json['userLastName'] as String?,
+      firstName: json['firstName'] as String?,
+      lastName: json['lastName'] as String?,
     );
 
 Map<String, dynamic> _$FastReportModelToJson(FastReportModel instance) =>
@@ -28,8 +28,8 @@ Map<String, dynamic> _$FastReportModelToJson(FastReportModel instance) =>
       'createdAt': instance.createdAt?.toIso8601String(),
       'comment': instance.comment,
       'isUserReport': instance.isUserReport,
-      'userFirstName': instance.firstName,
-      'userLastName': instance.lastName,
+      'firstName': instance.firstName,
+      'lastName': instance.lastName,
     };
 
 const _$ReportSeverityEnumMap = {

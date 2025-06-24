@@ -28,15 +28,16 @@ class IssueHeatmapWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final heatSpots = StaticHomeData.getHeatSpots();
+    final colorScheme = Theme.of(context).colorScheme;
 
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: colorScheme.onPrimary,
         borderRadius: BorderRadius.circular(12),
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withOpacity(0.1),
+            color: Colors.grey.withValues(alpha: 0.1),
             spreadRadius: 2,
             blurRadius: 8,
             offset: const Offset(0, 2),
@@ -76,6 +77,8 @@ class IssueHeatmapWidget extends StatelessWidget {
   }
 
   Widget _buildHeatSpotItem(BuildContext context, HeatSpot spot) {
+    final colorScheme = Theme.of(context).colorScheme;
+
     return Padding(
       padding: const EdgeInsets.only(bottom: 12),
       child: Row(
@@ -127,8 +130,8 @@ class IssueHeatmapWidget extends StatelessWidget {
             ),
             child: Text(
               spot.issueCount.toString(),
-              style: const TextStyle(
-                color: Colors.white,
+              style: TextStyle(
+                color: colorScheme.onPrimary,
                 fontSize: 12,
                 fontWeight: FontWeight.bold,
               ),

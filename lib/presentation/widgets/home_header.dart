@@ -8,7 +8,6 @@ import 'package:snapnfix/modules/reports/presentation/widgets/offline_report_ind
 import 'package:snapnfix/presentation/navigation/routes.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-
 class HomeHeader extends StatelessWidget {
   const HomeHeader({super.key});
 
@@ -58,13 +57,16 @@ class HomeHeader extends StatelessWidget {
                   horizontalSpace(12),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [                      RichText(
+                    children: [
+                      RichText(
                         text: TextSpan(
                           children: [
                             TextSpan(
                               text: '${localization.hello} ',
                               style: theme.textTheme.bodyMedium?.copyWith(
-                                color: theme.colorScheme.onSurface.withOpacity(0.8),
+                                color: theme.colorScheme.onSurface.withValues(
+                                  alpha: 0.8,
+                                ),
                                 fontSize: 16.sp,
                               ),
                             ),
@@ -72,13 +74,14 @@ class HomeHeader extends StatelessWidget {
                               text: "${user.firstName![0]}${user.lastName![0]}",
                               style: theme.textTheme.bodyMedium?.copyWith(
                                 fontSize: 16.sp,
-                                color: theme.colorScheme.onSurface.withOpacity(0.8),
+                                color: theme.colorScheme.onSurface.withValues(
+                                  alpha: 0.8,
+                                ),
                               ),
                             ),
                           ],
                         ),
                       ),
-                      // SizedBox(height: 2.h),
                       Text(
                         localization.homeSubtitle,
                         style: theme.textTheme.bodyMedium?.copyWith(
@@ -87,17 +90,19 @@ class HomeHeader extends StatelessWidget {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      // SizedBox(height: 2.h),
                       Row(
-                        children: [                          Icon(
+                        children: [
+                          Icon(
                             Icons.location_on,
                             size: 14.sp,
-                            color: theme.colorScheme.onSurface.withOpacity(0.6),
+                            color: theme.colorScheme.primary,
                           ),
                           Text(
                             '36 Dokki st, Giza',
                             style: theme.textTheme.bodySmall?.copyWith(
-                              color: theme.colorScheme.onSurface.withOpacity(0.6),
+                              color: theme.colorScheme.onSurface.withValues(
+                                alpha: 0.6,
+                              ),
                               fontSize: 12.sp,
                             ),
                           ),

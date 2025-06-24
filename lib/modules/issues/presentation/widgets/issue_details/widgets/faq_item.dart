@@ -23,10 +23,10 @@ class FaqItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
     final isTablet = screenWidth > 600;
-    
+
     return Container(
       decoration: BoxDecoration(
-        color: colorScheme.surface,
+        color: colorScheme.surfaceContainer,
         borderRadius: BorderRadius.circular(10.r),
         boxShadow: [
           BoxShadow(
@@ -56,9 +56,9 @@ class FaqItem extends StatelessWidget {
                       shape: BoxShape.circle,
                     ),
                     child: Icon(
-                      icon, 
-                      size: isTablet ? 22.sp : 20.sp, 
-                      color: colorScheme.primary
+                      icon,
+                      size: isTablet ? 22.sp : 20.sp,
+                      color: colorScheme.primary,
                     ),
                   ),
                   horizontalSpace(isTablet ? 16 : 12),
@@ -93,8 +93,8 @@ class FaqItem extends StatelessWidget {
             firstChild: const SizedBox(height: 0),
             secondChild: Padding(
               padding: EdgeInsets.only(
-                left: isTablet ? 20.r : 12.r, 
-                right: isTablet ? 20.r : 12.r, 
+                left: isTablet ? 20.r : 12.r,
+                right: isTablet ? 20.r : 12.r,
                 bottom: isTablet ? 16.r : 12.r,
               ),
               child: content,

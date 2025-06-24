@@ -58,7 +58,7 @@ class _NextButtonState extends State<NextButton> {
                   backgroundColor: colorScheme.primary,
                   elevation: 4,
                 ),
-                child: const Icon(Icons.arrow_forward, color: Colors.white),
+                child: Icon(Icons.arrow_forward, color: colorScheme.onPrimary),
               ),
             ],
           ),

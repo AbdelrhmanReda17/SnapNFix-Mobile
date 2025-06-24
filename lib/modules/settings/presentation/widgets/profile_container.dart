@@ -15,7 +15,6 @@ class ProfileContainer extends StatelessWidget {
     final colorScheme = Theme.of(context).colorScheme;
     final textStyles = Theme.of(context).textTheme;
     final localization = AppLocalizations.of(context)!;
-    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
 
     return Container(
       height: 150.h,
@@ -28,11 +27,13 @@ class ProfileContainer extends StatelessWidget {
             backgroundColor: colorScheme.primary,
             titleSpacing: 0,
             centerTitle: true,
+            elevation: 0,
+            scrolledUnderElevation: 0,
             title: Text(
               localization.settings,
               style: textStyles.headlineLarge?.copyWith(
                 fontSize: 20.sp,
-                color: isDarkMode ? Colors.white : colorScheme.onPrimary,
+                color: colorScheme.onPrimary,
               ),
             ),
           ),
@@ -55,14 +56,11 @@ class ProfileContainer extends StatelessWidget {
                                 height: 60.h,
                                 fit: BoxFit.cover,
                                 errorBuilder: (context, error, stackTrace) {
-                                  return _buildInitialsAvatar(
-                                    colorScheme,
-                                    isDarkMode,
-                                  );
+                                  return _buildInitialsAvatar(colorScheme);
                                 },
                               ),
                             )
-                            : _buildInitialsAvatar(colorScheme, isDarkMode),
+                            : _buildInitialsAvatar(colorScheme),
                   ),
 
                   // Spacing
@@ -77,10 +75,7 @@ class ProfileContainer extends StatelessWidget {
                         Text(
                           localization.hello,
                           style: textStyles.bodySmall?.copyWith(
-                            color:
-                                isDarkMode
-                                    ? Colors.white
-                                    : colorScheme.onPrimary,
+                            color: colorScheme.onPrimary,
                             fontSize: 12.sp,
                           ),
                           maxLines: 1,
@@ -91,10 +86,7 @@ class ProfileContainer extends StatelessWidget {
                           "${user.firstName ?? ''} ${user.lastName ?? ''}"
                               .trim(),
                           style: textStyles.bodyLarge?.copyWith(
-                            color:
-                                isDarkMode
-                                    ? Colors.white
-                                    : colorScheme.onPrimary,
+                            color: colorScheme.onPrimary,
                             fontSize: 16.sp,
                             fontWeight: FontWeight.w600,
                           ),
@@ -111,11 +103,7 @@ class ProfileContainer extends StatelessWidget {
                     height: 40.h,
                     child: IconButton(
                       iconSize: 20.r,
-                      icon: Icon(
-                        Icons.edit,
-                        color:
-                            isDarkMode ? Colors.white : colorScheme.onPrimary,
-                      ),
+                      icon: Icon(Icons.edit, color: colorScheme.onPrimary),
                       onPressed: () {
                         context.push(Routes.editProfile);
                       },
@@ -132,7 +120,7 @@ class ProfileContainer extends StatelessWidget {
     );
   }
 
-  Widget _buildInitialsAvatar(ColorScheme colorScheme, bool isDarkMode) {
+  Widget _buildInitialsAvatar(ColorScheme colorScheme) {
     final firstName = user.firstName ?? '';
     final lastName = user.lastName ?? '';
     final initials =
@@ -142,7 +130,7 @@ class ProfileContainer extends StatelessWidget {
     return Text(
       initials.isNotEmpty ? initials : '?',
       style: TextStyle(
-        color: isDarkMode ? Colors.white : colorScheme.primary,
+        color: colorScheme.primary,
         fontSize: 18.sp,
         fontWeight: FontWeight.bold,
       ),

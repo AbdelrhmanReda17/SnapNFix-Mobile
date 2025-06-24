@@ -35,6 +35,7 @@ class IssueCommentsCard extends StatelessWidget {
 
     return Card(
       elevation: 2,
+      color: colorScheme.surfaceContainer,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.r)),
       child: Padding(
         padding: EdgeInsets.all(16.r),
@@ -89,7 +90,8 @@ class IssueCommentsCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Row(
-                    children: [                      Text(
+                    children: [
+                      Text(
                         _formatName(context),
                         style: theme.textTheme.titleSmall?.copyWith(
                           fontWeight: FontWeight.w600,
@@ -97,7 +99,8 @@ class IssueCommentsCard extends StatelessWidget {
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),
-                      Spacer(),                      if (createdAt != null)
+                      Spacer(),
+                      if (createdAt != null)
                         Text(
                           _formatDate(createdAt!, context),
                           style: theme.textTheme.bodySmall?.copyWith(
@@ -129,6 +132,7 @@ class IssueCommentsCard extends StatelessWidget {
       ),
     );
   }
+
   String _formatName(BuildContext context) {
     final firstNameValue = firstName?.trim() ?? '';
     final lastNameValue = lastName?.trim() ?? '';
@@ -157,23 +161,25 @@ class IssueCommentsCard extends StatelessWidget {
       default:
         return IssueSeverity.notSpecified;
     }
-  }  String _formatDate(DateTime date, BuildContext context) {
+  }
+
+  String _formatDate(DateTime date, BuildContext context) {
     final localization = AppLocalizations.of(context)!;
     final now = DateTime.now();
     final difference = now.difference(date);
 
     if (difference.inDays > 0) {
-      return difference.inDays == 1 
-        ? localization.dayAgo(difference.inDays)
-        : localization.daysAgo(difference.inDays);
+      return difference.inDays == 1
+          ? localization.dayAgo(difference.inDays)
+          : localization.daysAgo(difference.inDays);
     } else if (difference.inHours > 0) {
-      return difference.inHours == 1 
-        ? localization.hourAgo(difference.inHours)
-        : localization.hoursAgo(difference.inHours);
+      return difference.inHours == 1
+          ? localization.hourAgo(difference.inHours)
+          : localization.hoursAgo(difference.inHours);
     } else if (difference.inMinutes > 0) {
-      return difference.inMinutes == 1 
-        ? localization.minuteAgo(difference.inMinutes)
-        : localization.minutesAgo(difference.inMinutes);
+      return difference.inMinutes == 1
+          ? localization.minuteAgo(difference.inMinutes)
+          : localization.minutesAgo(difference.inMinutes);
     } else {
       return localization.justNow;
     }

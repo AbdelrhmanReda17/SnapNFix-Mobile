@@ -7,10 +7,7 @@ import 'package:snapnfix/modules/reports/domain/entities/report_status.dart';
 class ReportStatusIndicator extends StatelessWidget {
   final ReportStatus status;
 
-  const ReportStatusIndicator({
-    super.key,
-    required this.status,
-  });
+  const ReportStatusIndicator({super.key, required this.status});
 
   @override
   Widget build(BuildContext context) {
@@ -18,10 +15,7 @@ class ReportStatusIndicator extends StatelessWidget {
     final localization = AppLocalizations.of(context)!;
 
     return Container(
-      padding: EdgeInsets.symmetric(
-        horizontal: 8.w,
-        vertical: 4.h,
-      ),
+      padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
       decoration: BoxDecoration(
         color: status.color.withValues(alpha: 0.8),
         borderRadius: BorderRadius.circular(12.r),
@@ -33,7 +27,7 @@ class ReportStatusIndicator extends StatelessWidget {
             width: 6.w,
             height: 6.w,
             decoration: BoxDecoration(
-              color: colorScheme.surface,
+              color: colorScheme.onPrimary,
               shape: BoxShape.circle,
             ),
           ),
@@ -41,7 +35,7 @@ class ReportStatusIndicator extends StatelessWidget {
           Text(
             _getStatusText(status, localization).toUpperCase(),
             style: Theme.of(context).textTheme.labelSmall?.copyWith(
-              color: colorScheme.surface,
+              color: colorScheme.onPrimary,
               fontWeight: FontWeight.w500,
             ),
           ),

@@ -178,7 +178,7 @@ class _LocationPermissionWidgetState extends State<LocationPermissionWidget>
               BaseButton(
                 onPressed: _requestLocationPermission,
                 text: 'Enable Location',
-                textStyle: const TextStyle(color: Colors.white),
+                textStyle: TextStyle(color: colorScheme.onPrimary),
               ),
             ],
           ),

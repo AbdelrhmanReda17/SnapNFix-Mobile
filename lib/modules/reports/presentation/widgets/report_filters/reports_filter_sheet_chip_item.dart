@@ -19,12 +19,18 @@ class ReportsFilterSheetChipItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool isDarkMode = colorScheme.brightness == Brightness.dark;
+
     return FilterChip(
       label: Text(
         label,
         style: TextStyle(
           color:
-              isSelected ? colorScheme.onPrimary : colorScheme.onSurfaceVariant,
+              isSelected
+                  ? colorScheme.onPrimary
+                  : isDarkMode
+                  ? colorScheme.secondary
+                  : colorScheme.onSurfaceVariant,
           fontSize: 14.sp,
         ),
       ),

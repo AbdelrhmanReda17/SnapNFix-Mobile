@@ -21,7 +21,8 @@ class IssueInfoContent extends StatelessWidget {
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
     final isTablet = screenWidth > 600;
-    
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -32,7 +33,7 @@ class IssueInfoContent extends StatelessWidget {
         SizedBox(height: isTablet ? 6.h : 4.h),
         InfoItem(
           icon: Icons.warning_amber_rounded,
-          color: issue.severity.color,
+          color: isDarkMode ? colorScheme.primary : colorScheme.secondary,
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -40,7 +41,8 @@ class IssueInfoContent extends StatelessWidget {
                 '${localization.severity}: ',
                 style: TextStyle(
                   fontSize: isTablet ? 14.sp : 13.sp,
-                  color: Theme.of(context).colorScheme.onSurfaceVariant,
+                  color:
+                      isDarkMode ? colorScheme.primary : colorScheme.secondary,
                   height: 1.3,
                 ),
               ),
@@ -55,14 +57,16 @@ class IssueInfoContent extends StatelessWidget {
         SizedBox(height: isTablet ? 10.h : 8.h),
         InfoItem(
           icon: Icons.people,
-          text: '${localization.reportsLabel}: ${localization.issueReportsNum(issue.reportsCount)}',
-          color: colorScheme.secondary,
+          label: localization.reportsLabel,
+          value: localization.issueReportsNum(issue.reportsCount),
+          color: isDarkMode ? colorScheme.primary : colorScheme.secondary,
         ),
         SizedBox(height: isTablet ? 10.h : 8.h),
         InfoItem(
           icon: Icons.calendar_today_outlined,
-          text: '${localization.createdLabel}: ${DateFormat('MMM d, yyyy').format(issue.createdAt)}',
-          color: colorScheme.secondary,
+          label: localization.createdLabel,
+          value: DateFormat('MMM d, yyyy').format(issue.createdAt),
+          color: isDarkMode ? colorScheme.primary : colorScheme.secondary,
         ),
       ],
     );

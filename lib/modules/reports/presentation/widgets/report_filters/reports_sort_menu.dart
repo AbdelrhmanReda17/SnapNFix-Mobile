@@ -26,6 +26,8 @@ class ReportsSortMenu extends StatelessWidget {
     return PopupMenuButton<SortOption>(
       initialValue: currentSortOption,
       tooltip: localization.sort,
+      color: colorScheme.surfaceContainerHighest,
+      elevation: 8,
       position: PopupMenuPosition.under,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.r)),
       icon: Icon(Icons.sort, color: colorScheme.primary),
@@ -78,7 +80,7 @@ class ReportsSortMenu extends StatelessWidget {
           Text(
             text,
             style: TextStyle(
-              fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
+              fontWeight: isSelected ? FontWeight.w800 : FontWeight.normal,
               color: isSelected ? colorScheme.primary : colorScheme.onSurface,
             ),
           ),

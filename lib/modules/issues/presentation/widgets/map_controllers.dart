@@ -43,7 +43,7 @@ class _MapButton extends StatelessWidget {
       height: 36.h,
       width: 36.h,
       decoration: BoxDecoration(
-        color: Colors.white.withValues(alpha: 0.7),
+        color: colorScheme.onPrimary.withValues(alpha: 0.7),
         shape: BoxShape.rectangle,
         borderRadius: BorderRadius.circular(2.r),
       ),
@@ -52,7 +52,7 @@ class _MapButton extends StatelessWidget {
           padding: EdgeInsets.zero,
           icon: Icon(
             icon,
-            color: const Color.fromARGB(255, 90, 89, 89),
+            color: const Color(0xFF5A5959),
             size: 24.r,
           ),
           onPressed: onTap,

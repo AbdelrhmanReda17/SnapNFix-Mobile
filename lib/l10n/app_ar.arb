@@ -306,13 +306,6 @@
   "statusValid": "صالح",
   "statusInvalid": "غير صالح",
   "viewIssue": "عرض المشكلة ",
-  "@viewIssue": {
-    "placeholders": {
-      "number": {
-        "type": "String"
-      }
-    }
-  },
 
   "accessTokenError": "فشل الحصول على رمز الوصول",
   "facebookSignInFailed": "فشل تسجيل الدخول عبر فيسبوك",
@@ -347,7 +340,6 @@
   "minute": "دقيقة",
   "minutes": "دقائق",
   "ago": "منذ",
-  "justNow": "الآن",
 
   "mapErrorGeneralTitle": "حدث خطأ ما",
   "mapErrorPermissionTitle": "الوصول للموقع مطلوب",
@@ -395,7 +387,7 @@
         "type": "String"
       }
     }  },  "issuesBeingReviewed": "يتم مراجعة مشكلاتك.",
-  "viewDetails": "عرض المشكلة",
+  "viewDetails": "عرض التفاصيل",
   "approvedReports": "بلاغات معتمدة",
   "aiRecognized": "الذكاء الاصطناعي تعرف على بلاغاتك!",
   "loading": "جارٍ التحميل...",
@@ -538,6 +530,9 @@
   "photoRequired": "الصورة مطلوبة",
   "photoTaken": "تم التقاط الصورة بنجاح",
 
+  "retry": "إعادة المحاولة",
+  "logoutFailed": "فشل تسجيل الخروج، يرجى المحاولة مرة أخرى.",
+
   "locationAccuracy": "دقة الموقع",
   "highAccuracy": "عالية",
   "mediumAccuracy": "متوسطة",
@@ -575,7 +570,7 @@
       }
     }
   },
-  "mokattamIssues": "مشاكل المقطم",  "fastReport": "بلاغ سريع",
+  "mokattamIssues": "مشاكل المقطم",
   "description": "الوصف",
   "road": "الطريق",
   "city": "المدينة",
@@ -585,18 +580,17 @@
   "alGiza": "الجيزة",
   "gizaGovernorate": "محافظة الجيزة",  "pending": "قيد الانتظار",
   "inProgress": "قيد التنفيذ",
-  "fixed": "تم الإصلاح",
+  "completed": "تم الإصلاح",
   "approved": "موافق عليه",
   "declined": "مرفوض",
   "submit": "إرسال",
   "high": "عالي",
   "medium": "متوسط",  "low": "منخفض",
   "garbage": "قمامة",  "defectiveManhole": "غطاء بالوعة تالف",
-  "pothole": "حفرة في الطريق",  "fastReports": "تقارير سريعة",  "snapReports": "تقارير مصورة",
+  "pothole": "حفرة في الطريق",  "fastReports": "بلاغات سريعة",  "snapReports": "بلاغات مصورة",
   "anonymous": "مجهول",
   "reportsLabel": "بلاغات",
   "createdLabel": "تم الإنشاء",  "applyFilter": "تطبيق التصفية","clearAllFilters": "مسح جميع المرشحات",
-  "reportNow": "أبلغ الآن",
   "statusFilters": "مرشحات الحالة",
 
   "excellentCondition": "حالة ممتازة",

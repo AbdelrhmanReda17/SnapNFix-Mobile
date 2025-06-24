@@ -25,6 +25,7 @@ class ReportExpandedContent extends StatelessWidget {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
     final localization = AppLocalizations.of(context)!;
+    final isDarkMode = theme.brightness == Brightness.dark;
 
     return Padding(
       padding: EdgeInsets.all(8.r),
@@ -50,7 +51,7 @@ class ReportExpandedContent extends StatelessWidget {
                 Text(
                   localization.reportSeverity(''),
                   style: theme.textTheme.bodySmall?.copyWith(
-                    color: colorScheme.onSurfaceVariant,
+                    color: colorScheme.primary,
                     fontWeight: FontWeight.w500,
                   ),
                 ),
@@ -70,16 +71,37 @@ class ReportExpandedContent extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                if (report.comment != null) ...[
-                  Text(
-                    report.comment ?? '',
-                    style: theme.textTheme.labelMedium?.copyWith(
-                      color: colorScheme.onSurface,
-                      fontWeight: FontWeight.w500,
+                if (report.comment != null && report.comment!.isNotEmpty) ...[
+                  RichText(
+                    text: TextSpan(
+                      children: [
+                        TextSpan(
+                          text: 'Comment: ',
+                          style: theme.textTheme.bodySmall?.copyWith(
+                            color: colorScheme.primary,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                        TextSpan(
+                          text: report.comment!,
+                          style: theme.textTheme.labelMedium?.copyWith(
+                            color:
+                                isDarkMode
+                                    ? colorScheme.onPrimary.withValues(
+                                      alpha: 0.7,
+                                    )
+                                    : colorScheme.primary.withValues(
+                                      alpha: 0.5,
+                                    ),
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                   SizedBox(height: 4.h),
-                ],                if (report.issueId != null) ...[
+                ],
+                if (report.issueId != null) ...[
                   verticalSpace(8),
                   Align(
                     alignment: Alignment.centerRight,
@@ -87,12 +109,18 @@ class ReportExpandedContent extends StatelessWidget {
                       height: 32.h,
                       child: ElevatedButton(
                         onPressed: () {
-                          context.push(Routes.issueDetails, extra: report.issueId);
+                          context.push(
+                            Routes.issueDetails,
+                            extra: report.issueId,
+                          );
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: colorScheme.primary,
                           foregroundColor: colorScheme.onPrimary,
-                          padding: EdgeInsets.symmetric(vertical: 6.h, horizontal: 12.w),
+                          padding: EdgeInsets.symmetric(
+                            vertical: 6.h,
+                            horizontal: 12.w,
+                          ),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(6.r),
                           ),

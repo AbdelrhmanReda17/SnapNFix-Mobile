@@ -20,12 +20,13 @@ class ReportsFilterSheetHeader extends StatelessWidget {
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [        Text(
-           localization.filterReports,
+      children: [
+        Text(
+          localization.filterReports,
           style: TextStyle(
             fontSize: 20.sp,
             fontWeight: FontWeight.w600,
-            color: colorScheme.onSurface,
+            color: colorScheme.primary,
           ),
         ),
         if (hasFilters)

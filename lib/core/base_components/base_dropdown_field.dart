@@ -62,7 +62,7 @@ class _BaseDropdownFieldState<T> extends State<BaseDropdownField<T>> {
           Text(
             widget.labelText!,
             style: textStyles.bodyMedium?.copyWith(
-              color: colorScheme.primary.withValues(alpha: 0.5),
+              color: colorScheme.tertiary.withValues(alpha: 0.5),
               fontSize: 14.sp,
             ),
           ),
@@ -72,10 +72,10 @@ class _BaseDropdownFieldState<T> extends State<BaseDropdownField<T>> {
           decoration: BoxDecoration(
             color:
                 widget.backgroundColor ??
-                colorScheme.surface.withValues(alpha: 0.3),
+                colorScheme.primary.withValues(alpha: 0.1),
             borderRadius: BorderRadius.circular(8.r),
             border: Border.all(
-              color: colorScheme.primary.withValues(alpha: 0.3),
+              color: colorScheme.primary.withValues(alpha: 0.2),
               width: 1.3,
             ),
           ),
@@ -93,7 +93,7 @@ class _BaseDropdownFieldState<T> extends State<BaseDropdownField<T>> {
                           style:
                               widget.textStyle ??
                               textStyles.bodyMedium?.copyWith(
-                                color: colorScheme.primary,
+                                color: colorScheme.tertiary,
                               ),
                         ),
                       );
@@ -104,7 +104,7 @@ class _BaseDropdownFieldState<T> extends State<BaseDropdownField<T>> {
                   style:
                       widget.hintStyle ??
                       textStyles.bodyMedium?.copyWith(
-                        color: colorScheme.primary.withValues(alpha: 0.3),
+                        color: colorScheme.tertiary.withValues(alpha: 0.5),
                       ),
                 ),
                 isExpanded: true,

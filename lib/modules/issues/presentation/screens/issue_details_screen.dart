@@ -25,12 +25,13 @@ class IssueDetailsScreen extends StatelessWidget {
       value: ApplicationSystemUIOverlay.getDefaultStyle(appConfigs.isDarkMode),
       child: Scaffold(
         appBar: AppBar(
-          backgroundColor: colorScheme.surface,          title: Text(
+          backgroundColor: colorScheme.surface,
+          title: Text(
             localization.issueDetailsTitle,
-            style: TextStyle(color: colorScheme.primary, fontSize: 20.sp),
+            style: TextStyle(color: colorScheme.tertiary, fontSize: 20.sp),
           ),
           iconTheme: IconThemeData(
-            color: Theme.of(context).colorScheme.primary,
+            color: Theme.of(context).colorScheme.tertiary,
             size: 20.sp,
           ),
           elevation: 0,
@@ -93,7 +94,7 @@ class IssueDetailsScreen extends StatelessWidget {
           IssueImageSlider(images: issue.images),
           IssueDetails(issue: issue),
           SizedBox(
-            height: 400.h, // Set appropriate height
+            height: 400.h,
             child: IssueReportsTabs(issueId: issue.id),
           ),
         ],

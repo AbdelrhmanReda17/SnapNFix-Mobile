@@ -29,11 +29,13 @@ class ProfileImageSection extends StatelessWidget {
                       profileImage != null ? FileImage(profileImage) : null,
 
                   child:
-                      (profileImage == null && (cubit.userProfileImage == null || cubit.userProfileImage!.isEmpty))
+                      (profileImage == null &&
+                              (cubit.userProfileImage == null ||
+                                  cubit.userProfileImage!.isEmpty))
                           ? Icon(
                             Icons.person,
                             size: 50.r,
-                            color: colorScheme.primary,
+                            color: colorScheme.tertiary,
                           )
                           : null,
                 );

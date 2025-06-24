@@ -53,25 +53,25 @@ class EditProfileForm extends StatelessWidget {
                   labelText: localization.email,
                   initialValue: cubit.email,
                   inputTextStyle: textStyles.bodyMedium?.copyWith(
-                    color: colorScheme.primary.withValues(alpha: 0.3),
-                    fontSize: 16.sp,
+                      color: colorScheme.primary.withValues(alpha: 0.3),
+                      fontSize: 16.sp,
                   ),
                   enabled: false,
                   readOnly: true,
                 )
               else
                 BaseTextField(
-                  key: ValueKey('phone_$resetCount'),
-                  labelText: localization.phoneNumber,
-                  hintText: localization.enterPhoneNumber,
-                  initialValue: cubit.phoneNumber,
-                  inputTextStyle: textStyles.bodyMedium?.copyWith(
-                    color: colorScheme.primary.withValues(alpha: 0.3),
-                    fontSize: 16.sp,
+                    key: ValueKey('phone_$resetCount'),
+                    labelText: localization.phoneNumber,
+                    hintText: localization.enterPhoneNumber,
+                    initialValue: cubit.phoneNumber,
+                    inputTextStyle: textStyles.bodyMedium?.copyWith(
+                      color: colorScheme.tertiary.withValues(alpha: 0.3),
+                      fontSize: 16.sp,
+                    ),
+                    enabled: false,
+                    readOnly: true,
                   ),
-                  enabled: false,
-                  readOnly: true,
-                ),
 
               verticalSpace(20),
               BaseDropdownField<UserGender>(
@@ -79,9 +79,9 @@ class EditProfileForm extends StatelessWidget {
                 hintText: localization.selectGender,
                 labelText: localization.gender,
                 items: UserGender.values,
-                initialValue: cubit.selectedGender,
                 onChanged: cubit.setSelectedGender,
                 itemLabelBuilder:
+                   
                     (UserGender item) => item.getLocalizedDisplayName(context),
               ),
               verticalSpace(16),

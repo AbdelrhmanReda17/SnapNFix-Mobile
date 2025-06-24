@@ -22,7 +22,7 @@ class ApplicationFloatingActionButton extends StatelessWidget {
       onPressed: () => onItemSelected(isActive ? 0 : 4),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
       backgroundColor: colorScheme.primary,
-      child: Icon(isActive ? Icons.close : Icons.add, color: Colors.white),
+      child: Icon(isActive ? Icons.close : Icons.add, color: colorScheme.onPrimary),
     );
   }
 }

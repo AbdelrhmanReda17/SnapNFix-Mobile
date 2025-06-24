@@ -28,6 +28,8 @@ class _SettingsListViewState extends State<SettingsListView> {
   }
 
   Future<void> _handleLogout() async {
+    final localization = AppLocalizations.of(context)!;
+
     if (_isLoggingOut) return;
 
     setState(() {
@@ -50,7 +52,7 @@ class _SettingsListViewState extends State<SettingsListView> {
             });
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
-                content: Text("Logout failed. Please try again."),
+                content: Text(localization.logoutFailed),
                 backgroundColor: Theme.of(context).colorScheme.error,
               ),
             );
@@ -64,7 +66,7 @@ class _SettingsListViewState extends State<SettingsListView> {
         });
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text("Logout failed. Please try again."),
+            content: Text(localization.logoutFailed),
             backgroundColor: Theme.of(context).colorScheme.error,
           ),
         );
@@ -73,6 +75,7 @@ class _SettingsListViewState extends State<SettingsListView> {
   }
 
   @override
+
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
     final textStyles = Theme.of(context).textTheme;
@@ -169,12 +172,7 @@ class _SettingsListViewState extends State<SettingsListView> {
             Text(
               title,
               style: textStyles.bodyMedium?.copyWith(
-                color:
-                    isSignOut
-                        ? colorScheme.error
-                        : (Theme.of(context).brightness == Brightness.dark
-                            ? Colors.white
-                            : colorScheme.primary),
+                color: isSignOut ? colorScheme.error : colorScheme.tertiary,
               ),
             ),
             if (isSignOut && _isLoggingOut)
@@ -186,13 +184,11 @@ class _SettingsListViewState extends State<SettingsListView> {
                   color: colorScheme.error,
                 ),
               )
+
             else if (hasIcon)
               Icon(
                 Icons.arrow_forward_ios_rounded,
-                color:
-                    Theme.of(context).brightness == Brightness.dark
-                        ? Colors.white
-                        : colorScheme.primary,
+                color: colorScheme.tertiary,
                 size: 16.sp,
               )
             else

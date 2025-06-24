@@ -64,13 +64,13 @@ class SubmitPhotoPicker extends StatelessWidget {
                         Icon(
                           Icons.camera_alt_outlined,
                           size: 42.sp,
-                          color: colorScheme.primary,
+                          color: colorScheme.tertiary.withValues(alpha: 0.5),
                         ),
                         verticalSpace(12),
                         Text(
                           localization?.takeAPhoto ?? 'Take a photo',
                           style: TextStyle(
-                            color: colorScheme.primary,
+                            color: colorScheme.tertiary.withValues(alpha: 0.5),
                             fontSize: 16.sp,
                           ),
                         ),

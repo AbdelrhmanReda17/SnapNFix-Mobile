@@ -53,6 +53,7 @@ class _ReportCardState extends State<ReportCard>
   Widget build(BuildContext context) {
     return Card(
       elevation: 2,
+      color: Theme.of(context).colorScheme.surfaceContainer,
       clipBehavior: Clip.antiAlias,
       margin: EdgeInsets.zero,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.r)),

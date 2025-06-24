@@ -42,7 +42,7 @@ class AreaCircleButton extends StatelessWidget {
                 colors: [const Color(0xFF23576D), colorScheme.primary],
                 stops: const [0.0, 1.0],
               ),
-              border: isSelected ? Border.all(color: Colors.white, width: 1.5.w) : null,
+              border: isSelected ? Border.all(color: colorScheme.onPrimary, width: 1.5.w) : null,
             ),
             child: Center(
               child: Text(

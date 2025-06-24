@@ -63,10 +63,16 @@ class SubmitReportForm extends StatelessWidget {
               isEnabled: state.image != null,
               onPressed: onSubmit,
               text: localization?.submitReport ?? 'Submit Report',
-              textStyle: textStyles.bodyLarge!.copyWith(
-                color: colorScheme.surface,
-                fontWeight: FontWeight.bold,
-              ),
+              textStyle:
+                  state.image != null
+                      ? textStyles.bodyLarge!.copyWith(
+                        color: colorScheme.onPrimary,
+                        fontWeight: FontWeight.bold,
+                      )
+                      : textStyles.bodyLarge!.copyWith(
+                        color: colorScheme.tertiary.withValues(alpha: 0.3),
+                        fontWeight: FontWeight.bold,
+                      ),
               backgroundColor: colorScheme.primary,
               borderColor: Colors.transparent,
             );

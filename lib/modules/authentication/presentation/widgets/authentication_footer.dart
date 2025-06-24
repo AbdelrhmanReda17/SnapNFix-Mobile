@@ -22,15 +22,13 @@ class AuthenticationFooter extends StatelessWidget {
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
     final textStyles = Theme.of(context).textTheme;
-    
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text(
           questionText,
-          style: textStyles.bodySmall?.copyWith(
-            color: colorScheme.secondary,
-          ),
+          style: textStyles.bodySmall?.copyWith(color: colorScheme.secondary),
         ),
         horizontalSpace(2.w),
         GestureDetector(
@@ -38,9 +36,10 @@ class AuthenticationFooter extends StatelessWidget {
           child: Text(
             timerText ?? actionText,
             style: textStyles.bodySmall?.copyWith(
-              color: isEnabled 
-                ? colorScheme.primary 
-                : colorScheme.primary.withValues(alpha: 0.5),
+              color:
+                  isEnabled
+                      ? colorScheme.primary
+                      : colorScheme.primary.withValues(alpha: 0.5),
             ),
           ),
         ),
