@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:snapnfix/core/utils/helpers/responsive_dimensions.dart';
 
 class CardStyle {
@@ -77,7 +76,6 @@ class _StatisticsCardState extends State<StatisticsCard>
         final theme = Theme.of(context);
         final isDarkMode = theme.brightness == Brightness.dark;
         final dimensions = getResponsiveDimensions(context);
-        final localization = AppLocalizations.of(context)!;
 
         return GestureDetector(
           onTapDown: (_) => _onTapDown(),
@@ -181,42 +179,6 @@ class _StatisticsCardState extends State<StatisticsCard>
       return 24.r;
     }
     return dimensions.screenWidth < 350 ? 16.r : 20.r;
-  }
-
-  Widget _buildLoadingState(
-    String text,
-    ThemeData theme,
-    ResponsiveDimensions dimensions,
-  ) {
-    final indicatorSize =
-        dimensions.isTablet
-            ? 28.0
-            : (dimensions.screenWidth < 350 ? 20.0 : 24.0);
-    final fontSize =
-        dimensions.isTablet
-            ? 14.sp
-            : (dimensions.screenWidth < 350 ? 11.sp : 12.sp);
-
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          SizedBox(
-            width: indicatorSize,
-            height: indicatorSize,
-            child: CircularProgressIndicator(
-              color: theme.colorScheme.primary,
-              strokeWidth: dimensions.isTablet ? 3.0 : 2.5,
-            ),
-          ),
-          SizedBox(height: dimensions.isTablet ? 16.h : 12.h),
-          Text(
-            text,
-            style: theme.textTheme.bodyMedium?.copyWith(fontSize: fontSize),
-          ),
-        ],
-      ),
-    );
   }
 
   Widget _buildCardContent(ThemeData theme, ResponsiveDimensions dimensions) {

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 extension Validations on String {
   bool _validateEmail(String email) {
     const emailPattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$';
@@ -31,7 +30,6 @@ extension Validations on String {
   }
 
   String? validateReportDescription(BuildContext context) {
-    final localization = AppLocalizations.of(context)!;
     if (isEmpty) {
       // return localization.reportDescriptionRequired;
       return "Report description is required";

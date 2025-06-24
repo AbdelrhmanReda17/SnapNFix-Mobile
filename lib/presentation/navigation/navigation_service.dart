@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:injectable/injectable.dart';
 import 'package:snapnfix/presentation/navigation/router_configuration.dart';
 import 'package:snapnfix/presentation/navigation/routes.dart';

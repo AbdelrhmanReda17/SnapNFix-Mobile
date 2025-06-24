@@ -7,7 +7,6 @@ import 'package:snapnfix/core/infrastructure/networking/responses/api_response.d
 import 'package:snapnfix/core/infrastructure/networking/http_client_factory.dart';
 import 'package:snapnfix/modules/authentication/data/models/index.dart';
 import 'package:snapnfix/modules/authentication/domain/entities/authentication_result.dart';
-import 'package:flutter/material.dart';
 
 abstract class BaseAuthenticationRemoteDataSource {
   // Login and Register

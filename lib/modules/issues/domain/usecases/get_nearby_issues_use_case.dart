@@ -1,10 +1,7 @@
-import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:snapnfix/core/infrastructure/networking/error/api_error.dart';
 import 'package:snapnfix/core/utils/result.dart';
-import 'package:snapnfix/modules/issues/data/models/get_nearby_issues_query.dart';
 import 'package:snapnfix/modules/issues/data/models/markers.dart';
-import 'package:snapnfix/modules/issues/domain/entities/view_port_data.dart';
 import 'package:snapnfix/modules/issues/domain/repositories/base_issue_repository.dart';
 
 class GetNearbyIssuesUseCase {

@@ -1,7 +1,6 @@
 import 'package:snapnfix/core/infrastructure/networking/error/api_error.dart';
 import 'package:snapnfix/core/utils/result.dart';
 import 'package:snapnfix/modules/index.dart';
-import 'package:snapnfix/modules/issues/data/models/markers.dart';
 import 'package:snapnfix/modules/issues/domain/repositories/base_issue_repository.dart';
 
 class GetAreaIssuesUseCase {
