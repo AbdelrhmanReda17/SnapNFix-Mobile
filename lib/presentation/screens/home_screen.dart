@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../widgets/home_header.dart';
 import '../../modules/reports/presentation/widgets/reports_statistics/reports_statistics.dart';
 import '../widgets/report_section.dart';
-import '../widgets/area_updates_section.dart';
+import '../../modules/area_updates/presentation/widgets/area_updates_section.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});

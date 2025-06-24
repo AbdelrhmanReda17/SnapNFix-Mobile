@@ -3,10 +3,10 @@ import 'package:snapnfix/core/utils/result.dart';
 import 'package:snapnfix/modules/area_updates/domain/repositories/base_area_updates_repository.dart';
 import 'package:snapnfix/modules/issues/domain/entities/issue.dart';
 
-class GetAreaIssuesUseCase {
+class GetAreaSpecificIssuesUseCase {
   final BaseAreaUpdatesRepository _repository;
 
-  GetAreaIssuesUseCase(this._repository);
+  GetAreaSpecificIssuesUseCase(this._repository);
 
   Future<Result<List<Issue>, ApiError>> call({
     required String areaName,

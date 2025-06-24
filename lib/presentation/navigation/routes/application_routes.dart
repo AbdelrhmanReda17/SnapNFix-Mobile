@@ -112,19 +112,32 @@ class ApplicationRoutes {
       ),
     ],
   );
-
   static final areaIssuesChatRoute = RouteConfiguration(
     path: Routes.areaIssuesChat,
     name: 'areaIssuesChat',
-    builder:
-        (context, state) => BlocProvider(
-          create:
-              (context) => AreaIssuesCubit(
-                areaName: state.extra as String,
-                getAreaIssuesUseCase: getIt<GetAreaIssuesUseCase>(),
-              ),
-          child: AreaIssuesChatScreen(area: state.extra as String),
-        ),
+    builder:        (context, state) {
+          // Handle both String (legacy) and AreaInfo objects
+          String areaName;
+          if (state.extra is String) {
+            areaName = state.extra as String;
+          } else if (state.extra != null) {
+            // Assume it's an AreaInfo object and extract the cityName
+            final dynamic areaInfo = state.extra;
+            areaName = areaInfo.cityName as String;
+          } else {
+            // Fallback - this shouldn't happen in normal flow
+            areaName = 'Unknown Area';
+          }
+          
+          return BlocProvider(
+            create:
+                (context) => AreaIssuesCubit(
+                  areaName: areaName,
+                  getAreaIssuesUseCase: getIt<GetAreaIssuesUseCase>(),
+                ),
+            child: AreaIssuesChatScreen(area: areaName),
+          );
+        },
   );
 
   static final List<RouteConfiguration> routes = [

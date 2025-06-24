@@ -1,12 +1,30 @@
 import 'package:hydrated_bloc/hydrated_bloc.dart';
-import 'package:snapnfix/modules/area_updates/domain/repositories/base_area_updates_repository.dart';
+import 'package:snapnfix/modules/area_updates/domain/usecases/get_subscribed_areas_use_case.dart';
+import 'package:snapnfix/modules/area_updates/domain/usecases/subscribe_to_area_use_case.dart';
+import 'package:snapnfix/modules/area_updates/domain/usecases/unsubscribe_from_area_use_case.dart';
+import 'package:snapnfix/modules/area_updates/domain/usecases/toggle_area_subscription_use_case.dart';
+import 'package:snapnfix/modules/area_updates/domain/entities/area_info.dart';
+import 'package:snapnfix/core/index.dart';
 import 'area_subscription_state.dart';
 
 class AreaSubscriptionCubit extends HydratedCubit<AreaSubscriptionState> {
-  final BaseAreaUpdatesRepository _repository;
+  final GetSubscribedAreasUseCase _getSubscribedAreasUseCase;
+  final SubscribeToAreaUseCase _subscribeToAreaUseCase;
+  final UnsubscribeFromAreaUseCase _unsubscribeFromAreaUseCase;
+  final ToggleAreaSubscriptionUseCase _toggleAreaSubscriptionUseCase;
 
-  AreaSubscriptionCubit(this._repository)
-    : super(const AreaSubscriptionState.initial());
+  AreaSubscriptionCubit({
+    required GetSubscribedAreasUseCase getSubscribedAreasUseCase,
+    required SubscribeToAreaUseCase subscribeToAreaUseCase,
+    required UnsubscribeFromAreaUseCase unsubscribeFromAreaUseCase,
+    required ToggleAreaSubscriptionUseCase toggleAreaSubscriptionUseCase,
+  }) : _getSubscribedAreasUseCase = getSubscribedAreasUseCase,
+       _subscribeToAreaUseCase = subscribeToAreaUseCase,
+       _unsubscribeFromAreaUseCase = unsubscribeFromAreaUseCase,
+       _toggleAreaSubscriptionUseCase = toggleAreaSubscriptionUseCase,
+       super(const AreaSubscriptionState.initial());
+  @override
+  String get id => 'AreaSubscriptionCubit_v3'; // Version change to clear old cache
 
   // Initialize with cached data
   void initialize() {
@@ -24,75 +42,82 @@ class AreaSubscriptionCubit extends HydratedCubit<AreaSubscriptionState> {
 
   // Fetch subscribed areas from API
   Future<void> fetchSubscribedAreas({bool isRefresh = false}) async {
-    state.maybeWhen(
-      loaded: (subscribedAreas, _) {
-        if (isRefresh) {
+    try {
+      state.maybeWhen(
+        loaded: (subscribedAreas, _) {
+          if (isRefresh) {
+            emit(
+              AreaSubscriptionState.loaded(
+                subscribedAreas: subscribedAreas,
+                isRefreshing: true,
+              ),
+            );
+          }
+        },
+        orElse: () {
+          emit(const AreaSubscriptionState.loading());
+        },
+      );
+
+      final result = await _getSubscribedAreasUseCase.call();
+
+      if (isClosed) return;      result.when(
+        success: (areas) {
+          print('🔥 DEBUG: Loaded ${areas.length} areas: ${areas.map((a) => '${a.cityName} (${a.activeIssuesCount})').join(', ')}');
           emit(
             AreaSubscriptionState.loaded(
-              subscribedAreas: subscribedAreas,
-              isRefreshing: true,
+              subscribedAreas: areas,
+              isRefreshing: false,
             ),
           );
-        }
-      },
-      orElse: () {
-        emit(const AreaSubscriptionState.loading());
-      },
-    );
-
-    final result = await _repository.getSubscribedAreas();
-
-    result.when(
-      success: (areas) {
-        emit(
-          AreaSubscriptionState.loaded(
-            subscribedAreas: areas,
-            isRefreshing: false,
-          ),
-        );
-      },
-      failure: (error) {
-        final cachedAreas = _getCachedAreas();
-        emit(
-          AreaSubscriptionState.error(
-            message: error.message,
-            cachedAreas: cachedAreas,
-          ),
-        );
-      },
-    );
+        },
+        failure: (error) {
+          final cachedAreas = _getCachedAreas();
+          emit(
+            AreaSubscriptionState.error(
+              error: error,
+              cachedAreas: cachedAreas,
+            ),
+          );
+        },
+      );
+    } catch (e) {
+      if (isClosed) return;
+      final cachedAreas = _getCachedAreas();
+      emit(
+        AreaSubscriptionState.error(
+          error: ApiError(message: 'An unexpected error occurred'),
+          cachedAreas: cachedAreas,
+        ),
+      );
+    }
   }
 
   // Subscribe to an area
   Future<void> subscribeToArea(String areaName) async {
     await state.maybeWhen(
       loaded: (subscribedAreas, isRefreshing) async {
-        // Optimistic update
-        final updatedAreas = [...subscribedAreas, areaName];
-        emit(
-          AreaSubscriptionState.loaded(
-            subscribedAreas: updatedAreas,
-            isRefreshing: isRefreshing,
-          ),
-        );
+        try {
+          // Check if already subscribed
+          if (subscribedAreas.any((area) => area.cityName == areaName)) {
+            return;
+          }
 
-        final result = await _repository.subscribeToArea(areaName);
+          final result = await _subscribeToAreaUseCase.call(areaName);
 
-        result.when(
-          success: (_) {
-            // Keep the optimistic update
-          },
-          failure: (error) {
-            // Revert optimistic update
-            emit(
-              AreaSubscriptionState.loaded(
-                subscribedAreas: subscribedAreas,
-                isRefreshing: isRefreshing,
-              ),
-            );
-            // You might want to show a snackbar or error message here
-          },
-        );
+          if (isClosed) return;
+          result.when(
+            success: (_) {
+              // Refresh to get updated list from server
+              fetchSubscribedAreas();
+            },
+            failure: (error) {
+              // You might want to show a snackbar or error message here
+            },
+          );
+        } catch (e) {
+          // Handle error
+        }
       },
       orElse: () async {},
     );
@@ -102,33 +127,22 @@ class AreaSubscriptionCubit extends HydratedCubit<AreaSubscriptionState> {
   Future<void> unsubscribeFromArea(String areaName) async {
     await state.maybeWhen(
       loaded: (subscribedAreas, isRefreshing) async {
-        // Optimistic update
-        final updatedAreas =
-            subscribedAreas.where((area) => area != areaName).toList();
-        emit(
-          AreaSubscriptionState.loaded(
-            subscribedAreas: updatedAreas,
-            isRefreshing: isRefreshing,
-          ),
-        );
+        try {
+          final result = await _unsubscribeFromAreaUseCase.call(areaName);
 
-        final result = await _repository.unsubscribeFromArea(areaName);
-
-        result.when(
-          success: (_) {
-            // Keep the optimistic update
-          },
-          failure: (error) {
-            // Revert optimistic update
-            emit(
-              AreaSubscriptionState.loaded(
-                subscribedAreas: subscribedAreas,
-                isRefreshing: isRefreshing,
-              ),
-            );
-            // You might want to show a snackbar or error message here
-          },
-        );
+          if (isClosed) return;
+          result.when(
+            success: (_) {
+              // Refresh to get updated list from server
+              fetchSubscribedAreas();
+            },
+            failure: (error) {
+              // You might want to show a snackbar or error message here
+            },
+          );
+        } catch (e) {
+          // Handle error
+        }
       },
       orElse: () async {},
     );
@@ -145,9 +159,8 @@ class AreaSubscriptionCubit extends HydratedCubit<AreaSubscriptionState> {
 
   // Check if user is subscribed to an area
   bool isSubscribedToArea(String areaName) {
-    return state.maybeWhen(
-      loaded: (subscribedAreas, _) => subscribedAreas.contains(areaName),
-      error: (_, cachedAreas) => cachedAreas.contains(areaName),
+    return state.maybeWhen(      loaded: (subscribedAreas, _) => subscribedAreas.any((area) => area.cityName == areaName),
+      error: (_, cachedAreas) => cachedAreas.any((area) => area.cityName == areaName),
       orElse: () => false,
     );
   }
@@ -159,14 +172,12 @@ class AreaSubscriptionCubit extends HydratedCubit<AreaSubscriptionState> {
       error: (_, cachedAreas) => cachedAreas.length,
       orElse: () => 0,
     );
-  }
-
-  // Get current subscribed areas list
-  List<String> get subscribedAreas {
+  }  // Get current subscribed areas list
+  List<AreaInfo> get subscribedAreas {
     return state.maybeWhen(
       loaded: (subscribedAreas, _) => subscribedAreas,
       error: (_, cachedAreas) => cachedAreas,
-      orElse: () => [],
+      orElse: () => <AreaInfo>[],
     );
   }
 
@@ -181,25 +192,40 @@ class AreaSubscriptionCubit extends HydratedCubit<AreaSubscriptionState> {
   }
 
   // Get cached areas from current state
-  List<String> _getCachedAreas() {
+  List<AreaInfo> _getCachedAreas() {
     return state.maybeWhen(
       loaded: (subscribedAreas, _) => subscribedAreas,
       orElse: () => [],
     );
   }
-
-  // Hydrated Bloc methods for persistence
-  @override
+  // Hydrated Bloc methods for persistence  @override
   AreaSubscriptionState? fromJson(Map<String, dynamic> json) {
     try {
-      final subscribedAreas =
-          (json['subscribedAreas'] as List<dynamic>).cast<String>();
+      final subscribedAreasJson = json['subscribedAreas'] as List<dynamic>;
+      if (subscribedAreasJson.isNotEmpty && subscribedAreasJson.first is String) {
+        return null;
+      }
+      final subscribedAreas = subscribedAreasJson
+          .map((areaJson) {
+            if (areaJson is Map<String, dynamic>) {              return AreaInfo(
+                cityId: areaJson['cityId'] ?? 0,
+                cityName: areaJson['cityName'] ?? '',
+                state: areaJson['state'] ?? '',
+                activeIssuesCount: areaJson['activeIssuesCount'] ?? 0,
+              );
+            }
+            return null;
+          })
+          .where((area) => area != null)
+          .cast<AreaInfo>()
+          .toList();
+      
       return AreaSubscriptionState.loaded(
         subscribedAreas: subscribedAreas,
         isRefreshing: false,
       );
     } catch (e) {
-      // Return null if deserialization fails
+      // Return null if deserialization fails, this will force a refresh from API
       return null;
     }
   }
@@ -207,7 +233,15 @@ class AreaSubscriptionCubit extends HydratedCubit<AreaSubscriptionState> {
   @override
   Map<String, dynamic>? toJson(AreaSubscriptionState state) {
     return state.maybeWhen(
-      loaded: (subscribedAreas, _) => {'subscribedAreas': subscribedAreas},
+      loaded: (subscribedAreas, _) => {        'subscribedAreas': subscribedAreas
+            .map((area) => {
+                  'cityId': area.cityId,
+                  'cityName': area.cityName,
+                  'state': area.state,
+                  'activeIssuesCount': area.activeIssuesCount,
+                })
+            .toList()
+      },
       orElse: () => null, // Don't persist other states
     );
   }
