@@ -12,7 +12,7 @@ abstract class BaseAreaUpdatesRemoteDataSource {
     String areaName,
   );
   Future<Result<List<AreaInfoModel>, ApiError>> getAllAreas();
-  Future<Result<List<String>, ApiError>> getSubscribedAreas();
+  Future<Result<List<AreaInfoModel>, ApiError>> getSubscribedAreas();
   Future<Result<void, ApiError>> subscribeToArea(String areaName);
   Future<Result<void, ApiError>> unsubscribeFromArea(String areaName);
 }
@@ -114,21 +114,35 @@ class AreaUpdatesRemoteDataSource extends BaseAreaUpdatesRemoteDataSource {
       return Result.failure(ApiError(message: 'Failed to load area issues: $e'));
     }
   }
-
   @override
-  Future<Result<List<String>, ApiError>> getSubscribedAreas() async {
+  Future<Result<List<AreaInfoModel>, ApiError>> getSubscribedAreas() async {
     try {
       // Mock implementation - replace with actual API call
       await Future.delayed(const Duration(milliseconds: 300));
       
-      // Return some mock subscribed areas
-      const subscribedAreas = [
-        'Mokattam',
-        'Nasr City', 
-        'Maadi',
-        'Zamalek',
-        'Mohandessin',
-        'Dokki',
+      // Return some mock subscribed areas with full details
+      final subscribedAreas = [
+        AreaInfoModel(
+          name: 'mokattam',
+          displayName: 'Mokattam',
+          governorate: 'Cairo',
+          issuesCount: 15,
+          lastUpdated: DateTime.now(),
+        ),
+        AreaInfoModel(
+          name: 'nasr_city',
+          displayName: 'Nasr City',
+          governorate: 'Cairo',
+          issuesCount: 8,
+          lastUpdated: DateTime.now(),
+        ),
+        AreaInfoModel(
+          name: 'maadi',
+          displayName: 'Maadi',
+          governorate: 'Cairo',
+          issuesCount: 12,
+          lastUpdated: DateTime.now(),
+        ),
       ];
       
       return Result.success(subscribedAreas);

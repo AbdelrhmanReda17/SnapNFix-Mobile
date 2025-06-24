@@ -20,25 +20,26 @@ mixin _$AreaSubscriptionState {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(List<String> subscribedAreas, bool isRefreshing)
+    required TResult Function(List<AreaInfo> subscribedAreas, bool isRefreshing)
         loaded,
-    required TResult Function(ApiError error, List<String> cachedAreas) error,
+    required TResult Function(ApiError error, List<AreaInfo> cachedAreas) error,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(List<String> subscribedAreas, bool isRefreshing)? loaded,
-    TResult? Function(ApiError error, List<String> cachedAreas)? error,
+    TResult? Function(List<AreaInfo> subscribedAreas, bool isRefreshing)?
+        loaded,
+    TResult? Function(ApiError error, List<AreaInfo> cachedAreas)? error,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(List<String> subscribedAreas, bool isRefreshing)? loaded,
-    TResult Function(ApiError error, List<String> cachedAreas)? error,
+    TResult Function(List<AreaInfo> subscribedAreas, bool isRefreshing)? loaded,
+    TResult Function(ApiError error, List<AreaInfo> cachedAreas)? error,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -134,9 +135,9 @@ class _$InitialImpl implements _Initial {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(List<String> subscribedAreas, bool isRefreshing)
+    required TResult Function(List<AreaInfo> subscribedAreas, bool isRefreshing)
         loaded,
-    required TResult Function(ApiError error, List<String> cachedAreas) error,
+    required TResult Function(ApiError error, List<AreaInfo> cachedAreas) error,
   }) {
     return initial();
   }
@@ -146,8 +147,9 @@ class _$InitialImpl implements _Initial {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(List<String> subscribedAreas, bool isRefreshing)? loaded,
-    TResult? Function(ApiError error, List<String> cachedAreas)? error,
+    TResult? Function(List<AreaInfo> subscribedAreas, bool isRefreshing)?
+        loaded,
+    TResult? Function(ApiError error, List<AreaInfo> cachedAreas)? error,
   }) {
     return initial?.call();
   }
@@ -157,8 +159,8 @@ class _$InitialImpl implements _Initial {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(List<String> subscribedAreas, bool isRefreshing)? loaded,
-    TResult Function(ApiError error, List<String> cachedAreas)? error,
+    TResult Function(List<AreaInfo> subscribedAreas, bool isRefreshing)? loaded,
+    TResult Function(ApiError error, List<AreaInfo> cachedAreas)? error,
     required TResult orElse(),
   }) {
     if (initial != null) {
@@ -252,9 +254,9 @@ class _$LoadingImpl implements _Loading {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(List<String> subscribedAreas, bool isRefreshing)
+    required TResult Function(List<AreaInfo> subscribedAreas, bool isRefreshing)
         loaded,
-    required TResult Function(ApiError error, List<String> cachedAreas) error,
+    required TResult Function(ApiError error, List<AreaInfo> cachedAreas) error,
   }) {
     return loading();
   }
@@ -264,8 +266,9 @@ class _$LoadingImpl implements _Loading {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(List<String> subscribedAreas, bool isRefreshing)? loaded,
-    TResult? Function(ApiError error, List<String> cachedAreas)? error,
+    TResult? Function(List<AreaInfo> subscribedAreas, bool isRefreshing)?
+        loaded,
+    TResult? Function(ApiError error, List<AreaInfo> cachedAreas)? error,
   }) {
     return loading?.call();
   }
@@ -275,8 +278,8 @@ class _$LoadingImpl implements _Loading {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(List<String> subscribedAreas, bool isRefreshing)? loaded,
-    TResult Function(ApiError error, List<String> cachedAreas)? error,
+    TResult Function(List<AreaInfo> subscribedAreas, bool isRefreshing)? loaded,
+    TResult Function(ApiError error, List<AreaInfo> cachedAreas)? error,
     required TResult orElse(),
   }) {
     if (loading != null) {
@@ -333,7 +336,7 @@ abstract class _$$LoadedImplCopyWith<$Res> {
           _$LoadedImpl value, $Res Function(_$LoadedImpl) then) =
       __$$LoadedImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({List<String> subscribedAreas, bool isRefreshing});
+  $Res call({List<AreaInfo> subscribedAreas, bool isRefreshing});
 }
 
 /// @nodoc
@@ -356,7 +359,7 @@ class __$$LoadedImplCopyWithImpl<$Res>
       subscribedAreas: null == subscribedAreas
           ? _value._subscribedAreas
           : subscribedAreas // ignore: cast_nullable_to_non_nullable
-              as List<String>,
+              as List<AreaInfo>,
       isRefreshing: null == isRefreshing
           ? _value.isRefreshing
           : isRefreshing // ignore: cast_nullable_to_non_nullable
@@ -369,12 +372,13 @@ class __$$LoadedImplCopyWithImpl<$Res>
 
 class _$LoadedImpl implements _Loaded {
   const _$LoadedImpl(
-      {required final List<String> subscribedAreas, this.isRefreshing = false})
+      {required final List<AreaInfo> subscribedAreas,
+      this.isRefreshing = false})
       : _subscribedAreas = subscribedAreas;
 
-  final List<String> _subscribedAreas;
+  final List<AreaInfo> _subscribedAreas;
   @override
-  List<String> get subscribedAreas {
+  List<AreaInfo> get subscribedAreas {
     if (_subscribedAreas is EqualUnmodifiableListView) return _subscribedAreas;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_subscribedAreas);
@@ -417,9 +421,9 @@ class _$LoadedImpl implements _Loaded {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(List<String> subscribedAreas, bool isRefreshing)
+    required TResult Function(List<AreaInfo> subscribedAreas, bool isRefreshing)
         loaded,
-    required TResult Function(ApiError error, List<String> cachedAreas) error,
+    required TResult Function(ApiError error, List<AreaInfo> cachedAreas) error,
   }) {
     return loaded(subscribedAreas, isRefreshing);
   }
@@ -429,8 +433,9 @@ class _$LoadedImpl implements _Loaded {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(List<String> subscribedAreas, bool isRefreshing)? loaded,
-    TResult? Function(ApiError error, List<String> cachedAreas)? error,
+    TResult? Function(List<AreaInfo> subscribedAreas, bool isRefreshing)?
+        loaded,
+    TResult? Function(ApiError error, List<AreaInfo> cachedAreas)? error,
   }) {
     return loaded?.call(subscribedAreas, isRefreshing);
   }
@@ -440,8 +445,8 @@ class _$LoadedImpl implements _Loaded {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(List<String> subscribedAreas, bool isRefreshing)? loaded,
-    TResult Function(ApiError error, List<String> cachedAreas)? error,
+    TResult Function(List<AreaInfo> subscribedAreas, bool isRefreshing)? loaded,
+    TResult Function(ApiError error, List<AreaInfo> cachedAreas)? error,
     required TResult orElse(),
   }) {
     if (loaded != null) {
@@ -490,10 +495,10 @@ class _$LoadedImpl implements _Loaded {
 
 abstract class _Loaded implements AreaSubscriptionState {
   const factory _Loaded(
-      {required final List<String> subscribedAreas,
+      {required final List<AreaInfo> subscribedAreas,
       final bool isRefreshing}) = _$LoadedImpl;
 
-  List<String> get subscribedAreas;
+  List<AreaInfo> get subscribedAreas;
   bool get isRefreshing;
 
   /// Create a copy of AreaSubscriptionState
@@ -509,7 +514,7 @@ abstract class _$$ErrorImplCopyWith<$Res> {
           _$ErrorImpl value, $Res Function(_$ErrorImpl) then) =
       __$$ErrorImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({ApiError error, List<String> cachedAreas});
+  $Res call({ApiError error, List<AreaInfo> cachedAreas});
 }
 
 /// @nodoc
@@ -536,7 +541,7 @@ class __$$ErrorImplCopyWithImpl<$Res>
       cachedAreas: null == cachedAreas
           ? _value._cachedAreas
           : cachedAreas // ignore: cast_nullable_to_non_nullable
-              as List<String>,
+              as List<AreaInfo>,
     ));
   }
 }
@@ -545,14 +550,14 @@ class __$$ErrorImplCopyWithImpl<$Res>
 
 class _$ErrorImpl implements _Error {
   const _$ErrorImpl(
-      {required this.error, required final List<String> cachedAreas})
+      {required this.error, required final List<AreaInfo> cachedAreas})
       : _cachedAreas = cachedAreas;
 
   @override
   final ApiError error;
-  final List<String> _cachedAreas;
+  final List<AreaInfo> _cachedAreas;
   @override
-  List<String> get cachedAreas {
+  List<AreaInfo> get cachedAreas {
     if (_cachedAreas is EqualUnmodifiableListView) return _cachedAreas;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_cachedAreas);
@@ -590,9 +595,9 @@ class _$ErrorImpl implements _Error {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(List<String> subscribedAreas, bool isRefreshing)
+    required TResult Function(List<AreaInfo> subscribedAreas, bool isRefreshing)
         loaded,
-    required TResult Function(ApiError error, List<String> cachedAreas) error,
+    required TResult Function(ApiError error, List<AreaInfo> cachedAreas) error,
   }) {
     return error(this.error, cachedAreas);
   }
@@ -602,8 +607,9 @@ class _$ErrorImpl implements _Error {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(List<String> subscribedAreas, bool isRefreshing)? loaded,
-    TResult? Function(ApiError error, List<String> cachedAreas)? error,
+    TResult? Function(List<AreaInfo> subscribedAreas, bool isRefreshing)?
+        loaded,
+    TResult? Function(ApiError error, List<AreaInfo> cachedAreas)? error,
   }) {
     return error?.call(this.error, cachedAreas);
   }
@@ -613,8 +619,8 @@ class _$ErrorImpl implements _Error {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(List<String> subscribedAreas, bool isRefreshing)? loaded,
-    TResult Function(ApiError error, List<String> cachedAreas)? error,
+    TResult Function(List<AreaInfo> subscribedAreas, bool isRefreshing)? loaded,
+    TResult Function(ApiError error, List<AreaInfo> cachedAreas)? error,
     required TResult orElse(),
   }) {
     if (error != null) {
@@ -664,10 +670,10 @@ class _$ErrorImpl implements _Error {
 abstract class _Error implements AreaSubscriptionState {
   const factory _Error(
       {required final ApiError error,
-      required final List<String> cachedAreas}) = _$ErrorImpl;
+      required final List<AreaInfo> cachedAreas}) = _$ErrorImpl;
 
   ApiError get error;
-  List<String> get cachedAreas;
+  List<AreaInfo> get cachedAreas;
 
   /// Create a copy of AreaSubscriptionState
   /// with the given fields replaced by the non-null parameter values.

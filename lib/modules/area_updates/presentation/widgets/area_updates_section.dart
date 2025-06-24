@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:snapnfix/core/base_components/base_button.dart';
 import 'package:snapnfix/core/dependency_injection/dependency_injection.dart';
+import 'package:snapnfix/modules/area_updates/domain/entities/area_info.dart';
 import 'package:snapnfix/modules/area_updates/presentation/cubits/area_subscription_cubit.dart';
 import 'package:snapnfix/modules/area_updates/presentation/cubits/area_subscription_state.dart';
 import 'package:snapnfix/presentation/navigation/routes.dart';
@@ -36,26 +37,39 @@ class AreaUpdatesSectionContent extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'Your Areas',
+                'Subscribed Areas',
                 style: TextStyle(
                   fontSize: 20.sp,
                   fontWeight: FontWeight.bold,
                   color: colorScheme.onSurface,
                 ),
-              ),
-              BlocBuilder<AreaSubscriptionCubit, AreaSubscriptionState>(
-                builder: (context, state) {
-                  return IconButton(
+              ),              Row(
+                children: [
+                  IconButton(
                     onPressed: () {
-                      context.read<AreaSubscriptionCubit>().refresh();
+                      // Navigate to manage areas - TODO: implement navigation
                     },
                     icon: Icon(
-                      Icons.refresh,
+                      Icons.add,
                       size: 20.sp,
                       color: colorScheme.primary,
                     ),
-                  );
-                },
+                  ),
+                  BlocBuilder<AreaSubscriptionCubit, AreaSubscriptionState>(
+                    builder: (context, state) {
+                      return IconButton(
+                        onPressed: () {
+                          context.read<AreaSubscriptionCubit>().refresh();
+                        },
+                        icon: Icon(
+                          Icons.refresh,
+                          size: 20.sp,
+                          color: colorScheme.primary,
+                        ),
+                      );
+                    },
+                  ),
+                ],
               ),
             ],
           ),
@@ -189,7 +203,7 @@ class _EmptyStateWidget extends StatelessWidget {
 
 // Subscribed Areas Widget
 class _SubscribedAreasWidget extends StatelessWidget {
-  final List<String> subscribedAreas;
+  final List<AreaInfo> subscribedAreas;
   final bool isRefreshing;
   final ColorScheme colorScheme;
   final bool hasError;
@@ -232,20 +246,23 @@ class _SubscribedAreasWidget extends StatelessWidget {
                 ),
               ],
             ),
-          ),
-
-        SizedBox(
-          height: 140.h,
+          ),        SizedBox(
+          height: 120.h, // Made slightly smaller
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
-            itemCount: subscribedAreas.length,
+            itemCount: subscribedAreas.length + 1, // +1 for "See All" card
             itemBuilder: (context, index) {
+              if (index == subscribedAreas.length) {
+                // "See All" card
+                return _SeeAllCard(colorScheme: colorScheme);
+              }
+              
               final area = subscribedAreas[index];
               return _AreaCard(
-                areaName: area,
-                colorScheme: colorScheme,
-                onTap: () {
-                  context.push(                    Routes.areaIssuesChat.replaceAll(':area', area),
+                area: area,
+                colorScheme: colorScheme,                onTap: () {
+                  context.push(
+                    Routes.areaIssuesChat,
                     extra: area,
                   );
                 },
@@ -260,12 +277,12 @@ class _SubscribedAreasWidget extends StatelessWidget {
 
 // Individual Area Card
 class _AreaCard extends StatelessWidget {
-  final String areaName;
+  final AreaInfo area;
   final ColorScheme colorScheme;
   final VoidCallback onTap;
 
   const _AreaCard({
-    required this.areaName,
+    required this.area,
     required this.colorScheme,
     required this.onTap,
   });
@@ -273,17 +290,17 @@ class _AreaCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 120.w,
+      width: 110.w, // Made smaller
       margin: EdgeInsets.only(right: 12.w),
       child: Material(
         color: Colors.transparent,
         child: InkWell(
           onTap: onTap,
-          borderRadius: BorderRadius.circular(16.r),
+          borderRadius: BorderRadius.circular(12.r), // Smaller radius
           child: Container(
-            padding: EdgeInsets.all(16.w),
+            padding: EdgeInsets.all(12.w), // Smaller padding
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(16.r),
+              borderRadius: BorderRadius.circular(12.r),
               gradient: LinearGradient(
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
@@ -294,50 +311,151 @@ class _AreaCard extends StatelessWidget {
               ),
               boxShadow: [
                 BoxShadow(
-                  color: colorScheme.primary.withOpacity(0.3),
-                  blurRadius: 8,
-                  offset: const Offset(0, 4),
+                  color: colorScheme.primary.withOpacity(0.2),
+                  blurRadius: 6,
+                  offset: const Offset(0, 2),
+                ),
+              ],
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Top row with issue count
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Container(
+                      padding: EdgeInsets.symmetric(horizontal: 6.w, vertical: 2.h),
+                      decoration: BoxDecoration(
+                        color: colorScheme.onPrimary.withOpacity(0.2),
+                        borderRadius: BorderRadius.circular(8.r),
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(
+                            Icons.report_problem_outlined,
+                            size: 10.sp,
+                            color: colorScheme.onPrimary,
+                          ),
+                          SizedBox(width: 2.w),
+                          Text(
+                            '${area.issuesCount}',
+                            style: TextStyle(
+                              fontSize: 10.sp,
+                              fontWeight: FontWeight.w600,
+                              color: colorScheme.onPrimary,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+                
+                // Area name and governorate
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      area.displayName,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        fontSize: 12.sp,
+                        fontWeight: FontWeight.w600,
+                        color: colorScheme.onPrimary,
+                      ),
+                    ),
+                    SizedBox(height: 2.h),
+                    Text(
+                      area.governorate,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        fontSize: 9.sp,
+                        fontWeight: FontWeight.w400,
+                        color: colorScheme.onPrimary.withOpacity(0.8),
+                      ),
+                    ),
+                  ],
+                ),
+                
+                // Bottom arrow
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Icon(
+                      Icons.arrow_forward_ios,
+                      size: 10.sp,
+                      color: colorScheme.onPrimary.withOpacity(0.7),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+// See All Card
+class _SeeAllCard extends StatelessWidget {
+  final ColorScheme colorScheme;
+
+  const _SeeAllCard({required this.colorScheme});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 110.w,
+      margin: EdgeInsets.only(right: 12.w),
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: () {
+            // TODO: Navigate to all areas screen
+          },
+          borderRadius: BorderRadius.circular(12.r),          child: Container(
+            padding: EdgeInsets.all(12.w),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(12.r),
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [
+                  colorScheme.primary.withOpacity(0.8),
+                  colorScheme.primary.withOpacity(0.6),
+                ],
+              ),
+              boxShadow: [
+                BoxShadow(
+                  color: colorScheme.primary.withOpacity(0.2),
+                  blurRadius: 6,
+                  offset: const Offset(0, 2),
                 ),
               ],
             ),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Container(
-                  width: 40.w,
-                  height: 40.w,
-                  decoration: BoxDecoration(
-                    color: colorScheme.onPrimary.withOpacity(0.2),
-                    shape: BoxShape.circle,
-                  ),
-                  child: Center(
-                    child: Text(
-                      areaName[0].toUpperCase(),
-                      style: TextStyle(
-                        fontSize: 18.sp,
-                        fontWeight: FontWeight.bold,
-                        color: colorScheme.onPrimary,
-                      ),
-                    ),
-                  ),
+                Icon(
+                  Icons.grid_view_rounded,
+                  size: 24.sp,
+                  color: colorScheme.onPrimary, // Changed to white
                 ),
                 SizedBox(height: 8.h),
                 Text(
-                  areaName,
+                  'See All',
                   textAlign: TextAlign.center,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
                   style: TextStyle(
-                    fontSize: 12.sp,
+                    fontSize: 11.sp,
                     fontWeight: FontWeight.w600,
-                    color: colorScheme.onPrimary,
+                    color: colorScheme.onPrimary, // Changed to white
                   ),
-                ),
-                SizedBox(height: 4.h),
-                Icon(
-                  Icons.arrow_forward_ios,
-                  size: 12.sp,
-                  color: colorScheme.onPrimary.withOpacity(0.7),
                 ),
               ],
             ),

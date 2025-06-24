@@ -167,7 +167,7 @@ class AreaSubscriptionsView extends StatelessWidget {
 
 // Subscribed Areas Section Widget
 class _SubscribedAreasSection extends StatelessWidget {
-  final List<String> subscribedAreas;
+  final List<AreaInfo> subscribedAreas;
   final ColorScheme colorScheme;
   final bool hasError;
 
@@ -202,18 +202,17 @@ class _SubscribedAreasSection extends StatelessWidget {
             ],
           ],
         ),
-        SizedBox(height: 12.h),
-        Wrap(
+        SizedBox(height: 12.h),        Wrap(
           spacing: 8.w,
           runSpacing: 8.h,
           children:
               subscribedAreas.map((area) {
                 return _SubscribedAreaChip(
-                  areaName: area,
+                  areaName: area.displayName,
                   colorScheme: colorScheme,
                   onUnsubscribe: () {
                     context.read<AreaSubscriptionCubit>().unsubscribeFromArea(
-                      area,
+                      area.name,
                     );
                   },
                 );

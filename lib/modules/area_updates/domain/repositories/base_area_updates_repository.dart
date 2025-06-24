@@ -12,7 +12,7 @@ abstract class BaseAreaUpdatesRepository {
   });
   Future<Result<AreaHealthMetrics, ApiError>> getAreaHealth(String areaName);
   Future<Result<List<AreaInfo>, ApiError>> getAllAreas();
-  Future<Result<List<String>, ApiError>> getSubscribedAreas();
+  Future<Result<List<AreaInfo>, ApiError>> getSubscribedAreas();
   Future<Result<void, ApiError>> subscribeToArea(String areaName);
   Future<Result<void, ApiError>> unsubscribeFromArea(String areaName);
 }

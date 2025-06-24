@@ -41,10 +41,13 @@ class AreaUpdatesRepository implements BaseAreaUpdatesRepository {
       failure: (error) => Result.failure(error),
     );
   }
-
   @override
-  Future<Result<List<String>, ApiError>> getSubscribedAreas() async {
-    return _remoteDataSource.getSubscribedAreas();
+  Future<Result<List<AreaInfo>, ApiError>> getSubscribedAreas() async {
+    final result = await _remoteDataSource.getSubscribedAreas();
+    return result.when(
+      success: (models) => Result.success(models.cast<AreaInfo>()),
+      failure: (error) => Result.failure(error),
+    );
   }
 
   @override

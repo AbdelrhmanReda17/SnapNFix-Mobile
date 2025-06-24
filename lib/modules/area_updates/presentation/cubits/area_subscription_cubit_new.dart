@@ -24,9 +24,6 @@ class AreaSubscriptionCubit extends HydratedCubit<AreaSubscriptionState> {
        _toggleAreaSubscriptionUseCase = toggleAreaSubscriptionUseCase,
        super(const AreaSubscriptionState.initial());
 
-  @override
-  String get id => 'AreaSubscriptionCubit_v2'; // Version change to clear old cache
-
   // Initialize with cached data
   void initialize() {
     state.maybeWhen(
@@ -174,12 +171,14 @@ class AreaSubscriptionCubit extends HydratedCubit<AreaSubscriptionState> {
       error: (_, cachedAreas) => cachedAreas.length,
       orElse: () => 0,
     );
-  }  // Get current subscribed areas list
+  }
+
+  // Get current subscribed areas list
   List<AreaInfo> get subscribedAreas {
     return state.maybeWhen(
       loaded: (subscribedAreas, _) => subscribedAreas,
       error: (_, cachedAreas) => cachedAreas,
-      orElse: () => <AreaInfo>[],
+      orElse: () => [],
     );
   }
 
@@ -200,33 +199,20 @@ class AreaSubscriptionCubit extends HydratedCubit<AreaSubscriptionState> {
       orElse: () => [],
     );
   }
+
   // Hydrated Bloc methods for persistence
   @override
   AreaSubscriptionState? fromJson(Map<String, dynamic> json) {
     try {
       final subscribedAreasJson = json['subscribedAreas'] as List<dynamic>;
-      
-      // Handle backwards compatibility - check if it's old string format
-      if (subscribedAreasJson.isNotEmpty && subscribedAreasJson.first is String) {
-        // Old format detected, return null to force refresh from API
-        return null;
-      }
-      
       final subscribedAreas = subscribedAreasJson
-          .map((areaJson) {
-            if (areaJson is Map<String, dynamic>) {
-              return AreaInfo(
+          .map((areaJson) => AreaInfo(
                 name: areaJson['name'] ?? '',
                 displayName: areaJson['displayName'] ?? '',
                 governorate: areaJson['governorate'] ?? '',
                 issuesCount: areaJson['issuesCount'] ?? 0,
                 lastUpdated: DateTime.tryParse(areaJson['lastUpdated'] ?? '') ?? DateTime.now(),
-              );
-            }
-            return null;
-          })
-          .where((area) => area != null)
-          .cast<AreaInfo>()
+              ))
           .toList();
       
       return AreaSubscriptionState.loaded(
@@ -234,7 +220,7 @@ class AreaSubscriptionCubit extends HydratedCubit<AreaSubscriptionState> {
         isRefreshing: false,
       );
     } catch (e) {
-      // Return null if deserialization fails, this will force a refresh from API
+      // Return null if deserialization fails
       return null;
     }
   }
