@@ -29,7 +29,7 @@ class SubmitReportNote extends StatelessWidget {
           children: [
             CircleAvatar(
               radius: 20.r,
-              backgroundColor: colorScheme.primary.withValues(alpha: .1),
+              backgroundColor: colorScheme.primary.withValues(alpha: 0.1),
               child: SvgPicture.asset(
                 'assets/icons/time_and_location.svg',
                 colorFilter: ColorFilter.mode(
@@ -57,7 +57,7 @@ class SubmitReportNote extends StatelessWidget {
                   Text(
                     localization.locationAndTimeIsRecorded,
                     style: TextStyle(
-                      color: colorScheme.primary.withValues(alpha: .7),
+                      color: colorScheme.tertiary.withValues(alpha: 0.7),
                       fontSize: 12.sp,
                     ),
                   ),

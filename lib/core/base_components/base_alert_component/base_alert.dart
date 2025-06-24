@@ -1,47 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:snapnfix/core/utils/extensions/navigation.dart';
+import 'package:snapnfix/core/base_components/base_alert_component/alert_type.dart';
 import 'package:snapnfix/core/utils/helpers/spacing.dart';
 import 'package:snapnfix/core/utils/helpers/responsive_dimensions.dart';
-
-enum AlertType {
-  success(
-    containerColor: Color(0x33027243),
-    textColor: Color(0xFF027243),
-    buttonColor: Color(0xFF027243),
-    icon: Icons.check_circle_outline,
-  ),
-  error(
-    containerColor: Color(0x33AC2634),
-    textColor: Color(0xFFAC2634),
-    buttonColor: Color(0xFFAC2634),
-    icon: Icons.error_outline,
-  ),
-  info(
-    containerColor: Color(0xFFF0F6FF),
-    textColor: Color(0xFF0F61AC),
-    buttonColor: Color(0xFF0F61AC),
-    icon: Icons.info_outline,
-  ),
-  warning(
-    containerColor: Color(0x33B84A1F),
-    textColor: Color(0xFFB84A1F),
-    buttonColor: Color(0xFFB84A1F),
-    icon: Icons.warning,
-  );
-
-  final Color containerColor;
-  final Color textColor;
-  final Color buttonColor;
-  final IconData icon;
-
-  const AlertType({
-    required this.containerColor,
-    required this.textColor,
-    required this.buttonColor,
-    required this.icon,
-  });
-}
 
 Future<bool?> baseDialog({
   required BuildContext context,
@@ -98,6 +59,8 @@ class _BaseAlertDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
+    final containerColor = alertType.getContainerColor(context);
+    final textColor = alertType.getTextColor(context);
 
     return LayoutBuilder(
       builder: (context, constraints) {
@@ -137,18 +100,27 @@ class _BaseAlertDialog extends StatelessWidget {
                     vertical: dimensions.isTablet ? 24.h : 16.h,
                   ),
                   decoration: BoxDecoration(
-                    color: alertType.containerColor,
+                    color: containerColor,
                     borderRadius: BorderRadius.circular(12.r),
                   ),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      _buildHeader(context, dimensions),
+                      _buildHeader(context, dimensions, textColor),
                       verticalSpace(dimensions.isTablet ? 16 : 12),
-                      _buildMessageContent(dimensions, dialogMaxHeight),
+                      _buildMessageContent(
+                        dimensions,
+                        dialogMaxHeight,
+                        textColor,
+                      ),
                       verticalSpace(dimensions.isTablet ? 20 : 16),
-                      _buildActionButtons(context, colorScheme, dimensions),
+                      _buildActionButtons(
+                        context,
+                        colorScheme,
+                        dimensions,
+                        textColor,
+                      ),
                     ],
                   ),
                 ),
@@ -160,7 +132,11 @@ class _BaseAlertDialog extends StatelessWidget {
     );
   }
 
-  Widget _buildHeader(BuildContext context, ResponsiveDimensions dimensions) {
+  Widget _buildHeader(
+    BuildContext context,
+    ResponsiveDimensions dimensions,
+    Color textColor,
+  ) {
     return Row(
       children: [
         Expanded(
@@ -169,7 +145,7 @@ class _BaseAlertDialog extends StatelessWidget {
             children: [
               Icon(
                 alertType.icon,
-                color: alertType.textColor,
+                color: textColor,
                 size: dimensions.isTablet ? 24.sp : 20.sp,
               ),
               horizontalSpace(dimensions.isTablet ? 12 : 8),
@@ -178,7 +154,7 @@ class _BaseAlertDialog extends StatelessWidget {
                   title,
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
-                    color: alertType.textColor,
+                    color: textColor,
                     fontSize: dimensions.isTablet ? 18.sp : 16.sp,
                   ),
                   maxLines: 1,
@@ -191,7 +167,7 @@ class _BaseAlertDialog extends StatelessWidget {
         IconButton(
           icon: Icon(
             Icons.close,
-            color: alertType.textColor,
+            color: textColor,
             size: dimensions.isTablet ? 24.sp : 20.sp,
           ),
           onPressed: () => _handleDialogDismiss(context, false),
@@ -208,6 +184,7 @@ class _BaseAlertDialog extends StatelessWidget {
   Widget _buildMessageContent(
     ResponsiveDimensions dimensions,
     double maxDialogHeight,
+    Color textColor,
   ) {
     final maxMessageHeight = maxDialogHeight * 0.6;
 
@@ -217,7 +194,7 @@ class _BaseAlertDialog extends StatelessWidget {
         child: Text(
           message,
           style: TextStyle(
-            color: alertType.textColor,
+            color: textColor,
             fontSize: dimensions.isTablet ? 16.sp : 14.sp,
             fontWeight: FontWeight.w500,
             height: 1.4,
@@ -232,6 +209,7 @@ class _BaseAlertDialog extends StatelessWidget {
     BuildContext context,
     ColorScheme colorScheme,
     ResponsiveDimensions dimensions,
+    Color buttonColor,
   ) {
     // Responsive button layout
     if (dimensions.isSmallScreen &&
@@ -239,10 +217,10 @@ class _BaseAlertDialog extends StatelessWidget {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          _buildConfirmButton(context, colorScheme, dimensions),
+          _buildConfirmButton(context, colorScheme, dimensions, buttonColor),
           if (showCancelButton) ...[
             verticalSpace(8),
-            _buildCancelButton(context, dimensions),
+            _buildCancelButton(context, dimensions, buttonColor),
           ],
         ],
       );
@@ -251,11 +229,11 @@ class _BaseAlertDialog extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
-        _buildConfirmButton(context, colorScheme, dimensions),
         if (showCancelButton) ...[
+          _buildCancelButton(context, dimensions, buttonColor),
           horizontalSpace(dimensions.isTablet ? 12 : 8),
-          _buildCancelButton(context, dimensions),
         ],
+        _buildConfirmButton(context, colorScheme, dimensions, buttonColor),
       ],
     );
   }
@@ -264,10 +242,11 @@ class _BaseAlertDialog extends StatelessWidget {
     BuildContext context,
     ColorScheme colorScheme,
     ResponsiveDimensions dimensions,
+    Color buttonColor,
   ) {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
-        backgroundColor: alertType.buttonColor,
+        backgroundColor: buttonColor,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.r)),
         padding: EdgeInsets.symmetric(
           horizontal: dimensions.isTablet ? 24.w : 16.w,
@@ -291,13 +270,16 @@ class _BaseAlertDialog extends StatelessWidget {
   Widget _buildCancelButton(
     BuildContext context,
     ResponsiveDimensions dimensions,
+    Color buttonColor,
   ) {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
-        backgroundColor: alertType.buttonColor.withValues(alpha: 0.1),
-        foregroundColor: alertType.buttonColor.withValues(alpha: 0.1),
-        shadowColor: alertType.buttonColor.withValues(alpha: 0.1),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.r)),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8.r),
+          side: BorderSide(color: buttonColor),
+        ),
         padding: EdgeInsets.symmetric(
           horizontal: dimensions.isTablet ? 24.w : 16.w,
           vertical: dimensions.isTablet ? 12.h : 8.h,
@@ -312,7 +294,7 @@ class _BaseAlertDialog extends StatelessWidget {
       child: Text(
         cancelText ?? 'Cancel',
         style: TextStyle(
-          color: alertType.buttonColor,
+          color: buttonColor,
           fontSize: dimensions.isTablet ? 16.sp : 14.sp,
           fontWeight: FontWeight.w500,
         ),

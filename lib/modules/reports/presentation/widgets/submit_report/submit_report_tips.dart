@@ -75,7 +75,7 @@ class SubmitReportTips extends StatelessWidget {
                 borderRadius: BorderRadius.circular(16.r),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black26,
+                    color: colorScheme.shadow,
                     blurRadius: 10.0,
                     offset: const Offset(0.0, 10.0),
                   ),
@@ -112,12 +112,16 @@ class SubmitReportTips extends StatelessWidget {
                   ),
                   verticalSpace(10),
                   Divider(height: 1, thickness: 1, color: colorScheme.outline),
-                  verticalSpace(10),                  for (final tip in tips) ...[
+                  verticalSpace(10),
+                  for (final tip in tips) ...[
                     _buildTipCard(
                       context: context,
                       icon: tip['icon'] as IconData,
                       title: _getTipTitle(tip['title'] as String, localization),
-                      description: _getTipDescription(tip['title'] as String, localization),
+                      description: _getTipDescription(
+                        tip['title'] as String,
+                        localization,
+                      ),
                       iconBackgroundColor: (tip['iconBackgroundColor'] as Color)
                           .withValues(alpha: 0.1),
                       iconColor: (tip['iconColor'] as Color).withValues(
@@ -188,7 +192,8 @@ class SubmitReportTips extends StatelessWidget {
             ],
           ),
         ),
-      ],    );
+      ],
+    );
   }
 
   String _getTipTitle(String key, AppLocalizations localization) {

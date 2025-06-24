@@ -19,27 +19,27 @@ class ChannelsState with _$ChannelsState {
     channels: ['Nasr City', 'Downtown', 'Maadi', 'Zamalek', 'Heliopolis'],
     updates: {
       'Nasr City': [
-        IssueUpdate(id: '325', status: IssueStatus.fixed, time: '10:32 AM'),
+        IssueUpdate(id: '325', status: IssueStatus.completed, time: '10:32 AM'),
         IssueUpdate(id: '132', status: IssueStatus.inProgress, time: '08:18 AM'),
         IssueUpdate(id: '129', status: IssueStatus.pending, time: 'Yesterday'),
       ],
       'Downtown': [
         IssueUpdate(id: '218', status: IssueStatus.inProgress, time: '11:45 AM'),
-        IssueUpdate(id: '201', status: IssueStatus.fixed, time: 'Yesterday'),
+        IssueUpdate(id: '201', status: IssueStatus.completed, time: 'Yesterday'),
       ],
       'Maadi': [
         IssueUpdate(id: '156', status: IssueStatus.pending, time: '09:20 AM'),
-        IssueUpdate(id: '145', status: IssueStatus.fixed, time: 'Yesterday'),
+        IssueUpdate(id: '145', status: IssueStatus.completed, time: 'Yesterday'),
       ],
       'Zamalek': [
         IssueUpdate(id: '102', status: IssueStatus.inProgress, time: 'Today'),
-        IssueUpdate(id: '99', status: IssueStatus.fixed, time: 'Yesterday'),
+        IssueUpdate(id: '99', status: IssueStatus.completed, time: 'Yesterday'),
       ],
       'Heliopolis': [
         IssueUpdate(id: '87', status: IssueStatus.pending, time: 'Today'),
-        IssueUpdate(id: '76', status: IssueStatus.fixed, time: 'Yesterday'),
+        IssueUpdate(id: '76', status: IssueStatus.completed, time: 'Yesterday'),
         IssueUpdate(id: '78', status: IssueStatus.inProgress, time: '11:45 AM'),
-        IssueUpdate(id: '79', status: IssueStatus.fixed, time: 'Yesterday'),
+        IssueUpdate(id: '79', status: IssueStatus.completed, time: 'Yesterday'),
       ],
     },
   );

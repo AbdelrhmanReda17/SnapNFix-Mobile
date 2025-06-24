@@ -53,6 +53,8 @@ class _ResolutionSpotlightWidgetState extends State<ResolutionSpotlightWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
     final stories = StaticHomeData.getResolutionStories();
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
@@ -72,11 +74,11 @@ class _ResolutionSpotlightWidgetState extends State<ResolutionSpotlightWidget> {
       ),
       padding: EdgeInsets.all(verticalPadding.clamp(12.0, 20.0)),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: colorScheme.onPrimary,
         borderRadius: BorderRadius.circular(isTablet ? 16 : 12),
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withOpacity(0.1),
+            color: colorScheme.shadow.withValues(alpha: 0.1),
             spreadRadius: 2,
             blurRadius: 8,
             offset: const Offset(0, 2),

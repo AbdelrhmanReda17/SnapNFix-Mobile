@@ -6,10 +6,7 @@ part 'fast_report_model.g.dart';
 
 @JsonSerializable()
 class FastReportModel extends FastReport {
-  @JsonKey(name: 'userFirstName')
   final String? firstName;
-
-  @JsonKey(name: 'userLastName')
   final String? lastName;
 
   const FastReportModel({

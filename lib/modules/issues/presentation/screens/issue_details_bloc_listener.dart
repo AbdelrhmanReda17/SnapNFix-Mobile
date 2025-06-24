@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:snapnfix/core/base_components/base_alert_component/alert_type.dart';
 import 'package:snapnfix/presentation/widgets/loading_overlay.dart';
 import 'package:snapnfix/core/index.dart';
 import 'package:snapnfix/modules/issues/index.dart';

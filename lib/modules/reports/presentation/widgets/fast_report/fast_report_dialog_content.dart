@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:snapnfix/core/base_components/base_alert.dart';
+import 'package:snapnfix/core/base_components/base_alert_component/alert_type.dart';
+import 'package:snapnfix/core/base_components/base_alert_component/base_alert.dart';
 import 'package:snapnfix/core/base_components/base_button.dart';
 import 'package:snapnfix/core/utils/helpers/spacing.dart';
 import 'package:snapnfix/modules/reports/domain/entities/report_severity.dart';
@@ -95,7 +96,7 @@ class _FastReportDialogContentState extends State<FastReportDialogContent> {
             widget.onSuccess();
             _showResultDialog(
               title: localization.successDialogTitle,
-              message: "Report submitted successfully!",
+              message: localization.reportSubmitted,
               type: AlertType.success,
             );
           },
@@ -133,6 +134,7 @@ class _FastReportDialogContentState extends State<FastReportDialogContent> {
   ) {
     final colorScheme = Theme.of(context).colorScheme;
     final textStyles = Theme.of(context).textTheme;
+    final localization = AppLocalizations.of(context)!;
 
     return Padding(
       padding: EdgeInsets.all(16.r),
@@ -152,12 +154,18 @@ class _FastReportDialogContentState extends State<FastReportDialogContent> {
           verticalSpace(12),
           BaseButton(
             onPressed: isButtonEnabled ? _submitReport : null,
-            text: "Submit",
+            text: localization.submit,
             backgroundColor: colorScheme.primary,
-            textStyle: textStyles.bodyLarge!.copyWith(
-              color: colorScheme.surface,
-              fontWeight: FontWeight.bold,
-            ),
+            textStyle:
+                isButtonEnabled
+                    ? textStyles.bodyLarge!.copyWith(
+                      color: colorScheme.onPrimary,
+                      fontWeight: FontWeight.bold,
+                    )
+                    : textStyles.bodyLarge!.copyWith(
+                      color: colorScheme.tertiary.withValues(alpha: 0.3),
+                      fontWeight: FontWeight.bold,
+                    ),
             isEnabled: isButtonEnabled,
             borderColor: Colors.transparent,
           ),
@@ -168,7 +176,7 @@ class _FastReportDialogContentState extends State<FastReportDialogContent> {
 
   Widget _buildLoadingOverlay(ColorScheme colorScheme) {
     return Container(
-      color: Colors.black.withValues(alpha: 0.3),
+      color: colorScheme.surface.withValues(alpha: 0.3),
       child: Center(
         child: CircularProgressIndicator(color: colorScheme.primary),
       ),

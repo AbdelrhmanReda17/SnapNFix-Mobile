@@ -23,6 +23,8 @@ class IssueImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+    
     return Stack(
       children: [
         ClipRRect(
@@ -57,7 +59,7 @@ class IssueImage extends StatelessWidget {
             padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),            child: Text(
               issue.category.getLocalizedName(AppLocalizations.of(context)!),
               style: TextStyle(
-                color: Colors.white,
+                color: colorScheme.onPrimary,
                 fontSize: 16.sp,
                 fontWeight: FontWeight.w600,
               ),

@@ -23,6 +23,8 @@ class SnapReportModel extends SnapReport {
     super.issueId,
     super.category,
     super.status = ReportStatus.pending,
+    super.firstName,
+    super.lastName,
   });
 
   factory SnapReportModel.fromJson(Map<String, dynamic> json) =>

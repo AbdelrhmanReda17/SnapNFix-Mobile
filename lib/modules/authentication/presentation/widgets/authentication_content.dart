@@ -90,7 +90,7 @@ class AuthenticationContent extends StatelessWidget {
           child: Text(
             subtitle,
             style: textStyles.bodyMedium?.copyWith(
-              color: colorScheme.primary.withAlpha(179),
+              color: colorScheme.tertiary.withValues(alpha: 0.5),
               fontSize: 14.sp,
               height: 1.4,
               fontWeight: FontWeight.w400,
@@ -111,7 +111,9 @@ class AuthenticationContent extends StatelessWidget {
           text: buttonText,
           onPressed: onSubmit,
           backgroundColor: colorScheme.primary,
-          textStyle: textStyles.bodyLarge!.copyWith(color: colorScheme.surface),
+          textStyle: textStyles.bodyLarge!.copyWith(
+            color: colorScheme.onPrimary,
+          ),
         ),
         if (showTerms) ...[verticalSpace(20), const TermsAndPrivacyPolicy()],
         if (showSocial) ...[verticalSpace(20), const AuthenticationSocial()],

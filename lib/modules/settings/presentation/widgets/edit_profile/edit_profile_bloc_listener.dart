@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:snapnfix/core/base_components/base_alert.dart';
+import 'package:snapnfix/core/base_components/base_alert_component/alert_type.dart';
+import 'package:snapnfix/core/base_components/base_alert_component/base_alert.dart';
 import 'package:snapnfix/modules/settings/presentation/cubits/edit_profile_cubit.dart';
 
 class EditProfileBlocListener extends StatelessWidget {

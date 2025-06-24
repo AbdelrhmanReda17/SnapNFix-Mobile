@@ -9,6 +9,7 @@ class ReportsFilterSheetSectionTitle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
+    bool isDarkMode = colorScheme.brightness == Brightness.dark;
 
     return Padding(
       padding: EdgeInsets.only(bottom: 10.h),
@@ -17,7 +18,7 @@ class ReportsFilterSheetSectionTitle extends StatelessWidget {
         style: TextStyle(
           fontSize: 16.sp,
           fontWeight: FontWeight.w600,
-          color: colorScheme.onSurfaceVariant,
+          color: isDarkMode ? colorScheme.onPrimary : colorScheme.secondary,
         ),
       ),
     );

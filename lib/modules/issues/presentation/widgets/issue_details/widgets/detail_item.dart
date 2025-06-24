@@ -23,7 +23,7 @@ class DetailItem extends StatelessWidget {
             child: Text(
               '$label:',
               style: TextStyle(
-                color: Theme.of(context).colorScheme.onSurfaceVariant,
+                color: Theme.of(context).colorScheme.primary,
                 fontWeight: FontWeight.w500,
                 fontSize: isTablet ? 14.sp : 13.sp,
               ),

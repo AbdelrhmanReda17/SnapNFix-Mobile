@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:snapnfix/core/base_components/base_alert.dart';
+import 'package:snapnfix/core/base_components/base_alert_component/alert_type.dart';
+import 'package:snapnfix/core/base_components/base_alert_component/base_alert.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:snapnfix/modules/reports/presentation/cubits/submit_report_cubit.dart';
 import 'package:go_router/go_router.dart';

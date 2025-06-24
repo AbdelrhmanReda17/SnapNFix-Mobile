@@ -17,13 +17,14 @@ class ReportSection extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: 16.w),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
-        children: [          Text(
+        children: [
+          Text(
             localization.spottedIssue,
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 16.sp,
               fontWeight: FontWeight.bold,
-              color: isDarkMode ? Colors.white : theme.colorScheme.primary,
+              color: theme.colorScheme.tertiary,
             ),
           ),
           verticalSpace(3),
@@ -32,7 +33,7 @@ class ReportSection extends StatelessWidget {
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 12.sp,
-              color: theme.colorScheme.onSurface.withOpacity(0.6),
+              color: theme.colorScheme.onSurface.withValues(alpha: 0.6),
               height: 1.2.h,
             ),
           ),
@@ -52,14 +53,17 @@ class ReportSection extends StatelessWidget {
                 decoration: BoxDecoration(
                   // Use solid color in dark mode, gradient in light mode
                   color: isDarkMode ? theme.colorScheme.primary : null,
-                  gradient: isDarkMode ? null : LinearGradient(
-                    colors: [
-                      theme.colorScheme.primary,
-                      const Color(0xFF23576D)
-                    ],
-                    begin: Alignment.centerLeft,
-                    end: Alignment.centerRight,
-                  ),
+                  gradient:
+                      isDarkMode
+                          ? null
+                          : LinearGradient(
+                            colors: [
+                              theme.colorScheme.primary,
+                              theme.colorScheme.onPrimaryFixed,
+                            ],
+                            begin: Alignment.centerLeft,
+                            end: Alignment.centerRight,
+                          ),
                   borderRadius: BorderRadius.circular(12.r),
                 ),
                 padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 10.h),
@@ -71,7 +75,7 @@ class ReportSection extends StatelessWidget {
                       style: TextStyle(
                         fontSize: 12.sp,
                         fontWeight: FontWeight.w400,
-                        color: Colors.white,
+                        color: theme.colorScheme.onPrimary,
                       ),
                     ),
                     horizontalSpace(8),
@@ -79,12 +83,14 @@ class ReportSection extends StatelessWidget {
                       padding: EdgeInsets.all(4.r),
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        color: Colors.white.withValues(alpha: 0.2),
+                        color: theme.colorScheme.onPrimary.withValues(
+                          alpha: 0.2,
+                        ),
                       ),
                       child: Icon(
                         Icons.arrow_forward,
                         size: 16.r,
-                        color: Colors.white,
+                        color: theme.colorScheme.onPrimary,
                       ),
                     ),
                   ],

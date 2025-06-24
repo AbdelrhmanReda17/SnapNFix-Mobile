@@ -1,4 +1,4 @@
-export 'base_alert.dart';
+export 'base_alert_component/base_alert.dart';
 export 'base_button.dart';
 export 'base_checkbox.dart';
 export 'base_date_picker_field.dart';

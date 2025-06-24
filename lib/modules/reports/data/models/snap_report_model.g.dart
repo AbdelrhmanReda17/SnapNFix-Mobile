@@ -27,6 +27,8 @@ SnapReportModel _$SnapReportModelFromJson(Map<String, dynamic> json) =>
       category: json['category'] as String?,
       status: $enumDecodeNullable(_$ReportStatusEnumMap, json['status']) ??
           ReportStatus.pending,
+      firstName: json['firstName'] as String?,
+      lastName: json['lastName'] as String?,
     );
 
 Map<String, dynamic> _$SnapReportModelToJson(SnapReportModel instance) =>
@@ -35,6 +37,8 @@ Map<String, dynamic> _$SnapReportModelToJson(SnapReportModel instance) =>
       'issueId': instance.issueId,
       'severity': _$ReportSeverityEnumMap[instance.severity],
       'createdAt': instance.createdAt?.toIso8601String(),
+      'firstName': instance.firstName,
+      'lastName': instance.lastName,
       'comment': instance.comment,
       'latitude': instance.latitude,
       'longitude': instance.longitude,

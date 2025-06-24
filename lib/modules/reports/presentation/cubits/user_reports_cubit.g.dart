@@ -50,8 +50,8 @@ const _$ReportStatusEnumMap = {
 };
 
 const _$IssueCategoryEnumMap = {
-  IssueCategory.defectiveManhole: 'defectiveManhole',
   IssueCategory.garbage: 'garbage',
+  IssueCategory.defectiveManhole: 'defectiveManhole',
   IssueCategory.pothole: 'pothole',
 };
 

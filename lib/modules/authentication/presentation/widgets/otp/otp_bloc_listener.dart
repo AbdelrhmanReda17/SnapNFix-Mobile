@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:snapnfix/core/base_components/base_alert.dart';
+import 'package:snapnfix/core/base_components/base_alert_component/alert_type.dart';
+import 'package:snapnfix/core/base_components/base_alert_component/base_alert.dart';
 import 'package:snapnfix/modules/authentication/presentation/cubits/otp/otp_cubit.dart';
 import 'package:snapnfix/modules/authentication/presentation/mixins/authentication_listener_mixin.dart';
 import 'package:snapnfix/presentation/navigation/routes.dart';
@@ -90,7 +91,7 @@ class OtpBlocListener extends StatelessWidget with ListenerMixin {
         content: Text(
           localization.timeWarningMessageText,
           style: theme.textTheme.bodyMedium?.copyWith(
-            color: Colors.white,
+            color: colorScheme.onPrimary,
             fontWeight: FontWeight.w600,
           ),
         ),
@@ -98,7 +99,7 @@ class OtpBlocListener extends StatelessWidget with ListenerMixin {
         duration: const Duration(seconds: 5),
         action: SnackBarAction(
           label: localization.dismiss,
-          textColor: Colors.white,
+          textColor: colorScheme.onPrimary,
           onPressed: () {
             ScaffoldMessenger.of(context).hideCurrentSnackBar();
           },

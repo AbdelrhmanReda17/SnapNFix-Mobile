@@ -63,6 +63,7 @@ class StatisticsCards extends StatelessWidget {
     final screenWidth = MediaQuery.of(context).size.width;
     final iconSize = screenWidth < 350 ? 40.h : 48.h;
     final fontSize = screenWidth < 350 ? 13.sp : 14.sp;
+    final localization = AppLocalizations.of(context)!;
 
     return Center(
       child: Padding(
@@ -93,7 +94,10 @@ class StatisticsCards extends StatelessWidget {
               style: FilledButton.styleFrom(
                 padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
               ),
-              child: Text("Retry", style: TextStyle(fontSize: fontSize)),
+              child: Text(
+                localization.retry,
+                style: TextStyle(fontSize: fontSize),
+              ),
             ),
           ],
         ),
@@ -116,14 +120,13 @@ class StatisticsCards extends StatelessWidget {
     final cardStyle =
         isDarkMode
             ? CardStyle(
-              backgroundColor: const Color.fromRGBO(255, 255, 255, 0.08),
+              backgroundColor: theme.colorScheme.surfaceContainer,
               gradient: null,
             )
             : CardStyle(
               backgroundColor: null,
               gradient: LinearGradient(
-                // ignore: deprecated_member_use
-                colors: [primaryColor.withOpacity(0.7), primaryColor],
+                colors: [primaryColor.withValues(alpha: 0.7), primaryColor],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),

@@ -55,14 +55,16 @@ class LocationDisplay extends StatelessWidget {
         Icon(
           Icons.location_on_outlined,
           size: 16,
-          color: Theme.of(context).colorScheme.onSurfaceVariant,
+          color: Theme.of(context).colorScheme.tertiary.withValues(alpha: 0.5),
         ),
         horizontalSpace(4),
         Expanded(
           child: Text(
             displayText,
             style: Theme.of(context).textTheme.bodySmall?.copyWith(
-              color: Theme.of(context).colorScheme.onSurfaceVariant,
+              color: Theme.of(
+                context,
+              ).colorScheme.tertiary.withValues(alpha: 0.5),
             ),
             maxLines: 1,
             overflow: TextOverflow.ellipsis,

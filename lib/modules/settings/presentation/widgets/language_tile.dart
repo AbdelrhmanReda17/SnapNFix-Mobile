@@ -21,7 +21,7 @@ class LanguageTile extends StatelessWidget {
             localization.language,
             style: textStyles.bodyMedium?.copyWith(
               color: Theme.of(context).brightness == Brightness.dark 
-                  ? Colors.white 
+                  ? colorScheme.onPrimary 
                   : colorScheme.primary,
             ),
           ),
@@ -31,7 +31,7 @@ class LanguageTile extends StatelessWidget {
             ApplicationConstants.availableLanguages[appConfigs.language] ?? '',
             style: TextStyle(
               color: Theme.of(context).brightness == Brightness.dark 
-                  ? Colors.white 
+                  ? colorScheme.onPrimary 
                   : colorScheme.secondary.withValues(alpha: 0.5),
             ),
           ),

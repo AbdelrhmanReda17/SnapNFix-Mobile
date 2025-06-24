@@ -83,7 +83,7 @@ class _BaseTextFieldState extends State<BaseTextField> {
           Text(
             widget.labelText!,
             style: textStyles.bodyMedium?.copyWith(
-              color: colorScheme.primary.withValues(alpha: 0.5),
+              color: colorScheme.tertiary.withValues(alpha: 0.5),
               fontSize: 14.sp,
             ),
           ),
@@ -109,19 +109,25 @@ class _BaseTextFieldState extends State<BaseTextField> {
               enabledBorder: _buildBorder(
                 colorScheme.primary.withValues(alpha: 0.2),
               ),
+              disabledBorder: _buildBorder(
+                colorScheme.primary.withValues(alpha: 0.2),
+              ),
               errorBorder: _buildBorder(colorScheme.error),
               focusedErrorBorder: _buildBorder(colorScheme.error),
               hintText: widget.hintText,
               hintStyle:
                   widget.hintStyle ??
                   textStyles.bodyMedium?.copyWith(
-                    color: colorScheme.primary.withValues(alpha: 0.5),
+                    color: colorScheme.tertiary.withValues(alpha: 0.5),
                     fontSize: 16.sp,
                   ),
               suffixIcon: widget.suffixIcon,
               fillColor:
-                  widget.backgroundColor ??
-                  colorScheme.primary.withValues(alpha: 0.1),
+                  widget.enabled
+                      ? widget.backgroundColor ??
+                          colorScheme.primary.withValues(alpha: 0.1)
+                      : widget.backgroundColor ??
+                          colorScheme.surface.withValues(alpha: 0.3),
               filled: true,
               errorMaxLines: widget.maxErrorLines,
             ),
@@ -129,7 +135,7 @@ class _BaseTextFieldState extends State<BaseTextField> {
             style:
                 widget.inputTextStyle ??
                 textStyles.bodyMedium?.copyWith(
-                  color: colorScheme.primary,
+                  color: colorScheme.tertiary,
                   fontSize: 16.sp,
                 ),
             validator: widget.validator,

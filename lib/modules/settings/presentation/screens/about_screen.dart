@@ -17,6 +17,7 @@ class AboutScreen extends StatelessWidget {
     final statusBarStyle = ApplicationSystemUIOverlay.getSettingsStyle(
       colorScheme.primary,
     );
+    final isDark = colorScheme.brightness == Brightness.dark;
 
     return Scaffold(
       appBar: AppBar(
@@ -24,9 +25,9 @@ class AboutScreen extends StatelessWidget {
         systemOverlayStyle: statusBarStyle,
         title: Text(
           localization.about,
-          style: TextStyle(color: colorScheme.surface, fontSize: 18.sp),
+          style: TextStyle(color: colorScheme.onPrimary, fontSize: 20.sp),
         ),
-        iconTheme: IconThemeData(color: colorScheme.surface, size: 20.sp),
+        iconTheme: IconThemeData(color: colorScheme.onPrimary, size: 20.sp),
       ),
       body: SingleChildScrollView(
         padding: EdgeInsets.all(16.w),
@@ -50,7 +51,18 @@ class AboutScreen extends StatelessWidget {
                 if (snapshot.hasData) {
                   return Text(
                     localization.appVersion(snapshot.data!.version),
-                    style: textStyles.bodyMedium,
+                    style:
+                        isDark
+                            ? textStyles.bodyMedium!.copyWith(
+                              color: colorScheme.onPrimary.withValues(
+                                alpha: 0.5,
+                              ),
+                            )
+                            : textStyles.bodyMedium!.copyWith(
+                              color: colorScheme.onSurface.withValues(
+                                alpha: 0.5,
+                              ),
+                            ),
                   );
                 }
                 return const SizedBox.shrink();

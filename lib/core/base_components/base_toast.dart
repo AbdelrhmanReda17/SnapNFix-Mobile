@@ -11,6 +11,7 @@ class BaseToast {
     double? width,
     double? bottomMargin,
   }) {
+    final colortheme = Theme.of(context).colorScheme;
     final screenWidth = 1.sw;
     final messageWidth = width ?? 0.5.sw;
     ScaffoldMessenger.of(context).showSnackBar(
@@ -27,14 +28,14 @@ class BaseToast {
         content: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            _getIconForToastType(type),
+            _getIconForToastType(type, colortheme),
             horizontalSpace(8),
             Flexible(
               child: Text(
                 message,
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
-                style: TextStyle(fontSize: 13.sp, color: Colors.white),
+                style: TextStyle(fontSize: 13.sp, color: colortheme.onPrimary),
               ),
             ),
           ],
@@ -56,7 +57,7 @@ class BaseToast {
         return Colors.orange;
     }
   }
-  static Widget _getIconForToastType(ToastType type) {
+  static Widget _getIconForToastType(ToastType type, ColorScheme colorScheme) {
     IconData iconData;
     switch (type) {
       case ToastType.info:
@@ -72,6 +73,6 @@ class BaseToast {
         iconData = Icons.warning_amber_outlined;
         break;
     }
-    return Icon(iconData, color: Colors.white, size: 18.sp);
+    return Icon(iconData, color: colorScheme.onPrimary, size: 18.sp);
   }
 }

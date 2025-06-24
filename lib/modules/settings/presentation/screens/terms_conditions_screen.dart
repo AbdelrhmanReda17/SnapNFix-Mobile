@@ -22,9 +22,9 @@ class TermsConditionsScreen extends StatelessWidget {
         systemOverlayStyle: statusBarStyle,
         title: Text(
           localization.termsAndConditions,
-          style: TextStyle(color: colorScheme.surface, fontSize: 18.sp),
+          style: TextStyle(color: colorScheme.onPrimary, fontSize: 20.sp),
         ),
-        iconTheme: IconThemeData(color: colorScheme.surface, size: 20.sp),
+        iconTheme: IconThemeData(color: colorScheme.onPrimary, size: 20.sp),
       ),
       body: SingleChildScrollView(
         padding: EdgeInsets.all(16.w),

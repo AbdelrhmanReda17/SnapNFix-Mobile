@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:snapnfix/core/base_components/base_alert.dart';
+import 'package:snapnfix/core/base_components/base_alert_component/alert_type.dart';
+import 'package:snapnfix/core/base_components/base_alert_component/base_alert.dart';
 import 'package:snapnfix/core/dependency_injection/dependency_injection.dart';
 import 'package:snapnfix/core/infrastructure/location/location_service.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
