@@ -18,11 +18,10 @@ class AreaSubscriptionHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text(
+      children: [        Text(
           'Subscribed Areas',
           style: TextStyle(
-            fontSize: 20.sp,
+            fontSize: 18.sp,
             fontWeight: FontWeight.bold,
             color: colorScheme.onSurface,
           ),

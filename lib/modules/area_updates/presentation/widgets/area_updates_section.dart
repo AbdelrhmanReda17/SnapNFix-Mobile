@@ -80,11 +80,12 @@ class AreaUpdatesSectionContent extends StatelessWidget {
                     onSeeAll: () {
                       // TODO: Navigate to see all areas screen
                     },
-                  );
-                },
+                  );                },
               );
             },
           ),
+          // Add space below to prevent navigation bar overlap
+          SizedBox(height: 20.h),
         ],
       ),
     );
