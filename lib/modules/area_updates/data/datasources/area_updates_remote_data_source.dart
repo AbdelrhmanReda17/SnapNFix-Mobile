@@ -25,49 +25,42 @@ class AreaUpdatesRemoteDataSource extends BaseAreaUpdatesRemoteDataSource {
     try {
       // Mock implementation - replace with actual API call
       await Future.delayed(const Duration(milliseconds: 500));
-      
-      final mockAreas = [
+        final mockAreas = [
         AreaInfoModel(
-          name: 'mokattam',
-          displayName: 'Mokattam',
-          governorate: 'Cairo',
-          issuesCount: 15,
-          lastUpdated: DateTime.now(),
+          cityId: 1,
+          cityName: 'Mokattam',
+          state: 'Cairo',
+          activeIssuesCount: 15,
         ),
         AreaInfoModel(
-          name: 'nasr_city',
-          displayName: 'Nasr City',
-          governorate: 'Cairo',
-          issuesCount: 8,
-          lastUpdated: DateTime.now(),
+          cityId: 2,
+          cityName: 'Nasr City',
+          state: 'Cairo',
+          activeIssuesCount: 8,
         ),
         AreaInfoModel(
-          name: 'maadi',
-          displayName: 'Maadi',
-          governorate: 'Cairo',
-          issuesCount: 12,
-          lastUpdated: DateTime.now(),
+          cityId: 3,
+          cityName: 'Maadi',
+          state: 'Cairo',
+          activeIssuesCount: 12,
         ),
         AreaInfoModel(
-          name: 'zamalek',
-          displayName: 'Zamalek',
-          governorate: 'Cairo',
-          issuesCount: 5,
-          lastUpdated: DateTime.now(),
+          cityId: 4,
+          cityName: 'Zamalek',
+          state: 'Cairo',
+          activeIssuesCount: 5,
         ),
         AreaInfoModel(
-          name: 'mohandessin',
-          displayName: 'Mohandessin',
-          governorate: 'Giza',
-          issuesCount: 20,
-          lastUpdated: DateTime.now(),
+          cityId: 5,
+          cityName: 'Mohandessin',
+          state: 'Giza',
+          activeIssuesCount: 20,
         ),
         AreaInfoModel(
-          name: 'dokki',
-          displayName: 'Dokki',
-          governorate: 'Giza',
-          issuesCount: 7,
-          lastUpdated: DateTime.now(),
+          cityId: 6,
+          cityName: 'Dokki',
+          state: 'Giza',
+          activeIssuesCount: 7,
         ),
       ];
       
@@ -119,32 +112,28 @@ class AreaUpdatesRemoteDataSource extends BaseAreaUpdatesRemoteDataSource {
     try {
       // Mock implementation - replace with actual API call
       await Future.delayed(const Duration(milliseconds: 300));
-      
-      // Return some mock subscribed areas with full details
+        // Return some mock subscribed areas with full details
       final subscribedAreas = [
         AreaInfoModel(
-          name: 'mokattam',
-          displayName: 'Mokattam',
-          governorate: 'Cairo',
-          issuesCount: 15,
-          lastUpdated: DateTime.now(),
+          cityId: 1,
+          cityName: 'Mokattam',
+          state: 'Cairo',
+          activeIssuesCount: 15,
         ),
         AreaInfoModel(
-          name: 'nasr_city',
-          displayName: 'Nasr City',
-          governorate: 'Cairo',
-          issuesCount: 8,
-          lastUpdated: DateTime.now(),
+          cityId: 2,
+          cityName: 'Nasr City',
+          state: 'Cairo',
+          activeIssuesCount: 8,
         ),
         AreaInfoModel(
-          name: 'maadi',
-          displayName: 'Maadi',
-          governorate: 'Cairo',
-          issuesCount: 12,
-          lastUpdated: DateTime.now(),
-        ),
-      ];
+          cityId: 3,
+          cityName: 'Maadi',
+          state: 'Cairo',
+          activeIssuesCount: 12,
+        ),      ];
       
+      print('🔥 DEBUG: Mock data returning ${subscribedAreas.length} areas: ${subscribedAreas.map((a) => '${a.cityName} (${a.activeIssuesCount})').join(', ')}');
       return Result.success(subscribedAreas);
     } catch (e) {
       return Result.failure(ApiError(message: 'Failed to load subscribed areas: $e'));

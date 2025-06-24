@@ -68,7 +68,7 @@ class AreaCard extends StatelessWidget {
                           ),
                           SizedBox(width: 2.w),
                           Text(
-                            '${area.issuesCount}',
+                            '${area.activeIssuesCount}',
                             style: TextStyle(
                               fontSize: 10.sp,
                               fontWeight: FontWeight.w600,
@@ -84,9 +84,8 @@ class AreaCard extends StatelessWidget {
                 // Area name and governorate
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      area.displayName,
+                  children: [                    Text(
+                      area.cityName.isNotEmpty ? area.cityName : 'Unknown Area',
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
@@ -97,7 +96,7 @@ class AreaCard extends StatelessWidget {
                     ),
                     SizedBox(height: 2.h),
                     Text(
-                      area.governorate,
+                      area.state.isNotEmpty ? area.state : 'Unknown State',
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(

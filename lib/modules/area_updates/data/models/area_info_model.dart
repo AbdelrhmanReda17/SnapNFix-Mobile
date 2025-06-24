@@ -6,11 +6,10 @@ part 'area_info_model.g.dart';
 @JsonSerializable()
 class AreaInfoModel extends AreaInfo {
   const AreaInfoModel({
-    required super.name,
-    required super.displayName,
-    required super.governorate,
-    required super.issuesCount,
-    required super.lastUpdated,
+    required super.cityId,
+    required super.cityName,
+    required super.state,
+    required super.activeIssuesCount,
   });
 
   factory AreaInfoModel.fromJson(Map<String, dynamic> json) =>

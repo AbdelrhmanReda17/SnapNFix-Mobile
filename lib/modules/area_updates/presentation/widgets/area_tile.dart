@@ -49,7 +49,7 @@ class AreaTile extends StatelessWidget {
                 ),
                 child: Center(
                   child: Text(
-                    area.displayName[0].toUpperCase(),
+                    area.cityName[0].toUpperCase(),
                     style: TextStyle(
                       fontSize: 18.sp,
                       fontWeight: FontWeight.bold,
@@ -62,7 +62,7 @@ class AreaTile extends StatelessWidget {
               ),
               SizedBox(height: 8.h),
               Text(
-                area.displayName,
+                area.cityName,
                 textAlign: TextAlign.center,
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,

@@ -34,13 +34,13 @@ class AreasGridView extends StatelessWidget {
             builder: (context, subscriptionState) {
               final isSubscribed = context
                   .read<AreaSubscriptionCubit>()
-                  .isSubscribedToArea(area.name);
+                  .isSubscribedToArea(area.cityName);
 
               return AreaTile(
                 area: area,
                 isSubscribed: isSubscribed,
                 colorScheme: colorScheme,
-                onToggleSubscription: () => onToggleSubscription(area.name),
+                onToggleSubscription: () => onToggleSubscription(area.cityName),
               );
             },
           );

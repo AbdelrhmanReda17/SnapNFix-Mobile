@@ -48,9 +48,9 @@ class SubscribedAreasSection extends StatelessWidget {
           runSpacing: 8.h,
           children: subscribedAreas.map((area) {
             return SubscribedAreaChip(
-              areaName: area.displayName,
+              areaName: area.cityName,
               colorScheme: colorScheme,
-              onUnsubscribe: () => onUnsubscribe(area.name),
+              onUnsubscribe: () => onUnsubscribe(area.cityName),
             );
           }).toList(),
         ),

@@ -23,9 +23,8 @@ class AreaSubscriptionCubit extends HydratedCubit<AreaSubscriptionState> {
        _unsubscribeFromAreaUseCase = unsubscribeFromAreaUseCase,
        _toggleAreaSubscriptionUseCase = toggleAreaSubscriptionUseCase,
        super(const AreaSubscriptionState.initial());
-
   @override
-  String get id => 'AreaSubscriptionCubit_v2'; // Version change to clear old cache
+  String get id => 'AreaSubscriptionCubit_v3'; // Version change to clear old cache
 
   // Initialize with cached data
   void initialize() {
@@ -62,9 +61,9 @@ class AreaSubscriptionCubit extends HydratedCubit<AreaSubscriptionState> {
 
       final result = await _getSubscribedAreasUseCase.call();
 
-      if (isClosed) return;
-      result.when(
+      if (isClosed) return;      result.when(
         success: (areas) {
+          print('🔥 DEBUG: Loaded ${areas.length} areas: ${areas.map((a) => '${a.cityName} (${a.activeIssuesCount})').join(', ')}');
           emit(
             AreaSubscriptionState.loaded(
               subscribedAreas: areas,
@@ -100,7 +99,7 @@ class AreaSubscriptionCubit extends HydratedCubit<AreaSubscriptionState> {
       loaded: (subscribedAreas, isRefreshing) async {
         try {
           // Check if already subscribed
-          if (subscribedAreas.any((area) => area.name == areaName)) {
+          if (subscribedAreas.any((area) => area.cityName == areaName)) {
             return;
           }
 
@@ -160,9 +159,8 @@ class AreaSubscriptionCubit extends HydratedCubit<AreaSubscriptionState> {
 
   // Check if user is subscribed to an area
   bool isSubscribedToArea(String areaName) {
-    return state.maybeWhen(
-      loaded: (subscribedAreas, _) => subscribedAreas.any((area) => area.name == areaName),
-      error: (_, cachedAreas) => cachedAreas.any((area) => area.name == areaName),
+    return state.maybeWhen(      loaded: (subscribedAreas, _) => subscribedAreas.any((area) => area.cityName == areaName),
+      error: (_, cachedAreas) => cachedAreas.any((area) => area.cityName == areaName),
       orElse: () => false,
     );
   }
@@ -200,27 +198,20 @@ class AreaSubscriptionCubit extends HydratedCubit<AreaSubscriptionState> {
       orElse: () => [],
     );
   }
-  // Hydrated Bloc methods for persistence
-  @override
+  // Hydrated Bloc methods for persistence  @override
   AreaSubscriptionState? fromJson(Map<String, dynamic> json) {
     try {
       final subscribedAreasJson = json['subscribedAreas'] as List<dynamic>;
-      
-      // Handle backwards compatibility - check if it's old string format
       if (subscribedAreasJson.isNotEmpty && subscribedAreasJson.first is String) {
-        // Old format detected, return null to force refresh from API
         return null;
       }
-      
       final subscribedAreas = subscribedAreasJson
           .map((areaJson) {
-            if (areaJson is Map<String, dynamic>) {
-              return AreaInfo(
-                name: areaJson['name'] ?? '',
-                displayName: areaJson['displayName'] ?? '',
-                governorate: areaJson['governorate'] ?? '',
-                issuesCount: areaJson['issuesCount'] ?? 0,
-                lastUpdated: DateTime.tryParse(areaJson['lastUpdated'] ?? '') ?? DateTime.now(),
+            if (areaJson is Map<String, dynamic>) {              return AreaInfo(
+                cityId: areaJson['cityId'] ?? 0,
+                cityName: areaJson['cityName'] ?? '',
+                state: areaJson['state'] ?? '',
+                activeIssuesCount: areaJson['activeIssuesCount'] ?? 0,
               );
             }
             return null;
@@ -242,14 +233,12 @@ class AreaSubscriptionCubit extends HydratedCubit<AreaSubscriptionState> {
   @override
   Map<String, dynamic>? toJson(AreaSubscriptionState state) {
     return state.maybeWhen(
-      loaded: (subscribedAreas, _) => {
-        'subscribedAreas': subscribedAreas
+      loaded: (subscribedAreas, _) => {        'subscribedAreas': subscribedAreas
             .map((area) => {
-                  'name': area.name,
-                  'displayName': area.displayName,
-                  'governorate': area.governorate,
-                  'issuesCount': area.issuesCount,
-                  'lastUpdated': area.lastUpdated.toIso8601String(),
+                  'cityId': area.cityId,
+                  'cityName': area.cityName,
+                  'state': area.state,
+                  'activeIssuesCount': area.activeIssuesCount,
                 })
             .toList()
       },

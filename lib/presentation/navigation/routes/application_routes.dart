@@ -115,16 +115,15 @@ class ApplicationRoutes {
   static final areaIssuesChatRoute = RouteConfiguration(
     path: Routes.areaIssuesChat,
     name: 'areaIssuesChat',
-    builder:
-        (context, state) {
+    builder:        (context, state) {
           // Handle both String (legacy) and AreaInfo objects
           String areaName;
           if (state.extra is String) {
             areaName = state.extra as String;
           } else if (state.extra != null) {
-            // Assume it's an AreaInfo object and extract the name
+            // Assume it's an AreaInfo object and extract the cityName
             final dynamic areaInfo = state.extra;
-            areaName = areaInfo.name as String;
+            areaName = areaInfo.cityName as String;
           } else {
             // Fallback - this shouldn't happen in normal flow
             areaName = 'Unknown Area';
