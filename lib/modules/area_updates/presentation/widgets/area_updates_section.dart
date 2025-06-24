@@ -76,11 +76,10 @@ class AreaUpdatesSectionContent extends StatelessWidget {
                     isRefreshing: isRefreshing,
                     colorScheme: colorScheme,
                   );
-                },
-                error: (message, cachedAreas) {
+                },                error: (error, cachedAreas) {
                   if (cachedAreas.isEmpty) {
                     return _ErrorWidget(
-                      message: message,
+                      message: error.message,
                       colorScheme: colorScheme,
                     );
                   }

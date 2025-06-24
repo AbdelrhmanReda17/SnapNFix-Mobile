@@ -1,12 +1,27 @@
 import 'package:hydrated_bloc/hydrated_bloc.dart';
-import 'package:snapnfix/modules/area_updates/domain/repositories/base_area_updates_repository.dart';
+import 'package:snapnfix/modules/area_updates/domain/usecases/get_subscribed_areas_use_case.dart';
+import 'package:snapnfix/modules/area_updates/domain/usecases/subscribe_to_area_use_case.dart';
+import 'package:snapnfix/modules/area_updates/domain/usecases/unsubscribe_from_area_use_case.dart';
+import 'package:snapnfix/modules/area_updates/domain/usecases/toggle_area_subscription_use_case.dart';
+import 'package:snapnfix/core/index.dart';
 import 'area_subscription_state.dart';
 
 class AreaSubscriptionCubit extends HydratedCubit<AreaSubscriptionState> {
-  final BaseAreaUpdatesRepository _repository;
+  final GetSubscribedAreasUseCase _getSubscribedAreasUseCase;
+  final SubscribeToAreaUseCase _subscribeToAreaUseCase;
+  final UnsubscribeFromAreaUseCase _unsubscribeFromAreaUseCase;
+  final ToggleAreaSubscriptionUseCase _toggleAreaSubscriptionUseCase;
 
-  AreaSubscriptionCubit(this._repository)
-    : super(const AreaSubscriptionState.initial());
+  AreaSubscriptionCubit({
+    required GetSubscribedAreasUseCase getSubscribedAreasUseCase,
+    required SubscribeToAreaUseCase subscribeToAreaUseCase,
+    required UnsubscribeFromAreaUseCase unsubscribeFromAreaUseCase,
+    required ToggleAreaSubscriptionUseCase toggleAreaSubscriptionUseCase,
+  }) : _getSubscribedAreasUseCase = getSubscribedAreasUseCase,
+       _subscribeToAreaUseCase = subscribeToAreaUseCase,
+       _unsubscribeFromAreaUseCase = unsubscribeFromAreaUseCase,
+       _toggleAreaSubscriptionUseCase = toggleAreaSubscriptionUseCase,
+       super(const AreaSubscriptionState.initial());
 
   // Initialize with cached data
   void initialize() {
@@ -21,114 +36,145 @@ class AreaSubscriptionCubit extends HydratedCubit<AreaSubscriptionState> {
       },
     );
   }
-
   // Fetch subscribed areas from API
   Future<void> fetchSubscribedAreas({bool isRefresh = false}) async {
-    state.maybeWhen(
-      loaded: (subscribedAreas, _) {
-        if (isRefresh) {
+    try {
+      state.maybeWhen(
+        loaded: (subscribedAreas, _) {
+          if (isRefresh) {
+            emit(
+              AreaSubscriptionState.loaded(
+                subscribedAreas: subscribedAreas,
+                isRefreshing: true,
+              ),
+            );
+          }
+        },
+        orElse: () {
+          emit(const AreaSubscriptionState.loading());
+        },
+      );
+
+      final result = await _getSubscribedAreasUseCase.call();
+
+      if (isClosed) return;
+      result.when(
+        success: (areas) {
           emit(
             AreaSubscriptionState.loaded(
-              subscribedAreas: subscribedAreas,
-              isRefreshing: true,
+              subscribedAreas: areas,
+              isRefreshing: false,
             ),
           );
-        }
-      },
-      orElse: () {
-        emit(const AreaSubscriptionState.loading());
-      },
-    );
-
-    final result = await _repository.getSubscribedAreas();
-
-    result.when(
-      success: (areas) {
-        emit(
-          AreaSubscriptionState.loaded(
-            subscribedAreas: areas,
-            isRefreshing: false,
-          ),
-        );
-      },
-      failure: (error) {
-        final cachedAreas = _getCachedAreas();
-        emit(
-          AreaSubscriptionState.error(
-            message: error.message,
-            cachedAreas: cachedAreas,
-          ),
-        );
-      },
-    );
+        },        failure: (error) {
+          final cachedAreas = _getCachedAreas();
+          emit(
+            AreaSubscriptionState.error(
+              error: error,
+              cachedAreas: cachedAreas,
+            ),
+          );
+        },
+      );
+    } catch (e) {      if (isClosed) return;
+      final cachedAreas = _getCachedAreas();
+      emit(
+        AreaSubscriptionState.error(
+          error: ApiError(message: 'An unexpected error occurred'),
+          cachedAreas: cachedAreas,
+        ),
+      );
+    }
   }
-
   // Subscribe to an area
   Future<void> subscribeToArea(String areaName) async {
     await state.maybeWhen(
       loaded: (subscribedAreas, isRefreshing) async {
-        // Optimistic update
-        final updatedAreas = [...subscribedAreas, areaName];
-        emit(
-          AreaSubscriptionState.loaded(
-            subscribedAreas: updatedAreas,
-            isRefreshing: isRefreshing,
-          ),
-        );
+        try {
+          // Optimistic update
+          final updatedAreas = [...subscribedAreas, areaName];
+          emit(
+            AreaSubscriptionState.loaded(
+              subscribedAreas: updatedAreas,
+              isRefreshing: isRefreshing,
+            ),
+          );
 
-        final result = await _repository.subscribeToArea(areaName);
+          final result = await _subscribeToAreaUseCase.call(areaName);
 
-        result.when(
-          success: (_) {
-            // Keep the optimistic update
-          },
-          failure: (error) {
-            // Revert optimistic update
-            emit(
-              AreaSubscriptionState.loaded(
-                subscribedAreas: subscribedAreas,
-                isRefreshing: isRefreshing,
-              ),
-            );
-            // You might want to show a snackbar or error message here
-          },
-        );
+          if (isClosed) return;
+          result.when(
+            success: (_) {
+              // Keep the optimistic update
+            },
+            failure: (error) {
+              // Revert optimistic update
+              emit(
+                AreaSubscriptionState.loaded(
+                  subscribedAreas: subscribedAreas,
+                  isRefreshing: isRefreshing,
+                ),
+              );
+              // You might want to show a snackbar or error message here
+            },
+          );
+        } catch (e) {
+          if (isClosed) return;
+          // Revert optimistic update on error
+          emit(
+            AreaSubscriptionState.loaded(
+              subscribedAreas: subscribedAreas,
+              isRefreshing: isRefreshing,
+            ),
+          );
+        }
       },
       orElse: () async {},
     );
   }
-
   // Unsubscribe from an area
   Future<void> unsubscribeFromArea(String areaName) async {
     await state.maybeWhen(
       loaded: (subscribedAreas, isRefreshing) async {
-        // Optimistic update
-        final updatedAreas =
-            subscribedAreas.where((area) => area != areaName).toList();
-        emit(
-          AreaSubscriptionState.loaded(
-            subscribedAreas: updatedAreas,
-            isRefreshing: isRefreshing,
-          ),
-        );
+        try {
+          // Optimistic update
+          final updatedAreas =
+              subscribedAreas.where((area) => area != areaName).toList();
+          emit(
+            AreaSubscriptionState.loaded(
+              subscribedAreas: updatedAreas,
+              isRefreshing: isRefreshing,
+            ),
+          );
 
-        final result = await _repository.unsubscribeFromArea(areaName);
+          final result = await _unsubscribeFromAreaUseCase.call(areaName);
 
-        result.when(
-          success: (_) {
-            // Keep the optimistic update
-          },
-          failure: (error) {
-            // Revert optimistic update
-            emit(
-              AreaSubscriptionState.loaded(
-                subscribedAreas: subscribedAreas,
-                isRefreshing: isRefreshing,
-              ),
-            );
-            // You might want to show a snackbar or error message here
-          },
-        );
+          if (isClosed) return;
+          result.when(
+            success: (_) {
+              // Keep the optimistic update
+            },
+            failure: (error) {
+              // Revert optimistic update
+              emit(
+                AreaSubscriptionState.loaded(
+                  subscribedAreas: subscribedAreas,
+                  isRefreshing: isRefreshing,
+                ),
+              );
+              // You might want to show a snackbar or error message here
+            },
+          );
+        } catch (e) {
+          if (isClosed) return;
+          // Revert optimistic update on error
+          emit(
+            AreaSubscriptionState.loaded(
+              subscribedAreas: subscribedAreas,
+              isRefreshing: isRefreshing,
+            ),
+          );
+        }
       },
       orElse: () async {},
     );

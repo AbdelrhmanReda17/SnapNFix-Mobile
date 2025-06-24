@@ -22,7 +22,7 @@ mixin _$AreaSubscriptionState {
     required TResult Function() loading,
     required TResult Function(List<String> subscribedAreas, bool isRefreshing)
         loaded,
-    required TResult Function(String message, List<String> cachedAreas) error,
+    required TResult Function(ApiError error, List<String> cachedAreas) error,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -30,7 +30,7 @@ mixin _$AreaSubscriptionState {
     TResult? Function()? initial,
     TResult? Function()? loading,
     TResult? Function(List<String> subscribedAreas, bool isRefreshing)? loaded,
-    TResult? Function(String message, List<String> cachedAreas)? error,
+    TResult? Function(ApiError error, List<String> cachedAreas)? error,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -38,7 +38,7 @@ mixin _$AreaSubscriptionState {
     TResult Function()? initial,
     TResult Function()? loading,
     TResult Function(List<String> subscribedAreas, bool isRefreshing)? loaded,
-    TResult Function(String message, List<String> cachedAreas)? error,
+    TResult Function(ApiError error, List<String> cachedAreas)? error,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -136,7 +136,7 @@ class _$InitialImpl implements _Initial {
     required TResult Function() loading,
     required TResult Function(List<String> subscribedAreas, bool isRefreshing)
         loaded,
-    required TResult Function(String message, List<String> cachedAreas) error,
+    required TResult Function(ApiError error, List<String> cachedAreas) error,
   }) {
     return initial();
   }
@@ -147,7 +147,7 @@ class _$InitialImpl implements _Initial {
     TResult? Function()? initial,
     TResult? Function()? loading,
     TResult? Function(List<String> subscribedAreas, bool isRefreshing)? loaded,
-    TResult? Function(String message, List<String> cachedAreas)? error,
+    TResult? Function(ApiError error, List<String> cachedAreas)? error,
   }) {
     return initial?.call();
   }
@@ -158,7 +158,7 @@ class _$InitialImpl implements _Initial {
     TResult Function()? initial,
     TResult Function()? loading,
     TResult Function(List<String> subscribedAreas, bool isRefreshing)? loaded,
-    TResult Function(String message, List<String> cachedAreas)? error,
+    TResult Function(ApiError error, List<String> cachedAreas)? error,
     required TResult orElse(),
   }) {
     if (initial != null) {
@@ -254,7 +254,7 @@ class _$LoadingImpl implements _Loading {
     required TResult Function() loading,
     required TResult Function(List<String> subscribedAreas, bool isRefreshing)
         loaded,
-    required TResult Function(String message, List<String> cachedAreas) error,
+    required TResult Function(ApiError error, List<String> cachedAreas) error,
   }) {
     return loading();
   }
@@ -265,7 +265,7 @@ class _$LoadingImpl implements _Loading {
     TResult? Function()? initial,
     TResult? Function()? loading,
     TResult? Function(List<String> subscribedAreas, bool isRefreshing)? loaded,
-    TResult? Function(String message, List<String> cachedAreas)? error,
+    TResult? Function(ApiError error, List<String> cachedAreas)? error,
   }) {
     return loading?.call();
   }
@@ -276,7 +276,7 @@ class _$LoadingImpl implements _Loading {
     TResult Function()? initial,
     TResult Function()? loading,
     TResult Function(List<String> subscribedAreas, bool isRefreshing)? loaded,
-    TResult Function(String message, List<String> cachedAreas)? error,
+    TResult Function(ApiError error, List<String> cachedAreas)? error,
     required TResult orElse(),
   }) {
     if (loading != null) {
@@ -419,7 +419,7 @@ class _$LoadedImpl implements _Loaded {
     required TResult Function() loading,
     required TResult Function(List<String> subscribedAreas, bool isRefreshing)
         loaded,
-    required TResult Function(String message, List<String> cachedAreas) error,
+    required TResult Function(ApiError error, List<String> cachedAreas) error,
   }) {
     return loaded(subscribedAreas, isRefreshing);
   }
@@ -430,7 +430,7 @@ class _$LoadedImpl implements _Loaded {
     TResult? Function()? initial,
     TResult? Function()? loading,
     TResult? Function(List<String> subscribedAreas, bool isRefreshing)? loaded,
-    TResult? Function(String message, List<String> cachedAreas)? error,
+    TResult? Function(ApiError error, List<String> cachedAreas)? error,
   }) {
     return loaded?.call(subscribedAreas, isRefreshing);
   }
@@ -441,7 +441,7 @@ class _$LoadedImpl implements _Loaded {
     TResult Function()? initial,
     TResult Function()? loading,
     TResult Function(List<String> subscribedAreas, bool isRefreshing)? loaded,
-    TResult Function(String message, List<String> cachedAreas)? error,
+    TResult Function(ApiError error, List<String> cachedAreas)? error,
     required TResult orElse(),
   }) {
     if (loaded != null) {
@@ -509,7 +509,7 @@ abstract class _$$ErrorImplCopyWith<$Res> {
           _$ErrorImpl value, $Res Function(_$ErrorImpl) then) =
       __$$ErrorImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({String message, List<String> cachedAreas});
+  $Res call({ApiError error, List<String> cachedAreas});
 }
 
 /// @nodoc
@@ -525,14 +525,14 @@ class __$$ErrorImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? message = null,
+    Object? error = null,
     Object? cachedAreas = null,
   }) {
     return _then(_$ErrorImpl(
-      message: null == message
-          ? _value.message
-          : message // ignore: cast_nullable_to_non_nullable
-              as String,
+      error: null == error
+          ? _value.error
+          : error // ignore: cast_nullable_to_non_nullable
+              as ApiError,
       cachedAreas: null == cachedAreas
           ? _value._cachedAreas
           : cachedAreas // ignore: cast_nullable_to_non_nullable
@@ -545,11 +545,11 @@ class __$$ErrorImplCopyWithImpl<$Res>
 
 class _$ErrorImpl implements _Error {
   const _$ErrorImpl(
-      {required this.message, required final List<String> cachedAreas})
+      {required this.error, required final List<String> cachedAreas})
       : _cachedAreas = cachedAreas;
 
   @override
-  final String message;
+  final ApiError error;
   final List<String> _cachedAreas;
   @override
   List<String> get cachedAreas {
@@ -560,7 +560,7 @@ class _$ErrorImpl implements _Error {
 
   @override
   String toString() {
-    return 'AreaSubscriptionState.error(message: $message, cachedAreas: $cachedAreas)';
+    return 'AreaSubscriptionState.error(error: $error, cachedAreas: $cachedAreas)';
   }
 
   @override
@@ -568,14 +568,14 @@ class _$ErrorImpl implements _Error {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ErrorImpl &&
-            (identical(other.message, message) || other.message == message) &&
+            (identical(other.error, error) || other.error == error) &&
             const DeepCollectionEquality()
                 .equals(other._cachedAreas, _cachedAreas));
   }
 
   @override
   int get hashCode => Object.hash(
-      runtimeType, message, const DeepCollectionEquality().hash(_cachedAreas));
+      runtimeType, error, const DeepCollectionEquality().hash(_cachedAreas));
 
   /// Create a copy of AreaSubscriptionState
   /// with the given fields replaced by the non-null parameter values.
@@ -592,9 +592,9 @@ class _$ErrorImpl implements _Error {
     required TResult Function() loading,
     required TResult Function(List<String> subscribedAreas, bool isRefreshing)
         loaded,
-    required TResult Function(String message, List<String> cachedAreas) error,
+    required TResult Function(ApiError error, List<String> cachedAreas) error,
   }) {
-    return error(message, cachedAreas);
+    return error(this.error, cachedAreas);
   }
 
   @override
@@ -603,9 +603,9 @@ class _$ErrorImpl implements _Error {
     TResult? Function()? initial,
     TResult? Function()? loading,
     TResult? Function(List<String> subscribedAreas, bool isRefreshing)? loaded,
-    TResult? Function(String message, List<String> cachedAreas)? error,
+    TResult? Function(ApiError error, List<String> cachedAreas)? error,
   }) {
-    return error?.call(message, cachedAreas);
+    return error?.call(this.error, cachedAreas);
   }
 
   @override
@@ -614,11 +614,11 @@ class _$ErrorImpl implements _Error {
     TResult Function()? initial,
     TResult Function()? loading,
     TResult Function(List<String> subscribedAreas, bool isRefreshing)? loaded,
-    TResult Function(String message, List<String> cachedAreas)? error,
+    TResult Function(ApiError error, List<String> cachedAreas)? error,
     required TResult orElse(),
   }) {
     if (error != null) {
-      return error(message, cachedAreas);
+      return error(this.error, cachedAreas);
     }
     return orElse();
   }
@@ -663,10 +663,10 @@ class _$ErrorImpl implements _Error {
 
 abstract class _Error implements AreaSubscriptionState {
   const factory _Error(
-      {required final String message,
+      {required final ApiError error,
       required final List<String> cachedAreas}) = _$ErrorImpl;
 
-  String get message;
+  ApiError get error;
   List<String> get cachedAreas;
 
   /// Create a copy of AreaSubscriptionState

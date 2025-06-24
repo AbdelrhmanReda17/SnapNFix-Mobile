@@ -2,7 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:snapnfix/core/dependency_injection/dependency_injection.dart';
-import 'package:snapnfix/modules/area_updates/domain/repositories/base_area_updates_repository.dart';
+import 'package:snapnfix/modules/area_updates/domain/entities/area_info.dart';
+import 'package:snapnfix/modules/area_updates/domain/usecases/get_all_areas_use_case.dart';
+import 'package:snapnfix/modules/area_updates/domain/usecases/get_subscribed_areas_use_case.dart';
+import 'package:snapnfix/modules/area_updates/domain/usecases/subscribe_to_area_use_case.dart';
+import 'package:snapnfix/modules/area_updates/domain/usecases/unsubscribe_from_area_use_case.dart';
+import 'package:snapnfix/modules/area_updates/domain/usecases/toggle_area_subscription_use_case.dart';
 import 'package:snapnfix/modules/area_updates/presentation/cubits/all_areas_cubit.dart';
 import 'package:snapnfix/modules/area_updates/presentation/cubits/all_areas_state.dart';
 import 'package:snapnfix/modules/area_updates/presentation/cubits/area_subscription_cubit.dart';
@@ -13,19 +18,19 @@ class AreaSubscriptionsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
+    return MultiBlocProvider(      providers: [
         BlocProvider(
-          create:
-              (context) =>
-                  AreaSubscriptionCubit(getIt<BaseAreaUpdatesRepository>())
-                    ..initialize(),
+          create: (context) => AreaSubscriptionCubit(
+            getSubscribedAreasUseCase: getIt<GetSubscribedAreasUseCase>(),
+            subscribeToAreaUseCase: getIt<SubscribeToAreaUseCase>(),
+            unsubscribeFromAreaUseCase: getIt<UnsubscribeFromAreaUseCase>(),
+            toggleAreaSubscriptionUseCase: getIt<ToggleAreaSubscriptionUseCase>(),
+          )..initialize(),
         ),
         BlocProvider(
-          create:
-              (context) =>
-                  AllAreasCubit(getIt<BaseAreaUpdatesRepository>())
-                    ..fetchAllAreas(),
+          create: (context) => AllAreasCubit(
+            getAllAreasUseCase: getIt<GetAllAreasUseCase>(),
+          )..fetchAllAreas(),
         ),
       ],
       child: const AreaSubscriptionsView(),
@@ -87,9 +92,8 @@ class AreaSubscriptionsView extends StatelessWidget {
                             return _SubscribedAreasSection(
                               subscribedAreas: subscribedAreas,
                               colorScheme: colorScheme,
-                            );
-                          },
-                          error: (message, cachedAreas) {
+                            );                          },
+                          error: (error, cachedAreas) {
                             if (cachedAreas.isEmpty) {
                               return const SizedBox.shrink();
                             }
@@ -138,11 +142,10 @@ class AreaSubscriptionsView extends StatelessWidget {
                         (areas) => _AreasGridView(
                           areas: areas,
                           colorScheme: colorScheme,
-                        ),
-                    error:
-                        (message) => SliverToBoxAdapter(
+                        ),                    error:
+                        (error) => SliverToBoxAdapter(
                           child: _ErrorWidget(
-                            message: message,
+                            message: error.message,
                             colorScheme: colorScheme,
                             onRetry:
                                 () =>
@@ -276,7 +279,7 @@ class _SubscribedAreaChip extends StatelessWidget {
 
 // Areas Grid View
 class _AreasGridView extends StatelessWidget {
-  final List<dynamic> areas; // Replace with your AreaInfo model
+  final List<AreaInfo> areas;
   final ColorScheme colorScheme;
 
   const _AreasGridView({required this.areas, required this.colorScheme});
@@ -293,10 +296,9 @@ class _AreasGridView extends StatelessWidget {
       delegate: SliverChildBuilderDelegate((context, index) {
         final area = areas[index];
         return BlocBuilder<AreaSubscriptionCubit, AreaSubscriptionState>(
-          builder: (context, subscriptionState) {
-            final isSubscribed = context
+          builder: (context, subscriptionState) {            final isSubscribed = context
                 .read<AreaSubscriptionCubit>()
-                .isSubscribedToArea(area.name); // Adjust based on your model
+                .isSubscribedToArea(area.name);
 
             return _AreaTile(
               area: area,
@@ -317,7 +319,7 @@ class _AreasGridView extends StatelessWidget {
 
 // Individual Area Tile
 class _AreaTile extends StatelessWidget {
-  final dynamic area; // Replace with your AreaInfo model
+  final AreaInfo area;
   final bool isSubscribed;
   final ColorScheme colorScheme;
   final VoidCallback onToggleSubscription;
@@ -363,9 +365,8 @@ class _AreaTile extends StatelessWidget {
                       isSubscribed ? colorScheme.primary : colorScheme.outline,
                   shape: BoxShape.circle,
                 ),
-                child: Center(
-                  child: Text(
-                    area.name[0].toUpperCase(), // Adjust based on your model
+                child: Center(                  child: Text(
+                    area.displayName[0].toUpperCase(),
                     style: TextStyle(
                       fontSize: 18.sp,
                       fontWeight: FontWeight.bold,
@@ -377,9 +378,8 @@ class _AreaTile extends StatelessWidget {
                   ),
                 ),
               ),
-              SizedBox(height: 8.h),
-              Text(
-                area.name, // Adjust based on your model
+              SizedBox(height: 8.h),              Text(
+                area.displayName,
                 textAlign: TextAlign.center,
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,

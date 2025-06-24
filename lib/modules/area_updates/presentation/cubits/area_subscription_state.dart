@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:snapnfix/core/index.dart';
 
 part 'area_subscription_state.freezed.dart';
 
@@ -14,7 +15,7 @@ class AreaSubscriptionState with _$AreaSubscriptionState {
   }) = _Loaded;
 
   const factory AreaSubscriptionState.error({
-    required String message,
+    required ApiError error,
     required List<String> cachedAreas,
   }) = _Error;
 }
