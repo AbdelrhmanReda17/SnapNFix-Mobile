@@ -55,11 +55,7 @@ class AreaIssuesChatScreen extends StatelessWidget {
               avgResolutionTime,
               trend,
             ),
-
-            // Area header with subscription and filter buttons
             const AreaIssuesHeader(),
-
-            // Issue list with pull-to-refresh
             const Expanded(child: AreaIssuesList()),
           ],
         ),
@@ -67,7 +63,6 @@ class AreaIssuesChatScreen extends StatelessWidget {
     );
   }
 
-  // Build health card widget
   Widget _buildAreaHealthCard(
     BuildContext context,
     AppLocalizations localization,

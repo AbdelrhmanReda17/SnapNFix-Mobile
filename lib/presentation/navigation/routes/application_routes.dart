@@ -24,7 +24,7 @@ import 'package:snapnfix/presentation/cubits/area_issues_cubit.dart';
 import 'package:snapnfix/presentation/navigation/configuration/route_configuration.dart';
 import 'package:snapnfix/presentation/navigation/routes.dart';
 import 'package:snapnfix/presentation/screens/home_screen.dart';
-import 'package:snapnfix/presentation/screens/area_issues_chat_screen.dart';
+import 'package:snapnfix/modules/area_updates/presentation/screens/area_issues_chat_screen.dart';
 
 class ApplicationRoutes {
   static final homeRoute = RouteConfiguration(
