@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:snapnfix/core/dependency_injection/dependency_injection.dart';
+import 'package:snapnfix/modules/area_updates/presentation/cubits/paginated_areas_cubit.dart';
 import '../widgets/home_header.dart';
 import '../../modules/reports/presentation/widgets/reports_statistics/reports_statistics.dart';
 import '../widgets/report_section.dart';
-import '../../modules/area_updates/presentation/widgets/area_updates_section.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:snapnfix/modules/area_updates/presentation/widgets/home_subscribed_areas_section.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -19,7 +22,11 @@ class HomeScreen extends StatelessWidget {
             SizedBox(height: 4.h),
             const ReportSection(),
             SizedBox(height: 8.h),
-            const AreaUpdatesSection(),
+            BlocProvider(
+              create: (context) => getIt<PaginatedAreasCubit>(),
+              child: HomeSubscribedAreasSection(),
+            ),
+            SizedBox(height: 8.h),
           ],
         ),
       ],

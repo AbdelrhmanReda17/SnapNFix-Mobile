@@ -51,7 +51,7 @@ class SeeAllCard extends StatelessWidget {
                 ),
                 SizedBox(height: 8.h),
                 Text(
-                  'See All',
+                  'View All',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 11.sp,

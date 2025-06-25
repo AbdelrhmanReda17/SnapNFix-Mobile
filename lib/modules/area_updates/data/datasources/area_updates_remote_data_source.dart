@@ -1,9 +1,11 @@
 import 'dart:async';
+import 'package:flutter/material.dart';
 import 'package:snapnfix/index.dart';
-
+import 'package:snapnfix/modules/area_updates/data/models/get_all_areas_query.dart';
+import 'package:snapnfix/modules/area_updates/data/models/get_all_subscribed_areas_query.dart';
 
 abstract class BaseAreaUpdatesRemoteDataSource {
-  Future<Result<List<IssueModel>, ApiError>> getAreaIssues(
+  Future<Result<MapEntry<List<IssueModel>, bool>, ApiError>> getAreaIssues(
     String areaName, {
     int page = 1,
     int limit = 20,
@@ -11,60 +13,64 @@ abstract class BaseAreaUpdatesRemoteDataSource {
   Future<Result<AreaHealthMetricsModel, ApiError>> getAreaHealth(
     String areaName,
   );
-  Future<Result<List<AreaInfoModel>, ApiError>> getAllAreas();
-  Future<Result<List<AreaInfoModel>, ApiError>> getSubscribedAreas();
-  Future<Result<void, ApiError>> subscribeToArea(String areaName);
-  Future<Result<void, ApiError>> unsubscribeFromArea(String areaName);
+  Future<Result<MapEntry<List<AreaInfoModel>, bool>, ApiError>> getAllAreas({
+    int page = 1,
+    int limit = 10,
+    String? searchTerm,
+  });
+  Future<Result<MapEntry<List<AreaInfoModel>, bool>, ApiError>>
+  getSubscribedAreas({int page = 1, int limit = 10, String? searchTerm});
+  Future<Result<void, ApiError>> subscribeToArea(String cityId);
+  Future<Result<void, ApiError>> unsubscribeFromArea(String cityId);
 }
 
 class AreaUpdatesRemoteDataSource extends BaseAreaUpdatesRemoteDataSource {
   final ApiService _apiService;
   AreaUpdatesRemoteDataSource(this._apiService);
-  @override
-  Future<Result<List<AreaInfoModel>, ApiError>> getAllAreas() async {
+
+  Future<Result<T, ApiError>> _handleApiCall<T>({
+    required Future<ApiResponse<T>> Function() apiCall,
+  }) async {
     try {
-      // Mock implementation - replace with actual API call
-      await Future.delayed(const Duration(milliseconds: 500));
-        final mockAreas = [
-        AreaInfoModel(
-          cityId: 1,
-          cityName: 'Mokattam',
-          state: 'Cairo',
-          activeIssuesCount: 15,
-        ),
-        AreaInfoModel(
-          cityId: 2,
-          cityName: 'Nasr City',
-          state: 'Cairo',
-          activeIssuesCount: 8,
-        ),
-        AreaInfoModel(
-          cityId: 3,
-          cityName: 'Maadi',
-          state: 'Cairo',
-          activeIssuesCount: 12,
-        ),
-        AreaInfoModel(
-          cityId: 4,
-          cityName: 'Zamalek',
-          state: 'Cairo',
-          activeIssuesCount: 5,
-        ),
-        AreaInfoModel(
-          cityId: 5,
-          cityName: 'Mohandessin',
-          state: 'Giza',
-          activeIssuesCount: 20,
-        ),
-        AreaInfoModel(
-          cityId: 6,
-          cityName: 'Dokki',
-          state: 'Giza',
-          activeIssuesCount: 7,
-        ),
-      ];
-      
-      return Result.success(mockAreas);
+      final response = await apiCall();
+      return Result.success(response.data as T);
+    } catch (error) {
+      ApiError apiError;
+      if (error is Map<String, dynamic>) {
+        apiError = ApiError.fromJson(error);
+      } else {
+        apiError = ApiError(message: error.toString());
+      }
+      return Result.failure(apiError);
+    }
+  }
+
+  @override
+  Future<Result<MapEntry<List<AreaInfoModel>, bool>, ApiError>> getAllAreas({
+    int page = 1,
+    int limit = 10,
+    String? searchTerm,
+  }) async {
+    try {
+      final response = await _handleApiCall<PaginatedResponse<AreaInfoModel>>(
+        apiCall:
+            () => _apiService.getAllAreas(
+              GetAllAreasQuery(
+                searchTerm: searchTerm,
+                page: page,
+                limit: limit,
+              ),
+            ),
+      );
+      return response
+          .when<Result<MapEntry<List<AreaInfoModel>, bool>, ApiError>>(
+            success: (data) {
+              return Result.success(MapEntry(data.items, data.hasNextPage));
+            },
+            failure: (error) {
+              return Result.failure(error);
+            },
+          );
     } catch (e) {
       return Result.failure(ApiError(message: 'Failed to load areas: $e'));
     }
@@ -77,92 +83,131 @@ class AreaUpdatesRemoteDataSource extends BaseAreaUpdatesRemoteDataSource {
     try {
       // Mock implementation - replace with actual API call
       await Future.delayed(const Duration(milliseconds: 300));
-        final mockHealth = AreaHealthMetricsModel(
+      final mockHealth = AreaHealthMetricsModel(
         totalIssues: 15,
         openIssues: 5,
         closedIssues: 10,
         resolvedIssues: 10,
         areaHealthScore: 0.75,
       );
-      
+
       return Result.success(mockHealth);
     } catch (e) {
-      return Result.failure(ApiError(message: 'Failed to load area health: $e'));
+      return Result.failure(
+        ApiError(message: 'Failed to load area health: $e'),
+      );
     }
   }
 
   @override
-  Future<Result<List<IssueModel>, ApiError>> getAreaIssues(
+  Future<Result<MapEntry<List<IssueModel>, bool>, ApiError>> getAreaIssues(
     String areaName, {
     int page = 1,
     int limit = 20,
   }) async {
     try {
-      // Mock implementation - replace with actual API call
-      await Future.delayed(const Duration(milliseconds: 400));
-      
-      // Return empty list for now - you can add mock issues if needed
-      return Result.success(<IssueModel>[]);
+      final response = await _handleApiCall<PaginatedResponse<IssueModel>>(
+        apiCall:
+            () => _apiService.getAreaIssues(
+              areaName,
+              query: {'page': page, 'limit': limit},
+            ),
+      );
+      return response.when<Result<MapEntry<List<IssueModel>, bool>, ApiError>>(
+        success: (data) {
+          return Result.success(MapEntry(data.items, data.hasNextPage));
+        },
+        failure: (error) {
+          return Result.failure(error);
+        },
+      );
     } catch (e) {
-      return Result.failure(ApiError(message: 'Failed to load area issues: $e'));
-    }
-  }
-  @override
-  Future<Result<List<AreaInfoModel>, ApiError>> getSubscribedAreas() async {
-    try {
-      // Mock implementation - replace with actual API call
-      await Future.delayed(const Duration(milliseconds: 300));
-        // Return some mock subscribed areas with full details
-      final subscribedAreas = [
-        AreaInfoModel(
-          cityId: 1,
-          cityName: 'Mokattam',
-          state: 'Cairo',
-          activeIssuesCount: 15,
-        ),
-        AreaInfoModel(
-          cityId: 2,
-          cityName: 'Nasr City',
-          state: 'Cairo',
-          activeIssuesCount: 8,
-        ),
-        AreaInfoModel(
-          cityId: 3,
-          cityName: 'Maadi',
-          state: 'Cairo',
-          activeIssuesCount: 12,
-        ),      ];
-      
-      print('🔥 DEBUG: Mock data returning ${subscribedAreas.length} areas: ${subscribedAreas.map((a) => '${a.cityName} (${a.activeIssuesCount})').join(', ')}');
-      return Result.success(subscribedAreas);
-    } catch (e) {
-      return Result.failure(ApiError(message: 'Failed to load subscribed areas: $e'));
+      return Result.failure(
+        ApiError(message: 'Failed to load area issues: $e'),
+      );
     }
   }
 
   @override
-  Future<Result<void, ApiError>> subscribeToArea(String areaName) async {
+  Future<Result<void, ApiError>> subscribeToArea(String cityId) async {
     try {
-      // Mock implementation - replace with actual API call
-      await Future.delayed(const Duration(milliseconds: 200));
-      
-      // Simulate successful subscription
-      return Result.success(null);
+      final response = await _handleApiCall<bool>(
+        apiCall: () => _apiService.subscribeToArea({'cityId': cityId}),
+      );
+      return response.when<Result<void, ApiError>>(
+        success: (data) {
+          if (data) {
+            return Result.success(null);
+          } else {
+            return Result.failure(ApiError(message: 'Subscription failed'));
+          }
+        },
+        failure: (error) {
+          return Result.failure(error);
+        },
+      );
     } catch (e) {
-      return Result.failure(ApiError(message: 'Failed to subscribe to area: $e'));
+      return Result.failure(
+        ApiError(message: 'Failed to subscribe to area: $e'),
+      );
     }
   }
 
   @override
-  Future<Result<void, ApiError>> unsubscribeFromArea(String areaName) async {
+  Future<Result<void, ApiError>> unsubscribeFromArea(String cityId) async {
     try {
-      // Mock implementation - replace with actual API call
-      await Future.delayed(const Duration(milliseconds: 200));
-      
-      // Simulate successful unsubscription
-      return Result.success(null);
+      final response = await _handleApiCall<bool>(
+        apiCall: () => _apiService.unsubscribeFromArea(cityId),
+      );
+      return response.when<Result<void, ApiError>>(
+        success: (data) {
+          if (data) {
+            return Result.success(null);
+          } else {
+            return Result.failure(ApiError(message: 'Unsubscription failed'));
+          }
+        },
+        failure: (error) {
+          return Result.failure(error);
+        },
+      );
     } catch (e) {
-      return Result.failure(ApiError(message: 'Failed to unsubscribe from area: $e'));
+      return Result.failure(
+        ApiError(message: 'Failed to unsubscribe from area: $e'),
+      );
+    }
+  }
+
+  @override
+  Future<Result<MapEntry<List<AreaInfoModel>, bool>, ApiError>>
+  getSubscribedAreas({int page = 1, int limit = 10, String? searchTerm}) {
+    try {
+      return _handleApiCall<PaginatedResponse<AreaInfoModel>>(
+        apiCall:
+            () => _apiService.getAllSubscribedAreas(
+              GetAllSubscribedAreasQuery(
+                searchTerm: searchTerm,
+                page: page,
+                limit: limit,
+              ),
+            ),
+      ).then((response) {
+        return response
+            .when<Result<MapEntry<List<AreaInfoModel>, bool>, ApiError>>(
+              success: (data) {
+                return Result.success(MapEntry(data.items, data.hasNextPage));
+              },
+              failure: (error) {
+                return Result.failure(error);
+              },
+            );
+      });
+    } catch (e) {
+      return Future.value(
+        Result.failure(
+          ApiError(message: 'Failed to load subscribed areas: $e'),
+        ),
+      );
     }
   }
 }

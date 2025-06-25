@@ -40,10 +40,8 @@ import '../../modules/area_updates/domain/usecases/toggle_area_subscription_use_
     as _i733;
 import '../../modules/area_updates/domain/usecases/unsubscribe_from_area_use_case.dart'
     as _i831;
-import '../../modules/area_updates/presentation/cubits/all_areas_cubit.dart'
-    as _i141;
-import '../../modules/area_updates/presentation/cubits/area_subscription_cubit.dart'
-    as _i820;
+import '../../modules/area_updates/presentation/cubits/paginated_areas_cubit.dart'
+    as _i505;
 import '../../modules/authentication/data/datasources/authentication_remote_data_source.dart'
     as _i771;
 import '../../modules/authentication/di/authentication_data_module.dart'
@@ -215,9 +213,9 @@ extension GetItInjectableX on _i174.GetIt {
     final areaUpdatesUseCaseModule = _$AreaUpdatesUseCaseModule();
     final settingsPresentationModule = _$SettingsPresentationModule();
     final authenticationUseCaseModule = _$AuthenticationUseCaseModule();
-    final areaUpdatesPresentationModule = _$AreaUpdatesPresentationModule();
     final authenticationPresentationModule =
         _$AuthenticationPresentationModule();
+    final areaUpdatesPresentationModule = _$AreaUpdatesPresentationModule();
     gh.singleton<_i1041.ConnectivityService>(
         () => _i1041.ConnectivityService());
     gh.singleton<_i636.LocationService>(() => _i636.LocationService());
@@ -391,22 +389,20 @@ extension GetItInjectableX on _i174.GetIt {
         .provideLogoutUseCase(gh<_i668.BaseAuthenticationRepository>()));
     gh.factory<_i977.UserReportsCubit>(() => reportsPresentationModule
         .provideReportReviewCubit(gh<_i412.GetUserReportsUseCase>()));
-    gh.factory<_i820.AreaSubscriptionCubit>(
-        () => areaUpdatesPresentationModule.provideAreaSubscriptionCubit(
-              gh<_i317.GetSubscribedAreasUseCase>(),
-              gh<_i370.SubscribeToAreaUseCase>(),
-              gh<_i831.UnsubscribeFromAreaUseCase>(),
-              gh<_i733.ToggleAreaSubscriptionUseCase>(),
-            ));
     gh.factory<_i862.LoginCubit>(
         () => authenticationPresentationModule.provideLoginCubit(
               gh<_i243.LoginUseCase>(),
               gh<_i958.SocialSignInUseCase>(),
             ));
-    gh.factory<_i141.AllAreasCubit>(() => areaUpdatesPresentationModule
-        .provideAllAreasCubit(gh<_i805.GetAllAreasUseCase>()));
     gh.factory<_i1033.ResetPasswordCubit>(() => authenticationPresentationModule
         .provideResendOtpCubit(gh<_i956.ResetPasswordUseCase>()));
+    gh.factory<_i505.PaginatedAreasCubit>(
+        () => areaUpdatesPresentationModule.providePaginatedAreasCubit(
+              gh<_i805.GetAllAreasUseCase>(),
+              gh<_i317.GetSubscribedAreasUseCase>(),
+              gh<_i370.SubscribeToAreaUseCase>(),
+              gh<_i831.UnsubscribeFromAreaUseCase>(),
+            ));
     gh.factory<_i303.ReportStatisticsCubit>(() =>
         _i303.ReportStatisticsCubit(gh<_i36.GetReportStatisticsUseCase>()));
     gh.factory<_i12.CompleteProfileCubit>(() => authenticationPresentationModule
@@ -471,8 +467,8 @@ class _$SettingsPresentationModule extends _i247.SettingsPresentationModule {}
 
 class _$AuthenticationUseCaseModule extends _i796.AuthenticationUseCaseModule {}
 
-class _$AreaUpdatesPresentationModule
-    extends _i962.AreaUpdatesPresentationModule {}
-
 class _$AuthenticationPresentationModule
     extends _i632.AuthenticationPresentationModule {}
+
+class _$AreaUpdatesPresentationModule
+    extends _i962.AreaUpdatesPresentationModule {}

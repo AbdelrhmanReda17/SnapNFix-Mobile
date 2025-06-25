@@ -26,7 +26,8 @@ class GetAreaDetailsUseCase {
         _repository.getAreaIssues(areaName, page: page, limit: limit),
         _repository.getAreaHealth(areaName),
         _repository.getSubscribedAreas(),
-      ]);      final issuesResult = results[0] as Result<List<Issue>, ApiError>;
+      ]);      
+      final issuesResult = results[0] as Result<List<Issue>, ApiError>;
       final healthResult = results[1] as Result<AreaHealthMetrics, ApiError>;
       final subscriptionsResult = results[2] as Result<List<AreaInfo>, ApiError>;
       final issues = issuesResult.when(
@@ -44,7 +45,7 @@ class GetAreaDetailsUseCase {
         areaName,
         issues: issues,
         healthMetrics: healthMetrics,
-        isSubscribed: subscribedAreas.any((area) => area.cityName == areaName),
+        isSubscribed: subscribedAreas.any((area) => area.name == areaName),
       );
 
       return Result.success(areaDetails);

@@ -8,7 +8,7 @@ class GetAreaSpecificIssuesUseCase {
 
   GetAreaSpecificIssuesUseCase(this._repository);
 
-  Future<Result<List<Issue>, ApiError>> call({
+  Future<Result<MapEntry<List<Issue>, bool>, ApiError>> call({
     required String areaName,
     int page = 1,
     int limit = 20,

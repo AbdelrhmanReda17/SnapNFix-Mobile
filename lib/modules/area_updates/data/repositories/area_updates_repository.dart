@@ -12,21 +12,21 @@ class AreaUpdatesRepository implements BaseAreaUpdatesRepository {
   AreaUpdatesRepository(this._remoteDataSource);
 
   @override
-  Future<Result<List<Issue>, ApiError>> getAreaIssues(
+  Future<Result<MapEntry<List<Issue>, bool>, ApiError>> getAreaIssues(
     String areaName, {
     int page = 1,
     int limit = 20,
   }) async {
     final result = await _remoteDataSource.getAreaIssues(areaName, page: page, limit: limit);
     return result.when(
-      success: (models) => Result.success(models.cast<Issue>()),
+      success: (data) => Result.success(MapEntry(data.key.cast<Issue>(), data.value)),
       failure: (error) => Result.failure(error),
     );
   }
 
   @override
-  Future<Result<AreaHealthMetrics, ApiError>> getAreaHealth(String areaName) async {
-    final result = await _remoteDataSource.getAreaHealth(areaName);
+  Future<Result<AreaHealthMetrics, ApiError>> getAreaHealth(String cityId) async {
+    final result = await _remoteDataSource.getAreaHealth(cityId);
     return result.when(
       success: (model) => Result.success(model as AreaHealthMetrics),
       failure: (error) => Result.failure(error),
@@ -34,29 +34,46 @@ class AreaUpdatesRepository implements BaseAreaUpdatesRepository {
   }
 
   @override
-  Future<Result<List<AreaInfo>, ApiError>> getAllAreas() async {
-    final result = await _remoteDataSource.getAllAreas();
-    return result.when(
-      success: (models) => Result.success(models.cast<AreaInfo>()),
-      failure: (error) => Result.failure(error),
+  Future<Result<MapEntry<List<AreaInfo>, bool>, ApiError>> getAllAreas({
+    int page = 1,
+    int limit = 10,
+    String? searchTerm,
+  }) async {
+    final result = await _remoteDataSource.getAllAreas(
+      page: page,
+      limit: limit,
+      searchTerm: searchTerm,
     );
-  }
-  @override
-  Future<Result<List<AreaInfo>, ApiError>> getSubscribedAreas() async {
-    final result = await _remoteDataSource.getSubscribedAreas();
     return result.when(
-      success: (models) => Result.success(models.cast<AreaInfo>()),
+      success: (data) => Result.success(MapEntry(data.key.cast<AreaInfo>(), data.value)),
       failure: (error) => Result.failure(error),
     );
   }
 
   @override
-  Future<Result<void, ApiError>> subscribeToArea(String areaName) async {
-    return _remoteDataSource.subscribeToArea(areaName);
+  Future<Result<MapEntry<List<AreaInfo>, bool>, ApiError>> getSubscribedAreas({
+    int page = 1,
+    int limit = 10,
+    String? searchTerm,
+  }) async {
+    final result = await _remoteDataSource.getSubscribedAreas(
+      page: page,
+      limit: limit,
+      searchTerm: searchTerm,
+    );
+    return result.when(
+      success: (data) => Result.success(MapEntry(data.key.cast<AreaInfo>(), data.value)),
+      failure: (error) => Result.failure(error),
+    );
   }
 
   @override
-  Future<Result<void, ApiError>> unsubscribeFromArea(String areaName) async {
-    return _remoteDataSource.unsubscribeFromArea(areaName);
+  Future<Result<void, ApiError>> subscribeToArea(String cityId) async {
+    return _remoteDataSource.subscribeToArea(cityId);
+  }
+
+  @override
+  Future<Result<void, ApiError>> unsubscribeFromArea(String cityId) async {
+    return _remoteDataSource.unsubscribeFromArea(cityId);
   }
 }

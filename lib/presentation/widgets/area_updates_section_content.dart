@@ -100,10 +100,7 @@ class AreaUpdatesSectionContent extends StatelessWidget {
     ColorScheme colorScheme,
   ) {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
-    final screenWidth =
-        MediaQuery.of(
-          context,
-        ).size.width; // Calculate responsive grid based on screen width
+    final screenWidth = MediaQuery.of(context).size.width;
     int crossAxisCount = 2;
     double cardSpacing = 8.w;
 
@@ -146,7 +143,7 @@ class AreaUpdatesSectionContent extends StatelessWidget {
                 child: InkWell(
                   onTap: () {
                     context.read<AreaUpdatesCubit>().selectArea(area.key);
-                    context.push(Routes.areaIssuesChat, extra: area.key);
+                    context.push(Routes.areaIssues, extra: area.key);
                   },
                   borderRadius: BorderRadius.circular(16.r),
                   child: AnimatedContainer(

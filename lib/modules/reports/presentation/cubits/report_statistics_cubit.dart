@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -16,27 +17,40 @@ class ReportStatisticsCubit extends Cubit<ReportStatisticsState> {
       getIt<ApplicationConfigurations>().currentSession?.user.phoneNumber ?? '';
   late final String _cacheKey;
 
-  static const _cacheDuration = Duration(minutes: 1);
+  static const _cacheDuration = Duration(minutes: 0);
 
   ReportStatisticsCubit(this._getReportStatisticsUseCase)
     : super(const ReportStatisticsState()) {
     _cacheKey = 'user_report_statistics_$userId';
   }
 
+  Future<void> _cacheStatistics(ReportStatisticsModel statistics) async {
+    try {
+      final prefs = getIt<SharedPreferencesService>();
+      final jsonString = json.encode(statistics.toJson());
+      final now = DateTime.now();
+      await prefs.setInt('$_cacheKey:lastFetch', now.millisecondsSinceEpoch);
+      await prefs.setString(_cacheKey, jsonString);
+    } catch (e) {
+      // If caching fails, don't throw error, just continue
+    }
+  }
+
   Future<void> loadStatistics() async {
     if (isClosed) return;
     await _loadCachedData();
-    await _fetchFreshDataIfNeeded();
   }
 
   Future<void> _loadCachedData() async {
     try {
       final prefs = getIt<SharedPreferencesService>();
       final cachedJson = prefs.getString(_cacheKey);
-
+      if (cachedJson.isEmpty) {
+        await _fetchFreshData();
+        return;
+      }
       final cachedData = json.decode(cachedJson) as Map<String, dynamic>;
       final cachedStatistics = ReportStatisticsModel.fromJson(cachedData);
-
       if (!isClosed) {
         emit(
           state.copyWith(
@@ -45,22 +59,20 @@ class ReportStatisticsCubit extends Cubit<ReportStatisticsState> {
             error: null,
           ),
         );
+        await _fetchFreshDataIfNeeded();
       }
     } catch (e) {
-      // If loading cached data fails, continue with fresh fetch
-      // Don't emit error state as we'll try to fetch fresh data
+      await _fetchFreshData();
     }
   }
 
   Future<void> _fetchFreshDataIfNeeded() async {
-    final prefs = await SharedPreferences.getInstance();
-    final lastFetchMillis = prefs.getInt('$_cacheKey:lastFetch') ?? 0;
+    final prefs = getIt<SharedPreferencesService>();
+    final lastFetchMillis = prefs.getInt('$_cacheKey:lastFetch');
     final lastFetch = DateTime.fromMillisecondsSinceEpoch(lastFetchMillis);
     final now = DateTime.now();
-
     if (now.difference(lastFetch) > _cacheDuration) {
       await _fetchFreshData();
-      await prefs.setInt('$_cacheKey:lastFetch', now.millisecondsSinceEpoch);
     }
   }
 
@@ -69,11 +81,8 @@ class ReportStatisticsCubit extends Cubit<ReportStatisticsState> {
     if (state.statistics == null) {
       emit(state.copyWith(isLoading: true, error: null));
     }
-
     final result = await _getReportStatisticsUseCase.call();
-
     if (isClosed) return;
-
     result.when(
       success: (statistics) async {
         if (isClosed) return;
@@ -89,23 +98,12 @@ class ReportStatisticsCubit extends Cubit<ReportStatisticsState> {
       },
       failure: (error) {
         if (isClosed) return;
-        if (state.statistics == null) {
-          emit(state.copyWith(isLoading: false, error: error.message));
+        if (state.statistics != null) {
         } else {
-          emit(state.copyWith(isLoading: false, error: null));
+          emit(state.copyWith(isLoading: false, error: error.message));
         }
       },
     );
-  }
-
-  Future<void> _cacheStatistics(ReportStatisticsModel statistics) async {
-    try {
-      final prefs = getIt<SharedPreferencesService>();
-      final jsonString = json.encode(statistics.toJson());
-      await prefs.setString(_cacheKey, jsonString);
-    } catch (e) {
-      // If caching fails, don't throw error, just continue
-    }
   }
 
   void refresh() {

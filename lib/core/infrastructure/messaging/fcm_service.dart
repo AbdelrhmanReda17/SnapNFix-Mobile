@@ -197,7 +197,6 @@ class FCMService {
     }
   }
 
-  /// Get the cached FCM token (doesn't make API call if already cached)
   Future<String?> getCachedToken() async {
     if (_cachedToken != null) {
       return _cachedToken;
@@ -254,8 +253,6 @@ class FCMService {
     _firebaseMessaging.onTokenRefresh.listen((String token) {
       debugPrint('FCM Token refreshed: $token');
       _cachedToken = token;
-
-      // Update shared preferences
       SharedPreferences.getInstance().then((prefs) {
         prefs.setString(_fcmTokenKey, token);
       });

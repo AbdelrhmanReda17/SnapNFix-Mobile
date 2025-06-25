@@ -17,7 +17,7 @@ class ToggleAreaSubscriptionUseCase {
 
     return subscriptionsResult.when(
       success: (subscribedAreas) async {
-        final isCurrentlySubscribed = subscribedAreas.contains(areaName);
+        final isCurrentlySubscribed = subscribedAreas.key.contains(areaName);
 
         if (isCurrentlySubscribed) {
           // Unsubscribe

@@ -8,7 +8,7 @@ class RefreshAreaDataUseCase {
 
   RefreshAreaDataUseCase(this._repository);
 
-  Future<Result<List<AreaInfo>, ApiError>> call() async {
+    Future<Result<MapEntry<List<AreaInfo>, bool>, ApiError>> call() async {
     return await _repository.getAllAreas();
   }
 }

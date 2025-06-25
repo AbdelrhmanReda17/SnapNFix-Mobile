@@ -8,16 +8,16 @@ part of 'area_info_model.dart';
 
 AreaInfoModel _$AreaInfoModelFromJson(Map<String, dynamic> json) =>
     AreaInfoModel(
-      cityId: (json['cityId'] as num).toInt(),
-      cityName: json['cityName'] as String,
+      id: json['id'] as String,
+      name: json['name'] as String,
       state: json['state'] as String,
       activeIssuesCount: (json['activeIssuesCount'] as num).toInt(),
     );
 
 Map<String, dynamic> _$AreaInfoModelToJson(AreaInfoModel instance) =>
     <String, dynamic>{
-      'cityId': instance.cityId,
-      'cityName': instance.cityName,
+      'id': instance.id,
+      'name': instance.name,
       'state': instance.state,
       'activeIssuesCount': instance.activeIssuesCount,
     };

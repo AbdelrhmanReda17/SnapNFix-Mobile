@@ -1,5 +1,9 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:snapnfix/core/dependency_injection/dependency_injection.dart';
+import 'package:snapnfix/modules/area_updates/presentation/cubits/paginated_areas_cubit.dart';
+import 'package:snapnfix/modules/area_updates/presentation/screens/area_management_screen.dart';
+import 'package:snapnfix/modules/area_updates/presentation/screens/subscribed_areas_screen.dart';
 import 'package:snapnfix/modules/issues/domain/usecases/get_area_issues_use_case.dart';
 import 'package:snapnfix/modules/issues/presentation/cubits/issue_details_cubit.dart';
 import 'package:snapnfix/modules/issues/presentation/cubits/issues_map_cubit.dart';
@@ -71,6 +75,7 @@ class ApplicationRoutes {
     },
   );
 
+
   static final settingsRoute = RouteConfiguration(
     path: Routes.settings,
     name: 'settings',
@@ -113,31 +118,36 @@ class ApplicationRoutes {
     ],
   );
   static final areaIssuesChatRoute = RouteConfiguration(
-    path: Routes.areaIssuesChat,
+    path: Routes.areaIssues,
     name: 'areaIssuesChat',
-    builder:        (context, state) {
-          // Handle both String (legacy) and AreaInfo objects
-          String areaName;
-          if (state.extra is String) {
-            areaName = state.extra as String;
-          } else if (state.extra != null) {
-            // Assume it's an AreaInfo object and extract the cityName
-            final dynamic areaInfo = state.extra;
-            areaName = areaInfo.cityName as String;
-          } else {
-            // Fallback - this shouldn't happen in normal flow
-            areaName = 'Unknown Area';
-          }
-          
-          return BlocProvider(
-            create:
-                (context) => AreaIssuesCubit(
-                  areaName: areaName,
-                  getAreaIssuesUseCase: getIt<GetAreaIssuesUseCase>(),
-                ),
-            child: AreaIssuesChatScreen(area: areaName),
-          );
-        },
+    builder: (context, state) {
+      String areaName = '';
+       if (state.extra != null) {
+        final dynamic area = state.extra;
+        debugPrint('Area extra: $area');
+        areaName = area.name as String;
+        debugPrint('Area name: $areaName');
+      }
+      return BlocProvider(
+        create:
+            (context) => AreaIssuesCubit(
+              areaName: areaName,
+              getAreaIssuesUseCase: getIt<GetAreaIssuesUseCase>(),
+            ),
+        child: AreaIssuesChatScreen(area: areaName),
+      );
+    },
+  );
+  static final allAreasRoute = RouteConfiguration(
+    path: Routes.allAreas,
+    name: 'allAreas',
+    transitionType: PageTransitionType.slide,
+    builder: (context, state) {
+      return BlocProvider(
+        create: (context) => getIt<PaginatedAreasCubit>(),
+        child: AreaManagementScreen(),
+      );
+    },
   );
 
   static final List<RouteConfiguration> routes = [
@@ -146,6 +156,5 @@ class ApplicationRoutes {
     reportsRoute,
     settingsRoute,
     submitReportRoute,
-    areaIssuesChatRoute,
   ];
 }

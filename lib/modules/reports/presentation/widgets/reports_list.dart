@@ -57,42 +57,56 @@ class ReportsListView extends StatelessWidget {
     final hasActiveFilters =
         state.currentStatus != null || state.currentCategory != null;
 
-    return SizedBox(
-      height: 0.7.sh,
-      child: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(
-              hasActiveFilters ? Icons.filter_list : Icons.list_alt_outlined,
-              size: 48.sp,
-              color: theme.colorScheme.outline,
-            ),
-            SizedBox(height: 16.h),
-            Text(
-              hasActiveFilters
-                  ? localization.noReportsForFilters
-                  : localization.noReports,
-              style: theme.textTheme.bodyLarge,
-              textAlign: TextAlign.center,
-            ),
-            // Add clear filters button when filters are active
-            if (hasActiveFilters)
-              Padding(
-                padding: EdgeInsets.only(top: 16.h),
-                child: TextButton.icon(
-                  onPressed: () {
-                    context.read<UserReportsCubit>().clearFilters();
-                  },
-                  icon: Icon(Icons.clear, size: 16.sp),
-                  label: Text(localization.clearFilters),
-                  style: TextButton.styleFrom(
-                    foregroundColor: theme.colorScheme.primary,
+    return RefreshIndicator(
+      onRefresh: () async {
+        if (context.mounted) {
+          await context.read<UserReportsCubit>().loadReports(refresh: true);
+        }
+      },
+      child: ListView(
+        physics: const AlwaysScrollableScrollPhysics(),
+        children: [
+          SizedBox(
+            height: 0.7.sh,
+            child: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    hasActiveFilters
+                        ? Icons.filter_list
+                        : Icons.list_alt_outlined,
+                    size: 48.sp,
+                    color: theme.colorScheme.outline,
                   ),
-                ),
+                  SizedBox(height: 16.h),
+                  Text(
+                    hasActiveFilters
+                        ? localization.noReportsForFilters
+                        : localization.noReports,
+                    style: theme.textTheme.bodyLarge,
+                    textAlign: TextAlign.center,
+                  ),
+                  // Add clear filters button when filters are active
+                  if (hasActiveFilters)
+                    Padding(
+                      padding: EdgeInsets.only(top: 16.h),
+                      child: TextButton.icon(
+                        onPressed: () {
+                          context.read<UserReportsCubit>().clearFilters();
+                        },
+                        icon: Icon(Icons.clear, size: 16.sp),
+                        label: Text(localization.clearFilters),
+                        style: TextButton.styleFrom(
+                          foregroundColor: theme.colorScheme.primary,
+                        ),
+                      ),
+                    ),
+                ],
               ),
-          ],
-        ),
+            ),
+          ),
+        ],
       ),
     );
   }

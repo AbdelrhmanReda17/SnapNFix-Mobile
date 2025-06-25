@@ -8,13 +8,14 @@ import 'package:device_preview/device_preview.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform)
+      .then((value) => debugPrint('✅ Firebase initialized successfully'))
+      .catchError(
+        (error) => debugPrint('❌ Error initializing Firebase: $error'),
+      );
   await configureDependencies();
   await ScreenUtil.ensureScreenSize();
-  runApp(DevicePreview(
-    enabled: true,
-    builder: (context) => SnapNFixApplication(),
-    ),
+  runApp(
+    DevicePreview(enabled: true, builder: (context) => SnapNFixApplication()),
   );
-
 }

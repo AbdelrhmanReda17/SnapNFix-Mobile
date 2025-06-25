@@ -15,7 +15,10 @@ class Routes {
   static const String userIssues = '/user-issues/:issueId';
   static const String settings = '/settings';
   static const String submitReport = '/submit-report';
-  static const String areaIssuesChat = '/area-issues-chat';
+  static const String areaIssues = '/area-issues';
+  static const String areaDetails = '/area-details/:areaName';
+  static const String allAreas = '/area-management';
+  static const String allSubscribedAreas = '/area-management/subscribed';
   // static const String userIssues = '/user-issues/';
   static const String issueDetails = '/issue-details/:issueId';
 
@@ -25,5 +28,4 @@ class Routes {
   static const String termsAndConditions = '/settings/terms-and-conditions';
   static const String privacyPolicy = '/settings/privacy-policy';
   static const String about = '/settings/about';
- 
 }

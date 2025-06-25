@@ -6,8 +6,8 @@ part 'area_info_model.g.dart';
 @JsonSerializable()
 class AreaInfoModel extends AreaInfo {
   const AreaInfoModel({
-    required super.cityId,
-    required super.cityName,
+    required super.id,
+    required super.name,
     required super.state,
     required super.activeIssuesCount,
   });

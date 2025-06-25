@@ -4,126 +4,150 @@ import 'package:snapnfix/modules/area_updates/domain/entities/area_info.dart';
 
 class AreaCard extends StatelessWidget {
   final AreaInfo area;
-  final ColorScheme colorScheme;
-  final VoidCallback onTap;
+  final bool isSubscribed;
+  final VoidCallback? onSubscriptionToggle;
+  final VoidCallback? onTap;
+  final bool showSubscriptionButton;
 
   const AreaCard({
     super.key,
     required this.area,
-    required this.colorScheme,
-    required this.onTap,
+    this.isSubscribed = false,
+    this.onSubscriptionToggle,
+    this.onTap,
+    this.showSubscriptionButton = true,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 110.w,
-      margin: EdgeInsets.only(right: 12.w),
-      child: Material(
-        color: Colors.transparent,
-        child: InkWell(
-          onTap: onTap,
-          borderRadius: BorderRadius.circular(12.r),
-          child: Container(
-            padding: EdgeInsets.all(12.w),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(12.r),
-              gradient: LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                colors: [
-                  colorScheme.primary.withOpacity(0.8),
-                  colorScheme.primary.withOpacity(0.6),
+    return Card(
+      margin: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(12.r),
+        child: Padding(
+          padding: EdgeInsets.all(16.r),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          area.name,
+                          style: Theme.of(context).textTheme.headlineSmall
+                              ?.copyWith(fontWeight: FontWeight.bold),
+                        ),
+                        SizedBox(height: 4.h),
+                        Text(
+                          area.state,
+                          style: Theme.of(
+                            context,
+                          ).textTheme.bodyMedium?.copyWith(
+                            color:
+                                Theme.of(context).colorScheme.onSurfaceVariant,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  if (showSubscriptionButton) _buildSubscriptionButton(context),
                 ],
               ),
-              boxShadow: [
-                BoxShadow(
-                  color: colorScheme.primary.withOpacity(0.2),
-                  blurRadius: 6,
-                  offset: const Offset(0, 2),
-                ),
-              ],
-            ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Top row with issue count
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Container(
-                      padding: EdgeInsets.symmetric(horizontal: 6.w, vertical: 2.h),
-                      decoration: BoxDecoration(
-                        color: colorScheme.onPrimary.withOpacity(0.2),
-                        borderRadius: BorderRadius.circular(8.r),
-                      ),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Icon(
-                            Icons.report_problem_outlined,
-                            size: 10.sp,
-                            color: colorScheme.onPrimary,
-                          ),
-                          SizedBox(width: 2.w),
-                          Text(
-                            '${area.activeIssuesCount}',
-                            style: TextStyle(
-                              fontSize: 10.sp,
-                              fontWeight: FontWeight.w600,
-                              color: colorScheme.onPrimary,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-                
-                // Area name and governorate
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [                    Text(
-                      area.cityName.isNotEmpty ? area.cityName : 'Unknown Area',
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                        fontSize: 12.sp,
-                        fontWeight: FontWeight.w600,
-                        color: colorScheme.onPrimary,
-                      ),
-                    ),
-                    SizedBox(height: 2.h),
-                    Text(
-                      area.state.isNotEmpty ? area.state : 'Unknown State',
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                        fontSize: 9.sp,
-                        fontWeight: FontWeight.w400,
-                        color: colorScheme.onPrimary.withOpacity(0.8),
-                      ),
-                    ),
-                  ],
-                ),
-                
-                // Bottom arrow
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Icon(
-                      Icons.arrow_forward_ios,
-                      size: 10.sp,
-                      color: colorScheme.onPrimary.withOpacity(0.7),
-                    ),
-                  ],
-                ),
-              ],
-            ),
+              SizedBox(height: 12.h),
+              _buildIssuesCount(context),
+            ],
           ),
         ),
       ),
     );
+  }
+
+  Widget _buildSubscriptionButton(BuildContext context) {
+    return FilledButton.tonal(
+      onPressed: onSubscriptionToggle,
+      style: FilledButton.styleFrom(
+        backgroundColor:
+            isSubscribed
+                ? Theme.of(context).colorScheme.primary.withOpacity(0.1)
+                : Theme.of(context).colorScheme.surfaceVariant,
+        foregroundColor:
+            isSubscribed
+                ? Theme.of(context).colorScheme.primary
+                : Theme.of(context).colorScheme.onSurfaceVariant,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.r)),
+        padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(
+            isSubscribed ? Icons.notifications : Icons.notifications_none,
+            size: 16.sp,
+          ),
+          SizedBox(width: 4.w),
+          Text(
+            isSubscribed ? 'Subscribed' : 'Subscribe',
+            style: TextStyle(fontSize: 12.sp),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildIssuesCount(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
+      decoration: BoxDecoration(
+        color: _getIssuesCountColor(context),
+        borderRadius: BorderRadius.circular(16.r),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(
+            Icons.warning_rounded,
+            size: 16.sp,
+            color: _getIssuesCountTextColor(context),
+          ),
+          SizedBox(width: 4.w),
+          Text(
+            '${area.activeIssuesCount} Active Issues',
+            style: TextStyle(
+              fontSize: 12.sp,
+              fontWeight: FontWeight.w500,
+              color: _getIssuesCountTextColor(context),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Color _getIssuesCountColor(BuildContext context) {
+    if (area.activeIssuesCount == 0) {
+      return Theme.of(context).colorScheme.primaryContainer;
+    } else if (area.activeIssuesCount <= 5) {
+      return Theme.of(context).colorScheme.tertiaryContainer;
+    } else if (area.activeIssuesCount <= 15) {
+      return Theme.of(context).colorScheme.secondaryContainer;
+    } else {
+      return Theme.of(context).colorScheme.errorContainer;
+    }
+  }
+
+  Color _getIssuesCountTextColor(BuildContext context) {
+    if (area.activeIssuesCount == 0) {
+      return Theme.of(context).colorScheme.onPrimaryContainer;
+    } else if (area.activeIssuesCount <= 5) {
+      return Theme.of(context).colorScheme.onTertiaryContainer;
+    } else if (area.activeIssuesCount <= 15) {
+      return Theme.of(context).colorScheme.onSecondaryContainer;
+    } else {
+      return Theme.of(context).colorScheme.onErrorContainer;
+    }
   }
 }

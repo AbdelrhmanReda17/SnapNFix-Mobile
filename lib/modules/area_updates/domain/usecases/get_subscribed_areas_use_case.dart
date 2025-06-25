@@ -8,7 +8,15 @@ class GetSubscribedAreasUseCase {
 
   GetSubscribedAreasUseCase(this._repository);
 
-  Future<Result<List<AreaInfo>, ApiError>> call() async {
-    return await _repository.getSubscribedAreas();
+  Future<Result<MapEntry<List<AreaInfo>, bool>, ApiError>> call({
+    int page = 1,
+    int limit = 10,
+    String? searchTerm,
+  }) async {
+    return await _repository.getSubscribedAreas(
+      page: page,
+      limit: limit,
+      searchTerm: searchTerm,
+    );
   }
 }

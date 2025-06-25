@@ -1,23 +1,22 @@
 import 'package:equatable/equatable.dart';
 
-
 class AreaInfo extends Equatable {
-  final int cityId;
-  final String cityName;
+  final String id;
+  final String name;
   final String state;
   final int activeIssuesCount;
 
   const AreaInfo({
-    required this.cityId,
-    required this.cityName,
+    required this.id,
+    required this.name,
     required this.state,
     required this.activeIssuesCount,
   });
 
   @override
   List<Object?> get props => [
-    cityId,
-    cityName,
+    id,
+    name,
     state,
     activeIssuesCount,
   ];
