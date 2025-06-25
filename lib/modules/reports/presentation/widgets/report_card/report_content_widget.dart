@@ -48,11 +48,14 @@ class ReportExpandedContent extends StatelessWidget {
           if (report.severity != null) ...[
             Row(
               children: [
-                Text(
-                  localization.reportSeverity(''),
-                  style: theme.textTheme.bodySmall?.copyWith(
-                    color: colorScheme.primary,
-                    fontWeight: FontWeight.w500,
+                Padding(
+                  padding: EdgeInsets.only(top: 6.h),
+                  child: Text(
+                    localization.reportSeverity(''),
+                    style: theme.textTheme.bodySmall?.copyWith(
+                      color: colorScheme.primary,
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
                 ),
                 horizontalSpace(8),

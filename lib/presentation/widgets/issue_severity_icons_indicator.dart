@@ -21,19 +21,22 @@ class IssueSeverityIconsIndicator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final localization = AppLocalizations.of(context)!;
-    
+
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
         _buildSirenIcons(),
         if (showLabel) ...[
           horizontalSpace(spacing),
-          Text(
-            severity.getLocalizedName(localization),
-            style: TextStyle(
-              color: _getSeverityColor(),
-              fontSize: 12.sp,
-              fontWeight: FontWeight.w500,
+          Padding(
+            padding: EdgeInsets.only(top: 6.h),
+            child: Text(
+              severity.getLocalizedName(localization),
+              style: TextStyle(
+                color: _getSeverityColor(),
+                fontSize: 12.sp,
+                fontWeight: FontWeight.w500,
+              ),
             ),
           ),
         ],

@@ -24,17 +24,9 @@ class ReportImageStack extends StatelessWidget {
               imageName: report.imagePath,
               fit: BoxFit.cover,
               colorScheme: colorScheme,
-              errorBuilder:
-                  (context, colorScheme) => Image.asset(
-                    'assets/images/issue1.jpg',
-                    height: 80.h,
-                    width: double.infinity,
-                    fit: BoxFit.cover,
-                  ),
             ),
           ),
         ),
-        // Status indicator
         if (report.status != null)
           Positioned(
             top: 8.h,
