@@ -1,40 +1,45 @@
-import 'package:snapnfix/core/exceptions/unverified_user_exception.dart';
+import 'package:dio/dio.dart';
 import 'package:snapnfix/core/infrastructure/device_info/device_info_service.dart';
-import 'package:snapnfix/core/infrastructure/networking/api_error_handler.dart';
-import 'package:snapnfix/core/infrastructure/networking/api_error_model.dart';
-import 'package:snapnfix/core/infrastructure/networking/api_result.dart';
+import 'package:snapnfix/core/infrastructure/networking/error/api_error.dart';
+import 'package:snapnfix/core/utils/result.dart';
 import 'package:snapnfix/core/infrastructure/networking/api_service.dart';
-import 'package:snapnfix/core/infrastructure/networking/base_response.dart';
-import 'package:snapnfix/core/infrastructure/networking/dio_factory.dart';
-import 'package:snapnfix/modules/authentication/data/models/dtos/complete_profile_dto.dart';
-import 'package:snapnfix/modules/authentication/data/models/dtos/login_dto.dart';
-import 'package:snapnfix/modules/authentication/data/models/dtos/reset_password_dto.dart';
-import 'package:snapnfix/modules/authentication/data/models/session_model.dart';
+import 'package:snapnfix/core/infrastructure/networking/responses/api_response.dart';
+import 'package:snapnfix/core/infrastructure/networking/http_client_factory.dart';
+import 'package:snapnfix/modules/authentication/data/models/index.dart';
 import 'package:snapnfix/modules/authentication/domain/entities/authentication_result.dart';
 
 abstract class BaseAuthenticationRemoteDataSource {
   // Login and Register
-  Future<ApiResult<SessionModel>> login(LoginDTO loginDTO);
-  Future<ApiResult<String>> requestOTP(
+  Future<Result<SessionModel, ApiError>> login({
+    required String emailOrPhoneNumber,
+    required String password,
+  });
+  Future<Result<String, ApiError>> requestOTP(
     String emailOrPhoneNumber,
     OtpPurpose purpose,
   );
-
   // OTP Verification
-  Future<ApiResult<String>> verifyOtp(String otp, OtpPurpose purpose);
-  Future<ApiResult<bool>> resendOtp(OtpPurpose purpose);
+  Future<Result<String, ApiError>> verifyOtp(String otp, OtpPurpose purpose);
+  Future<Result<bool, ApiError>> resendOtp(OtpPurpose purpose);
 
   // Password Reset and Forgot Password
-  Future<ApiResult<bool>> resetPassword(ResetPasswordDTO resetPasswordDTO);
+  Future<Result<bool, ApiError>> resetPassword({
+    required String newPassword,
+    required String confirmPassword,
+  });
 
   // Profile Completion
-  Future<ApiResult<SessionModel>> completeProfile(
-    CompleteProfileDTO completeProfileDTO,
-  );
+  Future<Result<SessionModel, ApiError>> register({
+    required String firstName,
+    required String lastName,
+    required String password,
+  });
 
   // Third Party Login
-  Future<ApiResult<SessionModel>> loginWithGoogle(String accessToken);
-  Future<ApiResult<SessionModel>> loginWithFacebook(String accessToken);
+  Future<Result<SessionModel, ApiError>> loginWithGoogle(String accessToken);
+  Future<Result<SessionModel, ApiError>> loginWithFacebook(String accessToken);
+
+  Future<Result<void, ApiError>> logout();
 }
 
 class AuthenticationRemoteDataSource
@@ -44,44 +49,66 @@ class AuthenticationRemoteDataSource
 
   AuthenticationRemoteDataSource(this._apiService, this._deviceInfoService);
 
-  Future<ApiResult<T>> _handleApiCall<T>({
-    required Future<BaseResponse<T>> Function() apiCall,
+  Future<Result<T, ApiError>> _handleApiCall<T>({
+    required Future<ApiResponse<T>> Function() apiCall,
     bool setVerificationToken = false,
     bool requiresSuccess = false,
+    bool removeVerificationToken = false,
+    bool isLoginOrRegister = false,
   }) async {
     try {
       final response = await apiCall();
 
       if (setVerificationToken && response.data is String) {
-        DioFactory.setVerificationTokenHeader(response.data as String);
+        HttpClientFactory.setAuthToken(response.data as String);
       }
 
       if (requiresSuccess && response.data is bool && response.data == false) {
-        return ApiResult.failure(ApiErrorModel(message: response.message));
+        return Result.failure(ApiError(message: response.message));
       }
 
-      return ApiResult.success(response.data);
-    } catch (error) {
-      return ApiResult.failure(ApiErrorHandler.handle(error));
-    }
-  }
-  
-  @override
-  Future<ApiResult<SessionModel>> login(LoginDTO loginDTO) async {
-    try {
-      final updatedDTO = await _deviceInfoService.withDeviceInfo(loginDTO);
-
-      return _handleApiCall(apiCall: () => _apiService.login(updatedDTO));
-    } catch (error) {
-      if (ApiErrorHandler.isAuthenticationError(error)) {
-        throw UnverifiedUserException(phoneNumber: loginDTO.emailOrPhoneNumber);
+      if (removeVerificationToken && !setVerificationToken) {
+        HttpClientFactory.clearAuthToken();
       }
-      return ApiResult.failure(ApiErrorHandler.handle(error));
+
+      if (isLoginOrRegister && response.data is SessionModel) {
+        HttpClientFactory.setAuthToken(
+          (response.data as SessionModel).tokens.accessToken,
+        );
+      }
+
+      return Result.success(response.data as T);
+    } catch (error) {
+      return Result.failure(
+        error is DioException && error.error is ApiError
+            ? error.error as ApiError
+            : ApiError(message: 'An unexpected error occurred'),
+      );
     }
   }
 
   @override
-  Future<ApiResult<String>> requestOTP(
+  Future<Result<SessionModel, ApiError>> login({
+    required String emailOrPhoneNumber,
+    required String password,
+  }) async {
+    final loginRequest = LoginRequest.withDeviceInfo(
+      emailOrPhoneNumber: emailOrPhoneNumber,
+      password: password,
+      deviceId: _deviceInfoService.deviceId,
+      deviceType: _deviceInfoService.deviceType,
+      deviceName: _deviceInfoService.deviceName,
+      platform: _deviceInfoService.platform,
+      fcmToken: _deviceInfoService.fcmToken,
+    );
+    return _handleApiCall(
+      apiCall: () => _apiService.login(loginRequest),
+      isLoginOrRegister: true,
+    );
+  }
+
+  @override
+  Future<Result<String, ApiError>> requestOTP(
     String phoneNumber,
     OtpPurpose purpose,
   ) async {
@@ -89,72 +116,115 @@ class AuthenticationRemoteDataSource
       apiCall:
           () =>
               purpose == OtpPurpose.registration
-                  ? _apiService.requestOTP({'phoneNumber': phoneNumber})
-                  : _apiService.forgotPassword({
-                    'emailOrPhoneNumber': phoneNumber,
-                  }),
+                  ? _apiService.requestOtp(OtpRequest(phoneNumber: phoneNumber))
+                  : _apiService.requestPasswordReset(
+                    PasswordResetRequest(emailOrPhoneNumber: phoneNumber),
+                  ),
       setVerificationToken: true,
     );
   }
 
   @override
-  Future<ApiResult<String>> verifyOtp(String otp, OtpPurpose purpose) {
+  Future<Result<String, ApiError>> verifyOtp(String otp, OtpPurpose purpose) {
     return _handleApiCall(
       apiCall:
           () =>
               purpose == OtpPurpose.registration
-                  ? _apiService.verifyOtp({'otp': otp})
-                  : _apiService.verifyForgotPasswordOtp({'otp': otp}),
+                  ? _apiService.verifyOtp(VerifyOtpRequest(otp: otp))
+                  : _apiService.verifyPasswordResetOtp(
+                    VerifyOtpRequest(otp: otp),
+                  ),
       setVerificationToken: true,
     );
   }
 
   @override
-  Future<ApiResult<bool>> resendOtp(OtpPurpose purpose) {
+  Future<Result<bool, ApiError>> resendOtp(OtpPurpose purpose) {
+    return _handleApiCall(
+      apiCall: () => _apiService.resendOtp(ResendOtpRequest()),
+      requiresSuccess: true,
+    );
+  }
+
+  @override
+  Future<Result<bool, ApiError>> resetPassword({
+    required String newPassword,
+    required String confirmPassword,
+  }) {
     return _handleApiCall(
       apiCall:
-          () =>
-              purpose == OtpPurpose.registration
-                  ? _apiService.resendOtp({})
-                  : _apiService.verifyForgotPasswordOtpResend({}),
+          () => _apiService.resetPassword(
+            ResetPasswordRequest(
+              newPassword: newPassword,
+              confirmPassword: confirmPassword,
+            ),
+          ),
       requiresSuccess: true,
     );
   }
 
   @override
-  Future<ApiResult<bool>> resetPassword(ResetPasswordDTO resetPasswordDTO) {
+  Future<Result<SessionModel, ApiError>> register({
+    required String firstName,
+    required String lastName,
+    required String password,
+  }) async {
+    final registerRequest = RegisterRequest.withDeviceInfo(
+      firstName: firstName,
+      lastName: lastName,
+      password: password,
+      deviceId: _deviceInfoService.deviceId,
+      deviceType: _deviceInfoService.deviceType,
+      deviceName: _deviceInfoService.deviceName,
+      platform: _deviceInfoService.platform,
+      fcmToken: _deviceInfoService.fcmToken,
+    );
     return _handleApiCall(
-      apiCall: () => _apiService.resetPassword(resetPasswordDTO),
-      requiresSuccess: true,
+      apiCall: () => _apiService.register(registerRequest),
+      isLoginOrRegister: true,
     );
   }
 
   @override
-  Future<ApiResult<SessionModel>> completeProfile(
-    CompleteProfileDTO completeProfileDTO,
+  Future<Result<SessionModel, ApiError>> loginWithFacebook(
+    String idToken,
   ) async {
-    final updatedDTO = await _deviceInfoService.withDeviceInfo(completeProfileDTO);
+    final loginWithFacebookRequest = FacebookLoginRequest.withDeviceInfo(
+      idToken: idToken,
+      deviceId: _deviceInfoService.deviceId,
+      deviceType: _deviceInfoService.deviceType,
+      deviceName: _deviceInfoService.deviceName,
+      platform: _deviceInfoService.platform,
+      fcmToken: _deviceInfoService.fcmToken,
+    );
+    return await _handleApiCall(
+      apiCall: () => _apiService.loginWithFacebook(loginWithFacebookRequest),
+    );
+  }
+
+  @override
+  Future<Result<SessionModel, ApiError>> loginWithGoogle(
+    String accessToken,
+  ) async {
+    final loginWithGoogleRequest = GoogleLoginRequest.withDeviceInfo(
+      idToken: accessToken,
+      deviceId: _deviceInfoService.deviceId,
+      deviceType: _deviceInfoService.deviceType,
+      deviceName: _deviceInfoService.deviceName,
+      platform: _deviceInfoService.platform,
+      fcmToken: _deviceInfoService.fcmToken,
+    );
+    return await _handleApiCall(
+      apiCall: () => _apiService.loginWithGoogle(loginWithGoogleRequest),
+    );
+  }
+
+  @override
+  Future<Result<void, ApiError>> logout() {
     return _handleApiCall(
-      apiCall: () => _apiService.completeProfile(updatedDTO),
-    );
-  }
-
-  @override
-  Future<ApiResult<SessionModel>> loginWithFacebook(String idToken) async {
-    final socialLoginDTO = {'idToken': idToken};
-    final payload = await _deviceInfoService.withDeviceInfo(socialLoginDTO);
-    return await _handleApiCall(
-      apiCall: () => _apiService.loginWithFacebook(payload),
-    );
-  }
-
-  @override
-  Future<ApiResult<SessionModel>> loginWithGoogle(String accessToken) async {
-    final socialLoginDTO = {'idToken': accessToken};
-    final payload = await _deviceInfoService.withDeviceInfo(socialLoginDTO);
-
-    return await _handleApiCall(
-      apiCall: () => _apiService.loginWithGoogle(payload),
+      apiCall: () => _apiService.logout(),
+      requiresSuccess: true,
+      removeVerificationToken: true,
     );
   }
 }

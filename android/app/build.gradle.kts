@@ -12,8 +12,10 @@ android {
     namespace = "com.snapnfix.mobile"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = "27.0.12077973"
+    
 
     compileOptions {
+        isCoreLibraryDesugaringEnabled = true
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
@@ -23,6 +25,8 @@ android {
     }
 
     defaultConfig {
+        multiDexEnabled = true
+
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId = "com.snapnfix.mobile"
         // You can update the following values to match your application needs.
@@ -45,7 +49,7 @@ android {
     productFlavors {
         create("development") {
             dimension = "default"
-            applicationIdSuffix = ".development"
+            applicationIdSuffix = ""
             resValue(type = "string", name = "app_name", value = "SnapNFix Development")
         }
         create("production") {
@@ -53,6 +57,14 @@ android {
             resValue(type = "string", name = "app_name", value = "SnapNFix")
         }
     }
+}
+dependencies {
+    // For AGP 7.4+
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.4")
+    // For AGP 7.3
+    // coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.2.3'
+    // For AGP 4.0 to 7.2
+    // coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.9'
 }
 
 flutter {

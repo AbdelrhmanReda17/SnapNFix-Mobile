@@ -3,11 +3,30 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:snapnfix/modules/reports/presentation/cubits/report_review_cubit.dart';
-import 'package:snapnfix/modules/reports/presentation/widgets/report_card.dart';
+import 'package:snapnfix/modules/reports/presentation/cubits/user_reports_cubit.dart';
+import 'package:snapnfix/modules/reports/presentation/widgets/report_filters/reports_sort_menu.dart';
+import 'package:snapnfix/modules/reports/presentation/widgets/reports_error_view_widget.dart';
+import 'package:snapnfix/modules/reports/presentation/widgets/reports_list.dart';
+import 'package:snapnfix/presentation/widgets/loading_overlay.dart';
+import 'package:snapnfix/modules/reports/presentation/widgets/report_filters/reports_filter_sheet.dart';
 
-class UserReportsScreen extends StatelessWidget {
+class UserReportsScreen extends StatefulWidget {
   const UserReportsScreen({super.key});
+
+  @override
+  State<UserReportsScreen> createState() => _UserReportsScreenState();
+}
+
+class _UserReportsScreenState extends State<UserReportsScreen> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        context.read<UserReportsCubit>().loadReports();
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,69 +42,164 @@ class UserReportsScreen extends StatelessWidget {
     );
 
     return Scaffold(
-      backgroundColor: theme.colorScheme.surface,
-      appBar: PreferredSize(
-        preferredSize: Size.fromHeight(62.h),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            AppBar(
-              backgroundColor: colorScheme.surface,
-              titleSpacing: 0,
-              centerTitle: true,
-              elevation: 0,
-              title: Text(
-                localization.myReports,
-                style: theme.textTheme.headlineLarge?.copyWith(
-                  fontWeight: FontWeight.w600,
-                  fontSize: 20.sp,
-                  color: colorScheme.primary,
-                ),
-              ),
-            ),
-          ],
+      backgroundColor: colorScheme.surface,
+      appBar: AppBar(
+        backgroundColor: colorScheme.surface,
+        titleSpacing: 0,
+        centerTitle: true,
+        elevation: 0,
+        title: Text(
+          localization.myReports,
+          style: theme.textTheme.headlineLarge?.copyWith(
+            fontSize: 20.sp,
+            color: colorScheme.tertiary,
+          ),
         ),
       ),
-      body: BlocBuilder<ReportReviewCubit, ReportReviewState>(
-        builder: (context, state) {
-          if (state.isLoading) {
-            return const Center(child: CircularProgressIndicator());
-          }
+      body: Column(
+        children: [
+          _buildFilterToolbar(context),
 
-          if (state.error != null) {
-            return Center(
-              child: Text(
-                state.error!,
-                style: theme.textTheme.bodyLarge?.copyWith(
-                  color: colorScheme.error,
-                ),
-                textAlign: TextAlign.center,
-              ),
-            );
-          }
-
-          if (state.reports.isEmpty) {
-            return Center(
-              child: Text(
-                localization.noReports,
-                style: theme.textTheme.bodyLarge,
-              ),
-            );
-          }
-
-          return ListView.builder(
-            padding: EdgeInsets.all(16.r),
-            itemCount: state.reports.length,
-            itemBuilder: (context, index) {
-              final report = state.reports[index];
-              return Padding(
-                padding: EdgeInsets.only(bottom: 16.r),
-                child: ReportCard(report: report),
-              );
-            },
-          );
-        },
+          Expanded(
+            child: BlocBuilder<UserReportsCubit, UserReportsState>(
+              buildWhen: (previous, current) {
+                final changed =
+                    previous.isLoading != current.isLoading ||
+                    previous.reports != current.reports ||
+                    previous.error != current.error ||
+                    previous.isLoadingMore != current.isLoadingMore;
+                return changed;
+              },
+              builder: (context, state) {
+                if (state.isLoading && state.reports.isEmpty) {
+                  return const LoadingOverlay();
+                }
+                if (state.error != null && state.reports.isEmpty) {
+                  return ReportsErrorView(errorMessage: state.error!);
+                }
+                return ReportsListView(state: state);
+              },
+            ),
+          ),
+        ],
       ),
+    );
+  }
+
+  void _showFilterBottomSheet(BuildContext context, UserReportsState state) {
+    ReportsFilterSheet.show(context);
+  }
+
+  Widget _buildFilterToolbar(BuildContext context) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+    final localization = AppLocalizations.of(context)!;
+
+    return BlocBuilder<UserReportsCubit, UserReportsState>(
+      buildWhen:
+          (previous, current) =>
+              previous.currentStatus != current.currentStatus ||
+              previous.currentCategory != current.currentCategory ||
+              previous.currentSortOption != current.currentSortOption,
+      builder: (context, state) {
+        final hasActiveFilters =
+            state.currentStatus != null || state.currentCategory != null;
+
+        int filterCount = 0;
+        if (state.currentStatus != null) filterCount++;
+        if (state.currentCategory != null) filterCount++;
+
+        return Container(
+          padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+          decoration: BoxDecoration(
+            color: colorScheme.surface,
+            boxShadow: [
+              BoxShadow(
+                color: colorScheme.shadow.withValues(alpha: 0.05),
+                blurRadius: 1.r,
+                spreadRadius: 1.r,
+              ),
+            ],
+          ),
+          child: Row(
+            children: [
+              Expanded(
+                child: GestureDetector(
+                  onTap: () => _showFilterBottomSheet(context, state),
+                  child: Container(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 12.w,
+                      vertical: 8.h,
+                    ),
+                    decoration: BoxDecoration(
+                      color:
+                          hasActiveFilters
+                              ? colorScheme.primary.withValues(alpha: 0.15)
+                              : colorScheme.surface,
+                      borderRadius: BorderRadius.circular(8.r),
+                      border: Border.all(
+                        color:
+                            hasActiveFilters
+                                ? colorScheme.primary
+                                : colorScheme.tertiary.withValues(alpha: 0.1),
+                      ),
+                    ),
+                    child: Row(
+                      children: [
+                        Icon(
+                          Icons.filter_list,
+                          size: 20.sp,
+                          color: colorScheme.primary,
+                        ),
+                        SizedBox(width: 8.w),
+                        Text(
+                          hasActiveFilters
+                              ? localization.nFiltersApplied(filterCount)
+                              : localization.filter,
+                          style: TextStyle(
+                            fontSize: 14.sp,
+                            fontWeight:
+                                hasActiveFilters
+                                    ? FontWeight.w600
+                                    : FontWeight.normal,
+                            color:
+                                hasActiveFilters
+                                    ? colorScheme.primary
+                                    : colorScheme.tertiary.withValues(
+                                      alpha: 0.7,
+                                    ),
+                          ),
+                        ),
+                        if (hasActiveFilters) ...[
+                          const Spacer(),
+                          Container(
+                            padding: EdgeInsets.all(4.r),
+                            decoration: BoxDecoration(
+                              color: colorScheme.primary,
+                              shape: BoxShape.circle,
+                            ),
+                            child: Text(
+                              filterCount.toString(),
+                              style: TextStyle(
+                                color: colorScheme.onPrimary,
+                                fontSize: 10.sp,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(width: 8.w),
+              // Sort dropdown
+              ReportsSortMenu(currentSortOption: state.currentSortOption),
+            ],
+          ),
+        );
+      },
     );
   }
 }

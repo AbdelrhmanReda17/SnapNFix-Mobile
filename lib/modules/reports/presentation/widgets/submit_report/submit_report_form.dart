@@ -4,10 +4,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:snapnfix/core/base_components/base_button.dart';
 import 'package:snapnfix/modules/reports/presentation/cubits/submit_report_cubit.dart';
 import 'package:snapnfix/modules/reports/presentation/utils/report_timeout_manager.dart';
-import 'package:snapnfix/modules/reports/presentation/widgets/submit_report/submit_additional_info.dart';
+import 'package:snapnfix/modules/reports/presentation/widgets/report_description_input.dart';
+import 'package:snapnfix/modules/reports/presentation/widgets/report_severity_selector.dart';
 import 'package:snapnfix/modules/reports/presentation/widgets/submit_report/submit_photo_picker.dart';
 import 'package:snapnfix/modules/reports/presentation/widgets/submit_report/submit_report_note.dart';
-import 'package:snapnfix/modules/reports/presentation/widgets/submit_report/submit_severity_selector.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SubmitReportForm extends StatelessWidget {
@@ -36,12 +36,23 @@ class SubmitReportForm extends StatelessWidget {
         SizedBox(height: 10.h),
         GestureDetector(
           onTap: timeoutManager.resetTimer,
-          child: SubmitSeveritySelector(),
+          child: BlocBuilder<SubmitReportCubit, SubmitReportState>(
+            builder: (context, state) {
+              return ReportSeveritySelector(
+                selectedSeverity: state.severity,
+                onSeverityChanged:
+                    context.read<SubmitReportCubit>().setSeverity,
+              );
+            },
+          ),
         ),
         SizedBox(height: 10.h),
         GestureDetector(
           onTap: timeoutManager.resetTimer,
-          child: SubmitAdditionalDetails(),
+          child: ReportDescriptionInput(
+            isRequired: false,
+            onChanged: context.read<SubmitReportCubit>().setAdditionalDetails,
+          ),
         ),
         SizedBox(height: 10.h),
         SubmitReportNote(),
@@ -52,10 +63,16 @@ class SubmitReportForm extends StatelessWidget {
               isEnabled: state.image != null,
               onPressed: onSubmit,
               text: localization?.submitReport ?? 'Submit Report',
-              textStyle: textStyles.bodyLarge!.copyWith(
-                color: colorScheme.surface,
-                fontWeight: FontWeight.bold,
-              ),
+              textStyle:
+                  state.image != null
+                      ? textStyles.bodyLarge!.copyWith(
+                        color: colorScheme.onPrimary,
+                        fontWeight: FontWeight.bold,
+                      )
+                      : textStyles.bodyLarge!.copyWith(
+                        color: colorScheme.tertiary.withValues(alpha: 0.3),
+                        fontWeight: FontWeight.bold,
+                      ),
               backgroundColor: colorScheme.primary,
               borderColor: Colors.transparent,
             );

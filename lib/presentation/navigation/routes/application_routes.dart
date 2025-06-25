@@ -1,25 +1,30 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:snapnfix/core/dependency_injection/dependency_injection.dart';
+import 'package:snapnfix/modules/area_updates/presentation/cubits/all_areas_cubit.dart';
+import 'package:snapnfix/modules/area_updates/presentation/cubits/subscribed_areas_cubit.dart';
+import 'package:snapnfix/modules/area_updates/presentation/screens/area_management_screen.dart';
+import 'package:snapnfix/modules/issues/domain/usecases/get_area_issues_use_case.dart';
 import 'package:snapnfix/modules/issues/presentation/cubits/issue_details_cubit.dart';
 import 'package:snapnfix/modules/issues/presentation/cubits/issues_map_cubit.dart';
 import 'package:snapnfix/modules/issues/presentation/screens/issue_details_screen.dart';
 import 'package:snapnfix/modules/issues/presentation/screens/issue_map_screen.dart';
-import 'package:snapnfix/modules/reports/presentation/cubits/report_review_cubit.dart';
+import 'package:snapnfix/modules/reports/presentation/cubits/user_reports_cubit.dart';
 import 'package:snapnfix/modules/reports/presentation/cubits/submit_report_cubit.dart';
 import 'package:snapnfix/modules/reports/presentation/screens/submit_report_screen.dart';
 import 'package:snapnfix/modules/reports/presentation/screens/user_reports_screen.dart';
-import 'package:snapnfix/modules/settings/presentation/cubits/change_password_cubit.dart';
 import 'package:snapnfix/modules/settings/presentation/cubits/edit_profile_cubit.dart';
 import 'package:snapnfix/modules/settings/presentation/screens/about_screen.dart';
-import 'package:snapnfix/modules/settings/presentation/screens/change_password.dart';
-import 'package:snapnfix/modules/settings/presentation/screens/edit_profile.dart';
+import 'package:snapnfix/modules/settings/presentation/screens/edit_profile_screen.dart';
 import 'package:snapnfix/modules/settings/presentation/screens/privacy_policy_screen.dart';
-import 'package:snapnfix/modules/settings/presentation/screens/settings_dart.dart';
+import 'package:snapnfix/modules/settings/presentation/screens/settings_screen.dart';
 import 'package:snapnfix/modules/settings/presentation/screens/support_screen.dart';
 import 'package:snapnfix/modules/settings/presentation/screens/terms_conditions_screen.dart';
+import 'package:snapnfix/presentation/cubits/area_issues_cubit.dart';
 import 'package:snapnfix/presentation/navigation/configuration/route_configuration.dart';
 import 'package:snapnfix/presentation/navigation/routes.dart';
 import 'package:snapnfix/presentation/screens/home_screen.dart';
+import 'package:snapnfix/modules/area_updates/presentation/screens/area_issues_chat_screen.dart';
 
 class ApplicationRoutes {
   static final homeRoute = RouteConfiguration(
@@ -53,7 +58,7 @@ class ApplicationRoutes {
     name: 'reports',
     builder:
         (context, state) => BlocProvider(
-          create: (context) => getIt<ReportReviewCubit>(),
+          create: (context) => getIt<UserReportsCubit>(),
           child: const UserReportsScreen(),
         ),
   );
@@ -69,7 +74,7 @@ class ApplicationRoutes {
       );
     },
   );
-  
+
   static final settingsRoute = RouteConfiguration(
     path: Routes.settings,
     name: 'settings',
@@ -83,16 +88,6 @@ class ApplicationRoutes {
             (context, state) => BlocProvider<EditProfileCubit>(
               create: (context) => getIt<EditProfileCubit>(),
               child: const EditProfile(),
-            ),
-      ),
-      RouteConfiguration(
-        path: 'change-password',
-        name: 'change-password',
-        transitionType: PageTransitionType.slide,
-        builder:
-            (context, state) => BlocProvider<ChangePasswordCubit>(
-              create: (context) => getIt<ChangePasswordCubit>(),
-              child: const ChangePassword(),
             ),
       ),
       RouteConfiguration(
@@ -121,6 +116,48 @@ class ApplicationRoutes {
       ),
     ],
   );
+  static final areaIssuesChatRoute = RouteConfiguration(
+    path: Routes.areaIssues,
+    name: 'areaIssuesChat',
+    builder: (context, state) {
+      String areaName = '';
+      if (state.extra != null) {
+        final dynamic area = state.extra;
+        debugPrint('Area extra: $area');
+        areaName = area.name as String;
+        debugPrint('Area name: $areaName');
+      }
+      return BlocProvider(
+        create:
+            (context) => AreaIssuesCubit(
+              areaName: areaName,
+              getAreaIssuesUseCase: getIt<GetAreaIssuesUseCase>(),
+            ),
+        child: AreaIssuesChatScreen(area: areaName),
+      );
+    },
+  );
+
+  static final allAreasRoute = RouteConfiguration(
+    path: Routes.allAreas,
+    name: 'allAreas',
+    transitionType: PageTransitionType.slide,
+    builder: (context, state) {
+      bool showSubscribed = false;
+      if (state.extra != null && state.extra is Map<String, dynamic>) {
+        final extraData = state.extra as Map<String, dynamic>;
+        showSubscribed = extraData['showSubscribed'] ?? false;
+      }
+
+      return MultiBlocProvider(
+        providers: [
+          BlocProvider(create: (context) => getIt<AllAreasCubit>()),
+          BlocProvider(create: (context) => getIt<SubscribedAreasCubit>()),
+        ],
+        child: AreaManagementScreen(initialShowSubscribed: showSubscribed),
+      );
+    },
+  );
 
   static final List<RouteConfiguration> routes = [
     homeRoute,
@@ -130,4 +167,3 @@ class ApplicationRoutes {
     submitReportRoute,
   ];
 }
-

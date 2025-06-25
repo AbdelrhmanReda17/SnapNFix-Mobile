@@ -6,6 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:snapnfix/core/utils/helpers/spacing.dart';
 import 'package:snapnfix/modules/reports/presentation/cubits/submit_report_cubit.dart';
 
 class SubmitPhotoPicker extends StatelessWidget {
@@ -52,6 +53,7 @@ class SubmitPhotoPicker extends StatelessWidget {
             borderRadius: BorderRadius.circular(12),
           ),
           child: BlocBuilder<SubmitReportCubit, SubmitReportState>(
+            buildWhen: (previous, current) => previous.image != current.image,
             builder: (context, state) {
               final image = state.image;
               return image == null
@@ -62,13 +64,13 @@ class SubmitPhotoPicker extends StatelessWidget {
                         Icon(
                           Icons.camera_alt_outlined,
                           size: 42.sp,
-                          color: colorScheme.primary,
+                          color: colorScheme.tertiary.withValues(alpha: 0.5),
                         ),
-                        SizedBox(height: 12.h),
+                        verticalSpace(12),
                         Text(
                           localization?.takeAPhoto ?? 'Take a photo',
                           style: TextStyle(
-                            color: colorScheme.primary,
+                            color: colorScheme.tertiary.withValues(alpha: 0.5),
                             fontSize: 16.sp,
                           ),
                         ),

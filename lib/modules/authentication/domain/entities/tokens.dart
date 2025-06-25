@@ -14,9 +14,6 @@ class Tokens extends Equatable {
   });
 
   bool get isExpired {
-    // final now = DateTime.now();
-    // final expirationTime = issuedAt!.add(Duration(seconds: expiresAt));
-    // return now.isAfter(expirationTime);
     return DateTime.now().isAfter(expiresAt);
   }
 

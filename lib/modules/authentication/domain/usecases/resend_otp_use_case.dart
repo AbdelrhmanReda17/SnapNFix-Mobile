@@ -1,13 +1,12 @@
-import 'package:snapnfix/core/infrastructure/networking/api_result.dart';
-import 'package:snapnfix/modules/authentication/domain/entities/authentication_result.dart';
-import 'package:snapnfix/modules/authentication/domain/repositories/base_authentication_repository.dart';
+import 'package:snapnfix/modules/authentication/index.dart';
+import 'package:snapnfix/core/index.dart';
 
 class ResendOtpUseCase {
   final BaseAuthenticationRepository _repository;
 
   ResendOtpUseCase(this._repository);
 
-  Future<ApiResult<bool>> call({required OtpPurpose purpose}) async {
+  Future<Result<bool, ApiError>> call({required OtpPurpose purpose}) async {
     return await _repository.resendOTP(purpose: purpose);
   }
 }

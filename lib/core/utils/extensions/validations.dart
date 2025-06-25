@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 extension Validations on String {
   bool _validateEmail(String email) {
     const emailPattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$';
@@ -23,9 +24,21 @@ extension Validations on String {
   }
 
   bool _validateName(String fullName) {
-    const fullNamePattern = r'^[a-zA-Z]{3,}$';
+    const fullNamePattern = r'^[a-zA-Z]{3,20}$';
     final RegExp fullNameRegex = RegExp(fullNamePattern);
     return fullNameRegex.hasMatch(fullName);
+  }
+
+  String? validateReportDescription(BuildContext context) {
+    if (isEmpty) {
+      // return localization.reportDescriptionRequired;
+      return "Report description is required";
+    }
+    if (length < 10) {
+      // return localization.reportDescriptionMinLength;
+      return "Report description must be at least 10 characters long";
+    }
+    return null;
   }
 
   bool get isValidEmail => _validateEmail(this);
@@ -38,4 +51,6 @@ extension Validations on String {
   bool get isValidEmailOrPhone => isValidEmail || isValidPhoneNumber;
 
   bool get isNotEmpty => this.isNotEmpty;
+
+  bool get isValidReportDescription => isNotEmpty && length >= 10;
 }

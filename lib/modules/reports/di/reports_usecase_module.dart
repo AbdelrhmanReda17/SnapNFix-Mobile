@@ -1,6 +1,10 @@
 import 'package:injectable/injectable.dart';
 import 'package:snapnfix/modules/reports/domain/repositories/base_report_repository.dart';
+import 'package:snapnfix/modules/reports/domain/usecases/get_issue_fast_reports_use_case.dart';
+import 'package:snapnfix/modules/reports/domain/usecases/get_issue_snap_reports_use_case.dart';
 import 'package:snapnfix/modules/reports/domain/usecases/get_pending_reports_count_use_case.dart';
+import 'package:snapnfix/modules/reports/domain/usecases/get_user_reports_use_case.dart';
+import 'package:snapnfix/modules/reports/domain/usecases/submit_fast_report_use_case.dart';
 import 'package:snapnfix/modules/reports/domain/usecases/submit_report_use_case.dart';
 import 'package:snapnfix/modules/reports/domain/usecases/sync_prending_reports_use_case.dart';
 import 'package:snapnfix/modules/reports/domain/usecases/watch_pending_reports_count_use_case.dart';
@@ -11,6 +15,11 @@ abstract class ReportsUsecaseModule {
   SubmitReportUseCase provideSubmitReportUseCase(
     BaseReportRepository repository,
   ) => SubmitReportUseCase(repository);
+
+  @lazySingleton
+  SubmitFastReportUseCase provideSubmitFastReportUseCase(
+    BaseReportRepository repository,
+  ) => SubmitFastReportUseCase(repository);
 
   @lazySingleton
   SyncPendingReportsUseCase provideSyncPendingReportsUseCase(
@@ -26,4 +35,20 @@ abstract class ReportsUsecaseModule {
   GetPendingReportsCountUseCase provideGetPendingReportsCountUseCase(
     BaseReportRepository repository,
   ) => GetPendingReportsCountUseCase(repository);
+
+  @lazySingleton
+  GetUserReportsUseCase provideGetUserReportsUseCase(
+    BaseReportRepository repository,
+  ) => GetUserReportsUseCase(repository);
+
+
+  @lazySingleton
+  GetIssueFastReportsUseCase provideGetIssueFastReportsUseCase(
+    BaseReportRepository repository,
+  ) => GetIssueFastReportsUseCase(repository);
+
+  @lazySingleton
+  GetIssueSnapReportsUseCase provideGetIssueSnapReportsUseCase(
+    BaseReportRepository repository,
+  ) => GetIssueSnapReportsUseCase(repository);
 }

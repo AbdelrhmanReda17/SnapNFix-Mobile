@@ -15,6 +15,6 @@ class OtpState with _$OtpState {
     required String phoneNumber,
     required String password,
   }) = _RequiresProfileCompletion;
-  const factory OtpState.error(ApiErrorModel error) = _Error;
+  const factory OtpState.error(ApiError error) = _Error;
   const factory OtpState.registrationExpired() = _RegistrationExpired;
 }

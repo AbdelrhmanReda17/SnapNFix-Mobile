@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:snapnfix/core/config/application_constants.dart';
 import 'package:snapnfix/core/base_components/base_button.dart';
 
@@ -10,9 +11,9 @@ class SkipButton extends StatelessWidget {
   final PageController _controller;
   @override
   Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).textTheme;
+    final textTheme = Theme.of(context).textTheme;    
     return BaseButton(
-      text: 'Skip',
+      text: AppLocalizations.of(context)!.skip,
       backgroundColor: Colors.transparent,
       onPressed: () {
         _controller.animateToPage(

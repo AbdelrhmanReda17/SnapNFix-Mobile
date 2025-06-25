@@ -1,11 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
-import 'package:snapnfix/core/config/application_constants.dart';
-import 'package:snapnfix/core/utils/helpers/shared_pref_keys.dart';
-import 'package:snapnfix/core/infrastructure/storage/secure_storage_service.dart';
-import 'package:snapnfix/core/infrastructure/storage/shared_preferences_service.dart';
-import 'package:snapnfix/modules/authentication/data/models/session_model.dart';
+import '../../index.dart';
 
 @singleton
 class ApplicationConfigurations with ChangeNotifier {
@@ -34,6 +30,27 @@ class ApplicationConfigurations with ChangeNotifier {
     await _loadUserSession();
     await _loadLanguagePreference();
     await _loadThemePreference();
+  }
+
+  Future<void> updateSessionTokens(TokensModel tokens) {
+    if (_currentSession != null) {
+      _currentSession = _currentSession!.copyWith(tokens: tokens);
+      debugPrint("Updated Session: $_currentSession");
+      notifyListeners();
+      return setUserSession(_currentSession!);
+    }
+    return Future.value();
+  }
+
+  Future<void> updateSessionUser(UserModel user) {
+    if (_currentSession != null) {
+      _currentSession = _currentSession!.copyWith(user: user);
+      debugPrint("Updated Session User: ${_currentSession!.user}");
+      
+      notifyListeners();
+      return setUserSession(_currentSession!);
+    }
+    return Future.value();
   }
 
   // Onboarding methods

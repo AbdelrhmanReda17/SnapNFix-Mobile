@@ -1,11 +1,23 @@
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 enum IssueCategory {
-  roadDamage('Road Damage'),
-  defectivePothole('Defective Pothole'),
-  lighting('Lighting'),
-  manhole('Manhole');
+  garbage('Garbage'),
+  defectiveManhole('Defective Manhole'),
+  pothole('Pothole');
 
   final String displayName;
   const IssueCategory(this.displayName);
+
+  String getLocalizedName(AppLocalizations localization) {
+    switch (this) {
+      case IssueCategory.garbage:
+        return localization.garbage;
+      case IssueCategory.defectiveManhole:
+        return localization.defectiveManhole;
+      case IssueCategory.pothole:
+        return localization.pothole;
+    }
+  }
 
   @override
   String toString() => displayName;

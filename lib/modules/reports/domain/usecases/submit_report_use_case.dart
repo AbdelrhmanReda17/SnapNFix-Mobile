@@ -1,7 +1,6 @@
-import 'dart:io';
-import 'package:snapnfix/core/infrastructure/networking/api_error_model.dart';
-import 'package:snapnfix/core/infrastructure/networking/api_result.dart';
-import 'package:snapnfix/modules/reports/data/model/report_model.dart';
+import 'package:snapnfix/core/infrastructure/networking/error/api_error.dart';
+import 'package:snapnfix/core/utils/result.dart';
+import 'package:snapnfix/modules/reports/data/models/snap_report_model.dart';
 import 'package:snapnfix/modules/reports/domain/entities/report_severity.dart';
 import 'package:snapnfix/modules/reports/domain/repositories/base_report_repository.dart';
 
@@ -10,41 +9,41 @@ class SubmitReportUseCase {
 
   SubmitReportUseCase(this._repository);
 
-  Future<ApiResult<String>> call({
-    required String details,
+  Future<Result<String, ApiError>> call({
+    required String comment,
     required double latitude,
     required double longitude,
     required ReportSeverity severity,
+    required String city,
+    required String road,
+    required String state,
+    required String country,
     required String imagePath,
     String? category,
   }) async {
     try {
-      if (details.isEmpty) {
-        return ApiResult.failure(
-          ApiErrorModel(message: 'Report details cannot be empty'),
-        );
-      }
-
       if (imagePath.isEmpty) {
-        return ApiResult.failure(
-          ApiErrorModel(message: 'Report image is required'),
-        );
+        return Result.failure(ApiError(message: 'Report image is required'));
       }
 
-      final report = ReportModel(
-        details: details,
+      final report = SnapReportModel(
+        comment: comment,
         latitude: latitude,
         longitude: longitude,
+        city: city,
+        road: road,
+        state: state,
+        country: country,
         severity: severity,
         createdAt: DateTime.now(),
-        image: File(imagePath),
+        imagePath: imagePath,
         category: category,
       );
 
       return await _repository.submitReport(report);
     } catch (e) {
-      return ApiResult.failure(
-        ApiErrorModel(message: 'Failed to submit report: ${e.toString()}'),
+      return Result.failure(
+        ApiError(message: 'Failed to submit report: ${e.toString()}'),
       );
     }
   }

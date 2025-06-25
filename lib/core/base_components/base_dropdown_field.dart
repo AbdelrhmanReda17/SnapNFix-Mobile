@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:snapnfix/core/utils/helpers/spacing.dart';
 
 class BaseDropdownField<T> extends StatefulWidget {
   final String hintText;
+  final String? labelText;
   final List<T> items;
   final T? initialValue;
   final ValueChanged<T?>? onChanged;
@@ -18,6 +20,7 @@ class BaseDropdownField<T> extends StatefulWidget {
     super.key,
     required this.hintText,
     required this.items,
+    this.labelText,
     this.initialValue,
     this.onChanged,
     required this.itemLabelBuilder,
@@ -55,13 +58,24 @@ class _BaseDropdownFieldState<T> extends State<BaseDropdownField<T>> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        if (widget.labelText != null) ...[
+          Text(
+            widget.labelText!,
+            style: textStyles.bodyMedium?.copyWith(
+              color: colorScheme.tertiary.withValues(alpha: 0.5),
+              fontSize: 14.sp,
+            ),
+          ),
+          verticalSpace(2),
+        ],
         Container(
           decoration: BoxDecoration(
             color:
-                widget.backgroundColor ?? colorScheme.surface.withOpacity(0.3),
+                widget.backgroundColor ??
+                colorScheme.primary.withValues(alpha: 0.1),
             borderRadius: BorderRadius.circular(8.r),
             border: Border.all(
-              color: colorScheme.primary.withOpacity(0.3),
+              color: colorScheme.primary.withValues(alpha: 0.2),
               width: 1.3,
             ),
           ),
@@ -79,7 +93,7 @@ class _BaseDropdownFieldState<T> extends State<BaseDropdownField<T>> {
                           style:
                               widget.textStyle ??
                               textStyles.bodyMedium?.copyWith(
-                                color: colorScheme.primary,
+                                color: colorScheme.tertiary,
                               ),
                         ),
                       );
@@ -90,7 +104,7 @@ class _BaseDropdownFieldState<T> extends State<BaseDropdownField<T>> {
                   style:
                       widget.hintStyle ??
                       textStyles.bodyMedium?.copyWith(
-                        color: colorScheme.primary.withOpacity(0.3),
+                        color: colorScheme.tertiary.withValues(alpha: 0.5),
                       ),
                 ),
                 isExpanded: true,

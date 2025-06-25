@@ -49,18 +49,18 @@ class _SubmitReportScreenState extends State<SubmitReportScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      behavior: HitTestBehavior.translucent,
-      onTap: _timeoutManager.resetTimer,
-      onPanDown: (_) => _timeoutManager.resetTimer(),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SubmitReportAppBar(
-            timeoutManager: _timeoutManager,
-            onTipsPressed: _timeoutManager.resetTimer,
-          ),
-          Expanded(
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        // Move AppBar outside of GestureDetector
+        SubmitReportAppBar(
+          timeoutManager: _timeoutManager,
+          onTipsPressed: _timeoutManager.resetTimer,
+        ),
+        Expanded(
+          child: GestureDetector(
+            behavior: HitTestBehavior.translucent,
+            onPanDown: (_) => _timeoutManager.resetTimer(),
             child: SubmitReportForm(
               timeoutManager: _timeoutManager,
               onSubmit: () {
@@ -76,9 +76,9 @@ class _SubmitReportScreenState extends State<SubmitReportScreen> {
               },
             ),
           ),
-          SubmitReportBlocListener(),
-        ],
-      ),
+        ),
+        SubmitReportBlocListener(),
+      ],
     );
   }
 }

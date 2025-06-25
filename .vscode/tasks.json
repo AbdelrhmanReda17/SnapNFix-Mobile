@@ -20,6 +20,26 @@
         "isDefault": false
       },
       "problemMatcher": []
+    },
+    {
+      "label": "Flutter Analyze",
+      "type": "shell",
+      "command": "flutter analyze",
+      "group": {
+        "kind": "test",
+        "isDefault": true
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Flutter Test",
+      "type": "shell",
+      "command": "flutter test",
+      "group": {
+        "kind": "test",
+        "isDefault": false
+      },
+      "problemMatcher": []
     }
   ]
 }

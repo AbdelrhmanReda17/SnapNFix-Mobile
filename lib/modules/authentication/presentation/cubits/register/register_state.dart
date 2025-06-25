@@ -6,5 +6,5 @@ class RegisterState with _$RegisterState {
   const factory RegisterState.loading() = _Loading;
   const factory RegisterState.requiresOtp() = _RequiresOtp;
   const factory RegisterState.authenticated(Session data) = _Authenticated;
-  const factory RegisterState.error(ApiErrorModel error) = _Error;
+  const factory RegisterState.error(ApiError error) = _Error;
 }

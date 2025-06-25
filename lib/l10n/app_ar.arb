@@ -1,14 +1,36 @@
 {
   "@@locale": "ar",
+  "snapNFix": "SnapNFix",
+  "@snapNFix": {
+    "description": "App name"
+  },
   "hello": "مرحبًا!",
+  "@hello": {
+    "description": "Simple greeting"
+  },
   "welcome": "مرحبًا بك في تطبيقنا",
+   "@welcome": {
+    "description": "Welcome message displayed on the home screen"
+  },
 
   "welcomeBack": "مرحبًا بعودتك!",
+  "@welcomeBack": {
+    "description": "Greeting for returning users on login screen"
+  },
   "loginToContinue": "سجّل الدخول للمتابعة",
+  "@loginToContinue": {
+    "description": "Subtitle on login screen"
+  },
   "firstName": "الاسم الأول",
+  "@firstName": {
+    "description": "Label for first name field in forms"
+  },
   "lastName": "اسم العائلة",
+  "@lastName": {
+    "description": "Label for last name field in forms"
+  },
   "emailOrPhone": "بريد إالكتروني أو رقم الهاتف",
-  "phone": "رقم الهاتف",
+  "phoneNumber": "رقم الهاتف",
   "password": "كلمة المرور",
   "rememberMe": "تذكرني",
   "forgetPassword": "هل نسيت كلمة المرور؟",
@@ -16,6 +38,8 @@
   "orContinueWith": "أو تابع باستخدام",
   "notRegistered": "لست مسجلاً بعد؟",
   "createAccount": "إنشاء حساب",
+  "signInToAccount": "تسجيل الدخول إلى حسابك",
+  "enterEmailAndPassword": "أدخل بريدك الإلكتروني وكلمة المرور لتسجيل الدخول إلى حسابك",
 
   "createAccountTitle": "إنشاء حساب",
   "registerToContinue": "سجّل للمتابعة",
@@ -26,8 +50,36 @@
   "privacyPolicy": "سياسة الخصوصية",
   "signUp": "تسجيل الحساب",
   "alreadyHaveAcc": "هل لديك حساب بالفعل؟",
+  "getStarted": "ابدأ الآن",
+  "registerSubtitle": "حلك الشامل لجميع احتياجاتك",
+  "enterPhoneNumber": "أدخل رقم هاتفك",
 
-  "changePassword": "تغيير كلمة المرور",
+  "reportAnIncident": "الإبلاغ عن حادث",
+  "takeAPhoto": "التقط صورة",
+  "someInstructions": "بعض التعليمات",
+  "cameraInstructions": "استخدم كاميرا جهازك لالتقاط صور للحادث.",
+  "incidentExamples": "أمثلة للحوادث التي يمكنك الإبلاغ عنها:",
+  "safetyHazards": "مخاطر السلامة",
+  "securityConcerns": "مخاوف أمنية",
+  "propertyDamage": "أضرار بالممتلكات",
+  "environmentalIssues": "مشكلات بيئية",
+  "otherVisualEvidence": "أدلة بصرية أخرى للحوادث",
+  "locationTimeNote": "ملاحظة: عند تقديم صورك، سيتم تسجيل الموقع والوقت تلقائياً من جهازك.",
+  "additionalDetails": "تفاصيل إضافية (اختياري)",
+  "describeIncident": "صف الحادث....",
+  "submitReport": "تقديم البلاغ",
+  "locationRequired": "الموقع مطلوب",
+  "locationRequiredMessage": "خدمات الموقع معطلة. لتقديم البلاغ، يرجى تفعيل خدمات الموقع.",
+  "locationRequiredMessageWithNewLine": "خدمات الموقع معطلة.\nلتقديم البلاغ، يرجى تفعيل خدمات الموقع.",
+  "cancel": "إلغاء",
+  "enableLocation": "تفعيل",
+  "locationPermissionDenied": "تم رفض أذونات الموقع",
+  "locationPermissionPermanentlyDenied": "تم رفض أذونات الموقع بشكل دائم، لا يمكننا طلب الأذونات.",
+  "settings": "الإعدادات",
+  "unableToGetLocation": "تعذر الحصول على الموقع",
+  "pleaseAddPhoto": "يرجى التقاط صورة للحادث",
+  "reportSubmitted": "تم إرسال البلاغ بنجاح",
+
   "currentPassword": "كلمة المرور الحالية",
   "newPassword": "كلمة المرور الجديدة",
   "confirmNewPassword": "تأكيد كلمة المرور الجديدة",
@@ -36,12 +88,12 @@
   "passwordUppercase": "تتضمن حرفًا كبيرًا واحدًا على الأقل (مثل A، B، C).",
   "passwordLowercase": "تتضمن حرفًا صغيرًا واحدًا على الأقل (مثل a، b، c).",
   "passwordNumber": "تتضمن رقمًا واحدًا على الأقل (مثل 1، 2، 3).",
-  "passwordSpecial": "تتضمن رمزًا خاصًا واحدًا على الأقل (مثل !، @، #، $).",
+  "passwordSpecial": "تتضمن رمزًا خاصًا واحدًا على الأقل (مثل !، @، #).",
   "confirmButton": "تأكيد",
   "passwordsDoNotMatch": "كلمات المرور غير متطابقة",
   "passwordRequirementsNotMet": "كلمة المرور لا تستوفي جميع المتطلبات",
-  "passwordChangedSuccess": "تم تغيير كلمة المرور بنجاح",
-  "passwordChangeFailed": "فشل تغيير كلمة المرور",
+  "currentPasswordRequired": "كلمة المرور الحالية مطلوبة",
+  "newPasswordMustBeDifferent": "يجب أن تكون كلمة المرور الجديدة مختلفة عن كلمة المرور الحالية",
 
   "editProfile": "تعديل الملف الشخصي",
   "name": "الاسم",
@@ -50,11 +102,23 @@
   "dateOfBirth": "تاريخ الميلاد",
   "reset": "إعادة تعيين",
   "save": "حفظ",
+  "profileEditedSuccessfully": "تم تعديل الملف الشخصي بنجاح",
 
   "notificationSettings": "إعدادات الإشعارات",
   "support": "الدعم",
   "termsAndConditions": "الشروط والأحكام",
   "about": "حول",
+  "appVersion": "الإصدار {version}",
+  "@appVersion": {
+    "description": "App version",
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
+  "loginToViewSettings": "يرجى تسجيل الدخول لعرض الإعدادات",
+  "copyRights": "© 2025 SnapNFix",
   "signOut": "تسجيل الخروج",
   "darkMode": "الوضع الداكن",
   "language": "اللغة",
@@ -76,13 +140,42 @@
   "verify": "تحقق",
   "didnotReceiveCode": "لم تتلق الرمز؟ ",
   "resendCode": "إعادة إرسال الرمز",
+  "otpSentSuccessfully": "تم إعادة إرسال رمز التحقق بنجاح",
+  "otpVerifiedSuccessfullyAndPasswordResetRequired": "تم التحقق من رمز التحقق بنجاح، يمكنك الآن إعادة تعيين كلمة المرور",
+  "otpVerifiedSuccessfullyAndProfileCompletionRequired": "تم التحقق من رمز التحقق بنجاح، يمكنك الآن إكمال ملفك الشخصي",
 
+  "registerationExpiredTitle": "انتهت صلاحية التسجيل",
+  "registerationExpiredMessage": "لقد انتهت صلاحية تسجيلك. يرجى التسجيل مرة أخرى.",
+  "understood": "مفهوم",
+  "timeWarningMessageText": "تحذير: بقي دقيقتان فقط لإكمال عملية التحقق!",
+  "dismiss": "إغلاق",
+  "codeExpiresIn": "ستنتهي صلاحية الرمز خلال",
+  
   "forgotPasswordTitle": "نسيت كلمة المرور",
   "forgotPasswordSubtitle": "أدخل رقم الهاتف أو بريد حساب جوجل المرتبط بحسابك",
   "sendCode": "إرسال رمز التحقق",
+  "forgetPasswordFooterQuestion": "هل تواجه مشكلة مع بريدك الإلكتروني أو رقم هاتفك؟",
+  "enterEmailOrPhone": "أدخل بريدك الإلكتروني أو رقم هاتفك",
+
   "resetPasswordTitle": "إعادة تعيين كلمة المرور",
   "resetPasswordSubtitle": "أدخل كلمة المرور الجديدة",
   "resetPassword": "إعادة تعيين كلمة المرور",
+  "resetPasswordSuccessfully": "تم إعادة تعيين كلمة المرور بنجاح",
+
+  "completeProfileTitle": "إكمال الملف الشخصي",
+  "completeProfileSubtitle": "مرحبًا، دعنا نتعرف عليك بشكل أفضل",
+  "complete": "إكمال",
+  "skip": "تخطي",
+  "completeProfileSuccessMessage": "تم إكمال ملفك الشخصي بنجاح.",
+  "enterFirstName": "أدخل اسمك الأول",
+  "enterLastName": "أدخل اسم عائلتك",
+  "enterPassword": "أدخل كلمة المرور",
+  "reEnterPassword": "أعد إدخال كلمة المرور",
+  "enterCurrentPassword": "أدخل كلمة المرور الحالية",
+  "enterNewPassword": "أدخل كلمة المرور الجديدة",
+  "enterName": "أدخل اسمك",
+  "selectGender": "اختر الجنس (اختياري)",
+  "selectDateOfBirth": "اختر تاريخ الميلاد (اختياري)",
 
   "website": "الموقع الإلكتروني",
   "contactUs": "اتصل بنا",
@@ -114,35 +207,507 @@
   "contentGuidelinesText": "• يجب أن يكون كل المحتوى المقدم مناسباً وذا صلة\n• يجب أن تظهر الصور بوضوح المشكلة المبلغ عنها\n• تجنب تضمين أفراد يمكن التعرف عليهم في الصور دون موافقة\n• لا تقدم بلاغات كاذبة أو مضللة",
   
   "lastUpdated": "آخر تحديث: {date}",
+   "@lastUpdated": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
 
-  "issueDetails": "تفاصيل البلاغ #ISS-{issueId}",
+  "issueDetails": "{issueId}-تفاصيل البلاغ #بلاغ",
+  "@issueDetails": {
+    "description": "Title of Issue Detials Screen for a specific issue",
+    "placeholders": {
+      "issueId": {
+        "type" : "String"
+      }
+    }
+  },
   "issueCategory": "{category}",
+  "@issueCategory": {
+    "description": "The category of the issue",
+    "placeholders": {
+      "category": {
+        "type": "String"
+      }
+    }
+  },
   "issueSeverity": "{severity}",
+  "@issueSeverity": {
+    "description": "The severity of the issue",
+    "placeholders": {
+      "severity": {
+        "type": "String"
+      }
+    }
+  },
+
   "issueStatus": "{status}",
+  "@issueStatus": {
+    "description": "The status of the issue",
+    "placeholders": {
+      "status": {
+        "type": "String"
+      }
+    }
+  },
+
   "issueReportsNum": "{reportsCount} بلاغ",
+  "@issueReportsNum": {
+    "description": "Number of reports submitted for the issue",
+    "placeholders": {
+      "reportsCount": {
+        "type": "int"
+      }
+    }
+  },
+
   "issueLocation": "{location}",
+  "@issueLocation": {
+    "description": "The location of the issue",
+    "placeholders": {
+      "location": {
+        "type": "String"
+      }
+    }
+  },
+
   "issuedAt": "{date}",
+  "@issuedAt": {
+    "description": "Shows the date the issue was created",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+
   "issueDescriptionsTitle": "الوصف ({count})",
+  "@issueDescriptionsTitle": {
+    "description": "Number of Descriptions on the issue",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "imageNotAvailable": "الصورة غير متوفرة",
   "imagesNotAvaiable": "لا توجد صور متاحة",
   "noDescriptions": "لا يوجد وصف بعد",
 
-  "reportAnIncident": "الإبلاغ عن حادث",
   "myReports": "بلاغاتي",
   "noReports": "لا توجد بلاغات حتى الآن",
+  "reports": "بلاغات",
   "severityLow": "منخفضة",
   "severityMedium": "متوسطة", 
   "severityHigh": "عالية",
   "statusPending": "قيد الانتظار",
   "statusValid": "صالح",
   "statusInvalid": "غير صالح",
-  "viewIssue": "عرض المشكلة رقم {number}",
-  "@viewIssue": {
+  "viewIssue": "عرض المشكلة ",
+
+  "accessTokenError": "فشل الحصول على رمز الوصول",
+  "facebookSignInFailed": "فشل تسجيل الدخول عبر فيسبوك",
+  "unknownErrorOccurred": "حدث خطأ غير معروف",
+  "googleSignInFailed": "فشل تسجيل الدخول عبر جوجل",
+
+  "successDialogTitle": "نجاح",
+  "errorDialogTitle": "خطأ",
+  "gotItConfirmText": "فهمت",
+
+  "errorFetchingIssue": "خطأ في جلب المشكلة",
+  "ok": "حسنًا",
+
+  "applyFilters": "تطبيق التصفية",
+  "filters": "تصفية",
+  "clearFilters": "مسح التصفية",
+  "categories": "الفئات",
+  "filterIssues": "تصفية المشكلات",
+  "clearAll": "مسح الكل",
+  "severities": "مستويات الخطورة",
+  "status": "الحالة",
+  "fastReport": "بلاغ سريع",
+
+  "year": "سنة",
+  "years": "سنوات",
+  "month": "شهر",
+  "months": "أشهر",
+  "day": "يوم",
+  "days": "أيام",
+  "hour": "ساعة",
+  "hours": "ساعات",
+  "minute": "دقيقة",
+  "minutes": "دقائق",
+  "ago": "منذ",
+
+  "mapErrorGeneralTitle": "حدث خطأ ما",
+  "mapErrorPermissionTitle": "الوصول للموقع مطلوب",
+  "mapErrorGeneralActionText": "إعادة المحاولة",
+  "errorPermissionActionText": "فتح الإعدادات",
+
+  "locationIsDisabled": "خدمات الموقع معطلة.\nلتقديم بلاغ، يرجى تمكين خدمات الموقع.",
+  "loadingLocation": "جارِ تحميل الموقع...",
+  "noValidAddressFound": "لم يتم العثور على عنوان صالح",
+
+  "reportsSynced": "تم مزامنة البلاغات!",
+  "someReportsFailed": "فشل مزامنة بعض البلاغات",
+  "syncingFailed": "فشلت المزامنة",
+  "noInternetConnection": "لا يوجد اتصال بالإنترنت",
+  "syncingInProgress": "جارٍ المزامنة",
+
+  "reportSeverity": "الخطورة: {severity}",
+  "@reportSeverity": {
+    "description": "مستوى خطورة البلاغ",
     "placeholders": {
-      "number": {
+      "severity": {
         "type": "String"
       }
     }
-  }
+  },
 
+  "submittingReportError": "خطأ أثناء تقديم البلاغ",
+  "locationAndTime": "الموقع والوقت",
+  "locationAndTimeIsRecorded": "عند تقديم بلاغك، سيتم تسجيل الموقع والوقت تلقائيًا",
+  "reportingTips": "نصائح للإبلاغ",
+  "severity": "الخطورة",
+  "channels": "القنوات",
+
+  "homeSubtitle": "حافظ على أمان مدينتنا!",
+
+  "loyaltyPoints": "نقاط الولاء",
+  "points": "نقطة",
+  "earnMorePointsDescription": "اكسب المزيد من النقاط واستمتع بالمزايا",
+  "claim": "استلام",
+  "pendingReports": "بلاغات معلقة",
+  "reportsCountValue": "{count} بلاغ",
+  "@reportsCountValue": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }  },  "issuesBeingReviewed": "يتم مراجعة مشكلاتك.",
+  "viewDetails": "عرض التفاصيل",
+  "approvedReports": "بلاغات معتمدة",
+  "aiRecognized": "الذكاء الاصطناعي تعرف على بلاغاتك!",
+  "loading": "جارٍ التحميل...",
+  "issue": "مشكلة",
+  "issues": "مشكلات",
+  "foundNearYou": "وجدت بالقرب منك",
+
+  "spottedIssue": "هل لاحظت مشكلة حضرية؟",
+  "helpUsImprove": "ساعدنا في تحسين المدينة! أبلغ عن أي مشكلة في الطريق،\nمن الحفر والمجاري والقمامة، من هنا.",
+  "reportNow": "أبلغ الآن",
+  "tryAgain": "حاول مرة أخرى",
+  "@tryAgain": {
+    "description": "Button text for retry actions"
+  },
+  "loadingReports": "جاري تحميل البلاغات...",
+  "@loadingReports": {
+    "description": "Message shown when reports are loading"
+  },
+  "loadingMore": "جاري تحميل المزيد من البلاغات...",
+  "@loadingMore": {
+    "description": "Message shown when loading additional reports"
+  },
+  "failedToLoadReports": "فشل في تحميل البلاغات",
+  "@failedToLoadReports": {
+    "description": "Error message when reports fail to load"
+  },
+
+  "number1": "١",
+  "@number1": {
+    "description": "Number 1"
+  },
+  "number2": "٢",
+  "@number2": {
+    "description": "Number 2"
+  },
+  "number3": "٣",
+  "@number3": {
+    "description": "Number 3"
+  },
+  "number4": "٤",
+  "@number4": {
+    "description": "Number 4"
+  },
+  "number5": "٥",
+  "@number5": {
+    "description": "Number 5"
+  },
+  "number6": "٦",
+  "@number6": {
+    "description": "Number 6"
+  },
+  "number7": "٧",
+  "@number7": {
+    "description": "Number 7"
+  },
+  "number8": "٨",
+  "@number8": {
+    "description": "Number 8"
+  },
+  "number9": "٩",
+  "@number9": {
+    "description": "Number 9"
+  },
+  "category": "الفئة",
+  "noReportsForFilters": "لا توجد بلاغات تطابق المرشحات الحالية",
+  "filter": "تصفية",
+  "nFiltersApplied": "{count} تصفيات مطبقة",
+  "@nFiltersApplied": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },  "sort": "ترتيب",
+  "sortByDateNewest": "التاريخ (الأحدث أولاً)",
+  "sortByDateOldest": "التاريخ (الأقدم أولاً)",
+
+  "issueDetailsTitle": "تفاصيل المشكلة",
+  "areaUpdates": "تحديثات المنطقة",
+  "noAreasToDisplay": "لا توجد مناطق للعرض",
+  "filterByStatus": "تصفية حسب الحالة",
+  "subscribe": "اشتراك",
+  "unsubscribe": "إلغاء الاشتراك",
+  "updates": "التحديثات",
+  "male": "ذكر",
+  "female": "أنثى",
+  "notSpecified": "غير محدد",  "channelUpdates": "تحديثات {channel}",
+  "@channelUpdates": {
+    "description": "Updates for a specific channel",
+    "placeholders": {
+      "channel": {
+        "type": "String"
+      }
+    }
+  },
+
+  "goodLighting": "إضاءة جيدة",
+  "goodLightingDesc": "تأكد من أن صورتك مضاءة جيداً لإظهار جميع التفاصيل بوضوح.",
+  "clearView": "رؤية واضحة",
+  "clearViewDesc": "التقط المشكلة بوضوح كتركيز رئيسي للصورة.",
+  "contextMatters": "السياق مهم",
+  "contextMattersDesc": "أدرج المنطقة المحيطة للمساعدة في تحديد موقع المشكلة.",
+  "addDetails": "أضف التفاصيل",
+  "addDetailsDesc": "صف ما حدث أو أي معلومات إضافية مهمة.",
+
+  "nasrCity": "مدينة نصر",
+  "downtown": "وسط البلد",
+  "maadi": "المعادي",
+  "zamalek": "الزمالك",
+  "heliopolis": "مصر الجديدة",
+  "cairo": "القاهرة",
+
+  "improving": "في تحسن",
+  "declining": "في تراجع",
+  "stable": "مستقر",
+
+  "roadDamage": "أضرار الطرق",
+  "infrastructure": "البنية التحتية",
+  "publicSafety": "السلامة العامة",
+  "cleanliness": "النظافة",
+  "lighting": "الإضاءة",
+  "traffic": "المرور",
+  "other": "أخرى",
+
+  "selectCategory": "اختر الفئة",
+  "selectSeverity": "اختر درجة الخطورة",
+  "selectStatus": "اختر الحالة",
+  "allCategories": "جميع الفئات",
+  "allSeverities": "جميع درجات الخطورة",
+  "allStatuses": "جميع الحالات",
+
+  "reportSubmittedSuccessfully": "تم إرسال البلاغ بنجاح!",
+  "submittingReport": "جاري إرسال البلاغ...",
+  "reportSubmissionFailed": "فشل في إرسال البلاغ",
+  "pleaseCheckConnection": "يرجى التحقق من اتصال الإنترنت والمحاولة مرة أخرى.",
+
+  "takePhoto": "التقاط صورة",
+  "retakePhoto": "إعادة التقاط الصورة",
+  "deletePhoto": "حذف الصورة",
+  "photoRequired": "الصورة مطلوبة",
+  "photoTaken": "تم التقاط الصورة بنجاح",
+
+  "retry": "إعادة المحاولة",
+  "logoutFailed": "فشل تسجيل الخروج، يرجى المحاولة مرة أخرى.",
+
+  "locationAccuracy": "دقة الموقع",
+  "highAccuracy": "عالية",
+  "mediumAccuracy": "متوسطة",
+  "lowAccuracy": "منخفضة",
+
+  "reportingInstructions": "تعليمات الإبلاغ",
+  "step1": "1. التقط صورة واضحة للمشكلة",
+  "step2": "2. أضف وصفاً (اختياري)",
+  "step3": "3. حدد مستوى الخطورة",
+  "step4": "4. أرسل البلاغ",
+
+  "sessionTimeout": "انتهاء مهلة الجلسة",
+  "sessionTimeoutMessage": "ستنتهي جلستك قريباً. يرجى حفظ عملك.",
+  "extendSession": "تمديد الجلسة",
+  "timeRemaining": "الوقت المتبقي",  "networkError": "خطأ في الشبكة",
+  "serverError": "خطأ في الخادم",
+  "unexpectedError": "حدث خطأ غير متوقع",
+  "connectionTimeout": "انتهت مهلة الاتصال",
+  "requestFailed": "فشل الطلب",
+
+  "filterReports": "تصفية البلاغات",
+  "gettingYourLocation": "جاري تحديد موقعك...",
+  "locationInformation": "معلومات الموقع",
+  "issueInformation": "معلومات المشكلة",
+  "areaHealthStatus": "حالة صحة المنطقة",
+  "goodCondition": "حالة جيدة",
+  "avgFixTime": "متوسط وقت الإصلاح",
+  "fixedMonth": "مُصلح (شهر)",
+  "openIssues": "المشاكل المفتوحة",
+  "noIssuesFoundIn": "لم يتم العثور على مشاكل في {area}",
+  "@noIssuesFoundIn": {
+    "placeholders": {
+      "area": {
+        "type": "String"
+      }
+    }
+  },
+  "mokattamIssues": "مشاكل المقطم",
+  "description": "الوصف",
+  "road": "الطريق",
+  "city": "المدينة",
+  "state": "المحافظة",
+  "country": "البلد",
+  "egypt": "مصر",
+  "alGiza": "الجيزة",
+  "gizaGovernorate": "محافظة الجيزة",  "pending": "قيد الانتظار",
+  "inProgress": "قيد التنفيذ",
+  "completed": "تم الإصلاح",
+  "approved": "موافق عليه",
+  "declined": "مرفوض",
+  "submit": "إرسال",
+  "high": "عالي",
+  "medium": "متوسط",  "low": "منخفض",
+  "garbage": "قمامة",  "defectiveManhole": "غطاء بالوعة تالف",
+  "pothole": "حفرة في الطريق",  "fastReports": "بلاغات سريعة",  "snapReports": "بلاغات مصورة",
+  "anonymous": "مجهول",
+  "reportsLabel": "بلاغات",
+  "createdLabel": "تم الإنشاء",  "applyFilter": "تطبيق التصفية","clearAllFilters": "مسح جميع المرشحات",
+  "statusFilters": "مرشحات الحالة",
+
+  "excellentCondition": "حالة ممتازة",
+  "fairCondition": "حالة مقبولة",
+  "poorCondition": "حالة سيئة",
+  "criticalCondition": "حالة حرجة",
+
+  "justNow": "الآن",
+  "dayAgo": "منذ {count} يوم",
+  "daysAgo": "منذ {count} أيام",
+  "hourAgo": "منذ {count} ساعة",
+  "hoursAgo": "منذ {count} ساعات",
+  "minuteAgo": "منذ {count} دقيقة",
+  "minutesAgo": "منذ {count} دقائق",
+
+  "yourAreas": "مناطقك",
+  "@yourAreas": {
+    "description": "Header title for user's subscribed areas section"
+  },
+  "manageAreas": "إدارة المناطق",
+  "@manageAreas": {
+    "description": "Tooltip text for manage areas button"
+  },
+  "refresh": "تحديث",
+  "@refresh": {
+    "description": "Tooltip text for refresh button"
+  },
+  "noSubscribedAreas": "لا توجد مناطق مشترك بها",
+  "@noSubscribedAreas": {
+    "description": "Message when user has no subscribed areas"
+  },
+  "tapToAddAreas": "اضغط + لإضافة مناطق",
+  "@tapToAddAreas": {
+    "description": "Instruction message for adding areas"
+  },
+  "unknownArea": "منطقة غير معروفة",
+  "@unknownArea": {
+    "description": "Fallback text when area name is empty"
+  },
+  "unknownState": "محافظة غير معروفة",
+  "@unknownState": {
+    "description": "Fallback text when state name is empty"
+  },
+  "viewAll": "عرض الكل",
+  "@viewAll": {
+    "description": "Text for see all card"
+  },
+  "seeMoreAreas": "شاهد المزيد من المناطق",
+  "@seeMoreAreas": {
+    "description": "Subtitle for see all card"
+  },
+  "showingCachedData": "عرض البيانات المحفوظة",
+  "@showingCachedData": {
+    "description": "Warning message when showing cached data"
+  },
+  "subscribed": "مشترك",
+  "@subscribed": {
+    "description": "Tab title for subscribed areas"
+  },
+  "allAreas": "جميع المناطق",
+  "@allAreas": {
+    "description": "Tab title for all areas"
+  },
+  "searchAreas": "البحث في المناطق...",
+  "@searchAreas": {
+    "description": "Hint text for search field"
+  },
+  "noSubscribedAreasFound": "لم يتم العثور على مناطق مشترك بها\nاشترك في المناطق لرؤيتها هنا",
+  "@noSubscribedAreasFound": {
+    "description": "Empty message for subscribed areas tab"
+  },
+  "noAreasAvailable": "لا توجد مناطق متاحة\nحاول التحديث أو تحقق من الاتصال",
+  "@noAreasAvailable": {
+    "description": "Empty message for all areas tab"
+  },
+  "subscribing": "جاري الاشتراك...",
+  "@subscribing": {
+    "description": "Loading text when subscribing to an area"
+  },
+  "unsubscribing": "جاري إلغاء الاشتراك...",
+  "@unsubscribing": {
+    "description": "Loading text when unsubscribing from an area"
+  },
+  "subscriptionFailed": "فشل الاشتراك",
+  "@subscriptionFailed": {
+    "description": "Error message when subscription fails"
+  },
+  "unsubscriptionFailed": "فشل إلغاء الاشتراك",
+  "@unsubscriptionFailed": {
+    "description": "Error message when unsubscription fails"
+  },
+  "noNewAreasToSubscribe": "لا توجد مناطق جديدة للاشتراك بها",
+  "@noNewAreasToSubscribe": {
+    "description": "Message when there are no new areas available"
+  },
+  "failedToLoadSubscribedAreas": "فشل في تحميل المناطق المشترك بها",
+  "@failedToLoadSubscribedAreas": {
+    "description": "Error message when subscribed areas fail to load"
+  },
+  "failedToLoadAreas": "فشل في تحميل المناطق",
+  "@failedToLoadAreas": {
+    "description": "Error message when areas fail to load"
+  },
+  "subscribeToAreasToSeeHere": "اشترك في المناطق لرؤيتها هنا",
+  "@subscribeToAreasToSeeHere": {
+    "description": "Instruction message for empty subscribed areas"
+  },
+  "removing": "جاري الإزالة...",
+  "@removing": {
+    "description": "Loading text when removing subscription"
+  },
+  "adding": "جاري الإضافة...",
+  "@adding": {
+    "description": "Loading text when adding subscription"
+  },
+  "issuesPlural": "مشكلات",
+  "@issuesPlural": {
+    "description": "Plural form of issues"
+  }
 }

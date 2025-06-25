@@ -1,17 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:snapnfix/core/dependency_injection/dependency_injection.dart';
-import 'package:snapnfix/modules/authentication/presentation/cubits/complete_profile/complete_profile_cubit.dart';
-import 'package:snapnfix/modules/authentication/presentation/cubits/forget_password/forgot_password_cubit.dart';
-import 'package:snapnfix/modules/authentication/presentation/cubits/login/login_cubit.dart';
-import 'package:snapnfix/modules/authentication/presentation/cubits/otp/otp_cubit.dart';
-import 'package:snapnfix/modules/authentication/presentation/cubits/register/register_cubit.dart';
-import 'package:snapnfix/modules/authentication/presentation/cubits/reset_password/reset_password_cubit.dart';
-import 'package:snapnfix/modules/authentication/presentation/screens/forgot_password_screen.dart';
-import 'package:snapnfix/modules/authentication/presentation/screens/login_screen.dart';
-import 'package:snapnfix/modules/authentication/presentation/screens/register_screen.dart';
-import 'package:snapnfix/modules/authentication/presentation/screens/complete_profile_screen.dart';
-import 'package:snapnfix/modules/authentication/presentation/screens/otp_screen.dart';
-import 'package:snapnfix/modules/authentication/presentation/screens/reset_password_screen.dart';
+import 'package:snapnfix/modules/index.dart';
 import 'package:snapnfix/presentation/navigation/configuration/route_configuration.dart';
 
 import 'package:snapnfix/presentation/navigation/routes.dart';

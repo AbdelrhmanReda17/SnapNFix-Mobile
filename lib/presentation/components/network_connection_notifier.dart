@@ -48,6 +48,7 @@ class _NetworkConnectionNotifierState extends State<NetworkConnectionNotifier> {
   void _showNetworkToast(BuildContext context, bool isConnected) {
     Future.microtask(() {
       BaseToast.show(
+        // ignore: use_build_context_synchronously
         context: context,
         message:
             isConnected

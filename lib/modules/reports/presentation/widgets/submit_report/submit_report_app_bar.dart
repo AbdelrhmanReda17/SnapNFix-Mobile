@@ -4,6 +4,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:snapnfix/modules/reports/presentation/cubits/submit_report_cubit.dart';
 import 'package:snapnfix/modules/reports/presentation/utils/report_timeout_manager.dart';
 import 'package:snapnfix/modules/reports/presentation/widgets/submit_report/submit_report_tips.dart';
+import 'package:snapnfix/core/utils/helpers/number_formatter.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SubmitReportAppBar extends StatelessWidget {
   final ReportTimeoutManager timeoutManager;
@@ -19,6 +21,7 @@ class SubmitReportAppBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
     final textStyles = Theme.of(context).textTheme;
+    final localization = AppLocalizations.of(context)!;
 
     return AppBar(
       backgroundColor: colorScheme.surface,
@@ -26,13 +29,15 @@ class SubmitReportAppBar extends StatelessWidget {
       centerTitle: true,
       leading: BlocBuilder<SubmitReportCubit, SubmitReportState>(
         builder: (context, state) {
-          if (state.image != null || state.details != null) {
+          if (state.image != null || state.comment != null) {
             return ValueListenableBuilder<int>(
               valueListenable: timeoutManager.timeRemainingNotifier,
               builder: (context, secondsRemaining, _) {
+                final minutes = (secondsRemaining / 60).floor();
+                final seconds = secondsRemaining % 60;
                 return Center(
                   child: Text(
-                    _formatTime(secondsRemaining),
+                    "${NumberFormatter.localizeNumber(minutes, localization)}:${NumberFormatter.localizeNumber(seconds.toString().padLeft(2, '0'), localization)}",
                     style: TextStyle(
                       fontSize: 14.sp,
                       fontWeight: FontWeight.w500,
@@ -50,10 +55,10 @@ class SubmitReportAppBar extends StatelessWidget {
         },
       ),
       title: Text(
-        "Report an Incident",
+        localization.reportAnIncident,
         style: textStyles.headlineLarge?.copyWith(
           fontSize: 20.sp,
-          color: colorScheme.primary,
+          color: colorScheme.tertiary,
         ),
       ),
       actions: [
@@ -61,11 +66,5 @@ class SubmitReportAppBar extends StatelessWidget {
       ],
       elevation: 0,
     );
-  }
-
-  String _formatTime(int totalSeconds) {
-    final minutes = totalSeconds ~/ 60;
-    final seconds = totalSeconds % 60;
-    return '${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')}';
   }
 }

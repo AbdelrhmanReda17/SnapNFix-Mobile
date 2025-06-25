@@ -1,13 +1,12 @@
-import 'package:snapnfix/core/infrastructure/networking/api_result.dart';
-import 'package:snapnfix/modules/authentication/domain/entities/authentication_result.dart';
-import 'package:snapnfix/modules/authentication/domain/repositories/base_authentication_repository.dart';
+import 'package:snapnfix/modules/authentication/index.dart';
+import 'package:snapnfix/core/index.dart';
 
 class LoginUseCase {
   final BaseAuthenticationRepository _repository;
 
   LoginUseCase(this._repository);
 
-  Future<ApiResult<AuthenticationResult>> call({
+  Future<Result<AuthenticationResult, ApiError>> call({
     required String phoneOrEmail,
     required String password,
   }) async {

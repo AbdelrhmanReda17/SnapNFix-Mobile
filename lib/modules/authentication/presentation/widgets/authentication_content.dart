@@ -25,7 +25,6 @@ class AuthenticationContent extends StatelessWidget {
   final String? footerTimerText;
   final Widget? footer;
   final bool showBackButton;
- 
 
   const AuthenticationContent({
     super.key,
@@ -54,7 +53,7 @@ class AuthenticationContent extends StatelessWidget {
     return ListView(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
-      padding: EdgeInsets.symmetric(horizontal: 24.w),
+      padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 24.h),
       keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
       children: [
         if (RouterObserver.canPopRoute(context) && showBackButton)
@@ -72,7 +71,7 @@ class AuthenticationContent extends StatelessWidget {
               ),
             ),
           ),
-        SizedBox(height: 45.h),
+        horizontalSpace(45.h),
         Image.asset('assets/images/SnapNFix.png', height: 70.h),
         Text(
           title,
@@ -84,14 +83,14 @@ class AuthenticationContent extends StatelessWidget {
           ),
           textAlign: TextAlign.center,
         ),
-        SizedBox(height: 8.h),
+        horizontalSpace(8.h),
         SizedBox(
           width: 280.w,
           height: 40.h,
           child: Text(
             subtitle,
             style: textStyles.bodyMedium?.copyWith(
-              color: colorScheme.primary.withAlpha(179),
+              color: colorScheme.tertiary.withValues(alpha: 0.5),
               fontSize: 14.sp,
               height: 1.4,
               fontWeight: FontWeight.w400,
@@ -112,7 +111,9 @@ class AuthenticationContent extends StatelessWidget {
           text: buttonText,
           onPressed: onSubmit,
           backgroundColor: colorScheme.primary,
-          textStyle: textStyles.bodyLarge!.copyWith(color: colorScheme.surface),
+          textStyle: textStyles.bodyLarge!.copyWith(
+            color: colorScheme.onPrimary,
+          ),
         ),
         if (showTerms) ...[verticalSpace(20), const TermsAndPrivacyPolicy()],
         if (showSocial) ...[verticalSpace(20), const AuthenticationSocial()],

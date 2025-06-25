@@ -1,5 +1,6 @@
-import 'package:snapnfix/core/infrastructure/networking/api_result.dart';
-import 'package:snapnfix/modules/settings/data/models/dtos/edit_profile_dto.dart';
+import 'package:snapnfix/core/infrastructure/networking/error/api_error.dart';
+import 'package:snapnfix/core/utils/result.dart';
+import 'package:snapnfix/modules/settings/data/models/edit_profile_request.dart';
 import 'package:snapnfix/modules/settings/domain/repositories/base_settings_repository.dart';
 
 class EditProfileUseCase {
@@ -7,7 +8,7 @@ class EditProfileUseCase {
 
   EditProfileUseCase(this._repository);
 
-  Future<ApiResult<String>> call(EditProfileDTO editProfileDTO) {
+  Future<Result<bool, ApiError>> call(EditProfileRequest editProfileDTO) {
     return _repository.editProfile(editProfileDTO);
   }
 }

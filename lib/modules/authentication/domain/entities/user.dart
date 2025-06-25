@@ -5,20 +5,20 @@ class User extends Equatable {
   final String? id;
   final String? firstName;
   final String? lastName;
-  final String phoneNumber;
+  final String? phoneNumber;
   final String? email;
   final String? profileImage;
-  final DateTime? dateOfBirth;
+  final DateTime? birthDate;
   final UserGender? gender;
 
   const User({
     required this.id,
     this.firstName,
     this.lastName,
-    required this.phoneNumber,
+    this.phoneNumber,
     this.email,
     this.profileImage,
-    this.dateOfBirth,
+    this.birthDate,
     this.gender,
   });
 
@@ -30,7 +30,7 @@ class User extends Equatable {
     phoneNumber,
     email,
     profileImage,
-    dateOfBirth,
+    birthDate,
     gender,
   ];
 }

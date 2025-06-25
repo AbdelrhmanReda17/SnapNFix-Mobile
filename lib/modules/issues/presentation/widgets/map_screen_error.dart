@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:snapnfix/core/base_components/base_button.dart';
+import 'package:snapnfix/core/utils/helpers/spacing.dart';
 
 enum MapErrorType { general, permission }
 
@@ -20,6 +23,7 @@ class MapScreenError extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
+    final localization = AppLocalizations.of(context)!;
 
     return Center(
       child: Column(
@@ -33,23 +37,23 @@ class MapScreenError extends StatelessWidget {
                     ? colorScheme.error
                     : colorScheme.primary,
           ),
-          const SizedBox(height: 16),
+          verticalSpace(16),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 32),
             child: Text(
-              title ?? _getDefaultTitle(),
+              title ?? _getDefaultTitle(localization),
               style: Theme.of(context).textTheme.titleLarge?.copyWith(
                 color: type == MapErrorType.general ? colorScheme.error : null,
               ),
               textAlign: TextAlign.center,
             ),
           ),
-          const SizedBox(height: 24),
+          verticalSpace(24),
           SizedBox(
-            width: MediaQuery.of(context).size.width * 0.5,
+            width: 0.5.sw,
             child: BaseButton(
               onPressed: onActionPressed,
-              text: actionText ?? _getDefaultActionText(),
+              text: actionText ?? _getDefaultActionText(localization),
               backgroundColor: colorScheme.primary,
               textStyle: TextStyle(
                 color: colorScheme.onPrimary,
@@ -71,21 +75,22 @@ class MapScreenError extends StatelessWidget {
     }
   }
 
-  String _getDefaultTitle() {
+  String _getDefaultTitle(AppLocalizations localization) {
     switch (type) {
       case MapErrorType.general:
-        return 'Something went wrong';
+        return localization.mapErrorGeneralTitle;
       case MapErrorType.permission:
-        return 'Location access required';
+        return localization.mapErrorPermissionTitle;
     }
   }
 
-  String _getDefaultActionText() {
+  String _getDefaultActionText(AppLocalizations localization) {
+
     switch (type) {
       case MapErrorType.general:
-        return 'Retry';
+        return localization.mapErrorGeneralActionText;
       case MapErrorType.permission:
-        return 'Open Settings';
+        return localization.errorPermissionActionText;
     }
   }
 }

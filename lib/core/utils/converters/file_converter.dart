@@ -2,15 +2,15 @@ import 'dart:io';
 
 import 'package:json_annotation/json_annotation.dart';
 
-class FileConverter implements JsonConverter<File?, String?> {
+class FileConverter implements JsonConverter<File, String?> {
   const FileConverter();
 
   @override
-  File? fromJson(String? json) {
-    if (json == null) return null;
+  File fromJson(String? json) {
+    if (json == null || json.isEmpty) return File('');
     return File(json);
   }
 
   @override
-  String? toJson(File? file) => file?.path;
+  String? toJson(File file) => file.path;
 }

@@ -12,8 +12,7 @@ part of 'issue_details_cubit.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
-);
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$IssueDetailsState {
@@ -22,37 +21,42 @@ mixin _$IssueDetailsState {
     required TResult Function() initial,
     required TResult Function() loading,
     required TResult Function(Issue issue) loaded,
-    required TResult Function(ApiErrorModel error) error,
-  }) => throw _privateConstructorUsedError;
+    required TResult Function(ApiError error) error,
+  }) =>
+      throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
     TResult? Function(Issue issue)? loaded,
-    TResult? Function(ApiErrorModel error)? error,
-  }) => throw _privateConstructorUsedError;
+    TResult? Function(ApiError error)? error,
+  }) =>
+      throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
     TResult Function(Issue issue)? loaded,
-    TResult Function(ApiErrorModel error)? error,
+    TResult Function(ApiError error)? error,
     required TResult orElse(),
-  }) => throw _privateConstructorUsedError;
+  }) =>
+      throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_Initial value) initial,
     required TResult Function(_Loading value) loading,
     required TResult Function(_Loaded value) loaded,
     required TResult Function(_Error value) error,
-  }) => throw _privateConstructorUsedError;
+  }) =>
+      throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Initial value)? initial,
     TResult? Function(_Loading value)? loading,
     TResult? Function(_Loaded value)? loaded,
     TResult? Function(_Error value)? error,
-  }) => throw _privateConstructorUsedError;
+  }) =>
+      throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Initial value)? initial,
@@ -60,15 +64,15 @@ mixin _$IssueDetailsState {
     TResult Function(_Loaded value)? loaded,
     TResult Function(_Error value)? error,
     required TResult orElse(),
-  }) => throw _privateConstructorUsedError;
+  }) =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 abstract class $IssueDetailsStateCopyWith<$Res> {
   factory $IssueDetailsStateCopyWith(
-    IssueDetailsState value,
-    $Res Function(IssueDetailsState) then,
-  ) = _$IssueDetailsStateCopyWithImpl<$Res, IssueDetailsState>;
+          IssueDetailsState value, $Res Function(IssueDetailsState) then) =
+      _$IssueDetailsStateCopyWithImpl<$Res, IssueDetailsState>;
 }
 
 /// @nodoc
@@ -88,9 +92,8 @@ class _$IssueDetailsStateCopyWithImpl<$Res, $Val extends IssueDetailsState>
 /// @nodoc
 abstract class _$$InitialImplCopyWith<$Res> {
   factory _$$InitialImplCopyWith(
-    _$InitialImpl value,
-    $Res Function(_$InitialImpl) then,
-  ) = __$$InitialImplCopyWithImpl<$Res>;
+          _$InitialImpl value, $Res Function(_$InitialImpl) then) =
+      __$$InitialImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
@@ -98,9 +101,8 @@ class __$$InitialImplCopyWithImpl<$Res>
     extends _$IssueDetailsStateCopyWithImpl<$Res, _$InitialImpl>
     implements _$$InitialImplCopyWith<$Res> {
   __$$InitialImplCopyWithImpl(
-    _$InitialImpl _value,
-    $Res Function(_$InitialImpl) _then,
-  ) : super(_value, _then);
+      _$InitialImpl _value, $Res Function(_$InitialImpl) _then)
+      : super(_value, _then);
 
   /// Create a copy of IssueDetailsState
   /// with the given fields replaced by the non-null parameter values.
@@ -131,7 +133,7 @@ class _$InitialImpl implements _Initial {
     required TResult Function() initial,
     required TResult Function() loading,
     required TResult Function(Issue issue) loaded,
-    required TResult Function(ApiErrorModel error) error,
+    required TResult Function(ApiError error) error,
   }) {
     return initial();
   }
@@ -142,7 +144,7 @@ class _$InitialImpl implements _Initial {
     TResult? Function()? initial,
     TResult? Function()? loading,
     TResult? Function(Issue issue)? loaded,
-    TResult? Function(ApiErrorModel error)? error,
+    TResult? Function(ApiError error)? error,
   }) {
     return initial?.call();
   }
@@ -153,7 +155,7 @@ class _$InitialImpl implements _Initial {
     TResult Function()? initial,
     TResult Function()? loading,
     TResult Function(Issue issue)? loaded,
-    TResult Function(ApiErrorModel error)? error,
+    TResult Function(ApiError error)? error,
     required TResult orElse(),
   }) {
     if (initial != null) {
@@ -207,9 +209,8 @@ abstract class _Initial implements IssueDetailsState {
 /// @nodoc
 abstract class _$$LoadingImplCopyWith<$Res> {
   factory _$$LoadingImplCopyWith(
-    _$LoadingImpl value,
-    $Res Function(_$LoadingImpl) then,
-  ) = __$$LoadingImplCopyWithImpl<$Res>;
+          _$LoadingImpl value, $Res Function(_$LoadingImpl) then) =
+      __$$LoadingImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
@@ -217,9 +218,8 @@ class __$$LoadingImplCopyWithImpl<$Res>
     extends _$IssueDetailsStateCopyWithImpl<$Res, _$LoadingImpl>
     implements _$$LoadingImplCopyWith<$Res> {
   __$$LoadingImplCopyWithImpl(
-    _$LoadingImpl _value,
-    $Res Function(_$LoadingImpl) _then,
-  ) : super(_value, _then);
+      _$LoadingImpl _value, $Res Function(_$LoadingImpl) _then)
+      : super(_value, _then);
 
   /// Create a copy of IssueDetailsState
   /// with the given fields replaced by the non-null parameter values.
@@ -250,7 +250,7 @@ class _$LoadingImpl implements _Loading {
     required TResult Function() initial,
     required TResult Function() loading,
     required TResult Function(Issue issue) loaded,
-    required TResult Function(ApiErrorModel error) error,
+    required TResult Function(ApiError error) error,
   }) {
     return loading();
   }
@@ -261,7 +261,7 @@ class _$LoadingImpl implements _Loading {
     TResult? Function()? initial,
     TResult? Function()? loading,
     TResult? Function(Issue issue)? loaded,
-    TResult? Function(ApiErrorModel error)? error,
+    TResult? Function(ApiError error)? error,
   }) {
     return loading?.call();
   }
@@ -272,7 +272,7 @@ class _$LoadingImpl implements _Loading {
     TResult Function()? initial,
     TResult Function()? loading,
     TResult Function(Issue issue)? loaded,
-    TResult Function(ApiErrorModel error)? error,
+    TResult Function(ApiError error)? error,
     required TResult orElse(),
   }) {
     if (loading != null) {
@@ -326,9 +326,8 @@ abstract class _Loading implements IssueDetailsState {
 /// @nodoc
 abstract class _$$LoadedImplCopyWith<$Res> {
   factory _$$LoadedImplCopyWith(
-    _$LoadedImpl value,
-    $Res Function(_$LoadedImpl) then,
-  ) = __$$LoadedImplCopyWithImpl<$Res>;
+          _$LoadedImpl value, $Res Function(_$LoadedImpl) then) =
+      __$$LoadedImplCopyWithImpl<$Res>;
   @useResult
   $Res call({Issue issue});
 }
@@ -338,23 +337,22 @@ class __$$LoadedImplCopyWithImpl<$Res>
     extends _$IssueDetailsStateCopyWithImpl<$Res, _$LoadedImpl>
     implements _$$LoadedImplCopyWith<$Res> {
   __$$LoadedImplCopyWithImpl(
-    _$LoadedImpl _value,
-    $Res Function(_$LoadedImpl) _then,
-  ) : super(_value, _then);
+      _$LoadedImpl _value, $Res Function(_$LoadedImpl) _then)
+      : super(_value, _then);
 
   /// Create a copy of IssueDetailsState
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({Object? issue = null}) {
-    return _then(
-      _$LoadedImpl(
-        null == issue
-            ? _value.issue
-            : issue // ignore: cast_nullable_to_non_nullable
-                as Issue,
-      ),
-    );
+  $Res call({
+    Object? issue = null,
+  }) {
+    return _then(_$LoadedImpl(
+      null == issue
+          ? _value.issue
+          : issue // ignore: cast_nullable_to_non_nullable
+              as Issue,
+    ));
   }
 }
 
@@ -396,7 +394,7 @@ class _$LoadedImpl implements _Loaded {
     required TResult Function() initial,
     required TResult Function() loading,
     required TResult Function(Issue issue) loaded,
-    required TResult Function(ApiErrorModel error) error,
+    required TResult Function(ApiError error) error,
   }) {
     return loaded(issue);
   }
@@ -407,7 +405,7 @@ class _$LoadedImpl implements _Loaded {
     TResult? Function()? initial,
     TResult? Function()? loading,
     TResult? Function(Issue issue)? loaded,
-    TResult? Function(ApiErrorModel error)? error,
+    TResult? Function(ApiError error)? error,
   }) {
     return loaded?.call(issue);
   }
@@ -418,7 +416,7 @@ class _$LoadedImpl implements _Loaded {
     TResult Function()? initial,
     TResult Function()? loading,
     TResult Function(Issue issue)? loaded,
-    TResult Function(ApiErrorModel error)? error,
+    TResult Function(ApiError error)? error,
     required TResult orElse(),
   }) {
     if (loaded != null) {
@@ -480,11 +478,10 @@ abstract class _Loaded implements IssueDetailsState {
 /// @nodoc
 abstract class _$$ErrorImplCopyWith<$Res> {
   factory _$$ErrorImplCopyWith(
-    _$ErrorImpl value,
-    $Res Function(_$ErrorImpl) then,
-  ) = __$$ErrorImplCopyWithImpl<$Res>;
+          _$ErrorImpl value, $Res Function(_$ErrorImpl) then) =
+      __$$ErrorImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({ApiErrorModel error});
+  $Res call({ApiError error});
 }
 
 /// @nodoc
@@ -492,23 +489,22 @@ class __$$ErrorImplCopyWithImpl<$Res>
     extends _$IssueDetailsStateCopyWithImpl<$Res, _$ErrorImpl>
     implements _$$ErrorImplCopyWith<$Res> {
   __$$ErrorImplCopyWithImpl(
-    _$ErrorImpl _value,
-    $Res Function(_$ErrorImpl) _then,
-  ) : super(_value, _then);
+      _$ErrorImpl _value, $Res Function(_$ErrorImpl) _then)
+      : super(_value, _then);
 
   /// Create a copy of IssueDetailsState
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({Object? error = null}) {
-    return _then(
-      _$ErrorImpl(
-        null == error
-            ? _value.error
-            : error // ignore: cast_nullable_to_non_nullable
-                as ApiErrorModel,
-      ),
-    );
+  $Res call({
+    Object? error = null,
+  }) {
+    return _then(_$ErrorImpl(
+      null == error
+          ? _value.error
+          : error // ignore: cast_nullable_to_non_nullable
+              as ApiError,
+    ));
   }
 }
 
@@ -518,7 +514,7 @@ class _$ErrorImpl implements _Error {
   const _$ErrorImpl(this.error);
 
   @override
-  final ApiErrorModel error;
+  final ApiError error;
 
   @override
   String toString() {
@@ -550,7 +546,7 @@ class _$ErrorImpl implements _Error {
     required TResult Function() initial,
     required TResult Function() loading,
     required TResult Function(Issue issue) loaded,
-    required TResult Function(ApiErrorModel error) error,
+    required TResult Function(ApiError error) error,
   }) {
     return error(this.error);
   }
@@ -561,7 +557,7 @@ class _$ErrorImpl implements _Error {
     TResult? Function()? initial,
     TResult? Function()? loading,
     TResult? Function(Issue issue)? loaded,
-    TResult? Function(ApiErrorModel error)? error,
+    TResult? Function(ApiError error)? error,
   }) {
     return error?.call(this.error);
   }
@@ -572,7 +568,7 @@ class _$ErrorImpl implements _Error {
     TResult Function()? initial,
     TResult Function()? loading,
     TResult Function(Issue issue)? loaded,
-    TResult Function(ApiErrorModel error)? error,
+    TResult Function(ApiError error)? error,
     required TResult orElse(),
   }) {
     if (error != null) {
@@ -620,9 +616,9 @@ class _$ErrorImpl implements _Error {
 }
 
 abstract class _Error implements IssueDetailsState {
-  const factory _Error(final ApiErrorModel error) = _$ErrorImpl;
+  const factory _Error(final ApiError error) = _$ErrorImpl;
 
-  ApiErrorModel get error;
+  ApiError get error;
 
   /// Create a copy of IssueDetailsState
   /// with the given fields replaced by the non-null parameter values.

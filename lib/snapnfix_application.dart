@@ -4,6 +4,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:snapnfix/core/config/application_configurations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:snapnfix/core/dependency_injection/dependency_injection.dart';
+import 'package:snapnfix/presentation/navigation/navigation_service.dart';
 import 'package:snapnfix/presentation/navigation/router_configuration.dart';
 import 'package:snapnfix/presentation/themes/application_themes.dart';
 
@@ -24,6 +25,8 @@ class SnapNFixApplication extends StatelessWidget {
           return MaterialApp.router(
             title: 'SnapNFix',
             supportedLocales: AppLocalizations.supportedLocales,
+            scaffoldMessengerKey:
+                getIt<NavigationService>().scaffoldMessengerKey,
             debugShowCheckedModeBanner: false,
             themeMode: appConfigs.isDarkMode ? ThemeMode.dark : ThemeMode.light,
             theme:

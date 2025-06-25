@@ -1,14 +1,36 @@
 {
   "@@locale": "en",
+  "snapNFix": "SnapNFix",
+  "@snapNFix": {
+    "description": "App name"
+  },
   "hello": "Hello!",
+  "@hello": {
+    "description": "Simple greeting"
+  },
   "welcome": "Welcome to our app",
+  "@welcome": {
+    "description": "Welcome message displayed on the home screen"
+  },
 
   "welcomeBack": "Welcome Back!",
+  "@welcomeBack": {
+    "description": "Greeting for returning users on login screen"
+  },
   "loginToContinue": "Login to continue",
+  "@loginToContinue": {
+    "description": "Subtitle on login screen"
+  },
   "firstName": "First Name",
+  "@firstName": {
+    "description": "Label for first name field in forms"
+  },
   "lastName": "Last Name",
+  "@lastName": {
+    "description": "Label for last name field in forms"
+  },
   "emailOrPhone": "Email or Phone",
-  "phone": "Phone Number",
+  "phoneNumber": "Phone Number",
   "password": "Password",
   "rememberMe": "Remember me",
   "forgetPassword": "Forget password?",
@@ -16,6 +38,8 @@
   "orContinueWith": "Or continue with",
   "notRegistered" : "Not Registered yet?",
   "createAccount": "Create an Account",
+  "signInToAccount": "Sign In to your account",
+  "enterEmailAndPassword": "Enter your email and password to sign in to your account",
 
   "createAccountTitle": "Create Account",
   "registerToContinue": "Register to continue",
@@ -26,8 +50,12 @@
   "privacyPolicy":  "Privacy Policy",
   "signUp": "Sign Up",
   "alreadyHaveAcc": "Already have an account?",
-
-
+  "getStarted": "Get started now",
+  "registerSubtitle": "Your one-stop solution for all your needs",
+  "enterPhoneNumber": "Enter your phone number",
+  "enterName": "Enter your name",
+  "selectGender": "Select your gender (optional)",
+  "selectDateOfBirth": "Select your date of birth (optional)",
 
   "reportAnIncident": "Report an Incident",
   "takeAPhoto": "Take a photo",
@@ -45,6 +73,7 @@
   "submitReport": "Submit Report",
   "locationRequired": "Location Required",
   "locationRequiredMessage": "Location services are disabled. To submit a report, please enable location services.",
+  "locationRequiredMessageWithNewLine": "Location services are disabled.\nTo submit a report, please enable location services.",
   "cancel": "Cancel",
   "enableLocation": "Enable",
   "locationPermissionDenied": "Location permissions are denied",
@@ -54,8 +83,6 @@
   "pleaseAddPhoto": "Please take a photo of the incident",
   "reportSubmitted": "Report submitted successfully",
 
-
-  "changePassword": "Change Password",
   "currentPassword": "Current Password",
   "newPassword": "New Password",
   "confirmNewPassword": "Confirm New Password",
@@ -64,12 +91,12 @@
   "passwordUppercase": "Include at least one uppercase letter (e.g., A, B, C).",
   "passwordLowercase": "Include at least one lowercase letter (e.g., a, b, c).",
   "passwordNumber": "Include at least one number (e.g., 1, 2, 3).",
-  "passwordSpecial": "Include at least one special character (e.g., !, @, #, $).",
+  "passwordSpecial": "Include at least one special character (e.g., !, @, #).",
   "confirmButton": "Confirm",
   "passwordsDoNotMatch": "Passwords don't match",
   "passwordRequirementsNotMet": "Password doesn't meet all requirements",
-  "passwordChangedSuccess": "Password changed successfully",
-  "passwordChangeFailed": "Failed to change password",
+  "currentPasswordRequired": " Current password is required",
+  "newPasswordMustBeDifferent": "New password must be different from current password",
 
   "editProfile": "Edit Profile",
   "name": "Name",
@@ -78,12 +105,23 @@
   "dateOfBirth": "Date of Birth",
   "reset": "Reset",
   "save": "Save",
-
+  "profileEditedSuccessfully": "Profile Edited successfully",
 
   "notificationSettings" : "Notification Settings",
   "support" : "Support",
   "termsAndConditions" : "Terms & Condiftions",
   "about" : "About",
+  "appVersion": "Version {version}",
+  "@appVersion": {
+    "description": "App version",
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
+  "loginToViewSettings": "Please login to view settings",
+  "copyRights": "© 2025 SnapNFix",
   "signOut" :"Sign Out",
   "darkMode" : "Dark Mode",
   "language" : "Language",
@@ -105,14 +143,39 @@
   "verify": "Verify",
   "didnotReceiveCode": "Didn't Receive Code? ",
   "resendCode": "Resend Code",
+  "otpSentSuccessfully": "OTP resent successfully",
+  "otpVerifiedSuccessfullyAndPasswordResetRequired": "OTP verified successfully , you can now reset your password",
+  "otpVerifiedSuccessfullyAndProfileCompletionRequired": "OTP verified successfully , you can now complete your profile",
+
+  "registerationExpiredTitle": "Registration Expired",
+  "registerationExpiredMessage": "Your registration has expired. Please sign up again.",
+  "understood": "Understood",
+  "timeWarningMessageText": "Warning: Only 2 minutes remaining to complete verification!",
+  "dismiss": "Dismiss",
+  "codeExpiresIn": "The code will expire in",
 
   "forgotPasswordTitle": "Forgot Password",
   "forgotPasswordSubtitle": "Enter the phone number or Google Account Email associated with your account",
   "sendCode": "Send Verification Code",
+  "forgetPasswordFooterQuestion": "Issues with your email or phone number?",
+  "enterEmailOrPhone": "Enter your email or phone number",
 
   "resetPasswordTitle": "Reset Password",
   "resetPasswordSubtitle": "Enter you new password",
   "resetPassword": "Reset Password",
+  "resetPasswordSuccessfully": "Password reset successfully",
+
+  "completeProfileTitle": "Complete Profile",
+  "completeProfileSubtitle": "Welcome, Let's get to know you better",
+  "complete": "Complete",
+  "skip": "Skip",
+  "completeProfileSuccessMessage": "Your profile has been successfully completed.",
+  "enterFirstName": "Enter your first name",
+  "enterLastName": "Enter your last name",
+  "enterPassword": "Enter your password",
+  "reEnterPassword": "Repeat your password",
+  "enterCurrentPassword": "Enter your current password",
+  "enterNewPassword": "Enter your new password",
 
   "website": "Website",
   "contactUs": "Contact Us",
@@ -235,19 +298,466 @@
   
   "myReports": "My Reports",
   "noReports": "No reports yet",
+  "reports": "Reports",
   "severityLow": "low",
-  "severityMedium": "medium", 
-  "severityHigh": "high",
+  "severityMedium": "medium",   "severityHigh": "high",
   "statusPending": "pending",
-  "statusValid": "valid",
-  "statusInvalid": "invalid",
-  "viewIssue": "View Issue #{number}",
-  "@viewIssue": {
+  "statusValid": "approved",
+  "statusInvalid": "declined",
+  "viewIssue": "View Issue",
+
+  "accessTokenError": "Failed to get access token",
+  "facebookSignInFailed": "Facebook sign in failed",
+  "unknownErrorOccurred": "Unknown error occurred",
+  "googleSignInFailed": "Google sign in failed",
+
+  "successDialogTitle": "Success",
+  "errorDialogTitle": "Error",
+  "gotItConfirmText": "Got it",
+
+  "errorFetchingIssue": "Error Fetching the Issue",
+  "ok": "OK",
+
+  "applyFilters": "Apply Filters",
+  "filters": "Fitlers",
+  "clearFilters": "Clear Filters",
+  "categories": "Categories",
+  "filterIssues": "Filter Issues",
+  "clearAll": "Clear All",
+  "severities": "Severities",
+  "status": "Status",
+  "fastReport": "Fast Report",
+
+  "year": "year",
+  "years": "years",
+  "month": "month",
+  "months": "months",
+  "day": "day",
+  "days": "days",
+  "hour": "hour",
+  "hours": "hours",
+  "minute": "minute",
+  "minutes": "minutes",
+  "ago": "ago",
+
+  "mapErrorGeneralTitle": "Something went wrong",
+  "mapErrorPermissionTitle": "Location access required",
+  "mapErrorGeneralActionText": "Retry",
+  "errorPermissionActionText": "Open Settings",
+
+  "locationIsDisabled": "Location services are disabled.\nTo submit a report, please enable location services.",
+  "loadingLocation": "Loading location...",
+  "noValidAddressFound": "No valid address found",
+
+  "reportsSynced": "Reports synced!",
+  "someReportsFailed": "Some reports failed to sync",
+  "syncingFailed": "Syncing failed",
+  "noInternetConnection": "No internet connection",
+  "syncingInProgress": "Syncing in progress",
+
+  "reportSeverity": "Severity: {severity}",
+  "@reportSeverity": {
+    "description": "The severity of the report",
     "placeholders": {
-      "number": {
+      "severity": {
         "type": "String"
       }
     }
-  }
+  },
 
+  "submittingReportError": "Error while submitting report",
+  "locationAndTime": "Location & Time",
+  "locationAndTimeIsRecorded": "When you submit your report, the location and time will be automatically recorded",
+  "reportingTips": "Reporting Tips",
+  "severity": "Severity",
+  "channels": "Channels",
+  
+  "homeSubtitle" : "Keep Our City Safe!",
+
+  "loyaltyPoints": "Loyalty Points",
+  "points": "Pts",
+  "earnMorePointsDescription": "Earn more points and enjoy benefits",
+  "claim": "Claim",
+  "pendingReports": "Pending Reports",
+  "reportsCountValue": "{count} reports",
+  "@reportsCountValue": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }  },  "issuesBeingReviewed": "Your issues are being reviewed.",
+  "viewDetails": "View Details",
+  "approvedReports": "Approved Reports",
+  "aiRecognized": "AI recognized your reports!",
+  "loading": "Loading...",
+  "issue": "Issue",
+  "issues": "Issues",
+  "foundNearYou": "Found Near You",
+
+  "spottedIssue": "Spotted an Urban issue?",
+  "helpUsImprove": "Help us improve the city! Report any road issues,\nfrom potholes ,manholes and garbage, right here.",
+  "reportNow": "REPORT NOW",
+  "tryAgain": "Try Again",
+  "@tryAgain": {
+    "description": "Button text for retry actions"
+  }, 
+  "loadingReports": "Loading reports...",
+  "@loadingReports": {
+    "description": "Message shown when reports are loading"
+  },
+  "loadingMore": "Loading more reports...",
+  "@loadingMore": {
+    "description": "Message shown when loading additional reports"
+  },
+  "failedToLoadReports": "Failed to load reports",
+  "@failedToLoadReports": {
+    "description": "Error message when reports fail to load"
+  },
+
+  "number1": "1",
+  "@number1": {
+    "description": "Number 1"
+  },
+  "number2": "2",
+  "@number2": {
+    "description": "Number 2"
+  },
+  "number3": "3",
+  "@number3": {
+    "description": "Number 3"
+  },
+  "number4": "4",
+  "@number4": {
+    "description": "Number 4"
+  },
+  "number5": "5",
+  "@number5": {
+    "description": "Number 5"
+  },
+  "number6": "6",
+  "@number6": {
+    "description": "Number 6"
+  },
+  "number7": "7",
+  "@number7": {
+    "description": "Number 7"
+  },
+  "number8": "8",
+  "@number8": {
+    "description": "Number 8"
+  },
+  "number9": "9",
+  "@number9": {
+    "description": "Number 9"
+  },
+  "category": "Category",
+  "noReportsForFilters": "No reports match the current filters",
+  "filter": "Filter",
+  "nFiltersApplied": "{count} Filters Applied",
+  "@nFiltersApplied": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "sort": "Sort",  "sortByDateNewest": "Date (Newest First)",
+  "sortByDateOldest": "Date (Oldest First)",
+
+  "issueDetailsTitle": "Issue Details",
+  "areaUpdates": "Area Updates",
+  "noAreasToDisplay": "No areas to display",
+  "filterByStatus": "Filter by status",
+  "subscribe": "Subscribe",
+  "unsubscribe": "Unsubscribe",
+  "updates": "Updates",
+  "male": "Male",
+  "female": "Female",
+  "notSpecified": "Not Specified",  "channelUpdates": "{channel} Updates",
+  "@channelUpdates": {
+    "description": "Updates for a specific channel",
+    "placeholders": {
+      "channel": {
+        "type": "String"
+      }
+    }
+  },
+
+  "goodLighting": "Good Lighting",
+  "goodLightingDesc": "Make sure your photo is well-lit to show all details clearly.",
+  "clearView": "Clear View",
+  "clearViewDesc": "Capture the issue clearly as the main focus of the image.",
+  "contextMatters": "Context Matters",
+  "contextMattersDesc": "Include surrounding area to help locate the issue.",
+  "addDetails": "Add Details",
+  "addDetailsDesc": "Describe what happened or any additional important information.",
+
+  "nasrCity": "Nasr City",
+  "downtown": "Downtown",
+  "maadi": "Maadi",
+  "zamalek": "Zamalek",
+  "heliopolis": "Heliopolis",
+  "cairo": "Cairo",
+
+  "improving": "Improving",
+  "declining": "Declining",
+  "stable": "Stable",
+
+  "roadDamage": "Road Damage",
+  "infrastructure": "Infrastructure",
+  "publicSafety": "Public Safety",
+  "cleanliness": "Cleanliness",
+  "lighting": "Lighting",
+  "traffic": "Traffic",
+  "other": "Other",
+
+  "selectCategory": "Select Category",
+  "selectSeverity": "Select Severity",
+  "selectStatus": "Select Status",
+  "allCategories": "All Categories",
+  "allSeverities": "All Severities",
+  "allStatuses": "All Statuses",
+
+  "reportSubmittedSuccessfully": "Report submitted successfully!",
+  "submittingReport": "Submitting report...",
+  "reportSubmissionFailed": "Failed to submit report",
+  "pleaseCheckConnection": "Please check your internet connection and try again.",
+
+  "takePhoto": "Take Photo",
+  "retakePhoto": "Retake Photo",
+  "deletePhoto": "Delete Photo",
+  "photoRequired": "Photo is required",
+  "photoTaken": "Photo taken successfully",
+
+  "locationAccuracy": "Location Accuracy",
+  "highAccuracy": "High",
+  "mediumAccuracy": "Medium",
+  "lowAccuracy": "Low",
+
+  "reportingInstructions": "Reporting Instructions",
+  "step1": "1. Take a clear photo of the issue",
+  "step2": "2. Add description (optional)",
+  "step3": "3. Set severity level", 
+  "step4": "4. Submit your report",
+
+  "sessionTimeout": "Session Timeout",
+  "sessionTimeoutMessage": "Your session will expire soon. Please save your work.",
+  "extendSession": "Extend Session",
+  "timeRemaining": "Time remaining",  "networkError": "Network Error",
+  "serverError": "Server Error",
+  "unexpectedError": "An unexpected error occurred",
+  "connectionTimeout": "Connection timeout",
+  "requestFailed": "Request failed",
+
+  "filterReports": "Filter Reports",
+  "gettingYourLocation": "Getting your location...",
+  "locationInformation": "Location Information",
+  "issueInformation": "Issue Information",
+  "areaHealthStatus": "Area Health Status",
+  "goodCondition": "Good condition",
+  "avgFixTime": "Avg Fix Time",
+  "fixedMonth": "Fixed (Month)",
+  "openIssues": "Open Issues",
+  "noIssuesFoundIn": "No issues found in {area}",
+  "@noIssuesFoundIn": {
+    "placeholders": {
+      "area": {
+        "type": "String"
+      }
+    }
+  },
+  "mokattamIssues": "Mokattam Issues",
+  "description": "Description",
+  "road": "Road",
+  "city": "City",
+  "state": "State",
+  "country": "Country",
+  "egypt": "Egypt",
+  "alGiza": "Al Giza",
+  "gizaGovernorate": "Giza Governorate",  "pending": "Pending",
+  "inProgress": "In Progress", 
+  "completed": "Completed",
+  "approved": "Approved",
+  "declined": "Declined",
+  "submit": "Submit",
+  "high": "High",
+  "medium": "Medium",  "low": "Low",
+  "garbage": "Garbage",  "defectiveManhole": "Defective Manhole",
+  "pothole": "Pothole",  "fastReports": "Fast Reports",  "snapReports": "Snap Reports",
+  "anonymous": "Anonymous",
+  "reportsLabel": "Reports",
+  "createdLabel": "Created",
+  "applyFilter": "Apply Filter","clearAllFilters": "Clear All Filters",
+  "statusFilters": "Status Filters",
+
+  "excellentCondition": "Excellent condition",
+  "fairCondition": "Fair condition",
+  "poorCondition": "Poor condition",
+  "criticalCondition": "Critical condition",
+  "justNow": "Just now",
+  "dayAgo": "{count} day ago",
+  "@dayAgo": {
+    "description": "One day ago",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "daysAgo": "{count} days ago",
+  "@daysAgo": {
+    "description": "Multiple days ago",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "hourAgo": "{count} hour ago",
+  "@hourAgo": {
+    "description": "One hour ago",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "hoursAgo": "{count} hours ago",
+  "@hoursAgo": {
+    "description": "Multiple hours ago",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "minuteAgo": "{count} minute ago",
+  "@minuteAgo": {
+    "description": "One minute ago",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "minutesAgo": "{count} minutes ago",
+  "@minutesAgo": {
+    "description": "Multiple minutes ago",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "retry": "Retry",
+  "logoutFailed": "Logout failed. Please try again.",
+
+  "yourAreas": "Your Areas",
+  "@yourAreas": {
+    "description": "Header title for user's subscribed areas section"
+  },
+  "manageAreas": "Manage Areas",
+  "@manageAreas": {
+    "description": "Tooltip text for manage areas button"
+  },
+  "refresh": "Refresh",
+  "@refresh": {
+    "description": "Tooltip text for refresh button"
+  },
+  "noSubscribedAreas": "No subscribed areas",
+  "@noSubscribedAreas": {
+    "description": "Message when user has no subscribed areas"
+  },
+  "tapToAddAreas": "Tap + to add areas",
+  "@tapToAddAreas": {
+    "description": "Instruction message for adding areas"
+  },
+  "unknownArea": "Unknown Area",
+  "@unknownArea": {
+    "description": "Fallback text when area name is empty"
+  },
+  "unknownState": "Unknown State",
+  "@unknownState": {
+    "description": "Fallback text when state name is empty"
+  },
+  "viewAll": "View All",
+  "@viewAll": {
+    "description": "Text for see all card"
+  },
+  "seeMoreAreas": "See more areas",
+  "@seeMoreAreas": {
+    "description": "Subtitle for see all card"
+  },
+  "showingCachedData": "Showing cached data",
+  "@showingCachedData": {
+    "description": "Warning message when showing cached data"
+  },
+  "subscribed": "Subscribed",
+  "@subscribed": {
+    "description": "Tab title for subscribed areas"
+  },
+  "allAreas": "All Areas",
+  "@allAreas": {
+    "description": "Tab title for all areas"
+  },
+  "searchAreas": "Search areas...",
+  "@searchAreas": {
+    "description": "Hint text for search field"
+  },
+  "noSubscribedAreasFound": "No subscribed areas found\nSubscribe to areas to see them here",
+  "@noSubscribedAreasFound": {
+    "description": "Empty message for subscribed areas tab"
+  },
+  "noAreasAvailable": "No areas available\nTry refreshing or check your connection",
+  "@noAreasAvailable": {
+    "description": "Empty message for all areas tab"
+  },
+  "subscribing": "Subscribing...",
+  "@subscribing": {
+    "description": "Loading text when subscribing to an area"
+  },
+  "unsubscribing": "Unsubscribing...",
+  "@unsubscribing": {
+    "description": "Loading text when unsubscribing from an area"
+  },
+  "subscriptionFailed": "Subscription failed",
+  "@subscriptionFailed": {
+    "description": "Error message when subscription fails"
+  },
+  "unsubscriptionFailed": "Unsubscription failed",
+  "@unsubscriptionFailed": {
+    "description": "Error message when unsubscription fails"
+  },
+  "noNewAreasToSubscribe": "No new areas to subscribe to",
+  "@noNewAreasToSubscribe": {
+    "description": "Message when there are no new areas available"
+  },
+  "failedToLoadSubscribedAreas": "Failed to load subscribed areas",
+  "@failedToLoadSubscribedAreas": {
+    "description": "Error message when subscribed areas fail to load"
+  },
+  "failedToLoadAreas": "Failed to load areas",
+  "@failedToLoadAreas": {
+    "description": "Error message when areas fail to load"
+  },
+  "subscribeToAreasToSeeHere": "Subscribe to areas to see them here",
+  "@subscribeToAreasToSeeHere": {
+    "description": "Instruction message for empty subscribed areas"
+  },
+  "removing": "Removing...",
+  "@removing": {
+    "description": "Loading text when removing subscription"
+  },
+  "adding": "Adding...",
+  "@adding": {
+    "description": "Loading text when adding subscription"
+  },
+  "issue": "Issue",
+  "@issue": {
+    "description": "Singular form of issue"
+  },
+  "issuesPlural": "Issues",
+  "@issuesPlural": {
+    "description": "Plural form of issues"
+  }
 }

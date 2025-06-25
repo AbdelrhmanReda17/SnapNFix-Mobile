@@ -1,14 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:snapnfix/core/infrastructure/location/location_permission_wrapper.dart';
-import 'package:snapnfix/modules/issues/presentation/cubits/issues_map_cubit.dart';
-import 'package:snapnfix/modules/issues/presentation/cubits/issues_map_state.dart';
-import 'package:snapnfix/modules/issues/presentation/widgets/filter_sheet/issue_filter_sheet.dart';
-import 'package:snapnfix/modules/issues/presentation/widgets/issues_map.dart';
-import 'package:snapnfix/modules/issues/presentation/widgets/map_controllers.dart';
-import 'package:snapnfix/modules/issues/presentation/widgets/marker_dialog/issue_marker_dialog.dart';
-import 'package:snapnfix/modules/issues/presentation/widgets/nearby_issues_section.dart';
+import 'package:snapnfix/core/index.dart';
+import 'package:snapnfix/modules/issues/index.dart';
 
 class IssueMapScreen extends StatefulWidget {
   const IssueMapScreen({super.key});
@@ -38,8 +32,8 @@ class _IssueMapScreenState extends State<IssueMapScreen> {
         return BlocListener<IssuesMapCubit, IssuesMapState>(
           listenWhen:
               (previous, current) =>
-                  previous.selectedIssue != current.selectedIssue &&
-                  current.selectedIssue != null &&
+                  previous.selectedIssueId != current.selectedIssueId &&
+                  current.selectedIssueId != null &&
                   current.showIssueDetail,
           listener: (context, state) {
             showDialog(
@@ -52,8 +46,8 @@ class _IssueMapScreenState extends State<IssueMapScreen> {
                     ),
                     insetPadding: const EdgeInsets.symmetric(horizontal: 16),
                     child: IssueMarkerDialog(
-                      issue: state.selectedIssue!,
-                      onReportTap: () {
+                      issueId: state.selectedIssueId!,
+                      onTap: () async {
                         Navigator.pop(context);
                       },
                     ),
@@ -64,38 +58,72 @@ class _IssueMapScreenState extends State<IssueMapScreen> {
           },
           child: BlocBuilder<IssuesMapCubit, IssuesMapState>(
             builder: (context, state) {
-              return Stack(
-                children: [
-                  if (state.status == MapStatus.loading) ...[
-                    const Center(child: CircularProgressIndicator()),
-                  ],
-                  if (state.status == MapStatus.error) ...[
-                    Center(child: Text(state.error ?? 'An error occurred')),
-                  ],
-                  if (state.cameraPosition != null) ...[
-                    IssuesMap(
-                      initialCameraPosition: state.cameraPosition!,
-                      myLocationEnabled: true,
-                      markers: state.markers,
-                      onMapCreated: _issuesMapCubit.onMapCreated,
-                      onCameraMove: _issuesMapCubit.onCameraMove,
-                    ),
-                    MapControllers(
-                      onSearchTap: () => IssueFilterSheet.show(context),
-                    ),
-                    if (state.filteredIssues.isNotEmpty) ...[
-                      NearbyIssuesSection(
-                        issues: state.filteredIssues,
-                        onIssueSelected: (issue) async {
-                          await _issuesMapCubit.onIssueTapped(
-                            issue.latitude,
-                            issue.longitude,
-                          );
-                        },
+              return Scaffold(
+                body: Stack(
+                  children: [
+                    // Loading State
+                    if (state.status == MapStatus.loading) ...[
+                      const Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            CircularProgressIndicator(),
+                            SizedBox(height: 16),
+                            Text('Loading map...'),
+                          ],
+                        ),
+                      ),
+                    ],
+
+                    // Error State
+                    if (state.status == MapStatus.error) ...[
+                      Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.error_outline,
+                              size: 64,
+                              color: Theme.of(context).colorScheme.error,
+                            ),
+                            const SizedBox(height: 16),
+                            Text(
+                              state.error ?? 'An error occurred',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                color: Theme.of(context).colorScheme.error,
+                              ),
+                            ),
+                            const SizedBox(height: 16),
+                            ElevatedButton(
+                              onPressed:
+                                  () => _getCurrentPosition().then((pos) {
+                                    if (pos != null) {
+                                      _issuesMapCubit.initialize(pos);
+                                    }
+                                  }),
+                              child: const Text('Retry'),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+
+                    // Map Content
+                    if (state.cameraPosition != null) ...[
+                      IssuesMap(
+                        initialCameraPosition: state.cameraPosition!,
+                        myLocationEnabled: true,
+                        markers: state.markers,
+                        onMapCreated: _issuesMapCubit.onMapCreated,
+                        onCameraMove: _issuesMapCubit.onCameraMove,
+                        onBoundsChange: _issuesMapCubit.onBoundsChanged,
+                        minMaxZoomPreference: state.minMaxZoomPreference,
+                        cameraTargetBounds: state.cameraTargetBounds,
                       ),
                     ],
                   ],
-                ],
+                ),
               );
             },
           ),
@@ -104,9 +132,26 @@ class _IssueMapScreenState extends State<IssueMapScreen> {
     );
   }
 
+  Future<Position?> _getCurrentPosition() async {
+    try {
+      return await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high,
+      );
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Could not get current position: $e'),
+            backgroundColor: Theme.of(context).colorScheme.error,
+          ),
+        );
+      }
+      return null;
+    }
+  }
+
   @override
   void dispose() {
-    _issuesMapCubit.close();
     super.dispose();
   }
 }

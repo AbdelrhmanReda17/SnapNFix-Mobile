@@ -1,5 +1,7 @@
-import 'package:snapnfix/core/infrastructure/networking/api_result.dart';
-import 'package:snapnfix/modules/issues/domain/entities/issue.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:snapnfix/core/infrastructure/networking/error/api_error.dart';
+import 'package:snapnfix/core/utils/result.dart';
+import 'package:snapnfix/modules/issues/data/models/markers.dart';
 import 'package:snapnfix/modules/issues/domain/repositories/base_issue_repository.dart';
 
 class GetNearbyIssuesUseCase {
@@ -7,11 +9,13 @@ class GetNearbyIssuesUseCase {
 
   GetNearbyIssuesUseCase(this._repository);
 
-  Future<ApiResult<List<Issue>>> call(
-    double latitude,
-    double longitude, {
-    double radius = 1.0,
+  Future<Result<List<IssueMarker>, ApiError>> call({
+    required LatLngBounds bounds,
+    int maxResults = 100,
   }) {
-    return _repository.getNearbyIssues(latitude, longitude, radius);
+      return _repository.getNearbyIssues(
+        bounds: bounds,
+        maxResults: maxResults,
+      );
   }
 }

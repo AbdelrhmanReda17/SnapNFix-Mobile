@@ -1,6 +1,6 @@
 import 'package:injectable/injectable.dart';
 import 'package:snapnfix/modules/authentication/domain/repositories/base_authentication_repository.dart';
-import 'package:snapnfix/modules/authentication/domain/usecases/complete_profile_use_case.dart';
+import 'package:snapnfix/modules/authentication/domain/usecases/register_use_case.dart';
 import 'package:snapnfix/modules/authentication/domain/usecases/login_use_case.dart';
 import 'package:snapnfix/modules/authentication/domain/usecases/logout_use_case.dart';
 import 'package:snapnfix/modules/authentication/domain/usecases/request_otp_use_case.dart';

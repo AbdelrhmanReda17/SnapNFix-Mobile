@@ -1,77 +1,147 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
-import 'package:snapnfix/core/infrastructure/networking/api_constants.dart';
 import 'package:retrofit/retrofit.dart';
-import 'package:snapnfix/core/infrastructure/networking/base_response.dart';
-import 'package:snapnfix/modules/authentication/data/models/dtos/reset_password_dto.dart';
-import 'package:snapnfix/modules/authentication/data/models/session_model.dart';
-
+import 'package:snapnfix/modules/area_updates/data/models/get_all_areas_query.dart';
+import 'package:snapnfix/modules/area_updates/data/models/get_all_subscribed_areas_query.dart';
+import 'package:snapnfix/modules/issues/data/models/get_nearby_issues_query.dart';
+import 'package:snapnfix/modules/issues/data/models/markers.dart';
+import 'package:snapnfix/modules/reports/data/models/create_fast_report_request.dart';
+import '../../../index.dart';
 part 'api_service.g.dart';
 
-@RestApi(baseUrl: ApiConstants.apiBaseUrl)
+@RestApi(baseUrl: ApiEndpoints.baseUrl)
 abstract class ApiService {
-  factory ApiService(Dio dio, {required String baseUrl}) = _ApiService;
+  factory ApiService(Dio dio) = _ApiService;
 
-  @POST(ApiConstants.login)
-  Future<BaseResponse<SessionModel>> login(
-    @Body() Map<String, dynamic> loginDTO,
+  // Authentication
+  @POST(ApiEndpoints.login)
+  Future<ApiResponse<SessionModel>> login(@Body() LoginRequest request);
+
+  @POST(ApiEndpoints.register)
+  Future<ApiResponse<SessionModel>> register(@Body() RegisterRequest request);
+
+  @POST(ApiEndpoints.logout)
+  Future<ApiResponse<void>> logout();
+
+  @POST(ApiEndpoints.refreshToken)
+  Future<ApiResponse<TokensModel>> refreshToken(
+    @Body() Map<String, dynamic> request,
   );
 
-  @POST(ApiConstants.requestOTP)
-  Future<BaseResponse<String>> requestOTP(
-    @Body() Map<String, dynamic> requestDTO,
+  @PUT(ApiEndpoints.editProfile)
+  Future<ApiResponse<bool>> editProfile(@Body() Map<String, dynamic> request);
+
+  // OTP operations
+  @POST(ApiEndpoints.requestOtp)
+  Future<ApiResponse<String>> requestOtp(@Body() OtpRequest request);
+
+  @POST(ApiEndpoints.verifyOtp)
+  Future<ApiResponse<String>> verifyOtp(@Body() VerifyOtpRequest request);
+
+  @POST(ApiEndpoints.resendOtp)
+  Future<ApiResponse<bool>> resendOtp(@Body() ResendOtpRequest request);
+
+  // Password operations
+  @POST(ApiEndpoints.forgotPassword)
+  Future<ApiResponse<String>> requestPasswordReset(
+    @Body() PasswordResetRequest request,
   );
 
-  @POST(ApiConstants.verifyOtp)
-  Future<BaseResponse<String>> verifyOtp(
-    @Body() Map<String, dynamic> verifyDTO,
+  @POST(ApiEndpoints.verifyForgotPasswordOtp)
+  Future<ApiResponse<String>> verifyPasswordResetOtp(
+    @Body() VerifyOtpRequest request,
   );
 
-  @POST(ApiConstants.verifyForgotPasswordOtpResend)
-  Future<BaseResponse<bool>> verifyForgotPasswordOtpResend(
-    @Body() Map<String, dynamic> verifyDTO,
+  @POST(ApiEndpoints.resetPassword)
+  Future<ApiResponse<bool>> resetPassword(@Body() ResetPasswordRequest request);
+
+  // Social login
+  @POST(ApiEndpoints.googleLogin)
+  Future<ApiResponse<SessionModel>> loginWithGoogle(
+    @Body() GoogleLoginRequest request,
   );
 
-  @POST(ApiConstants.resendOtp)
-  Future<BaseResponse<bool>> resendOtp(@Body() Map<String, dynamic> body);
-
-  @POST(ApiConstants.forgotPassword)
-  Future<BaseResponse<String>> forgotPassword(
-    @Body() Map<String, dynamic> forgotPasswordDTO,
+  @POST(ApiEndpoints.facebookLogin)
+  Future<ApiResponse<SessionModel>> loginWithFacebook(
+    @Body() FacebookLoginRequest request,
   );
 
-  @POST(ApiConstants.resetPassword)
-  Future<BaseResponse<bool>> resetPassword(
-    @Body() ResetPasswordDTO resetPasswordDTO,
-  );
-
-  @POST(ApiConstants.completeProfile)
-  Future<BaseResponse<SessionModel>> completeProfile(
-    @Body() Map<String, dynamic> completeProfileDTO,
-  );
-
-  @POST(ApiConstants.verifyForgotPasswordOtp)
-  Future<BaseResponse<String>> verifyForgotPasswordOtp(
-    @Body() Map<String, dynamic> verifyDTO,
-  );
-
-  @POST(ApiConstants.loginWithGoogle)
-  Future<BaseResponse<SessionModel>> loginWithGoogle(
-    @Body() Map<String, dynamic> googleLoginDTO,
-  );
-
-  @POST(ApiConstants.loginWithFacebook)
-  Future<BaseResponse<SessionModel>> loginWithFacebook(
-    @Body() Map<String, dynamic> facebookLoginDTO,
-  );
-
-  @POST(ApiConstants.createReport)
+  @POST(ApiEndpoints.createSnapReport)
   @MultiPart()
-  Future<BaseResponse<String>> createReport({
-    @Part(name: 'Image') required File image,
-    @Part(name: 'Latitude') required double latitude,
-    @Part(name: 'Longitude') required double longitude,
-    @Part(name: 'Comment') required String comment,
+  Future<ApiResponse<SnapReportModel>> createSnapReport(
+    @Part(name: "comment") String comment,
+    @Part(name: "severity") String severity,
+    @Part(name: "latitude") double latitude,
+    @Part(name: "longitude") double longitude,
+    @Part(name: "road") String road,
+    @Part(name: "city") String city,
+    @Part(name: "state") String state,
+    @Part(name: "country") String country,
+    @Part(name: "image") File image,
+  );
+
+  @POST(ApiEndpoints.createFastReport)
+  Future<ApiResponse<bool>> createFastReport(
+    @Body() CreateFastReportRequest request,
+  );
+
+  @GET(ApiEndpoints.userReports)
+  Future<ApiResponse<PaginatedResponse<SnapReportModel>>> getUserReports(
+    @Queries() GetReportsQuery query,
+  );
+
+  @GET(ApiEndpoints.reportStatistics)
+  Future<ApiResponse<ReportStatisticsModel>> getReportStatistics();
+
+  @GET(ApiEndpoints.getNearbyIssues)
+  Future<ApiResponse<List<IssueMarker>>> getNearbyIssues(
+    @Queries() GetNearbyIssuesQuery query,
+  );
+
+  @GET(ApiEndpoints.getIssueById)
+  Future<ApiResponse<IssueModel>> getIssueById(@Path('id') String id);
+
+  @GET(ApiEndpoints.getIssueFastReport)
+  Future<ApiResponse<PaginatedResponse<FastReportModel>>> getIssueFastReports(
+    @Path('id') String id,
+    @Queries() GetReportsQuery query,
+  );
+
+  @GET(ApiEndpoints.getIssueSnapReport)
+  Future<ApiResponse<PaginatedResponse<SnapReportModel>>> getIssueSnapReports(
+    @Path('id') String id,
+    @Queries() GetReportsQuery query,
+  );
+
+  @GET(ApiEndpoints.getAllAreas)
+  Future<ApiResponse<PaginatedResponse<AreaInfoModel>>> getAllAreas(
+    @Queries() GetAllAreasQuery query,
+  );
+
+  @GET(ApiEndpoints.getAllSubscribedAreas)
+  Future<ApiResponse<PaginatedResponse<AreaInfoModel>>> getAllSubscribedAreas(
+    @Queries() GetAllSubscribedAreasQuery query,
+  );
+
+  @POST(ApiEndpoints.subscribeToArea)
+  Future<ApiResponse<bool>> subscribeToArea(
+    @Body() Map<String, String> request,
+  );
+
+  @DELETE(ApiEndpoints.unsubscribeFromArea)
+  Future<ApiResponse<bool>> unsubscribeFromArea(
+    @Path('cityId') String cityId,
+  );
+
+  @GET(ApiEndpoints.getAreaIssues)
+  Future<ApiResponse<PaginatedResponse<IssueModel>>> getAreaIssues(
+    @Path('areaName') String areaName, {
+    @Queries() Map<String, dynamic>? query,
   });
+
+  @GET(ApiEndpoints.getAreaHealth)
+  Future<ApiResponse<AreaHealthMetricsModel>> getAreaHealth(
+    @Path('areaName') String areaName,
+  );
 }

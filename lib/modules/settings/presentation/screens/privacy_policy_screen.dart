@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:snapnfix/core/utils/helpers/spacing.dart';
 import 'package:snapnfix/presentation/components/application_system_ui_overlay.dart';
 
 class PrivacyPolicyScreen extends StatelessWidget {
@@ -21,9 +22,9 @@ class PrivacyPolicyScreen extends StatelessWidget {
         systemOverlayStyle: statusBarStyle,
         title: Text(
           localization.privacyPolicy,
-          style: TextStyle(color: colorScheme.surface, fontSize: 18.sp),
+          style: TextStyle(color: colorScheme.onPrimary, fontSize: 20.sp),
         ),
-        iconTheme: IconThemeData(color: colorScheme.surface, size: 20.sp),
+        iconTheme: IconThemeData(color: colorScheme.onPrimary, size: 20.sp),
       ),
       body: SingleChildScrollView(
         padding: EdgeInsets.all(16.w),
@@ -48,7 +49,7 @@ class PrivacyPolicyScreen extends StatelessWidget {
               textStyles,
               colorScheme,
             ),
-            SizedBox(height: 24.h),
+            verticalSpace(24),
             Text(
               localization
                   .lastUpdated('{date}')
@@ -82,7 +83,7 @@ class PrivacyPolicyScreen extends StatelessWidget {
               fontWeight: FontWeight.bold,
             ),
           ),
-          SizedBox(height: 8.h),
+          verticalSpace(8),
           Text(content, style: textStyles.bodyMedium?.copyWith(height: 1.5)),
         ],
       ),

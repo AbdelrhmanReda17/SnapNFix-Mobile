@@ -1,10 +1,8 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/widgets.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:snapnfix/core/infrastructure/networking/api_error_model.dart';
-import 'package:snapnfix/modules/authentication/domain/entities/authentication_result.dart';
-import 'package:snapnfix/modules/authentication/domain/usecases/verify_otp_use_case.dart';
-import 'package:snapnfix/modules/authentication/domain/usecases/resend_otp_use_case.dart';
+import 'package:snapnfix/modules/authentication/index.dart';
+import 'package:snapnfix/core/index.dart';
 import 'dart:async';
 
 part 'otp_state.dart';
@@ -118,16 +116,14 @@ class OtpCubit extends Cubit<OtpState> {
       );
     } catch (e) {
       _handleVerificationFailure(
-        ApiErrorModel(message: 'An unexpected error occurred'),
+        ApiError(message: 'An unexpected error occurred'),
       );
     }
   }
 
   bool _validateOtp() {
     if (_otpCode.length < 6) {
-      emit(
-        OtpState.error(ApiErrorModel(message: 'Please enter a valid OTP code')),
-      );
+      emit(OtpState.error(ApiError(message: 'Please enter a valid OTP code')));
       return false;
     }
 
@@ -150,9 +146,7 @@ class OtpCubit extends Cubit<OtpState> {
         _cleanupTimers();
         if (phoneNumber == null || password == null) {
           emit(
-            OtpState.error(
-              ApiErrorModel(message: 'Missing required parameters'),
-            ),
+            OtpState.error(ApiError(message: 'Missing required parameters')),
           );
           return;
         }
@@ -170,7 +164,7 @@ class OtpCubit extends Cubit<OtpState> {
     );
   }
 
-  void _handleVerificationFailure(ApiErrorModel error) {
+  void _handleVerificationFailure(ApiError error) {
     emit(OtpState.error(error));
     _emitInitialState();
   }
@@ -225,9 +219,7 @@ class OtpCubit extends Cubit<OtpState> {
     } catch (e) {
       emit(
         OtpState.error(
-          ApiErrorModel(
-            message: 'An unexpected error occurred while resending OTP',
-          ),
+          ApiError(message: 'An unexpected error occurred while resending OTP'),
         ),
       );
       _startResendTimer();

@@ -1,6 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:snapnfix/modules/authentication/domain/entities/tokens.dart';
-
 part 'tokens_model.g.dart';
 
 @JsonSerializable()

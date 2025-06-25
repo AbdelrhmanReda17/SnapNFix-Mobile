@@ -16,8 +16,6 @@ class RegisterForm extends StatelessWidget {
     final localizations = AppLocalizations.of(context)!;
     final cubit = context.read<RegisterCubit>();
 
-    debugPrint("RegisterForm: ${cubit.state}");
-
     return Form(
       key: cubit.formKey,
       child: Padding(
@@ -28,8 +26,8 @@ class RegisterForm extends StatelessWidget {
             SizedBox(
               width: double.infinity,
               child: BaseTextField(
-                labelText: localizations.phone,
-                hintText: "Enter your phone number",
+                labelText: localizations.phoneNumber,
+                hintText: localizations.enterPhoneNumber,
                 onChanged: cubit.setPhone,
                 validator:
                     (value) =>
@@ -45,7 +43,7 @@ class RegisterForm extends StatelessWidget {
               width: double.infinity,
               child: BasePasswordTextField(
                 text: localizations.password,
-                hintText: "Enter your password",
+                hintText: localizations.enterPassword,
                 onChanged: cubit.setPassword,
                 validator:
                     (value) =>
@@ -61,7 +59,7 @@ class RegisterForm extends StatelessWidget {
               width: double.infinity,
               child: BasePasswordTextField(
                 text: localizations.repeatPassword,
-                hintText: "Re-enter your password",
+                hintText: localizations.reEnterPassword,
                 onChanged: cubit.setConfirmPassword,
                 validator:
                     (value) =>

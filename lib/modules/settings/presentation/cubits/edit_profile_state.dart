@@ -6,5 +6,5 @@ class EditProfileState<T> with _$EditProfileState<T> {
 
   const factory EditProfileState.loading() = Loading;
   const factory EditProfileState.success(T data) = Success<T>;
-  const factory EditProfileState.error({required String error}) = Error;
+  const factory EditProfileState.error({required ApiError error}) = Error;
 }

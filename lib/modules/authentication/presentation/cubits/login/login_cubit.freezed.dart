@@ -12,8 +12,7 @@ part of 'login_cubit.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
-);
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$LoginState {
@@ -23,25 +22,28 @@ mixin _$LoginState {
     required TResult Function() loading,
     required TResult Function(Session data) authenticated,
     required TResult Function() requiresProfileCompletion,
-    required TResult Function(ApiErrorModel error) error,
-  }) => throw _privateConstructorUsedError;
+    required TResult Function(ApiError error) error,
+  }) =>
+      throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
     TResult? Function(Session data)? authenticated,
     TResult? Function()? requiresProfileCompletion,
-    TResult? Function(ApiErrorModel error)? error,
-  }) => throw _privateConstructorUsedError;
+    TResult? Function(ApiError error)? error,
+  }) =>
+      throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
     TResult Function(Session data)? authenticated,
     TResult Function()? requiresProfileCompletion,
-    TResult Function(ApiErrorModel error)? error,
+    TResult Function(ApiError error)? error,
     required TResult orElse(),
-  }) => throw _privateConstructorUsedError;
+  }) =>
+      throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_Initial value) initial,
@@ -49,7 +51,8 @@ mixin _$LoginState {
     required TResult Function(_Authenticated value) authenticated,
     required TResult Function(_RequiresOtp value) requiresProfileCompletion,
     required TResult Function(_Error value) error,
-  }) => throw _privateConstructorUsedError;
+  }) =>
+      throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Initial value)? initial,
@@ -57,7 +60,8 @@ mixin _$LoginState {
     TResult? Function(_Authenticated value)? authenticated,
     TResult? Function(_RequiresOtp value)? requiresProfileCompletion,
     TResult? Function(_Error value)? error,
-  }) => throw _privateConstructorUsedError;
+  }) =>
+      throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Initial value)? initial,
@@ -66,15 +70,15 @@ mixin _$LoginState {
     TResult Function(_RequiresOtp value)? requiresProfileCompletion,
     TResult Function(_Error value)? error,
     required TResult orElse(),
-  }) => throw _privateConstructorUsedError;
+  }) =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 abstract class $LoginStateCopyWith<$Res> {
   factory $LoginStateCopyWith(
-    LoginState value,
-    $Res Function(LoginState) then,
-  ) = _$LoginStateCopyWithImpl<$Res, LoginState>;
+          LoginState value, $Res Function(LoginState) then) =
+      _$LoginStateCopyWithImpl<$Res, LoginState>;
 }
 
 /// @nodoc
@@ -94,9 +98,8 @@ class _$LoginStateCopyWithImpl<$Res, $Val extends LoginState>
 /// @nodoc
 abstract class _$$InitialImplCopyWith<$Res> {
   factory _$$InitialImplCopyWith(
-    _$InitialImpl value,
-    $Res Function(_$InitialImpl) then,
-  ) = __$$InitialImplCopyWithImpl<$Res>;
+          _$InitialImpl value, $Res Function(_$InitialImpl) then) =
+      __$$InitialImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
@@ -104,9 +107,8 @@ class __$$InitialImplCopyWithImpl<$Res>
     extends _$LoginStateCopyWithImpl<$Res, _$InitialImpl>
     implements _$$InitialImplCopyWith<$Res> {
   __$$InitialImplCopyWithImpl(
-    _$InitialImpl _value,
-    $Res Function(_$InitialImpl) _then,
-  ) : super(_value, _then);
+      _$InitialImpl _value, $Res Function(_$InitialImpl) _then)
+      : super(_value, _then);
 
   /// Create a copy of LoginState
   /// with the given fields replaced by the non-null parameter values.
@@ -138,7 +140,7 @@ class _$InitialImpl implements _Initial {
     required TResult Function() loading,
     required TResult Function(Session data) authenticated,
     required TResult Function() requiresProfileCompletion,
-    required TResult Function(ApiErrorModel error) error,
+    required TResult Function(ApiError error) error,
   }) {
     return initial();
   }
@@ -150,7 +152,7 @@ class _$InitialImpl implements _Initial {
     TResult? Function()? loading,
     TResult? Function(Session data)? authenticated,
     TResult? Function()? requiresProfileCompletion,
-    TResult? Function(ApiErrorModel error)? error,
+    TResult? Function(ApiError error)? error,
   }) {
     return initial?.call();
   }
@@ -162,7 +164,7 @@ class _$InitialImpl implements _Initial {
     TResult Function()? loading,
     TResult Function(Session data)? authenticated,
     TResult Function()? requiresProfileCompletion,
-    TResult Function(ApiErrorModel error)? error,
+    TResult Function(ApiError error)? error,
     required TResult orElse(),
   }) {
     if (initial != null) {
@@ -219,9 +221,8 @@ abstract class _Initial implements LoginState {
 /// @nodoc
 abstract class _$$LoadingImplCopyWith<$Res> {
   factory _$$LoadingImplCopyWith(
-    _$LoadingImpl value,
-    $Res Function(_$LoadingImpl) then,
-  ) = __$$LoadingImplCopyWithImpl<$Res>;
+          _$LoadingImpl value, $Res Function(_$LoadingImpl) then) =
+      __$$LoadingImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
@@ -229,9 +230,8 @@ class __$$LoadingImplCopyWithImpl<$Res>
     extends _$LoginStateCopyWithImpl<$Res, _$LoadingImpl>
     implements _$$LoadingImplCopyWith<$Res> {
   __$$LoadingImplCopyWithImpl(
-    _$LoadingImpl _value,
-    $Res Function(_$LoadingImpl) _then,
-  ) : super(_value, _then);
+      _$LoadingImpl _value, $Res Function(_$LoadingImpl) _then)
+      : super(_value, _then);
 
   /// Create a copy of LoginState
   /// with the given fields replaced by the non-null parameter values.
@@ -263,7 +263,7 @@ class _$LoadingImpl implements _Loading {
     required TResult Function() loading,
     required TResult Function(Session data) authenticated,
     required TResult Function() requiresProfileCompletion,
-    required TResult Function(ApiErrorModel error) error,
+    required TResult Function(ApiError error) error,
   }) {
     return loading();
   }
@@ -275,7 +275,7 @@ class _$LoadingImpl implements _Loading {
     TResult? Function()? loading,
     TResult? Function(Session data)? authenticated,
     TResult? Function()? requiresProfileCompletion,
-    TResult? Function(ApiErrorModel error)? error,
+    TResult? Function(ApiError error)? error,
   }) {
     return loading?.call();
   }
@@ -287,7 +287,7 @@ class _$LoadingImpl implements _Loading {
     TResult Function()? loading,
     TResult Function(Session data)? authenticated,
     TResult Function()? requiresProfileCompletion,
-    TResult Function(ApiErrorModel error)? error,
+    TResult Function(ApiError error)? error,
     required TResult orElse(),
   }) {
     if (loading != null) {
@@ -344,9 +344,8 @@ abstract class _Loading implements LoginState {
 /// @nodoc
 abstract class _$$AuthenticatedImplCopyWith<$Res> {
   factory _$$AuthenticatedImplCopyWith(
-    _$AuthenticatedImpl value,
-    $Res Function(_$AuthenticatedImpl) then,
-  ) = __$$AuthenticatedImplCopyWithImpl<$Res>;
+          _$AuthenticatedImpl value, $Res Function(_$AuthenticatedImpl) then) =
+      __$$AuthenticatedImplCopyWithImpl<$Res>;
   @useResult
   $Res call({Session data});
 }
@@ -356,23 +355,22 @@ class __$$AuthenticatedImplCopyWithImpl<$Res>
     extends _$LoginStateCopyWithImpl<$Res, _$AuthenticatedImpl>
     implements _$$AuthenticatedImplCopyWith<$Res> {
   __$$AuthenticatedImplCopyWithImpl(
-    _$AuthenticatedImpl _value,
-    $Res Function(_$AuthenticatedImpl) _then,
-  ) : super(_value, _then);
+      _$AuthenticatedImpl _value, $Res Function(_$AuthenticatedImpl) _then)
+      : super(_value, _then);
 
   /// Create a copy of LoginState
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({Object? data = null}) {
-    return _then(
-      _$AuthenticatedImpl(
-        null == data
-            ? _value.data
-            : data // ignore: cast_nullable_to_non_nullable
-                as Session,
-      ),
-    );
+  $Res call({
+    Object? data = null,
+  }) {
+    return _then(_$AuthenticatedImpl(
+      null == data
+          ? _value.data
+          : data // ignore: cast_nullable_to_non_nullable
+              as Session,
+    ));
   }
 }
 
@@ -415,7 +413,7 @@ class _$AuthenticatedImpl implements _Authenticated {
     required TResult Function() loading,
     required TResult Function(Session data) authenticated,
     required TResult Function() requiresProfileCompletion,
-    required TResult Function(ApiErrorModel error) error,
+    required TResult Function(ApiError error) error,
   }) {
     return authenticated(data);
   }
@@ -427,7 +425,7 @@ class _$AuthenticatedImpl implements _Authenticated {
     TResult? Function()? loading,
     TResult? Function(Session data)? authenticated,
     TResult? Function()? requiresProfileCompletion,
-    TResult? Function(ApiErrorModel error)? error,
+    TResult? Function(ApiError error)? error,
   }) {
     return authenticated?.call(data);
   }
@@ -439,7 +437,7 @@ class _$AuthenticatedImpl implements _Authenticated {
     TResult Function()? loading,
     TResult Function(Session data)? authenticated,
     TResult Function()? requiresProfileCompletion,
-    TResult Function(ApiErrorModel error)? error,
+    TResult Function(ApiError error)? error,
     required TResult orElse(),
   }) {
     if (authenticated != null) {
@@ -504,9 +502,8 @@ abstract class _Authenticated implements LoginState {
 /// @nodoc
 abstract class _$$RequiresOtpImplCopyWith<$Res> {
   factory _$$RequiresOtpImplCopyWith(
-    _$RequiresOtpImpl value,
-    $Res Function(_$RequiresOtpImpl) then,
-  ) = __$$RequiresOtpImplCopyWithImpl<$Res>;
+          _$RequiresOtpImpl value, $Res Function(_$RequiresOtpImpl) then) =
+      __$$RequiresOtpImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
@@ -514,9 +511,8 @@ class __$$RequiresOtpImplCopyWithImpl<$Res>
     extends _$LoginStateCopyWithImpl<$Res, _$RequiresOtpImpl>
     implements _$$RequiresOtpImplCopyWith<$Res> {
   __$$RequiresOtpImplCopyWithImpl(
-    _$RequiresOtpImpl _value,
-    $Res Function(_$RequiresOtpImpl) _then,
-  ) : super(_value, _then);
+      _$RequiresOtpImpl _value, $Res Function(_$RequiresOtpImpl) _then)
+      : super(_value, _then);
 
   /// Create a copy of LoginState
   /// with the given fields replaced by the non-null parameter values.
@@ -548,7 +544,7 @@ class _$RequiresOtpImpl implements _RequiresOtp {
     required TResult Function() loading,
     required TResult Function(Session data) authenticated,
     required TResult Function() requiresProfileCompletion,
-    required TResult Function(ApiErrorModel error) error,
+    required TResult Function(ApiError error) error,
   }) {
     return requiresProfileCompletion();
   }
@@ -560,7 +556,7 @@ class _$RequiresOtpImpl implements _RequiresOtp {
     TResult? Function()? loading,
     TResult? Function(Session data)? authenticated,
     TResult? Function()? requiresProfileCompletion,
-    TResult? Function(ApiErrorModel error)? error,
+    TResult? Function(ApiError error)? error,
   }) {
     return requiresProfileCompletion?.call();
   }
@@ -572,7 +568,7 @@ class _$RequiresOtpImpl implements _RequiresOtp {
     TResult Function()? loading,
     TResult Function(Session data)? authenticated,
     TResult Function()? requiresProfileCompletion,
-    TResult Function(ApiErrorModel error)? error,
+    TResult Function(ApiError error)? error,
     required TResult orElse(),
   }) {
     if (requiresProfileCompletion != null) {
@@ -629,11 +625,10 @@ abstract class _RequiresOtp implements LoginState {
 /// @nodoc
 abstract class _$$ErrorImplCopyWith<$Res> {
   factory _$$ErrorImplCopyWith(
-    _$ErrorImpl value,
-    $Res Function(_$ErrorImpl) then,
-  ) = __$$ErrorImplCopyWithImpl<$Res>;
+          _$ErrorImpl value, $Res Function(_$ErrorImpl) then) =
+      __$$ErrorImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({ApiErrorModel error});
+  $Res call({ApiError error});
 }
 
 /// @nodoc
@@ -641,23 +636,22 @@ class __$$ErrorImplCopyWithImpl<$Res>
     extends _$LoginStateCopyWithImpl<$Res, _$ErrorImpl>
     implements _$$ErrorImplCopyWith<$Res> {
   __$$ErrorImplCopyWithImpl(
-    _$ErrorImpl _value,
-    $Res Function(_$ErrorImpl) _then,
-  ) : super(_value, _then);
+      _$ErrorImpl _value, $Res Function(_$ErrorImpl) _then)
+      : super(_value, _then);
 
   /// Create a copy of LoginState
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({Object? error = null}) {
-    return _then(
-      _$ErrorImpl(
-        null == error
-            ? _value.error
-            : error // ignore: cast_nullable_to_non_nullable
-                as ApiErrorModel,
-      ),
-    );
+  $Res call({
+    Object? error = null,
+  }) {
+    return _then(_$ErrorImpl(
+      null == error
+          ? _value.error
+          : error // ignore: cast_nullable_to_non_nullable
+              as ApiError,
+    ));
   }
 }
 
@@ -667,7 +661,7 @@ class _$ErrorImpl implements _Error {
   const _$ErrorImpl(this.error);
 
   @override
-  final ApiErrorModel error;
+  final ApiError error;
 
   @override
   String toString() {
@@ -700,7 +694,7 @@ class _$ErrorImpl implements _Error {
     required TResult Function() loading,
     required TResult Function(Session data) authenticated,
     required TResult Function() requiresProfileCompletion,
-    required TResult Function(ApiErrorModel error) error,
+    required TResult Function(ApiError error) error,
   }) {
     return error(this.error);
   }
@@ -712,7 +706,7 @@ class _$ErrorImpl implements _Error {
     TResult? Function()? loading,
     TResult? Function(Session data)? authenticated,
     TResult? Function()? requiresProfileCompletion,
-    TResult? Function(ApiErrorModel error)? error,
+    TResult? Function(ApiError error)? error,
   }) {
     return error?.call(this.error);
   }
@@ -724,7 +718,7 @@ class _$ErrorImpl implements _Error {
     TResult Function()? loading,
     TResult Function(Session data)? authenticated,
     TResult Function()? requiresProfileCompletion,
-    TResult Function(ApiErrorModel error)? error,
+    TResult Function(ApiError error)? error,
     required TResult orElse(),
   }) {
     if (error != null) {
@@ -775,9 +769,9 @@ class _$ErrorImpl implements _Error {
 }
 
 abstract class _Error implements LoginState {
-  const factory _Error(final ApiErrorModel error) = _$ErrorImpl;
+  const factory _Error(final ApiError error) = _$ErrorImpl;
 
-  ApiErrorModel get error;
+  ApiError get error;
 
   /// Create a copy of LoginState
   /// with the given fields replaced by the non-null parameter values.

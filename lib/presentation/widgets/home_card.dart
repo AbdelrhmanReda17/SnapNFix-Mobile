@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:snapnfix/core/utils/helpers/spacing.dart';
 
 class CustomCard extends StatelessWidget {
   final String title;
   final String mainValue;
-  final String valueSuffix; // New parameter for the suffix text
+  final String valueSuffix;
   final String description;
   final String buttonText;
   final VoidCallback? onButtonPressed;
@@ -33,7 +34,7 @@ class CustomCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       elevation: 6,
-      shadowColor: Colors.black.withOpacity(0.7),
+      shadowColor: Colors.black.withValues(alpha: 0.7),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.r)),
       child: Container(
         width: 280.w,
@@ -59,7 +60,7 @@ class CustomCard extends StatelessWidget {
                     color: colorScheme.onPrimary,
                   ),
                 ),
-                SizedBox(height: 6.h),
+                verticalSpace(6),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
@@ -80,18 +81,18 @@ class CustomCard extends StatelessWidget {
                           style: TextStyle(
                             fontSize: 14.sp,
                             fontWeight: FontWeight.bold,
-                            color: colorScheme.onPrimary.withOpacity(0.8),
+                            color: colorScheme.onPrimary.withValues(alpha: 0.8),
                           ),
                         ),
                       ),
                   ],
                 ),
-                SizedBox(height: 6.h),
+                verticalSpace(6),
                 Text(
                   description,
                   style: TextStyle(
                     fontSize: 12.sp,
-                    color: colorScheme.onPrimary.withOpacity(0.7),
+                    color: colorScheme.onPrimary.withValues(alpha: 0.7),
                   ),
                 ),
                 const Spacer(),
@@ -100,22 +101,29 @@ class CustomCard extends StatelessWidget {
                     child: TextButton(
                       onPressed: onButtonPressed,
                       style: TextButton.styleFrom(
-                        foregroundColor: colorScheme.onPrimary.withOpacity(0.9),
-                        backgroundColor: colorScheme.onPrimary.withOpacity(0.2),
+                        foregroundColor: colorScheme.onPrimary.withValues(
+                          alpha: 0.9,
+                        ),
+                        backgroundColor: colorScheme.onPrimary.withValues(
+                          alpha: 0.2,
+                        ),
                         minimumSize: Size(double.minPositive, 36.h),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8.r),
                         ),
                       ),
-                      child: Text(buttonText, style: TextStyle(fontSize: 12.sp)),
+                      child: Text(
+                        buttonText,
+                        style: TextStyle(fontSize: 12.sp),
+                      ),
                     ),
                   ),
               ],
-            ),
-            if (imageAsset != null)
+            ),            if (imageAsset != null)
               Positioned(
-                right: 0,
-                top: 0,
+                right: Directionality.of(context) == TextDirection.ltr ? 12.w : null,
+                left: Directionality.of(context) == TextDirection.ltr ? null : 12.w,
+                top: 8.h,
                 child: Transform.translate(
                   offset: imageOffset ?? Offset.zero,
                   child: Image.asset(

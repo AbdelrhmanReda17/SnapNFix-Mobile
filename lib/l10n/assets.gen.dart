@@ -27,6 +27,9 @@ class $AssetsIconsGen {
   /// File path: assets/icons/settings.svg
   String get settings => 'assets/icons/settings.svg';
 
+  /// File path: assets/icons/siren-icon.svg
+  String get sirenIcon => 'assets/icons/siren-icon.svg';
+
   /// File path: assets/icons/time_and_location.svg
   String get timeAndLocation => 'assets/icons/time_and_location.svg';
 
@@ -34,14 +37,8 @@ class $AssetsIconsGen {
   String get userReports => 'assets/icons/user_reports.svg';
 
   /// List of all assets
-  List<String> get values => [
-    favicon,
-    home,
-    map,
-    settings,
-    timeAndLocation,
-    userReports,
-  ];
+  List<String> get values =>
+      [favicon, home, map, settings, sirenIcon, timeAndLocation, userReports];
 }
 
 class $AssetsImagesGen {
@@ -105,23 +102,23 @@ class $AssetsImagesGen {
 
   /// List of all assets
   List<dynamic> get values => [
-    pattern,
-    snf,
-    sNFDark,
-    snapNFix,
-    facebookIcon,
-    favicon,
-    googleIcon,
-    issue1,
-    issue2,
-    issue3,
-    medal,
-    onboarding1,
-    onboarding2,
-    onboarding3,
-    splashFrame,
-    text,
-  ];
+        pattern,
+        snf,
+        sNFDark,
+        snapNFix,
+        facebookIcon,
+        favicon,
+        googleIcon,
+        issue1,
+        issue2,
+        issue3,
+        medal,
+        onboarding1,
+        onboarding2,
+        onboarding3,
+        splashFrame,
+        text
+      ];
 }
 
 class $AssetsIconsActiveGen {
@@ -156,16 +153,16 @@ class $AssetsIconsActiveGen {
 
   /// List of all assets
   List<String> get values => [
-    dhome,
-    dmap,
-    dsettings,
-    duserReports,
-    home,
-    map,
-    settings,
-    userReports,
-    x,
-  ];
+        dhome,
+        dmap,
+        dsettings,
+        duserReports,
+        home,
+        map,
+        settings,
+        userReports,
+        x
+      ];
 }
 
 class Assets {
@@ -176,7 +173,11 @@ class Assets {
 }
 
 class AssetGenImage {
-  const AssetGenImage(this._assetName, {this.size, this.flavors = const {}});
+  const AssetGenImage(
+    this._assetName, {
+    this.size,
+    this.flavors = const {},
+  });
 
   final String _assetName;
 
@@ -236,8 +237,15 @@ class AssetGenImage {
     );
   }
 
-  ImageProvider provider({AssetBundle? bundle, String? package}) {
-    return AssetImage(_assetName, bundle: bundle, package: package);
+  ImageProvider provider({
+    AssetBundle? bundle,
+    String? package,
+  }) {
+    return AssetImage(
+      _assetName,
+      bundle: bundle,
+      package: package,
+    );
   }
 
   String get path => _assetName;

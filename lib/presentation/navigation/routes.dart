@@ -15,11 +15,14 @@ class Routes {
   static const String userIssues = '/user-issues/:issueId';
   static const String settings = '/settings';
   static const String submitReport = '/submit-report';
+  static const String areaIssues = '/area-issues';
+  static const String areaDetails = '/area-details/:areaName';
+  static const String allAreas = '/area-management';
+  static const String allSubscribedAreas = '/area-management/subscribed';
   // static const String userIssues = '/user-issues/';
   static const String issueDetails = '/issue-details/:issueId';
 
   // Settings Routes
-  static const String changePassword = '/settings/change-password';
   static const String editProfile = '/settings/edit-profile';
   static const String support = '/settings/support';
   static const String termsAndConditions = '/settings/terms-and-conditions';

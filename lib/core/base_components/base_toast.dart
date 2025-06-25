@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
+import 'package:snapnfix/core/utils/helpers/spacing.dart';
 enum ToastType { info, success, error, warning }
-
 class BaseToast {
   static void show({
     required BuildContext context,
@@ -12,9 +11,9 @@ class BaseToast {
     double? width,
     double? bottomMargin,
   }) {
-    final screenWidth = MediaQuery.of(context).size.width;
-    final messageWidth = width ?? screenWidth * 0.5;
-
+    final colortheme = Theme.of(context).colorScheme;
+    final screenWidth = 1.sw;
+    final messageWidth = width ?? 0.5.sw;
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         behavior: SnackBarBehavior.floating,
@@ -29,16 +28,15 @@ class BaseToast {
         content: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            _getIconForToastType(type),
-            SizedBox(width: 8.w),
-            Text(
-              maxLines: 1,
-              textWidthBasis: TextWidthBasis.longestLine,
-              overflow: TextOverflow.ellipsis,
-              softWrap: false,
-              textAlign: TextAlign.start,
-              ' ${message.length > 23 ? "${message.substring(0, 20)}..." : message}',
-              style: TextStyle(fontSize: 13.sp, color: Colors.white),
+            _getIconForToastType(type, colortheme),
+            horizontalSpace(8),
+            Flexible(
+              child: Text(
+                message,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(fontSize: 13.sp, color: colortheme.onPrimary),
+              ),
             ),
           ],
         ),
@@ -47,7 +45,6 @@ class BaseToast {
       ),
     );
   }
-
   static Color _getColorForToastType(ToastType type) {
     switch (type) {
       case ToastType.info:
@@ -60,8 +57,7 @@ class BaseToast {
         return Colors.orange;
     }
   }
-
-  static Widget _getIconForToastType(ToastType type) {
+  static Widget _getIconForToastType(ToastType type, ColorScheme colorScheme) {
     IconData iconData;
     switch (type) {
       case ToastType.info:
@@ -77,7 +73,6 @@ class BaseToast {
         iconData = Icons.warning_amber_outlined;
         break;
     }
-
-    return Icon(iconData, color: Colors.white, size: 18.sp);
+    return Icon(iconData, color: colorScheme.onPrimary, size: 18.sp);
   }
 }

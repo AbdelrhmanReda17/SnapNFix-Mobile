@@ -17,18 +17,22 @@ class LanguageTile extends StatelessWidget {
       listenable: appConfigs,
       builder: (context, _) {
         return ListTile(
-          tileColor: colorScheme.surface.withValues(alpha: 0.8),
-          title: Text(
+          tileColor: colorScheme.surface.withValues(alpha: 0.8),          title: Text(
             localization.language,
-            style: textStyles.bodyMedium?.copyWith(color: colorScheme.primary),
+            style: textStyles.bodyMedium?.copyWith(
+              color: Theme.of(context).brightness == Brightness.dark 
+                  ? colorScheme.onPrimary 
+                  : colorScheme.primary,
+            ),
           ),
           onTap: () {
             _showLanguageDialog(context, localization);
-          },
-          trailing: Text(
+          },          trailing: Text(
             ApplicationConstants.availableLanguages[appConfigs.language] ?? '',
             style: TextStyle(
-              color: colorScheme.secondary.withValues(alpha: 0.5),
+              color: Theme.of(context).brightness == Brightness.dark 
+                  ? colorScheme.onPrimary 
+                  : colorScheme.secondary.withValues(alpha: 0.5),
             ),
           ),
         );

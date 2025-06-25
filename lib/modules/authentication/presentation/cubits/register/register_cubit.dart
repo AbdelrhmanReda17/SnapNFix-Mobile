@@ -1,10 +1,8 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/widgets.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:snapnfix/core/infrastructure/networking/api_error_model.dart';
-import 'package:snapnfix/modules/authentication/domain/entities/authentication_result.dart';
-import 'package:snapnfix/modules/authentication/domain/entities/session.dart';
-import 'package:snapnfix/modules/authentication/domain/usecases/request_otp_use_case.dart';
+import 'package:snapnfix/modules/authentication/index.dart';
+import 'package:snapnfix/core/index.dart';
 
 part 'register_state.dart';
 part 'register_cubit.freezed.dart';
@@ -68,9 +66,7 @@ class RegisterCubit extends Cubit<RegisterState> {
     } catch (e) {
       if (isClosed) return;
       emit(
-        RegisterState.error(
-          ApiErrorModel(message: 'An unexpected error occurred'),
-        ),
+        RegisterState.error(ApiError(message: 'An unexpected error occurred')),
       );
     }
   }
@@ -79,16 +75,14 @@ class RegisterCubit extends Cubit<RegisterState> {
     if (!formKey.currentState!.validate()) {
       emit(
         RegisterState.error(
-          ApiErrorModel(message: 'Please fill in all required fields'),
+          ApiError(message: 'Please fill in all required fields'),
         ),
       );
       return false;
     }
 
     if (_password != _confirmPassword) {
-      emit(
-        RegisterState.error(ApiErrorModel(message: 'Passwords do not match')),
-      );
+      emit(RegisterState.error(ApiError(message: 'Passwords do not match')));
       return false;
     }
 
@@ -101,7 +95,7 @@ class RegisterCubit extends Cubit<RegisterState> {
     );
   }
 
-  void _handleRegistrationFailure(ApiErrorModel error) {
+  void _handleRegistrationFailure(ApiError error) {
     emit(RegisterState.error(error));
   }
 }

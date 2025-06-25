@@ -1,4 +1,3 @@
-import 'package:snapnfix/modules/issues/data/models/issue_description_model.dart';
 import 'package:snapnfix/modules/issues/domain/entities/issue.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:snapnfix/modules/issues/domain/entities/issue_category.dart';
@@ -10,8 +9,6 @@ part 'issue_model.g.dart';
 @JsonSerializable()
 class IssueModel extends Issue {
   @override
-  final List<IssueDescriptionModel> descriptions;
-
   const IssueModel({
     required super.id,
     required super.severity,
@@ -22,10 +19,12 @@ class IssueModel extends Issue {
     required super.createdAt,
     super.resolvedAt,
     required super.images,
-    required this.descriptions,
     required super.reportsCount,
-    required super.location,
-  }): super(descriptions: descriptions);
+    required super.road,
+    required super.city,
+    required super.state,
+    required super.country,
+  });
 
   factory IssueModel.fromJson(Map<String, dynamic> json) =>
       _$IssueModelFromJson(json);

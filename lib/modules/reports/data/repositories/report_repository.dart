@@ -1,10 +1,14 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
+import 'package:snapnfix/core/core.dart';
 import 'package:snapnfix/core/infrastructure/connectivity/connectivity_service.dart';
-import 'package:snapnfix/core/infrastructure/networking/api_error_handler.dart';
-import 'package:snapnfix/core/infrastructure/networking/api_result.dart';
-import 'package:snapnfix/modules/reports/data/datasource/report_local_data_source.dart';
-import 'package:snapnfix/modules/reports/data/datasource/report_remote_data_source.dart';
-import 'package:snapnfix/modules/reports/data/model/report_model.dart';
+import 'package:snapnfix/core/infrastructure/networking/error/api_error.dart';
+import 'package:snapnfix/core/utils/result.dart';
+import 'package:snapnfix/modules/reports/data/datasources/report_local_data_source.dart';
+import 'package:snapnfix/modules/reports/data/datasources/report_remote_data_source.dart';
+import 'package:snapnfix/modules/reports/data/models/fast_report_model.dart';
+import 'package:snapnfix/modules/reports/data/models/report_statistics_model.dart';
+import 'package:snapnfix/modules/reports/data/models/snap_report_model.dart';
+import 'package:snapnfix/modules/reports/domain/entities/report_severity.dart';
 import 'package:snapnfix/modules/reports/domain/repositories/base_report_repository.dart';
 
 class ReportRepository implements BaseReportRepository {
@@ -19,11 +23,11 @@ class ReportRepository implements BaseReportRepository {
   );
 
   @override
-  Future<List<ReportModel>> getPendingReports() {
+  Future<List<SnapReportModel>> getPendingReports() {
     try {
       return _localDataSource.getPendingReports();
     } catch (e) {
-      return Future.error(ApiErrorHandler.handle(e));
+      return Future.error('Failed to fetch pending reports: $e');
     }
   }
 
@@ -33,84 +37,230 @@ class ReportRepository implements BaseReportRepository {
   }
 
   @override
-  Future<ApiResult<String>> submitReport(ReportModel report) async {
+  Future<Result<String, ApiError>> submitReport(SnapReportModel report) async {
     try {
       final isConnected = await _connectivityService.isConnected();
       if (!isConnected) {
         await _localDataSource.saveReportOffline(report);
-        return const ApiResult.success(
-          'Report saved offline and will be submitted when online',
+        return const Result.success(
+          "No internet connection. Report saved offline.",
         );
       }
 
       final result = await _remoteDataSource.submitReport(report);
       return result.when(
         success: (data) {
-          _localDataSource.saveReportOffline(report);
-          return ApiResult.success(data);
+          return Result.success(
+            "Report submitted successfully with ID: ${data.id}",
+          );
         },
-        failure: (error) {
-          _localDataSource.saveReportOffline(report);
-          return ApiResult.failure(error);
+        failure: (error) async {
+          await _localDataSource.saveReportOffline(report);
+          return Result.failure(
+            ApiError(message: 'Failed to submit report. Saved offline.'),
+          );
         },
       );
     } catch (e) {
-      debugPrint('Error submitting report: $e');
-      try {
-        await _localDataSource.saveReportOffline(report);
-        return const ApiResult.success('Report saved offline due to error');
-      } catch (saveError) {
-        return ApiResult.failure(ApiErrorHandler.handle(saveError));
+      return Result.failure(
+        ApiError(message: e.toString(), code: 'report_submission_error'),
+      );
+    }
+  }
+
+  @override
+  Future<Result<bool, ApiError>> submitFastReport(
+    String issueId,
+    String comment,
+    ReportSeverity severity,
+  ) async {
+    try {
+      final isConnected = await _connectivityService.isConnected();
+      if (!isConnected) {
+        return Result.failure(
+          ApiError(
+            message:  'No internet connection. Please try again later.',
+            code: 'no_internet',
+          ),
+        );
       }
+
+      return await _remoteDataSource.submitFastReport(
+        issueId: issueId,
+        comment: comment,
+        severity: severity,
+      );
+    } catch (e) {
+      debugPrint('Error submitting fast report: $e');
+      return Result.failure(
+        ApiError(message: e.toString(), code: 'fast_report_error'),
+      );
+    }
+  }
+
+  @override
+  Future<Result<MapEntry<List<FastReportModel>, bool>, String>>
+  getIssueFastReports({
+    required String issueId,
+    String? sort,
+    int page = 1,
+    int limit = 10,
+  }) async {
+    try {
+      final isConnected = await _connectivityService.isConnected();
+      if (!isConnected) {
+        return Result.failure(
+          'No internet connection. Please try again later.',
+        );
+      }
+
+      final result = await _remoteDataSource.getIssueFastReports(
+        issueId: issueId,
+        sort: sort,
+        page: page,
+        limit: limit,
+      );
+
+      return result.when(
+        success: (data) => Result.success(data),
+        failure: (error) => Result.failure(error.toString()),
+      );
+    } catch (e) {
+      debugPrint('Error getting issue fast reports: $e');
+      return Result.failure(e.toString());
+    }
+  }
+
+  @override
+  Future<Result<MapEntry<List<SnapReportModel>, bool>, String>>
+  getIssueSnapReports({
+    required String issueId,
+    String? sort,
+    int page = 1,
+    int limit = 10,
+  }) async {
+    try {
+      final isConnected = await _connectivityService.isConnected();
+      if (!isConnected) {
+        return Result.failure(
+          'No internet connection. Please try again later.',
+        );
+      }
+
+      final result = await _remoteDataSource.getIssueSnapReports(
+        issueId: issueId,
+        sort: sort,
+        page: page,
+        limit: limit,
+      );
+
+      return result.when(
+        success: (data) => Result.success(data),
+        failure: (error) => Result.failure(error.toString()),
+      );
+    } catch (e) {
+      return Result.failure(e.toString());
     }
   }
 
   @override
   Future<bool> syncPendingReports() async {
     try {
-      final pendingReportsCount = _localDataSource.getPendingReportsCount();
-      if (pendingReportsCount == 0) {
-        return true;
-      }
       final pendingReports = await _localDataSource.getPendingReports();
-      final isConnected = await _connectivityService.isConnected();
-      if (!isConnected) return false;
-      var allSuccessful = true;
-      for (var report in pendingReports) {
-        final result = await _remoteDataSource.submitReport(report);
+      if (pendingReports.isEmpty) return true;
+      bool allSynced = true;
+      for (final SnapReportModel report in pendingReports) {
+        SnapReportModel submittedReport = report;
+        if (report.state == '' ||
+            report.road == '' ||
+            report.city == '' ||
+            report.country == '') {
+          List<String>? address = await getIt<LocationService>()
+              .getAddressFromCoordinates(report.latitude, report.longitude);
+          submittedReport = report.copyWithModel(
+            city: address?[0] ?? '',
+            road: address?[1] ?? '',
+            state: address?[2] ?? '',
+            country: address?[3] ?? '',
+          );
+        }
+        final result = await _remoteDataSource.submitReport(submittedReport);
         await result.when(
-          success: (data) async {
-            debugPrint('✅ Report submitted successfully: $data');
-            await _localDataSource.deleteOfflineReport(report.id!);
-            _localDataSource.decrementPendingReportsCount();
+          success: (_) async {
+            await _localDataSource.markReportAsSynced(report.id!);
           },
-          failure: (error) {
-            debugPrint('❌ Failed to submit report: ${error.message}');
-            allSuccessful = false;
+          failure: (_) {
+            allSynced = false;
           },
         );
       }
-      return allSuccessful;
+      return allSynced;
     } catch (e) {
-      return Future.error(ApiErrorHandler.handle(e));
+      return false;
     }
   }
 
   @override
-  Stream<int> watchPendingReportsCount() {
+  ValueListenable<int> watchPendingReportsCount() {
+    return _localDataSource.watchPendingReportsCount();
+  }
+
+  @override
+  ValueListenable<List<SnapReportModel>> watchPendingReports() {
+    return _localDataSource.watchPendingReports();
+  }
+
+  @override
+  Future<Result<MapEntry<List<SnapReportModel>, bool>, String>> getUserReports({
+    String? sort,
+    String? status,
+    String? category,
+    int page = 1,
+    int limit = 10,
+  }) async {
     try {
-      return _localDataSource.watchPendingReportsCount();
+      final isConnected = await _connectivityService.isConnected();
+      if (!isConnected) {
+        return Result.failure(
+          'No internet connection. Please try again later.',
+        );
+      }
+      final result = await _remoteDataSource.getUserReports(
+        sort: sort,
+        status: status,
+        category: category,
+        page: page,
+        limit: limit,
+      );
+      // Map ApiErrorModel to String if failure
+      return result.when(
+        success: (data) => Result.success(data),
+        failure: (error) => Result.failure(error.toString()),
+      );
     } catch (e) {
-      return Stream.error(ApiErrorHandler.handle(e));
+      debugPrint('Error getting user reports: $e');
+      return Result.failure(e.toString());
     }
   }
 
   @override
-  Stream<List<ReportModel>> watchPendingReports() {
+  Future<Result<ReportStatisticsModel, ApiError>> getReportStatistics() async {
     try {
-      return _localDataSource.watchPendingReports();
+      final isConnected = await _connectivityService.isConnected();
+      if (!isConnected) {
+        return Result.failure(
+          ApiError(
+            message: 'No internet connection. Please try again later.',
+            code: 'no_internet',
+          ),
+        );
+      }
+      return await _remoteDataSource.getReportStatistics();
     } catch (e) {
-      return Stream.error(ApiErrorHandler.handle(e));
+      debugPrint('Error getting report statistics: $e');
+      return Result.failure(
+        ApiError(message: e.toString(), code: 'statistics_error'),
+      );
     }
   }
 }

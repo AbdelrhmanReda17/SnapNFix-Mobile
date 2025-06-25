@@ -3,17 +3,9 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:snapnfix/core/base_components/base_alert.dart';
-import 'package:snapnfix/core/config/application_configurations.dart';
-import 'package:snapnfix/core/dependency_injection/dependency_injection.dart';
-import 'package:snapnfix/core/infrastructure/networking/api_error_model.dart';
-import 'package:snapnfix/core/utils/extensions/navigation.dart';
-import 'package:snapnfix/modules/issues/domain/entities/issue.dart';
-import 'package:snapnfix/modules/issues/presentation/cubits/issue_details_cubit.dart';
-import 'package:snapnfix/modules/issues/presentation/screens/issue_details_bloc_listener.dart';
-import 'package:snapnfix/modules/issues/presentation/widgets/issue_details/images_slider/issue_images_slider.dart';
-import 'package:snapnfix/modules/issues/presentation/widgets/issue_details/issue_descriptions_list.dart';
-import 'package:snapnfix/modules/issues/presentation/widgets/issue_details/issue_details.dart';
+import 'package:snapnfix/core/index.dart';
+import 'package:snapnfix/modules/issues/index.dart';
+import 'package:snapnfix/modules/reports/presentation/widgets/issue_reports/issue_reports_tabs.dart';
 import 'package:snapnfix/presentation/components/application_system_ui_overlay.dart';
 import 'package:snapnfix/presentation/widgets/loading_overlay.dart';
 
@@ -35,29 +27,37 @@ class IssueDetailsScreen extends StatelessWidget {
         appBar: AppBar(
           backgroundColor: colorScheme.surface,
           title: Text(
-            localization.issueDetails(issueId),
-            style: TextStyle(color: colorScheme.primary, fontSize: 20.sp),
+            localization.issueDetailsTitle,
+            style: TextStyle(color: colorScheme.tertiary, fontSize: 20.sp),
           ),
           iconTheme: IconThemeData(
-            color: Theme.of(context).colorScheme.primary,
+            color: Theme.of(context).colorScheme.tertiary,
             size: 20.sp,
           ),
           elevation: 0,
         ),
-
         body: SafeArea(
-          child: BlocBuilder<IssueDetailsCubit, IssueDetailsState>(
-            builder: (context, state) {
-              return state.maybeWhen(
-                loaded: (issue) => _buildIssueContent(issue),
-                loading: () => const LoadingOverlay(),
-                error: (error) {
-                  setupErrorState(context, error);
-                  return const SizedBox.shrink();
-                },
-                orElse: () => const LoadingOverlay(),
-              );
-            },
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                const IssueDetailsBlocListener(),
+                BlocBuilder<IssueDetailsCubit, IssueDetailsState>(
+                  builder: (context, state) {
+                    return state.maybeWhen(
+                      loaded:
+                          (issue) => _buildIssueContent(
+                            issue,
+                            localization,
+                            colorScheme,
+                          ),
+                      loading: () => const LoadingOverlay(),
+                      error: (_) => const LoadingOverlay(),
+                      orElse: () => const LoadingOverlay(),
+                    );
+                  },
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -71,42 +71,34 @@ class IssueDetailsScreen extends StatelessWidget {
 
       currentState.maybeWhen(
         loading: () => {},
-        loaded:
-            (issue) => {
-              if (issue.id != issueId) {cubit.getIssueDetails(issueId)},
-            },
-        orElse: () => {cubit.getIssueDetails(issueId)},
+        loaded: (issue) {
+          if (issue.id != issueId) {
+            cubit.getIssueDetails(issueId);
+          }
+        },
+        orElse: () => cubit.getIssueDetails(issueId),
       );
     });
   }
 
-  Widget _buildIssueContent(Issue issue) {
+  Widget _buildIssueContent(
+    Issue issue,
+    AppLocalizations localization,
+    ColorScheme colorScheme,
+  ) {
     return Padding(
       padding: EdgeInsets.only(top: 16.0.h),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          const IssueDetailsBlocListener(),
           IssueImageSlider(images: issue.images),
           IssueDetails(issue: issue),
-          Expanded(
-            child: IssueDescriptionsList(descriptions: issue.descriptions),
+          SizedBox(
+            height: 400.h,
+            child: IssueReportsTabs(issueId: issue.id),
           ),
         ],
       ),
-    );
-  }
-
-  void setupErrorState(BuildContext context, ApiErrorModel apiErrorModel) {
-    context.pop();
-    baseDialog(
-      context: context,
-      title: 'Fetching Error',
-      message: apiErrorModel.getAllErrorMessages(),
-      alertType: AlertType.error,
-      confirmText: 'Got it',
-      onConfirm: () {},
-      showCancelButton: false,
     );
   }
 }

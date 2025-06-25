@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
-import 'package:snapnfix/core/base_components/base_alert.dart';
-import 'package:snapnfix/core/infrastructure/networking/api_error_model.dart';
-import 'package:snapnfix/modules/issues/presentation/cubits/issue_details_cubit.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:snapnfix/core/base_components/base_alert_component/alert_type.dart';
 import 'package:snapnfix/presentation/widgets/loading_overlay.dart';
+import 'package:snapnfix/core/index.dart';
+import 'package:snapnfix/modules/issues/index.dart';
 
 class IssueDetailsBlocListener extends StatelessWidget {
   const IssueDetailsBlocListener({super.key});
@@ -23,17 +23,20 @@ class IssueDetailsBlocListener extends StatelessWidget {
     );
   }
 
-  void _showError(BuildContext context, ApiErrorModel error) {
-    context.pop();
-
-    baseDialog(
-      context: context,
-      title: 'Error Fetching the Issue',
-      message: error.getAllErrorMessages(),
-      alertType: AlertType.error,
-      confirmText: 'OK',
-      onConfirm: () {},
-      showCancelButton: false,
-    );
+  void _showError(BuildContext context, ApiError error) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final localization = AppLocalizations.of(context)!;
+      if (!context.mounted) return;
+      context.pop();
+      baseDialog(
+        context: context,
+        title: localization.errorFetchingIssue,
+        message: error.message,
+        alertType: AlertType.error,
+        confirmText: localization.ok,
+        onConfirm: () {},
+        showCancelButton: false,
+      );
+    });
   }
 }

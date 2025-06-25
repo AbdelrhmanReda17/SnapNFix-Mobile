@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -15,8 +15,8 @@ class LoginScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final localization = AppLocalizations.of(context)!;
     return AuthenticationContent(
-      title: "Sign In to your account",
-      subtitle: "Enter your email and password to log in to your account",
+      title: localization.signInToAccount,
+      subtitle: localization.enterEmailAndPassword,
       buttonText: localization.signIn,
       footerQuestion: localization.notRegistered,
       footerAction: localization.createAccount,

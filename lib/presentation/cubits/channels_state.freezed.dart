@@ -12,8 +12,7 @@ part of 'channels_state.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
-);
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$ChannelsState {
@@ -34,17 +33,15 @@ mixin _$ChannelsState {
 /// @nodoc
 abstract class $ChannelsStateCopyWith<$Res> {
   factory $ChannelsStateCopyWith(
-    ChannelsState value,
-    $Res Function(ChannelsState) then,
-  ) = _$ChannelsStateCopyWithImpl<$Res, ChannelsState>;
+          ChannelsState value, $Res Function(ChannelsState) then) =
+      _$ChannelsStateCopyWithImpl<$Res, ChannelsState>;
   @useResult
-  $Res call({
-    String selectedChannel,
-    bool isSubscribed,
-    List<String> channels,
-    Map<String, List<IssueUpdate>> updates,
-    List<IssueStatus> selectedStatuses,
-  });
+  $Res call(
+      {String selectedChannel,
+      bool isSubscribed,
+      List<String> channels,
+      Map<String, List<IssueUpdate>> updates,
+      List<IssueStatus> selectedStatuses});
 }
 
 /// @nodoc
@@ -68,36 +65,28 @@ class _$ChannelsStateCopyWithImpl<$Res, $Val extends ChannelsState>
     Object? updates = null,
     Object? selectedStatuses = null,
   }) {
-    return _then(
-      _value.copyWith(
-            selectedChannel:
-                null == selectedChannel
-                    ? _value.selectedChannel
-                    : selectedChannel // ignore: cast_nullable_to_non_nullable
-                        as String,
-            isSubscribed:
-                null == isSubscribed
-                    ? _value.isSubscribed
-                    : isSubscribed // ignore: cast_nullable_to_non_nullable
-                        as bool,
-            channels:
-                null == channels
-                    ? _value.channels
-                    : channels // ignore: cast_nullable_to_non_nullable
-                        as List<String>,
-            updates:
-                null == updates
-                    ? _value.updates
-                    : updates // ignore: cast_nullable_to_non_nullable
-                        as Map<String, List<IssueUpdate>>,
-            selectedStatuses:
-                null == selectedStatuses
-                    ? _value.selectedStatuses
-                    : selectedStatuses // ignore: cast_nullable_to_non_nullable
-                        as List<IssueStatus>,
-          )
-          as $Val,
-    );
+    return _then(_value.copyWith(
+      selectedChannel: null == selectedChannel
+          ? _value.selectedChannel
+          : selectedChannel // ignore: cast_nullable_to_non_nullable
+              as String,
+      isSubscribed: null == isSubscribed
+          ? _value.isSubscribed
+          : isSubscribed // ignore: cast_nullable_to_non_nullable
+              as bool,
+      channels: null == channels
+          ? _value.channels
+          : channels // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+      updates: null == updates
+          ? _value.updates
+          : updates // ignore: cast_nullable_to_non_nullable
+              as Map<String, List<IssueUpdate>>,
+      selectedStatuses: null == selectedStatuses
+          ? _value.selectedStatuses
+          : selectedStatuses // ignore: cast_nullable_to_non_nullable
+              as List<IssueStatus>,
+    ) as $Val);
   }
 }
 
@@ -105,18 +94,16 @@ class _$ChannelsStateCopyWithImpl<$Res, $Val extends ChannelsState>
 abstract class _$$ChannelsStateImplCopyWith<$Res>
     implements $ChannelsStateCopyWith<$Res> {
   factory _$$ChannelsStateImplCopyWith(
-    _$ChannelsStateImpl value,
-    $Res Function(_$ChannelsStateImpl) then,
-  ) = __$$ChannelsStateImplCopyWithImpl<$Res>;
+          _$ChannelsStateImpl value, $Res Function(_$ChannelsStateImpl) then) =
+      __$$ChannelsStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({
-    String selectedChannel,
-    bool isSubscribed,
-    List<String> channels,
-    Map<String, List<IssueUpdate>> updates,
-    List<IssueStatus> selectedStatuses,
-  });
+  $Res call(
+      {String selectedChannel,
+      bool isSubscribed,
+      List<String> channels,
+      Map<String, List<IssueUpdate>> updates,
+      List<IssueStatus> selectedStatuses});
 }
 
 /// @nodoc
@@ -124,9 +111,8 @@ class __$$ChannelsStateImplCopyWithImpl<$Res>
     extends _$ChannelsStateCopyWithImpl<$Res, _$ChannelsStateImpl>
     implements _$$ChannelsStateImplCopyWith<$Res> {
   __$$ChannelsStateImplCopyWithImpl(
-    _$ChannelsStateImpl _value,
-    $Res Function(_$ChannelsStateImpl) _then,
-  ) : super(_value, _then);
+      _$ChannelsStateImpl _value, $Res Function(_$ChannelsStateImpl) _then)
+      : super(_value, _then);
 
   /// Create a copy of ChannelsState
   /// with the given fields replaced by the non-null parameter values.
@@ -139,50 +125,43 @@ class __$$ChannelsStateImplCopyWithImpl<$Res>
     Object? updates = null,
     Object? selectedStatuses = null,
   }) {
-    return _then(
-      _$ChannelsStateImpl(
-        selectedChannel:
-            null == selectedChannel
-                ? _value.selectedChannel
-                : selectedChannel // ignore: cast_nullable_to_non_nullable
-                    as String,
-        isSubscribed:
-            null == isSubscribed
-                ? _value.isSubscribed
-                : isSubscribed // ignore: cast_nullable_to_non_nullable
-                    as bool,
-        channels:
-            null == channels
-                ? _value._channels
-                : channels // ignore: cast_nullable_to_non_nullable
-                    as List<String>,
-        updates:
-            null == updates
-                ? _value._updates
-                : updates // ignore: cast_nullable_to_non_nullable
-                    as Map<String, List<IssueUpdate>>,
-        selectedStatuses:
-            null == selectedStatuses
-                ? _value._selectedStatuses
-                : selectedStatuses // ignore: cast_nullable_to_non_nullable
-                    as List<IssueStatus>,
-      ),
-    );
+    return _then(_$ChannelsStateImpl(
+      selectedChannel: null == selectedChannel
+          ? _value.selectedChannel
+          : selectedChannel // ignore: cast_nullable_to_non_nullable
+              as String,
+      isSubscribed: null == isSubscribed
+          ? _value.isSubscribed
+          : isSubscribed // ignore: cast_nullable_to_non_nullable
+              as bool,
+      channels: null == channels
+          ? _value._channels
+          : channels // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+      updates: null == updates
+          ? _value._updates
+          : updates // ignore: cast_nullable_to_non_nullable
+              as Map<String, List<IssueUpdate>>,
+      selectedStatuses: null == selectedStatuses
+          ? _value._selectedStatuses
+          : selectedStatuses // ignore: cast_nullable_to_non_nullable
+              as List<IssueStatus>,
+    ));
   }
 }
 
 /// @nodoc
 
 class _$ChannelsStateImpl implements _ChannelsState {
-  const _$ChannelsStateImpl({
-    required this.selectedChannel,
-    required this.isSubscribed,
-    required final List<String> channels,
-    required final Map<String, List<IssueUpdate>> updates,
-    final List<IssueStatus> selectedStatuses = const [],
-  }) : _channels = channels,
-       _updates = updates,
-       _selectedStatuses = selectedStatuses;
+  const _$ChannelsStateImpl(
+      {required this.selectedChannel,
+      required this.isSubscribed,
+      required final List<String> channels,
+      required final Map<String, List<IssueUpdate>> updates,
+      final List<IssueStatus> selectedStatuses = const []})
+      : _channels = channels,
+        _updates = updates,
+        _selectedStatuses = selectedStatuses;
 
   @override
   final String selectedChannel;
@@ -230,21 +209,18 @@ class _$ChannelsStateImpl implements _ChannelsState {
                 other.isSubscribed == isSubscribed) &&
             const DeepCollectionEquality().equals(other._channels, _channels) &&
             const DeepCollectionEquality().equals(other._updates, _updates) &&
-            const DeepCollectionEquality().equals(
-              other._selectedStatuses,
-              _selectedStatuses,
-            ));
+            const DeepCollectionEquality()
+                .equals(other._selectedStatuses, _selectedStatuses));
   }
 
   @override
   int get hashCode => Object.hash(
-    runtimeType,
-    selectedChannel,
-    isSubscribed,
-    const DeepCollectionEquality().hash(_channels),
-    const DeepCollectionEquality().hash(_updates),
-    const DeepCollectionEquality().hash(_selectedStatuses),
-  );
+      runtimeType,
+      selectedChannel,
+      isSubscribed,
+      const DeepCollectionEquality().hash(_channels),
+      const DeepCollectionEquality().hash(_updates),
+      const DeepCollectionEquality().hash(_selectedStatuses));
 
   /// Create a copy of ChannelsState
   /// with the given fields replaced by the non-null parameter values.
@@ -256,13 +232,12 @@ class _$ChannelsStateImpl implements _ChannelsState {
 }
 
 abstract class _ChannelsState implements ChannelsState {
-  const factory _ChannelsState({
-    required final String selectedChannel,
-    required final bool isSubscribed,
-    required final List<String> channels,
-    required final Map<String, List<IssueUpdate>> updates,
-    final List<IssueStatus> selectedStatuses,
-  }) = _$ChannelsStateImpl;
+  const factory _ChannelsState(
+      {required final String selectedChannel,
+      required final bool isSubscribed,
+      required final List<String> channels,
+      required final Map<String, List<IssueUpdate>> updates,
+      final List<IssueStatus> selectedStatuses}) = _$ChannelsStateImpl;
 
   @override
   String get selectedChannel;

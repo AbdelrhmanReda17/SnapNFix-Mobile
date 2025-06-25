@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:snapnfix/core/utils/helpers/spacing.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:snapnfix/presentation/components/application_system_ui_overlay.dart';
@@ -15,6 +16,7 @@ class SupportScreen extends StatelessWidget {
     final statusBarStyle = ApplicationSystemUIOverlay.getSettingsStyle(
       colorScheme.primary,
     );
+    final isDark = colorScheme.brightness == Brightness.dark;
 
     return Scaffold(
       appBar: AppBar(
@@ -22,9 +24,9 @@ class SupportScreen extends StatelessWidget {
         systemOverlayStyle: statusBarStyle,
         title: Text(
           localization.support,
-          style: TextStyle(color: colorScheme.surface, fontSize: 18.sp),
+          style: TextStyle(color: colorScheme.onPrimary, fontSize: 20.sp),
         ),
-        iconTheme: IconThemeData(color: colorScheme.surface, size: 20.sp),
+        iconTheme: IconThemeData(color: colorScheme.onPrimary, size: 20.sp),
       ),
       body: SingleChildScrollView(
         padding: EdgeInsets.all(16.w),
@@ -32,7 +34,7 @@ class SupportScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             _buildSectionTitle(localization.contactUs, textStyles, colorScheme),
-            SizedBox(height: 16.h),
+            verticalSpace(16),
             _buildContactItem(
               icon: Icons.email_outlined,
               title: localization.email,
@@ -49,26 +51,29 @@ class SupportScreen extends StatelessWidget {
               textStyles: textStyles,
               colorScheme: colorScheme,
             ),
-            SizedBox(height: 24.h),
+            verticalSpace(24),
             _buildSectionTitle(localization.faqs, textStyles, colorScheme),
-            SizedBox(height: 16.h),
+            verticalSpace(16),
             _buildFaqItem(
               localization.howToReportFaqTitle,
               localization.howToReportFaqAnswer,
               textStyles,
               colorScheme,
+              isDark,
             ),
             _buildFaqItem(
               localization.resolutionTimeFaqTitle,
               localization.resolutionTimeFaqAnswer,
               textStyles,
               colorScheme,
+              isDark,
             ),
             _buildFaqItem(
               localization.editReportFaqTitle,
               localization.editReportFaqAnswer,
               textStyles,
               colorScheme,
+              isDark,
             ),
           ],
         ),
@@ -104,7 +109,12 @@ class SupportScreen extends StatelessWidget {
       child: ListTile(
         leading: Icon(icon, color: colorScheme.primary),
         title: Text(title, style: textStyles.titleMedium),
-        subtitle: Text(subtitle, style: textStyles.bodyMedium),
+        subtitle: Text(
+          subtitle,
+          style: textStyles.bodyMedium!.copyWith(
+            color: colorScheme.tertiary.withValues(alpha: 0.5),
+          ),
+        ),
         onTap: onTap,
       ),
     );
@@ -115,6 +125,7 @@ class SupportScreen extends StatelessWidget {
     String answer,
     TextTheme textStyles,
     ColorScheme colorScheme,
+    bool isDark,
   ) {
     return Card(
       elevation: 0,
@@ -122,12 +133,21 @@ class SupportScreen extends StatelessWidget {
       child: ExpansionTile(
         title: Text(
           question,
-          style: textStyles.titleMedium?.copyWith(color: colorScheme.primary),
+          style: textStyles.titleMedium?.copyWith(color: colorScheme.tertiary),
         ),
+        iconColor: colorScheme.tertiary,
         children: [
           Padding(
             padding: EdgeInsets.all(16.w),
-            child: Text(answer, style: textStyles.bodyMedium),
+            child: Text(
+              answer,
+              style:
+                  isDark
+                      ? textStyles.bodyMedium!.copyWith(
+                        color: colorScheme.tertiary.withValues(alpha: 0.5),
+                      )
+                      : textStyles.bodyMedium,
+            ),
           ),
         ],
       ),

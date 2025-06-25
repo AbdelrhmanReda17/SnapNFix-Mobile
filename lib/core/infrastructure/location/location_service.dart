@@ -1,3 +1,4 @@
+import 'package:geocoding/geocoding.dart' as geocoding;
 import 'package:geolocator/geolocator.dart';
 import 'package:injectable/injectable.dart';
 
@@ -25,6 +26,30 @@ class LocationService {
         distanceFilter: minDistance,
       ),
     );
+  }
+
+  Future<List<String>?> getAddressFromCoordinates(
+    double latitude,
+    double longitude,
+  ) async {
+    try {
+      final placemarks = await geocoding.placemarkFromCoordinates(
+        latitude,
+        longitude,
+      );
+      if (placemarks.isNotEmpty) {
+        final placemark = placemarks.first;
+        return [
+          placemark.street ?? '',
+          placemark.subAdministrativeArea ?? '',
+          placemark.administrativeArea ?? '',
+          placemark.country ?? '',
+        ].where((element) => element.isNotEmpty).toList();
+      }
+      return null;
+    } catch (e) {
+      return null;
+    }
   }
 
   Future<bool> checkIfLocationServiceEnabled() async {

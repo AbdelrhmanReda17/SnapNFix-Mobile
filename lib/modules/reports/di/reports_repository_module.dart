@@ -1,7 +1,7 @@
 import 'package:injectable/injectable.dart';
 import 'package:snapnfix/core/infrastructure/connectivity/connectivity_service.dart';
-import 'package:snapnfix/modules/reports/data/datasource/report_local_data_source.dart';
-import 'package:snapnfix/modules/reports/data/datasource/report_remote_data_source.dart';
+import 'package:snapnfix/modules/reports/data/datasources/report_local_data_source.dart';
+import 'package:snapnfix/modules/reports/data/datasources/report_remote_data_source.dart';
 import 'package:snapnfix/modules/reports/data/repositories/report_repository.dart';
 import 'package:snapnfix/modules/reports/domain/repositories/base_report_repository.dart';
 

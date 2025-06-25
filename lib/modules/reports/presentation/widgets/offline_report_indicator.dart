@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:snapnfix/core/base_components/base_toast.dart';
 import 'package:snapnfix/core/dependency_injection/dependency_injection.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:snapnfix/core/infrastructure/connectivity/connectivity_service.dart';
 import 'package:snapnfix/modules/reports/domain/usecases/get_pending_reports_count_use_case.dart';
 import 'package:snapnfix/modules/reports/domain/usecases/sync_prending_reports_use_case.dart';
@@ -10,7 +11,6 @@ import 'package:snapnfix/modules/reports/domain/usecases/watch_pending_reports_c
 
 class OfflineReportIndicator extends StatefulWidget {
   const OfflineReportIndicator({super.key});
-
   @override
   State<OfflineReportIndicator> createState() => _OfflineReportIndicatorState();
 }
@@ -19,27 +19,22 @@ class _OfflineReportIndicatorState extends State<OfflineReportIndicator> {
   StreamSubscription? _connectivitySubscription;
   bool _isSyncing = false;
   final ConnectivityService _connectivityService = getIt<ConnectivityService>();
-  final GetPendingReportsCountUseCase _getpendingReportsUseCase =
-      getIt<GetPendingReportsCountUseCase>();
-  int? _initialPendingCount;
 
   @override
   void initState() {
     super.initState();
-    _setupConnectivityMonitoring();
-    _checkInitialPendingCount();
-  }
 
-  void _checkInitialPendingCount() {
-    setState(() {
-      _initialPendingCount = _getpendingReportsUseCase.call();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        _setupConnectivityMonitoring();
+      }
     });
   }
 
   void _setupConnectivityMonitoring() {
     _connectivityService.monitorConnectivity(
       onStatusChanged: (isConnected) {
-        if (isConnected) {
+        if (isConnected && mounted) {
           _checkAndSyncPendingReports();
         }
       },
@@ -47,22 +42,29 @@ class _OfflineReportIndicatorState extends State<OfflineReportIndicator> {
   }
 
   Future<void> _checkAndSyncPendingReports() async {
+    if (!mounted) return;
+
     final pendingCount = getIt<GetPendingReportsCountUseCase>().call();
-    if (pendingCount > 0 && !_isSyncing) {
+    if (pendingCount > 0 && !_isSyncing && mounted) {
       _syncReports();
     }
   }
 
   void _showReportSyncingToast(bool result) {
+    if (!mounted) return;
+
     BaseToast.show(
       context: context,
-      message: result ? 'Reports synced successfully' : 'Report Syncing failed',
+      message:
+          result
+              ? AppLocalizations.of(context)!.reportsSynced
+              : AppLocalizations.of(context)!.someReportsFailed,
       type: result ? ToastType.success : ToastType.warning,
     );
   }
 
   Future<void> _syncReports() async {
-    if (_isSyncing) return;
+    if (_isSyncing || !mounted) return;
     setState(() {
       _isSyncing = true;
     });
@@ -70,6 +72,7 @@ class _OfflineReportIndicatorState extends State<OfflineReportIndicator> {
 
     try {
       final result = await syncPendingReports.call();
+      if (!mounted) return;
       result.when(
         success: (bool result) {
           if (mounted) {
@@ -99,28 +102,34 @@ class _OfflineReportIndicatorState extends State<OfflineReportIndicator> {
   Widget build(BuildContext context) {
     final watchPendingReportsCount = getIt<WatchPendingReportsCountUseCase>();
     final colorScheme = Theme.of(context).colorScheme;
+    final localization = AppLocalizations.of(context)!;
 
     void showToast(String message, ToastType type) {
-      BaseToast.show(context: context, message: message, type: type);
+      if (mounted) {
+        BaseToast.show(context: context, message: message, type: type);
+      }
     }
 
-    return StreamBuilder<int>(
-      stream: watchPendingReportsCount.call(),
-      initialData: _initialPendingCount ?? 0,
-      builder: (context, snapshot) {
-        final count = snapshot.data ?? _initialPendingCount ?? 0;
+    return ValueListenableBuilder<int>(
+      valueListenable: watchPendingReportsCount.call(),
+      builder: (context, count, child) {
         if (count == 0) {
           return const SizedBox.shrink();
         }
         return GestureDetector(
           onTap: () async {
+            if (!mounted) return;
+
             final isConnected = await _connectivityService.isConnected();
+
+            if (!mounted) return;
+
             if (!isConnected) {
-              showToast('No internet connection', ToastType.error);
+              showToast(localization.noInternetConnection, ToastType.error);
               return;
             }
             if (_isSyncing) {
-              showToast('Syncing in progress', ToastType.info);
+              showToast(localization.syncingInProgress, ToastType.info);
               return;
             }
             _syncReports();
@@ -129,20 +138,21 @@ class _OfflineReportIndicatorState extends State<OfflineReportIndicator> {
             children: [
               Padding(
                 padding: EdgeInsets.only(right: 8.w),
-                child: _isSyncing 
-                  ? SizedBox(
-                      width: 24.sp,
-                      height: 24.sp,
-                      child: CircularProgressIndicator(
-                        color: colorScheme.primary,
-                        strokeWidth: 2.w,
-                      ),
-                    )
-                  : Icon(
-                      Icons.cloud_upload_outlined,
-                      size: 24.sp,
-                      color: colorScheme.primary,
-                    ),
+                child:
+                    _isSyncing
+                        ? SizedBox(
+                          width: 24.sp,
+                          height: 24.sp,
+                          child: CircularProgressIndicator(
+                            color: colorScheme.primary,
+                            strokeWidth: 2.w,
+                          ),
+                        )
+                        : Icon(
+                          Icons.cloud_upload_outlined,
+                          size: 24.sp,
+                          color: colorScheme.primary,
+                        ),
               ),
               if (count > 0)
                 Positioned(

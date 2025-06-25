@@ -16,4 +16,11 @@ class SessionModel extends Session {
     'user': (user as UserModel).toJson(),
     'tokens': (tokens as TokensModel).toJson(),
   };
+
+  SessionModel copyWith({UserModel? user, TokensModel? tokens}) {
+    return SessionModel(
+      user: user ?? this.user as UserModel,
+      tokens: tokens ?? this.tokens as TokensModel,
+    );
+  }
 }

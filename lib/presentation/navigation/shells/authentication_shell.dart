@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:snapnfix/modules/authentication/presentation/screens/authentication_base_screen.dart';
+import 'package:snapnfix/modules/index.dart';
 
 class AuthenticationShell extends StatelessWidget {
   final Widget child;

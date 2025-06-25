@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:snapnfix/core/base_components/base_button.dart';
 import 'package:snapnfix/core/infrastructure/location/location_service.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class LocationPermissionWidget extends StatefulWidget {
   final Widget Function(Position position) builder;
@@ -92,10 +93,11 @@ class _LocationPermissionWidgetState extends State<LocationPermissionWidget>
     final isServiceEnabled =
         await _locationService.checkIfLocationServiceEnabled();
     final hasPermission = await _locationService.hasLocationPermission();
-
-    setState(() {
-      _isLocationEnabled = isServiceEnabled && hasPermission;
-    });
+    if (mounted) {
+      setState(() {
+        _isLocationEnabled = isServiceEnabled && hasPermission;
+      });
+    }
   }
 
   void _setupLocationStream() {
@@ -137,18 +139,19 @@ class _LocationPermissionWidgetState extends State<LocationPermissionWidget>
 
     await _initializeLocation();
   }
-
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
+    final localization = AppLocalizations.of(context)!;
+    
     if (_isLoading) {
-      return const Center(
+      return Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            CircularProgressIndicator(),
-            SizedBox(height: 16),
-            Text('Getting your location...'),
+            const CircularProgressIndicator(),
+            const SizedBox(height: 16),
+            Text(localization.gettingYourLocation),
           ],
         ),
       );
@@ -175,7 +178,7 @@ class _LocationPermissionWidgetState extends State<LocationPermissionWidget>
               BaseButton(
                 onPressed: _requestLocationPermission,
                 text: 'Enable Location',
-                textStyle: const TextStyle(color: Colors.white),
+                textStyle: TextStyle(color: colorScheme.onPrimary),
               ),
             ],
           ),

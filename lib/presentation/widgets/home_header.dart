@@ -3,9 +3,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:snapnfix/core/config/application_configurations.dart';
 import 'package:snapnfix/core/dependency_injection/dependency_injection.dart';
 import 'package:go_router/go_router.dart';
+import 'package:snapnfix/core/utils/helpers/spacing.dart';
 import 'package:snapnfix/modules/reports/presentation/widgets/offline_report_indicator.dart';
 import 'package:snapnfix/presentation/navigation/routes.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class HomeHeader extends StatelessWidget {
   const HomeHeader({super.key});
@@ -21,6 +22,7 @@ class HomeHeader extends StatelessWidget {
 
     final user = session.user;
     final initials = '${user.firstName![0]}${user.lastName![0]}';
+    final localization = AppLocalizations.of(context)!;
 
     return Stack(
       children: [
@@ -52,7 +54,7 @@ class HomeHeader extends StatelessWidget {
                       ),
                     ),
                   ),
-                  SizedBox(width: 12.w),
+                  horizontalSpace(12),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -60,44 +62,47 @@ class HomeHeader extends StatelessWidget {
                         text: TextSpan(
                           children: [
                             TextSpan(
-                              text: 'Hello, ',
+                              text: '${localization.hello} ',
                               style: theme.textTheme.bodyMedium?.copyWith(
-                                color: const Color.fromARGB(255, 47, 115, 94),
+                                color: theme.colorScheme.onSurface.withValues(
+                                  alpha: 0.8,
+                                ),
                                 fontSize: 16.sp,
                               ),
                             ),
                             TextSpan(
                               text: "${user.firstName![0]}${user.lastName![0]}",
-
                               style: theme.textTheme.bodyMedium?.copyWith(
                                 fontSize: 16.sp,
-                                color: const Color.fromARGB(255, 47, 115, 94),
+                                color: theme.colorScheme.onSurface.withValues(
+                                  alpha: 0.8,
+                                ),
                               ),
                             ),
                           ],
                         ),
                       ),
-                      // SizedBox(height: 2.h),
                       Text(
-                        'Keep Our City Safe!',
+                        localization.homeSubtitle,
                         style: theme.textTheme.bodyMedium?.copyWith(
-                          color: const Color.fromARGB(255, 47, 115, 94),
+                          color: theme.colorScheme.onSurface,
                           fontSize: 18.sp,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      // SizedBox(height: 2.h),
                       Row(
                         children: [
                           Icon(
                             Icons.location_on,
                             size: 14.sp,
-                            color: Colors.grey,
+                            color: theme.colorScheme.primary,
                           ),
                           Text(
                             '36 Dokki st, Giza',
                             style: theme.textTheme.bodySmall?.copyWith(
-                              color: Colors.grey,
+                              color: theme.colorScheme.onSurface.withValues(
+                                alpha: 0.6,
+                              ),
                               fontSize: 12.sp,
                             ),
                           ),
@@ -112,7 +117,8 @@ class HomeHeader extends StatelessWidget {
         ),
         Positioned(
           top: 16.h,
-          right: 8.w,
+          right: Directionality.of(context) == TextDirection.ltr ? 8.w : null,
+          left: Directionality.of(context) == TextDirection.ltr ? null : 8.w,
           child: Row(
             children: [
               IconButton(
