@@ -49,27 +49,10 @@ class IssueCommentsCard extends StatelessWidget {
                 borderRadius: BorderRadius.circular(8.r),
                 child:
                     isSnapReport && imageUrl != null && imageUrl!.isNotEmpty
-                        ? CachedNetworkImage(
-                          imageUrl: imageUrl!,
+                        ? ImageBuilder.buildImage(
+                          imageName: imageUrl!,
                           fit: BoxFit.cover,
-                          placeholder:
-                              (context, url) => Container(
-                                color: colorScheme.surface,
-                                child: Center(
-                                  child: CircularProgressIndicator(
-                                    color: colorScheme.primary,
-                                    strokeWidth: 2,
-                                  ),
-                                ),
-                              ),
-                          errorWidget:
-                              (context, url, error) => Container(
-                                color: colorScheme.surface,
-                                child: Icon(
-                                  Icons.broken_image,
-                                  color: colorScheme.outline,
-                                ),
-                              ),
+                          colorScheme: colorScheme,
                         )
                         : Container(
                           decoration: BoxDecoration(

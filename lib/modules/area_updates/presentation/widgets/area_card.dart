@@ -8,6 +8,7 @@ class AreaCard extends StatelessWidget {
   final VoidCallback? onSubscriptionToggle;
   final VoidCallback? onTap;
   final bool showSubscriptionButton;
+  final bool isLoading;
 
   const AreaCard({
     super.key,
@@ -16,50 +17,94 @@ class AreaCard extends StatelessWidget {
     this.onSubscriptionToggle,
     this.onTap,
     this.showSubscriptionButton = true,
+    this.isLoading = false,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      margin: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
-      child: InkWell(
-        onTap: onTap,
-        borderRadius: BorderRadius.circular(12.r),
-        child: Padding(
-          padding: EdgeInsets.all(16.r),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          area.name,
-                          style: Theme.of(context).textTheme.headlineSmall
-                              ?.copyWith(fontWeight: FontWeight.bold),
-                        ),
-                        SizedBox(height: 4.h),
-                        Text(
-                          area.state,
-                          style: Theme.of(
-                            context,
-                          ).textTheme.bodyMedium?.copyWith(
+    return Container(
+      margin: EdgeInsets.symmetric(horizontal: 16.w, vertical: 6.h),
+      decoration: BoxDecoration(
+        color: Theme.of(context).colorScheme.surface,
+        borderRadius: BorderRadius.circular(16.r),
+        border: Border.all(
+          color: Theme.of(context).colorScheme.outline.withOpacity(0.1),
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.05),
+            blurRadius: 10,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: onTap,
+          borderRadius: BorderRadius.circular(16.r),
+          child: Padding(
+            padding: EdgeInsets.all(16.r),
+            child: Row(
+              children: [
+                // Location Icon
+                Container(
+                  padding: EdgeInsets.all(12.r),
+                  decoration: BoxDecoration(
+                    color: Theme.of(
+                      context,
+                    ).colorScheme.primary.withOpacity(0.1),
+                    borderRadius: BorderRadius.circular(12.r),
+                  ),
+                  child: Icon(
+                    Icons.location_city,
+                    size: 24.sp,
+                    color: Theme.of(context).colorScheme.primary,
+                  ),
+                ),
+                SizedBox(width: 16.w),
+                // Area Info
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        area.name,
+                        style: Theme.of(context).textTheme.titleMedium
+                            ?.copyWith(fontWeight: FontWeight.w600),
+                      ),
+                      SizedBox(height: 4.h),
+                      Row(
+                        children: [
+                          Icon(
+                            Icons.location_on_outlined,
+                            size: 14.sp,
                             color:
                                 Theme.of(context).colorScheme.onSurfaceVariant,
                           ),
-                        ),
-                      ],
-                    ),
+                          SizedBox(width: 4.w),
+                          Text(
+                            area.state,
+                            style: Theme.of(
+                              context,
+                            ).textTheme.bodySmall?.copyWith(
+                              color:
+                                  Theme.of(
+                                    context,
+                                  ).colorScheme.onSurfaceVariant,
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 8.h),
+                      _buildIssuesCount(context),
+                    ],
                   ),
-                  if (showSubscriptionButton) _buildSubscriptionButton(context),
-                ],
-              ),
-              SizedBox(height: 12.h),
-              _buildIssuesCount(context),
-            ],
+                ),
+                // Subscription Button
+                if (showSubscriptionButton) _buildSubscriptionButton(context),
+              ],
+            ),
           ),
         ),
       ),
@@ -67,59 +112,86 @@ class AreaCard extends StatelessWidget {
   }
 
   Widget _buildSubscriptionButton(BuildContext context) {
-    return FilledButton.tonal(
-      onPressed: onSubscriptionToggle,
-      style: FilledButton.styleFrom(
-        backgroundColor:
-            isSubscribed
-                ? Theme.of(context).colorScheme.primary.withOpacity(0.1)
-                : Theme.of(context).colorScheme.surfaceVariant,
-        foregroundColor:
-            isSubscribed
-                ? Theme.of(context).colorScheme.primary
-                : Theme.of(context).colorScheme.onSurfaceVariant,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.r)),
-        padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(
-            isSubscribed ? Icons.notifications : Icons.notifications_none,
-            size: 16.sp,
+    return Container(
+      decoration: BoxDecoration(borderRadius: BorderRadius.circular(12.r)),
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: isLoading ? null : onSubscriptionToggle,
+          borderRadius: BorderRadius.circular(12.r),
+          child: Container(
+            padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
+            decoration: BoxDecoration(
+              color:
+                  isSubscribed
+                      ? Theme.of(context).colorScheme.primary
+                      : Theme.of(context).colorScheme.surfaceVariant,
+              borderRadius: BorderRadius.circular(12.r),
+            ),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                if (isLoading)
+                  SizedBox(
+                    width: 14.sp,
+                    height: 14.sp,
+                    child: CircularProgressIndicator(
+                      strokeWidth: 2,
+                      color:
+                          isSubscribed
+                              ? Colors.white
+                              : Theme.of(context).colorScheme.onSurfaceVariant,
+                    ),
+                  )
+                else
+                  Icon(
+                    isSubscribed ? Icons.check : Icons.add,
+                    size: 16.sp,
+                    color:
+                        isSubscribed
+                            ? Colors.white
+                            : Theme.of(context).colorScheme.onSurfaceVariant,
+                  ),
+                SizedBox(width: 6.w),
+                Text(
+                  isLoading
+                      ? (isSubscribed ? 'Removing...' : 'Adding...')
+                      : (isSubscribed ? 'Subscribed' : 'Subscribe'),
+                  style: TextStyle(
+                    fontSize: 12.sp,
+                    fontWeight: FontWeight.w500,
+                    color:
+                        isSubscribed
+                            ? Colors.white
+                            : Theme.of(context).colorScheme.onSurfaceVariant,
+                  ),
+                ),
+              ],
+            ),
           ),
-          SizedBox(width: 4.w),
-          Text(
-            isSubscribed ? 'Subscribed' : 'Subscribe',
-            style: TextStyle(fontSize: 12.sp),
-          ),
-        ],
+        ),
       ),
     );
   }
 
   Widget _buildIssuesCount(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
+      padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
       decoration: BoxDecoration(
         color: _getIssuesCountColor(context),
-        borderRadius: BorderRadius.circular(16.r),
+        borderRadius: BorderRadius.circular(8.r),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(
-            Icons.warning_rounded,
-            size: 16.sp,
-            color: _getIssuesCountTextColor(context),
-          ),
+          Icon(_getIssuesIcon(), size: 12.sp, color: Colors.white),
           SizedBox(width: 4.w),
           Text(
-            '${area.activeIssuesCount} Active Issues',
+            '${area.activeIssuesCount} ${area.activeIssuesCount == 1 ? 'Issue' : 'Issues'}',
             style: TextStyle(
-              fontSize: 12.sp,
+              fontSize: 11.sp,
               fontWeight: FontWeight.w500,
-              color: _getIssuesCountTextColor(context),
+              color: Colors.white,
             ),
           ),
         ],
@@ -129,25 +201,23 @@ class AreaCard extends StatelessWidget {
 
   Color _getIssuesCountColor(BuildContext context) {
     if (area.activeIssuesCount == 0) {
-      return Theme.of(context).colorScheme.primaryContainer;
+      return Colors.green;
     } else if (area.activeIssuesCount <= 5) {
-      return Theme.of(context).colorScheme.tertiaryContainer;
+      return Colors.orange;
     } else if (area.activeIssuesCount <= 15) {
-      return Theme.of(context).colorScheme.secondaryContainer;
+      return Colors.deepOrange;
     } else {
-      return Theme.of(context).colorScheme.errorContainer;
+      return Colors.red;
     }
   }
 
-  Color _getIssuesCountTextColor(BuildContext context) {
+  IconData _getIssuesIcon() {
     if (area.activeIssuesCount == 0) {
-      return Theme.of(context).colorScheme.onPrimaryContainer;
+      return Icons.check_circle;
     } else if (area.activeIssuesCount <= 5) {
-      return Theme.of(context).colorScheme.onTertiaryContainer;
-    } else if (area.activeIssuesCount <= 15) {
-      return Theme.of(context).colorScheme.onSecondaryContainer;
+      return Icons.warning;
     } else {
-      return Theme.of(context).colorScheme.onErrorContainer;
+      return Icons.error;
     }
   }
 }

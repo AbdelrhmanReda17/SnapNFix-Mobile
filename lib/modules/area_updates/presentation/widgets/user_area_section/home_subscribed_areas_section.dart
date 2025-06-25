@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:snapnfix/modules/area_updates/domain/entities/area_info.dart';
-import 'package:snapnfix/modules/area_updates/presentation/cubits/paginated_areas_cubit.dart';
+import 'package:snapnfix/modules/area_updates/presentation/cubits/subscribed_areas_cubit.dart';
 import 'package:snapnfix/modules/area_updates/presentation/widgets/user_area_section/see_all_card.dart';
 import 'package:snapnfix/modules/area_updates/presentation/widgets/shared_error_widget.dart';
 import 'package:snapnfix/modules/area_updates/presentation/widgets/user_area_section/area_card.dart';
@@ -22,9 +22,17 @@ class _HomeSubscribedAreasSectionState
   @override
   void initState() {
     super.initState();
+
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      context.read<PaginatedAreasCubit>().loadSubscribedAreasForHome();
+      final cubit = context.read<SubscribedAreasCubit>();
+      debugPrint('🏠 Home section using cubit instance: ${cubit.hashCode}');
+      cubit.loadForHome();
     });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   @override
@@ -38,34 +46,52 @@ class _HomeSubscribedAreasSectionState
         children: [
           _buildHeader(context, colorScheme),
           SizedBox(height: 12.h),
-          BlocBuilder<PaginatedAreasCubit, PaginatedAreasState>(
-            builder: (context, state) {
-              return state.when(
-                initial: () => _buildLoadingWidget(),
-                loading: () => _buildLoadingWidget(),
-                loaded: (subscribedAreas, _, __, subscribedAreaNames) {
-                  if (subscribedAreas.isEmpty) {
-                    return _buildEmptyState(colorScheme);
-                  }
-                  return _buildSubscribedAreasList(
-                    subscribedAreas,
-                    colorScheme,
-                    false,
-                  );
-                },
-                error: (error) {
-                  return SharedErrorWidget(
-                    message: error.message,
-                    colorScheme: colorScheme,
-                    onRetry: () {
-                      context
-                          .read<PaginatedAreasCubit>()
-                          .loadSubscribedAreasForHome();
-                    },
-                  );
-                },
-              );
+          RefreshIndicator(
+            onRefresh: () async {
+              await context.read<SubscribedAreasCubit>().refresh();
             },
+            child: BlocBuilder<SubscribedAreasCubit, SubscribedAreasState>(
+              builder: (context, state) {
+                return state.when(
+                  initial: () {
+                    debugPrint('🏠 Showing initial state');
+                    return _buildLoadingWidget();
+                  },
+                  loading: () {
+                    debugPrint('🏠 Showing loading state');
+                    return _buildLoadingWidget();
+                  },
+                  loaded: (
+                    subscribedAreas,
+                    _,
+                    __,
+                    ___,
+                    ____,
+                    _____,
+                  ) {
+                    debugPrint('🏠 Showing loaded state with ${subscribedAreas.length} areas');
+                    if (subscribedAreas.isEmpty) {
+                      return _buildEmptyState(colorScheme);
+                    }
+                    return _buildSubscribedAreasList(
+                      subscribedAreas,
+                      colorScheme,
+                      false,
+                    );
+                  },
+                  error: (error) {
+                    debugPrint('🏠 Showing error state: ${error.message}');
+                    return SharedErrorWidget(
+                      message: error.message,
+                      colorScheme: colorScheme,
+                      onRetry: () {
+                        context.read<SubscribedAreasCubit>().loadForHome();
+                      },
+                    );
+                  },
+                );
+              },
+            ),
           ),
           SizedBox(height: 20.h),
         ],
@@ -94,13 +120,11 @@ class _HomeSubscribedAreasSectionState
               icon: Icon(Icons.add, size: 20.sp, color: colorScheme.primary),
               tooltip: 'Manage Areas',
             ),
-            BlocBuilder<PaginatedAreasCubit, PaginatedAreasState>(
+            BlocBuilder<SubscribedAreasCubit, SubscribedAreasState>(
               builder: (context, state) {
                 return IconButton(
                   onPressed: () {
-                    context
-                        .read<PaginatedAreasCubit>()
-                        .loadSubscribedAreasForHome();
+                    context.read<SubscribedAreasCubit>().loadForHome();
                   },
                   icon: Icon(
                     Icons.refresh,
@@ -171,7 +195,6 @@ class _HomeSubscribedAreasSectionState
   }) {
     return Column(
       children: [
-        // Error indicator
         if (hasError)
           Container(
             padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
@@ -201,22 +224,27 @@ class _HomeSubscribedAreasSectionState
             ),
           ),
 
-        // Horizontal areas list
         SizedBox(
           height: 120.h,
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
-            itemCount: subscribedAreas.length + 1,
+            itemCount:
+                subscribedAreas.length > 4
+                    ? subscribedAreas.length + 1
+                    : subscribedAreas.length,
             itemBuilder: (context, index) {
-              if (index == subscribedAreas.length) {
+              if (subscribedAreas.length > 4 &&
+                  index == subscribedAreas.length) {
                 return SeeAllCard(
                   colorScheme: colorScheme,
                   onTap: () {
-                    context.push(Routes.allSubscribedAreas);
+                    context.push(
+                      Routes.allAreas,
+                      extra: {'showSubscribed': true},
+                    );
                   },
                 );
               }
-
               final area = subscribedAreas[index];
               return AreaCard(
                 area: area,

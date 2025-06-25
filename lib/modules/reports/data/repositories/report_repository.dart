@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:snapnfix/core/core.dart';
 import 'package:snapnfix/core/infrastructure/connectivity/connectivity_service.dart';
 import 'package:snapnfix/core/infrastructure/networking/error/api_error.dart';
 import 'package:snapnfix/core/utils/result.dart';
@@ -61,19 +62,9 @@ class ReportRepository implements BaseReportRepository {
         },
       );
     } catch (e) {
-      debugPrint('Error submitting report: $e');
-      try {
-        await _localDataSource.saveReportOffline(report);
-        return const Result.success(
-          "No internet connection. Report saved offline.",
-        );
-      } catch (saveError) {
-        return Result.failure(
-          ApiError(
-            message: 'Failed to save report offline , Please try again later.',
-          ),
-        );
-      }
+      return Result.failure(
+        ApiError(message: e.toString(), code: 'report_submission_error'),
+      );
     }
   }
 
@@ -105,10 +96,11 @@ class ReportRepository implements BaseReportRepository {
         ApiError(message: e.toString(), code: 'fast_report_error'),
       );
     }
-  } 
+  }
 
   @override
-  Future<Result<MapEntry<List<FastReportModel>, bool>, String>> getIssueFastReports({
+  Future<Result<MapEntry<List<FastReportModel>, bool>, String>>
+  getIssueFastReports({
     required String issueId,
     String? sort,
     int page = 1,
@@ -140,7 +132,8 @@ class ReportRepository implements BaseReportRepository {
   }
 
   @override
-  Future<Result<MapEntry<List<SnapReportModel>, bool>, String>> getIssueSnapReports({
+  Future<Result<MapEntry<List<SnapReportModel>, bool>, String>>
+  getIssueSnapReports({
     required String issueId,
     String? sort,
     int page = 1,
@@ -166,7 +159,6 @@ class ReportRepository implements BaseReportRepository {
         failure: (error) => Result.failure(error.toString()),
       );
     } catch (e) {
-      debugPrint('Error getting issue snap reports: $e');
       return Result.failure(e.toString());
     }
   }
@@ -176,12 +168,23 @@ class ReportRepository implements BaseReportRepository {
     try {
       final pendingReports = await _localDataSource.getPendingReports();
       if (pendingReports.isEmpty) return true;
-
       bool allSynced = true;
-
-      for (final report in pendingReports) {
-        final result = await _remoteDataSource.submitReport(report);
-
+      for (final SnapReportModel report in pendingReports) {
+        SnapReportModel submittedReport = report;
+        if (report.state == '' ||
+            report.road == '' ||
+            report.city == '' ||
+            report.country == '') {
+          List<String>? address = await getIt<LocationService>()
+              .getAddressFromCoordinates(report.latitude, report.longitude);
+          submittedReport = report.copyWithModel(
+            city: address?[0] ?? '',
+            road: address?[1] ?? '',
+            state: address?[2] ?? '',
+            country: address?[3] ?? '',
+          );
+        }
+        final result = await _remoteDataSource.submitReport(submittedReport);
         await result.when(
           success: (_) async {
             await _localDataSource.markReportAsSynced(report.id!);
@@ -191,7 +194,6 @@ class ReportRepository implements BaseReportRepository {
           },
         );
       }
-
       return allSynced;
     } catch (e) {
       return false;

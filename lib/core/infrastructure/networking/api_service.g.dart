@@ -1012,7 +1012,7 @@ class _ApiService implements ApiService {
     )
         .compose(
           _dio.options,
-          'api/city-channels/subscribe/{areaName}',
+          'api/city-channels/subscribe/${cityId}',
           queryParameters: queryParameters,
           data: _data,
         )

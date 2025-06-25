@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:snapnfix/core/dependency_injection/dependency_injection.dart';
-import 'package:snapnfix/modules/area_updates/presentation/cubits/paginated_areas_cubit.dart';
+import 'package:snapnfix/modules/area_updates/presentation/cubits/all_areas_cubit.dart';
+import 'package:snapnfix/modules/area_updates/presentation/cubits/subscribed_areas_cubit.dart';
 import 'package:snapnfix/modules/area_updates/presentation/screens/area_management_screen.dart';
-import 'package:snapnfix/modules/area_updates/presentation/screens/subscribed_areas_screen.dart';
 import 'package:snapnfix/modules/issues/domain/usecases/get_area_issues_use_case.dart';
 import 'package:snapnfix/modules/issues/presentation/cubits/issue_details_cubit.dart';
 import 'package:snapnfix/modules/issues/presentation/cubits/issues_map_cubit.dart';
@@ -75,7 +75,6 @@ class ApplicationRoutes {
     },
   );
 
-
   static final settingsRoute = RouteConfiguration(
     path: Routes.settings,
     name: 'settings',
@@ -122,7 +121,7 @@ class ApplicationRoutes {
     name: 'areaIssuesChat',
     builder: (context, state) {
       String areaName = '';
-       if (state.extra != null) {
+      if (state.extra != null) {
         final dynamic area = state.extra;
         debugPrint('Area extra: $area');
         areaName = area.name as String;
@@ -138,14 +137,24 @@ class ApplicationRoutes {
       );
     },
   );
+
   static final allAreasRoute = RouteConfiguration(
     path: Routes.allAreas,
     name: 'allAreas',
     transitionType: PageTransitionType.slide,
     builder: (context, state) {
-      return BlocProvider(
-        create: (context) => getIt<PaginatedAreasCubit>(),
-        child: AreaManagementScreen(),
+      bool showSubscribed = false;
+      if (state.extra != null && state.extra is Map<String, dynamic>) {
+        final extraData = state.extra as Map<String, dynamic>;
+        showSubscribed = extraData['showSubscribed'] ?? false;
+      }
+
+      return MultiBlocProvider(
+        providers: [
+          BlocProvider(create: (context) => getIt<AllAreasCubit>()),
+          BlocProvider(create: (context) => getIt<SubscribedAreasCubit>()),
+        ],
+        child: AreaManagementScreen(initialShowSubscribed: showSubscribed),
       );
     },
   );
