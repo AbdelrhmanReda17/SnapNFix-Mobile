@@ -142,13 +142,8 @@ class _HomeSubscribedAreasSectionState
   }
 
   Widget _buildEmptyState(ColorScheme colorScheme) {
-    return Container(
+    return SizedBox(
       height: 120.h,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(12.r),
-        color: colorScheme.surfaceContainerHighest.withValues(alpha: 0.3),
-        border: Border.all(color: colorScheme.outline.withValues(alpha: 0.2)),
-      ),
       child: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
