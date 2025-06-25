@@ -30,6 +30,7 @@ class IssueFastReportsList extends StatelessWidget {
               firstName: report.firstName,
               lastName: report.lastName,
               createdAt: report.createdAt,
+              severity: report.severity?.displayName,
               comment: report.comment,
             );
           },
