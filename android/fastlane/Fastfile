@@ -6,7 +6,6 @@ platform :android do
     sh "flutter clean"
     sh "flutter pub get"
     sh "cd #{Dir.pwd}/../.. && flutter gen-l10n"
-    sh "cd #{Dir.pwd}/../.. && flutter pub run build_runner build --delete-conflicting-outputs"
     sh "flutter build apk --release --flavor production --target lib/main_production.dart --no-tree-shake-icons"
     firebase_app_distribution(
       app: "1:1091073399966:android:e7b45d2f2bcb636e7baf8f",
