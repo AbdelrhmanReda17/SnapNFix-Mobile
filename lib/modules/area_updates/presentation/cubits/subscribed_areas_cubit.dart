@@ -1,16 +1,9 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
-import 'package:snapnfix/core/infrastructure/networking/error/api_error.dart';
 import 'package:snapnfix/index.dart';
-import 'package:snapnfix/core/config/application_configurations.dart';
-import 'package:snapnfix/core/dependency_injection/dependency_injection.dart';
-import 'package:snapnfix/modules/area_updates/domain/entities/area_info.dart';
-import 'package:snapnfix/modules/area_updates/domain/usecases/get_subscribed_areas_use_case.dart';
-import 'package:snapnfix/modules/area_updates/domain/usecases/unsubscribe_from_area_use_case.dart';
 import 'package:snapnfix/modules/area_updates/presentation/cubits/area_subscription_notifier.dart';
 
 part 'subscribed_areas_cubit.freezed.dart';
@@ -27,9 +20,8 @@ class SubscribedAreasCubit extends HydratedCubit<SubscribedAreasState> {
   String? _cachedUserPhone;
   final AreaSubscriptionNotifier _notifier = AreaSubscriptionNotifier();
   StreamSubscription<AreaSubscriptionEvent>? _subscriptionListener;
-  bool _isHomeMode = false; // Track if we're in home mode
+  bool _isHomeMode = false;
 
-  // Cache duration - 5 minutes
   static const Duration _cacheDuration = Duration(minutes: 5);
 
   SubscribedAreasCubit({
@@ -47,7 +39,6 @@ class SubscribedAreasCubit extends HydratedCubit<SubscribedAreasState> {
     });
   }
 
-  // Get current user's phone for cache key
   String? get _currentUserPhone {
     try {
       return getIt<ApplicationConfigurations>()
@@ -153,10 +144,7 @@ class SubscribedAreasCubit extends HydratedCubit<SubscribedAreasState> {
     _currentPage = 1;
     _searchQuery = '';
     _isHomeMode = false;
-
     debugPrint('🔄 Initializing subscribed areas for user: $_currentUserPhone');
-
-    // Check cache first
     final currentState = state;
     if (currentState is SubscribedAreasStateLoaded &&
         _isCacheValid() &&
@@ -185,16 +173,14 @@ class SubscribedAreasCubit extends HydratedCubit<SubscribedAreasState> {
     await _loadSubscribedAreas(limit: 4);
   }
 
-  // Refresh areas
   Future<void> refresh() async {
     _clearCacheIfUserChanged();
     debugPrint('🔄 Refreshing subscribed areas');
     _currentPage = 1;
-    _isHomeMode = false; // Clear home mode flag on refresh
+    _isHomeMode = false;
     await _loadAreas(isRefresh: true, forceRefresh: true);
   }
 
-  // Load more areas (pagination)
   Future<void> loadMore() async {
     final currentState = state;
     if (currentState is SubscribedAreasStateLoaded &&
@@ -206,7 +192,6 @@ class SubscribedAreasCubit extends HydratedCubit<SubscribedAreasState> {
     }
   }
 
-  // Search areas
   Future<void> searchAreas(String query) async {
     if (_searchQuery != query) {
       _searchQuery = query;
@@ -215,9 +200,7 @@ class SubscribedAreasCubit extends HydratedCubit<SubscribedAreasState> {
     }
   }
 
-  // Unsubscribe from area
   Future<void> unsubscribeFromArea(String areaId) async {
-    // Find the area info for notification
     final currentState = state;
     AreaInfo? areaToUnsubscribe;
     if (currentState is SubscribedAreasStateLoaded) {
@@ -230,7 +213,6 @@ class SubscribedAreasCubit extends HydratedCubit<SubscribedAreasState> {
       }
     }
 
-    // Add to unsubscribing list
     if (currentState is SubscribedAreasStateLoaded) {
       final updatedUnsubscribing = Set<String>.from(
         currentState.unsubscribingAreaIds,
@@ -245,14 +227,12 @@ class SubscribedAreasCubit extends HydratedCubit<SubscribedAreasState> {
         success: (_) {
           debugPrint('✅ Successfully unsubscribed from area: $areaId');
           _removeAreaFromState(areaId);
-          // Notify other cubits with area info
           if (areaToUnsubscribe != null) {
             _notifier.notifyUnsubscribed(areaToUnsubscribe);
           }
         },
         failure: (error) {
           debugPrint('Failed to unsubscribe from area: ${error.message}');
-          // Remove from unsubscribing list and show error
           final currentState = state;
           if (currentState is SubscribedAreasStateLoaded) {
             final updatedUnsubscribing = Set<String>.from(
@@ -269,7 +249,6 @@ class SubscribedAreasCubit extends HydratedCubit<SubscribedAreasState> {
       );
     } catch (e) {
       debugPrint('Error unsubscribing from area: $e');
-      // Remove from unsubscribing list and show error
       final currentState = state;
       if (currentState is SubscribedAreasStateLoaded) {
         final updatedUnsubscribing = Set<String>.from(
@@ -299,7 +278,6 @@ class SubscribedAreasCubit extends HydratedCubit<SubscribedAreasState> {
     bool isLoadMore = false,
     bool forceRefresh = false,
   }) async {
-    // Check cache
     if (isRefresh && !forceRefresh && _searchQuery.isEmpty && _isCacheValid()) {
       final currentState = state;
       if (currentState is SubscribedAreasStateLoaded &&
@@ -340,8 +318,6 @@ class SubscribedAreasCubit extends HydratedCubit<SubscribedAreasState> {
         success: (data) {
           final currentState = state;
           List<AreaInfo> newAreas = data.key;
-
-          // If loading more, combine with existing areas
           if (isLoadMore && currentState is SubscribedAreasStateLoaded) {
             newAreas = [...currentState.areas, ...data.key];
           }
@@ -422,7 +398,6 @@ class SubscribedAreasCubit extends HydratedCubit<SubscribedAreasState> {
     }
   }
 
-  // Check if area is being unsubscribed
   bool isUnsubscribing(String areaId) {
     final currentState = state;
     if (currentState is SubscribedAreasStateLoaded) {
@@ -431,7 +406,6 @@ class SubscribedAreasCubit extends HydratedCubit<SubscribedAreasState> {
     return false;
   }
 
-  // Clear operation error
   void clearOperationError() {
     final currentState = state;
     if (currentState is SubscribedAreasStateLoaded &&
@@ -443,15 +417,11 @@ class SubscribedAreasCubit extends HydratedCubit<SubscribedAreasState> {
   void _addAreaToState(AreaInfo newArea) {
     final currentState = state;
     if (currentState is SubscribedAreasStateLoaded) {
-      // Check if area already exists
       final existingAreaIndex = currentState.areas.indexWhere(
         (area) => area.id == newArea.id,
       );
       if (existingAreaIndex == -1) {
-        // Add new area to the beginning of the list
         List<AreaInfo> updatedAreas = [newArea, ...currentState.areas];
-
-        // If in home mode, limit to 4 areas
         if (_isHomeMode && updatedAreas.length > 4) {
           updatedAreas = updatedAreas.take(4).toList();
           debugPrint('🏠 Limited areas to 4 for home mode');

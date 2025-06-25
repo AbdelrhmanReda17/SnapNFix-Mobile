@@ -9,11 +9,7 @@ class IssueItem extends StatelessWidget {
   final Issue issue;
   final VoidCallback? onTap;
 
-  const IssueItem({
-    super.key,
-    required this.issue,
-    this.onTap,
-  });
+  const IssueItem({super.key, required this.issue, this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +26,7 @@ class IssueItem extends StatelessWidget {
               width: 32.w,
               height: 32.w,
               decoration: BoxDecoration(
-                color: issue.status.color.withOpacity(0.1),
+                color: issue.status.color.withValues(alpha: 0.1),
                 shape: BoxShape.circle,
               ),
               child: Icon(
@@ -52,8 +48,11 @@ class IssueItem extends StatelessWidget {
                       color: colorScheme.onSurface,
                     ),
                   ),
-                  SizedBox(height: 2.h),                  Text(
-                    issue.status.getLocalizedName(AppLocalizations.of(context)!),
+                  SizedBox(height: 2.h),
+                  Text(
+                    issue.status.getLocalizedName(
+                      AppLocalizations.of(context)!,
+                    ),
                     style: TextStyle(
                       fontSize: 14.sp,
                       color: issue.status.color,

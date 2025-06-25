@@ -20,12 +20,15 @@ class AreaIssuesHeader extends StatelessWidget {
               padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
               decoration: BoxDecoration(
                 border: Border(
-                  bottom: BorderSide(color: colorScheme.outline.withOpacity(0.1)),
+                  bottom: BorderSide(
+                    color: colorScheme.outline.withValues(alpha: 0.1),
+                  ),
                 ),
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [                  Text(
+                children: [
+                  Text(
                     localization.updates,
                     style: TextStyle(
                       fontSize: 16.sp,
@@ -38,12 +41,21 @@ class AreaIssuesHeader extends StatelessWidget {
                       // Subscribe button
                       IconButton(
                         icon: Icon(
-                          isSubscribed ? Icons.notifications_active : Icons.notifications_none,
+                          isSubscribed
+                              ? Icons.notifications_active
+                              : Icons.notifications_none,
                           color: colorScheme.primary,
                           size: 22.sp,
                         ),
-                        onPressed: () => context.read<AreaIssuesCubit>().toggleSubscription(),
-                        tooltip: isSubscribed ? localization.unsubscribe : localization.subscribe,
+                        onPressed:
+                            () =>
+                                context
+                                    .read<AreaIssuesCubit>()
+                                    .toggleSubscription(),
+                        tooltip:
+                            isSubscribed
+                                ? localization.unsubscribe
+                                : localization.subscribe,
                       ),
 
                       // Filter button

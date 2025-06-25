@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SharedErrorWidget extends StatelessWidget {
   final String message;
@@ -20,52 +21,49 @@ class SharedErrorWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Padding(
-        padding: EdgeInsets.all(24.w),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(
-              icon ?? Icons.error_outline,
-              size: 64.sp,
-              color: colorScheme.error,
-            ),
-            SizedBox(height: 16.h),
-            if (title != null) ...[
-              Text(
-                title!,
-                style: TextStyle(
-                  fontSize: 20.sp,
-                  fontWeight: FontWeight.bold,
-                  color: colorScheme.onSurface,
-                ),
-                textAlign: TextAlign.center,
-              ),
-              SizedBox(height: 8.h),
-            ],
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(
+            icon ?? Icons.error_outline,
+            size: 64.sp,
+            color: colorScheme.error,
+          ),
+          SizedBox(height: 8.h),
+          if (title != null) ...[
             Text(
-              message,
-              textAlign: TextAlign.center,
+              title!,
               style: TextStyle(
-                fontSize: 16.sp,
-                color: colorScheme.onSurfaceVariant,
+                fontSize: 20.sp,
+                fontWeight: FontWeight.bold,
+                color: colorScheme.onSurface,
+              ),
+              textAlign: TextAlign.center,
+            ),
+            SizedBox(height: 8.h),
+          ],
+          Text(
+            message,
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: 16.sp,
+              color: colorScheme.onSurfaceVariant,
+            ),
+          ),
+          if (onRetry != null) ...[
+            SizedBox(height: 16.h),
+            ElevatedButton.icon(
+              onPressed: onRetry,
+              icon: const Icon(Icons.refresh),
+              label: Text(AppLocalizations.of(context)!.tryAgain),
+              style: ElevatedButton.styleFrom(
+                padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 12.h),
               ),
             ),
-            if (onRetry != null) ...[
-              SizedBox(height: 24.h),
-              ElevatedButton.icon(
-                onPressed: onRetry,
-                icon: const Icon(Icons.refresh),
-                label: const Text('Try Again'),
-                style: ElevatedButton.styleFrom(
-                  padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 12.h),
-                ),
-              ),
-            ],
           ],
-        ),
+        ],
       ),
     );
   }
-} 
+}

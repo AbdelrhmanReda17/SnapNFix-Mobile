@@ -20,7 +20,6 @@ class AllAreasCubit extends HydratedCubit<AllAreasState> {
   final AreaSubscriptionNotifier _notifier = AreaSubscriptionNotifier();
   StreamSubscription<AreaSubscriptionEvent>? _subscriptionListener;
 
-  // Cache duration - 5 minutes
   static const Duration _cacheDuration = Duration(minutes: 5);
 
   AllAreasCubit({
@@ -29,17 +28,13 @@ class AllAreasCubit extends HydratedCubit<AllAreasState> {
   }) : _getAllAreasUseCase = getAllAreasUseCase,
        _subscribeToAreaUseCase = subscribeToAreaUseCase,
        super(const AllAreasState.initial()) {
-    debugPrint('🎯 AllAreasCubit instance created: ${hashCode}');
     _subscriptionListener = _notifier.stream.listen((event) {
-      debugPrint('🔔 AllAreasCubit (${hashCode}) received notification: ${event.areaInfo.name} - subscribed: ${event.isSubscribed}');
       if (!event.isSubscribed) {
-        // Add the unsubscribed area directly to state
         _addAreaToState(event.areaInfo);
       }
     });
   }
 
-  // Get current user's phone for cache key
   String? get _currentUserPhone {
     try {
       return getIt<ApplicationConfigurations>()
@@ -134,7 +129,6 @@ class AllAreasCubit extends HydratedCubit<AllAreasState> {
     _lastFetchTime = DateTime.now();
   }
 
-  // Initialize all areas
   Future<void> initialize() async {
     _clearCacheIfUserChanged();
     _currentPage = 1;
@@ -142,7 +136,6 @@ class AllAreasCubit extends HydratedCubit<AllAreasState> {
 
     debugPrint('🔄 Initializing all areas for user: $_currentUserPhone');
 
-    // Check cache first
     final currentState = state;
     if (currentState is AllAreasStateLoaded &&
         _isCacheValid() &&
@@ -154,7 +147,6 @@ class AllAreasCubit extends HydratedCubit<AllAreasState> {
     await _loadAreas(isRefresh: true);
   }
 
-  // Refresh areas
   Future<void> refresh() async {
     _clearCacheIfUserChanged();
     debugPrint('🔄 Refreshing all areas');
@@ -162,7 +154,6 @@ class AllAreasCubit extends HydratedCubit<AllAreasState> {
     await _loadAreas(isRefresh: true, forceRefresh: true);
   }
 
-  // Load more areas (pagination)
   Future<void> loadMore() async {
     final currentState = state;
     if (currentState is AllAreasStateLoaded &&
@@ -174,7 +165,6 @@ class AllAreasCubit extends HydratedCubit<AllAreasState> {
     }
   }
 
-  // Search areas
   Future<void> searchAreas(String query) async {
     if (_searchQuery != query) {
       _searchQuery = query;
@@ -183,9 +173,7 @@ class AllAreasCubit extends HydratedCubit<AllAreasState> {
     }
   }
 
-  // Subscribe to area
   Future<void> subscribeToArea(String cityId) async {
-    // Find the area info for notification
     final currentState = state;
     AreaInfo? areaToSubscribe;
     if (currentState is AllAreasStateLoaded) {
@@ -198,7 +186,6 @@ class AllAreasCubit extends HydratedCubit<AllAreasState> {
       }
     }
 
-    // Add to subscribing list
     if (currentState is AllAreasStateLoaded) {
       final updatedSubscribing = Set<String>.from(currentState.subscribingAreaIds)
         ..add(cityId);
@@ -211,18 +198,13 @@ class AllAreasCubit extends HydratedCubit<AllAreasState> {
       result.when(
         success: (_) {
           debugPrint('✅ Successfully subscribed to area: $cityId');
-          _updateSubscriptionInState(cityId, true);
-          // Remove from all areas list since it's now subscribed
           _removeAreaFromState(cityId);
-          // Notify other cubits with area info
           if (areaToSubscribe != null) {
-            debugPrint('📢 AllAreasCubit (${hashCode}) sending subscription notification for: ${areaToSubscribe.name}');
             _notifier.notifySubscribed(areaToSubscribe);
           }
         },
         failure: (error) {
           debugPrint('Failed to subscribe to area: ${error.message}');
-          // Remove from subscribing list and show error
           final currentState = state;
           if (currentState is AllAreasStateLoaded) {
             final updatedSubscribing = Set<String>.from(currentState.subscribingAreaIds)
@@ -237,7 +219,6 @@ class AllAreasCubit extends HydratedCubit<AllAreasState> {
         },
       );
     } catch (e) {
-      debugPrint('Error subscribing to area: $e');
       // Remove from subscribing list and show error
       final currentState = state;
       if (currentState is AllAreasStateLoaded) {
@@ -253,12 +234,10 @@ class AllAreasCubit extends HydratedCubit<AllAreasState> {
     }
   }
 
-  // Check if subscribed to area (always false since API only returns unsubscribed areas)
   bool isSubscribedToArea(String areaId) {
-    return false; // All areas in this cubit are unsubscribed by design
+    return false; 
   }
 
-  // Check if area is being subscribed
   bool isSubscribing(String areaId) {
     final currentState = state;
     if (currentState is AllAreasStateLoaded) {
@@ -267,7 +246,6 @@ class AllAreasCubit extends HydratedCubit<AllAreasState> {
     return false;
   }
 
-  // Clear operation error
   void clearOperationError() {
     final currentState = state;
     if (currentState is AllAreasStateLoaded && currentState.operationError != null) {
@@ -289,7 +267,6 @@ class AllAreasCubit extends HydratedCubit<AllAreasState> {
     bool isLoadMore = false,
     bool forceRefresh = false,
   }) async {
-    // Check cache
     if (isRefresh &&
         !forceRefresh &&
         _searchQuery.isEmpty &&
@@ -320,7 +297,6 @@ class AllAreasCubit extends HydratedCubit<AllAreasState> {
           final currentState = state;
           List<AreaInfo> newAreas = data.key;
 
-          // If loading more, combine with existing areas
           if (isLoadMore && currentState is AllAreasStateLoaded) {
             newAreas = [...currentState.areas, ...data.key];
           }
@@ -365,11 +341,6 @@ class AllAreasCubit extends HydratedCubit<AllAreasState> {
     }
   }
 
-  void _updateSubscriptionInState(String cityId, bool isSubscribed) {
-    // No need to track subscriptions since API only returns unsubscribed areas
-    // This method is kept for interface compatibility
-  }
-
   void _removeAreaFromState(String areaId) {
     final currentState = state;
     if (currentState is AllAreasStateLoaded) {
@@ -387,10 +358,8 @@ class AllAreasCubit extends HydratedCubit<AllAreasState> {
   void _addAreaToState(AreaInfo newArea) {
     final currentState = state;
     if (currentState is AllAreasStateLoaded) {
-      // Check if area already exists
       final existingAreaIndex = currentState.areas.indexWhere((area) => area.id == newArea.id);
       if (existingAreaIndex == -1) {
-        // Add new area to the beginning of the list
         final updatedAreas = [newArea, ...currentState.areas];
         emit(currentState.copyWith(
           areas: updatedAreas,

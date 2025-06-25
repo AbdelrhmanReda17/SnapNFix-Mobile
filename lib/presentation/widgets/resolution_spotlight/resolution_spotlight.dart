@@ -336,7 +336,7 @@ class _ResolutionSpotlightWidgetState extends State<ResolutionSpotlightWidget> {
         vertical: isTablet ? 6 : 4,
       ),
       decoration: BoxDecoration(
-        color: _getIssueColor(story.issueType).withOpacity(0.1),
+        color: _getIssueColor(story.issueType).withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(isTablet ? 16 : 12),
       ),
       child: Row(
@@ -399,14 +399,14 @@ class _ResolutionSpotlightWidgetState extends State<ResolutionSpotlightWidget> {
       decoration: BoxDecoration(
         color: bgColor,
         borderRadius: BorderRadius.circular(isTablet ? 12 : 8),
-        border: Border.all(color: borderColor.withOpacity(0.3)),
+        border: Border.all(color: borderColor.withValues(alpha: 0.3)),
       ),
       child: Column(
         children: [
           Container(
             padding: EdgeInsets.symmetric(vertical: isTablet ? 6 : 4),
             decoration: BoxDecoration(
-              color: borderColor.withOpacity(0.1),
+              color: borderColor.withValues(alpha: 0.1),
               borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(isTablet ? 12 : 8),
                 topRight: Radius.circular(isTablet ? 12 : 8),

@@ -650,5 +650,114 @@
     }
   },
   "retry": "Retry",
-  "logoutFailed": "Logout failed. Please try again."
+  "logoutFailed": "Logout failed. Please try again.",
+
+  "yourAreas": "Your Areas",
+  "@yourAreas": {
+    "description": "Header title for user's subscribed areas section"
+  },
+  "manageAreas": "Manage Areas",
+  "@manageAreas": {
+    "description": "Tooltip text for manage areas button"
+  },
+  "refresh": "Refresh",
+  "@refresh": {
+    "description": "Tooltip text for refresh button"
+  },
+  "noSubscribedAreas": "No subscribed areas",
+  "@noSubscribedAreas": {
+    "description": "Message when user has no subscribed areas"
+  },
+  "tapToAddAreas": "Tap + to add areas",
+  "@tapToAddAreas": {
+    "description": "Instruction message for adding areas"
+  },
+  "unknownArea": "Unknown Area",
+  "@unknownArea": {
+    "description": "Fallback text when area name is empty"
+  },
+  "unknownState": "Unknown State",
+  "@unknownState": {
+    "description": "Fallback text when state name is empty"
+  },
+  "viewAll": "View All",
+  "@viewAll": {
+    "description": "Text for see all card"
+  },
+  "seeMoreAreas": "See more areas",
+  "@seeMoreAreas": {
+    "description": "Subtitle for see all card"
+  },
+  "showingCachedData": "Showing cached data",
+  "@showingCachedData": {
+    "description": "Warning message when showing cached data"
+  },
+  "subscribed": "Subscribed",
+  "@subscribed": {
+    "description": "Tab title for subscribed areas"
+  },
+  "allAreas": "All Areas",
+  "@allAreas": {
+    "description": "Tab title for all areas"
+  },
+  "searchAreas": "Search areas...",
+  "@searchAreas": {
+    "description": "Hint text for search field"
+  },
+  "noSubscribedAreasFound": "No subscribed areas found\nSubscribe to areas to see them here",
+  "@noSubscribedAreasFound": {
+    "description": "Empty message for subscribed areas tab"
+  },
+  "noAreasAvailable": "No areas available\nTry refreshing or check your connection",
+  "@noAreasAvailable": {
+    "description": "Empty message for all areas tab"
+  },
+  "subscribing": "Subscribing...",
+  "@subscribing": {
+    "description": "Loading text when subscribing to an area"
+  },
+  "unsubscribing": "Unsubscribing...",
+  "@unsubscribing": {
+    "description": "Loading text when unsubscribing from an area"
+  },
+  "subscriptionFailed": "Subscription failed",
+  "@subscriptionFailed": {
+    "description": "Error message when subscription fails"
+  },
+  "unsubscriptionFailed": "Unsubscription failed",
+  "@unsubscriptionFailed": {
+    "description": "Error message when unsubscription fails"
+  },
+  "noNewAreasToSubscribe": "No new areas to subscribe to",
+  "@noNewAreasToSubscribe": {
+    "description": "Message when there are no new areas available"
+  },
+  "failedToLoadSubscribedAreas": "Failed to load subscribed areas",
+  "@failedToLoadSubscribedAreas": {
+    "description": "Error message when subscribed areas fail to load"
+  },
+  "failedToLoadAreas": "Failed to load areas",
+  "@failedToLoadAreas": {
+    "description": "Error message when areas fail to load"
+  },
+  "subscribeToAreasToSeeHere": "Subscribe to areas to see them here",
+  "@subscribeToAreasToSeeHere": {
+    "description": "Instruction message for empty subscribed areas"
+  },
+  "removing": "Removing...",
+  "@removing": {
+    "description": "Loading text when removing subscription"
+  },
+  "adding": "Adding...",
+  "@adding": {
+    "description": "Loading text when adding subscription"
+  },
+  "issue": "Issue",
+  "@issue": {
+    "description": "Singular form of issue"
+  },
+  "issuesPlural": "Issues",
+  "@issuesPlural": {
+    "description": "Plural form of issues"
+  }
 }

@@ -26,7 +26,10 @@ class AreaCircleButton extends StatelessWidget {
         decoration: BoxDecoration(
           shape: BoxShape.circle,
           border: Border.all(
-            color: isSelected ? colorScheme.primary.withOpacity(0.8) : colorScheme.onPrimary,
+            color:
+                isSelected
+                    ? colorScheme.primary.withValues(alpha: 0.8)
+                    : colorScheme.onPrimary,
             width: 3.w,
           ),
         ),
@@ -42,7 +45,10 @@ class AreaCircleButton extends StatelessWidget {
                 colors: [const Color(0xFF23576D), colorScheme.primary],
                 stops: const [0.0, 1.0],
               ),
-              border: isSelected ? Border.all(color: colorScheme.onPrimary, width: 1.5.w) : null,
+              border:
+                  isSelected
+                      ? Border.all(color: colorScheme.onPrimary, width: 1.5.w)
+                      : null,
             ),
             child: Center(
               child: Text(
@@ -59,4 +65,4 @@ class AreaCircleButton extends StatelessWidget {
       ),
     );
   }
-} 
+}

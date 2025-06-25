@@ -8,7 +8,7 @@ import 'package:snapnfix/presentation/widgets/area_issues/issue_item.dart';
 class IssuesRefreshIndicator extends StatelessWidget {
   final List<Issue> issues;
   final String areaName;
-  
+
   const IssuesRefreshIndicator({
     super.key,
     required this.issues,
@@ -25,20 +25,22 @@ class IssuesRefreshIndicator extends StatelessWidget {
         padding: EdgeInsets.only(bottom: 16.h),
         physics: const AlwaysScrollableScrollPhysics(),
         itemCount: issues.length,
-        separatorBuilder: (context, index) => Divider(
-          height: 1.h,
-          indent: 60.w,
-          endIndent: 16.w,
-          color: colorScheme.outline.withOpacity(0.1),
-        ),
+        separatorBuilder:
+            (context, index) => Divider(
+              height: 1.h,
+              indent: 60.w,
+              endIndent: 16.w,
+              color: colorScheme.outline.withValues(alpha: 0.1),
+            ),
         itemBuilder: (context, index) {
           final issue = issues[index];
           return IssueItem(
             issue: issue,
-            onTap: () => context.read<AreaIssuesCubit>().navigateToIssueDetails(
-              context,
-              issue.id,
-            ),
+            onTap:
+                () => context.read<AreaIssuesCubit>().navigateToIssueDetails(
+                  context,
+                  issue.id,
+                ),
           );
         },
       ),

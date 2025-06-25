@@ -604,5 +604,110 @@
   "hourAgo": "منذ {count} ساعة",
   "hoursAgo": "منذ {count} ساعات",
   "minuteAgo": "منذ {count} دقيقة",
-  "minutesAgo": "منذ {count} دقائق"
+  "minutesAgo": "منذ {count} دقائق",
+
+  "yourAreas": "مناطقك",
+  "@yourAreas": {
+    "description": "Header title for user's subscribed areas section"
+  },
+  "manageAreas": "إدارة المناطق",
+  "@manageAreas": {
+    "description": "Tooltip text for manage areas button"
+  },
+  "refresh": "تحديث",
+  "@refresh": {
+    "description": "Tooltip text for refresh button"
+  },
+  "noSubscribedAreas": "لا توجد مناطق مشترك بها",
+  "@noSubscribedAreas": {
+    "description": "Message when user has no subscribed areas"
+  },
+  "tapToAddAreas": "اضغط + لإضافة مناطق",
+  "@tapToAddAreas": {
+    "description": "Instruction message for adding areas"
+  },
+  "unknownArea": "منطقة غير معروفة",
+  "@unknownArea": {
+    "description": "Fallback text when area name is empty"
+  },
+  "unknownState": "محافظة غير معروفة",
+  "@unknownState": {
+    "description": "Fallback text when state name is empty"
+  },
+  "viewAll": "عرض الكل",
+  "@viewAll": {
+    "description": "Text for see all card"
+  },
+  "seeMoreAreas": "شاهد المزيد من المناطق",
+  "@seeMoreAreas": {
+    "description": "Subtitle for see all card"
+  },
+  "showingCachedData": "عرض البيانات المحفوظة",
+  "@showingCachedData": {
+    "description": "Warning message when showing cached data"
+  },
+  "subscribed": "مشترك",
+  "@subscribed": {
+    "description": "Tab title for subscribed areas"
+  },
+  "allAreas": "جميع المناطق",
+  "@allAreas": {
+    "description": "Tab title for all areas"
+  },
+  "searchAreas": "البحث في المناطق...",
+  "@searchAreas": {
+    "description": "Hint text for search field"
+  },
+  "noSubscribedAreasFound": "لم يتم العثور على مناطق مشترك بها\nاشترك في المناطق لرؤيتها هنا",
+  "@noSubscribedAreasFound": {
+    "description": "Empty message for subscribed areas tab"
+  },
+  "noAreasAvailable": "لا توجد مناطق متاحة\nحاول التحديث أو تحقق من الاتصال",
+  "@noAreasAvailable": {
+    "description": "Empty message for all areas tab"
+  },
+  "subscribing": "جاري الاشتراك...",
+  "@subscribing": {
+    "description": "Loading text when subscribing to an area"
+  },
+  "unsubscribing": "جاري إلغاء الاشتراك...",
+  "@unsubscribing": {
+    "description": "Loading text when unsubscribing from an area"
+  },
+  "subscriptionFailed": "فشل الاشتراك",
+  "@subscriptionFailed": {
+    "description": "Error message when subscription fails"
+  },
+  "unsubscriptionFailed": "فشل إلغاء الاشتراك",
+  "@unsubscriptionFailed": {
+    "description": "Error message when unsubscription fails"
+  },
+  "noNewAreasToSubscribe": "لا توجد مناطق جديدة للاشتراك بها",
+  "@noNewAreasToSubscribe": {
+    "description": "Message when there are no new areas available"
+  },
+  "failedToLoadSubscribedAreas": "فشل في تحميل المناطق المشترك بها",
+  "@failedToLoadSubscribedAreas": {
+    "description": "Error message when subscribed areas fail to load"
+  },
+  "failedToLoadAreas": "فشل في تحميل المناطق",
+  "@failedToLoadAreas": {
+    "description": "Error message when areas fail to load"
+  },
+  "subscribeToAreasToSeeHere": "اشترك في المناطق لرؤيتها هنا",
+  "@subscribeToAreasToSeeHere": {
+    "description": "Instruction message for empty subscribed areas"
+  },
+  "removing": "جاري الإزالة...",
+  "@removing": {
+    "description": "Loading text when removing subscription"
+  },
+  "adding": "جاري الإضافة...",
+  "@adding": {
+    "description": "Loading text when adding subscription"
+  },
+  "issuesPlural": "مشكلات",
+  "@issuesPlural": {
+    "description": "Plural form of issues"
+  }
 }

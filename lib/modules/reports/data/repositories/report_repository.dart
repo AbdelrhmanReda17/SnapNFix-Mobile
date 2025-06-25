@@ -79,7 +79,7 @@ class ReportRepository implements BaseReportRepository {
       if (!isConnected) {
         return Result.failure(
           ApiError(
-            message: 'No internet connection. Please try again later.',
+            message:  'No internet connection. Please try again later.',
             code: 'no_internet',
           ),
         );

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:snapnfix/modules/area_updates/domain/entities/area_info.dart';
 
 class AreaCard extends StatelessWidget {
@@ -28,11 +29,11 @@ class AreaCard extends StatelessWidget {
         color: Theme.of(context).colorScheme.surface,
         borderRadius: BorderRadius.circular(16.r),
         border: Border.all(
-          color: Theme.of(context).colorScheme.outline.withOpacity(0.1),
+          color: Theme.of(context).colorScheme.outline.withValues(alpha: 0.1),
         ),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withValues(alpha: 0.05),
             blurRadius: 10,
             offset: const Offset(0, 2),
           ),
@@ -47,13 +48,12 @@ class AreaCard extends StatelessWidget {
             padding: EdgeInsets.all(16.r),
             child: Row(
               children: [
-                // Location Icon
                 Container(
                   padding: EdgeInsets.all(12.r),
                   decoration: BoxDecoration(
                     color: Theme.of(
                       context,
-                    ).colorScheme.primary.withOpacity(0.1),
+                    ).colorScheme.primary.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(12.r),
                   ),
                   child: Icon(
@@ -63,7 +63,6 @@ class AreaCard extends StatelessWidget {
                   ),
                 ),
                 SizedBox(width: 16.w),
-                // Area Info
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -101,7 +100,6 @@ class AreaCard extends StatelessWidget {
                     ],
                   ),
                 ),
-                // Subscription Button
                 if (showSubscriptionButton) _buildSubscriptionButton(context),
               ],
             ),
@@ -125,7 +123,7 @@ class AreaCard extends StatelessWidget {
               color:
                   isSubscribed
                       ? Theme.of(context).colorScheme.primary
-                      : Theme.of(context).colorScheme.surfaceVariant,
+                      : Theme.of(context).colorScheme.surfaceContainerHighest,
               borderRadius: BorderRadius.circular(12.r),
             ),
             child: Row(
@@ -155,8 +153,12 @@ class AreaCard extends StatelessWidget {
                 SizedBox(width: 6.w),
                 Text(
                   isLoading
-                      ? (isSubscribed ? 'Removing...' : 'Adding...')
-                      : (isSubscribed ? 'Subscribed' : 'Subscribe'),
+                      ? (isSubscribed
+                          ? AppLocalizations.of(context)!.removing
+                          : AppLocalizations.of(context)!.adding)
+                      : (isSubscribed
+                          ? AppLocalizations.of(context)!.subscribed
+                          : AppLocalizations.of(context)!.subscribe),
                   style: TextStyle(
                     fontSize: 12.sp,
                     fontWeight: FontWeight.w500,
@@ -187,7 +189,7 @@ class AreaCard extends StatelessWidget {
           Icon(_getIssuesIcon(), size: 12.sp, color: Colors.white),
           SizedBox(width: 4.w),
           Text(
-            '${area.activeIssuesCount} ${area.activeIssuesCount == 1 ? 'Issue' : 'Issues'}',
+            '${area.activeIssuesCount} ${area.activeIssuesCount == 1 ? AppLocalizations.of(context)!.issue : AppLocalizations.of(context)!.issuesPlural}',
             style: TextStyle(
               fontSize: 11.sp,
               fontWeight: FontWeight.w500,

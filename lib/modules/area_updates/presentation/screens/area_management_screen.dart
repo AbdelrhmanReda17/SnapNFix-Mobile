@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:snapnfix/core/dependency_injection/dependency_injection.dart';
 import 'package:snapnfix/modules/area_updates/presentation/cubits/subscribed_areas_cubit.dart';
 import 'package:snapnfix/modules/area_updates/presentation/cubits/all_areas_cubit.dart';
@@ -26,7 +27,7 @@ class _AreaManagementScreenState extends State<AreaManagementScreen>
   late SubscribedAreasCubit _subscribedAreasCubit;
   late AllAreasCubit _allAreasCubit;
 
-    @override
+  @override
   void initState() {
     super.initState();
     _searchController = TextEditingController();
@@ -35,13 +36,12 @@ class _AreaManagementScreenState extends State<AreaManagementScreen>
       vsync: this,
       initialIndex: widget.initialShowSubscribed ? 0 : 1,
     );
-    
+
     _subscribedAreasCubit = getIt<SubscribedAreasCubit>();
     _allAreasCubit = getIt<AllAreasCubit>();
 
     debugPrint('📍 Initializing AreaManagementScreen');
 
-    // Initialize only the active tab's cubit
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (widget.initialShowSubscribed) {
         debugPrint('🎯 Initializing subscribed areas tab only');
@@ -52,13 +52,12 @@ class _AreaManagementScreenState extends State<AreaManagementScreen>
       }
     });
 
-    // Listen to tab changes and initialize the other cubit when needed
     _tabController.addListener(_onTabChanged);
   }
 
   void _onTabChanged() {
     if (!_tabController.indexIsChanging) return;
-  
+
     final currentIndex = _tabController.index;
     if (currentIndex == 0) {
       _subscribedAreasCubit.initialize();
@@ -85,7 +84,7 @@ class _AreaManagementScreenState extends State<AreaManagementScreen>
       child: Scaffold(
         backgroundColor: Theme.of(context).colorScheme.surface,
         appBar: AppBar(
-          title: const Text('Manage Areas'),
+          title: Text(AppLocalizations.of(context)!.manageAreas),
           backgroundColor: Theme.of(context).colorScheme.surface,
           elevation: 0,
           scrolledUnderElevation: 0,
@@ -105,7 +104,7 @@ class _AreaManagementScreenState extends State<AreaManagementScreen>
             IconButton(
               onPressed: _refreshCurrentTab,
               icon: const Icon(Icons.refresh),
-              tooltip: 'Refresh',
+              tooltip: AppLocalizations.of(context)!.refresh,
             ),
           ],
         ),
@@ -118,7 +117,7 @@ class _AreaManagementScreenState extends State<AreaManagementScreen>
                   controller: _searchController,
                   autofocus: true,
                   decoration: InputDecoration(
-                    hintText: 'Search areas...',
+                    hintText: AppLocalizations.of(context)!.searchAreas,
                     prefixIcon: const Icon(Icons.search),
                     suffixIcon:
                         _searchController.text.isNotEmpty
@@ -133,7 +132,7 @@ class _AreaManagementScreenState extends State<AreaManagementScreen>
                     filled: true,
                     fillColor: Theme.of(
                       context,
-                    ).colorScheme.surfaceVariant.withOpacity(0.3),
+                    ).colorScheme.surfaceContainerHighest.withValues(alpha:0.3),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12.r),
                       borderSide: BorderSide.none,
@@ -158,7 +157,7 @@ class _AreaManagementScreenState extends State<AreaManagementScreen>
               decoration: BoxDecoration(
                 color: Theme.of(
                   context,
-                ).colorScheme.surfaceVariant.withOpacity(0.3),
+                ).colorScheme.surfaceContainerHighest.withValues(alpha:0.3),
                 borderRadius: BorderRadius.circular(12.r),
               ),
               child: TabBar(
@@ -179,12 +178,15 @@ class _AreaManagementScreenState extends State<AreaManagementScreen>
                   fontSize: 14.sp,
                   fontWeight: FontWeight.w500,
                 ),
-                tabs: const [
+                tabs: [
                   Tab(
                     icon: Icon(Icons.notifications, size: 20),
-                    text: 'Subscribed',
+                    text: AppLocalizations.of(context)!.subscribed,
                   ),
-                  Tab(icon: Icon(Icons.explore, size: 20), text: 'All Areas'),
+                  Tab(
+                    icon: Icon(Icons.explore, size: 20), 
+                    text: AppLocalizations.of(context)!.allAreas,
+                  ),
                 ],
               ),
             ),
@@ -192,21 +194,17 @@ class _AreaManagementScreenState extends State<AreaManagementScreen>
               child: TabBarView(
                 controller: _tabController,
                 children: [
-                  // Subscribed Areas Tab
                   SubscribedAreasList(
                     onAreaTap: (area) {
                       context.push(Routes.areaIssues, extra: area);
                     },
-                    emptyMessage:
-                        'No subscribed areas found\nSubscribe to areas to see them here',
+                    emptyMessage: AppLocalizations.of(context)!.noSubscribedAreasFound,
                   ),
-                  // All Areas Tab
                   AllAreasList(
                     onAreaTap: (area) {
                       context.push(Routes.areaIssues, extra: area);
                     },
-                    emptyMessage:
-                        'No areas available\nTry refreshing or check your connection',
+                    emptyMessage: AppLocalizations.of(context)!.noAreasAvailable,
                   ),
                 ],
               ),
@@ -219,20 +217,16 @@ class _AreaManagementScreenState extends State<AreaManagementScreen>
 
   void _onSearchChanged(String query) {
     if (_tabController.index == 0) {
-      // Subscribed areas tab
       _subscribedAreasCubit.searchAreas(query);
     } else {
-      // All areas tab
       _allAreasCubit.searchAreas(query);
     }
   }
 
   void _refreshCurrentTab() {
     if (_tabController.index == 0) {
-      // Subscribed areas tab
       _subscribedAreasCubit.refresh();
     } else {
-      // All areas tab
       _allAreasCubit.refresh();
     }
   }

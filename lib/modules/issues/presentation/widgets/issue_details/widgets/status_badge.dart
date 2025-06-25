@@ -19,7 +19,7 @@ class StatusBadge extends StatelessWidget {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
       decoration: BoxDecoration(
-        color: status.color.withOpacity(0.15),
+        color: status.color.withValues(alpha: 0.15),
         borderRadius: BorderRadius.circular(16.r),
         border: Border.all(color: status.color, width: 1),
       ),
@@ -27,7 +27,8 @@ class StatusBadge extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Icon(status.icon, color: status.color, size: 16.sp),
-          SizedBox(width: 6.w),          Text(
+          SizedBox(width: 6.w),
+          Text(
             status.getLocalizedName(localization),
             style: TextStyle(
               fontSize: 13.sp,

@@ -12,7 +12,8 @@ class AreaIssuesChatScreen extends StatelessWidget {
   final String area;
 
   AreaIssuesChatScreen({String? area, Map<String, dynamic>? extra, super.key})
-    : area = area ?? extra?['area'] as String;  @override
+    : area = area ?? extra?['area'] as String;
+  @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
     final localization = AppLocalizations.of(context)!;
@@ -29,14 +30,11 @@ class AreaIssuesChatScreen extends StatelessWidget {
             areaName: area,
             getAreaIssuesUseCase: getIt<GetAreaIssuesUseCase>(),
           ),
-      child: Scaffold(        appBar: AppBar(
+      child: Scaffold(
+        appBar: AppBar(
           title: Row(
             children: [
-              Icon(
-                Icons.home_work,
-                color: colorScheme.primary,
-                size: 24.sp,
-              ),
+              Icon(Icons.home_work, color: colorScheme.primary, size: 24.sp),
               SizedBox(width: 12.w),
               Text(
                 '$area Issues',
@@ -46,7 +44,8 @@ class AreaIssuesChatScreen extends StatelessWidget {
           ),
         ),
         body: Column(
-          children: [            // Area health card
+          children: [
+            // Area health card
             _buildAreaHealthCard(
               context,
               localization,
@@ -67,6 +66,7 @@ class AreaIssuesChatScreen extends StatelessWidget {
       ),
     );
   }
+
   // Build health card widget
   Widget _buildAreaHealthCard(
     BuildContext context,
@@ -87,12 +87,12 @@ class AreaIssuesChatScreen extends StatelessWidget {
         borderRadius: BorderRadius.circular(12.r),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withValues(alpha: 0.05),
             blurRadius: 8,
             offset: const Offset(0, 2),
           ),
         ],
-        border: Border.all(color: colorScheme.outline.withOpacity(0.1)),
+        border: Border.all(color: colorScheme.outline.withValues(alpha: 0.1)),
       ),
       child: Column(
         children: [
@@ -107,7 +107,7 @@ class AreaIssuesChatScreen extends StatelessWidget {
                   height: 50.w,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color: healthColor.withOpacity(0.1),
+                    color: healthColor.withValues(alpha: 0.1),
                     border: Border.all(color: healthColor, width: 2.w),
                   ),
                   child: Center(
@@ -134,7 +134,8 @@ class AreaIssuesChatScreen extends StatelessWidget {
                           color: colorScheme.onSurface,
                         ),
                       ),
-                      SizedBox(height: 4.h),                      Text(
+                      SizedBox(height: 4.h),
+                      Text(
                         _getHealthDescription(healthScore, localization),
                         style: TextStyle(
                           fontSize: 12.sp,
@@ -152,7 +153,7 @@ class AreaIssuesChatScreen extends StatelessWidget {
                     vertical: 6.h,
                   ),
                   decoration: BoxDecoration(
-                    color: _getTrendColor(trend).withOpacity(0.1),
+                    color: _getTrendColor(trend).withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(16.r),
                   ),
                   child: Row(
@@ -163,7 +164,8 @@ class AreaIssuesChatScreen extends StatelessWidget {
                         size: 14.sp,
                         color: _getTrendColor(trend),
                       ),
-                      SizedBox(width: 4.w),                      Text(
+                      SizedBox(width: 4.w),
+                      Text(
                         _getLocalizedTrend(trend, localization),
                         style: TextStyle(
                           fontSize: 12.sp,
@@ -182,7 +184,7 @@ class AreaIssuesChatScreen extends StatelessWidget {
           Divider(
             height: 1,
             thickness: 1,
-            color: colorScheme.outline.withOpacity(0.1),
+            color: colorScheme.outline.withValues(alpha: 0.1),
           ),
 
           // Metrics row
@@ -190,7 +192,8 @@ class AreaIssuesChatScreen extends StatelessWidget {
             padding: EdgeInsets.all(16.w),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [                _buildMetricItem(
+              children: [
+                _buildMetricItem(
                   context,
                   Icons.error_outline,
                   openIssues.toString(),
@@ -329,7 +332,9 @@ class AreaIssuesChatScreen extends StatelessWidget {
     } else {
       return Colors.red;
     }
-  }  String _getHealthDescription(double health, AppLocalizations localization) {
+  }
+
+  String _getHealthDescription(double health, AppLocalizations localization) {
     if (health > 0.8) {
       return localization.excellentCondition;
     } else if (health > 0.7) {

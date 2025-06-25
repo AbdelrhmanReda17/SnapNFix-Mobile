@@ -8,26 +8,28 @@ import 'package:snapnfix/presentation/cubits/area_issues_cubit.dart';
 class EmptyIssuesView extends StatelessWidget {
   final String areaName;
   final List<IssueStatus> selectedStatuses;
-  
+
   const EmptyIssuesView({
     super.key,
     required this.areaName,
     required this.selectedStatuses,
-  });  @override
+  });
+  @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
     final localization = AppLocalizations.of(context)!;
-    
+
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Icon(
             Icons.search_off_rounded,
-            color: colorScheme.primary.withOpacity(0.5),
+            color: colorScheme.primary.withValues(alpha: 0.5),
             size: 48.sp,
           ),
-          SizedBox(height: 16.h),          Text(
+          SizedBox(height: 16.h),
+          Text(
             selectedStatuses.isEmpty
                 ? localization.noIssuesFoundIn(areaName)
                 : localization.noReportsForFilters,
@@ -51,4 +53,4 @@ class EmptyIssuesView extends StatelessWidget {
       ),
     );
   }
-} 
+}

@@ -87,7 +87,7 @@ class IssueHeatmapWidget extends StatelessWidget {
             width: 40,
             height: 40,
             decoration: BoxDecoration(
-              color: _getHeatColor(spot.intensity).withOpacity(0.2),
+              color: _getHeatColor(spot.intensity).withValues(alpha: 0.2),
               borderRadius: BorderRadius.circular(8),
               border: Border.all(
                 color: _getHeatColor(spot.intensity),

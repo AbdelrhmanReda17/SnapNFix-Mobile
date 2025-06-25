@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:snapnfix/modules/area_updates/domain/entities/area_info.dart';
 import 'package:snapnfix/modules/area_updates/presentation/cubits/subscribed_areas_cubit.dart';
 import 'package:snapnfix/modules/area_updates/presentation/widgets/user_area_section/see_all_card.dart';
@@ -54,22 +55,12 @@ class _HomeSubscribedAreasSectionState
               builder: (context, state) {
                 return state.when(
                   initial: () {
-                    debugPrint('🏠 Showing initial state');
                     return _buildLoadingWidget();
                   },
                   loading: () {
-                    debugPrint('🏠 Showing loading state');
                     return _buildLoadingWidget();
                   },
-                  loaded: (
-                    subscribedAreas,
-                    _,
-                    __,
-                    ___,
-                    ____,
-                    _____,
-                  ) {
-                    debugPrint('🏠 Showing loaded state with ${subscribedAreas.length} areas');
+                  loaded: (subscribedAreas, _, __, ___, ____, _____) {
                     if (subscribedAreas.isEmpty) {
                       return _buildEmptyState(colorScheme);
                     }
@@ -80,9 +71,11 @@ class _HomeSubscribedAreasSectionState
                     );
                   },
                   error: (error) {
-                    debugPrint('🏠 Showing error state: ${error.message}');
                     return SharedErrorWidget(
-                      message: error.message,
+                      message:
+                          AppLocalizations.of(
+                            context,
+                          )!.failedToLoadSubscribedAreas,
                       colorScheme: colorScheme,
                       onRetry: () {
                         context.read<SubscribedAreasCubit>().loadForHome();
@@ -104,7 +97,7 @@ class _HomeSubscribedAreasSectionState
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(
-          'Your Areas',
+          AppLocalizations.of(context)!.yourAreas,
           style: TextStyle(
             fontSize: 18.sp,
             fontWeight: FontWeight.bold,
@@ -118,7 +111,7 @@ class _HomeSubscribedAreasSectionState
                 context.push(Routes.allAreas);
               },
               icon: Icon(Icons.add, size: 20.sp, color: colorScheme.primary),
-              tooltip: 'Manage Areas',
+              tooltip: AppLocalizations.of(context)!.manageAreas,
             ),
             BlocBuilder<SubscribedAreasCubit, SubscribedAreasState>(
               builder: (context, state) {
@@ -131,7 +124,7 @@ class _HomeSubscribedAreasSectionState
                     size: 20.sp,
                     color: colorScheme.primary,
                   ),
-                  tooltip: 'Refresh',
+                  tooltip: AppLocalizations.of(context)!.refresh,
                 );
               },
             ),
@@ -153,8 +146,8 @@ class _HomeSubscribedAreasSectionState
       height: 120.h,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12.r),
-        color: colorScheme.surfaceVariant.withOpacity(0.3),
-        border: Border.all(color: colorScheme.outline.withOpacity(0.2)),
+        color: colorScheme.surfaceContainerHighest.withValues(alpha: 0.3),
+        border: Border.all(color: colorScheme.outline.withValues(alpha: 0.2)),
       ),
       child: Center(
         child: Column(
@@ -167,7 +160,7 @@ class _HomeSubscribedAreasSectionState
             ),
             SizedBox(height: 8.h),
             Text(
-              'No subscribed areas',
+              AppLocalizations.of(context)!.noSubscribedAreas,
               style: TextStyle(
                 fontSize: 14.sp,
                 color: colorScheme.onSurfaceVariant,
@@ -175,10 +168,10 @@ class _HomeSubscribedAreasSectionState
             ),
             SizedBox(height: 4.h),
             Text(
-              'Tap + to add areas',
+              AppLocalizations.of(context)!.tapToAddAreas,
               style: TextStyle(
                 fontSize: 12.sp,
-                color: colorScheme.onSurfaceVariant.withOpacity(0.7),
+                color: colorScheme.onSurfaceVariant.withValues(alpha: 0.7),
               ),
             ),
           ],
@@ -190,40 +183,10 @@ class _HomeSubscribedAreasSectionState
   Widget _buildSubscribedAreasList(
     List<AreaInfo> subscribedAreas,
     ColorScheme colorScheme,
-    bool isLoading, {
-    bool hasError = false,
-  }) {
+    bool isLoading,
+  ) {
     return Column(
       children: [
-        if (hasError)
-          Container(
-            padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
-            margin: EdgeInsets.only(bottom: 8.h),
-            decoration: BoxDecoration(
-              color: colorScheme.errorContainer,
-              borderRadius: BorderRadius.circular(8.r),
-            ),
-            child: Row(
-              children: [
-                Icon(
-                  Icons.warning_amber_rounded,
-                  size: 16.sp,
-                  color: colorScheme.onErrorContainer,
-                ),
-                SizedBox(width: 8.w),
-                Expanded(
-                  child: Text(
-                    'Showing cached data',
-                    style: TextStyle(
-                      fontSize: 12.sp,
-                      color: colorScheme.onErrorContainer,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-
         SizedBox(
           height: 120.h,
           child: ListView.builder(

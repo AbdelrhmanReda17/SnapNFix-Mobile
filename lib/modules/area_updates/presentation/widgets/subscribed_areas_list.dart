@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:snapnfix/core/base_components/base_paginated_list_view.dart';
 import 'package:snapnfix/modules/area_updates/domain/entities/area_info.dart';
 import 'package:snapnfix/modules/area_updates/presentation/cubits/subscribed_areas_cubit.dart';
 import 'package:snapnfix/modules/area_updates/presentation/widgets/area_card.dart';
+import 'package:snapnfix/modules/area_updates/presentation/widgets/shared_error_widget.dart';
 
 class SubscribedAreasList extends StatelessWidget {
   final Function(AreaInfo)? onAreaTap;
@@ -25,7 +27,14 @@ class SubscribedAreasList extends StatelessWidget {
     return BlocListener<SubscribedAreasCubit, SubscribedAreasState>(
       listener: (context, state) {
         state.maybeWhen(
-          loaded: (areas, hasReachedEnd, isLoadingMore, unsubscribingAreaIds, lastFetchTime, operationError) {
+          loaded: (
+            areas,
+            hasReachedEnd,
+            isLoadingMore,
+            unsubscribingAreaIds,
+            lastFetchTime,
+            operationError,
+          ) {
             if (operationError != null) {
               ScaffoldMessenger.of(context).clearSnackBars();
               final snackBar = SnackBar(
@@ -33,7 +42,7 @@ class SubscribedAreasList extends StatelessWidget {
                 backgroundColor: Theme.of(context).colorScheme.error,
                 duration: const Duration(seconds: 4),
                 action: SnackBarAction(
-                  label: 'Dismiss',
+                  label: AppLocalizations.of(context)!.dismiss,
                   textColor: Colors.white,
                   onPressed: () {
                     ScaffoldMessenger.of(context).hideCurrentSnackBar();
@@ -42,7 +51,9 @@ class SubscribedAreasList extends StatelessWidget {
                 ),
               );
 
-              ScaffoldMessenger.of(context).showSnackBar(snackBar).closed.then((_) {
+              ScaffoldMessenger.of(context).showSnackBar(snackBar).closed.then((
+                _,
+              ) {
                 if (context.mounted) {
                   context.read<SubscribedAreasCubit>().clearOperationError();
                 }
@@ -57,41 +68,63 @@ class SubscribedAreasList extends StatelessWidget {
           return state.when(
             initial: () => const Center(child: CircularProgressIndicator()),
             loading: () => const Center(child: CircularProgressIndicator()),
-            loaded: (areas, hasReachedEnd, isLoadingMore, unsubscribingAreaIds, lastFetchTime, operationError) {
-            return EnhancedPaginatedView<AreaInfo>(
-              items: areas,
-              isLoading: false,
-              isLoadingMore: isLoadingMore,
-              hasReachedEnd: hasReachedEnd,
-              itemBuilder: (context, area, index) {
-                final isUnsubscribing = unsubscribingAreaIds.contains(area.id);
-                return AreaCard(
-                  area: area,
-                  isSubscribed: true, // All areas in this list are subscribed
-                  showSubscriptionButton: true,
-                  isLoading: isUnsubscribing,
-                  onSubscriptionToggle: isUnsubscribing ? null : () {
-                    context.read<SubscribedAreasCubit>().unsubscribeFromArea(area.id);
+            loaded: (
+              areas,
+              hasReachedEnd,
+              isLoadingMore,
+              unsubscribingAreaIds,
+              lastFetchTime,
+              operationError,
+            ) {
+              return EnhancedPaginatedView<AreaInfo>(
+                items: areas,
+                isLoading: false,
+                isLoadingMore: isLoadingMore,
+                hasReachedEnd: hasReachedEnd,
+                itemBuilder: (context, area, index) {
+                  final isUnsubscribing = unsubscribingAreaIds.contains(
+                    area.id,
+                  );
+                  return AreaCard(
+                    area: area,
+                    isSubscribed: true,
+                    showSubscriptionButton: true,
+                    isLoading: isUnsubscribing,
+                    onSubscriptionToggle:
+                        isUnsubscribing
+                            ? null
+                            : () {
+                              context
+                                  .read<SubscribedAreasCubit>()
+                                  .unsubscribeFromArea(area.id);
+                            },
+                    onTap: onAreaTap != null ? () => onAreaTap!(area) : null,
+                  );
+                },
+                onRefresh: () async {
+                  if (context.mounted) {
+                    await context.read<SubscribedAreasCubit>().refresh();
+                  }
+                },
+                onLoadMore: () {
+                  context.read<SubscribedAreasCubit>().loadMore();
+                },
+                padding: padding ?? EdgeInsets.symmetric(vertical: 8.h),
+                emptyStateBuilder: (context) => _buildEmptyState(context),
+                separator: SizedBox(height: 4.h),
+              );
+            },
+            error:
+                (error) => SharedErrorWidget(
+                  message:
+                      AppLocalizations.of(context)!.failedToLoadSubscribedAreas,
+                  colorScheme: Theme.of(context).colorScheme,
+                  onRetry: () {
+                    context.read<SubscribedAreasCubit>().refresh();
                   },
-                  onTap: onAreaTap != null ? () => onAreaTap!(area) : null,
-                );
-              },
-              onRefresh: () async {
-                if (context.mounted) {
-                  await context.read<SubscribedAreasCubit>().refresh();
-                }
-              },
-              onLoadMore: () {
-                context.read<SubscribedAreasCubit>().loadMore();
-              },
-              padding: padding ?? EdgeInsets.symmetric(vertical: 8.h),
-              emptyStateBuilder: (context) => _buildEmptyState(context),
-              separator: SizedBox(height: 4.h),
-            );
-          },
-          error: (error) => _buildErrorState(context, error.message),
-        );
-      },
+                ),
+          );
+        },
       ),
     );
   }
@@ -115,7 +148,7 @@ class SubscribedAreasList extends StatelessWidget {
             ),
             SizedBox(height: 16.h),
             Text(
-              emptyMessage ?? 'No subscribed areas found',
+              emptyMessage ?? AppLocalizations.of(context)!.noSubscribedAreas,
               style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                 color: Theme.of(context).colorScheme.onSurfaceVariant,
               ),
@@ -123,7 +156,7 @@ class SubscribedAreasList extends StatelessWidget {
             ),
             SizedBox(height: 8.h),
             Text(
-              'Subscribe to areas to see them here',
+              AppLocalizations.of(context)!.subscribeToAreasToSeeHere,
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                 color: Theme.of(context).colorScheme.outline,
               ),
@@ -134,45 +167,4 @@ class SubscribedAreasList extends StatelessWidget {
       ),
     );
   }
-
-  Widget _buildErrorState(BuildContext context, String errorMessage) {
-    return Center(
-      child: Padding(
-        padding: EdgeInsets.all(32.r),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(
-              Icons.error_outline,
-              size: 64.sp,
-              color: Theme.of(context).colorScheme.error,
-            ),
-            SizedBox(height: 16.h),
-            Text(
-              'Failed to load subscribed areas',
-              style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                color: Theme.of(context).colorScheme.error,
-              ),
-              textAlign: TextAlign.center,
-            ),
-            SizedBox(height: 8.h),
-            Text(
-              errorMessage,
-              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                color: Theme.of(context).colorScheme.onSurfaceVariant,
-              ),
-              textAlign: TextAlign.center,
-            ),
-            SizedBox(height: 16.h),
-            FilledButton(
-              onPressed: () {
-                context.read<SubscribedAreasCubit>().refresh();
-              },
-              child: const Text('Try Again'),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-} 
+}
