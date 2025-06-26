@@ -6,7 +6,7 @@ platform :android do
     sh "flutter clean"
     sh "flutter pub get"
 
-    Dir.chdir("#{Dir.pwd}/../..") 
+    Dir.chdir("#{Dir.pwd}/../..") do
       sh "flutter gen-l10n"
       sh "flutter pub run build_runner build --delete-conflicting-outputs && flutter gen-l10n"
     end
