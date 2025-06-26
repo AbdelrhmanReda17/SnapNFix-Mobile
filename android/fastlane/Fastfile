@@ -7,8 +7,8 @@ platform :android do
     sh "flutter pub get"
 
     Dir.chdir("#{Dir.pwd}/../..") do
-      sh "flutter gen-l10n --verbose"
-      sh "flutter pub run build_runner build --delete-conflicting-outputs"
+      sh "flutter gen-l10n"
+      sh "flutter pub run build_runner build --delete-conflicting-outputs && flutter gen-l10n"
     end
 
     sh "flutter build apk --release --flavor production --target lib/main_production.dart --no-tree-shake-icons"

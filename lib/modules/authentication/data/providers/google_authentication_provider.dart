@@ -36,7 +36,6 @@ class GoogleAuthProvider implements BaseSocialAuthenticationProvider {
 
       return SocialAuthenticationResult.success(idToken: auth.idToken!);
     } catch (e) {
-      debugPrint('Google sign in error: $e');
       return SocialAuthenticationResult.failure(
         errorMessage: 'Google sign in failed',
       );

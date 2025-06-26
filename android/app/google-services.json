@@ -13,7 +13,20 @@
           "package_name": "com.snapnfix.mobile"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "1091073399966-hio5ca2v4gm07c8ealmjjp6bnvj0h1tf.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.snapnfix.mobile",
+            "certificate_hash": "73783fe2a0dea2dff8885e8e8d6259fa4c3acbe2"
+          }
+        },
+        {
+          "client_id": "1091073399966-79dkquovvujk429m5288evm0rm17b6gb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyDefXK39qaVTxTd0h7qa6QvOFSlmVK6OK4"
@@ -21,7 +34,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1091073399966-79dkquovvujk429m5288evm0rm17b6gb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

@@ -189,7 +189,6 @@ class AuthenticationRepository implements BaseAuthenticationRepository {
 
       return await socialResult.when(
         success: (accessToken) async {
-          debugPrint('Google access token: $accessToken');
           final result = await remoteDataSource.loginWithGoogle(accessToken);
           return _mapToAuthenticationResult(result);
         },
