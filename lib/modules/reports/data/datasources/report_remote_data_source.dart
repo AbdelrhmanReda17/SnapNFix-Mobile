@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:snapnfix/core/index.dart';
+import 'package:snapnfix/modules/issues/domain/entities/issue_category.dart';
 import 'package:snapnfix/modules/reports/data/models/fast_report_model.dart';
 import 'package:snapnfix/modules/reports/data/models/report_statistics_model.dart';
 import 'package:snapnfix/modules/reports/data/models/snap_report_model.dart';
@@ -21,7 +22,7 @@ abstract class BaseReportRemoteDataSource {
   Future<Result<MapEntry<List<SnapReportModel>, bool>, ApiError>>
   getUserReports({
     String? status,
-    String? category,
+    IssueCategory? category,
     String? sort,
     int page = 1,
     int limit = 10,
@@ -124,7 +125,7 @@ class ReportRemoteDataSource implements BaseReportRemoteDataSource {
   getUserReports({
     String? sort,
     String? status,
-    String? category,
+    IssueCategory? category,
     int page = 1,
     int limit = 10,
   }) async {

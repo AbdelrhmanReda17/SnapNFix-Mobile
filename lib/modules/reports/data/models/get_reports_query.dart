@@ -1,4 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:snapnfix/modules/issues/domain/entities/issue_category.dart';
 
 part 'get_reports_query.g.dart';
 
@@ -13,7 +14,7 @@ class GetReportsQuery {
   });
   final String? sort;
   final String? status;
-  final String? category;
+  final IssueCategory? category;
   final int page;
   final int limit;
 

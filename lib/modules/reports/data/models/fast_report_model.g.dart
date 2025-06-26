@@ -26,10 +26,10 @@ Map<String, dynamic> _$FastReportModelToJson(FastReportModel instance) =>
       'issueId': instance.issueId,
       'severity': _$ReportSeverityEnumMap[instance.severity],
       'createdAt': instance.createdAt?.toIso8601String(),
-      'comment': instance.comment,
-      'isUserReport': instance.isUserReport,
       'firstName': instance.firstName,
       'lastName': instance.lastName,
+      'comment': instance.comment,
+      'isUserReport': instance.isUserReport,
     };
 
 const _$ReportSeverityEnumMap = {

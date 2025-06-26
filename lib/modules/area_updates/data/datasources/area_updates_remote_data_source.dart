@@ -81,7 +81,6 @@ class AreaUpdatesRemoteDataSource extends BaseAreaUpdatesRemoteDataSource {
     String areaName,
   ) async {
     try {
-      // Mock implementation - replace with actual API call
       await Future.delayed(const Duration(milliseconds: 300));
       final mockHealth = AreaHealthMetricsModel(
         totalIssues: 15,
