@@ -15,7 +15,7 @@ dependencies:
   flutter_native_splash: ^2.0.9
   flutter_localizations:
     sdk: flutter
-  intl: ^0.20.2
+  intl: ^0.19.0
   flutter_screenutil: ^5.9.3
   smooth_page_indicator: ^1.2.1
   flutter_svg: ^2.0.17
@@ -80,7 +80,6 @@ flutter:
     - assets/images/
     - assets/icons/
     - assets/icons/active/
-
 flutter_gen:
   output: lib/l10n
   line_length: 80
