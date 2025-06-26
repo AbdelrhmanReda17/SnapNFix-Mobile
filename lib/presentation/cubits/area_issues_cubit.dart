@@ -23,7 +23,6 @@ class AreaIssuesCubit extends Cubit<AreaIssuesState> {
 
     try {
       final result = await _getAreaIssuesUseCase(areaName);
-
       result.when(
         success: (issues) {
           emit(AreaIssuesState.loaded(issues: issues, areaName: areaName));

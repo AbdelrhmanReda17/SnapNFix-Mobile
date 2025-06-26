@@ -130,9 +130,10 @@ class _AreaManagementScreenState extends State<AreaManagementScreen>
                             )
                             : null,
                     filled: true,
-                    fillColor: Theme.of(
-                      context,
-                    ).colorScheme.surfaceContainerHighest.withValues(alpha:0.3),
+                    fillColor: Theme.of(context)
+                        .colorScheme
+                        .surfaceContainerHighest
+                        .withValues(alpha: 0.3),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12.r),
                       borderSide: BorderSide.none,
@@ -157,7 +158,7 @@ class _AreaManagementScreenState extends State<AreaManagementScreen>
               decoration: BoxDecoration(
                 color: Theme.of(
                   context,
-                ).colorScheme.surfaceContainerHighest.withValues(alpha:0.3),
+                ).colorScheme.surfaceContainerHighest.withValues(alpha: 0.3),
                 borderRadius: BorderRadius.circular(12.r),
               ),
               child: TabBar(
@@ -184,7 +185,7 @@ class _AreaManagementScreenState extends State<AreaManagementScreen>
                     text: AppLocalizations.of(context)!.subscribed,
                   ),
                   Tab(
-                    icon: Icon(Icons.explore, size: 20), 
+                    icon: Icon(Icons.explore, size: 20),
                     text: AppLocalizations.of(context)!.allAreas,
                   ),
                 ],
@@ -196,15 +197,24 @@ class _AreaManagementScreenState extends State<AreaManagementScreen>
                 children: [
                   SubscribedAreasList(
                     onAreaTap: (area) {
-                      context.push(Routes.areaIssues, extra: area);
+                      debugPrint('📍 Navigating to area issues for ${area}');
+                      context.push(
+                        Routes.areaIssues,
+                        extra: {'area': area, 'isSubscribed': true},
+                      );
                     },
-                    emptyMessage: AppLocalizations.of(context)!.noSubscribedAreasFound,
+                    emptyMessage:
+                        AppLocalizations.of(context)!.noSubscribedAreasFound,
                   ),
                   AllAreasList(
                     onAreaTap: (area) {
-                      context.push(Routes.areaIssues, extra: area);
+                      context.push(
+                        Routes.areaIssues,
+                        extra: {'area': area, 'isSubscribed': true},
+                      );
                     },
-                    emptyMessage: AppLocalizations.of(context)!.noAreasAvailable,
+                    emptyMessage:
+                        AppLocalizations.of(context)!.noAreasAvailable,
                   ),
                 ],
               ),

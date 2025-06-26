@@ -1,26 +1,30 @@
 import 'package:equatable/equatable.dart';
+import 'package:snapnfix/modules/area_updates/domain/entities/health_condition.dart';
+
 
 class AreaHealthMetrics extends Equatable {
-  final int totalIssues;
-  final int openIssues;
-  final int closedIssues;
-  final int resolvedIssues;
-  final double areaHealthScore;
+  final int inProgressIssuesCount;
+  final int fixedIssuesCount;
+  final int pendingIssuesCount;
+  final HealthCondition healthCondition;
+  final double healthPercentage;
+  final int totalSubscribers;
 
   const AreaHealthMetrics({
-    required this.totalIssues,
-    required this.openIssues,
-    required this.closedIssues,
-    required this.resolvedIssues,
-    required this.areaHealthScore,
+    required this.inProgressIssuesCount,
+    required this.fixedIssuesCount,
+    required this.pendingIssuesCount,
+    required this.healthCondition,
+    required this.healthPercentage,
+    required this.totalSubscribers,
   });
 
   @override
   List<Object?> get props => [
-    totalIssues,
-    openIssues,
-    closedIssues,
-    resolvedIssues,
-    areaHealthScore,
+    inProgressIssuesCount,
+    fixedIssuesCount,
+    pendingIssuesCount,
+    healthCondition,
+    healthPercentage,
   ];
 }

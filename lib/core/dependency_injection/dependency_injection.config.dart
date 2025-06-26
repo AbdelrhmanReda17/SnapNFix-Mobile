@@ -42,6 +42,10 @@ import '../../modules/area_updates/domain/usecases/unsubscribe_from_area_use_cas
     as _i831;
 import '../../modules/area_updates/presentation/cubits/all_areas_cubit.dart'
     as _i141;
+import '../../modules/area_updates/presentation/cubits/area_details/area_details_cubit.dart'
+    as _i800;
+import '../../modules/area_updates/presentation/cubits/area_subscription_notifier.dart'
+    as _i859;
 import '../../modules/area_updates/presentation/cubits/subscribed_areas_cubit.dart'
     as _i746;
 import '../../modules/authentication/data/datasources/authentication_remote_data_source.dart'
@@ -194,6 +198,7 @@ extension GetItInjectableX on _i174.GetIt {
     );
     final fCMModule = _$FCMModule();
     final networkModule = _$NetworkModule();
+    final areaUpdatesPresentationModule = _$AreaUpdatesPresentationModule();
     final reportsDataModule = _$ReportsDataModule();
     final locationModule = _$LocationModule();
     final authenticationDataModule = _$AuthenticationDataModule();
@@ -204,6 +209,7 @@ extension GetItInjectableX on _i174.GetIt {
     final settingsDataModule = _$SettingsDataModule();
     final issuesRepositoryModule = _$IssuesRepositoryModule();
     final areaUpdatesRepositoryModule = _$AreaUpdatesRepositoryModule();
+    final areaUpdatesUseCaseModule = _$AreaUpdatesUseCaseModule();
     final reportsRepositoryModule = _$ReportsRepositoryModule();
     final settingsRepositoryModule = _$SettingsRepositoryModule();
     final issuesUsecaseModule = _$IssuesUsecaseModule();
@@ -212,8 +218,6 @@ extension GetItInjectableX on _i174.GetIt {
     final reportsPresentationModule = _$ReportsPresentationModule();
     final settingsUsecaseModule = _$SettingsUsecaseModule();
     final authenticationRepositoryModule = _$AuthenticationRepositoryModule();
-    final areaUpdatesUseCaseModule = _$AreaUpdatesUseCaseModule();
-    final areaUpdatesPresentationModule = _$AreaUpdatesPresentationModule();
     final settingsPresentationModule = _$SettingsPresentationModule();
     final authenticationUseCaseModule = _$AuthenticationUseCaseModule();
     final authenticationPresentationModule =
@@ -227,6 +231,8 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i783.SecureStorageService());
     gh.singleton<_i835.SharedPreferencesService>(
         () => _i835.SharedPreferencesService());
+    gh.singleton<_i859.AreaSubscriptionNotifier>(
+        () => areaUpdatesPresentationModule.provideAreaSubscriptionNotifier());
     gh.lazySingleton<_i810.BaseReportLocalDataSource>(
         () => reportsDataModule.provideReportLocalDataSource());
     gh.lazySingleton<_i579.NavigationService>(() => _i579.NavigationService());
@@ -289,11 +295,37 @@ extension GetItInjectableX on _i174.GetIt {
     gh.singleton<_i415.BaseAreaUpdatesRepository>(() =>
         areaUpdatesRepositoryModule.provideAreaUpdatesRepository(
             gh<_i758.BaseAreaUpdatesRemoteDataSource>()));
+    gh.factory<_i317.GetSubscribedAreasUseCase>(() =>
+        areaUpdatesUseCaseModule.provideGetSubscribedAreasUseCase(
+            gh<_i415.BaseAreaUpdatesRepository>()));
+    gh.factory<_i805.GetAllAreasUseCase>(() => areaUpdatesUseCaseModule
+        .provideGetAllAreasUseCase(gh<_i415.BaseAreaUpdatesRepository>()));
+    gh.factory<_i370.SubscribeToAreaUseCase>(() => areaUpdatesUseCaseModule
+        .provideSubscribeToAreaUseCase(gh<_i415.BaseAreaUpdatesRepository>()));
+    gh.factory<_i831.UnsubscribeFromAreaUseCase>(() =>
+        areaUpdatesUseCaseModule.provideUnsubscribeFromAreaUseCase(
+            gh<_i415.BaseAreaUpdatesRepository>()));
+    gh.factory<_i733.ToggleAreaSubscriptionUseCase>(() =>
+        areaUpdatesUseCaseModule.provideToggleAreaSubscriptionUseCase(
+            gh<_i415.BaseAreaUpdatesRepository>()));
+    gh.factory<_i63.GetAreaDetailsUseCase>(() => areaUpdatesUseCaseModule
+        .provideGetAreaDetailsUseCase(gh<_i415.BaseAreaUpdatesRepository>()));
+    gh.factory<_i988.GetAreaHealthUseCase>(() => areaUpdatesUseCaseModule
+        .provideGetAreaHealthUseCase(gh<_i415.BaseAreaUpdatesRepository>()));
+    gh.factory<_i574.GetAreaSpecificIssuesUseCase>(() =>
+        areaUpdatesUseCaseModule.provideGetAreaSpecificIssuesUseCase(
+            gh<_i415.BaseAreaUpdatesRepository>()));
     gh.lazySingleton<_i515.BaseReportRepository>(
         () => reportsRepositoryModule.provideReportRepository(
               gh<_i810.BaseReportLocalDataSource>(),
               gh<_i71.BaseReportRemoteDataSource>(),
               gh<_i1041.ConnectivityService>(),
+            ));
+    gh.factory<_i746.SubscribedAreasCubit>(
+        () => areaUpdatesPresentationModule.provideSubscribedAreasCubit(
+              gh<_i317.GetSubscribedAreasUseCase>(),
+              gh<_i831.UnsubscribeFromAreaUseCase>(),
+              gh<_i859.AreaSubscriptionNotifier>(),
             ));
     gh.lazySingleton<_i150.BaseSettingsRepository>(
         () => settingsRepositoryModule.provideSettingsRepository(
@@ -330,6 +362,12 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i610.GetIssueSnapReportsUseCase>(() =>
         reportsUsecaseModule.provideGetIssueSnapReportsUseCase(
             gh<_i515.BaseReportRepository>()));
+    gh.factory<_i800.AreaDetailsCubit>(
+        () => areaUpdatesPresentationModule.provideAreaDetailsCubit(
+              gh<_i63.GetAreaDetailsUseCase>(),
+              gh<_i733.ToggleAreaSubscriptionUseCase>(),
+              gh<_i859.AreaSubscriptionNotifier>(),
+            ));
     gh.factory<_i948.IssueFastReportsCubit>(() => reportsPresentationModule
         .provideUserReportsCubit(gh<_i1007.GetIssueFastReportsUseCase>()));
     gh.lazySingleton<_i182.EditProfileUseCase>(() => settingsUsecaseModule
@@ -342,46 +380,22 @@ extension GetItInjectableX on _i174.GetIt {
             ));
     gh.factory<_i366.IssueDetailsCubit>(() => issuesPresentationModule
         .provideIssueDetailsCubit(gh<_i39.GetIssueDetailsUseCase>()));
-    gh.factory<_i317.GetSubscribedAreasUseCase>(() =>
-        areaUpdatesUseCaseModule.provideGetSubscribedAreasUseCase(
-            gh<_i415.BaseAreaUpdatesRepository>()));
-    gh.factory<_i805.GetAllAreasUseCase>(() => areaUpdatesUseCaseModule
-        .provideGetAllAreasUseCase(gh<_i415.BaseAreaUpdatesRepository>()));
-    gh.factory<_i370.SubscribeToAreaUseCase>(() => areaUpdatesUseCaseModule
-        .provideSubscribeToAreaUseCase(gh<_i415.BaseAreaUpdatesRepository>()));
-    gh.factory<_i831.UnsubscribeFromAreaUseCase>(() =>
-        areaUpdatesUseCaseModule.provideUnsubscribeFromAreaUseCase(
-            gh<_i415.BaseAreaUpdatesRepository>()));
-    gh.factory<_i733.ToggleAreaSubscriptionUseCase>(() =>
-        areaUpdatesUseCaseModule.provideToggleAreaSubscriptionUseCase(
-            gh<_i415.BaseAreaUpdatesRepository>()));
-    gh.factory<_i63.GetAreaDetailsUseCase>(() => areaUpdatesUseCaseModule
-        .provideGetAreaDetailsUseCase(gh<_i415.BaseAreaUpdatesRepository>()));
-    gh.factory<_i988.GetAreaHealthUseCase>(() => areaUpdatesUseCaseModule
-        .provideGetAreaHealthUseCase(gh<_i415.BaseAreaUpdatesRepository>()));
-    gh.factory<_i574.GetAreaSpecificIssuesUseCase>(() =>
-        areaUpdatesUseCaseModule.provideGetAreaSpecificIssuesUseCase(
-            gh<_i415.BaseAreaUpdatesRepository>()));
     gh.factory<_i987.IssueSnapReportsCubit>(() => reportsPresentationModule
         .provideIssueSnapReportsCubit(gh<_i610.GetIssueSnapReportsUseCase>()));
+    gh.factory<_i141.AllAreasCubit>(
+        () => areaUpdatesPresentationModule.provideAllAreasCubit(
+              gh<_i805.GetAllAreasUseCase>(),
+              gh<_i370.SubscribeToAreaUseCase>(),
+              gh<_i859.AreaSubscriptionNotifier>(),
+            ));
     gh.factory<_i36.GetReportStatisticsUseCase>(() =>
         _i36.GetReportStatisticsUseCase(gh<_i515.BaseReportRepository>()));
     gh.factory<_i758.SubmitReportCubit>(() => reportsPresentationModule
         .provideSubmitReportCubit(gh<_i628.SubmitReportUseCase>()));
     gh.factory<_i312.SubmitFastReportCubit>(() => reportsPresentationModule
         .provideSubmitFastReportCubit(gh<_i773.SubmitFastReportUseCase>()));
-    gh.factory<_i141.AllAreasCubit>(
-        () => areaUpdatesPresentationModule.provideAllAreasCubit(
-              gh<_i805.GetAllAreasUseCase>(),
-              gh<_i370.SubscribeToAreaUseCase>(),
-            ));
     gh.factory<_i382.EditProfileCubit>(() => settingsPresentationModule
         .provideEditProfileCubit(gh<_i182.EditProfileUseCase>()));
-    gh.factory<_i746.SubscribedAreasCubit>(
-        () => areaUpdatesPresentationModule.provideSubscribedAreasCubit(
-              gh<_i317.GetSubscribedAreasUseCase>(),
-              gh<_i831.UnsubscribeFromAreaUseCase>(),
-            ));
     gh.factory<_i243.LoginUseCase>(() => authenticationUseCaseModule
         .provideLoginUseCase(gh<_i668.BaseAuthenticationRepository>()));
     gh.factory<_i460.RequestOTPUseCase>(() => authenticationUseCaseModule
@@ -429,6 +443,9 @@ class _$FCMModule extends _i727.FCMModule {}
 
 class _$NetworkModule extends _i358.NetworkModule {}
 
+class _$AreaUpdatesPresentationModule
+    extends _i962.AreaUpdatesPresentationModule {}
+
 class _$ReportsDataModule extends _i922.ReportsDataModule {}
 
 class _$LocationModule extends _i699.LocationModule {}
@@ -449,6 +466,8 @@ class _$IssuesRepositoryModule extends _i629.IssuesRepositoryModule {}
 
 class _$AreaUpdatesRepositoryModule extends _i887.AreaUpdatesRepositoryModule {}
 
+class _$AreaUpdatesUseCaseModule extends _i636.AreaUpdatesUseCaseModule {}
+
 class _$ReportsRepositoryModule extends _i717.ReportsRepositoryModule {}
 
 class _$SettingsRepositoryModule extends _i606.SettingsRepositoryModule {}
@@ -465,11 +484,6 @@ class _$SettingsUsecaseModule extends _i422.SettingsUsecaseModule {}
 
 class _$AuthenticationRepositoryModule
     extends _i361.AuthenticationRepositoryModule {}
-
-class _$AreaUpdatesUseCaseModule extends _i636.AreaUpdatesUseCaseModule {}
-
-class _$AreaUpdatesPresentationModule
-    extends _i962.AreaUpdatesPresentationModule {}
 
 class _$SettingsPresentationModule extends _i247.SettingsPresentationModule {}
 

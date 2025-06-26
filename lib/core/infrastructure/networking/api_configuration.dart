@@ -43,8 +43,8 @@ class ApiEndpoints {
   static const String getAllSubscribedAreas = "api/city-channels/subscribed";
   static const String subscribeToArea = "api/city-channels/subscribe";
   static const String unsubscribeFromArea = "api/city-channels/subscribe/{cityId}";
-  static const String getAreaIssues = "api/city-channels/{areaName}";
-  static const String getAreaHealth = "api/area-health/{areaName}";
+  static const String getAreaIssues = "api/city-channels/{cityId}/issues";  
+  static const String getAreaHealth = "api/city-channels/{cityId}/metrics";
 }
 
 /// Network configuration constants

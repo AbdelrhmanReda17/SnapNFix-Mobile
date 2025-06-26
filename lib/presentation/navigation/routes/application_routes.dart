@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:snapnfix/core/dependency_injection/dependency_injection.dart';
+import 'package:snapnfix/modules/area_updates/domain/entities/area_info.dart';
+import 'package:snapnfix/modules/area_updates/domain/usecases/get_all_area_details.dart';
+import 'package:snapnfix/modules/area_updates/domain/usecases/toggle_area_subscription_use_case.dart';
 import 'package:snapnfix/modules/area_updates/presentation/cubits/all_areas_cubit.dart';
+import 'package:snapnfix/modules/area_updates/presentation/cubits/area_details/area_details_cubit.dart';
+import 'package:snapnfix/modules/area_updates/presentation/cubits/area_subscription_notifier.dart';
 import 'package:snapnfix/modules/area_updates/presentation/cubits/subscribed_areas_cubit.dart';
 import 'package:snapnfix/modules/area_updates/presentation/screens/area_management_screen.dart';
 import 'package:snapnfix/modules/issues/domain/usecases/get_area_issues_use_case.dart';
@@ -24,7 +29,7 @@ import 'package:snapnfix/presentation/cubits/area_issues_cubit.dart';
 import 'package:snapnfix/presentation/navigation/configuration/route_configuration.dart';
 import 'package:snapnfix/presentation/navigation/routes.dart';
 import 'package:snapnfix/presentation/screens/home_screen.dart';
-import 'package:snapnfix/modules/area_updates/presentation/screens/area_issues_chat_screen.dart';
+import 'package:snapnfix/modules/area_updates/presentation/screens/area_issues_screen.dart';
 
 class ApplicationRoutes {
   static final homeRoute = RouteConfiguration(
@@ -120,20 +125,23 @@ class ApplicationRoutes {
     path: Routes.areaIssues,
     name: 'areaIssuesChat',
     builder: (context, state) {
-      String areaName = '';
+      AreaInfo? area;
+      bool isSubscribed = false;
+      debugPrint(
+        '📍 Navigating to area issues chat with state: ${state.extra}',
+      );
+
       if (state.extra != null) {
-        final dynamic area = state.extra;
-        debugPrint('Area extra: $area');
-        areaName = area.name as String;
-        debugPrint('Area name: $areaName');
+        if (state.extra is Map<String, dynamic>) {
+          final extraData = state.extra as Map<String, dynamic>;
+          area = extraData['area'] as AreaInfo?;
+          isSubscribed = extraData['isSubscribed'] ?? false;
+        }
       }
+      area ??= AreaInfo(id: '', name: '', state: '', activeIssuesCount: 0);
       return BlocProvider(
-        create:
-            (context) => AreaIssuesCubit(
-              areaName: areaName,
-              getAreaIssuesUseCase: getIt<GetAreaIssuesUseCase>(),
-            ),
-        child: AreaIssuesChatScreen(area: areaName),
+        create: (context) => getIt<AreaDetailsCubit>(),
+        child: AreaIssuesScreen(areaInfo: area, isSubscribed: isSubscribed),
       );
     },
   );

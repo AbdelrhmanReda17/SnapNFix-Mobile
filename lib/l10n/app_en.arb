@@ -708,7 +708,7 @@
   "@noSubscribedAreasFound": {
     "description": "Empty message for subscribed areas tab"
   },
-  "noAreasAvailable": "No areas available\nTry refreshing or check your connection",
+  "noAreasAvailable": "No areas available",
   "@noAreasAvailable": {
     "description": "Empty message for all areas tab"
   },

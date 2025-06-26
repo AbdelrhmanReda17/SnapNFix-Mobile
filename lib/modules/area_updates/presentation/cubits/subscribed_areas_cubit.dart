@@ -18,7 +18,7 @@ class SubscribedAreasCubit extends HydratedCubit<SubscribedAreasState> {
   String _searchQuery = '';
   DateTime? _lastFetchTime;
   String? _cachedUserPhone;
-  final AreaSubscriptionNotifier _notifier = AreaSubscriptionNotifier();
+  final AreaSubscriptionNotifier _notifier;
   StreamSubscription<AreaSubscriptionEvent>? _subscriptionListener;
   bool _isHomeMode = false;
 
@@ -27,8 +27,10 @@ class SubscribedAreasCubit extends HydratedCubit<SubscribedAreasState> {
   SubscribedAreasCubit({
     required GetSubscribedAreasUseCase getSubscribedAreasUseCase,
     required UnsubscribeFromAreaUseCase unsubscribeFromAreaUseCase,
+    required AreaSubscriptionNotifier notifier,
   }) : _getSubscribedAreasUseCase = getSubscribedAreasUseCase,
        _unsubscribeFromAreaUseCase = unsubscribeFromAreaUseCase,
+       _notifier = notifier,
        super(const SubscribedAreasState.initial()) {
     _subscriptionListener = _notifier.stream.listen((event) {
       if (event.isSubscribed) {

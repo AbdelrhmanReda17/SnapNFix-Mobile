@@ -17,7 +17,7 @@ class AllAreasCubit extends HydratedCubit<AllAreasState> {
   String _searchQuery = '';
   DateTime? _lastFetchTime;
   String? _cachedUserPhone;
-  final AreaSubscriptionNotifier _notifier = AreaSubscriptionNotifier();
+  final AreaSubscriptionNotifier _notifier;
   StreamSubscription<AreaSubscriptionEvent>? _subscriptionListener;
 
   static const Duration _cacheDuration = Duration(minutes: 5);
@@ -25,8 +25,10 @@ class AllAreasCubit extends HydratedCubit<AllAreasState> {
   AllAreasCubit({
     required GetAllAreasUseCase getAllAreasUseCase,
     required SubscribeToAreaUseCase subscribeToAreaUseCase,
+    required AreaSubscriptionNotifier notifier,
   }) : _getAllAreasUseCase = getAllAreasUseCase,
        _subscribeToAreaUseCase = subscribeToAreaUseCase,
+       _notifier = notifier,
        super(const AllAreasState.initial()) {
     _subscriptionListener = _notifier.stream.listen((event) {
       if (!event.isSubscribed) {
@@ -76,7 +78,8 @@ class AllAreasCubit extends HydratedCubit<AllAreasState> {
         _lastFetchTime = DateTime.parse(lastFetchTimeStr);
       }
 
-      final areas = (json['areas'] as List<dynamic>?)
+      final areas =
+          (json['areas'] as List<dynamic>?)
               ?.map((e) => AreaInfoModel.fromJson(e as Map<String, dynamic>))
               .cast<AreaInfo>()
               .toList() ??
@@ -104,12 +107,20 @@ class AllAreasCubit extends HydratedCubit<AllAreasState> {
     if (currentPhone == null) return null;
 
     return state.maybeWhen(
-      loaded: (areas, hasReachedEnd, isLoadingMore, subscribingAreaIds, lastFetchTime, operationError) => {
-        'userPhone': currentPhone,
-        'areas': areas.map((e) => (e as AreaInfoModel).toJson()).toList(),
-        'hasReachedEnd': hasReachedEnd,
-        'lastFetchTime': lastFetchTime?.toIso8601String(),
-      },
+      loaded:
+          (
+            areas,
+            hasReachedEnd,
+            isLoadingMore,
+            subscribingAreaIds,
+            lastFetchTime,
+            operationError,
+          ) => {
+            'userPhone': currentPhone,
+            'areas': areas.map((e) => (e as AreaInfoModel).toJson()).toList(),
+            'hasReachedEnd': hasReachedEnd,
+            'lastFetchTime': lastFetchTime?.toIso8601String(),
+          },
       orElse: () => null,
     );
   }
@@ -120,7 +131,9 @@ class AllAreasCubit extends HydratedCubit<AllAreasState> {
 
     final age = DateTime.now().difference(_lastFetchTime!);
     final isValid = age < _cacheDuration;
-    debugPrint('🕒 All areas cache ${isValid ? 'VALID' : 'EXPIRED'} (age: ${age.inMinutes}m)');
+    debugPrint(
+      '🕒 All areas cache ${isValid ? 'VALID' : 'EXPIRED'} (age: ${age.inMinutes}m)',
+    );
     return isValid;
   }
 
@@ -187,8 +200,9 @@ class AllAreasCubit extends HydratedCubit<AllAreasState> {
     }
 
     if (currentState is AllAreasStateLoaded) {
-      final updatedSubscribing = Set<String>.from(currentState.subscribingAreaIds)
-        ..add(cityId);
+      final updatedSubscribing = Set<String>.from(
+        currentState.subscribingAreaIds,
+      )..add(cityId);
       emit(currentState.copyWith(subscribingAreaIds: updatedSubscribing));
     }
 
@@ -207,8 +221,9 @@ class AllAreasCubit extends HydratedCubit<AllAreasState> {
           debugPrint('Failed to subscribe to area: ${error.message}');
           final currentState = state;
           if (currentState is AllAreasStateLoaded) {
-            final updatedSubscribing = Set<String>.from(currentState.subscribingAreaIds)
-              ..remove(cityId);
+            final updatedSubscribing = Set<String>.from(
+              currentState.subscribingAreaIds,
+            )..remove(cityId);
             emit(
               currentState.copyWith(
                 subscribingAreaIds: updatedSubscribing,
@@ -222,8 +237,9 @@ class AllAreasCubit extends HydratedCubit<AllAreasState> {
       // Remove from subscribing list and show error
       final currentState = state;
       if (currentState is AllAreasStateLoaded) {
-        final updatedSubscribing = Set<String>.from(currentState.subscribingAreaIds)
-          ..remove(cityId);
+        final updatedSubscribing = Set<String>.from(
+          currentState.subscribingAreaIds,
+        )..remove(cityId);
         emit(
           currentState.copyWith(
             subscribingAreaIds: updatedSubscribing,
@@ -235,7 +251,7 @@ class AllAreasCubit extends HydratedCubit<AllAreasState> {
   }
 
   bool isSubscribedToArea(String areaId) {
-    return false; 
+    return false;
   }
 
   bool isSubscribing(String areaId) {
@@ -248,7 +264,8 @@ class AllAreasCubit extends HydratedCubit<AllAreasState> {
 
   void clearOperationError() {
     final currentState = state;
-    if (currentState is AllAreasStateLoaded && currentState.operationError != null) {
+    if (currentState is AllAreasStateLoaded &&
+        currentState.operationError != null) {
       emit(currentState.copyWith(operationError: null));
     }
   }
@@ -267,10 +284,7 @@ class AllAreasCubit extends HydratedCubit<AllAreasState> {
     bool isLoadMore = false,
     bool forceRefresh = false,
   }) async {
-    if (isRefresh &&
-        !forceRefresh &&
-        _searchQuery.isEmpty &&
-        _isCacheValid()) {
+    if (isRefresh && !forceRefresh && _searchQuery.isEmpty && _isCacheValid()) {
       final currentState = state;
       if (currentState is AllAreasStateLoaded &&
           currentState.areas.isNotEmpty) {
@@ -283,7 +297,9 @@ class AllAreasCubit extends HydratedCubit<AllAreasState> {
       emit(const AllAreasState.loading());
     }
 
-    debugPrint('🔄 Loading all areas: page $_currentPage, search "$_searchQuery"');
+    debugPrint(
+      '🔄 Loading all areas: page $_currentPage, search "$_searchQuery"',
+    );
 
     try {
       final result = await _getAllAreasUseCase.call(
@@ -344,27 +360,30 @@ class AllAreasCubit extends HydratedCubit<AllAreasState> {
   void _removeAreaFromState(String areaId) {
     final currentState = state;
     if (currentState is AllAreasStateLoaded) {
-      final updatedAreas = currentState.areas.where((a) => a.id != areaId).toList();
-      final updatedSubscribing = Set<String>.from(currentState.subscribingAreaIds)
-        ..remove(areaId);
-      emit(currentState.copyWith(
-        areas: updatedAreas,
-        subscribingAreaIds: updatedSubscribing,
-        operationError: null,
-      ));
+      final updatedAreas =
+          currentState.areas.where((a) => a.id != areaId).toList();
+      final updatedSubscribing = Set<String>.from(
+        currentState.subscribingAreaIds,
+      )..remove(areaId);
+      emit(
+        currentState.copyWith(
+          areas: updatedAreas,
+          subscribingAreaIds: updatedSubscribing,
+          operationError: null,
+        ),
+      );
     }
   }
 
   void _addAreaToState(AreaInfo newArea) {
     final currentState = state;
     if (currentState is AllAreasStateLoaded) {
-      final existingAreaIndex = currentState.areas.indexWhere((area) => area.id == newArea.id);
+      final existingAreaIndex = currentState.areas.indexWhere(
+        (area) => area.id == newArea.id,
+      );
       if (existingAreaIndex == -1) {
         final updatedAreas = [newArea, ...currentState.areas];
-        emit(currentState.copyWith(
-          areas: updatedAreas,
-          operationError: null,
-        ));
+        emit(currentState.copyWith(areas: updatedAreas, operationError: null));
         debugPrint('✅ Added area ${newArea.id} to all areas state');
       }
     }
@@ -375,4 +394,4 @@ class AllAreasCubit extends HydratedCubit<AllAreasState> {
     _subscriptionListener?.cancel();
     return super.close();
   }
-} 
+}

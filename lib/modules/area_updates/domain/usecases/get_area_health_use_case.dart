@@ -8,7 +8,7 @@ class GetAreaHealthUseCase {
 
   GetAreaHealthUseCase(this._repository);
 
-  Future<Result<AreaHealthMetrics, ApiError>> call(String areaName) async {
-    return await _repository.getAreaHealth(areaName);
+  Future<Result<AreaHealthMetrics, ApiError>> call(String areaId) async {
+    return await _repository.getAreaHealth(areaId);
   }
 }
