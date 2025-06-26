@@ -5,32 +5,19 @@
     
     
       
-      <testcase classname="fastlane.lanes" name="0: default_platform" time="0.0024905">
+      <testcase classname="fastlane.lanes" name="0: default_platform" time="0.0031603">
         
       </testcase>
     
       
-      <testcase classname="fastlane.lanes" name="1: flutter clean" time="5.0112296">
+      <testcase classname="fastlane.lanes" name="1: flutter clean" time="25.5581993">
         
       </testcase>
     
       
-      <testcase classname="fastlane.lanes" name="2: flutter pub get" time="7.9854551">
+      <testcase classname="fastlane.lanes" name="2: flutter pub get" time="15.5430282">
         
-      </testcase>
-    
-      
-      <testcase classname="fastlane.lanes" name="3: cd D:/Projects/SnapNFix-Mobile &amp;&amp; flutter gen-l10n" time="3.3774665">
-        
-      </testcase>
-    
-      
-      <testcase classname="fastlane.lanes" name="4: flutter build apk --release --flavor production --target lib/main_production.dart --no-tree-shake-icons" time="99.3048172">
-        
-      </testcase>
-    
-      
-      <testcase classname="fastlane.lanes" name="5: firebase_app_distribution" time="128.8533348">
+          <failure message="C:/Ruby34-x64/lib/ruby/gems/3.4.0/gems/fastlane-2.227.0/fastlane/lib/fastlane/actions/actions_helper.rb:67:in &apos;Fastlane::Actions.execute_action&apos;&#10;C:/Ruby34-x64/lib/ruby/gems/3.4.0/gems/fastlane-2.227.0/fastlane/lib/fastlane/fast_file.rb:224:in &apos;Fastlane::FastFile.sh&apos;&#10;C:/Ruby34-x64/lib/ruby/gems/3.4.0/gems/fastlane-2.227.0/fastlane/lib/fastlane/fast_file.rb:216:in &apos;Fastlane::FastFile#sh&apos;&#10;Fastfile:7:in &apos;block (2 levels) in Fastlane::FastFile#parsing_binding&apos;&#10;C:/Ruby34-x64/lib/ruby/gems/3.4.0/gems/fastlane-2.227.0/fastlane/lib/fastlane/lane.rb:41:in &apos;Fastlane::Lane#call&apos;&#10;C:/Ruby34-x64/lib/ruby/gems/3.4.0/gems/fastlane-2.227.0/fastlane/lib/fastlane/runner.rb:49:in &apos;block in Fastlane::Runner#execute&apos;&#10;C:/Ruby34-x64/lib/ruby/gems/3.4.0/gems/fastlane-2.227.0/fastlane/lib/fastlane/runner.rb:45:in &apos;Dir.chdir&apos;&#10;C:/Ruby34-x64/lib/ruby/gems/3.4.0/gems/fastlane-2.227.0/fastlane/lib/fastlane/runner.rb:45:in &apos;Fastlane::Runner#execute&apos;&#10;C:/Ruby34-x64/lib/ruby/gems/3.4.0/gems/fastlane-2.227.0/fastlane/lib/fastlane/lane_manager.rb:46:in &apos;Fastlane::LaneManager.cruise_lane&apos;&#10;C:/Ruby34-x64/lib/ruby/gems/3.4.0/gems/fastlane-2.227.0/fastlane/lib/fastlane/command_line_handler.rb:34:in &apos;Fastlane::CommandLineHandler.handle&apos;&#10;C:/Ruby34-x64/lib/ruby/gems/3.4.0/gems/fastlane-2.227.0/fastlane/lib/fastlane/commands_generator.rb:110:in &apos;block (2 levels) in Fastlane::CommandsGenerator#run&apos;&#10;C:/Ruby34-x64/lib/ruby/gems/3.4.0/gems/commander-4.6.0/lib/commander/command.rb:187:in &apos;Commander::Command#call&apos;&#10;C:/Ruby34-x64/lib/ruby/gems/3.4.0/gems/commander-4.6.0/lib/commander/command.rb:157:in &apos;Commander::Command#run&apos;&#10;C:/Ruby34-x64/lib/ruby/gems/3.4.0/gems/commander-4.6.0/lib/commander/runner.rb:444:in &apos;Commander::Runner#run_active_command&apos;&#10;C:/Ruby34-x64/lib/ruby/gems/3.4.0/gems/fastlane-2.227.0/fastlane_core/lib/fastlane_core/ui/fastlane_runner.rb:124:in &apos;Commander::Runner#run!&apos;&#10;C:/Ruby34-x64/lib/ruby/gems/3.4.0/gems/commander-4.6.0/lib/commander/delegates.rb:18:in &apos;Commander::Delegates#run!&apos;&#10;C:/Ruby34-x64/lib/ruby/gems/3.4.0/gems/fastlane-2.227.0/fastlane/lib/fastlane/commands_generator.rb:363:in &apos;Fastlane::CommandsGenerator#run&apos;&#10;C:/Ruby34-x64/lib/ruby/gems/3.4.0/gems/fastlane-2.227.0/fastlane/lib/fastlane/commands_generator.rb:43:in &apos;Fastlane::CommandsGenerator.start&apos;&#10;C:/Ruby34-x64/lib/ruby/gems/3.4.0/gems/fastlane-2.227.0/fastlane/lib/fastlane/cli_tools_distributor.rb:123:in &apos;Fastlane::CLIToolsDistributor.take_off&apos;&#10;C:/Ruby34-x64/lib/ruby/gems/3.4.0/gems/fastlane-2.227.0/bin/fastlane:23:in &apos;&lt;top (required)&gt;&apos;&#10;C:/Ruby34-x64/bin/fastlane:36:in &apos;Kernel#load&apos;&#10;C:/Ruby34-x64/bin/fastlane:36:in &apos;&lt;main&gt;&apos;&#10;&#10;Exit status of command &apos;flutter pub get&apos; was 1 instead of 0.&#10;Resolving dependencies in `D:\Projects\SnapNFix-Mobile`...&#10;Note: intl is pinned to version 0.19.0 by flutter_localizations from the flutter SDK.&#10;See https://dart.dev/go/sdk-version-pinning for details.&#10;&#10;&#10;Because snapnfix depends on flutter_localizations from sdk which depends on intl 0.19.0, intl 0.19.0 is required.&#10;So, because snapnfix depends on intl ^0.20.2, version solving failed.&#10;&#10;&#10;You can try the following suggestion to make the pubspec resolve:&#10;* Consider downgrading your constraint on intl: flutter pub add intl:^0.19.0&#10;Failed to update packages.&#10;" />
         
       </testcase>
     

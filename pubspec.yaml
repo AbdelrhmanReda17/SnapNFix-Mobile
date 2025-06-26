@@ -80,7 +80,6 @@ flutter:
     - assets/images/
     - assets/icons/
     - assets/icons/active/
-
 flutter_gen:
   output: lib/l10n
   line_length: 80
