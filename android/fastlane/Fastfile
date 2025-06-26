@@ -5,15 +5,20 @@ platform :android do
   lane :firebase_distribution do
     sh "flutter clean"
     sh "flutter pub get"
-    sh "cd #{Dir.pwd}/../.. && flutter pub run build_runner build --delete-conflicting-outputs"
-    sh "cd #{Dir.pwd}/../.. && flutter gen-l10n --verbose"
+
+    Dir.chdir("#{Dir.pwd}/../..") do
+      sh "flutter gen-l10n --verbose"
+      sh "flutter pub run build_runner build --delete-conflicting-outputs"
+    end
+
     sh "flutter build apk --release --flavor production --target lib/main_production.dart --no-tree-shake-icons"
+
     firebase_app_distribution(
       app: "1:1091073399966:android:e7b45d2f2bcb636e7baf8f",
       firebase_cli_token: ENV["FIREBASE_CLI_TOKEN"],
       android_artifact_type: "APK",
       android_artifact_path: "../build/app/outputs/flutter-apk/app-production-release.apk",
-      testers: "abdelrhmanrmuhammed@gmail.com, abdelrahmanatef45@gmail.com, abdelrahmanadel203@gmail.com, leewenhoek22@gmail.com, roaa20102002@gmail.com",   
+      testers: "abdelrhmanrmuhammed@gmail.com, abdelrahmanatef45@gmail.com, abdelrahmanadel203@gmail.com, leewenhoek22@gmail.com, roaa20102002@gmail.com",
       release_notes: "This is a production release of SnapnFix app for android.",
     )
   end
