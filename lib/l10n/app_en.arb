@@ -759,5 +759,6 @@
   "issuesPlural": "Issues",
   "@issuesPlural": {
     "description": "Plural form of issues"
-  }
+  },
+  "nonDefectiveManhole" : "Non-Defective Manhole"
 }
