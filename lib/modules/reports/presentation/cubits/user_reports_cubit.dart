@@ -124,7 +124,6 @@ class UserReportsCubit extends HydratedCubit<UserReportsState> {
         ),
       );
 
-      final categoryString = _category?.displayName;
       final statusString = _status?.value;
       final sortString = _sortOption.name;
 
@@ -134,7 +133,7 @@ class UserReportsCubit extends HydratedCubit<UserReportsState> {
 
       final result = await _getUserReportsUseCase.call(
         status: statusString,
-        category: categoryString,
+        category: _category,
         sort: sortString,
         page: _currentPage,
         limit: _pageSize,

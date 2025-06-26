@@ -208,7 +208,10 @@ class _HomeSubscribedAreasSectionState
                 area: area,
                 colorScheme: colorScheme,
                 onTap: () {
-                  context.push(Routes.areaIssues, extra: area);
+                  context.push(Routes.areaIssues, extra: {
+                    'area': area,
+                    'isSubscribed': true,
+                  });
                 },
               );
             },

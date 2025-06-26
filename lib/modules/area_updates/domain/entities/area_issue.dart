@@ -1,20 +1,34 @@
-class AreaIssue {
-  final String id;
-  final String areaId;
-  final String description;
-  final DateTime createdAt;
-  final DateTime updatedAt;
+import 'package:equatable/equatable.dart';
+import 'package:snapnfix/modules/issues/domain/entities/issue_category.dart';
+import 'package:snapnfix/modules/issues/domain/entities/issue_severity.dart';
+import 'package:snapnfix/modules/issues/domain/entities/issue_status.dart';
 
-  AreaIssue({
+class AreaIssue extends Equatable {
+  final String id;
+  final String imagePath;
+  final IssueCategory category;
+  final IssueSeverity severity;
+  final IssueStatus status;
+  final DateTime createdAt;
+
+  const AreaIssue({
     required this.id,
-    required this.areaId,
-    required this.description,
+    required this.imagePath,
+    required this.category,
+    required this.severity,
+    required this.status,
     required this.createdAt,
-    required this.updatedAt,
   });
 
+
   @override
-  String toString() {
-    return 'AreaIssue(id: $id, areaId: $areaId, description: $description, createdAt: $createdAt, updatedAt: $updatedAt)';
-  }
+  List<Object?> get props => [
+    id,
+    imagePath,
+    category,
+    severity,
+    status,
+    createdAt,
+  ];
+
 }

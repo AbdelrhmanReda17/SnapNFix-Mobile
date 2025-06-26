@@ -1036,25 +1036,24 @@ class _ApiService implements ApiService {
   }
 
   @override
-  Future<ApiResponse<PaginatedResponse<IssueModel>>> getAreaIssues(
-    String areaName, {
-    Map<String, dynamic>? query,
-  }) async {
+  Future<ApiResponse<PaginatedResponse<AreaIssueModel>>> getAreaIssues(
+    String cityId,
+    GetAreaIssuesQuery query,
+  ) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
-    queryParameters.addAll(query ?? <String, dynamic>{});
-    queryParameters.removeWhere((k, v) => v == null);
+    queryParameters.addAll(query.toJson());
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
     final _options =
-        _setStreamType<ApiResponse<PaginatedResponse<IssueModel>>>(Options(
+        _setStreamType<ApiResponse<PaginatedResponse<AreaIssueModel>>>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
     )
             .compose(
               _dio.options,
-              'api/city-channels/${areaName}',
+              'api/city-channels/${cityId}/issues',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -1064,13 +1063,13 @@ class _ApiService implements ApiService {
               baseUrl,
             )));
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late ApiResponse<PaginatedResponse<IssueModel>> _value;
+    late ApiResponse<PaginatedResponse<AreaIssueModel>> _value;
     try {
-      _value = ApiResponse<PaginatedResponse<IssueModel>>.fromJson(
+      _value = ApiResponse<PaginatedResponse<AreaIssueModel>>.fromJson(
         _result.data!,
-        (json) => PaginatedResponse<IssueModel>.fromJson(
+        (json) => PaginatedResponse<AreaIssueModel>.fromJson(
           json as Map<String, dynamic>,
-          (json) => IssueModel.fromJson(json as Map<String, dynamic>),
+          (json) => AreaIssueModel.fromJson(json as Map<String, dynamic>),
         ),
       );
     } on Object catch (e, s) {
@@ -1082,7 +1081,7 @@ class _ApiService implements ApiService {
 
   @override
   Future<ApiResponse<AreaHealthMetricsModel>> getAreaHealth(
-      String areaName) async {
+      String cityId) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
@@ -1095,7 +1094,7 @@ class _ApiService implements ApiService {
     )
             .compose(
               _dio.options,
-              'api/area-health/${areaName}',
+              'api/city-channels/${cityId}/metrics',
               queryParameters: queryParameters,
               data: _data,
             )

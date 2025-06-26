@@ -20,7 +20,9 @@ mixin _$AreaDetailsState {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(AreaDetails areaDetails) loaded,
+    required TResult Function(
+            AreaDetails areaDetails, bool isSubscriptionLoading)
+        loaded,
     required TResult Function(ApiError error) error,
   }) =>
       throw _privateConstructorUsedError;
@@ -28,7 +30,8 @@ mixin _$AreaDetailsState {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(AreaDetails areaDetails)? loaded,
+    TResult? Function(AreaDetails areaDetails, bool isSubscriptionLoading)?
+        loaded,
     TResult? Function(ApiError error)? error,
   }) =>
       throw _privateConstructorUsedError;
@@ -36,7 +39,8 @@ mixin _$AreaDetailsState {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(AreaDetails areaDetails)? loaded,
+    TResult Function(AreaDetails areaDetails, bool isSubscriptionLoading)?
+        loaded,
     TResult Function(ApiError error)? error,
     required TResult orElse(),
   }) =>
@@ -132,7 +136,9 @@ class _$InitialImpl implements _Initial {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(AreaDetails areaDetails) loaded,
+    required TResult Function(
+            AreaDetails areaDetails, bool isSubscriptionLoading)
+        loaded,
     required TResult Function(ApiError error) error,
   }) {
     return initial();
@@ -143,7 +149,8 @@ class _$InitialImpl implements _Initial {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(AreaDetails areaDetails)? loaded,
+    TResult? Function(AreaDetails areaDetails, bool isSubscriptionLoading)?
+        loaded,
     TResult? Function(ApiError error)? error,
   }) {
     return initial?.call();
@@ -154,7 +161,8 @@ class _$InitialImpl implements _Initial {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(AreaDetails areaDetails)? loaded,
+    TResult Function(AreaDetails areaDetails, bool isSubscriptionLoading)?
+        loaded,
     TResult Function(ApiError error)? error,
     required TResult orElse(),
   }) {
@@ -249,7 +257,9 @@ class _$LoadingImpl implements _Loading {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(AreaDetails areaDetails) loaded,
+    required TResult Function(
+            AreaDetails areaDetails, bool isSubscriptionLoading)
+        loaded,
     required TResult Function(ApiError error) error,
   }) {
     return loading();
@@ -260,7 +270,8 @@ class _$LoadingImpl implements _Loading {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(AreaDetails areaDetails)? loaded,
+    TResult? Function(AreaDetails areaDetails, bool isSubscriptionLoading)?
+        loaded,
     TResult? Function(ApiError error)? error,
   }) {
     return loading?.call();
@@ -271,7 +282,8 @@ class _$LoadingImpl implements _Loading {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(AreaDetails areaDetails)? loaded,
+    TResult Function(AreaDetails areaDetails, bool isSubscriptionLoading)?
+        loaded,
     TResult Function(ApiError error)? error,
     required TResult orElse(),
   }) {
@@ -329,7 +341,7 @@ abstract class _$$LoadedImplCopyWith<$Res> {
           _$LoadedImpl value, $Res Function(_$LoadedImpl) then) =
       __$$LoadedImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({AreaDetails areaDetails});
+  $Res call({AreaDetails areaDetails, bool isSubscriptionLoading});
 }
 
 /// @nodoc
@@ -346,12 +358,17 @@ class __$$LoadedImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? areaDetails = null,
+    Object? isSubscriptionLoading = null,
   }) {
     return _then(_$LoadedImpl(
       null == areaDetails
           ? _value.areaDetails
           : areaDetails // ignore: cast_nullable_to_non_nullable
               as AreaDetails,
+      isSubscriptionLoading: null == isSubscriptionLoading
+          ? _value.isSubscriptionLoading
+          : isSubscriptionLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -359,14 +376,17 @@ class __$$LoadedImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$LoadedImpl implements _Loaded {
-  const _$LoadedImpl(this.areaDetails);
+  const _$LoadedImpl(this.areaDetails, {this.isSubscriptionLoading = false});
 
   @override
   final AreaDetails areaDetails;
+  @override
+  @JsonKey()
+  final bool isSubscriptionLoading;
 
   @override
   String toString() {
-    return 'AreaDetailsState.loaded(areaDetails: $areaDetails)';
+    return 'AreaDetailsState.loaded(areaDetails: $areaDetails, isSubscriptionLoading: $isSubscriptionLoading)';
   }
 
   @override
@@ -375,11 +395,14 @@ class _$LoadedImpl implements _Loaded {
         (other.runtimeType == runtimeType &&
             other is _$LoadedImpl &&
             (identical(other.areaDetails, areaDetails) ||
-                other.areaDetails == areaDetails));
+                other.areaDetails == areaDetails) &&
+            (identical(other.isSubscriptionLoading, isSubscriptionLoading) ||
+                other.isSubscriptionLoading == isSubscriptionLoading));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, areaDetails);
+  int get hashCode =>
+      Object.hash(runtimeType, areaDetails, isSubscriptionLoading);
 
   /// Create a copy of AreaDetailsState
   /// with the given fields replaced by the non-null parameter values.
@@ -394,10 +417,12 @@ class _$LoadedImpl implements _Loaded {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(AreaDetails areaDetails) loaded,
+    required TResult Function(
+            AreaDetails areaDetails, bool isSubscriptionLoading)
+        loaded,
     required TResult Function(ApiError error) error,
   }) {
-    return loaded(areaDetails);
+    return loaded(areaDetails, isSubscriptionLoading);
   }
 
   @override
@@ -405,10 +430,11 @@ class _$LoadedImpl implements _Loaded {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(AreaDetails areaDetails)? loaded,
+    TResult? Function(AreaDetails areaDetails, bool isSubscriptionLoading)?
+        loaded,
     TResult? Function(ApiError error)? error,
   }) {
-    return loaded?.call(areaDetails);
+    return loaded?.call(areaDetails, isSubscriptionLoading);
   }
 
   @override
@@ -416,12 +442,13 @@ class _$LoadedImpl implements _Loaded {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(AreaDetails areaDetails)? loaded,
+    TResult Function(AreaDetails areaDetails, bool isSubscriptionLoading)?
+        loaded,
     TResult Function(ApiError error)? error,
     required TResult orElse(),
   }) {
     if (loaded != null) {
-      return loaded(areaDetails);
+      return loaded(areaDetails, isSubscriptionLoading);
     }
     return orElse();
   }
@@ -465,9 +492,11 @@ class _$LoadedImpl implements _Loaded {
 }
 
 abstract class _Loaded implements AreaDetailsState {
-  const factory _Loaded(final AreaDetails areaDetails) = _$LoadedImpl;
+  const factory _Loaded(final AreaDetails areaDetails,
+      {final bool isSubscriptionLoading}) = _$LoadedImpl;
 
   AreaDetails get areaDetails;
+  bool get isSubscriptionLoading;
 
   /// Create a copy of AreaDetailsState
   /// with the given fields replaced by the non-null parameter values.
@@ -546,7 +575,9 @@ class _$ErrorImpl implements _Error {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(AreaDetails areaDetails) loaded,
+    required TResult Function(
+            AreaDetails areaDetails, bool isSubscriptionLoading)
+        loaded,
     required TResult Function(ApiError error) error,
   }) {
     return error(this.error);
@@ -557,7 +588,8 @@ class _$ErrorImpl implements _Error {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(AreaDetails areaDetails)? loaded,
+    TResult? Function(AreaDetails areaDetails, bool isSubscriptionLoading)?
+        loaded,
     TResult? Function(ApiError error)? error,
   }) {
     return error?.call(this.error);
@@ -568,7 +600,8 @@ class _$ErrorImpl implements _Error {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(AreaDetails areaDetails)? loaded,
+    TResult Function(AreaDetails areaDetails, bool isSubscriptionLoading)?
+        loaded,
     TResult Function(ApiError error)? error,
     required TResult orElse(),
   }) {

@@ -3,21 +3,23 @@ import 'package:flutter/material.dart';
 import 'package:snapnfix/index.dart';
 import 'package:snapnfix/modules/area_updates/data/models/get_all_areas_query.dart';
 import 'package:snapnfix/modules/area_updates/data/models/get_all_subscribed_areas_query.dart';
+import 'package:snapnfix/modules/area_updates/data/models/get_area_issues_query.dart';
 
 abstract class BaseAreaUpdatesRemoteDataSource {
-  Future<Result<MapEntry<List<IssueModel>, bool>, ApiError>> getAreaIssues(
-    String areaName, {
+  Future<Result<MapEntry<List<AreaIssue>, bool>, ApiError>> getAreaIssues(
+    String areaId, {
+    IssueStatus? status,
     int page = 1,
     int limit = 20,
   });
-  Future<Result<AreaHealthMetricsModel, ApiError>> getAreaHealth(
-    String areaName,
-  );
+
+  Future<Result<AreaHealthMetricsModel, ApiError>> getAreaHealth(String areaId);
   Future<Result<MapEntry<List<AreaInfoModel>, bool>, ApiError>> getAllAreas({
     int page = 1,
     int limit = 10,
     String? searchTerm,
   });
+
   Future<Result<MapEntry<List<AreaInfoModel>, bool>, ApiError>>
   getSubscribedAreas({int page = 1, int limit = 10, String? searchTerm});
   Future<Result<void, ApiError>> subscribeToArea(String cityId);
@@ -78,20 +80,12 @@ class AreaUpdatesRemoteDataSource extends BaseAreaUpdatesRemoteDataSource {
 
   @override
   Future<Result<AreaHealthMetricsModel, ApiError>> getAreaHealth(
-    String areaName,
+    String areaId,
   ) async {
     try {
-      // Mock implementation - replace with actual API call
-      await Future.delayed(const Duration(milliseconds: 300));
-      final mockHealth = AreaHealthMetricsModel(
-        totalIssues: 15,
-        openIssues: 5,
-        closedIssues: 10,
-        resolvedIssues: 10,
-        areaHealthScore: 0.75,
+      return await _handleApiCall<AreaHealthMetricsModel>(
+        apiCall: () => _apiService.getAreaHealth(areaId),
       );
-
-      return Result.success(mockHealth);
     } catch (e) {
       return Result.failure(
         ApiError(message: 'Failed to load area health: $e'),
@@ -100,20 +94,21 @@ class AreaUpdatesRemoteDataSource extends BaseAreaUpdatesRemoteDataSource {
   }
 
   @override
-  Future<Result<MapEntry<List<IssueModel>, bool>, ApiError>> getAreaIssues(
-    String areaName, {
+  Future<Result<MapEntry<List<AreaIssue>, bool>, ApiError>> getAreaIssues(
+    String areaId, {
+    IssueStatus? status,
     int page = 1,
     int limit = 20,
   }) async {
     try {
-      final response = await _handleApiCall<PaginatedResponse<IssueModel>>(
+      final response = await _handleApiCall<PaginatedResponse<AreaIssue>>(
         apiCall:
             () => _apiService.getAreaIssues(
-              areaName,
-              query: {'page': page, 'limit': limit},
+              areaId,
+              GetAreaIssuesQuery(page: page, limit: limit, status: status),
             ),
       );
-      return response.when<Result<MapEntry<List<IssueModel>, bool>, ApiError>>(
+      return response.when<Result<MapEntry<List<AreaIssue>, bool>, ApiError>>(
         success: (data) {
           return Result.success(MapEntry(data.items, data.hasNextPage));
         },
@@ -129,10 +124,10 @@ class AreaUpdatesRemoteDataSource extends BaseAreaUpdatesRemoteDataSource {
   }
 
   @override
-  Future<Result<void, ApiError>> subscribeToArea(String cityId) async {
+  Future<Result<void, ApiError>> subscribeToArea(String areaId) async {
     try {
       final response = await _handleApiCall<bool>(
-        apiCall: () => _apiService.subscribeToArea({'cityId': cityId}),
+        apiCall: () => _apiService.subscribeToArea({'cityId': areaId}),
       );
       return response.when<Result<void, ApiError>>(
         success: (data) {

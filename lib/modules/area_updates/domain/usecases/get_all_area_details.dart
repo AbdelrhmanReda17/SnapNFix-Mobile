@@ -1,10 +1,11 @@
+import 'package:flutter/foundation.dart';
 import 'package:snapnfix/core/infrastructure/networking/error/api_error.dart';
 import 'package:snapnfix/core/utils/result.dart';
 import 'package:snapnfix/modules/area_updates/domain/entities/area_details.dart';
 import 'package:snapnfix/modules/area_updates/domain/entities/area_health_metrics.dart';
 import 'package:snapnfix/modules/area_updates/domain/entities/area_info.dart';
+import 'package:snapnfix/modules/area_updates/domain/entities/area_issue.dart';
 import 'package:snapnfix/modules/area_updates/domain/repositories/base_area_updates_repository.dart';
-import 'package:snapnfix/modules/issues/domain/entities/issue.dart';
 
 class GetAreaDetailsUseCase {
   final BaseAreaUpdatesRepository _repository;
@@ -12,40 +13,40 @@ class GetAreaDetailsUseCase {
   GetAreaDetailsUseCase(this._repository);
 
   Future<Result<AreaDetails, ApiError>> call({
-    required String areaName,
+    required AreaInfo area,
+    bool isSubscribed = false,
     int page = 1,
     int limit = 20,
   }) async {
-    if (areaName.trim().isEmpty) {
-      return Result.failure(ApiError(message: 'Area name cannot be empty'));
-    }
-
     try {
-      // Execute all calls concurrently
       final results = await Future.wait([
-        _repository.getAreaIssues(areaName, page: page, limit: limit),
-        _repository.getAreaHealth(areaName),
-        _repository.getSubscribedAreas(),
-      ]);      
-      final issuesResult = results[0] as Result<List<Issue>, ApiError>;
+        _repository.getAreaIssues(area.id, page: page, limit: limit),
+        _repository.getAreaHealth(area.id),
+      ]);
+      final issuesResult =
+          results[0] as Result<MapEntry<List<AreaIssue>, bool>, ApiError>;
       final healthResult = results[1] as Result<AreaHealthMetrics, ApiError>;
-      final subscriptionsResult = results[2] as Result<List<AreaInfo>, ApiError>;
-      final issues = issuesResult.when(
-        success: (issues) => issues,
+
+      final issuesData = issuesResult.when(
+        success: (data) => data,
         failure: (error) => throw error,
       );
+
+      debugPrint(
+        '📍 issuesData: Fetched ${issuesData.key.length} issues for area ${area.name}',
+      );
+
       final healthMetrics = healthResult.when(
         success: (metrics) => metrics,
         failure: (error) => throw error,
-      );      final subscribedAreas = subscriptionsResult.when(
-        success: (areas) => areas,
-        failure: (error) => throw error,
       );
+
       final areaDetails = AreaDetails(
-        areaName,
-        issues: issues,
+        area,
+        issues: issuesData.key,
         healthMetrics: healthMetrics,
-        isSubscribed: subscribedAreas.any((area) => area.name == areaName),
+        isSubscribed: isSubscribed,
+        hasNext: issuesData.value,
       );
 
       return Result.success(areaDetails);

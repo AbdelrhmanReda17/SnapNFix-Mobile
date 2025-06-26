@@ -7,37 +7,19 @@ class ToggleAreaSubscriptionUseCase {
 
   ToggleAreaSubscriptionUseCase(this._repository);
 
-  Future<Result<bool, ApiError>> call(String areaName) async {
-    if (areaName.trim().isEmpty) {
-      return Result.failure(ApiError(message: 'Area name cannot be empty'));
+  Future<Result<bool, ApiError>> call(String areaId, bool isSubscribed) async {
+    if (isSubscribed) {
+      final result = await _repository.unsubscribeFromArea(areaId);
+      return result.when(
+        success: (_) => Result.success(true),
+        failure: (error) => Result.failure(error),
+      );
+    } else {
+      final result = await _repository.subscribeToArea(areaId);
+      return result.when(
+        success: (_) => Result.success(true),
+        failure: (error) => Result.failure(error),
+      );
     }
-
-    // First get current subscriptions to check if already subscribed
-    final subscriptionsResult = await _repository.getSubscribedAreas();
-
-    return subscriptionsResult.when(
-      success: (subscribedAreas) async {
-        final isCurrentlySubscribed = subscribedAreas.key.contains(areaName);
-
-        if (isCurrentlySubscribed) {
-          // Unsubscribe
-          final unsubscribeResult = await _repository.unsubscribeFromArea(
-            areaName,
-          );
-          return unsubscribeResult.when(
-            success: (_) => Result.success(false), // false = unsubscribed
-            failure: (error) => Result.failure(error),
-          );
-        } else {
-          // Subscribe
-          final subscribeResult = await _repository.subscribeToArea(areaName);
-          return subscribeResult.when(
-            success: (_) => Result.success(true), // true = subscribed
-            failure: (error) => Result.failure(error),
-          );
-        }
-      },
-      failure: (error) => Result.failure(error),
-    );
   }
 }

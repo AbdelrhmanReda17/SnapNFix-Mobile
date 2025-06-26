@@ -662,7 +662,7 @@
   "@noSubscribedAreasFound": {
     "description": "Empty message for subscribed areas tab"
   },
-  "noAreasAvailable": "لا توجد مناطق متاحة\nحاول التحديث أو تحقق من الاتصال",
+  "noAreasAvailable": "لا توجد مناطق متاحة,
   "@noAreasAvailable": {
     "description": "Empty message for all areas tab"
   },

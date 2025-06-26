@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
 import 'package:snapnfix/modules/area_updates/data/models/get_all_areas_query.dart';
 import 'package:snapnfix/modules/area_updates/data/models/get_all_subscribed_areas_query.dart';
+import 'package:snapnfix/modules/area_updates/data/models/get_area_issues_query.dart';
 import 'package:snapnfix/modules/issues/data/models/get_nearby_issues_query.dart';
 import 'package:snapnfix/modules/issues/data/models/markers.dart';
 import 'package:snapnfix/modules/reports/data/models/create_fast_report_request.dart';
@@ -130,18 +131,16 @@ abstract class ApiService {
   );
 
   @DELETE(ApiEndpoints.unsubscribeFromArea)
-  Future<ApiResponse<bool>> unsubscribeFromArea(
-    @Path('cityId') String cityId,
-  );
+  Future<ApiResponse<bool>> unsubscribeFromArea(@Path('cityId') String cityId);
 
   @GET(ApiEndpoints.getAreaIssues)
-  Future<ApiResponse<PaginatedResponse<IssueModel>>> getAreaIssues(
-    @Path('areaName') String areaName, {
-    @Queries() Map<String, dynamic>? query,
-  });
+  Future<ApiResponse<PaginatedResponse<AreaIssueModel>>> getAreaIssues(
+    @Path('cityId') String cityId,
+    @Queries() GetAreaIssuesQuery query,
+  );
 
   @GET(ApiEndpoints.getAreaHealth)
   Future<ApiResponse<AreaHealthMetricsModel>> getAreaHealth(
-    @Path('areaName') String areaName,
+    @Path('cityId') String cityId,
   );
 }

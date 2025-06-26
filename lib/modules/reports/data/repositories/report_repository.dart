@@ -1,8 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:snapnfix/core/core.dart';
-import 'package:snapnfix/core/infrastructure/connectivity/connectivity_service.dart';
-import 'package:snapnfix/core/infrastructure/networking/error/api_error.dart';
-import 'package:snapnfix/core/utils/result.dart';
+import 'package:snapnfix/modules/issues/domain/entities/issue_category.dart';
 import 'package:snapnfix/modules/reports/data/datasources/report_local_data_source.dart';
 import 'package:snapnfix/modules/reports/data/datasources/report_remote_data_source.dart';
 import 'package:snapnfix/modules/reports/data/models/fast_report_model.dart';
@@ -214,7 +212,7 @@ class ReportRepository implements BaseReportRepository {
   Future<Result<MapEntry<List<SnapReportModel>, bool>, String>> getUserReports({
     String? sort,
     String? status,
-    String? category,
+    IssueCategory? category,
     int page = 1,
     int limit = 10,
   }) async {
