@@ -64,12 +64,15 @@ class IssueSnapReportsCubit extends Cubit<IssueSnapReportsState> {
       result.when(
         success: (newReports) {
           if (isClosed) return;
+          final hasNextPage = newReports.value;
+          final hasReachedEnd = !hasNextPage;
+          
           final updatedReports =
               refresh
                   ? List<SnapReportModel>.from(newReports.key)
                   : [...state.reports, ...newReports.key];
 
-          if (newReports.value && newReports.key.length == _pageSize) {
+          if (hasNextPage && newReports.key.isNotEmpty) {
             _currentPage++;
           }
 
@@ -78,7 +81,7 @@ class IssueSnapReportsCubit extends Cubit<IssueSnapReportsState> {
               reports: updatedReports,
               isLoading: false,
               isLoadingMore: false,
-              hasReachedEnd: newReports.value,
+              hasReachedEnd: hasReachedEnd,
               error: null,
             ),
           );

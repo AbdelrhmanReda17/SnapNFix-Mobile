@@ -4,10 +4,10 @@ part 'get_all_subscribed_areas_query.g.dart';
 
 @JsonSerializable()
 class GetAllSubscribedAreasQuery {
-  const GetAllSubscribedAreasQuery({this.searchTerm, this.page = 1, this.limit = 10});
+  const GetAllSubscribedAreasQuery({this.searchTerm, this.pageNumber = 1, this.pageSize = 10});
   final String? searchTerm;
-  final int page;
-  final int limit;
+  final int pageNumber;
+  final int pageSize;
 
   factory GetAllSubscribedAreasQuery.fromJson(Map<String, dynamic> json) =>
       _$GetAllSubscribedAreasQueryFromJson(json);

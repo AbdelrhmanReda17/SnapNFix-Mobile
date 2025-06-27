@@ -77,7 +77,7 @@ class ReportRepository implements BaseReportRepository {
       if (!isConnected) {
         return Result.failure(
           ApiError(
-            message:  'No internet connection. Please try again later.',
+            message: 'No internet connection. Please try again later.',
             code: 'no_internet',
           ),
         );
@@ -230,7 +230,6 @@ class ReportRepository implements BaseReportRepository {
         page: page,
         limit: limit,
       );
-      // Map ApiErrorModel to String if failure
       return result.when(
         success: (data) => Result.success(data),
         failure: (error) => Result.failure(error.toString()),

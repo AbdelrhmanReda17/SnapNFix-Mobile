@@ -1,7 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:snapnfix/core/config/application_configurations.dart';
 import 'package:snapnfix/core/dependency_injection/dependency_injection.dart';
 import 'package:snapnfix/core/infrastructure/storage/shared_preferences_service.dart';
@@ -14,7 +12,9 @@ import 'package:snapnfix/modules/reports/data/models/report_statistics_model.dar
 class ReportStatisticsCubit extends Cubit<ReportStatisticsState> {
   final GetReportStatisticsUseCase _getReportStatisticsUseCase;
   final String userId =
-      getIt<ApplicationConfigurations>().currentSession?.user.phoneNumber ?? '';
+      getIt<ApplicationConfigurations>().currentSession?.user.phoneNumber ??
+      getIt<ApplicationConfigurations>().currentSession?.user.email ??
+      'default_user';
   late final String _cacheKey;
 
   static const _cacheDuration = Duration(minutes: 0);

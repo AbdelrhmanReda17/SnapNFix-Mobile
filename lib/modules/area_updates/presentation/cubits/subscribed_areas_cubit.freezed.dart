@@ -24,6 +24,7 @@ mixin _$SubscribedAreasState {
             List<AreaInfo> areas,
             bool hasReachedEnd,
             bool isLoadingMore,
+            bool isRefreshing,
             Set<String> unsubscribingAreaIds,
             DateTime? lastFetchTime,
             String? operationError)
@@ -39,6 +40,7 @@ mixin _$SubscribedAreasState {
             List<AreaInfo> areas,
             bool hasReachedEnd,
             bool isLoadingMore,
+            bool isRefreshing,
             Set<String> unsubscribingAreaIds,
             DateTime? lastFetchTime,
             String? operationError)?
@@ -54,6 +56,7 @@ mixin _$SubscribedAreasState {
             List<AreaInfo> areas,
             bool hasReachedEnd,
             bool isLoadingMore,
+            bool isRefreshing,
             Set<String> unsubscribingAreaIds,
             DateTime? lastFetchTime,
             String? operationError)?
@@ -162,6 +165,7 @@ class _$SubscribedAreasStateInitialImpl implements SubscribedAreasStateInitial {
             List<AreaInfo> areas,
             bool hasReachedEnd,
             bool isLoadingMore,
+            bool isRefreshing,
             Set<String> unsubscribingAreaIds,
             DateTime? lastFetchTime,
             String? operationError)
@@ -180,6 +184,7 @@ class _$SubscribedAreasStateInitialImpl implements SubscribedAreasStateInitial {
             List<AreaInfo> areas,
             bool hasReachedEnd,
             bool isLoadingMore,
+            bool isRefreshing,
             Set<String> unsubscribingAreaIds,
             DateTime? lastFetchTime,
             String? operationError)?
@@ -198,6 +203,7 @@ class _$SubscribedAreasStateInitialImpl implements SubscribedAreasStateInitial {
             List<AreaInfo> areas,
             bool hasReachedEnd,
             bool isLoadingMore,
+            bool isRefreshing,
             Set<String> unsubscribingAreaIds,
             DateTime? lastFetchTime,
             String? operationError)?
@@ -305,6 +311,7 @@ class _$SubscribedAreasStateLoadingImpl implements SubscribedAreasStateLoading {
             List<AreaInfo> areas,
             bool hasReachedEnd,
             bool isLoadingMore,
+            bool isRefreshing,
             Set<String> unsubscribingAreaIds,
             DateTime? lastFetchTime,
             String? operationError)
@@ -323,6 +330,7 @@ class _$SubscribedAreasStateLoadingImpl implements SubscribedAreasStateLoading {
             List<AreaInfo> areas,
             bool hasReachedEnd,
             bool isLoadingMore,
+            bool isRefreshing,
             Set<String> unsubscribingAreaIds,
             DateTime? lastFetchTime,
             String? operationError)?
@@ -341,6 +349,7 @@ class _$SubscribedAreasStateLoadingImpl implements SubscribedAreasStateLoading {
             List<AreaInfo> areas,
             bool hasReachedEnd,
             bool isLoadingMore,
+            bool isRefreshing,
             Set<String> unsubscribingAreaIds,
             DateTime? lastFetchTime,
             String? operationError)?
@@ -408,6 +417,7 @@ abstract class _$$SubscribedAreasStateLoadedImplCopyWith<$Res> {
       {List<AreaInfo> areas,
       bool hasReachedEnd,
       bool isLoadingMore,
+      bool isRefreshing,
       Set<String> unsubscribingAreaIds,
       DateTime? lastFetchTime,
       String? operationError});
@@ -431,6 +441,7 @@ class __$$SubscribedAreasStateLoadedImplCopyWithImpl<$Res>
     Object? areas = null,
     Object? hasReachedEnd = null,
     Object? isLoadingMore = null,
+    Object? isRefreshing = null,
     Object? unsubscribingAreaIds = null,
     Object? lastFetchTime = freezed,
     Object? operationError = freezed,
@@ -447,6 +458,10 @@ class __$$SubscribedAreasStateLoadedImplCopyWithImpl<$Res>
       isLoadingMore: null == isLoadingMore
           ? _value.isLoadingMore
           : isLoadingMore // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isRefreshing: null == isRefreshing
+          ? _value.isRefreshing
+          : isRefreshing // ignore: cast_nullable_to_non_nullable
               as bool,
       unsubscribingAreaIds: null == unsubscribingAreaIds
           ? _value._unsubscribingAreaIds
@@ -471,6 +486,7 @@ class _$SubscribedAreasStateLoadedImpl implements SubscribedAreasStateLoaded {
       {required final List<AreaInfo> areas,
       required this.hasReachedEnd,
       required this.isLoadingMore,
+      this.isRefreshing = false,
       final Set<String> unsubscribingAreaIds = const <String>{},
       this.lastFetchTime,
       this.operationError})
@@ -489,6 +505,9 @@ class _$SubscribedAreasStateLoadedImpl implements SubscribedAreasStateLoaded {
   final bool hasReachedEnd;
   @override
   final bool isLoadingMore;
+  @override
+  @JsonKey()
+  final bool isRefreshing;
   final Set<String> _unsubscribingAreaIds;
   @override
   @JsonKey()
@@ -506,7 +525,7 @@ class _$SubscribedAreasStateLoadedImpl implements SubscribedAreasStateLoaded {
 
   @override
   String toString() {
-    return 'SubscribedAreasState.loaded(areas: $areas, hasReachedEnd: $hasReachedEnd, isLoadingMore: $isLoadingMore, unsubscribingAreaIds: $unsubscribingAreaIds, lastFetchTime: $lastFetchTime, operationError: $operationError)';
+    return 'SubscribedAreasState.loaded(areas: $areas, hasReachedEnd: $hasReachedEnd, isLoadingMore: $isLoadingMore, isRefreshing: $isRefreshing, unsubscribingAreaIds: $unsubscribingAreaIds, lastFetchTime: $lastFetchTime, operationError: $operationError)';
   }
 
   @override
@@ -519,6 +538,8 @@ class _$SubscribedAreasStateLoadedImpl implements SubscribedAreasStateLoaded {
                 other.hasReachedEnd == hasReachedEnd) &&
             (identical(other.isLoadingMore, isLoadingMore) ||
                 other.isLoadingMore == isLoadingMore) &&
+            (identical(other.isRefreshing, isRefreshing) ||
+                other.isRefreshing == isRefreshing) &&
             const DeepCollectionEquality()
                 .equals(other._unsubscribingAreaIds, _unsubscribingAreaIds) &&
             (identical(other.lastFetchTime, lastFetchTime) ||
@@ -533,6 +554,7 @@ class _$SubscribedAreasStateLoadedImpl implements SubscribedAreasStateLoaded {
       const DeepCollectionEquality().hash(_areas),
       hasReachedEnd,
       isLoadingMore,
+      isRefreshing,
       const DeepCollectionEquality().hash(_unsubscribingAreaIds),
       lastFetchTime,
       operationError);
@@ -555,14 +577,15 @@ class _$SubscribedAreasStateLoadedImpl implements SubscribedAreasStateLoaded {
             List<AreaInfo> areas,
             bool hasReachedEnd,
             bool isLoadingMore,
+            bool isRefreshing,
             Set<String> unsubscribingAreaIds,
             DateTime? lastFetchTime,
             String? operationError)
         loaded,
     required TResult Function(ApiError error) error,
   }) {
-    return loaded(areas, hasReachedEnd, isLoadingMore, unsubscribingAreaIds,
-        lastFetchTime, operationError);
+    return loaded(areas, hasReachedEnd, isLoadingMore, isRefreshing,
+        unsubscribingAreaIds, lastFetchTime, operationError);
   }
 
   @override
@@ -574,13 +597,14 @@ class _$SubscribedAreasStateLoadedImpl implements SubscribedAreasStateLoaded {
             List<AreaInfo> areas,
             bool hasReachedEnd,
             bool isLoadingMore,
+            bool isRefreshing,
             Set<String> unsubscribingAreaIds,
             DateTime? lastFetchTime,
             String? operationError)?
         loaded,
     TResult? Function(ApiError error)? error,
   }) {
-    return loaded?.call(areas, hasReachedEnd, isLoadingMore,
+    return loaded?.call(areas, hasReachedEnd, isLoadingMore, isRefreshing,
         unsubscribingAreaIds, lastFetchTime, operationError);
   }
 
@@ -593,6 +617,7 @@ class _$SubscribedAreasStateLoadedImpl implements SubscribedAreasStateLoaded {
             List<AreaInfo> areas,
             bool hasReachedEnd,
             bool isLoadingMore,
+            bool isRefreshing,
             Set<String> unsubscribingAreaIds,
             DateTime? lastFetchTime,
             String? operationError)?
@@ -601,8 +626,8 @@ class _$SubscribedAreasStateLoadedImpl implements SubscribedAreasStateLoaded {
     required TResult orElse(),
   }) {
     if (loaded != null) {
-      return loaded(areas, hasReachedEnd, isLoadingMore, unsubscribingAreaIds,
-          lastFetchTime, operationError);
+      return loaded(areas, hasReachedEnd, isLoadingMore, isRefreshing,
+          unsubscribingAreaIds, lastFetchTime, operationError);
     }
     return orElse();
   }
@@ -650,6 +675,7 @@ abstract class SubscribedAreasStateLoaded implements SubscribedAreasState {
       {required final List<AreaInfo> areas,
       required final bool hasReachedEnd,
       required final bool isLoadingMore,
+      final bool isRefreshing,
       final Set<String> unsubscribingAreaIds,
       final DateTime? lastFetchTime,
       final String? operationError}) = _$SubscribedAreasStateLoadedImpl;
@@ -657,6 +683,7 @@ abstract class SubscribedAreasStateLoaded implements SubscribedAreasState {
   List<AreaInfo> get areas;
   bool get hasReachedEnd;
   bool get isLoadingMore;
+  bool get isRefreshing;
   Set<String> get unsubscribingAreaIds;
   DateTime? get lastFetchTime;
   String? get operationError;
@@ -746,6 +773,7 @@ class _$SubscribedAreasStateErrorImpl implements SubscribedAreasStateError {
             List<AreaInfo> areas,
             bool hasReachedEnd,
             bool isLoadingMore,
+            bool isRefreshing,
             Set<String> unsubscribingAreaIds,
             DateTime? lastFetchTime,
             String? operationError)
@@ -764,6 +792,7 @@ class _$SubscribedAreasStateErrorImpl implements SubscribedAreasStateError {
             List<AreaInfo> areas,
             bool hasReachedEnd,
             bool isLoadingMore,
+            bool isRefreshing,
             Set<String> unsubscribingAreaIds,
             DateTime? lastFetchTime,
             String? operationError)?
@@ -782,6 +811,7 @@ class _$SubscribedAreasStateErrorImpl implements SubscribedAreasStateError {
             List<AreaInfo> areas,
             bool hasReachedEnd,
             bool isLoadingMore,
+            bool isRefreshing,
             Set<String> unsubscribingAreaIds,
             DateTime? lastFetchTime,
             String? operationError)?

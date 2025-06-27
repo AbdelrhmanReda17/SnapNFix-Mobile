@@ -210,7 +210,7 @@ class _AreaManagementScreenState extends State<AreaManagementScreen>
                     onAreaTap: (area) {
                       context.push(
                         Routes.areaIssues,
-                        extra: {'area': area, 'isSubscribed': true},
+                        extra: {'area': area, 'isSubscribed': false},
                       );
                     },
                     emptyMessage:

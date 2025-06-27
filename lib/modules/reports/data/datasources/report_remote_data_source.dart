@@ -137,22 +137,25 @@ class ReportRemoteDataSource implements BaseReportRemoteDataSource {
               sort: sort,
               status: status,
               category: category,
-              page: page,
-              limit: limit,
+              pageNumber: page,
+              pageSize: limit,
             ),
           );
         },
       );
-
-      return result
-          .when<Result<MapEntry<List<SnapReportModel>, bool>, ApiError>>(
-            success: (data) {
-              return Result.success(MapEntry(data.items, data.hasNextPage));
-            },
-            failure: (error) {
-              return Result.failure(error);
-            },
+      return result.when<
+        Result<MapEntry<List<SnapReportModel>, bool>, ApiError>
+      >(
+        success: (data) {
+          debugPrint(
+            '📜 Fetched ${data.items.length} reports with hasNextPage: ${data.hasNextPage}',
           );
+          return Result.success(MapEntry(data.items, data.hasNextPage));
+        },
+        failure: (error) {
+          return Result.failure(error);
+        },
+      );
     } catch (error) {
       return Result.failure(
         ApiError(message: error.toString(), code: 'fetch_reports_error'),
@@ -180,7 +183,7 @@ class ReportRemoteDataSource implements BaseReportRemoteDataSource {
         apiCall:
             () => _apiService.getIssueFastReports(
               issueId,
-              GetReportsQuery(sort: sort, page: page, limit: limit),
+              GetReportsQuery(sort: sort, pageNumber: page, pageSize: limit),
             ),
       );
 
@@ -212,7 +215,7 @@ class ReportRemoteDataSource implements BaseReportRemoteDataSource {
         apiCall:
             () => _apiService.getIssueSnapReports(
               issueId,
-              GetReportsQuery(sort: sort, page: page, limit: limit),
+              GetReportsQuery(sort: sort, pageNumber: page, pageSize: limit),
             ),
       );
       return result.when(

@@ -41,12 +41,14 @@ class SubscribedAreasCubit extends HydratedCubit<SubscribedAreasState> {
     });
   }
 
-  String? get _currentUserPhone {
+  String? get _currentUserInfo {
     try {
       return getIt<ApplicationConfigurations>()
-          .currentSession
-          ?.user
-          .phoneNumber;
+              .currentSession
+              ?.user
+              .phoneNumber ??
+          getIt<ApplicationConfigurations>().currentSession?.user.email ??
+          'anonymous';
     } catch (e) {
       debugPrint('Error getting user phone: $e');
       return null;
@@ -54,19 +56,19 @@ class SubscribedAreasCubit extends HydratedCubit<SubscribedAreasState> {
   }
 
   bool _isCacheForCurrentUser() {
-    final currentPhone = _currentUserPhone;
+    final currentPhone = _currentUserInfo;
     if (currentPhone == null || _cachedUserPhone == null) return false;
     return currentPhone == _cachedUserPhone;
   }
 
   @override
-  String get id => 'subscribed_areas_${_currentUserPhone ?? "anonymous"}';
+  String get id => 'subscribed_areas_${_currentUserInfo ?? "anonymous"}';
 
   @override
   SubscribedAreasState? fromJson(Map<String, dynamic> json) {
     try {
       final cachedPhone = json['userPhone'] as String?;
-      final currentPhone = _currentUserPhone;
+      final currentPhone = _currentUserInfo;
 
       if (cachedPhone == null ||
           currentPhone == null ||
@@ -97,6 +99,7 @@ class SubscribedAreasCubit extends HydratedCubit<SubscribedAreasState> {
         areas: areas,
         hasReachedEnd: json['hasReachedEnd'] as bool? ?? true,
         isLoadingMore: false,
+        isRefreshing: false,
         unsubscribingAreaIds: <String>{},
         lastFetchTime: _lastFetchTime,
         operationError: null,
@@ -109,12 +112,20 @@ class SubscribedAreasCubit extends HydratedCubit<SubscribedAreasState> {
 
   @override
   Map<String, dynamic>? toJson(SubscribedAreasState state) {
-    final currentPhone = _currentUserPhone;
+    final currentPhone = _currentUserInfo;
     if (currentPhone == null) return null;
 
     return state.maybeWhen(
       loaded:
-          (areas, hasReachedEnd, _, __, lastFetchTime, ___) => {
+          (
+            List<AreaInfo> areas,
+            bool hasReachedEnd,
+            bool isLoadingMore,
+            bool isRefreshing,
+            Set<String> unsubscribingAreaIds,
+            DateTime? lastFetchTime,
+            String? operationError,
+          ) => {
             'userPhone': currentPhone,
             'areas': areas.map((e) => (e as AreaInfoModel).toJson()).toList(),
             'hasReachedEnd': hasReachedEnd,
@@ -137,7 +148,7 @@ class SubscribedAreasCubit extends HydratedCubit<SubscribedAreasState> {
   }
 
   void _updateCacheTime() {
-    _cachedUserPhone = _currentUserPhone;
+    _cachedUserPhone = _currentUserInfo;
     _lastFetchTime = DateTime.now();
   }
 
@@ -146,7 +157,7 @@ class SubscribedAreasCubit extends HydratedCubit<SubscribedAreasState> {
     _currentPage = 1;
     _searchQuery = '';
     _isHomeMode = false;
-    debugPrint('🔄 Initializing subscribed areas for user: $_currentUserPhone');
+    debugPrint('🔄 Initializing subscribed areas for user: $_currentUserInfo');
     final currentState = state;
     if (currentState is SubscribedAreasStateLoaded &&
         _isCacheValid() &&
@@ -158,19 +169,33 @@ class SubscribedAreasCubit extends HydratedCubit<SubscribedAreasState> {
     await _loadAreas(isRefresh: true);
   }
 
-  Future<void> loadForHome() async {
+  Future<void> loadForHome({bool forceRefresh = false}) async {
     _clearCacheIfUserChanged();
     _isHomeMode = true;
     final currentState = state;
-    if (currentState is SubscribedAreasStateLoaded &&
+
+    if (!forceRefresh &&
+        currentState is SubscribedAreasStateLoaded &&
         _isCacheValid() &&
         currentState.areas.isNotEmpty) {
       debugPrint('✅ Using cached subscribed areas for home');
       final limitedAreas = currentState.areas.take(4).toList();
-      emit(currentState.copyWith(areas: limitedAreas));
+      emit(currentState.copyWith(areas: limitedAreas, isRefreshing: false));
       return;
     }
 
+    if (!forceRefresh &&
+        currentState is SubscribedAreasStateLoaded &&
+        currentState.areas.isNotEmpty) {
+      debugPrint('🔄 Refreshing subscribed areas for home with existing data');
+      final limitedAreas = currentState.areas.take(4).toList();
+      emit(currentState.copyWith(areas: limitedAreas, isRefreshing: true));
+      await _loadSubscribedAreas(limit: 4, isRefreshing: true);
+      return;
+    }
+
+    // No existing data, show loading state
+    debugPrint('🔄 Loading subscribed areas for home (no cache)');
     emit(const SubscribedAreasState.loading());
     await _loadSubscribedAreas(limit: 4);
   }
@@ -270,7 +295,7 @@ class SubscribedAreasCubit extends HydratedCubit<SubscribedAreasState> {
     if (!_isCacheForCurrentUser()) {
       debugPrint('🗑️ User changed, clearing subscribed areas cache...');
       _lastFetchTime = null;
-      _cachedUserPhone = _currentUserPhone;
+      _cachedUserPhone = _currentUserInfo;
       emit(const SubscribedAreasState.initial());
     }
   }
@@ -304,6 +329,7 @@ class SubscribedAreasCubit extends HydratedCubit<SubscribedAreasState> {
     int page = 1,
     int limit = 10,
     bool isLoadMore = false,
+    bool isRefreshing = false,
   }) async {
     debugPrint(
       '🔄 Loading subscribed areas: page $page, search "$_searchQuery"',
@@ -331,6 +357,7 @@ class SubscribedAreasCubit extends HydratedCubit<SubscribedAreasState> {
               areas: newAreas,
               hasReachedEnd: !data.value,
               isLoadingMore: false,
+              isRefreshing: false,
               unsubscribingAreaIds: <String>{},
               lastFetchTime: _lastFetchTime,
               operationError: null,
