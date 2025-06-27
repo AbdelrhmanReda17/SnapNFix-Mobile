@@ -61,4 +61,5 @@ const _$IssueCategoryEnumMap = {
   IssueCategory.garbage: 'garbage',
   IssueCategory.defectiveManhole: 'defectiveManhole',
   IssueCategory.pothole: 'pothole',
+  IssueCategory.nonDefectiveManhole: 'nonDefectiveManhole',
 };

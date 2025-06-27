@@ -3,7 +3,8 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 enum IssueCategory {
   garbage('Garbage'),
   defectiveManhole('Defective Manhole'),
-  pothole('Pothole');
+  pothole('Pothole'),
+  nonDefectiveManhole('Non-Defective Manhole');
 
   final String displayName;
   const IssueCategory(this.displayName);
@@ -16,6 +17,8 @@ enum IssueCategory {
         return localization.defectiveManhole;
       case IssueCategory.pothole:
         return localization.pothole;
+      case IssueCategory.nonDefectiveManhole:
+          return localization.nonDefectiveManhole;
     }
   }
 

@@ -586,7 +586,8 @@
   "submit": "إرسال",
   "high": "عالي",
   "medium": "متوسط",  "low": "منخفض",
-  "garbage": "قمامة",  "defectiveManhole": "غطاء بالوعة تالف",
+  "garbage": "قمامة",  
+  "defectiveManhole": "بالوعة معطلة",
   "pothole": "حفرة في الطريق",  "fastReports": "بلاغات سريعة",  "snapReports": "بلاغات مصورة",
   "anonymous": "مجهول",
   "reportsLabel": "بلاغات",
@@ -662,7 +663,7 @@
   "@noSubscribedAreasFound": {
     "description": "Empty message for subscribed areas tab"
   },
-  "noAreasAvailable": "لا توجد مناطق متاحة,
+  "noAreasAvailable": "لا توجد مناطق متاحة",
   "@noAreasAvailable": {
     "description": "Empty message for all areas tab"
   },
@@ -709,5 +710,6 @@
   "issuesPlural": "مشكلات",
   "@issuesPlural": {
     "description": "Plural form of issues"
-  }
+  },
+  "nonDefectiveManhole" : "بالوعة غير معطلة"
 }
