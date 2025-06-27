@@ -59,8 +59,8 @@ class AreaUpdatesRemoteDataSource extends BaseAreaUpdatesRemoteDataSource {
             () => _apiService.getAllAreas(
               GetAllAreasQuery(
                 searchTerm: searchTerm,
-                page: page,
-                limit: limit,
+                pageNumber: page,
+                pageSize: limit,
               ),
             ),
       );
@@ -105,7 +105,7 @@ class AreaUpdatesRemoteDataSource extends BaseAreaUpdatesRemoteDataSource {
         apiCall:
             () => _apiService.getAreaIssues(
               areaId,
-              GetAreaIssuesQuery(page: page, limit: limit, status: status),
+              GetAreaIssuesQuery(pageNumber: page, pageSize: limit, status: status),
             ),
       );
       return response.when<Result<MapEntry<List<AreaIssue>, bool>, ApiError>>(
@@ -182,8 +182,8 @@ class AreaUpdatesRemoteDataSource extends BaseAreaUpdatesRemoteDataSource {
             () => _apiService.getAllSubscribedAreas(
               GetAllSubscribedAreasQuery(
                 searchTerm: searchTerm,
-                page: page,
-                limit: limit,
+                pageNumber: page,
+                pageSize: limit,
               ),
             ),
       ).then((response) {

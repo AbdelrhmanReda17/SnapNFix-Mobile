@@ -10,6 +10,7 @@ class SubscribedAreasState with _$SubscribedAreasState {
     required List<AreaInfo> areas,
     required bool hasReachedEnd,
     required bool isLoadingMore,
+    @Default(false) bool isRefreshing,
     @Default(<String>{}) Set<String> unsubscribingAreaIds,
     DateTime? lastFetchTime,
     String? operationError,

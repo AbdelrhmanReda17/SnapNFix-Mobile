@@ -59,18 +59,20 @@ class UserReportsCubit extends HydratedCubit<UserReportsState> {
     final difference = now.difference(state.lastUpdated!);
     return difference < _cacheValidDuration;
   }
+
   Future<void> loadReports({
     bool refresh = false,
     ReportStatus? status,
     IssueCategory? category,
     SortOption? sortOption,
     bool forceNetwork = false,
+    bool loadMore = false,
   }) async {
     debugPrint(
-      'Loading reports - refresh: $refresh, forceNetwork: $forceNetwork',
+      'Loading reports - refresh: $refresh, forceNetwork: $forceNetwork, loadMore: $loadMore',
     );
     if (isClosed) return;
-    
+
     try {
       // Update filters
       if (status != null) {
@@ -98,18 +100,25 @@ class UserReportsCubit extends HydratedCubit<UserReportsState> {
           state.reports.isNotEmpty &&
           state.currentStatus == _status &&
           state.currentCategory == _category &&
+          !loadMore &&
           state.currentSortOption == _sortOption) {
         debugPrint('Using valid cached data');
         return;
       }
 
-      if (!refresh && state.hasReachedEnd) {
+      if (!refresh && !loadMore && state.hasReachedEnd) {
         debugPrint('Already reached end, skipping load');
         return;
       }
 
-      final isFirstLoad = state.reports.isEmpty && !refresh;
-      final isPagination = !refresh && state.reports.isNotEmpty;
+      // Prevent multiple concurrent pagination requests
+      if (loadMore && state.isLoadingMore) {
+        debugPrint('Already loading more, skipping duplicate request');
+        return;
+      }
+
+      final isFirstLoad = state.reports.isEmpty && !refresh && !loadMore;
+      final isPagination = (!refresh && state.reports.isNotEmpty) || loadMore;
 
       emit(
         state.copyWith(
@@ -127,9 +136,7 @@ class UserReportsCubit extends HydratedCubit<UserReportsState> {
       final statusString = _status?.value;
       final sortString = _sortOption.name;
 
-      debugPrint(
-        'Fetching reports from network - page: $_currentPage, limit: $_pageSize',
-      );
+      debugPrint('Making API call - page: $_currentPage, refresh: $refresh, loadMore: $loadMore');
 
       final result = await _getUserReportsUseCase.call(
         status: statusString,
@@ -148,15 +155,19 @@ class UserReportsCubit extends HydratedCubit<UserReportsState> {
             'Reports fetched successfully - count: ${response.key.length}',
           );
           final newReports = response.key;
-          // No need to sort here as the API will return sorted data
-          final reachedEnd = response.value;
+          final hasNextPage = response.value;
+          final reachedEnd = !hasNextPage;
+          debugPrint(
+            'Has next page: $hasNextPage, Reached end: $reachedEnd, New reports count: ${newReports.length}',
+          );
 
           final updatedReports =
               refresh
                   ? List<SnapReportModel>.from(newReports)
                   : [...state.reports, ...newReports];
 
-          if (!reachedEnd && newReports.isNotEmpty) {
+          if (hasNextPage && newReports.isNotEmpty) {
+            debugPrint('Incrementing page from $_currentPage to ${_currentPage + 1}');
             _currentPage++;
           }
 
@@ -165,13 +176,15 @@ class UserReportsCubit extends HydratedCubit<UserReportsState> {
               reports: updatedReports,
               isLoading: false,
               isLoadingMore: false,
-              hasReachedEnd: reachedEnd || newReports.isEmpty,
+              hasReachedEnd: reachedEnd,
               error: null,
               lastUpdated: DateTime.now(),
             ),
           );
 
-          debugPrint('State updated - total reports: ${updatedReports.length}');
+          debugPrint(
+            'State updated - total reports: ${updatedReports.length}, hasReachedEnd: ${reachedEnd}',
+          );
         },
         failure: (error) {
           if (isClosed) return;
@@ -182,7 +195,7 @@ class UserReportsCubit extends HydratedCubit<UserReportsState> {
               isLoadingMore: false,
             ),
           );
-          debugPrint('Error loading reports: ${error}');
+          debugPrint('Error loading reports: $error');
         },
       );
     } catch (e) {
@@ -197,6 +210,7 @@ class UserReportsCubit extends HydratedCubit<UserReportsState> {
       debugPrint('Exception in loadReports: $e');
     }
   }
+
   Future<void> clearFilters() async {
     if (isClosed) return;
     _status = null;
