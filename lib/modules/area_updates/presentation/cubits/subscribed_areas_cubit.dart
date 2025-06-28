@@ -33,6 +33,8 @@ class SubscribedAreasCubit extends HydratedCubit<SubscribedAreasState> {
        _notifier = notifier,
        super(const SubscribedAreasState.initial()) {
     _subscriptionListener = _notifier.stream.listen((event) {
+      if (isClosed) return;
+      
       if (event.isSubscribed) {
         _addAreaToState(event.areaInfo);
       } else {
@@ -180,6 +182,7 @@ class SubscribedAreasCubit extends HydratedCubit<SubscribedAreasState> {
         currentState.areas.isNotEmpty) {
       debugPrint('✅ Using cached subscribed areas for home');
       final limitedAreas = currentState.areas.take(4).toList();
+      if (isClosed) return;
       emit(currentState.copyWith(areas: limitedAreas, isRefreshing: false));
       return;
     }
@@ -189,6 +192,7 @@ class SubscribedAreasCubit extends HydratedCubit<SubscribedAreasState> {
         currentState.areas.isNotEmpty) {
       debugPrint('🔄 Refreshing subscribed areas for home with existing data');
       final limitedAreas = currentState.areas.take(4).toList();
+      if (isClosed) return;
       emit(currentState.copyWith(areas: limitedAreas, isRefreshing: true));
       await _loadSubscribedAreas(limit: 4, isRefreshing: true);
       return;
@@ -196,6 +200,7 @@ class SubscribedAreasCubit extends HydratedCubit<SubscribedAreasState> {
 
     // No existing data, show loading state
     debugPrint('🔄 Loading subscribed areas for home (no cache)');
+    if (isClosed) return;
     emit(const SubscribedAreasState.loading());
     await _loadSubscribedAreas(limit: 4);
   }
@@ -209,10 +214,13 @@ class SubscribedAreasCubit extends HydratedCubit<SubscribedAreasState> {
   }
 
   Future<void> loadMore() async {
+    if (isClosed) return;
+    
     final currentState = state;
     if (currentState is SubscribedAreasStateLoaded &&
         !currentState.hasReachedEnd &&
         !currentState.isLoadingMore) {
+      if (isClosed) return;
       emit(currentState.copyWith(isLoadingMore: true));
       _currentPage++;
       await _loadAreas(isLoadMore: true);
@@ -244,6 +252,7 @@ class SubscribedAreasCubit extends HydratedCubit<SubscribedAreasState> {
       final updatedUnsubscribing = Set<String>.from(
         currentState.unsubscribingAreaIds,
       )..add(areaId);
+      if (isClosed) return;
       emit(currentState.copyWith(unsubscribingAreaIds: updatedUnsubscribing));
     }
 
@@ -259,12 +268,15 @@ class SubscribedAreasCubit extends HydratedCubit<SubscribedAreasState> {
           }
         },
         failure: (error) {
+          if (isClosed) return;
+          
           debugPrint('Failed to unsubscribe from area: ${error.message}');
           final currentState = state;
           if (currentState is SubscribedAreasStateLoaded) {
             final updatedUnsubscribing = Set<String>.from(
               currentState.unsubscribingAreaIds,
             )..remove(areaId);
+            if (isClosed) return;
             emit(
               currentState.copyWith(
                 unsubscribingAreaIds: updatedUnsubscribing,
@@ -275,12 +287,15 @@ class SubscribedAreasCubit extends HydratedCubit<SubscribedAreasState> {
         },
       );
     } catch (e) {
+      if (isClosed) return;
+      
       debugPrint('Error unsubscribing from area: $e');
       final currentState = state;
       if (currentState is SubscribedAreasStateLoaded) {
         final updatedUnsubscribing = Set<String>.from(
           currentState.unsubscribingAreaIds,
         )..remove(areaId);
+        if (isClosed) return;
         emit(
           currentState.copyWith(
             unsubscribingAreaIds: updatedUnsubscribing,
@@ -296,6 +311,7 @@ class SubscribedAreasCubit extends HydratedCubit<SubscribedAreasState> {
       debugPrint('🗑️ User changed, clearing subscribed areas cache...');
       _lastFetchTime = null;
       _cachedUserPhone = _currentUserInfo;
+      if (isClosed) return;
       emit(const SubscribedAreasState.initial());
     }
   }
@@ -315,6 +331,7 @@ class SubscribedAreasCubit extends HydratedCubit<SubscribedAreasState> {
     }
 
     if (isRefresh) {
+      if (isClosed) return;
       emit(const SubscribedAreasState.loading());
     }
 
@@ -344,6 +361,8 @@ class SubscribedAreasCubit extends HydratedCubit<SubscribedAreasState> {
 
       result.when(
         success: (data) {
+          if (isClosed) return;
+          
           final currentState = state;
           List<AreaInfo> newAreas = data.key;
           if (isLoadMore && currentState is SubscribedAreasStateLoaded) {
@@ -352,6 +371,7 @@ class SubscribedAreasCubit extends HydratedCubit<SubscribedAreasState> {
 
           _updateCacheTime();
 
+          if (isClosed) return;
           emit(
             SubscribedAreasState.loaded(
               areas: newAreas,
@@ -365,23 +385,31 @@ class SubscribedAreasCubit extends HydratedCubit<SubscribedAreasState> {
           );
         },
         failure: (error) {
+          if (isClosed) return;
+          
           if (isLoadMore) {
             final currentState = state;
             if (currentState is SubscribedAreasStateLoaded) {
+              if (isClosed) return;
               emit(currentState.copyWith(isLoadingMore: false));
             }
           } else {
+            if (isClosed) return;
             emit(SubscribedAreasState.error(error: error));
           }
         },
       );
     } catch (e) {
+      if (isClosed) return;
+      
       if (isLoadMore) {
         final currentState = state;
         if (currentState is SubscribedAreasStateLoaded) {
+          if (isClosed) return;
           emit(currentState.copyWith(isLoadingMore: false));
         }
       } else {
+        if (isClosed) return;
         emit(
           SubscribedAreasState.error(
             error: ApiError(message: 'Failed to load subscribed areas: $e'),
@@ -392,6 +420,8 @@ class SubscribedAreasCubit extends HydratedCubit<SubscribedAreasState> {
   }
 
   void _removeAreaFromState(String areaId) {
+    if (isClosed) return;
+    
     final currentState = state;
     if (currentState is SubscribedAreasStateLoaded) {
       final updatedAreas =
@@ -399,6 +429,7 @@ class SubscribedAreasCubit extends HydratedCubit<SubscribedAreasState> {
       final updatedUnsubscribing = Set<String>.from(
         currentState.unsubscribingAreaIds,
       )..remove(areaId);
+      if (isClosed) return;
       emit(
         currentState.copyWith(
           areas: updatedAreas,
@@ -410,6 +441,8 @@ class SubscribedAreasCubit extends HydratedCubit<SubscribedAreasState> {
   }
 
   void _removeAreaFromStateByInfo(AreaInfo areaInfo) {
+    if (isClosed) return;
+    
     final currentState = state;
     if (currentState is SubscribedAreasStateLoaded) {
       final existingAreaIndex = currentState.areas.indexWhere(
@@ -419,6 +452,7 @@ class SubscribedAreasCubit extends HydratedCubit<SubscribedAreasState> {
         final updatedAreas =
             currentState.areas.where((a) => a.id != areaInfo.id).toList();
 
+        if (isClosed) return;
         emit(currentState.copyWith(areas: updatedAreas, operationError: null));
         debugPrint(
           '✅ Removed area ${areaInfo.id} from subscribed areas state (home mode: $_isHomeMode)',
@@ -436,14 +470,19 @@ class SubscribedAreasCubit extends HydratedCubit<SubscribedAreasState> {
   }
 
   void clearOperationError() {
+    if (isClosed) return;
+    
     final currentState = state;
     if (currentState is SubscribedAreasStateLoaded &&
         currentState.operationError != null) {
+      if (isClosed) return;
       emit(currentState.copyWith(operationError: null));
     }
   }
 
   void _addAreaToState(AreaInfo newArea) {
+    if (isClosed) return;
+    
     final currentState = state;
     if (currentState is SubscribedAreasStateLoaded) {
       final existingAreaIndex = currentState.areas.indexWhere(
@@ -456,6 +495,7 @@ class SubscribedAreasCubit extends HydratedCubit<SubscribedAreasState> {
           debugPrint('🏠 Limited areas to 4 for home mode');
         }
 
+        if (isClosed) return;
         emit(currentState.copyWith(areas: updatedAreas, operationError: null));
         debugPrint(
           '✅ Added area ${newArea.id} to subscribed areas state (home mode: $_isHomeMode)',

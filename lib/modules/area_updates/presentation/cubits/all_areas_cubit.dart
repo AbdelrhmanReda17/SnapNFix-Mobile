@@ -31,8 +31,18 @@ class AllAreasCubit extends HydratedCubit<AllAreasState> {
        _notifier = notifier,
        super(const AllAreasState.initial()) {
     _subscriptionListener = _notifier.stream.listen((event) {
+      if (isClosed) return;
+      
+      debugPrint('📢 AllAreasCubit received subscription event:');
+      debugPrint('  Area: ${event.areaInfo.name} (${event.areaInfo.id})');
+      debugPrint('  Is subscribed: ${event.isSubscribed}');
+
       if (!event.isSubscribed) {
+        debugPrint('➕ Adding area back to all areas (unsubscribed)');
         _addAreaToState(event.areaInfo);
+      } else {
+        debugPrint('➖ Removing area from all areas (subscribed)');
+        _removeAreaFromStateByInfo(event.areaInfo);
       }
     });
   }
@@ -168,10 +178,13 @@ class AllAreasCubit extends HydratedCubit<AllAreasState> {
   }
 
   Future<void> loadMore() async {
+    if (isClosed) return;
+    
     final currentState = state;
     if (currentState is AllAreasStateLoaded &&
         !currentState.hasReachedEnd &&
         !currentState.isLoadingMore) {
+      if (isClosed) return;
       emit(currentState.copyWith(isLoadingMore: true));
       _currentPage++;
       await _loadAreas(isLoadMore: true);
@@ -203,6 +216,7 @@ class AllAreasCubit extends HydratedCubit<AllAreasState> {
       final updatedSubscribing = Set<String>.from(
         currentState.subscribingAreaIds,
       )..add(cityId);
+      if (isClosed) return;
       emit(currentState.copyWith(subscribingAreaIds: updatedSubscribing));
     }
 
@@ -211,19 +225,34 @@ class AllAreasCubit extends HydratedCubit<AllAreasState> {
 
       result.when(
         success: (_) {
+          if (isClosed) return;
+          
           debugPrint('✅ Successfully subscribed to area: $cityId');
-          _removeAreaFromState(cityId);
+          // Remove from subscribing state first
+          final currentState = state;
+          if (currentState is AllAreasStateLoaded) {
+            final updatedSubscribing = Set<String>.from(
+              currentState.subscribingAreaIds,
+            )..remove(cityId);
+            if (isClosed) return;
+            emit(currentState.copyWith(subscribingAreaIds: updatedSubscribing));
+          }
+          
+          // Notify subscription - this will trigger the listener to remove the area
           if (areaToSubscribe != null) {
             _notifier.notifySubscribed(areaToSubscribe);
           }
         },
         failure: (error) {
+          if (isClosed) return;
+          
           debugPrint('Failed to subscribe to area: ${error.message}');
           final currentState = state;
           if (currentState is AllAreasStateLoaded) {
             final updatedSubscribing = Set<String>.from(
               currentState.subscribingAreaIds,
             )..remove(cityId);
+            if (isClosed) return;
             emit(
               currentState.copyWith(
                 subscribingAreaIds: updatedSubscribing,
@@ -234,12 +263,15 @@ class AllAreasCubit extends HydratedCubit<AllAreasState> {
         },
       );
     } catch (e) {
+      if (isClosed) return;
+      
       // Remove from subscribing list and show error
       final currentState = state;
       if (currentState is AllAreasStateLoaded) {
         final updatedSubscribing = Set<String>.from(
           currentState.subscribingAreaIds,
         )..remove(cityId);
+        if (isClosed) return;
         emit(
           currentState.copyWith(
             subscribingAreaIds: updatedSubscribing,
@@ -263,9 +295,12 @@ class AllAreasCubit extends HydratedCubit<AllAreasState> {
   }
 
   void clearOperationError() {
+    if (isClosed) return;
+    
     final currentState = state;
     if (currentState is AllAreasStateLoaded &&
         currentState.operationError != null) {
+      if (isClosed) return;
       emit(currentState.copyWith(operationError: null));
     }
   }
@@ -275,6 +310,7 @@ class AllAreasCubit extends HydratedCubit<AllAreasState> {
       debugPrint('🗑️ User changed, clearing all areas cache...');
       _lastFetchTime = null;
       _cachedUserPhone = _currentUserPhone;
+      if (isClosed) return;
       emit(const AllAreasState.initial());
     }
   }
@@ -294,6 +330,7 @@ class AllAreasCubit extends HydratedCubit<AllAreasState> {
     }
 
     if (isRefresh) {
+      if (isClosed) return;
       emit(const AllAreasState.loading());
     }
 
@@ -310,6 +347,8 @@ class AllAreasCubit extends HydratedCubit<AllAreasState> {
 
       result.when(
         success: (data) {
+          if (isClosed) return;
+          
           final currentState = state;
           List<AreaInfo> newAreas = data.key;
 
@@ -319,6 +358,7 @@ class AllAreasCubit extends HydratedCubit<AllAreasState> {
 
           _updateCacheTime();
 
+          if (isClosed) return;
           emit(
             AllAreasState.loaded(
               areas: newAreas,
@@ -331,23 +371,31 @@ class AllAreasCubit extends HydratedCubit<AllAreasState> {
           );
         },
         failure: (error) {
+          if (isClosed) return;
+          
           if (isLoadMore) {
             final currentState = state;
             if (currentState is AllAreasStateLoaded) {
+              if (isClosed) return;
               emit(currentState.copyWith(isLoadingMore: false));
             }
           } else {
+            if (isClosed) return;
             emit(AllAreasState.error(error: error));
           }
         },
       );
     } catch (e) {
+      if (isClosed) return;
+      
       if (isLoadMore) {
         final currentState = state;
         if (currentState is AllAreasStateLoaded) {
+          if (isClosed) return;
           emit(currentState.copyWith(isLoadingMore: false));
         }
       } else {
+        if (isClosed) return;
         emit(
           AllAreasState.error(
             error: ApiError(message: 'Failed to load all areas: $e'),
@@ -357,35 +405,73 @@ class AllAreasCubit extends HydratedCubit<AllAreasState> {
     }
   }
 
-  void _removeAreaFromState(String areaId) {
+  void _removeAreaFromStateByInfo(AreaInfo areaInfo) {
+    if (isClosed) return;
+    
     final currentState = state;
     if (currentState is AllAreasStateLoaded) {
-      final updatedAreas =
-          currentState.areas.where((a) => a.id != areaId).toList();
-      final updatedSubscribing = Set<String>.from(
-        currentState.subscribingAreaIds,
-      )..remove(areaId);
-      emit(
-        currentState.copyWith(
-          areas: updatedAreas,
-          subscribingAreaIds: updatedSubscribing,
-          operationError: null,
-        ),
+      final existingAreaIndex = currentState.areas.indexWhere(
+        (area) => area.id == areaInfo.id,
       );
+
+      if (existingAreaIndex != -1) {
+        final updatedAreas =
+            currentState.areas.where((a) => a.id != areaInfo.id).toList();
+        final updatedSubscribing = Set<String>.from(
+          currentState.subscribingAreaIds,
+        )..remove(areaInfo.id);
+
+        if (isClosed) return;
+        emit(
+          currentState.copyWith(
+            areas: updatedAreas,
+            subscribingAreaIds: updatedSubscribing,
+            operationError: null,
+          ),
+        );
+
+        debugPrint(
+          '✅ Removed area ${areaInfo.name} (${areaInfo.id}) from all areas state',
+        );
+        debugPrint(
+          '  Areas count: ${currentState.areas.length} → ${updatedAreas.length}',
+        );
+      } else {
+        debugPrint(
+          '⚠️ Area ${areaInfo.name} (${areaInfo.id}) not found in all areas state',
+        );
+      }
+    } else {
+      debugPrint('⚠️ Cannot remove area - all areas state not loaded');
     }
   }
 
   void _addAreaToState(AreaInfo newArea) {
+    if (isClosed) return;
+    
     final currentState = state;
     if (currentState is AllAreasStateLoaded) {
       final existingAreaIndex = currentState.areas.indexWhere(
         (area) => area.id == newArea.id,
       );
+
       if (existingAreaIndex == -1) {
         final updatedAreas = [newArea, ...currentState.areas];
+        if (isClosed) return;
         emit(currentState.copyWith(areas: updatedAreas, operationError: null));
-        debugPrint('✅ Added area ${newArea.id} to all areas state');
+        debugPrint(
+          '✅ Added area ${newArea.name} (${newArea.id}) to all areas state',
+        );
+        debugPrint(
+          '  Areas count: ${currentState.areas.length} → ${updatedAreas.length}',
+        );
+      } else {
+        debugPrint(
+          '⚠️ Area ${newArea.name} (${newArea.id}) already exists in all areas state',
+        );
       }
+    } else {
+      debugPrint('⚠️ Cannot add area - all areas state not loaded');
     }
   }
 

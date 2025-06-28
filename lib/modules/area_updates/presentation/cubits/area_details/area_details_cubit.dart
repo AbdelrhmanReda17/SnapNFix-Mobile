@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:snapnfix/index.dart';
@@ -28,15 +29,16 @@ class AreaDetailsCubit extends Cubit<AreaDetailsState> {
     required AreaInfo areaInfo,
     bool isSubscribed = false,
     int page = 1,
-    int limit = 20,
+    int limit = 10,
   }) async {
     try {
       if (isClosed) return;
-      
+
       if (page == 1) {
         _allIssues.clear();
         _currentPage = 1;
         _hasMoreData = true;
+        if (isClosed) return;
         emit(const AreaDetailsState.loading());
       } else {
         _isLoadingMore = true;
@@ -50,37 +52,43 @@ class AreaDetailsCubit extends Cubit<AreaDetailsState> {
       );
 
       if (isClosed) return;
-      
-              result.when(
-          success: (areaDetails) {
-            if (page == 1) {
-              _allIssues = List.from(areaDetails.issues);
-            } else {
-              _allIssues.addAll(areaDetails.issues);
-              _isLoadingMore = false;
-            }
-            
-            _currentPage = page;
-            _hasMoreData = areaDetails.hasNext;
-            
-            final updatedAreaDetails = AreaDetails(
-              areaDetails.area,
-              issues: _allIssues as List<AreaIssue>,
-              healthMetrics: areaDetails.healthMetrics,
-              isSubscribed: areaDetails.isSubscribed,
-              hasNext: areaDetails.hasNext,
-            );
-            
-            emit(AreaDetailsState.loaded(updatedAreaDetails));
-          },
-          failure: (error) {
+
+      result.when(
+        success: (areaDetails) {
+          if (page == 1) {
+            _allIssues = List.from(areaDetails.issues);
+          } else {
+            _allIssues.addAll(areaDetails.issues);
             _isLoadingMore = false;
-            emit(AreaDetailsState.error(error));
-          },
-        );
+          }
+
+          _currentPage = page;
+          _hasMoreData = areaDetails.hasNext;
+          debugPrint(
+            '📍 AreaDetailsCubit: Loaded ${_allIssues.length} issues for area ${areaInfo.name} (Page: $_currentPage, Has Next: $_hasMoreData)',
+          );
+
+          final updatedAreaDetails = AreaDetails(
+            areaDetails.area,
+            issues: _allIssues,
+            healthMetrics: areaDetails.healthMetrics,
+            isSubscribed: areaDetails.isSubscribed,
+            hasNext: areaDetails.hasNext,
+          );
+
+          if (isClosed) return;
+          emit(AreaDetailsState.loaded(updatedAreaDetails));
+        },
+        failure: (error) {
+          _isLoadingMore = false;
+          if (isClosed) return;
+          emit(AreaDetailsState.error(error));
+        },
+      );
     } catch (e) {
       if (isClosed) return;
       _isLoadingMore = false;
+      if (isClosed) return;
       emit(
         AreaDetailsState.error(
           ApiError(message: 'An unexpected error occurred'),
@@ -92,7 +100,7 @@ class AreaDetailsCubit extends Cubit<AreaDetailsState> {
   Future<void> refreshAreaDetails({
     required AreaInfo areaInfo,
     bool isSubscribed = false,
-    int limit = 20,
+    int limit = 10,
   }) async {
     await loadAreaDetails(
       areaInfo: areaInfo,
@@ -105,10 +113,10 @@ class AreaDetailsCubit extends Cubit<AreaDetailsState> {
   Future<void> loadMoreIssues({
     required AreaInfo areaInfo,
     bool isSubscribed = false,
-    int limit = 20,
+    int limit = 10,
   }) async {
     if (_isLoadingMore || !_hasMoreData) return;
-    
+
     await loadAreaDetails(
       areaInfo: areaInfo,
       isSubscribed: isSubscribed,
@@ -130,6 +138,7 @@ class AreaDetailsCubit extends Cubit<AreaDetailsState> {
       // Show loading state
       final currentState = state;
       if (currentState is _Loaded) {
+        if (isClosed) return Result.failure('Cubit is closed');
         emit(currentState.copyWith(isSubscriptionLoading: true));
       }
 
@@ -151,11 +160,14 @@ class AreaDetailsCubit extends Cubit<AreaDetailsState> {
               isSubscribed: !currentSubscriptionStatus,
               hasNext: currentState.areaDetails.hasNext,
             );
-            
-            emit(AreaDetailsState.loaded(
-              updatedAreaDetails,
-              isSubscriptionLoading: false,
-            ));
+
+            if (isClosed) return Result.failure('Cubit is closed');
+            emit(
+              AreaDetailsState.loaded(
+                updatedAreaDetails,
+                isSubscriptionLoading: false,
+              ),
+            );
 
             // Notify the subscription change
             if (!currentSubscriptionStatus) {
@@ -164,12 +176,13 @@ class AreaDetailsCubit extends Cubit<AreaDetailsState> {
               _subscriptionNotifier.notifyUnsubscribed(areaInfo);
             }
           }
-          
+
           return Result.success(!currentSubscriptionStatus);
         },
         failure: (error) {
           // Restore the original state without loading
           if (currentState is _Loaded) {
+            if (isClosed) return Result.failure('Cubit is closed');
             emit(currentState.copyWith(isSubscriptionLoading: false));
           }
           return Result.failure(error.message ?? 'Subscription failed');
@@ -179,6 +192,7 @@ class AreaDetailsCubit extends Cubit<AreaDetailsState> {
       // Restore the original state without loading
       final currentState = state;
       if (currentState is _Loaded) {
+        if (isClosed) return Result.failure('Cubit is closed');
         emit(currentState.copyWith(isSubscriptionLoading: false));
       }
       return Result.failure('An unexpected error occurred: ${e.toString()}');
@@ -190,7 +204,7 @@ class AreaDetailsCubit extends Cubit<AreaDetailsState> {
     _currentPage = 1;
     _hasMoreData = true;
     _isLoadingMore = false;
+    if (isClosed) return;
     emit(const AreaDetailsState.initial());
   }
 }
-

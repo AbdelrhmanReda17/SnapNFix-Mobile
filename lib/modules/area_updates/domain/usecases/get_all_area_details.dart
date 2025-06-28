@@ -16,9 +16,12 @@ class GetAreaDetailsUseCase {
     required AreaInfo area,
     bool isSubscribed = false,
     int page = 1,
-    int limit = 20,
+    int limit = 1,
   }) async {
     try {
+      debugPrint(
+        '📍 GetAreaDetailsUseCase: Fetching details for area ${area.name} (ID: ${area.id}) (limit : $limit)',
+      );
       final results = await Future.wait([
         _repository.getAreaIssues(area.id, page: page, limit: limit),
         _repository.getAreaHealth(area.id),
