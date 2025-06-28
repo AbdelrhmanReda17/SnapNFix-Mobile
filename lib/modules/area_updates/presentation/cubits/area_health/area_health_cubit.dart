@@ -17,6 +17,7 @@ class AreaHealthCubit extends Cubit<AreaHealthState> {
 
   Future<void> loadAreaHealth(String areaName) async {
     if (areaName.trim().isEmpty) {
+      if (isClosed) return;
       emit(AreaHealthState.error(ApiError(message: 'Area name cannot be empty')));
       return;
     }
@@ -29,8 +30,14 @@ class AreaHealthCubit extends Cubit<AreaHealthState> {
 
       if (isClosed) return;
       result.when(
-        success: (healthMetrics) => emit(AreaHealthState.loaded(healthMetrics)),
-        failure: (error) => emit(AreaHealthState.error(error)),
+        success: (healthMetrics) {
+          if (isClosed) return;
+          emit(AreaHealthState.loaded(healthMetrics));
+        },
+        failure: (error) {
+          if (isClosed) return;
+          emit(AreaHealthState.error(error));
+        },
       );
     } catch (e) {
       if (isClosed) return;
@@ -43,6 +50,7 @@ class AreaHealthCubit extends Cubit<AreaHealthState> {
   }
 
   void reset() {
+    if (isClosed) return;
     emit(const AreaHealthState.initial());
   }
 }

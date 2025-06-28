@@ -38,6 +38,7 @@ class AreaDetailsCubit extends Cubit<AreaDetailsState> {
         _allIssues.clear();
         _currentPage = 1;
         _hasMoreData = true;
+        if (isClosed) return;
         emit(const AreaDetailsState.loading());
       } else {
         _isLoadingMore = true;
@@ -75,16 +76,19 @@ class AreaDetailsCubit extends Cubit<AreaDetailsState> {
             hasNext: areaDetails.hasNext,
           );
 
+          if (isClosed) return;
           emit(AreaDetailsState.loaded(updatedAreaDetails));
         },
         failure: (error) {
           _isLoadingMore = false;
+          if (isClosed) return;
           emit(AreaDetailsState.error(error));
         },
       );
     } catch (e) {
       if (isClosed) return;
       _isLoadingMore = false;
+      if (isClosed) return;
       emit(
         AreaDetailsState.error(
           ApiError(message: 'An unexpected error occurred'),
@@ -134,6 +138,7 @@ class AreaDetailsCubit extends Cubit<AreaDetailsState> {
       // Show loading state
       final currentState = state;
       if (currentState is _Loaded) {
+        if (isClosed) return Result.failure('Cubit is closed');
         emit(currentState.copyWith(isSubscriptionLoading: true));
       }
 
@@ -156,6 +161,7 @@ class AreaDetailsCubit extends Cubit<AreaDetailsState> {
               hasNext: currentState.areaDetails.hasNext,
             );
 
+            if (isClosed) return Result.failure('Cubit is closed');
             emit(
               AreaDetailsState.loaded(
                 updatedAreaDetails,
@@ -176,6 +182,7 @@ class AreaDetailsCubit extends Cubit<AreaDetailsState> {
         failure: (error) {
           // Restore the original state without loading
           if (currentState is _Loaded) {
+            if (isClosed) return Result.failure('Cubit is closed');
             emit(currentState.copyWith(isSubscriptionLoading: false));
           }
           return Result.failure(error.message ?? 'Subscription failed');
@@ -185,6 +192,7 @@ class AreaDetailsCubit extends Cubit<AreaDetailsState> {
       // Restore the original state without loading
       final currentState = state;
       if (currentState is _Loaded) {
+        if (isClosed) return Result.failure('Cubit is closed');
         emit(currentState.copyWith(isSubscriptionLoading: false));
       }
       return Result.failure('An unexpected error occurred: ${e.toString()}');
@@ -196,6 +204,7 @@ class AreaDetailsCubit extends Cubit<AreaDetailsState> {
     _currentPage = 1;
     _hasMoreData = true;
     _isLoadingMore = false;
+    if (isClosed) return;
     emit(const AreaDetailsState.initial());
   }
 }
