@@ -94,7 +94,6 @@ lib/
 ├── l10n/                        # Localization files  
 └── main_production.dart         # Production entry point  
 ```
-[8](#0-7)   
   
 ## 🎯 Running the Application  
   
