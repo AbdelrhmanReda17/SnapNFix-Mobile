@@ -25,7 +25,7 @@ class SubmitReportCubit extends Cubit<SubmitReportState> {
 
   void setTempImage() async {
     final tempDir = await getTemporaryDirectory();
-    final imageNames = ['issue1.jpg', 'issue2.jpg', 'issue3.jpg'];
+    final imageNames = ['issue1.jpg', 'issue2.jpg', 'issue3.jpg' , 'issue4.jpg'];
     final random = Random();
     final selectedImage = imageNames[random.nextInt(imageNames.length)];
     final tempPath = '${tempDir.path}/$selectedImage';
