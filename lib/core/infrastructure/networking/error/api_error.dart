@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 class ApiError {
   final String message;
   final List<String> details;
@@ -12,6 +14,7 @@ class ApiError {
   });
 
   factory ApiError.fromJson(Map<String, dynamic> json) {
+    debugPrint('ApiError fromJson called with json: $json');
     return ApiError(
       message: json['message'] as String? ?? 'Unknown error occurred',
       details: _parseErrorDetails(json['errorList']),
@@ -21,6 +24,7 @@ class ApiError {
   }
 
   static List<String> _parseErrorDetails(dynamic errors) {
+    debugPrint('ApiError _parseErrorDetails called with errors: $errors');
     if (errors == null) return [];
 
     if (errors is List) {
@@ -57,6 +61,13 @@ class ApiError {
   String get fullMessage {
     if (details.isEmpty) return message;
     return details.join('\n');
+  }
+
+  String get shortMessage {
+    debugPrint('ApiError shortMessage called with details: $details');
+    if (details.isEmpty) return message;
+    debugPrint('ApiError shortMessage: $message');
+    return details.first;
   }
 
   @override

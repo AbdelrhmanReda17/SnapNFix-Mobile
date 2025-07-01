@@ -75,7 +75,6 @@ class _SettingsListViewState extends State<SettingsListView> {
   }
 
   @override
-
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
     final textStyles = Theme.of(context).textTheme;
@@ -90,12 +89,6 @@ class _SettingsListViewState extends State<SettingsListView> {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _buildSettingsTile(
-                localization.notificationSettings,
-                () {},
-                colorScheme,
-                textStyles,
-              ),
               _buildSettingsTile(
                 localization.support,
                 () {
@@ -184,7 +177,6 @@ class _SettingsListViewState extends State<SettingsListView> {
                   color: colorScheme.error,
                 ),
               )
-
             else if (hasIcon)
               Icon(
                 Icons.arrow_forward_ios_rounded,

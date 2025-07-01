@@ -50,6 +50,8 @@ class AuthenticationContent extends StatelessWidget {
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
     final textStyles = Theme.of(context).textTheme;
+    final isRTL = Directionality.of(context) == TextDirection.rtl;
+
     return ListView(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
@@ -62,7 +64,10 @@ class AuthenticationContent extends StatelessWidget {
             child: Padding(
               padding: EdgeInsets.only(top: 13.h),
               child: IconButton(
-                icon: const Icon(Icons.arrow_back),
+                icon:
+                    isRTL
+                        ? const Icon(Icons.arrow_forward)
+                        : const Icon(Icons.arrow_back),
                 onPressed: () {
                   context.pop();
                 },

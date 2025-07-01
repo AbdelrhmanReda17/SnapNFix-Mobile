@@ -43,8 +43,7 @@ class _OtpFormState extends State<OtpForm> {
     return LayoutBuilder(
       builder: (context, constraints) {
         final availableWidth = constraints.maxWidth;
-        final spacing = 3.w; // Reduced spacing to prevent overflow
-
+        final spacing = 3.w;
         const minWidthForSingleRow = 320.0;
         final shouldUseTwoRows = availableWidth < minWidthForSingleRow;
 

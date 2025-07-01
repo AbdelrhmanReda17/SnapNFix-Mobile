@@ -29,6 +29,20 @@ class SubmitReportForm extends StatelessWidget {
     return ListView(
       padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 24.h),
       children: [
+        BaseButton(
+          onPressed: () {
+            context.read<SubmitReportCubit>().setTempImage();
+            timeoutManager.resetTimer();
+          },
+          text: localization?.useMockImage ?? 'Mock Image',
+          textStyle: textStyles.bodyLarge!.copyWith(
+            color: colorScheme.onPrimary,
+            fontWeight: FontWeight.bold,
+          ),
+          backgroundColor: colorScheme.primary,
+          borderColor: Colors.transparent,
+        ),
+        SizedBox(height: 10.h),
         GestureDetector(
           onTap: timeoutManager.resetTimer,
           child: SubmitPhotoPicker(),

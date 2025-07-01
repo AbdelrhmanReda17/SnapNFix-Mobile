@@ -711,5 +711,7 @@
   "@issuesPlural": {
     "description": "Plural form of issues"
   },
-  "nonDefectiveManhole" : "بالوعة غير معطلة"
+  "nonDefectiveManhole" : "بالوعة غير معطلة",
+  "useMockImage":"صورة للتجربة",
+  "comment":"التعليق"
 }

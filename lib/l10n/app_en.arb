@@ -187,7 +187,6 @@
   
   "keyFeatures": "Key Features",
   "keyFeaturesText": "• Quick and easy issue reporting\n• Real-time status updates\n• Location-based issue tracking\n• Secure and private reporting\n• Community engagement tools",
-  
   "email": "Email",
   "faqs": "FAQs",
   "howToReportFaqTitle": "How do I report an issue?",
@@ -760,5 +759,7 @@
   "@issuesPlural": {
     "description": "Plural form of issues"
   },
-  "nonDefectiveManhole" : "Non-Defective Manhole"
+  "nonDefectiveManhole" : "Non-Defective Manhole",
+  "useMockImage":"Mock Image",
+  "comment":"Comment"
 }

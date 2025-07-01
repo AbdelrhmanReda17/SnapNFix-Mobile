@@ -32,7 +32,7 @@ class AreaIssuesScreen extends StatefulWidget {
 
 class _AreaIssuesScreenState extends State<AreaIssuesScreen> {
   late AreaDetailsCubit _cubit;
-  final int _pageLimit = 7;
+  final int _pageLimit = 3;
 
   @override
   void initState() {
