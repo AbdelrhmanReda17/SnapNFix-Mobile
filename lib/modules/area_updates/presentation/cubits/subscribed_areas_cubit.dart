@@ -288,8 +288,6 @@ class SubscribedAreasCubit extends HydratedCubit<SubscribedAreasState> {
       );
     } catch (e) {
       if (isClosed) return;
-      
-      debugPrint('Error unsubscribing from area: $e');
       final currentState = state;
       if (currentState is SubscribedAreasStateLoaded) {
         final updatedUnsubscribing = Set<String>.from(
