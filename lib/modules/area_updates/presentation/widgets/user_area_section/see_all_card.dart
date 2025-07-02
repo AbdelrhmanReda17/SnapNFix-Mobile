@@ -67,14 +67,14 @@ class SeeAllCard extends StatelessWidget {
                 // Text
                 Flexible(
                   child: Text(
-                    AppLocalizations.of(context)!.viewAll,
-                    textAlign: TextAlign.center,
+                  AppLocalizations.of(context)!.viewAll,
+                  textAlign: TextAlign.center,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
+                  style: TextStyle(
                       fontSize: 11.sp,
-                      fontWeight: FontWeight.w700,
-                      color: colorScheme.onSurface,
+                    fontWeight: FontWeight.w700,
+                    color: colorScheme.onSurface,
                     ),
                   ),
                 ),
@@ -84,14 +84,14 @@ class SeeAllCard extends StatelessWidget {
                 // Subtitle
                 Flexible(
                   child: Text(
-                    AppLocalizations.of(context)!.seeMoreAreas,
-                    textAlign: TextAlign.center,
+                  AppLocalizations.of(context)!.seeMoreAreas,
+                  textAlign: TextAlign.center,
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
+                  style: TextStyle(
                       fontSize: 7.sp,
-                      fontWeight: FontWeight.w500,
-                      color: colorScheme.onSurfaceVariant,
+                    fontWeight: FontWeight.w500,
+                    color: colorScheme.onSurfaceVariant,
                     ),
                   ),
                 ),

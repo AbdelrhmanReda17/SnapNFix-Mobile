@@ -44,10 +44,8 @@ class _AreaManagementScreenState extends State<AreaManagementScreen>
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (widget.initialShowSubscribed) {
-        debugPrint('🎯 Initializing subscribed areas tab only');
         _subscribedAreasCubit.initialize();
       } else {
-        debugPrint('🎯 Initializing all areas tab only');
         _allAreasCubit.initialize();
       }
     });

@@ -62,32 +62,32 @@ class AreaCard extends StatelessWidget {
                   children: [
                     Flexible(
                       child: Container(
-                        padding: EdgeInsets.symmetric(
+                      padding: EdgeInsets.symmetric(
                           horizontal: 4.w,
                           vertical: 1.h,
-                        ),
-                        decoration: BoxDecoration(
-                          color: _getIssueCountColor().withValues(alpha: 0.1),
+                      ),
+                      decoration: BoxDecoration(
+                        color: _getIssueCountColor().withValues(alpha: 0.1),
                           borderRadius: BorderRadius.circular(8.r),
-                        ),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Icon(
-                              _getIssueIcon(),
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(
+                            _getIssueIcon(),
                               size: 8.sp,
+                            color: _getIssueCountColor(),
+                          ),
+                            SizedBox(width: 2.w),
+                          Text(
+                            '${area.activeIssuesCount}',
+                            style: TextStyle(
+                                fontSize: 9.sp,
+                              fontWeight: FontWeight.w600,
                               color: _getIssueCountColor(),
                             ),
-                            SizedBox(width: 2.w),
-                            Text(
-                              '${area.activeIssuesCount}',
-                              style: TextStyle(
-                                fontSize: 9.sp,
-                                fontWeight: FontWeight.w600,
-                                color: _getIssueCountColor(),
-                              ),
-                            ),
-                          ],
+                          ),
+                        ],
                         ),
                       ),
                     ),
@@ -110,15 +110,15 @@ class AreaCard extends StatelessWidget {
                     children: [
                       Flexible(
                         child: Text(
-                          area.name.isNotEmpty
-                              ? area.name
-                              : AppLocalizations.of(context)!.unknownArea,
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
+                        area.name.isNotEmpty
+                            ? area.name
+                            : AppLocalizations.of(context)!.unknownArea,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
                             fontSize: 11.sp,
-                            fontWeight: FontWeight.w700,
-                            color: colorScheme.onSurface,
+                          fontWeight: FontWeight.w700,
+                          color: colorScheme.onSurface,
                             height: 1.2,
                           ),
                         ),
@@ -160,16 +160,16 @@ class AreaCard extends StatelessWidget {
                   alignment: Alignment.centerRight,
                   child: Container(
                     padding: EdgeInsets.all(3.w),
-                    decoration: BoxDecoration(
-                      color: colorScheme.primary.withValues(alpha: 0.1),
+                      decoration: BoxDecoration(
+                        color: colorScheme.primary.withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(4.r),
-                    ),
-                    child: Icon(
-                      Icons.arrow_forward_ios_rounded,
+                      ),
+                      child: Icon(
+                        Icons.arrow_forward_ios_rounded,
                       size: 6.sp,
-                      color: colorScheme.primary,
+                        color: colorScheme.primary,
+                      ),
                     ),
-                  ),
                 ),
               ],
             ),

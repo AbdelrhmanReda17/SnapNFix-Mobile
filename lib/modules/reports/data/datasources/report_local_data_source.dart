@@ -62,7 +62,7 @@ class ReportLocalDataSource implements BaseReportLocalDataSource {
       await _reportsBox!.clear();
       await _updateStreams();
     } catch (e) {
-      throw Exception('Failed to clear all reports: $e');
+      throw Exception('error_clear_reports_failed');
     }
   }
 
@@ -88,7 +88,7 @@ class ReportLocalDataSource implements BaseReportLocalDataSource {
       }
     } catch (e) {
       debugPrint('Failed to delete offline report: $e');
-      throw Exception('Failed to delete offline report: $e');
+      throw Exception('error_delete_report_failed');
     }
   }
 
@@ -176,7 +176,7 @@ class ReportLocalDataSource implements BaseReportLocalDataSource {
       );
     } catch (e) {
       debugPrint('❌ Failed to initialize HiveReportLocalDataSource: $e');
-      throw Exception('Failed to initialize local storage: $e');
+      throw Exception('error_initialize_storage_failed');
     }
   }
 
@@ -194,7 +194,7 @@ class ReportLocalDataSource implements BaseReportLocalDataSource {
       }
     } catch (e) {
       debugPrint('Failed to mark report as synced: $e');
-      throw Exception('Failed to mark report as synced: $e');
+      throw Exception('error_mark_report_synced_failed');
     }
   }
 
@@ -253,7 +253,7 @@ class ReportLocalDataSource implements BaseReportLocalDataSource {
       return reportId;
     } catch (e) {
       debugPrint('Failed to save report offline: $e');
-      throw Exception('Failed to save report offline: $e');
+      throw Exception('error_save_report_offline_failed');
     }
   }
 
@@ -302,7 +302,7 @@ class ReportLocalDataSource implements BaseReportLocalDataSource {
   void _ensureInitialized() {
     if (_reportsBox == null || _imagesDirectory == null) {
       throw Exception(
-        'HiveReportLocalDataSource not initialized. Call initialize() first.',
+        'error_storage_not_initialized',
       );
     }
   }

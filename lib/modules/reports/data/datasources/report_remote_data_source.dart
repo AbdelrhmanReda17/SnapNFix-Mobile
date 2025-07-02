@@ -62,7 +62,7 @@ class ReportRemoteDataSource implements BaseReportRemoteDataSource {
       return Result.failure(
         error is DioException && error.error is ApiError
             ? error.error as ApiError
-            : ApiError(message: 'An unexpected error occurred'),
+            : ApiError(message: 'error_unexpected_occurred'),
       );
     }
   }
@@ -144,7 +144,7 @@ class ReportRemoteDataSource implements BaseReportRemoteDataSource {
       return Result.failure(
         error is DioException && error.error is ApiError
             ? error.error as ApiError
-            : ApiError(message: 'An unexpected error occurred'),
+            : ApiError(message: 'error_unexpected_occurred'),
       );
     }
   }
@@ -185,7 +185,7 @@ class ReportRemoteDataSource implements BaseReportRemoteDataSource {
       return Result.failure(
         error is DioException && error.error is ApiError
             ? error.error as ApiError
-            : ApiError(message: 'An unexpected error occurred'),
+            : ApiError(message: 'error_unexpected_occurred'),
       );
     }
   }
@@ -218,7 +218,7 @@ class ReportRemoteDataSource implements BaseReportRemoteDataSource {
       return Result.failure(
         error is DioException && error.error is ApiError
             ? error.error as ApiError
-            : ApiError(message: 'An unexpected error occurred'),
+            : ApiError(message: 'error_unexpected_occurred'),
       );
     }
   }

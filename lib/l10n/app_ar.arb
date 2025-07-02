@@ -147,7 +147,8 @@
   "registerationExpiredTitle": "انتهت صلاحية التسجيل",
   "registerationExpiredMessage": "لقد انتهت صلاحية تسجيلك. يرجى التسجيل مرة أخرى.",
   "understood": "مفهوم",
-  "timeWarningMessageText": "تحذير: بقي دقيقتان فقط لإكمال عملية التحقق!",
+  "timeWarningMessageText": "تحذير: تبقي دقيقتان فقط لإكمال عملية التحقق!",
+  "createReportTimeWarning": "تحذير: تبقي 30 ثانية فقط!",
   "dismiss": "إغلاق",
   "codeExpiresIn": "ستنتهي صلاحية الرمز خلال",
   
@@ -545,7 +546,10 @@
   "step4": "4. أرسل البلاغ",
 
   "sessionTimeout": "انتهاء مهلة الجلسة",
-  "sessionTimeoutMessage": "ستنتهي جلستك قريباً. يرجى حفظ عملك.",
+  "sessionTimeoutMessage": "انتهت جلستك بسبب عدم النشاط. تم إعادة تعيين النموذج.",
+  "@sessionTimeoutMessage": {
+    "description": "Message shown when session times out and form is reset"
+  },
   "extendSession": "تمديد الجلسة",
   "timeRemaining": "الوقت المتبقي",  "networkError": "خطأ في الشبكة",
   "serverError": "خطأ في الخادم",
@@ -713,5 +717,123 @@
   },
   "nonDefectiveManhole" : "بالوعة غير معطلة",
   "useMockImage":"صورة للتجربة",
-  "comment":"التعليق"
+  "comment":"التعليق",
+
+  "errorPleaseProvideImage": "يرجى إرفاق صورة",
+  "@errorPleaseProvideImage": {
+    "description": "Error message when no image is provided for report submission"
+  },
+  "errorSubmitReportFailed": "فشل في إرسال البلاغ",
+  "@errorSubmitReportFailed": {
+    "description": "Error message when report submission fails"
+  },
+  "errorNoInternetConnection": "لا يوجد اتصال بالإنترنت. يرجى المحاولة مرة أخرى لاحقاً.",
+  "@errorNoInternetConnection": {
+    "description": "Error message when there's no internet connection"
+  },
+  "errorReportSubmissionFailed": "فشل في إرسال البلاغ",
+  "@errorReportSubmissionFailed": {
+    "description": "Error message when report submission fails"
+  },
+  "errorReportSavedOffline": "فشل في إرسال البلاغ. تم حفظه للإرسال لاحقاً.",
+  "@errorReportSavedOffline": {
+    "description": "Error message when report is saved offline due to submission failure"
+  },
+  "errorFastReportFailed": "فشل في إرسال البلاغ السريع",
+  "@errorFastReportFailed": {
+    "description": "Error message when fast report submission fails"
+  },
+  "errorGetReportsFailed": "فشل في تحميل البلاغات",
+  "@errorGetReportsFailed": {
+    "description": "Error message when loading reports fails"
+  },
+  "errorGetUserReportsFailed": "فشل في تحميل بلاغات المستخدم",
+  "@errorGetUserReportsFailed": {
+    "description": "Error message when loading user reports fails"
+  },
+  "errorGetStatisticsFailed": "فشل في تحميل الإحصائيات",
+  "@errorGetStatisticsFailed": {
+    "description": "Error message when loading statistics fails"
+  },
+  "errorUnexpectedOccurred": "حدث خطأ غير متوقع",
+  "@errorUnexpectedOccurred": {
+    "description": "Generic error message for unexpected errors"
+  },
+  "errorClearReportsFailed": "فشل في مسح البلاغات",
+  "@errorClearReportsFailed": {
+    "description": "Error message when clearing reports fails"
+  },
+  "errorDeleteReportFailed": "فشل في حذف البلاغ",
+  "@errorDeleteReportFailed": {
+    "description": "Error message when deleting a report fails"
+  },
+  "errorInitializeStorageFailed": "فشل في تهيئة التخزين",
+  "@errorInitializeStorageFailed": {
+    "description": "Error message when storage initialization fails"
+  },
+  "errorMarkReportSyncedFailed": "فشل في تمييز البلاغ كمُرسل",
+  "@errorMarkReportSyncedFailed": {
+    "description": "Error message when marking a report as synced fails"
+  },
+  "errorSaveReportOfflineFailed": "فشل في حفظ البلاغ محلياً",
+  "@errorSaveReportOfflineFailed": {
+    "description": "Error message when saving a report offline fails"
+  },
+  "errorStorageNotInitialized": "التخزين غير مُهيأ",
+  "@errorStorageNotInitialized": {
+    "description": "Error message when storage is not initialized"
+  },
+  "successReportSavedOffline": "لا يوجد اتصال بالإنترنت. تم حفظ البلاغ للإرسال لاحقاً.",
+  "@successReportSavedOffline": {
+    "description": "Success message when report is saved offline"
+  },
+  "successReportSubmittedWithId": "تم إرسال البلاغ بنجاح",
+  "@successReportSubmittedWithId": {
+    "description": "Success message when report is submitted successfully"
+  },
+  "errorLoadAreasFailed": "فشل في تحميل المناطق",
+  "@errorLoadAreasFailed": {
+    "description": "Error message when loading areas fails"
+  },
+  "errorLoadAreaHealthFailed": "فشل في تحميل صحة المنطقة",
+  "@errorLoadAreaHealthFailed": {
+    "description": "Error message when loading area health fails"
+  },
+  "errorLoadAreaIssuesFailed": "فشل في تحميل مشاكل المنطقة",
+  "@errorLoadAreaIssuesFailed": {
+    "description": "Error message when loading area issues fails"
+  },
+  "errorSubscriptionFailed": "فشل الاشتراك",
+  "@errorSubscriptionFailed": {
+    "description": "Error message when area subscription fails"
+  },
+  "errorSubscribeAreaFailed": "فشل في الاشتراك في المنطقة",
+  "@errorSubscribeAreaFailed": {
+    "description": "Error message when subscribing to an area fails"
+  },
+  "errorUnsubscriptionFailed": "فشل إلغاء الاشتراك",
+  "@errorUnsubscriptionFailed": {
+    "description": "Error message when area unsubscription fails"
+  },
+  "errorUnsubscribeAreaFailed": "فشل في إلغاء الاشتراك من المنطقة",
+  "@errorUnsubscribeAreaFailed": {
+    "description": "Error message when unsubscribing from an area fails"
+  },
+  "errorLoadSubscribedAreasFailed": "فشل في تحميل المناطق المُشترك بها",
+  "@errorLoadSubscribedAreasFailed": {
+    "description": "Error message when loading subscribed areas fails"
+  },
+
+  "locationPermissionRequiredTitle": "إذن الموقع مطلوب",
+  "@locationPermissionRequiredTitle": {
+    "description": "Title for the location permission required screen"
+  },
+  "locationPermissionRequiredMessage": "تتطلب هذه الميزة إذن الموقع للعمل. يرجى تفعيل الوصول للموقع في إعدادات جهازك.",
+  "@locationPermissionRequiredMessage": {
+    "description": "Message explaining why location permission is needed"
+  },
+  "openSettings": "فتح الإعدادات",
+  "@openSettings": {
+    "description": "Button text to open device settings"
+  }
 }

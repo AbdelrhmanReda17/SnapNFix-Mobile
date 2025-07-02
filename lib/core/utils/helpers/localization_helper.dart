@@ -1,21 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:snapnfix/core/base_components/base_alert_component/alert_type.dart';
-import 'package:snapnfix/core/base_components/base_alert_component/base_alert.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:snapnfix/core/utils/mixins/listener_mixin.dart';
-import 'package:snapnfix/modules/reports/presentation/cubits/submit_report_cubit.dart';
 
-class SubmitReportBlocListener extends StatelessWidget with ListenerMixin {
-  const SubmitReportBlocListener({super.key});
-
-  String _getLocalizedMessage(BuildContext context, String? messageKey) {
-    if (messageKey == null) return '';
+class LocalizationHelper {
+  /// Get localized message for a given key
+  /// This is a utility function that can be used to translate error/success message keys
+  /// to their localized strings when you have access to context
+  static String getLocalizedMessage(BuildContext context, String? messageKey) {
+    if (messageKey == null || messageKey.isEmpty) return '';
     
     final localization = AppLocalizations.of(context)!;
     
     switch (messageKey) {
-      // Error messages
+      // Report error messages
       case 'error_please_provide_image':
         return localization.errorPleaseProvideImage;
       case 'error_submit_report_failed':
@@ -49,7 +45,7 @@ class SubmitReportBlocListener extends StatelessWidget with ListenerMixin {
       case 'error_storage_not_initialized':
         return localization.errorStorageNotInitialized;
       
-      // Success messages
+      // Report success messages
       case 'success_report_saved_offline':
         return localization.successReportSavedOffline;
       case 'success_report_submitted_with_id':
@@ -73,56 +69,32 @@ class SubmitReportBlocListener extends StatelessWidget with ListenerMixin {
       case 'error_load_subscribed_areas_failed':
         return localization.errorLoadSubscribedAreasFailed;
       
+      // Location permission messages
+      case 'location_permission_required_title':
+        return localization.locationPermissionRequiredTitle;
+      case 'location_permission_required_message':
+        return localization.locationPermissionRequiredMessage;
+      case 'open_settings':
+        return localization.openSettings;
+      
+      // Session timeout messages
+      case 'session_timeout_message':
+        return localization.sessionTimeoutMessage;
+      
       default:
         // If the message is not a known key, return it as is (might be already localized)
         return messageKey;
     }
   }
 
-  @override
-  Widget build(BuildContext context) {
-    final localization = AppLocalizations.of(context)!;
-
-    return BlocListener<SubmitReportCubit, SubmitReportState>(
-      listenWhen:
-          (previous, current) =>
-              previous.isLoading != current.isLoading ||
-              previous.error != current.error ||
-              previous.successMessage != current.successMessage,
-      listener: (context, state) {
-        if (state.isLoading) {
-          showLoadingDialog(context);
-        }
-
-        if (state.error != null) {
-          dismissLoadingAndExecute(context, () {
-            baseDialog(
-              context: context,
-              title: localization.submittingReportError,
-              message: _getLocalizedMessage(context, state.error),
-              alertType: AlertType.error,
-              confirmText: localization.gotItConfirmText,
-              onConfirm: () {},
-              showCancelButton: false,
-            );
-          });
-        }
-
-        if (state.successMessage != null) {
-          dismissLoadingAndExecute(context, () {
-            baseDialog(
-              context: context,
-              title: localization.successDialogTitle,
-              message: _getLocalizedMessage(context, state.successMessage),
-              alertType: AlertType.success,
-              confirmText: localization.gotItConfirmText,
-              onConfirm: () {},
-              showCancelButton: false,
-            );
-          });
-        }
-      },
-      child: SizedBox.shrink(),
-    );
+  /// Check if a string is a localization key
+  static bool isLocalizationKey(String? message) {
+    if (message == null || message.isEmpty) return false;
+    return message.startsWith('error_') || 
+           message.startsWith('success_') || 
+           message.startsWith('warning_') ||
+           message.startsWith('info_') ||
+           message.startsWith('location_') ||
+           message.startsWith('session_');
   }
-}
+} 
