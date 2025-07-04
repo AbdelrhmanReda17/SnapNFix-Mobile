@@ -49,13 +49,14 @@ class IssueCommentsCard extends StatelessWidget {
                 child:
                     isSnapReport && imageUrl != null && imageUrl!.isNotEmpty
                         ? Hero(
-                            tag: 'comment_image_${imageUrl}_${createdAt?.millisecondsSinceEpoch}',
-                            child: ImageBuilder.buildImage(
-                              imageName: imageUrl!,
-                              fit: BoxFit.cover,
-                              colorScheme: colorScheme,
-                            ),
-                          )
+                          tag:
+                              'comment_image_${imageUrl}_${createdAt?.millisecondsSinceEpoch}',
+                          child: ImageBuilder.buildImage(
+                            imageName: imageUrl!,
+                            fit: BoxFit.cover,
+                            colorScheme: colorScheme,
+                          ),
+                        )
                         : Container(
                           decoration: BoxDecoration(
                             color: colorScheme.primary.withValues(alpha: 0.1),
@@ -76,32 +77,40 @@ class IssueCommentsCard extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      Text(
-                        _formatName(context),
-                        style: theme.textTheme.titleSmall?.copyWith(
-                          fontWeight: FontWeight.w600,
+                      Expanded(
+                        child: Text(
+                          _formatName(context),
+                          style: theme.textTheme.titleSmall?.copyWith(
+                            fontWeight: FontWeight.w600,
+                          ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
                         ),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
                       ),
-                      Spacer(),
-                      if (createdAt != null)
-                        Text(
-                          _formatDate(createdAt!, context),
-                          style: theme.textTheme.bodySmall?.copyWith(
-                            color: colorScheme.onSurface.withValues(alpha: 0.6),
+                      if (createdAt != null) ...[
+                        SizedBox(width: 8.w),
+                        Flexible(
+                          child: Text(
+                            _formatDate(createdAt!, context),
+                            style: theme.textTheme.bodySmall?.copyWith(
+                              color: colorScheme.onSurface.withValues(
+                                alpha: 0.6,
+                              ),
+                            ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
                           ),
                         ),
+                      ],
                     ],
                   ),
-
+                  SizedBox(height: 4.h),
                   IssueSeverityIconsIndicator(
                     severity: issueSeverity,
                     iconSize: 14,
                     showLabel: true,
                     spacing: 2,
                   ),
-
                   SizedBox(height: 8.h),
                   Text(
                     comment,

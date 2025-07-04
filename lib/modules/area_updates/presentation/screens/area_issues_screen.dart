@@ -91,11 +91,18 @@ class _AreaIssuesScreenState extends State<AreaIssuesScreen> {
             children: [
               Icon(Icons.home_work, color: colorScheme.primary, size: 24.sp),
               SizedBox(width: 12.w),
-              Text(
-                isRTL
-                    ? '${localization.area} ${widget.areaInfo.name}'
-                    : '${widget.areaInfo.name} ${localization.area}',
-                style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.w600),
+              Expanded(
+                child: Text(
+                  isRTL
+                      ? '${localization.area} ${widget.areaInfo.name}'
+                      : '${widget.areaInfo.name} ${localization.area}',
+                  style: TextStyle(
+                    fontSize: 18.sp,
+                    fontWeight: FontWeight.w600,
+                  ),
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 1,
+                ),
               ),
             ],
           ),

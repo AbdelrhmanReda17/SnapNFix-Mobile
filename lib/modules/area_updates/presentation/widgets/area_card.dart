@@ -71,6 +71,8 @@ class AreaCard extends StatelessWidget {
                         area.name,
                         style: Theme.of(context).textTheme.titleMedium
                             ?.copyWith(fontWeight: FontWeight.w600),
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 2,
                       ),
                       SizedBox(height: 4.h),
                       Row(
@@ -82,15 +84,19 @@ class AreaCard extends StatelessWidget {
                                 Theme.of(context).colorScheme.onSurfaceVariant,
                           ),
                           SizedBox(width: 4.w),
-                          Text(
-                            area.state,
-                            style: Theme.of(
-                              context,
-                            ).textTheme.bodySmall?.copyWith(
-                              color:
-                                  Theme.of(
-                                    context,
-                                  ).colorScheme.onSurfaceVariant,
+                          Expanded(
+                            child: Text(
+                              area.state,
+                              style: Theme.of(
+                                context,
+                              ).textTheme.bodySmall?.copyWith(
+                                color:
+                                    Theme.of(
+                                      context,
+                                    ).colorScheme.onSurfaceVariant,
+                              ),
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 1,
                             ),
                           ),
                         ],
@@ -151,21 +157,25 @@ class AreaCard extends StatelessWidget {
                             : Theme.of(context).colorScheme.onSurfaceVariant,
                   ),
                 SizedBox(width: 6.w),
-                Text(
-                  isLoading
-                      ? (isSubscribed
-                          ? AppLocalizations.of(context)!.removing
-                          : AppLocalizations.of(context)!.adding)
-                      : (isSubscribed
-                          ? AppLocalizations.of(context)!.subscribed
-                          : AppLocalizations.of(context)!.subscribe),
-                  style: TextStyle(
-                    fontSize: 12.sp,
-                    fontWeight: FontWeight.w500,
-                    color:
-                        isSubscribed
-                            ? Colors.white
-                            : Theme.of(context).colorScheme.onSurfaceVariant,
+                Flexible(
+                  child: Text(
+                    isLoading
+                        ? (isSubscribed
+                            ? AppLocalizations.of(context)!.removing
+                            : AppLocalizations.of(context)!.adding)
+                        : (isSubscribed
+                            ? AppLocalizations.of(context)!.subscribed
+                            : AppLocalizations.of(context)!.subscribe),
+                    style: TextStyle(
+                      fontSize: 12.sp,
+                      fontWeight: FontWeight.w500,
+                      color:
+                          isSubscribed
+                              ? Colors.white
+                              : Theme.of(context).colorScheme.onSurfaceVariant,
+                    ),
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 1,
                   ),
                 ),
               ],
@@ -188,12 +198,16 @@ class AreaCard extends StatelessWidget {
         children: [
           Icon(_getIssuesIcon(), size: 12.sp, color: Colors.white),
           SizedBox(width: 4.w),
-          Text(
-            '${area.activeIssuesCount} ${area.activeIssuesCount == 1 ? AppLocalizations.of(context)!.issue : AppLocalizations.of(context)!.issuesPlural}',
-            style: TextStyle(
-              fontSize: 11.sp,
-              fontWeight: FontWeight.w500,
-              color: Colors.white,
+          Flexible(
+            child: Text(
+              '${area.activeIssuesCount} ${area.activeIssuesCount == 1 ? AppLocalizations.of(context)!.issue : AppLocalizations.of(context)!.issuesPlural}',
+              style: TextStyle(
+                fontSize: 11.sp,
+                fontWeight: FontWeight.w500,
+                color: Colors.white,
+              ),
+              overflow: TextOverflow.ellipsis,
+              maxLines: 1,
             ),
           ),
         ],
