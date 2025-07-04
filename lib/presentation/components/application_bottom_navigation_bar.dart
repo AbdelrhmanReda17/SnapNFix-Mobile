@@ -41,26 +41,26 @@ class ApplicationBottomNavigationBar extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: List.generate(items.length, (index) {
             final screen = items[index];
-            final isSelected = selectedIndex == index;            return IconButton(
+            final isSelected = selectedIndex == index;
+            return IconButton(
               isSelected: isSelected,
               onPressed: () => onItemSelected(index),
-              icon: isDark 
-                  ? SvgPicture.asset(
-                      screen.icon,
-                      colorFilter: ColorFilter.mode(
-                        Colors.grey,
-                        BlendMode.srcIn,
-                      ),
-                    )
-                  : SvgPicture.asset(screen.icon),
+              icon:
+                  isDark
+                      ? SvgPicture.asset(
+                        screen.icon,
+                        colorFilter: ColorFilter.mode(
+                          Colors.grey,
+                          BlendMode.srcIn,
+                        ),
+                      )
+                      : SvgPicture.asset(screen.icon),
               selectedIcon: SvgPicture.asset(
                 isDark ? screen.darkActiveIcon : screen.activeIcon,
-                colorFilter: isDark 
-                    ? ColorFilter.mode(
-                        colorScheme.primary,
-                        BlendMode.srcIn,
-                      )
-                    : null,
+                // colorFilter:
+                //     isDark
+                //         ? ColorFilter.mode(colorScheme.primary, BlendMode.srcIn)
+                //         : null,
               ),
             );
           }),
