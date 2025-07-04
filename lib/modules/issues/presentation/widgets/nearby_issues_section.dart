@@ -63,47 +63,6 @@ class NearbyIssuesSection extends StatelessWidget {
     );
   }
 
-  Widget _buildFilterChips(BuildContext context) {
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      padding: EdgeInsets.symmetric(horizontal: 16.w),
-      child: Row(
-        children: [
-          _buildFilterChip(context, 'All', true),
-          SizedBox(width: 8.w),
-          _buildFilterChip(context, 'Road Damage', false),
-          SizedBox(width: 8.w),
-          _buildFilterChip(context, 'Not Fixed', false),
-          SizedBox(width: 8.w),
-          _buildFilterChip(context, 'Most Reported', false),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildFilterChip(BuildContext context, String label, bool isSelected) {
-    final theme = Theme.of(context);
-    return FilterChip(
-      selected: isSelected,
-      label: Text(label),
-      onSelected: (_) {},
-      backgroundColor:
-          isSelected ? theme.colorScheme.primary : theme.colorScheme.surface,
-      labelStyle: TextStyle(
-        color:
-            isSelected
-                ? theme.colorScheme.onPrimary
-                : theme.colorScheme.onSurface,
-      ),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20.r),
-        side: BorderSide(
-          color: isSelected ? Colors.transparent : theme.colorScheme.outline,
-        ),
-      ),
-    );
-  }
-
   Widget _buildDragHandle() {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 8.h),
