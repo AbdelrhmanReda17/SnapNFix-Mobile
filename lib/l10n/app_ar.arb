@@ -388,7 +388,9 @@
       "count": {
         "type": "String"
       }
-    }  },  "issuesBeingReviewed": "يتم مراجعة مشكلاتك.",
+    }  
+  },  
+  "issuesBeingReviewed": "يتم مراجعة مشكلاتك.",
   "viewDetails": "عرض التفاصيل",
   "approvedReports": "بلاغات معتمدة",
   "aiRecognized": "الذكاء الاصطناعي تعرف على بلاغاتك!",
@@ -463,7 +465,8 @@
         "type": "int"
       }
     }
-  },  "sort": "ترتيب",
+  },  
+  "sort": "ترتيب",
   "sortByDateNewest": "التاريخ (الأحدث أولاً)",
   "sortByDateOldest": "التاريخ (الأقدم أولاً)",
 
@@ -476,7 +479,8 @@
   "updates": "التحديثات",
   "male": "ذكر",
   "female": "أنثى",
-  "notSpecified": "غير محدد",  "channelUpdates": "تحديثات {channel}",
+  "notSpecified": "غير محدد",  
+  "channelUpdates": "تحديثات {channel}",
   "@channelUpdates": {
     "description": "Updates for a specific channel",
     "placeholders": {
@@ -552,7 +556,8 @@
     "description": "Message shown when session times out and form is reset"
   },
   "extendSession": "تمديد الجلسة",
-  "timeRemaining": "الوقت المتبقي",  "networkError": "خطأ في الشبكة",
+  "timeRemaining": "الوقت المتبقي",  
+  "networkError": "خطأ في الشبكة",
   "serverError": "خطأ في الخادم",
   "unexpectedError": "حدث خطأ غير متوقع",
   "connectionTimeout": "انتهت مهلة الاتصال",
@@ -583,20 +588,26 @@
   "country": "البلد",
   "egypt": "مصر",
   "alGiza": "الجيزة",
-  "gizaGovernorate": "محافظة الجيزة",  "pending": "قيد الانتظار",
+  "gizaGovernorate": "محافظة الجيزة",  
+  "pending": "قيد الانتظار",
   "inProgress": "قيد التنفيذ",
   "completed": "تم الإصلاح",
   "approved": "موافق عليه",
   "declined": "مرفوض",
   "submit": "إرسال",
   "high": "عالي",
-  "medium": "متوسط",  "low": "منخفض",
+  "medium": "متوسط",  
+  "low": "منخفض",
   "garbage": "قمامة",  
   "defectiveManhole": "بالوعة معطلة",
-  "pothole": "حفرة في الطريق",  "fastReports": "بلاغات سريعة",  "snapReports": "بلاغات مصورة",
+  "pothole": "حفرة في الطريق",
+  "fastReports": "بلاغات سريعة",  
+  "snapReports": "بلاغات مصورة",
   "anonymous": "مجهول",
   "reportsLabel": "بلاغات",
-  "createdLabel": "تم الإنشاء",  "applyFilter": "تطبيق التصفية","clearAllFilters": "مسح جميع المرشحات",
+  "createdLabel": "تم الإنشاء",  
+  "applyFilter": "تطبيق التصفية",
+  "clearAllFilters": "مسح جميع المرشحات",
   "statusFilters": "مرشحات الحالة",
 
   "excellentCondition": "حالة ممتازة",
@@ -606,11 +617,53 @@
 
   "justNow": "الآن",
   "dayAgo": "منذ {count} يوم",
+  "@dayAgo": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "daysAgo": "منذ {count} أيام",
+  "@daysAgo": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "hourAgo": "منذ {count} ساعة",
+  "@hourAgo": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "hoursAgo": "منذ {count} ساعات",
+  "@hoursAgo": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "minuteAgo": "منذ {count} دقيقة",
+  "@minuteAgo": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "minutesAgo": "منذ {count} دقائق",
+  "@minutesAgo": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
 
   "yourAreas": "مناطقك",
   "@yourAreas": {

@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'package:flutter/material.dart';
 import 'package:snapnfix/index.dart';
 import 'package:snapnfix/modules/area_updates/data/models/get_all_areas_query.dart';
 import 'package:snapnfix/modules/area_updates/data/models/get_all_subscribed_areas_query.dart';

@@ -300,7 +300,8 @@
   "noReports": "No reports yet",
   "reports": "Reports",
   "severityLow": "low",
-  "severityMedium": "medium",   "severityHigh": "high",
+  "severityMedium": "medium",   
+  "severityHigh": "high",
   "statusPending": "pending",
   "statusValid": "approved",
   "statusInvalid": "declined",
@@ -385,12 +386,13 @@
       "count": {
         "type": "String"
       }
-    }  },  "issuesBeingReviewed": "Your issues are being reviewed.",
+    }  
+  }, 
+  "issuesBeingReviewed": "Your issues are being reviewed.",
   "viewDetails": "View Details",
   "approvedReports": "Approved Reports",
   "aiRecognized": "AI recognized your reports!",
   "loading": "Loading...",
-  "issue": "Issue",
   "issues": "Issues",
   "foundNearYou": "Found Near You",
 
@@ -461,7 +463,8 @@
       }
     }
   },
-  "sort": "Sort",  "sortByDateNewest": "Date (Newest First)",
+  "sort": "Sort",  
+  "sortByDateNewest": "Date (Newest First)",
   "sortByDateOldest": "Date (Oldest First)",
 
   "issueDetailsTitle": "Issue Details",
@@ -473,7 +476,8 @@
   "updates": "Updates",
   "male": "Male",
   "female": "Female",
-  "notSpecified": "Not Specified",  "channelUpdates": "{channel} Updates",
+  "notSpecified": "Not Specified",  
+  "channelUpdates": "{channel} Updates",
   "@channelUpdates": {
     "description": "Updates for a specific channel",
     "placeholders": {
@@ -577,20 +581,26 @@
   "country": "Country",
   "egypt": "Egypt",
   "alGiza": "Al Giza",
-  "gizaGovernorate": "Giza Governorate",  "pending": "Pending",
+  "gizaGovernorate": "Giza Governorate",  
+  "pending": "Pending",
   "inProgress": "In Progress", 
   "completed": "Completed",
   "approved": "Approved",
   "declined": "Declined",
   "submit": "Submit",
   "high": "High",
-  "medium": "Medium",  "low": "Low",
-  "garbage": "Garbage",  "defectiveManhole": "Defective Manhole",
-  "pothole": "Pothole",  "fastReports": "Fast Reports",  "snapReports": "Snap Reports",
+  "medium": "Medium",  
+  "low": "Low",
+  "garbage": "Garbage",  
+  "defectiveManhole": "Defective Manhole",
+  "pothole": "Pothole",  
+  "fastReports": "Fast Reports",  
+  "snapReports": "Snap Reports",
   "anonymous": "Anonymous",
   "reportsLabel": "Reports",
   "createdLabel": "Created",
-  "applyFilter": "Apply Filter","clearAllFilters": "Clear All Filters",
+  "applyFilter": "Apply Filter",
+  "clearAllFilters": "Clear All Filters",
   "statusFilters": "Status Filters",
 
   "excellentCondition": "Excellent condition",
