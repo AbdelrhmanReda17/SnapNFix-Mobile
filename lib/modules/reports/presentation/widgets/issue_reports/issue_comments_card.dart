@@ -4,7 +4,6 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:snapnfix/core/core.dart';
 import 'package:snapnfix/modules/issues/domain/entities/issue_severity.dart';
 import 'package:snapnfix/presentation/widgets/issue_severity_icons_indicator.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 
 class IssueCommentsCard extends StatelessWidget {
   final bool isSnapReport;

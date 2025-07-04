@@ -724,6 +724,10 @@
   "@errorPleaseProvideImage": {
     "description": "Error message when no image is provided for report submission"
   },
+  "errorGetPendingReportsFailed": "فشل في تحميل البلاغات المعلقة",
+  "@errorGetPendingReportsFailed": {
+    "description": "Error message when loading pending reports fails"
+  },
   "errorSubmitReportFailed": "فشل في إرسال البلاغ",
   "@errorSubmitReportFailed": {
     "description": "Error message when report submission fails"

@@ -26,7 +26,7 @@ abstract class BaseIssueLocalDataSource {
 class IssueLocalDataSource implements BaseIssueLocalDataSource {
   IssueLocalDataSource(this._prefs);
 
-  static const Duration _cacheValidDuration = Duration(hours: 1);
+  static const Duration _cacheValidDuration = Duration(seconds: 15);
   static const String _issuesKey = 'cached_issues';
   static const String _issueTimestampsKey = 'cached_issue_timestamps';
 

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:snapnfix/core/utils/helpers/localization_helper.dart';
 import 'package:snapnfix/modules/reports/presentation/cubits/user_reports_cubit.dart';
 
 class ReportsErrorView extends StatelessWidget {
@@ -24,7 +25,10 @@ class ReportsErrorView extends StatelessWidget {
             Icon(Icons.error_outline, size: 48.sp, color: colorScheme.error),
             SizedBox(height: 16.h),
             Text(
-              errorMessage,
+              LocalizationHelper.getLocalizedMessage(
+                context,
+                errorMessage,
+              ),
               style: theme.textTheme.bodyLarge?.copyWith(
                 color: colorScheme.error,
               ),

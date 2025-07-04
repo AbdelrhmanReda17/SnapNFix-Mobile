@@ -795,6 +795,10 @@
   "@errorGetReportsFailed": {
     "description": "Error message when loading reports fails"
   },
+  "errorGetPendingReportsFailed": "Failed to load pending reports",
+  "@errorGetPendingReportsFailed": {
+    "description": "Error message when loading pending reports fails"
+  },
   "errorGetUserReportsFailed": "Failed to load user reports",
   "@errorGetUserReportsFailed": {
     "description": "Error message when loading user reports fails"
