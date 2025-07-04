@@ -149,7 +149,11 @@ class AuthenticationRemoteDataSource
   @override
   Future<Result<bool, ApiError>> resendOtp(OtpPurpose purpose) {
     return _handleApiCall(
-      apiCall: () => _apiService.resendOtp(ResendOtpRequest()),
+      apiCall:
+          () =>
+              purpose == OtpPurpose.registration
+                  ? _apiService.resendOtp(ResendOtpRequest())
+                  : _apiService.resendForgotPasswordOtp(ResendOtpRequest()),
       requiresSuccess: true,
     );
   }

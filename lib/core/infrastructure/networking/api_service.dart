@@ -41,6 +41,10 @@ abstract class ApiService {
   @POST(ApiEndpoints.resendOtp)
   Future<ApiResponse<bool>> resendOtp(@Body() ResendOtpRequest request);
 
+  @POST(ApiEndpoints.resendForgotPasswordOtp)
+  Future<ApiResponse<bool>> resendForgotPasswordOtp(@Body() ResendOtpRequest request);
+
+
   @POST(ApiEndpoints.forgotPassword)
   Future<ApiResponse<String>> requestPasswordReset(
     @Body() PasswordResetRequest request,
