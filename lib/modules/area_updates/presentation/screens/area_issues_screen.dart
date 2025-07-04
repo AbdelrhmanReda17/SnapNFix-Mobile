@@ -14,7 +14,6 @@ import 'package:snapnfix/modules/area_updates/domain/usecases/toggle_area_subscr
 import 'package:snapnfix/modules/area_updates/presentation/cubits/area_details/area_details_cubit.dart';
 import 'package:snapnfix/modules/area_updates/presentation/cubits/area_subscription_notifier.dart';
 import 'package:snapnfix/modules/area_updates/presentation/widgets/area_issue_card.dart';
-import 'package:snapnfix/modules/issues/domain/entities/issue_status.dart';
 import 'package:snapnfix/presentation/navigation/routes.dart';
 
 class AreaIssuesScreen extends StatefulWidget {
@@ -273,7 +272,12 @@ class _AreaIssuesScreenState extends State<AreaIssuesScreen> {
                 },
               ),
           onRefresh: () async => {},
-          onLoadMore: _cubit.hasMoreData ? _loadMoreIssues : null,
+          onLoadMore:
+              _cubit.hasMoreData
+                  ? _loadMoreIssues
+                  : () {
+                    debugPrint('No more issues to load');
+                  },
           emptyStateBuilder:
               (context) => _buildEmptyIssuesState(context, localization),
           separator: SizedBox(height: 12.h),

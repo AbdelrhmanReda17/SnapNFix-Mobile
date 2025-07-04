@@ -1,4 +1,3 @@
-// Create a new device_info_module.dart
 import 'dart:io';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:injectable/injectable.dart';
@@ -40,7 +39,6 @@ abstract class DeviceInfoModule {
       platform = Platform.operatingSystem;
     }
 
-    // Get FCM token once during initialization
     final fcmToken = await fcmService.getCachedToken();
 
     return DeviceInfoService(

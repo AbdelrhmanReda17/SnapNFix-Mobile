@@ -9,14 +9,14 @@ class GetReportsQuery {
     this.sort,
     this.status,
     this.category,
-    this.page = 1,
-    this.limit = 10,
+    this.pageNumber = 1,
+    this.pageSize = 10,
   });
   final String? sort;
   final String? status;
   final IssueCategory? category;
-  final int page;
-  final int limit;
+  final int pageNumber;
+  final int pageSize;
 
   factory GetReportsQuery.fromJson(Map<String, dynamic> json) =>
       _$GetReportsQueryFromJson(json);

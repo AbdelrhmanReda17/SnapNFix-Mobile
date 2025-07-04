@@ -16,6 +16,12 @@ class ReportsListView extends StatelessWidget {
   Widget build(BuildContext context) {
     final localization = AppLocalizations.of(context)!;
 
+    debugPrint(
+      state.hasReachedEnd
+          ? '📜 No more reports to load'
+          : '📜 More reports available to load',
+    );
+
     return EnhancedPaginatedView<SnapReportModel>(
       items: state.reports,
       isLoading: state.isLoading,
@@ -33,7 +39,7 @@ class ReportsListView extends StatelessWidget {
       onLoadMore: () {
         if (context.mounted) {
           debugPrint('📜 Loading more reports from enhanced paginated view');
-          context.read<UserReportsCubit>().loadReports();
+          context.read<UserReportsCubit>().loadReports(loadMore: true);
         }
       },
       separator: SizedBox(height: 16.h),

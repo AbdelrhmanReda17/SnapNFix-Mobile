@@ -3,22 +3,33 @@ default_platform(:android)
 platform :android do
   desc "Lane for android firebase app distribution"
   lane :firebase_distribution do
+    # Clean and prepare environment
     sh "flutter clean"
     sh "flutter pub get"
 
-    Dir.chdir("#{Dir.pwd}/../..") 
+    # Generate localizations and build runner
+    Dir.chdir("#{Dir.pwd}/../..") do
       sh "flutter gen-l10n"
       sh "flutter pub run build_runner build --delete-conflicting-outputs && flutter gen-l10n"
     end
 
-    sh "flutter build apk --release --flavor production --target lib/main_production.dart --no-tree-shake-icons"
+    # Check if Sentry DSN is available
+    sentry_dsn = ENV['SENTRY_DSN']
+    if sentry_dsn.nil? || sentry_dsn.empty?
+      UI.important "⚠️  SENTRY_DSN not found in environment variables"
+      UI.important "⚠️  Building without Sentry crash reporting"
+      sh "flutter build apk --release --flavor production --target lib/main_production.dart --no-tree-shake-icons"
+    else
+      UI.success "✅ SENTRY_DSN found, building with crash reporting"
+      sh "flutter build apk --release --flavor production --target lib/main_production.dart --no-tree-shake-icons --dart-define=SENTRY_DSN=#{sentry_dsn}"
+    end
 
     firebase_app_distribution(
       app: "1:1091073399966:android:e7b45d2f2bcb636e7baf8f",
       firebase_cli_token: ENV["FIREBASE_CLI_TOKEN"],
       android_artifact_type: "APK",
       android_artifact_path: "../build/app/outputs/flutter-apk/app-production-release.apk",
-      testers: "abdelrhmanrmuhammed@gmail.com, abdelrahmanatef45@gmail.com, abdelrahmanadel203@gmail.com, leewenhoek22@gmail.com, roaa20102002@gmail.com",
+      testers: "abdelrhmanrmuhammed@gmail.com, abdelrahmanatef45@gmail.com, remastaha060@gmail.com, abdelrahmanadel203@gmail.com, leewenhoek22@gmail.com, roaa20102002@gmail.com",
       release_notes: "This is a production release of SnapnFix app for android.",
     )
   end

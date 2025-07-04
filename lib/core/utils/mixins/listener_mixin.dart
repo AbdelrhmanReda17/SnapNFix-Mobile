@@ -6,12 +6,9 @@ import 'package:snapnfix/core/base_components/base_alert_component/alert_type.da
 import '../../base_components/index.dart';
 import '../../infrastructure/index.dart';
 
-/// Mixin that provides authentication-related UI state management
-/// and navigation functionality for authentication flows.
+
 mixin ListenerMixin {
-  /// Shows a loading dialog with circular progress indicator
   void showLoadingDialog(BuildContext context) {
-    // Check if a dialog is already showing by checking if we can pop
     if (_isDialogShowing(context)) return;
 
     showDialog(
@@ -22,7 +19,6 @@ mixin ListenerMixin {
     );
   }
 
-  /// Handles successful authentication operations
   void handleSuccess(
     BuildContext context, {
     bool showSuccessMessage = false,
@@ -52,7 +48,6 @@ mixin ListenerMixin {
     });
   }
 
-  /// Handles authentication errors by showing error dialog
   void handleError(
     BuildContext context,
     ApiError error, {
@@ -72,7 +67,6 @@ mixin ListenerMixin {
     });
   }
 
-  /// Navigates to the specified route
   void navigateToRoute(BuildContext context, String route, {Object? extra}) {
     _navigateToRoute(context, route, extra);
   }
@@ -80,7 +74,6 @@ mixin ListenerMixin {
   void dismissLoadingAndExecute(BuildContext context, VoidCallback callback) {
     if (!context.mounted) return;
 
-    // Try to dismiss any showing dialog
     if (_isDialogShowing(context)) {
       Navigator.of(context, rootNavigator: true).pop();
     }
@@ -92,12 +85,10 @@ mixin ListenerMixin {
     });
   }
 
-  /// Check if a dialog is currently showing
   bool _isDialogShowing(BuildContext context) {
     return Navigator.of(context, rootNavigator: true).canPop();
   }
 
-  /// Shows success dialog with customizable content
   void _showSuccessDialog(
     BuildContext context, {
     String? title,
@@ -117,7 +108,6 @@ mixin ListenerMixin {
     );
   }
 
-  /// Shows error dialog with API error information
   void _showErrorDialog(
     BuildContext context, {
     String? title,
@@ -125,9 +115,6 @@ mixin ListenerMixin {
     VoidCallback? onConfirm,
   }) {
     final localizations = AppLocalizations.of(context)!;
-    debugPrint('Showing error dialog: ${error.message}');
-    debugPrint('Error details: ${error.fullMessage}');
-
     baseDialog(
       context: context,
       title: localizations.errorDialogTitle,
@@ -139,11 +126,9 @@ mixin ListenerMixin {
     );
   }
 
-  /// Navigates to route with proper timing
   void _navigateToRoute(BuildContext context, String route, Object? extra) {
     if (!context.mounted) return;
 
-    // Small delay to ensure any dialogs are fully processed
     Future.delayed(const Duration(milliseconds: 100), () {
       if (!context.mounted) return;
 
@@ -160,7 +145,6 @@ mixin ListenerMixin {
   }
 }
 
-/// Private widget for loading dialog
 class _LoadingDialog extends StatelessWidget {
   const _LoadingDialog();
 

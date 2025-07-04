@@ -64,12 +64,15 @@ class IssueFastReportsCubit extends Cubit<IssueFastReportsState> {
       result.when(
         success: (newReports) {
           if (isClosed) return;
+          final hasNextPage = newReports.value;
+          final hasReachedEnd = !hasNextPage;
+          
           final updatedReports =
               refresh
                   ? List<FastReportModel>.from(newReports.key)
                   : [...state.reports, ...newReports.key];
 
-          if (newReports.value && newReports.key.length == _pageSize) {
+          if (hasNextPage && newReports.key.isNotEmpty) {
             _currentPage++;
           }
 
@@ -78,7 +81,7 @@ class IssueFastReportsCubit extends Cubit<IssueFastReportsState> {
               reports: updatedReports,
               isLoading: false,
               isLoadingMore: false,
-              hasReachedEnd: newReports.value,
+              hasReachedEnd: hasReachedEnd,
               error: null,
             ),
           );

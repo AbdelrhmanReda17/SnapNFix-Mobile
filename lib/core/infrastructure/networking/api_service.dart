@@ -15,7 +15,6 @@ part 'api_service.g.dart';
 abstract class ApiService {
   factory ApiService(Dio dio) = _ApiService;
 
-  // Authentication
   @POST(ApiEndpoints.login)
   Future<ApiResponse<SessionModel>> login(@Body() LoginRequest request);
 
@@ -33,7 +32,6 @@ abstract class ApiService {
   @PUT(ApiEndpoints.editProfile)
   Future<ApiResponse<bool>> editProfile(@Body() Map<String, dynamic> request);
 
-  // OTP operations
   @POST(ApiEndpoints.requestOtp)
   Future<ApiResponse<String>> requestOtp(@Body() OtpRequest request);
 
@@ -43,7 +41,6 @@ abstract class ApiService {
   @POST(ApiEndpoints.resendOtp)
   Future<ApiResponse<bool>> resendOtp(@Body() ResendOtpRequest request);
 
-  // Password operations
   @POST(ApiEndpoints.forgotPassword)
   Future<ApiResponse<String>> requestPasswordReset(
     @Body() PasswordResetRequest request,
@@ -57,7 +54,6 @@ abstract class ApiService {
   @POST(ApiEndpoints.resetPassword)
   Future<ApiResponse<bool>> resetPassword(@Body() ResetPasswordRequest request);
 
-  // Social login
   @POST(ApiEndpoints.googleLogin)
   Future<ApiResponse<SessionModel>> loginWithGoogle(
     @Body() GoogleLoginRequest request,

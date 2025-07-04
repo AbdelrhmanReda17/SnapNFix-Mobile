@@ -55,7 +55,7 @@ class SharedErrorWidget extends StatelessWidget {
             SizedBox(height: 16.h),
             ElevatedButton.icon(
               onPressed: onRetry,
-              icon: const Icon(Icons.refresh),
+              icon: Icon(Icons.refresh, color: colorScheme.onPrimary),
               label: Text(AppLocalizations.of(context)!.tryAgain),
               style: ElevatedButton.styleFrom(
                 padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 12.h),

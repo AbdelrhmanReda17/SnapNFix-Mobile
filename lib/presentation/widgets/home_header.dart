@@ -90,24 +90,6 @@ class HomeHeader extends StatelessWidget {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      Row(
-                        children: [
-                          Icon(
-                            Icons.location_on,
-                            size: 14.sp,
-                            color: theme.colorScheme.primary,
-                          ),
-                          Text(
-                            '36 Dokki st, Giza',
-                            style: theme.textTheme.bodySmall?.copyWith(
-                              color: theme.colorScheme.onSurface.withValues(
-                                alpha: 0.6,
-                              ),
-                              fontSize: 12.sp,
-                            ),
-                          ),
-                        ],
-                      ),
                     ],
                   ),
                 ],
@@ -119,21 +101,7 @@ class HomeHeader extends StatelessWidget {
           top: 16.h,
           right: Directionality.of(context) == TextDirection.ltr ? 8.w : null,
           left: Directionality.of(context) == TextDirection.ltr ? null : 8.w,
-          child: Row(
-            children: [
-              IconButton(
-                icon: Icon(
-                  Icons.notifications_outlined,
-                  size: 32.r,
-                  color: theme.colorScheme.primary,
-                ),
-                onPressed: () {},
-                padding: EdgeInsets.zero,
-                constraints: const BoxConstraints(),
-              ),
-              const OfflineReportIndicator(),
-            ],
-          ),
+          child: Row(children: [const OfflineReportIndicator()]),
         ),
       ],
     );

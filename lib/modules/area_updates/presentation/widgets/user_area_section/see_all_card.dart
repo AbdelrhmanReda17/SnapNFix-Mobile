@@ -11,19 +11,25 @@ class SeeAllCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    final screenWidth = MediaQuery.of(context).size.width;
+    final cardWidth = (screenWidth - 48.w) / 2.8; // More responsive width calculation
+    
     return Container(
-      width: 140.w,
-      height: 120.h,
-      margin: EdgeInsets.only(right: 16.w),
+      width: cardWidth.clamp(120.w, 160.w), // Constrain within reasonable bounds
+      constraints: BoxConstraints(
+        minHeight: 100.h,
+        maxHeight: 140.h,
+      ),
+      margin: EdgeInsets.only(right: 12.w),
       child: Material(
         color: Colors.transparent,
         child: InkWell(
           onTap: onTap,
-          borderRadius: BorderRadius.circular(16.r),
+          borderRadius: BorderRadius.circular(12.r),
           child: Container(
-            padding: EdgeInsets.all(12.w),
+            padding: EdgeInsets.all(8.w),
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(16.r),
+              borderRadius: BorderRadius.circular(12.r),
               color: colorScheme.surfaceContainer,
               border: Border.all(
                 color: colorScheme.outline.withValues(alpha: .1),
@@ -31,68 +37,77 @@ class SeeAllCard extends StatelessWidget {
               ),
               boxShadow: [
                 BoxShadow(
-                  color: colorScheme.shadow.withValues(alpha: 0.3),
-                  spreadRadius: isDarkMode ? 1 : 0.5,
-                  blurRadius: isDarkMode ? 3 : 2,
-                  offset: Offset(0, isDarkMode ? 2 : 1),
+                  color: colorScheme.shadow.withValues(alpha: 0.15),
+                  spreadRadius: isDarkMode ? 0.5 : 0,
+                  blurRadius: isDarkMode ? 2 : 1,
+                  offset: Offset(0, isDarkMode ? 1 : 0.5),
                 ),
               ],
             ),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
               children: [
                 // Icon with background
                 Container(
-                  padding: EdgeInsets.all(8.w),
+                  padding: EdgeInsets.all(6.w),
                   decoration: BoxDecoration(
                     color: colorScheme.primary.withValues(alpha: 0.1),
-                    borderRadius: BorderRadius.circular(10.r),
+                    borderRadius: BorderRadius.circular(8.r),
                   ),
                   child: Icon(
                     Icons.grid_view_rounded,
-                    size: 16.sp,
+                    size: 14.sp,
                     color: colorScheme.primary,
                   ),
                 ),
 
-                SizedBox(height: 6.h),
+                SizedBox(height: 4.h),
 
                 // Text
-                Text(
+                Flexible(
+                  child: Text(
                   AppLocalizations.of(context)!.viewAll,
                   textAlign: TextAlign.center,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                   style: TextStyle(
-                    fontSize: 12.sp,
+                      fontSize: 11.sp,
                     fontWeight: FontWeight.w700,
                     color: colorScheme.onSurface,
+                    ),
                   ),
                 ),
 
-                SizedBox(height: 1.h),
+                SizedBox(height: 2.h),
 
                 // Subtitle
-                Text(
+                Flexible(
+                  child: Text(
                   AppLocalizations.of(context)!.seeMoreAreas,
                   textAlign: TextAlign.center,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
                   style: TextStyle(
-                    fontSize: 8.sp,
+                      fontSize: 7.sp,
                     fontWeight: FontWeight.w500,
                     color: colorScheme.onSurfaceVariant,
+                    ),
                   ),
                 ),
 
-                SizedBox(height: 6.h),
+                SizedBox(height: 4.h),
 
                 // Action indicator
                 Container(
-                  padding: EdgeInsets.all(3.w),
+                  padding: EdgeInsets.all(2.w),
                   decoration: BoxDecoration(
                     color: colorScheme.primary.withValues(alpha: 0.1),
-                    borderRadius: BorderRadius.circular(5.r),
+                    borderRadius: BorderRadius.circular(4.r),
                   ),
                   child: Icon(
                     Icons.arrow_forward_ios_rounded,
-                    size: 7.sp,
+                    size: 6.sp,
                     color: colorScheme.primary,
                   ),
                 ),

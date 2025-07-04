@@ -18,19 +18,26 @@ class AreaCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    final screenWidth = MediaQuery.of(context).size.width;
+    final cardWidth =
+        (screenWidth - 48.w) / 2.8; // More responsive width calculation
+
     return Container(
-      width: 140.w,
-      height: 120.h,
-      margin: EdgeInsets.only(right: 16.w),
+      width: cardWidth.clamp(
+        120.w,
+        160.w,
+      ), // Constrain within reasonable bounds
+      constraints: BoxConstraints(minHeight: 100.h, maxHeight: 140.h),
+      margin: EdgeInsets.only(right: 12.w),
       child: Material(
         color: Colors.transparent,
         child: InkWell(
           onTap: onTap,
-          borderRadius: BorderRadius.circular(16.r),
+          borderRadius: BorderRadius.circular(12.r),
           child: Container(
-            padding: EdgeInsets.all(12.w),
+            padding: EdgeInsets.all(8.w),
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(16.r),
+              borderRadius: BorderRadius.circular(12.r),
               color: colorScheme.surfaceContainer,
               border: Border.all(
                 color: colorScheme.outline.withValues(alpha: .1),
@@ -38,84 +45,91 @@ class AreaCard extends StatelessWidget {
               ),
               boxShadow: [
                 BoxShadow(
-                  color: colorScheme.shadow.withValues(alpha: 0.3),
-                  spreadRadius: isDarkMode ? 1 : 0.5,
-                  blurRadius: isDarkMode ? 3 : 2,
-                  offset: Offset(0, isDarkMode ? 2 : 1),
+                  color: colorScheme.shadow.withValues(alpha: 0.15),
+                  spreadRadius: isDarkMode ? 0.5 : 0,
+                  blurRadius: isDarkMode ? 2 : 1,
+                  offset: Offset(0, isDarkMode ? 1 : 0.5),
                 ),
               ],
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
               children: [
                 // Header with issues count
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Container(
+                    Flexible(
+                      child: Container(
                       padding: EdgeInsets.symmetric(
-                        horizontal: 6.w,
-                        vertical: 2.h,
+                          horizontal: 4.w,
+                          vertical: 1.h,
                       ),
                       decoration: BoxDecoration(
                         color: _getIssueCountColor().withValues(alpha: 0.1),
-                        borderRadius: BorderRadius.circular(10.r),
+                          borderRadius: BorderRadius.circular(8.r),
                       ),
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Icon(
                             _getIssueIcon(),
-                            size: 10.sp,
+                              size: 8.sp,
                             color: _getIssueCountColor(),
                           ),
-                          SizedBox(width: 3.w),
+                            SizedBox(width: 2.w),
                           Text(
                             '${area.activeIssuesCount}',
                             style: TextStyle(
-                              fontSize: 10.sp,
+                                fontSize: 9.sp,
                               fontWeight: FontWeight.w600,
                               color: _getIssueCountColor(),
                             ),
                           ),
                         ],
+                        ),
                       ),
                     ),
                     Icon(
                       Icons.location_on_rounded,
-                      size: 14.sp,
+                      size: 12.sp,
                       color: colorScheme.primary.withValues(alpha: 0.6),
                     ),
                   ],
                 ),
 
-                SizedBox(height: 8.h),
+                SizedBox(height: 6.h),
 
                 // Area info - takes remaining space
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
                     children: [
-                      Text(
+                      Flexible(
+                        child: Text(
                         area.name.isNotEmpty
                             ? area.name
                             : AppLocalizations.of(context)!.unknownArea,
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
-                          fontSize: 13.sp,
+                            fontSize: 11.sp,
                           fontWeight: FontWeight.w700,
                           color: colorScheme.onSurface,
-                          height: 1.1,
+                            height: 1.2,
+                          ),
                         ),
                       ),
-                      SizedBox(height: 2.h),
+                      SizedBox(height: 3.h),
                       Row(
+                        mainAxisSize: MainAxisSize.min,
                         children: [
                           Icon(
                             Icons.place_outlined,
-                            size: 9.sp,
+                            size: 8.sp,
                             color: colorScheme.onSurfaceVariant,
                           ),
                           SizedBox(width: 2.w),
@@ -127,7 +141,7 @@ class AreaCard extends StatelessWidget {
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(
-                                fontSize: 9.sp,
+                                fontSize: 8.sp,
                                 fontWeight: FontWeight.w500,
                                 color: colorScheme.onSurfaceVariant,
                               ),
@@ -139,25 +153,23 @@ class AreaCard extends StatelessWidget {
                   ),
                 ),
 
-                SizedBox(height: 6.h),
+                SizedBox(height: 4.h),
 
                 // Action indicator
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Container(
-                      padding: EdgeInsets.all(4.w),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: Container(
+                    padding: EdgeInsets.all(3.w),
                       decoration: BoxDecoration(
                         color: colorScheme.primary.withValues(alpha: 0.1),
-                        borderRadius: BorderRadius.circular(6.r),
+                      borderRadius: BorderRadius.circular(4.r),
                       ),
                       child: Icon(
                         Icons.arrow_forward_ios_rounded,
-                        size: 8.sp,
+                      size: 6.sp,
                         color: colorScheme.primary,
                       ),
                     ),
-                  ],
                 ),
               ],
             ),

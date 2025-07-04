@@ -82,7 +82,7 @@
   "unableToGetLocation": "Unable to get location",
   "pleaseAddPhoto": "Please take a photo of the incident",
   "reportSubmitted": "Report submitted successfully",
-
+  "createReportTimeWarning": "Warning: Only 30 seconds remaining",
   "currentPassword": "Current Password",
   "newPassword": "New Password",
   "confirmNewPassword": "Confirm New Password",
@@ -97,7 +97,8 @@
   "passwordRequirementsNotMet": "Password doesn't meet all requirements",
   "currentPasswordRequired": " Current password is required",
   "newPasswordMustBeDifferent": "New password must be different from current password",
-
+  "reportDescriptionRequired": "Report description is required.",
+  "reportDescriptionMinLength": "Description should be at least 8 characters.",
   "editProfile": "Edit Profile",
   "name": "Name",
   "phone": "Phone",
@@ -187,7 +188,6 @@
   
   "keyFeatures": "Key Features",
   "keyFeaturesText": "• Quick and easy issue reporting\n• Real-time status updates\n• Location-based issue tracking\n• Secure and private reporting\n• Community engagement tools",
-  
   "email": "Email",
   "faqs": "FAQs",
   "howToReportFaqTitle": "How do I report an issue?",
@@ -541,7 +541,10 @@
   "step4": "4. Submit your report",
 
   "sessionTimeout": "Session Timeout",
-  "sessionTimeoutMessage": "Your session will expire soon. Please save your work.",
+  "sessionTimeoutMessage": "Your session has timed out due to inactivity. Your form has been reset.",
+  "@sessionTimeoutMessage": {
+    "description": "Message shown when session times out and form is reset"
+  },
   "extendSession": "Extend Session",
   "timeRemaining": "Time remaining",  "networkError": "Network Error",
   "serverError": "Server Error",
@@ -759,5 +762,126 @@
   "issuesPlural": "Issues",
   "@issuesPlural": {
     "description": "Plural form of issues"
+  },
+  "nonDefectiveManhole" : "Non-Defective Manhole",
+  "useMockImage":"Mock Image",
+  "comment":"Comment",
+
+  "errorPleaseProvideImage": "Please provide an image",
+  "@errorPleaseProvideImage": {
+    "description": "Error message when no image is provided for report submission"
+  },
+  "errorSubmitReportFailed": "Failed to submit report",
+  "@errorSubmitReportFailed": {
+    "description": "Error message when report submission fails"
+  },
+  "errorNoInternetConnection": "No internet connection. Please try again later.",
+  "@errorNoInternetConnection": {
+    "description": "Error message when there's no internet connection"
+  },
+  "errorReportSubmissionFailed": "Report submission failed",
+  "@errorReportSubmissionFailed": {
+    "description": "Error message when report submission fails"
+  },
+  "errorReportSavedOffline": "Failed to submit report. Saved offline.",
+  "@errorReportSavedOffline": {
+    "description": "Error message when report is saved offline due to submission failure"
+  },
+  "errorFastReportFailed": "Fast report submission failed",
+  "@errorFastReportFailed": {
+    "description": "Error message when fast report submission fails"
+  },
+  "errorGetReportsFailed": "Failed to load reports",
+  "@errorGetReportsFailed": {
+    "description": "Error message when loading reports fails"
+  },
+  "errorGetUserReportsFailed": "Failed to load user reports",
+  "@errorGetUserReportsFailed": {
+    "description": "Error message when loading user reports fails"
+  },
+  "errorGetStatisticsFailed": "Failed to load statistics",
+  "@errorGetStatisticsFailed": {
+    "description": "Error message when loading statistics fails"
+  },
+  "errorUnexpectedOccurred": "An unexpected error occurred",
+  "@errorUnexpectedOccurred": {
+    "description": "Generic error message for unexpected errors"
+  },
+  "errorClearReportsFailed": "Failed to clear reports",
+  "@errorClearReportsFailed": {
+    "description": "Error message when clearing reports fails"
+  },
+  "errorDeleteReportFailed": "Failed to delete report",
+  "@errorDeleteReportFailed": {
+    "description": "Error message when deleting a report fails"
+  },
+  "errorInitializeStorageFailed": "Failed to initialize storage",
+  "@errorInitializeStorageFailed": {
+    "description": "Error message when storage initialization fails"
+  },
+  "errorMarkReportSyncedFailed": "Failed to mark report as synced",
+  "@errorMarkReportSyncedFailed": {
+    "description": "Error message when marking a report as synced fails"
+  },
+  "errorSaveReportOfflineFailed": "Failed to save report offline",
+  "@errorSaveReportOfflineFailed": {
+    "description": "Error message when saving a report offline fails"
+  },
+  "errorStorageNotInitialized": "Storage not initialized",
+  "@errorStorageNotInitialized": {
+    "description": "Error message when storage is not initialized"
+  },
+  "successReportSavedOffline": "No internet connection. Report saved offline.",
+  "@successReportSavedOffline": {
+    "description": "Success message when report is saved offline"
+  },
+  "successReportSubmittedWithId": "Report submitted successfully",
+  "@successReportSubmittedWithId": {
+    "description": "Success message when report is submitted successfully"
+  },
+  "errorLoadAreasFailed": "Failed to load areas",
+  "@errorLoadAreasFailed": {
+    "description": "Error message when loading areas fails"
+  },
+  "errorLoadAreaHealthFailed": "Failed to load area health",
+  "@errorLoadAreaHealthFailed": {
+    "description": "Error message when loading area health fails"
+  },
+  "errorLoadAreaIssuesFailed": "Failed to load area issues",
+  "@errorLoadAreaIssuesFailed": {
+    "description": "Error message when loading area issues fails"
+  },
+  "errorSubscriptionFailed": "Subscription failed",
+  "@errorSubscriptionFailed": {
+    "description": "Error message when area subscription fails"
+  },
+  "errorSubscribeAreaFailed": "Failed to subscribe to area",
+  "@errorSubscribeAreaFailed": {
+    "description": "Error message when subscribing to an area fails"
+  },
+  "errorUnsubscriptionFailed": "Unsubscription failed",
+  "@errorUnsubscriptionFailed": {
+    "description": "Error message when area unsubscription fails"
+  },
+  "errorUnsubscribeAreaFailed": "Failed to unsubscribe from area",
+  "@errorUnsubscribeAreaFailed": {
+    "description": "Error message when unsubscribing from an area fails"
+  },
+  "errorLoadSubscribedAreasFailed": "Failed to load subscribed areas",
+  "@errorLoadSubscribedAreasFailed": {
+    "description": "Error message when loading subscribed areas fails"
+  },
+
+  "locationPermissionRequiredTitle": "Location Permission Required",
+  "@locationPermissionRequiredTitle": {
+    "description": "Title for the location permission required screen"
+  },
+  "locationPermissionRequiredMessage": "This feature requires location permission to work. Please enable location access in your device settings.",
+  "@locationPermissionRequiredMessage": {
+    "description": "Message explaining why location permission is needed"
+  },
+  "openSettings": "Open Settings",
+  "@openSettings": {
+    "description": "Button text to open device settings"
   }
 }

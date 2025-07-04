@@ -29,30 +29,34 @@ class SubmitReportForm extends StatelessWidget {
     return ListView(
       padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 24.h),
       children: [
-        GestureDetector(
-          onTap: timeoutManager.resetTimer,
-          child: SubmitPhotoPicker(),
+        BaseButton(
+          onPressed: () {
+            context.read<SubmitReportCubit>().setTempImage();
+          },
+          text: localization?.useMockImage ?? 'Mock Image',
+          textStyle: textStyles.bodyLarge!.copyWith(
+            color: colorScheme.onPrimary,
+            fontWeight: FontWeight.bold,
+          ),
+          backgroundColor: colorScheme.primary,
+          borderColor: Colors.transparent,
         ),
         SizedBox(height: 10.h),
-        GestureDetector(
-          onTap: timeoutManager.resetTimer,
-          child: BlocBuilder<SubmitReportCubit, SubmitReportState>(
-            builder: (context, state) {
-              return ReportSeveritySelector(
-                selectedSeverity: state.severity,
-                onSeverityChanged:
-                    context.read<SubmitReportCubit>().setSeverity,
-              );
-            },
-          ),
+        SubmitPhotoPicker(),
+        SizedBox(height: 10.h),
+        BlocBuilder<SubmitReportCubit, SubmitReportState>(
+          builder: (context, state) {
+            return ReportSeveritySelector(
+              selectedSeverity: state.severity,
+              onSeverityChanged:
+                  context.read<SubmitReportCubit>().setSeverity,
+            );
+          },
         ),
         SizedBox(height: 10.h),
-        GestureDetector(
-          onTap: timeoutManager.resetTimer,
-          child: ReportDescriptionInput(
-            isRequired: false,
-            onChanged: context.read<SubmitReportCubit>().setAdditionalDetails,
-          ),
+        ReportDescriptionInput(
+          isRequired: false,
+          onChanged: context.read<SubmitReportCubit>().setAdditionalDetails,
         ),
         SizedBox(height: 10.h),
         SubmitReportNote(),

@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:snapnfix/core/index.dart';
 import 'package:snapnfix/modules/issues/domain/entities/issue_category.dart';
@@ -58,13 +59,11 @@ class ReportRemoteDataSource implements BaseReportRemoteDataSource {
       final response = await apiCall();
       return Result.success(response.data as T);
     } catch (error) {
-      ApiError apiError;
-      if (error is Map<String, dynamic>) {
-        apiError = ApiError.fromJson(error);
-      } else {
-        apiError = ApiError(message: error.toString());
-      }
-      return Result.failure(apiError);
+      return Result.failure(
+        error is DioException && error.error is ApiError
+            ? error.error as ApiError
+            : ApiError(message: 'error_unexpected_occurred'),
+      );
     }
   }
 
@@ -72,26 +71,20 @@ class ReportRemoteDataSource implements BaseReportRemoteDataSource {
   Future<Result<SnapReportModel, ApiError>> submitReport(
     SnapReportModel report,
   ) async {
-    try {
-      return await _handleApiCall(
-        apiCall:
-            () => _apiService.createSnapReport(
-              report.comment ?? '',
-              report.severity!.displayName,
-              report.latitude,
-              report.longitude,
-              report.city,
-              report.road,
-              report.state,
-              report.country,
-              report.image,
-            ),
-      );
-    } catch (error) {
-      return Result.failure(
-        ApiError(message: error.toString(), code: 'report_submission_error'),
-      );
-    }
+    return await _handleApiCall(
+      apiCall:
+          () => _apiService.createSnapReport(
+            report.comment ?? '',
+            report.severity!.displayName,
+            report.latitude,
+            report.longitude,
+            report.city,
+            report.road,
+            report.state,
+            report.country,
+            report.image,
+          ),
+    );
   }
 
   @override
@@ -100,24 +93,15 @@ class ReportRemoteDataSource implements BaseReportRemoteDataSource {
     required String comment,
     required ReportSeverity severity,
   }) async {
-    try {
-      final request = CreateFastReportRequest(
-        issueId: issueId,
-        comment: comment,
-        severity: severity,
-      );
+    final request = CreateFastReportRequest(
+      issueId: issueId,
+      comment: comment,
+      severity: severity,
+    );
 
-      return await _handleApiCall(
-        apiCall: () => _apiService.createFastReport(request),
-      );
-    } catch (error) {
-      return Result.failure(
-        ApiError(
-          message: error.toString(),
-          code: 'fast_report_submission_error',
-        ),
-      );
-    }
+    return await _handleApiCall(
+      apiCall: () => _apiService.createFastReport(request),
+    );
   }
 
   @override
@@ -137,25 +121,30 @@ class ReportRemoteDataSource implements BaseReportRemoteDataSource {
               sort: sort,
               status: status,
               category: category,
-              page: page,
-              limit: limit,
+              pageNumber: page,
+              pageSize: limit,
             ),
           );
         },
       );
-
-      return result
-          .when<Result<MapEntry<List<SnapReportModel>, bool>, ApiError>>(
-            success: (data) {
-              return Result.success(MapEntry(data.items, data.hasNextPage));
-            },
-            failure: (error) {
-              return Result.failure(error);
-            },
+      return result.when<
+        Result<MapEntry<List<SnapReportModel>, bool>, ApiError>
+      >(
+        success: (data) {
+          debugPrint(
+            '📜 Fetched ${data.items.length} reports with hasNextPage: ${data.hasNextPage}',
           );
+          return Result.success(MapEntry(data.items, data.hasNextPage));
+        },
+        failure: (error) {
+          return Result.failure(error);
+        },
+      );
     } catch (error) {
       return Result.failure(
-        ApiError(message: error.toString(), code: 'fetch_reports_error'),
+        error is DioException && error.error is ApiError
+            ? error.error as ApiError
+            : ApiError(message: 'error_unexpected_occurred'),
       );
     }
   }
@@ -180,7 +169,7 @@ class ReportRemoteDataSource implements BaseReportRemoteDataSource {
         apiCall:
             () => _apiService.getIssueFastReports(
               issueId,
-              GetReportsQuery(sort: sort, page: page, limit: limit),
+              GetReportsQuery(sort: sort, pageNumber: page, pageSize: limit),
             ),
       );
 
@@ -194,7 +183,9 @@ class ReportRemoteDataSource implements BaseReportRemoteDataSource {
       );
     } catch (error) {
       return Result.failure(
-        ApiError(message: error.toString(), code: 'fetch_fast_reports_error'),
+        error is DioException && error.error is ApiError
+            ? error.error as ApiError
+            : ApiError(message: 'error_unexpected_occurred'),
       );
     }
   }
@@ -212,7 +203,7 @@ class ReportRemoteDataSource implements BaseReportRemoteDataSource {
         apiCall:
             () => _apiService.getIssueSnapReports(
               issueId,
-              GetReportsQuery(sort: sort, page: page, limit: limit),
+              GetReportsQuery(sort: sort, pageNumber: page, pageSize: limit),
             ),
       );
       return result.when(
@@ -225,7 +216,9 @@ class ReportRemoteDataSource implements BaseReportRemoteDataSource {
       );
     } catch (error) {
       return Result.failure(
-        ApiError(message: error.toString(), code: 'fetch_snap_reports_error'),
+        error is DioException && error.error is ApiError
+            ? error.error as ApiError
+            : ApiError(message: 'error_unexpected_occurred'),
       );
     }
   }

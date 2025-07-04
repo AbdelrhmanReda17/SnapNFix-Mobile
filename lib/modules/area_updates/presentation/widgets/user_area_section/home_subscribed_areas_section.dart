@@ -26,7 +26,6 @@ class _HomeSubscribedAreasSectionState
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final cubit = context.read<SubscribedAreasCubit>();
-      debugPrint('🏠 Home section using cubit instance: ${cubit.hashCode}');
       cubit.loadForHome();
     });
   }
@@ -60,14 +59,22 @@ class _HomeSubscribedAreasSectionState
                   loading: () {
                     return _buildLoadingWidget();
                   },
-                  loaded: (subscribedAreas, _, __, ___, ____, _____) {
+                  loaded: (
+                    subscribedAreas,
+                    _,
+                    __,
+                    isRefreshing,
+                    ___,
+                    ____,
+                    _____,
+                  ) {
                     if (subscribedAreas.isEmpty) {
                       return _buildEmptyState(colorScheme);
                     }
                     return _buildSubscribedAreasList(
                       subscribedAreas,
                       colorScheme,
-                      false,
+                      isRefreshing,
                     );
                   },
                   error: (error) {
@@ -115,16 +122,43 @@ class _HomeSubscribedAreasSectionState
             ),
             BlocBuilder<SubscribedAreasCubit, SubscribedAreasState>(
               builder: (context, state) {
+                final isRefreshing = state.maybeWhen(
+                  loaded:
+                      (_, __, ___, isRefreshing, ____, _____, ______) =>
+                          isRefreshing,
+                  orElse: () => false,
+                );
+
                 return IconButton(
-                  onPressed: () {
-                    context.read<SubscribedAreasCubit>().loadForHome();
-                  },
-                  icon: Icon(
-                    Icons.refresh,
-                    size: 20.sp,
-                    color: colorScheme.primary,
-                  ),
-                  tooltip: AppLocalizations.of(context)!.refresh,
+                  onPressed:
+                      isRefreshing
+                          ? null
+                          : () {
+                            context.read<SubscribedAreasCubit>().loadForHome(
+                              forceRefresh: true,
+                            );
+                          },
+                  icon:
+                      isRefreshing
+                          ? SizedBox(
+                            width: 20.w,
+                            height: 20.h,
+                            child: CircularProgressIndicator(
+                              strokeWidth: 2,
+                              valueColor: AlwaysStoppedAnimation<Color>(
+                                colorScheme.primary,
+                              ),
+                            ),
+                          )
+                          : Icon(
+                            Icons.refresh,
+                            size: 20.sp,
+                            color: colorScheme.primary,
+                          ),
+                  tooltip:
+                      isRefreshing
+                          ? null
+                          : AppLocalizations.of(context)!.refresh,
                 );
               },
             ),
@@ -178,7 +212,7 @@ class _HomeSubscribedAreasSectionState
   Widget _buildSubscribedAreasList(
     List<AreaInfo> subscribedAreas,
     ColorScheme colorScheme,
-    bool isLoading,
+    bool isRefreshing,
   ) {
     return Column(
       children: [
@@ -208,10 +242,10 @@ class _HomeSubscribedAreasSectionState
                 area: area,
                 colorScheme: colorScheme,
                 onTap: () {
-                  context.push(Routes.areaIssues, extra: {
-                    'area': area,
-                    'isSubscribed': true,
-                  });
+                  context.push(
+                    Routes.areaIssues,
+                    extra: {'area': area, 'isSubscribed': true},
+                  );
                 },
               );
             },

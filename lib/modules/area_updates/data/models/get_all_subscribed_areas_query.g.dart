@@ -10,14 +10,14 @@ GetAllSubscribedAreasQuery _$GetAllSubscribedAreasQueryFromJson(
         Map<String, dynamic> json) =>
     GetAllSubscribedAreasQuery(
       searchTerm: json['searchTerm'] as String?,
-      page: (json['page'] as num?)?.toInt() ?? 1,
-      limit: (json['limit'] as num?)?.toInt() ?? 10,
+      pageNumber: (json['pageNumber'] as num?)?.toInt() ?? 1,
+      pageSize: (json['pageSize'] as num?)?.toInt() ?? 10,
     );
 
 Map<String, dynamic> _$GetAllSubscribedAreasQueryToJson(
         GetAllSubscribedAreasQuery instance) =>
     <String, dynamic>{
       'searchTerm': instance.searchTerm,
-      'page': instance.page,
-      'limit': instance.limit,
+      'pageNumber': instance.pageNumber,
+      'pageSize': instance.pageSize,
     };

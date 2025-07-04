@@ -8,7 +8,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 /// - Empty states
 /// - Error states
 /// - Custom item builders
-class EnhancedPaginatedView<T> extends StatelessWidget {
+class EnhancedPaginatedView<T> extends StatefulWidget {
   /// List of items to display
   final List<T> items;
 
@@ -94,19 +94,46 @@ class EnhancedPaginatedView<T> extends StatelessWidget {
   });
 
   @override
+  State<EnhancedPaginatedView<T>> createState() => _EnhancedPaginatedViewState<T>();
+}
+
+class _EnhancedPaginatedViewState<T> extends State<EnhancedPaginatedView<T>> {
+  bool _isLoadingMoreInternally = false;
+
+  @override
+  void didUpdateWidget(covariant EnhancedPaginatedView<T> oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    // Reset internal flag when external loading state changes
+    if (oldWidget.isLoadingMore != widget.isLoadingMore) {
+      _isLoadingMoreInternally = false;
+    }
+  }
+
+  void _handleLoadMore() {
+    if (_isLoadingMoreInternally) {
+      debugPrint('🚫 Load more already in progress, ignoring duplicate call');
+      return;
+    }
+
+    _isLoadingMoreInternally = true;
+    debugPrint('🔄 Triggering load more');
+    widget.onLoadMore?.call();
+  }
+
+  @override
   Widget build(BuildContext context) {
     // Show error state
-    if (error != null && items.isEmpty) {
+    if (widget.error != null && widget.items.isEmpty) {
       return _buildErrorState(context);
     }
 
     // Show loading state for initial load
-    if (isLoading && items.isEmpty) {
+    if (widget.isLoading && widget.items.isEmpty) {
       return _buildLoadingState(context);
     }
 
     // Show empty state
-    if (items.isEmpty && !isLoading) {
+    if (widget.items.isEmpty && !widget.isLoading) {
       return _buildEmptyState(context);
     }
 
@@ -115,8 +142,8 @@ class EnhancedPaginatedView<T> extends StatelessWidget {
   }
 
   Widget _buildErrorState(BuildContext context) {
-    if (errorStateBuilder != null) {
-      return errorStateBuilder!(context, error!);
+    if (widget.errorStateBuilder != null) {
+      return widget.errorStateBuilder!(context, widget.error!);
     }
 
     return Center(
@@ -132,7 +159,7 @@ class EnhancedPaginatedView<T> extends StatelessWidget {
             ),
             SizedBox(height: 16.h),
             Text(
-              error!,
+              widget.error!,
               style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                 color: Theme.of(context).colorScheme.error,
               ),
@@ -140,7 +167,7 @@ class EnhancedPaginatedView<T> extends StatelessWidget {
             ),
             SizedBox(height: 16.h),
             ElevatedButton(
-              onPressed: onRefresh,
+              onPressed: widget.onRefresh,
               child: const Text('Try Again'),
             ),
           ],
@@ -150,16 +177,16 @@ class EnhancedPaginatedView<T> extends StatelessWidget {
   }
 
   Widget _buildLoadingState(BuildContext context) {
-    if (loadingStateBuilder != null) {
-      return loadingStateBuilder!(context);
+    if (widget.loadingStateBuilder != null) {
+      return widget.loadingStateBuilder!(context);
     }
 
     return const Center(child: CircularProgressIndicator());
   }
 
   Widget _buildEmptyState(BuildContext context) {
-    if (emptyStateBuilder != null) {
-      return emptyStateBuilder!(context);
+    if (widget.emptyStateBuilder != null) {
+      return widget.emptyStateBuilder!(context);
     }
 
     return Center(
@@ -185,45 +212,46 @@ class EnhancedPaginatedView<T> extends StatelessWidget {
   Widget _buildList(BuildContext context) {
     Widget listView = NotificationListener<ScrollNotification>(
       onNotification: (ScrollNotification scrollInfo) {
-        if (enableInfiniteScroll &&
-            onLoadMore != null &&
-            !isLoadingMore &&
-            !hasReachedEnd &&
+        if (widget.enableInfiniteScroll &&
+            widget.onLoadMore != null &&
+            !widget.isLoadingMore &&
+            !_isLoadingMoreInternally &&
+            !widget.hasReachedEnd &&
             scrollInfo.metrics.pixels > 0 &&
             scrollInfo.metrics.pixels >=
-                scrollInfo.metrics.maxScrollExtent - loadMoreThreshold) {
-          onLoadMore!();
+                scrollInfo.metrics.maxScrollExtent - widget.loadMoreThreshold) {
+          _handleLoadMore();
           return true;
         }
         return false;
       },
       child: ListView.separated(
-        controller: controller,
-        physics: physics ?? const AlwaysScrollableScrollPhysics(),
+        controller: widget.controller,
+        physics: widget.physics ?? const AlwaysScrollableScrollPhysics(),
         padding: _buildPadding(),
         itemCount: _getItemCount(),
         separatorBuilder: (context, index) {
           // Don't show separator before pagination loader
-          if (index == items.length - 1 && isLoadingMore) {
+          if (index == widget.items.length - 1 && widget.isLoadingMore) {
             return const SizedBox.shrink();
           }
-          return separator ?? SizedBox(height: 8.h);
+          return widget.separator ?? SizedBox(height: 8.h);
         },
         itemBuilder: (context, index) {
           // Show pagination loading indicator
-          if (index == items.length) {
+          if (index == widget.items.length) {
             return _buildPaginationLoader(context);
           }
 
-          final item = items[index];
-          return itemBuilder(context, item, index);
+          final item = widget.items[index];
+          return widget.itemBuilder(context, item, index);
         },
       ),
     );
 
     // Wrap with RefreshIndicator if enabled
-    if (enableRefresh) {
-      listView = RefreshIndicator(onRefresh: onRefresh, child: listView);
+    if (widget.enableRefresh) {
+      listView = RefreshIndicator(onRefresh: widget.onRefresh, child: listView);
     }
 
     return listView;
@@ -232,15 +260,15 @@ class EnhancedPaginatedView<T> extends StatelessWidget {
   EdgeInsetsGeometry _buildPadding() {
     EdgeInsetsGeometry defaultPadding = EdgeInsets.all(16.r);
 
-    if (padding != null) {
-      defaultPadding = padding!;
+    if (widget.padding != null) {
+      defaultPadding = widget.padding!;
     }
 
     // Add bottom padding if specified
-    if (bottomPadding != null) {
+    if (widget.bottomPadding != null) {
       if (defaultPadding is EdgeInsets) {
         return defaultPadding.copyWith(
-          bottom: defaultPadding.bottom + bottomPadding!,
+          bottom: defaultPadding.bottom + widget.bottomPadding!,
         );
       }
     }
@@ -249,12 +277,12 @@ class EnhancedPaginatedView<T> extends StatelessWidget {
   }
 
   int _getItemCount() {
-    return items.length + (isLoadingMore ? 1 : 0);
+    return widget.items.length + (widget.isLoadingMore ? 1 : 0);
   }
 
   Widget _buildPaginationLoader(BuildContext context) {
-    if (paginationLoadingBuilder != null) {
-      return paginationLoadingBuilder!(context);
+    if (widget.paginationLoadingBuilder != null) {
+      return widget.paginationLoadingBuilder!(context);
     }
 
     return Center(

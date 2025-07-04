@@ -66,8 +66,6 @@ class _BaseAlertDialog extends StatelessWidget {
     return LayoutBuilder(
       builder: (context, constraints) {
         final dimensions = getResponsiveDimensions(context);
-
-        // Responsive dialog constraints
         final dialogMaxWidth =
             dimensions.isTablet
                 ? dimensions.screenWidth * 0.6
@@ -218,7 +216,6 @@ class _BaseAlertDialog extends StatelessWidget {
     bool isRTL,
     Color buttonColor,
   ) {
-    // Responsive button layout
     if (dimensions.isSmallScreen &&
         (confirmText.length > 8 || (cancelText?.length ?? 0) > 8)) {
       return Column(
@@ -232,8 +229,6 @@ class _BaseAlertDialog extends StatelessWidget {
         ],
       );
     }
-
-    // For RTL, we want to reverse the button order
     final buttons = [
       _buildConfirmButton(context, colorScheme, dimensions, isRTL, buttonColor),
       if (showCancelButton) ...[
@@ -322,8 +317,6 @@ class _BaseAlertDialog extends StatelessWidget {
 
   void _handleDialogDismiss(BuildContext context, bool isConfirmed) {
     Navigator.of(context).pop(isConfirmed);
-
-    // Execute callback after dialog is dismissed
     if (isConfirmed && onConfirm != null) {
       Future.microtask(() => onConfirm!());
     }

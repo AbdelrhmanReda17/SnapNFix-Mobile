@@ -59,8 +59,8 @@ class AreaUpdatesRemoteDataSource extends BaseAreaUpdatesRemoteDataSource {
             () => _apiService.getAllAreas(
               GetAllAreasQuery(
                 searchTerm: searchTerm,
-                page: page,
-                limit: limit,
+                pageNumber: page,
+                pageSize: limit,
               ),
             ),
       );
@@ -74,7 +74,7 @@ class AreaUpdatesRemoteDataSource extends BaseAreaUpdatesRemoteDataSource {
             },
           );
     } catch (e) {
-      return Result.failure(ApiError(message: 'Failed to load areas: $e'));
+      return Result.failure(ApiError(message: 'error_load_areas_failed'));
     }
   }
 
@@ -88,7 +88,7 @@ class AreaUpdatesRemoteDataSource extends BaseAreaUpdatesRemoteDataSource {
       );
     } catch (e) {
       return Result.failure(
-        ApiError(message: 'Failed to load area health: $e'),
+        ApiError(message: 'error_load_area_health_failed'),
       );
     }
   }
@@ -105,7 +105,7 @@ class AreaUpdatesRemoteDataSource extends BaseAreaUpdatesRemoteDataSource {
         apiCall:
             () => _apiService.getAreaIssues(
               areaId,
-              GetAreaIssuesQuery(page: page, limit: limit, status: status),
+              GetAreaIssuesQuery(pageNumber: page, pageSize: limit, status: status),
             ),
       );
       return response.when<Result<MapEntry<List<AreaIssue>, bool>, ApiError>>(
@@ -118,7 +118,7 @@ class AreaUpdatesRemoteDataSource extends BaseAreaUpdatesRemoteDataSource {
       );
     } catch (e) {
       return Result.failure(
-        ApiError(message: 'Failed to load area issues: $e'),
+        ApiError(message: 'error_load_area_issues_failed'),
       );
     }
   }
@@ -134,7 +134,7 @@ class AreaUpdatesRemoteDataSource extends BaseAreaUpdatesRemoteDataSource {
           if (data) {
             return Result.success(null);
           } else {
-            return Result.failure(ApiError(message: 'Subscription failed'));
+            return Result.failure(ApiError(message: 'error_subscription_failed'));
           }
         },
         failure: (error) {
@@ -143,7 +143,7 @@ class AreaUpdatesRemoteDataSource extends BaseAreaUpdatesRemoteDataSource {
       );
     } catch (e) {
       return Result.failure(
-        ApiError(message: 'Failed to subscribe to area: $e'),
+        ApiError(message: 'error_subscribe_area_failed'),
       );
     }
   }
@@ -159,7 +159,7 @@ class AreaUpdatesRemoteDataSource extends BaseAreaUpdatesRemoteDataSource {
           if (data) {
             return Result.success(null);
           } else {
-            return Result.failure(ApiError(message: 'Unsubscription failed'));
+            return Result.failure(ApiError(message: 'error_unsubscription_failed'));
           }
         },
         failure: (error) {
@@ -168,7 +168,7 @@ class AreaUpdatesRemoteDataSource extends BaseAreaUpdatesRemoteDataSource {
       );
     } catch (e) {
       return Result.failure(
-        ApiError(message: 'Failed to unsubscribe from area: $e'),
+        ApiError(message: 'error_unsubscribe_area_failed'),
       );
     }
   }
@@ -182,8 +182,8 @@ class AreaUpdatesRemoteDataSource extends BaseAreaUpdatesRemoteDataSource {
             () => _apiService.getAllSubscribedAreas(
               GetAllSubscribedAreasQuery(
                 searchTerm: searchTerm,
-                page: page,
-                limit: limit,
+                pageNumber: page,
+                pageSize: limit,
               ),
             ),
       ).then((response) {
@@ -200,7 +200,7 @@ class AreaUpdatesRemoteDataSource extends BaseAreaUpdatesRemoteDataSource {
     } catch (e) {
       return Future.value(
         Result.failure(
-          ApiError(message: 'Failed to load subscribed areas: $e'),
+          ApiError(message: 'error_load_subscribed_areas_failed'),
         ),
       );
     }

@@ -72,6 +72,9 @@ class _FastReportDialogContentState extends State<FastReportDialogContent> {
     required String message,
     required AlertType type,
   }) {
+    debugPrint(
+      'FastReportDialogContent _showResultDialog: $title, $message, $type',
+    );
     baseDialog(
       context: context,
       title: title,
@@ -101,9 +104,13 @@ class _FastReportDialogContentState extends State<FastReportDialogContent> {
             );
           },
           error: (error) {
+
             _showResultDialog(
               title: localization.errorDialogTitle,
-              message: error.message,
+              message:
+                  error.details.isNotEmpty
+                      ? error.details.first
+                      : error.message,
               type: AlertType.error,
             );
           },

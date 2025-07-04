@@ -37,7 +37,6 @@ class OpenLocationSettingsDialog extends StatelessWidget {
   }
 }
 
-// Keep the existing function for backward compatibility
 Future<bool> applicationOpenLocationSettingsDialog({
   required final String title,
   required final String message,

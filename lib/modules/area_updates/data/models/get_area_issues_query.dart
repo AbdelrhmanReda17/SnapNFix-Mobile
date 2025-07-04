@@ -5,10 +5,10 @@ part 'get_area_issues_query.g.dart';
 
 @JsonSerializable()
 class GetAreaIssuesQuery {
-  const GetAreaIssuesQuery({this.status, this.page = 1, this.limit = 10});
+  const GetAreaIssuesQuery({this.status, this.pageNumber = 1, this.pageSize = 10});
   final IssueStatus? status;
-  final int page;
-  final int limit;
+  final int pageNumber;
+  final int pageSize;
   factory GetAreaIssuesQuery.fromJson(Map<String, dynamic> json) =>
       _$GetAreaIssuesQueryFromJson(json);
 

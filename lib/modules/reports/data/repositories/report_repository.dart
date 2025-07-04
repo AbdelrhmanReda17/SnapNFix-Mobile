@@ -41,7 +41,7 @@ class ReportRepository implements BaseReportRepository {
       if (!isConnected) {
         await _localDataSource.saveReportOffline(report);
         return const Result.success(
-          "No internet connection. Report saved offline.",
+          "success_report_saved_offline",
         );
       }
 
@@ -49,19 +49,19 @@ class ReportRepository implements BaseReportRepository {
       return result.when(
         success: (data) {
           return Result.success(
-            "Report submitted successfully with ID: ${data.id}",
+            "success_report_submitted_with_id",
           );
         },
         failure: (error) async {
           await _localDataSource.saveReportOffline(report);
           return Result.failure(
-            ApiError(message: 'Failed to submit report. Saved offline.'),
+            ApiError(message: 'error_report_saved_offline'),
           );
         },
       );
     } catch (e) {
       return Result.failure(
-        ApiError(message: e.toString(), code: 'report_submission_error'),
+        ApiError(message: 'error_report_submission_failed', code: 'report_submission_error'),
       );
     }
   }
@@ -77,7 +77,7 @@ class ReportRepository implements BaseReportRepository {
       if (!isConnected) {
         return Result.failure(
           ApiError(
-            message:  'No internet connection. Please try again later.',
+            message: 'error_no_internet_connection',
             code: 'no_internet',
           ),
         );
@@ -91,7 +91,7 @@ class ReportRepository implements BaseReportRepository {
     } catch (e) {
       debugPrint('Error submitting fast report: $e');
       return Result.failure(
-        ApiError(message: e.toString(), code: 'fast_report_error'),
+        ApiError(message: 'error_fast_report_failed', code: 'fast_report_error'),
       );
     }
   }
@@ -108,7 +108,7 @@ class ReportRepository implements BaseReportRepository {
       final isConnected = await _connectivityService.isConnected();
       if (!isConnected) {
         return Result.failure(
-          'No internet connection. Please try again later.',
+          'error_no_internet_connection',
         );
       }
 
@@ -125,7 +125,7 @@ class ReportRepository implements BaseReportRepository {
       );
     } catch (e) {
       debugPrint('Error getting issue fast reports: $e');
-      return Result.failure(e.toString());
+      return Result.failure('error_get_reports_failed');
     }
   }
 
@@ -141,7 +141,7 @@ class ReportRepository implements BaseReportRepository {
       final isConnected = await _connectivityService.isConnected();
       if (!isConnected) {
         return Result.failure(
-          'No internet connection. Please try again later.',
+          'error_no_internet_connection',
         );
       }
 
@@ -157,7 +157,7 @@ class ReportRepository implements BaseReportRepository {
         failure: (error) => Result.failure(error.toString()),
       );
     } catch (e) {
-      return Result.failure(e.toString());
+      return Result.failure('error_get_reports_failed');
     }
   }
 
@@ -220,7 +220,7 @@ class ReportRepository implements BaseReportRepository {
       final isConnected = await _connectivityService.isConnected();
       if (!isConnected) {
         return Result.failure(
-          'No internet connection. Please try again later.',
+          'error_no_internet_connection',
         );
       }
       final result = await _remoteDataSource.getUserReports(
@@ -230,14 +230,13 @@ class ReportRepository implements BaseReportRepository {
         page: page,
         limit: limit,
       );
-      // Map ApiErrorModel to String if failure
       return result.when(
         success: (data) => Result.success(data),
         failure: (error) => Result.failure(error.toString()),
       );
     } catch (e) {
       debugPrint('Error getting user reports: $e');
-      return Result.failure(e.toString());
+      return Result.failure('error_get_user_reports_failed');
     }
   }
 
@@ -248,7 +247,7 @@ class ReportRepository implements BaseReportRepository {
       if (!isConnected) {
         return Result.failure(
           ApiError(
-            message: 'No internet connection. Please try again later.',
+            message: 'error_no_internet_connection',
             code: 'no_internet',
           ),
         );
@@ -257,7 +256,7 @@ class ReportRepository implements BaseReportRepository {
     } catch (e) {
       debugPrint('Error getting report statistics: $e');
       return Result.failure(
-        ApiError(message: e.toString(), code: 'statistics_error'),
+        ApiError(message: 'error_get_statistics_failed', code: 'statistics_error'),
       );
     }
   }

@@ -79,7 +79,7 @@ class ReportExpandedContent extends StatelessWidget {
                     text: TextSpan(
                       children: [
                         TextSpan(
-                          text: 'Comment: ',
+                          text: '${AppLocalizations.of(context)!.comment}: ',
                           style: theme.textTheme.bodySmall?.copyWith(
                             color: colorScheme.primary,
                             fontWeight: FontWeight.w500,
