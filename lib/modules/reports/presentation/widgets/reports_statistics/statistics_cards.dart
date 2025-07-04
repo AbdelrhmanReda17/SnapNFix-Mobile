@@ -34,7 +34,7 @@ class StatisticsCards extends StatelessWidget {
                     scrollDirection: Axis.horizontal,
                     padding: EdgeInsets.symmetric(horizontal: 12.w),
                     physics: const BouncingScrollPhysics(),
-                    itemCount: 3,
+                    itemCount: 2,
                     itemBuilder: (context, index) {
                       return Padding(
                         padding: EdgeInsets.only(
@@ -133,17 +133,6 @@ class StatisticsCards extends StatelessWidget {
             );
 
     if (index == 0) {
-      return StatisticsCard(
-        title: localization.loyaltyPoints,
-        mainValue: NumberFormatter.localizeNumber(850, localization),
-        valueSuffix: localization.points,
-        description: localization.earnMorePointsDescription,
-        buttonText: localization.claim,
-        onButtonPressed: () => context.go(Routes.submitReport),
-        cardStyle: cardStyle,
-        iconData: Icons.workspace_premium,
-      );
-    } else if (index == 1) {
       return StatisticsCard(
         title: localization.pendingReports,
         mainValue: NumberFormatter.localizeNumber(pendingCount, localization),
