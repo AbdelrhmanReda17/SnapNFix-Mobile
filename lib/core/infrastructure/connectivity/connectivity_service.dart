@@ -11,7 +11,6 @@ class ConnectivityService {
   Timer? _pollingTimer;
   bool _lastStatus = false;
 
-  // Stream for listening to connectivity changes
   Stream<List<ConnectivityResult>> get connectivityStream {
     return _connectivity.onConnectivityChanged.map((result) {
       debugPrint(
@@ -41,15 +40,13 @@ class ConnectivityService {
     }
   }
 
-  // Check current connectivity status (radio status only)
-  // Warning: This only gives you the radio status, not actual internet connectivity
+
   Future<List<ConnectivityResult>> checkConnectivity() async {
     final result = await _connectivity.checkConnectivity();
     return result;
   }
 
-  // Properly check if there is actual internet connectivity
-  // This performs an actual network request to verify connectivity
+
   Future<bool> hasInternetConnection() async {
     try {
       final connectivityResult = await _connectivity.checkConnectivity();
@@ -76,12 +73,10 @@ class ConnectivityService {
     }
   }
 
-  // Check connectivity reliably (for use in app logic)
   Future<bool> isConnected() async {
     return await hasInternetConnection();
   }
 
-  // Convert ConnectivityResult to a readable string
   String _getReadableStatus(List<ConnectivityResult> result) {
     if (result.isEmpty) {
       return 'No connection';

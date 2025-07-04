@@ -185,7 +185,7 @@ class AreaDetailsCubit extends Cubit<AreaDetailsState> {
             if (isClosed) return Result.failure('Cubit is closed');
             emit(currentState.copyWith(isSubscriptionLoading: false));
           }
-          return Result.failure(error.message ?? 'Subscription failed');
+          return Result.failure(error.message);
         },
       );
     } catch (e) {

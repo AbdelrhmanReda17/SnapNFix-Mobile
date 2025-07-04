@@ -80,7 +80,6 @@ class TokenManager implements BaseTokenManager {
         'refreshToken': currentRefreshToken,
       });
 
-      // Check if response has error
       if (response.hasError) {
         final errorMessage = response.error?.message ?? 'Token refresh failed';
         debugPrint('Token refresh API error: $errorMessage');
@@ -93,13 +92,11 @@ class TokenManager implements BaseTokenManager {
         throw Exception('Invalid token response - no data received');
       }
 
-      // Validate the new tokens
       if (newTokens.accessToken.isEmpty) {
         debugPrint('Token refresh returned empty access token');
         throw Exception('Invalid token response - empty access token');
       }
 
-      // Save the new tokens
       await saveTokens(
         newTokens.accessToken,
         newTokens.refreshToken,
@@ -117,7 +114,6 @@ class TokenManager implements BaseTokenManager {
     }
   }
 
-  // Helper method to check if we have valid tokens
   bool get hasValidTokens {
     final tokens = _appConfig.currentSession?.tokens;
     return tokens != null &&
@@ -125,7 +121,6 @@ class TokenManager implements BaseTokenManager {
         tokens.refreshToken.isNotEmpty;
   }
 
-  // Helper method to get token expiration info
   Duration? get timeUntilExpiration {
     final tokens = _appConfig.currentSession?.tokens;
     if (tokens == null) return null;

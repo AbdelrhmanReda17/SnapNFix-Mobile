@@ -24,24 +24,20 @@ class TokenRefreshInterceptor extends Interceptor {
     RequestOptions options,
     RequestInterceptorHandler handler,
   ) async {
-    // Skip token refresh for refresh token endpoint
     if (_isRefreshTokenEndpoint(options.path)) {
       handler.next(options);
       return;
     }
 
-    // Add current token to request if available
     final token = _tokenManager.accessToken;
     if (token != null && token.isNotEmpty) {
       options.headers['Authorization'] = 'Bearer $token';
     }
 
-    // Check if token is expired and refresh if needed
     if (_tokenManager.isTokenExpired && _tokenManager.refreshToken != null) {
       debugPrint('Token is expired, refreshing before request...');
       try {
         await _refreshTokenIfNeeded();
-        // Update request with new token after refresh
         final newToken = _tokenManager.accessToken;
         if (newToken != null && newToken.isNotEmpty) {
           options.headers['Authorization'] = 'Bearer $newToken';
@@ -66,13 +62,11 @@ class TokenRefreshInterceptor extends Interceptor {
   void onError(DioException err, ErrorInterceptorHandler handler) async {
     debugPrint('TokenRefreshInterceptor onError: ${err.message}');
 
-    // Only attempt token refresh for 401 errors that aren't from refresh endpoint
     if (_shouldRetryWithTokenRefresh(err)) {
       debugPrint('Attempting token refresh due to 401 error...');
 
       try {
         await _refreshTokenIfNeeded();
-        // Retry the original request with new token
         final retryResponse = await _retryRequest(err.requestOptions);
         handler.resolve(retryResponse);
         return;
@@ -104,7 +98,6 @@ class TokenRefreshInterceptor extends Interceptor {
   }
 
   Future<void> _refreshTokenIfNeeded() async {
-    // If already refreshing, wait for it to complete
     if (_isRefreshing) {
       final completer = Completer<void>();
       _pendingRequests.add(completer);
@@ -121,7 +114,6 @@ class TokenRefreshInterceptor extends Interceptor {
         throw Exception('Token refresh returned null or empty token');
       }
 
-      // Update the shared HTTP client with new token
       HttpClientFactory.setAuthToken(newToken);
 
       debugPrint('Token refresh successful');
@@ -155,7 +147,6 @@ class TokenRefreshInterceptor extends Interceptor {
   }
 
   Future<Response> _retryRequest(RequestOptions originalRequest) async {
-    // Create a new request options with updated token
     final newToken = _tokenManager.accessToken;
     if (newToken != null && newToken.isNotEmpty) {
       originalRequest.headers['Authorization'] = 'Bearer $newToken';

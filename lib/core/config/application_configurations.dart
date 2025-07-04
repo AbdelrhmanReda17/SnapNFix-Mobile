@@ -8,16 +8,13 @@ class ApplicationConfigurations with ChangeNotifier {
   final SharedPreferencesService _sharedPrefs;
   final SecureStorageService _secureStorage;
 
-  // Private state variables
   bool _hasViewedOnboarding = false;
   SessionModel? _currentSession;
   String _language = "en";
   bool _isDarkMode = false;
 
-  // Constructor with dependency injection
   ApplicationConfigurations(this._sharedPrefs, this._secureStorage);
 
-  // Getters
   bool get hasViewedOnboarding => _hasViewedOnboarding;
   SessionModel? get currentSession => _currentSession;
   String get language => _language;
@@ -53,7 +50,6 @@ class ApplicationConfigurations with ChangeNotifier {
     return Future.value();
   }
 
-  // Onboarding methods
   Future<void> _loadOnboardingStatus() async {
     _hasViewedOnboarding = _sharedPrefs.getBool(
       SharedPrefKeys.hasViewedOnboarding,
@@ -66,7 +62,6 @@ class ApplicationConfigurations with ChangeNotifier {
     notifyListeners();
   }
 
-  // Authentication methods
   Future<void> _loadUserSession() async {
     final sessionString = await _secureStorage.read(
       key: SharedPrefKeys.authenticationSession,
@@ -99,7 +94,6 @@ class ApplicationConfigurations with ChangeNotifier {
     notifyListeners();
   }
 
-  // Language methods
   Future<void> _loadLanguagePreference() async {
     final storedLanguage = await _secureStorage.read(
       key: SharedPrefKeys.language,
@@ -124,7 +118,6 @@ class ApplicationConfigurations with ChangeNotifier {
     }
   }
 
-  // Dark mode methods
   Future<void> _loadThemePreference() async {
     _isDarkMode = _sharedPrefs.getBool(SharedPrefKeys.isDarkMode);
   }

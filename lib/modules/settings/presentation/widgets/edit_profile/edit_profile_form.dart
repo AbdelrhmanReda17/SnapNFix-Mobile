@@ -80,8 +80,8 @@ class EditProfileForm extends StatelessWidget {
                 labelText: localization.gender,
                 items: UserGender.values,
                 onChanged: cubit.setSelectedGender,
+                initialValue: cubit.selectedGender ?? UserGender.notSpecified,
                 itemLabelBuilder:
-                   
                     (UserGender item) => item.getLocalizedDisplayName(context),
               ),
               verticalSpace(16),

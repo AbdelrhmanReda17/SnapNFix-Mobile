@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:snapnfix/core/config/application_configurations.dart';
 import 'package:snapnfix/modules/authentication/domain/entities/authentication_result.dart';
 import 'package:snapnfix/modules/authentication/domain/entities/session.dart';

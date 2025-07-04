@@ -6,14 +6,14 @@ class DeviceInfoService {
   String deviceName;
   String deviceType;
   String platform;
-  String? fcmToken; // Add FCM token
+  String? fcmToken;
 
   DeviceInfoService({
     required this.deviceId,
     required this.deviceName,
     required this.deviceType,
     required this.platform,
-    this.fcmToken, // Add FCM token parameter
+    this.fcmToken,
   });
 
   Future<void> initializeDeviceInfo() async {
@@ -36,7 +36,6 @@ class DeviceInfoService {
     }
   }
 
-  /// Update FCM token
   void updateFCMToken(String? newToken) {
     fcmToken = newToken;
   }

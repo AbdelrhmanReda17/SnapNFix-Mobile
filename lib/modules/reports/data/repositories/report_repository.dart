@@ -25,7 +25,7 @@ class ReportRepository implements BaseReportRepository {
     try {
       return _localDataSource.getPendingReports();
     } catch (e) {
-      return Future.error('Failed to fetch pending reports: $e');
+      return Future.error('error_get_pending_reports_failed');
     }
   }
 

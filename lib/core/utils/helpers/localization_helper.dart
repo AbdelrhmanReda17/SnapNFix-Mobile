@@ -6,16 +6,18 @@ class LocalizationHelper {
   /// This is a utility function that can be used to translate error/success message keys
   /// to their localized strings when you have access to context
   static String getLocalizedMessage(BuildContext context, String? messageKey) {
+    debugPrint('LocalizationHelper getLocalizedMessage: $messageKey');
     if (messageKey == null || messageKey.isEmpty) return '';
-    
+
     final localization = AppLocalizations.of(context)!;
-    
+
     switch (messageKey) {
       // Report error messages
       case 'error_please_provide_image':
         return localization.errorPleaseProvideImage;
       case 'error_submit_report_failed':
         return localization.errorSubmitReportFailed;
+      case 'no_internet':
       case 'error_no_internet_connection':
         return localization.errorNoInternetConnection;
       case 'error_report_submission_failed':
@@ -30,6 +32,8 @@ class LocalizationHelper {
         return localization.errorGetUserReportsFailed;
       case 'error_get_statistics_failed':
         return localization.errorGetStatisticsFailed;
+      case 'error_get_pending_reports_failed':
+        return localization.errorGetPendingReportsFailed;
       case 'error_unexpected_occurred':
         return localization.errorUnexpectedOccurred;
       case 'error_clear_reports_failed':
@@ -44,13 +48,13 @@ class LocalizationHelper {
         return localization.errorSaveReportOfflineFailed;
       case 'error_storage_not_initialized':
         return localization.errorStorageNotInitialized;
-      
+
       // Report success messages
       case 'success_report_saved_offline':
         return localization.successReportSavedOffline;
       case 'success_report_submitted_with_id':
         return localization.successReportSubmittedWithId;
-      
+
       // Area updates error messages
       case 'error_load_areas_failed':
         return localization.errorLoadAreasFailed;
@@ -68,7 +72,7 @@ class LocalizationHelper {
         return localization.errorUnsubscribeAreaFailed;
       case 'error_load_subscribed_areas_failed':
         return localization.errorLoadSubscribedAreasFailed;
-      
+
       // Location permission messages
       case 'location_permission_required_title':
         return localization.locationPermissionRequiredTitle;
@@ -76,11 +80,11 @@ class LocalizationHelper {
         return localization.locationPermissionRequiredMessage;
       case 'open_settings':
         return localization.openSettings;
-      
+
       // Session timeout messages
       case 'session_timeout_message':
         return localization.sessionTimeoutMessage;
-      
+
       default:
         // If the message is not a known key, return it as is (might be already localized)
         return messageKey;
@@ -90,11 +94,11 @@ class LocalizationHelper {
   /// Check if a string is a localization key
   static bool isLocalizationKey(String? message) {
     if (message == null || message.isEmpty) return false;
-    return message.startsWith('error_') || 
-           message.startsWith('success_') || 
-           message.startsWith('warning_') ||
-           message.startsWith('info_') ||
-           message.startsWith('location_') ||
-           message.startsWith('session_');
+    return message.startsWith('error_') ||
+        message.startsWith('success_') ||
+        message.startsWith('warning_') ||
+        message.startsWith('info_') ||
+        message.startsWith('location_') ||
+        message.startsWith('session_');
   }
-} 
+}

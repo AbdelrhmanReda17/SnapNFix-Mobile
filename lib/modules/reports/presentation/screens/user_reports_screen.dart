@@ -4,7 +4,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:snapnfix/modules/reports/presentation/cubits/user_reports_cubit.dart';
-import 'package:snapnfix/modules/reports/presentation/widgets/report_filters/reports_sort_menu.dart';
 import 'package:snapnfix/modules/reports/presentation/widgets/reports_error_view_widget.dart';
 import 'package:snapnfix/modules/reports/presentation/widgets/reports_list.dart';
 import 'package:snapnfix/presentation/widgets/loading_overlay.dart';
@@ -194,8 +193,7 @@ class _UserReportsScreenState extends State<UserReportsScreen> {
                 ),
               ),
               SizedBox(width: 8.w),
-              // Sort dropdown
-              ReportsSortMenu(currentSortOption: state.currentSortOption),
+              // ReportsSortMenu(currentSortOption: state.currentSortOption),
             ],
           ),
         );
