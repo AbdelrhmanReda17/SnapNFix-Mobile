@@ -151,7 +151,8 @@
   "createReportTimeWarning": "تحذير: تبقي 30 ثانية فقط!",
   "dismiss": "إغلاق",
   "codeExpiresIn": "ستنتهي صلاحية الرمز خلال",
-  
+  "area" :"منطقة",
+
   "forgotPasswordTitle": "نسيت كلمة المرور",
   "forgotPasswordSubtitle": "أدخل رقم الهاتف أو بريد حساب جوجل المرتبط بحسابك",
   "sendCode": "إرسال رمز التحقق",

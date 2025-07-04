@@ -6,6 +6,7 @@ class LocalizationHelper {
   /// This is a utility function that can be used to translate error/success message keys
   /// to their localized strings when you have access to context
   static String getLocalizedMessage(BuildContext context, String? messageKey) {
+    debugPrint('LocalizationHelper getLocalizedMessage: $messageKey');
     if (messageKey == null || messageKey.isEmpty) return '';
 
     final localization = AppLocalizations.of(context)!;
@@ -16,6 +17,7 @@ class LocalizationHelper {
         return localization.errorPleaseProvideImage;
       case 'error_submit_report_failed':
         return localization.errorSubmitReportFailed;
+      case 'no_internet':
       case 'error_no_internet_connection':
         return localization.errorNoInternetConnection;
       case 'error_report_submission_failed':

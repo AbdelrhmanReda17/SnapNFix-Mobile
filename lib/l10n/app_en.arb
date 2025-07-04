@@ -85,6 +85,7 @@
   "createReportTimeWarning": "Warning: Only 30 seconds remaining",
   "currentPassword": "Current Password",
   "newPassword": "New Password",
+  "area" :"Area",
   "confirmNewPassword": "Confirm New Password",
   "passwordRequirements": "To ensure your account is secure, your new password must meet the following requirements:",
   "passwordMinChars": "At least 8 characters long.",

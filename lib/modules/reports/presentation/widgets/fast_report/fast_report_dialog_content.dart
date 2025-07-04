@@ -5,6 +5,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:snapnfix/core/base_components/base_alert_component/alert_type.dart';
 import 'package:snapnfix/core/base_components/base_alert_component/base_alert.dart';
 import 'package:snapnfix/core/base_components/base_button.dart';
+import 'package:snapnfix/core/utils/helpers/localization_helper.dart';
 import 'package:snapnfix/core/utils/helpers/spacing.dart';
 import 'package:snapnfix/modules/reports/domain/entities/report_severity.dart';
 import 'package:snapnfix/modules/reports/presentation/cubits/submit_fast_report_cubit.dart';
@@ -104,13 +105,15 @@ class _FastReportDialogContentState extends State<FastReportDialogContent> {
             );
           },
           error: (error) {
-
             _showResultDialog(
               title: localization.errorDialogTitle,
               message:
                   error.details.isNotEmpty
                       ? error.details.first
-                      : error.message,
+                      : LocalizationHelper.getLocalizedMessage(
+                        context,
+                        error.code,
+                      ),
               type: AlertType.error,
             );
           },
