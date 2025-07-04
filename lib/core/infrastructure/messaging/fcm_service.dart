@@ -15,13 +15,10 @@ class FCMService {
   String? _cachedToken;
   static const String _fcmTokenKey = 'fcm_token';
 
-  /// Initialize FCM and local notifications
   Future<Result<String?, ApiError>> initialize() async {
     try {
-      // Initialize local notifications
       await _initializeLocalNotifications();
 
-      // Request permission for notifications
       NotificationSettings settings = await _firebaseMessaging
           .requestPermission(
             alert: true,
@@ -35,15 +32,12 @@ class FCMService {
 
       if (settings.authorizationStatus == AuthorizationStatus.authorized ||
           settings.authorizationStatus == AuthorizationStatus.provisional) {
-        // Get and cache the token
         final tokenResult = await _getAndCacheToken();
 
-        // Configure message handlers
         configureForegroundMessages();
         configureBackgroundMessages();
         _configureNotificationTaps();
 
-        // Listen for token refresh
         _listenForTokenRefresh();
 
         return tokenResult;
@@ -61,7 +55,6 @@ class FCMService {
     }
   }
 
-  /// Initialize local notifications
   Future<void> _initializeLocalNotifications() async {
     const AndroidInitializationSettings initializationSettingsAndroid =
         AndroidInitializationSettings('@mipmap/ic_launcher');
@@ -85,7 +78,6 @@ class FCMService {
     );
   }
 
-  /// Handle notification tap
   void _onNotificationTap(NotificationResponse response) {
     debugPrint('Notification tapped: ${response.payload}');
     debugPrint(
@@ -94,7 +86,6 @@ class FCMService {
     _handleNotificationNavigation(response.payload);
   }
 
-  /// Configure foreground message handling with local notification display
   void configureForegroundMessages() {
     FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
       debugPrint('Got a message whilst in the foreground!');
@@ -111,7 +102,6 @@ class FCMService {
     });
   }
 
-  /// Show local notification
   Future<void> _showLocalNotification(RemoteMessage message) async {
     const AndroidNotificationDetails androidPlatformChannelSpecifics =
         AndroidNotificationDetails(
@@ -156,7 +146,6 @@ class FCMService {
       }
     });
 
-    // Handle notification opened from background state
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
       debugPrint(
         'App opened from background by notification: ${message.messageId}',
@@ -165,7 +154,6 @@ class FCMService {
     });
   }
 
-  /// Handle navigation based on notification data
   void _handleNotificationNavigation(String? payload) {
     getIt<NavigationService>().handleNotificationNavigation({});
 
@@ -184,7 +172,6 @@ class FCMService {
     }
   }
 
-  /// Get the current device FCM token
   Future<Result<String?, ApiError>> getDeviceToken() async {
     try {
       String? token = await _firebaseMessaging.getToken();
@@ -202,7 +189,6 @@ class FCMService {
       return _cachedToken;
     }
 
-    // Try to get from shared preferences
     final prefs = await SharedPreferences.getInstance();
     _cachedToken = prefs.getString(_fcmTokenKey);
 
@@ -210,7 +196,6 @@ class FCMService {
       return _cachedToken;
     }
 
-    // If not cached, get fresh token
     final result = await _getAndCacheToken();
 
     result.when(
@@ -226,13 +211,11 @@ class FCMService {
     return _cachedToken;
   }
 
-  /// Get fresh token from Firebase and cache it
   Future<Result<String?, ApiError>> _getAndCacheToken() async {
     try {
       String? token = await _firebaseMessaging.getToken();
       debugPrint('FCM Token: $token');
 
-      // Cache the token
       _cachedToken = token;
       if (token != null) {
         final prefs = await SharedPreferences.getInstance();
@@ -248,7 +231,6 @@ class FCMService {
     }
   }
 
-  /// Listen for token refresh and update cache
   void _listenForTokenRefresh() {
     _firebaseMessaging.onTokenRefresh.listen((String token) {
       debugPrint('FCM Token refreshed: $token');
@@ -259,12 +241,10 @@ class FCMService {
     });
   }
 
-  /// Configure background message handling
   void configureBackgroundMessages() {
     FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   }
 
-  /// Clear cached token
   Future<void> clearToken() async {
     _cachedToken = null;
     final prefs = await SharedPreferences.getInstance();
@@ -273,7 +253,6 @@ class FCMService {
   }
 }
 
-/// Top-level function for background message handling
 @pragma('vm:entry-point')
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   debugPrint('Handling a background message: ${message.messageId}');

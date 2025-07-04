@@ -1,4 +1,3 @@
-// Complete dependency_injection.dart with all fixes
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
@@ -25,20 +24,15 @@ Future<void> configureDependencies() async {
   try {
     debugPrint('🔧 Configuring dependency injection...');
 
-    // Setup HydratedStorage first
     await _setupHydratedStorageDirectory();
     debugPrint('✅ HydratedStorage directory set up successfully');
 
-    // Initialize DI container (this will now handle DeviceInfoService properly)
     await getIt.init();
 
-    // Initialize services that need async setup
     await _initializeServices();
 
-    // Setup HTTP client after services are initialized
     _setupHttpClient();
 
-    // Wait for all async singletons to be ready
     await getIt.allReady();
 
     debugPrint('✅ Dependency injection configured successfully');
@@ -64,21 +58,18 @@ Future<void> _setupHydratedStorageDirectory() async {
 
 Future<void> _initializeServices() async {
   try {
-    // Initialize SharedPreferences service
     if (getIt.isRegistered<SharedPreferencesService>()) {
       final sharedPrefsService = getIt<SharedPreferencesService>();
       await sharedPrefsService.init();
       debugPrint('✅ SharedPreferences initialized');
     }
 
-    // Initialize ApplicationConfigurations
     if (getIt.isRegistered<ApplicationConfigurations>()) {
       final appConfig = getIt<ApplicationConfigurations>();
       await appConfig.init();
       debugPrint('✅ ApplicationConfigurations initialized');
     }
 
-    // Initialize Report local data source if registered
     if (getIt.isRegistered<BaseReportLocalDataSource>()) {
       final reportLocalDataSource = getIt<BaseReportLocalDataSource>();
       await reportLocalDataSource.initialize();

@@ -198,7 +198,6 @@ class SubscribedAreasCubit extends HydratedCubit<SubscribedAreasState> {
       return;
     }
 
-    // No existing data, show loading state
     debugPrint('🔄 Loading subscribed areas for home (no cache)');
     if (isClosed) return;
     emit(const SubscribedAreasState.loading());

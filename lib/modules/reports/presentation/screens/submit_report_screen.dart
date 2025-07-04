@@ -95,21 +95,14 @@ class _SubmitReportScreenState extends State<SubmitReportScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // Move AppBar outside of GestureDetector
         SubmitReportAppBar(
           timeoutManager: _timeoutManager,
-          onTipsPressed: () {
-            // Remove timer reset - just handle tips functionality
-            // Timer will be controlled by state changes only
-          },
+          onTipsPressed: () {},
         ),
         Expanded(
           child: GestureDetector(
             behavior: HitTestBehavior.translucent,
-            onPanDown: (_) {
-              // Remove timer reset - timer should not reset on touch
-              // Timer is now controlled by state changes only
-            },
+            onPanDown: (_) {},
             child: SubmitReportForm(
               timeoutManager: _timeoutManager,
               onSubmit: () {

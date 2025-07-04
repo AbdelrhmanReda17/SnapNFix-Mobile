@@ -157,7 +157,8 @@
   "sendCode": "إرسال رمز التحقق",
   "forgetPasswordFooterQuestion": "هل تواجه مشكلة مع بريدك الإلكتروني أو رقم هاتفك؟",
   "enterEmailOrPhone": "أدخل بريدك الإلكتروني أو رقم هاتفك",
-
+  "reportDescriptionRequired": "الوصف مطلوب.",
+  "reportDescriptionMinLength": "يجب أن يكون الوصف 8 أحرف على الأقل.",
   "resetPasswordTitle": "إعادة تعيين كلمة المرور",
   "resetPasswordSubtitle": "أدخل كلمة المرور الجديدة",
   "resetPassword": "إعادة تعيين كلمة المرور",

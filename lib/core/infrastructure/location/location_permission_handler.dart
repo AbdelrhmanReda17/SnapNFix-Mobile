@@ -8,7 +8,6 @@ class LocationPermissionHandler {
 
   LocationPermissionHandler(this._locationService);
 
-  /// Request location permission and execute callback when granted
   Future<bool> requestLocationAndExecute(
     BuildContext context, {
     required Future<void> Function() onGranted,
@@ -32,7 +31,6 @@ class LocationPermissionHandler {
     }
   }
 
-  /// Check if location permission is granted, show dialog if not
   Future<bool> _checkLocationPermission(
     BuildContext context, {
     VoidCallback? onDenied,
@@ -63,7 +61,6 @@ class LocationPermissionHandler {
     return hasPermission;
   }
 
-  /// Show dialog to open location settings
   Future<bool> _showOpenSettingsDialog(BuildContext context) async {
     final result = await showDialog<bool>(
       context: context,
@@ -76,7 +73,6 @@ class LocationPermissionHandler {
     return result ?? false;
   }
 
-  /// Show dialog explaining why location is needed
   Future<bool> _showLocationRequiredDialog(BuildContext context) async {
     final result = await showDialog<bool>(
       context: context,

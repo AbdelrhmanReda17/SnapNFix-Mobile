@@ -97,7 +97,8 @@
   "passwordRequirementsNotMet": "Password doesn't meet all requirements",
   "currentPasswordRequired": " Current password is required",
   "newPasswordMustBeDifferent": "New password must be different from current password",
-
+  "reportDescriptionRequired": "Report description is required.",
+  "reportDescriptionMinLength": "Description should be at least 8 characters.",
   "editProfile": "Edit Profile",
   "name": "Name",
   "phone": "Phone",

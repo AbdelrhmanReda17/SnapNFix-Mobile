@@ -194,8 +194,7 @@ class _UserReportsScreenState extends State<UserReportsScreen> {
                 ),
               ),
               SizedBox(width: 8.w),
-              // Sort dropdown
-              ReportsSortMenu(currentSortOption: state.currentSortOption),
+              // ReportsSortMenu(currentSortOption: state.currentSortOption),
             ],
           ),
         );

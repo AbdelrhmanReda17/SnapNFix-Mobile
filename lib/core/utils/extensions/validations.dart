@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 extension Validations on String {
   bool _validateEmail(String email) {
     const emailPattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$';
@@ -31,12 +33,12 @@ extension Validations on String {
 
   String? validateReportDescription(BuildContext context) {
     if (isEmpty) {
-      // return localization.reportDescriptionRequired;
-      return "Report description is required";
+      return AppLocalizations.of(context)?.reportDescriptionRequired ??
+          "Report description is required";
     }
     if (length < 10) {
-      // return localization.reportDescriptionMinLength;
-      return "Report description must be at least 10 characters long";
+      return AppLocalizations.of(context)?.reportDescriptionMinLength ??
+          "Report description must be at least 10 characters long"; 
     }
     return null;
   }
