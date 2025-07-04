@@ -56,6 +56,12 @@ class ReportRemoteDataSource implements BaseReportRemoteDataSource {
     required Future<ApiResponse<T>> Function() apiCall,
   }) async {
     try {
+      final isConnected = await getIt<ConnectivityService>().isConnected();
+      if (!isConnected) {
+        return Result.failure(
+          ApiError(message: 'error_no_internet_connection'),
+        );
+      }
       final response = await apiCall();
       return Result.success(response.data as T);
     } catch (error) {

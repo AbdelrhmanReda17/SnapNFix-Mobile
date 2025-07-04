@@ -319,7 +319,7 @@
 
   "errorFetchingIssue": "Error Fetching the Issue",
   "ok": "OK",
-
+  "failedToEditProfile": "Failed to edit profile. Please check your connection and try again.",
   "applyFilters": "Apply Filters",
   "filters": "Fitlers",
   "clearFilters": "Clear Filters",
@@ -329,7 +329,8 @@
   "severities": "Severities",
   "status": "Status",
   "fastReport": "Fast Report",
-
+  "connectedToInternet": "Connected to the internet",
+  "noInternetConnection": "No internet Connection",
   "year": "year",
   "years": "years",
   "month": "month",
@@ -598,6 +599,26 @@
   "fastReports": "Fast Reports",  
   "snapReports": "Snap Reports",
   "anonymous": "Anonymous",
+  "noSnapReportsYet": "No snap reports yet",
+  "@noSnapReportsYet": {
+    "description": "Message when there are no snap reports for an issue"
+  },
+  "beTheFirstToSnapAndReport": "Be the first to snap and report",
+  "@beTheFirstToSnapAndReport": {
+    "description": "Encouraging message for first snap report"
+  },
+  "noFastReportsYet": "No fast reports yet",
+  "@noFastReportsYet": {
+    "description": "Message when there are no fast reports for an issue"
+  },
+  "beTheFirstToAddQuickReport": "Be the first to add a quick report",
+  "@beTheFirstToAddQuickReport": {
+    "description": "Encouraging message for first fast report"
+  },
+  "noDetailsProvided": "No details provided",
+  "@noDetailsProvided": {
+    "description": "Default message when no comment is provided in a report"
+  },
   "reportsLabel": "Reports",
   "createdLabel": "Created",
   "applyFilter": "Apply Filter",

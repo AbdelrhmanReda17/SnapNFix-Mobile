@@ -1,3 +1,5 @@
+import 'package:snapnfix/core/dependency_injection/dependency_injection.dart';
+import 'package:snapnfix/core/infrastructure/connectivity/connectivity_service.dart';
 import 'package:snapnfix/core/infrastructure/networking/error/api_error.dart';
 import 'package:snapnfix/core/infrastructure/networking/responses/api_response.dart';
 import 'package:snapnfix/core/utils/result.dart';
@@ -5,9 +7,7 @@ import 'package:snapnfix/core/infrastructure/networking/api_service.dart';
 import 'package:snapnfix/modules/settings/data/models/edit_profile_request.dart';
 
 abstract class BaseSettingsRemoteDataSource {
-  Future<Result<bool, ApiError>> editProfile(
-    EditProfileRequest editProfileDTO,
-  );
+  Future<Result<bool, ApiError>> editProfile(EditProfileRequest editProfileDTO);
 }
 
 class SettingsRemoteDataSource implements BaseSettingsRemoteDataSource {
@@ -19,6 +19,12 @@ class SettingsRemoteDataSource implements BaseSettingsRemoteDataSource {
     required Future<ApiResponse<T>> Function() apiCall,
   }) async {
     try {
+      final isConnected = await getIt<ConnectivityService>().isConnected();
+      if (!isConnected) {
+        return Result.failure(
+          ApiError(message: 'error_no_internet_connection'),
+        );
+      }
       final response = await apiCall();
       return Result.success(response.data as T);
     } catch (error) {
@@ -38,14 +44,12 @@ class SettingsRemoteDataSource implements BaseSettingsRemoteDataSource {
   ) async {
     try {
       return await _handleApiCall<bool>(
-        apiCall: () => _apiService.editProfile(
-          editProfileDTO.toJson(),
-        ),
+        apiCall: () => _apiService.editProfile(editProfileDTO.toJson()),
       );
     } catch (error) {
       return Result.failure(
         ApiError(
-          message: 'Failed to edit the profile: ${error.toString()}',
+          message: 'failed_to_edit_profile',
           code: error is ApiError ? error.code : null,
         ),
       );

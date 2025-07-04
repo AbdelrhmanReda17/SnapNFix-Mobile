@@ -48,14 +48,12 @@ class LocalizationHelper {
         return localization.errorSaveReportOfflineFailed;
       case 'error_storage_not_initialized':
         return localization.errorStorageNotInitialized;
-
-      // Report success messages
+      case 'failed_to_edit_profile':
+        return localization.failedToEditProfile;
       case 'success_report_saved_offline':
         return localization.successReportSavedOffline;
       case 'success_report_submitted_with_id':
         return localization.successReportSubmittedWithId;
-
-      // Area updates error messages
       case 'error_load_areas_failed':
         return localization.errorLoadAreasFailed;
       case 'error_load_area_health_failed':

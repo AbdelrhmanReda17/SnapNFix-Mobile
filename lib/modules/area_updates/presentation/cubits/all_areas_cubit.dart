@@ -32,7 +32,7 @@ class AllAreasCubit extends HydratedCubit<AllAreasState> {
        super(const AllAreasState.initial()) {
     _subscriptionListener = _notifier.stream.listen((event) {
       if (isClosed) return;
-      
+
       debugPrint('📢 AllAreasCubit received subscription event:');
       debugPrint('  Area: ${event.areaInfo.name} (${event.areaInfo.id})');
       debugPrint('  Is subscribed: ${event.isSubscribed}');
@@ -179,7 +179,7 @@ class AllAreasCubit extends HydratedCubit<AllAreasState> {
 
   Future<void> loadMore() async {
     if (isClosed) return;
-    
+
     final currentState = state;
     if (currentState is AllAreasStateLoaded &&
         !currentState.hasReachedEnd &&
@@ -226,7 +226,7 @@ class AllAreasCubit extends HydratedCubit<AllAreasState> {
       result.when(
         success: (_) {
           if (isClosed) return;
-          
+
           debugPrint('✅ Successfully subscribed to area: $cityId');
           // Remove from subscribing state first
           final currentState = state;
@@ -237,7 +237,7 @@ class AllAreasCubit extends HydratedCubit<AllAreasState> {
             if (isClosed) return;
             emit(currentState.copyWith(subscribingAreaIds: updatedSubscribing));
           }
-          
+
           // Notify subscription - this will trigger the listener to remove the area
           if (areaToSubscribe != null) {
             _notifier.notifySubscribed(areaToSubscribe);
@@ -245,7 +245,7 @@ class AllAreasCubit extends HydratedCubit<AllAreasState> {
         },
         failure: (error) {
           if (isClosed) return;
-          
+
           debugPrint('Failed to subscribe to area: ${error.message}');
           final currentState = state;
           if (currentState is AllAreasStateLoaded) {
@@ -256,7 +256,7 @@ class AllAreasCubit extends HydratedCubit<AllAreasState> {
             emit(
               currentState.copyWith(
                 subscribingAreaIds: updatedSubscribing,
-                operationError: 'Failed to subscribe: ${error.message}',
+                operationError: 'error_subscribe_area_failed',
               ),
             );
           }
@@ -264,7 +264,7 @@ class AllAreasCubit extends HydratedCubit<AllAreasState> {
       );
     } catch (e) {
       if (isClosed) return;
-      
+
       // Remove from subscribing list and show error
       final currentState = state;
       if (currentState is AllAreasStateLoaded) {
@@ -275,7 +275,7 @@ class AllAreasCubit extends HydratedCubit<AllAreasState> {
         emit(
           currentState.copyWith(
             subscribingAreaIds: updatedSubscribing,
-            operationError: 'Error subscribing to area: $e',
+            operationError: 'error_subscribe_area_failed',
           ),
         );
       }
@@ -296,7 +296,7 @@ class AllAreasCubit extends HydratedCubit<AllAreasState> {
 
   void clearOperationError() {
     if (isClosed) return;
-    
+
     final currentState = state;
     if (currentState is AllAreasStateLoaded &&
         currentState.operationError != null) {
@@ -348,7 +348,7 @@ class AllAreasCubit extends HydratedCubit<AllAreasState> {
       result.when(
         success: (data) {
           if (isClosed) return;
-          
+
           final currentState = state;
           List<AreaInfo> newAreas = data.key;
 
@@ -372,7 +372,7 @@ class AllAreasCubit extends HydratedCubit<AllAreasState> {
         },
         failure: (error) {
           if (isClosed) return;
-          
+
           if (isLoadMore) {
             final currentState = state;
             if (currentState is AllAreasStateLoaded) {
@@ -387,7 +387,7 @@ class AllAreasCubit extends HydratedCubit<AllAreasState> {
       );
     } catch (e) {
       if (isClosed) return;
-      
+
       if (isLoadMore) {
         final currentState = state;
         if (currentState is AllAreasStateLoaded) {
@@ -407,7 +407,7 @@ class AllAreasCubit extends HydratedCubit<AllAreasState> {
 
   void _removeAreaFromStateByInfo(AreaInfo areaInfo) {
     if (isClosed) return;
-    
+
     final currentState = state;
     if (currentState is AllAreasStateLoaded) {
       final existingAreaIndex = currentState.areas.indexWhere(
@@ -448,7 +448,7 @@ class AllAreasCubit extends HydratedCubit<AllAreasState> {
 
   void _addAreaToState(AreaInfo newArea) {
     if (isClosed) return;
-    
+
     final currentState = state;
     if (currentState is AllAreasStateLoaded) {
       final existingAreaIndex = currentState.areas.indexWhere(

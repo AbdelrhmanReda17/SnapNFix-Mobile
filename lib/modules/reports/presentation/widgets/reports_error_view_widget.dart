@@ -37,7 +37,6 @@ class ReportsErrorView extends StatelessWidget {
             SizedBox(height: 16.h),
             ElevatedButton(
               onPressed: () {
-                debugPrint('🔄 Retrying reports load from error view');
                 context.read<UserReportsCubit>().loadReports(refresh: true);
               },
               style: ElevatedButton.styleFrom(

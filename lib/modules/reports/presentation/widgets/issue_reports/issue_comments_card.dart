@@ -48,11 +48,14 @@ class IssueCommentsCard extends StatelessWidget {
                 borderRadius: BorderRadius.circular(8.r),
                 child:
                     isSnapReport && imageUrl != null && imageUrl!.isNotEmpty
-                        ? ImageBuilder.buildImage(
-                          imageName: imageUrl!,
-                          fit: BoxFit.cover,
-                          colorScheme: colorScheme,
-                        )
+                        ? Hero(
+                            tag: 'comment_image_${imageUrl}_${createdAt?.millisecondsSinceEpoch}',
+                            child: ImageBuilder.buildImage(
+                              imageName: imageUrl!,
+                              fit: BoxFit.cover,
+                              colorScheme: colorScheme,
+                            ),
+                          )
                         : Container(
                           decoration: BoxDecoration(
                             color: colorScheme.primary.withValues(alpha: 0.1),

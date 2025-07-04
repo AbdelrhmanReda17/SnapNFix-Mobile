@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:snapnfix/core/base_components/base_paginated_list_view.dart';
+import 'package:snapnfix/core/utils/helpers/localization_helper.dart';
 import 'package:snapnfix/modules/area_updates/domain/entities/area_info.dart';
 import 'package:snapnfix/modules/area_updates/presentation/cubits/all_areas_cubit.dart';
 import 'package:snapnfix/modules/area_updates/presentation/widgets/area_card.dart';
@@ -39,7 +40,12 @@ class AllAreasList extends StatelessWidget {
               ScaffoldMessenger.of(context).clearSnackBars();
 
               final snackBar = SnackBar(
-                content: Text(operationError),
+                content: Text(
+                  LocalizationHelper.getLocalizedMessage(
+                    context,
+                    operationError,
+                  ),
+                ),
                 backgroundColor: Theme.of(context).colorScheme.error,
                 duration: const Duration(seconds: 4),
                 action: SnackBarAction(

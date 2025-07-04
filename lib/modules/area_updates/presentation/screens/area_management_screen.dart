@@ -40,8 +40,6 @@ class _AreaManagementScreenState extends State<AreaManagementScreen>
     _subscribedAreasCubit = getIt<SubscribedAreasCubit>();
     _allAreasCubit = getIt<AllAreasCubit>();
 
-    debugPrint('📍 Initializing AreaManagementScreen');
-
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (widget.initialShowSubscribed) {
         _subscribedAreasCubit.initialize();

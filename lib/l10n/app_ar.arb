@@ -17,6 +17,10 @@
   "@welcomeBack": {
     "description": "Greeting for returning users on login screen"
   },
+  "connectedToInternet": "متصل بالإنترنت",
+  "noInternetConnection": "لا يوجد اتصال بالإنترنت",
+
+  "failedToEditProfile": "فشل في تحديث الملف الشخصي. يرجى التحقق من الاتصال والمحاولة مرة أخرى.",
   "loginToContinue": "سجّل الدخول للمتابعة",
   "@loginToContinue": {
     "description": "Subtitle on login screen"
@@ -605,6 +609,26 @@
   "fastReports": "بلاغات سريعة",  
   "snapReports": "بلاغات مصورة",
   "anonymous": "مجهول",
+  "noSnapReportsYet": "لا توجد بلاغات مصورة حتى الآن",
+  "@noSnapReportsYet": {
+    "description": "Message when there are no snap reports for an issue"
+  },
+  "beTheFirstToSnapAndReport": "كن أول من يقوم بتصوير البلاغ والإبلاغ عنه",
+  "@beTheFirstToSnapAndReport": {
+    "description": "Encouraging message for first snap report"
+  },
+  "noFastReportsYet": "لا توجد بلاغات سريعة حتى الآن",
+  "@noFastReportsYet": {
+    "description": "Message when there are no fast reports for an issue"
+  },
+  "beTheFirstToAddQuickReport": "كن أول من يضيف بلاغ سريع",
+  "@beTheFirstToAddQuickReport": {
+    "description": "Encouraging message for first fast report"
+  },
+  "noDetailsProvided": "لا توجد تفاصيل مقدمة",
+  "@noDetailsProvided": {
+    "description": "Default message when no comment is provided in a report"
+  },
   "reportsLabel": "بلاغات",
   "createdLabel": "تم الإنشاء",  
   "applyFilter": "تطبيق التصفية",

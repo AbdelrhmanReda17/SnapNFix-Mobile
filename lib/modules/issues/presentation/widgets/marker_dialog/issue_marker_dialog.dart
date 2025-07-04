@@ -90,7 +90,12 @@ class _IssueMarkerDialogState extends State<IssueMarkerDialog> {
     return [
       const Icon(Icons.error_outline, color: Colors.red, size: 48),
       const SizedBox(height: 8),
-      Text('$_error'),
+      Text(
+        LocalizationHelper.getLocalizedMessage(
+          context,
+          _error ?? 'error_unexpected_occurred',
+        ),
+      ),
       const SizedBox(height: 16),
       ElevatedButton(
         onPressed: _fetchIssueDetails,
@@ -121,15 +126,15 @@ class _IssueMarkerDialogState extends State<IssueMarkerDialog> {
             issue: issue,
             showReportButton: true,
             onReportTap: () async {
-            final success = await FastReportDialog.show(
-              context: context,
-              issueId: widget.issueId,
-              onSuccess: widget.onTap,
-            );
-            if (success == true) {
-              widget.onTap();
-            }
-          },
+              final success = await FastReportDialog.show(
+                context: context,
+                issueId: widget.issueId,
+                onSuccess: widget.onTap,
+              );
+              if (success == true) {
+                widget.onTap();
+              }
+            },
           ),
         ],
       ),

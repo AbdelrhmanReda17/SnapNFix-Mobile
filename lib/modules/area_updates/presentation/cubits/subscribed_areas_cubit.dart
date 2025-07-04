@@ -269,7 +269,6 @@ class SubscribedAreasCubit extends HydratedCubit<SubscribedAreasState> {
         failure: (error) {
           if (isClosed) return;
           
-          debugPrint('Failed to unsubscribe from area: ${error.message}');
           final currentState = state;
           if (currentState is SubscribedAreasStateLoaded) {
             final updatedUnsubscribing = Set<String>.from(
@@ -279,7 +278,7 @@ class SubscribedAreasCubit extends HydratedCubit<SubscribedAreasState> {
             emit(
               currentState.copyWith(
                 unsubscribingAreaIds: updatedUnsubscribing,
-                operationError: 'Failed to unsubscribe: ${error.message}',
+                operationError: 'error_unsubscribe_area_failed',
               ),
             );
           }
@@ -296,7 +295,7 @@ class SubscribedAreasCubit extends HydratedCubit<SubscribedAreasState> {
         emit(
           currentState.copyWith(
             unsubscribingAreaIds: updatedUnsubscribing,
-            operationError: 'Error unsubscribing from area: $e',
+            operationError: 'error_unsubscribe_area_failed',
           ),
         );
       }

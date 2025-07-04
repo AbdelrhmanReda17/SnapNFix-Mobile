@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:snapnfix/core/base_components/base_paginated_list_view.dart';
+import 'package:snapnfix/core/utils/helpers/localization_helper.dart';
 import 'package:snapnfix/modules/reports/data/models/fast_report_model.dart';
 import 'package:snapnfix/modules/reports/presentation/cubits/issue_fast_reports_cubit.dart';
 import 'package:snapnfix/modules/reports/presentation/widgets/issue_reports/issue_comments_card.dart';
@@ -66,13 +67,13 @@ class IssueFastReportsList extends StatelessWidget {
           ),
           SizedBox(height: 16.h),
           Text(
-            'No fast reports yet',
+            localization.noFastReportsYet,
             style: theme.textTheme.bodyLarge,
             textAlign: TextAlign.center,
           ),
           SizedBox(height: 8.h),
           Text(
-            'Be the first to add a quick report',
+            localization.beTheFirstToAddQuickReport,
             style: theme.textTheme.bodyMedium?.copyWith(
               color: theme.colorScheme.onSurface.withValues(alpha: 0.6),
             ),
@@ -100,7 +101,7 @@ class IssueFastReportsList extends StatelessWidget {
             Icon(Icons.error_outline, size: 48.sp, color: colorScheme.error),
             SizedBox(height: 16.h),
             Text(
-              error,
+              LocalizationHelper.getLocalizedMessage(context, error),
               style: theme.textTheme.bodyLarge?.copyWith(
                 color: colorScheme.error,
               ),
