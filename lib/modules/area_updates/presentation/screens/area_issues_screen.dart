@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
 import 'package:snapnfix/core/base_components/base_paginated_list_view.dart';
+import 'package:snapnfix/core/core.dart';
 import 'package:snapnfix/core/dependency_injection/dependency_injection.dart';
 import 'package:snapnfix/modules/area_updates/domain/entities/area_details.dart';
 import 'package:snapnfix/modules/area_updates/domain/entities/area_health_metrics.dart';
@@ -80,6 +81,7 @@ class _AreaIssuesScreenState extends State<AreaIssuesScreen> {
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
     final localization = AppLocalizations.of(context)!;
+    final isRTL = Localizations.localeOf(context).languageCode == 'ar';
 
     return BlocProvider.value(
       value: _cubit,
@@ -90,7 +92,9 @@ class _AreaIssuesScreenState extends State<AreaIssuesScreen> {
               Icon(Icons.home_work, color: colorScheme.primary, size: 24.sp),
               SizedBox(width: 12.w),
               Text(
-                '${widget.areaInfo.name} Issues',
+                isRTL
+                    ? '${localization.area} ${widget.areaInfo.name}'
+                    : '${widget.areaInfo.name} ${localization.area}',
                 style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.w600),
               ),
             ],
@@ -234,7 +238,7 @@ class _AreaIssuesScreenState extends State<AreaIssuesScreen> {
           ),
           SizedBox(height: 16.h),
           Text(
-            error.message ?? 'An error occurred',
+            LocalizationHelper.getLocalizedMessage(context, error.message),
             style: Theme.of(context).textTheme.bodyLarge?.copyWith(
               color: Theme.of(context).colorScheme.error,
             ),
@@ -243,7 +247,7 @@ class _AreaIssuesScreenState extends State<AreaIssuesScreen> {
           SizedBox(height: 16.h),
           ElevatedButton(
             onPressed: _refreshAreaDetails,
-            child: const Text('Try Again'),
+            child: Text(AppLocalizations.of(context)!.retry),
           ),
         ],
       ),
