@@ -3,10 +3,10 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:snapnfix/core/base_components/base_alert_component/alert_type.dart';
 import 'package:snapnfix/core/index.dart';
 import 'package:snapnfix/modules/issues/index.dart';
 import 'package:snapnfix/modules/reports/presentation/widgets/issue_reports/issue_reports_tabs.dart';
+import 'package:snapnfix/modules/reports/presentation/widgets/reports_error_view_widget.dart';
 import 'package:snapnfix/presentation/components/application_system_ui_overlay.dart';
 import 'package:snapnfix/presentation/widgets/loading_overlay.dart';
 
@@ -38,15 +38,13 @@ class IssueDetailsScreen extends StatelessWidget {
           elevation: 0,
         ),
         body: SafeArea(
-          child: BlocConsumer<IssueDetailsCubit, IssueDetailsState>(
-            listener: (context, state) {
-              state.maybeWhen(
-                error: (error) => _showError(context, error),
-                orElse: () {},
-              );
-            },
+          child: BlocBuilder<IssueDetailsCubit, IssueDetailsState>(
             builder: (context, state) {
-              return state.maybeWhen(
+              return state.when(
+                initial:
+                    () => const SizedBox.expand(
+                      child: Center(child: LoadingOverlay()),
+                    ),
                 loading:
                     () => const SizedBox.expand(
                       child: Center(child: LoadingOverlay()),
@@ -59,11 +57,7 @@ class IssueDetailsScreen extends StatelessWidget {
                         colorScheme,
                       ),
                     ),
-                error: (error) => const SizedBox.shrink(),
-                orElse:
-                    () => const SizedBox.expand(
-                      child: Center(child: LoadingOverlay()),
-                    ),
+                error: (error) => ReportsErrorView(errorMessage: error.message),
               );
             },
           ),
@@ -85,23 +79,6 @@ class IssueDetailsScreen extends StatelessWidget {
           }
         },
         orElse: () => cubit.getIssueDetails(issueId),
-      );
-    });
-  }
-
-  void _showError(BuildContext context, ApiError error) {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      final localization = AppLocalizations.of(context)!;
-      if (!context.mounted) return;
-
-      baseDialog(
-        context: context,
-        title: localization.errorFetchingIssue,
-        message: error.message,
-        alertType: AlertType.error,
-        confirmText: localization.ok,
-        onConfirm: () {},
-        showCancelButton: false,
       );
     });
   }

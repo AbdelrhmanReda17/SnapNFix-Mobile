@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:snapnfix/core/index.dart';
 import 'package:snapnfix/modules/issues/index.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class IssueMapScreen extends StatefulWidget {
   const IssueMapScreen({super.key});
@@ -61,7 +62,6 @@ class _IssueMapScreenState extends State<IssueMapScreen> {
               return Scaffold(
                 body: Stack(
                   children: [
-                    // Loading State
                     if (state.status == MapStatus.loading) ...[
                       const Center(
                         child: Column(
@@ -88,7 +88,7 @@ class _IssueMapScreenState extends State<IssueMapScreen> {
                             ),
                             const SizedBox(height: 16),
                             Text(
-                              state.error ?? 'An error occurred',
+                              _getLocalizedErrorMessage(context, state.error),
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 color: Theme.of(context).colorScheme.error,
@@ -102,7 +102,7 @@ class _IssueMapScreenState extends State<IssueMapScreen> {
                                       _issuesMapCubit.initialize(pos);
                                     }
                                   }),
-                              child: const Text('Retry'),
+                              child: Text(AppLocalizations.of(context)!.retry),
                             ),
                           ],
                         ),
@@ -148,6 +148,13 @@ class _IssueMapScreenState extends State<IssueMapScreen> {
       }
       return null;
     }
+  }
+
+  String _getLocalizedErrorMessage(BuildContext context, String? error) {
+    if (error == null) {
+      return AppLocalizations.of(context)!.errorUnexpectedOccurred;
+    }
+    return LocalizationHelper.getLocalizedMessage(context, error);
   }
 
   @override

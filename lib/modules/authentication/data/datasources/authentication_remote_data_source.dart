@@ -1,4 +1,6 @@
 import 'package:dio/dio.dart';
+import 'package:snapnfix/core/dependency_injection/dependency_injection.dart';
+import 'package:snapnfix/core/infrastructure/connectivity/connectivity_service.dart';
 import 'package:snapnfix/core/infrastructure/device_info/device_info_service.dart';
 import 'package:snapnfix/core/infrastructure/networking/error/api_error.dart';
 import 'package:snapnfix/core/utils/result.dart';
@@ -57,6 +59,12 @@ class AuthenticationRemoteDataSource
     bool isLoginOrRegister = false,
   }) async {
     try {
+      final isConnected = await getIt<ConnectivityService>().isConnected();
+      if (!isConnected) {
+        return Result.failure(
+          ApiError(message: 'error_no_internet_connection'),
+        );
+      }
       final response = await apiCall();
 
       if (setVerificationToken && response.data is String) {

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:snapnfix/core/base_components/base_toast.dart';
 import 'package:snapnfix/core/dependency_injection/dependency_injection.dart';
 import 'package:snapnfix/core/infrastructure/connectivity/connectivity_service.dart';
@@ -47,13 +48,14 @@ class _NetworkConnectionNotifierState extends State<NetworkConnectionNotifier> {
 
   void _showNetworkToast(BuildContext context, bool isConnected) {
     Future.microtask(() {
+      final localization = AppLocalizations.of(context)!;
+
       BaseToast.show(
-        // ignore: use_build_context_synchronously
         context: context,
         message:
             isConnected
-                ? 'Connected to the internet'
-                : 'No internet connection',
+                ? localization.connectedToInternet
+                : localization.noInternetConnection,
         type: isConnected ? ToastType.success : ToastType.error,
         duration: const Duration(seconds: 2),
       );

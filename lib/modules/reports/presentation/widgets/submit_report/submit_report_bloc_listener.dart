@@ -3,81 +3,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:snapnfix/core/base_components/base_alert_component/alert_type.dart';
 import 'package:snapnfix/core/base_components/base_alert_component/base_alert.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:snapnfix/core/utils/helpers/localization_helper.dart';
 import 'package:snapnfix/core/utils/mixins/listener_mixin.dart';
 import 'package:snapnfix/modules/reports/presentation/cubits/submit_report_cubit.dart';
 
 class SubmitReportBlocListener extends StatelessWidget with ListenerMixin {
   const SubmitReportBlocListener({super.key});
-
-  String _getLocalizedMessage(BuildContext context, String? messageKey) {
-    if (messageKey == null) return '';
-    
-    final localization = AppLocalizations.of(context)!;
-    
-    switch (messageKey) {
-      // Error messages
-      case 'error_please_provide_image':
-        return localization.errorPleaseProvideImage;
-      case 'error_submit_report_failed':
-        return localization.errorSubmitReportFailed;
-      case 'error_no_internet_connection':
-        return localization.errorNoInternetConnection;
-      case 'error_report_submission_failed':
-        return localization.errorReportSubmissionFailed;
-      case 'error_report_saved_offline':
-        return localization.errorReportSavedOffline;
-      case 'error_fast_report_failed':
-        return localization.errorFastReportFailed;
-      case 'error_get_reports_failed':
-        return localization.errorGetReportsFailed;
-      case 'error_get_user_reports_failed':
-        return localization.errorGetUserReportsFailed;
-      case 'error_get_statistics_failed':
-        return localization.errorGetStatisticsFailed;
-      case 'error_unexpected_occurred':
-        return localization.errorUnexpectedOccurred;
-      case 'error_clear_reports_failed':
-        return localization.errorClearReportsFailed;
-      case 'error_delete_report_failed':
-        return localization.errorDeleteReportFailed;
-      case 'error_initialize_storage_failed':
-        return localization.errorInitializeStorageFailed;
-      case 'error_mark_report_synced_failed':
-        return localization.errorMarkReportSyncedFailed;
-      case 'error_save_report_offline_failed':
-        return localization.errorSaveReportOfflineFailed;
-      case 'error_storage_not_initialized':
-        return localization.errorStorageNotInitialized;
-      
-      // Success messages
-      case 'success_report_saved_offline':
-        return localization.successReportSavedOffline;
-      case 'success_report_submitted_with_id':
-        return localization.successReportSubmittedWithId;
-      
-      // Area updates error messages
-      case 'error_load_areas_failed':
-        return localization.errorLoadAreasFailed;
-      case 'error_load_area_health_failed':
-        return localization.errorLoadAreaHealthFailed;
-      case 'error_load_area_issues_failed':
-        return localization.errorLoadAreaIssuesFailed;
-      case 'error_subscription_failed':
-        return localization.errorSubscriptionFailed;
-      case 'error_subscribe_area_failed':
-        return localization.errorSubscribeAreaFailed;
-      case 'error_unsubscription_failed':
-        return localization.errorUnsubscriptionFailed;
-      case 'error_unsubscribe_area_failed':
-        return localization.errorUnsubscribeAreaFailed;
-      case 'error_load_subscribed_areas_failed':
-        return localization.errorLoadSubscribedAreasFailed;
-      
-      default:
-        // If the message is not a known key, return it as is (might be already localized)
-        return messageKey;
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -99,7 +30,10 @@ class SubmitReportBlocListener extends StatelessWidget with ListenerMixin {
             baseDialog(
               context: context,
               title: localization.submittingReportError,
-              message: _getLocalizedMessage(context, state.error),
+              message: LocalizationHelper.getLocalizedMessage(
+                context,
+                state.error,
+              ),
               alertType: AlertType.error,
               confirmText: localization.gotItConfirmText,
               onConfirm: () {},
@@ -113,7 +47,10 @@ class SubmitReportBlocListener extends StatelessWidget with ListenerMixin {
             baseDialog(
               context: context,
               title: localization.successDialogTitle,
-              message: _getLocalizedMessage(context, state.successMessage),
+              message: LocalizationHelper.getLocalizedMessage(
+                context,
+                state.successMessage,
+              ),
               alertType: AlertType.success,
               confirmText: localization.gotItConfirmText,
               onConfirm: () {},

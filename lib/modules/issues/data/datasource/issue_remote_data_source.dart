@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:snapnfix/modules/issues/data/models/get_nearby_issues_query.dart';
@@ -25,38 +26,29 @@ class IssueRemoteDataSource implements BaseIssueRemoteDataSource {
     required Future<ApiResponse<T>> Function() apiCall,
   }) async {
     try {
+      final isConnected = await getIt<ConnectivityService>().isConnected();
+      if (!isConnected) {
+        return Result.failure(
+          ApiError(message: 'error_no_internet_connection'),
+        );
+      }
       final response = await apiCall();
       return Result.success(response.data as T);
     } catch (error) {
-      ApiError apiError;
-      if (error is Map<String, dynamic>) {
-        apiError = ApiError.fromJson(error);
-      } else {
-        apiError = ApiError(message: error.toString());
-      }
-      return Result.failure(apiError);
+      return Result.failure(
+        error is DioException && error.error is ApiError
+            ? error.error as ApiError
+            : ApiError(message: 'error_unexpected_occurred'),
+      );
     }
   }
 
   @override
   Future<Result<IssueModel, ApiError>> getIssueDetails(String issueId) async {
-    try {
-      debugPrint("Fetching issue details for ID: $issueId");
-      return await _handleApiCall<IssueModel>(
-        apiCall: () async {
-          final response = await _apiService.getIssueById(issueId);
-          return response;
-        },
-      );
-    } catch (error) {
-      ApiError apiError;
-      if (error is Map<String, dynamic>) {
-        apiError = ApiError.fromJson(error);
-      } else {
-        apiError = ApiError(message: error.toString());
-      }
-      return Result.failure(apiError);
-    }
+    debugPrint("Fetching issue details for ID: $issueId");
+    return await _handleApiCall<IssueModel>(
+      apiCall: () => _apiService.getIssueById(issueId),
+    );
   }
 
   @override
@@ -64,10 +56,9 @@ class IssueRemoteDataSource implements BaseIssueRemoteDataSource {
     required LatLngBounds bounds,
     required int maxResults,
   }) async {
-    try {
-      return await _handleApiCall<List<IssueMarker>>(
-        apiCall: () async {
-          final result = _apiService.getNearbyIssues(
+    return await _handleApiCall<List<IssueMarker>>(
+      apiCall:
+          () => _apiService.getNearbyIssues(
             GetNearbyIssuesQuery(
               northEastLat: bounds.northeast.latitude,
               northEastLng: bounds.northeast.longitude,
@@ -75,35 +66,22 @@ class IssueRemoteDataSource implements BaseIssueRemoteDataSource {
               southWestLng: bounds.southwest.longitude,
               maxResults: maxResults,
             ),
-          );
-          return result;
-        },
-      );
-    } catch (error) {
-      ApiError apiError;
-      if (error is Map<String, dynamic>) {
-        apiError = ApiError.fromJson(error);
-      } else {
-        apiError = ApiError(message: error.toString());
-      }
-      return Result.failure(apiError);
-    }
+          ),
+    );
   }
 
   @override
   Future<Result<List<IssueModel>, ApiError>> getUserIssues(
     String userId,
   ) async {
-    try {
-      return Result.success([]);
-    } catch (error) {
-      ApiError apiError;
-      if (error is Map<String, dynamic>) {
-        apiError = ApiError.fromJson(error);
-      } else {
-        apiError = ApiError(message: error.toString());
-      }
-      return Result.failure(apiError);
-    }
+    return await _handleApiCall<List<IssueModel>>(
+      apiCall: () async {
+        return ApiResponse<List<IssueModel>>(
+          data: [],
+          message: 'Success',
+          success: true,
+        );
+      },
+    );
   }
 }

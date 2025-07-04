@@ -2,24 +2,18 @@ import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ImageBuilder {
   /// Checks if an image path is valid
-  /// Returns true for valid remote URLs or existing local files
+  /// Returns true for valid remote URLs
   static bool isValidImagePath(String? imagePath) {
     if (imagePath == null || imagePath.isEmpty) return false;
-    
-    // Remote URLs are considered valid
-    if (_isNetworkUrl(imagePath)) {
-      return true;
-    }
-    
-    // Check if the file exists locally
-    return _isValidLocalFile(imagePath);
+    return _isNetworkUrl(imagePath);
   }
-  
+
   /// Builds the appropriate image widget based on the image name/path
-  /// [imageName] can be a URL, local file path, or asset path
+  /// [imageName] can be a URL
   /// [fit] determines how the image should be displayed (e.g. BoxFit.cover)
   /// [colorScheme] is used for styling the error placeholder
   static Widget buildImage({
@@ -34,46 +28,34 @@ class ImageBuilder {
     // Handle null or empty image path
     if (imageName == null || imageName.isEmpty) {
       return Builder(
-        builder: (context) => _buildErrorWidget(context, colorScheme, errorBuilder),
+        builder:
+            (context) => _buildErrorWidget(context, colorScheme, errorBuilder),
       );
     }
 
     // Check if the image is a network URL
     if (_isNetworkUrl(imageName)) {
       return _buildNetworkImage(
-        imageName, fit, colorScheme, errorBuilder, loadingBuilder, width, height
-      );
-    }
-
-    // For local files
-    if (_shouldTreatAsLocalFile(imageName)) {
-      return _buildLocalFileImage(
-        imageName, fit, colorScheme, errorBuilder, width, height
+        imageName,
+        fit,
+        colorScheme,
+        errorBuilder,
+        loadingBuilder,
+        width,
+        height,
       );
     }
 
     // Fallback to error widget for unrecognized paths
     return Builder(
-      builder: (context) => _buildErrorWidget(context, colorScheme, errorBuilder),
+      builder:
+          (context) => _buildErrorWidget(context, colorScheme, errorBuilder),
     );
   }
 
   // Helper methods for better organization
   static bool _isNetworkUrl(String path) {
     return path.startsWith('http://') || path.startsWith('https://');
-  }
-
-  static bool _isValidLocalFile(String path) {
-    try {
-      final file = File(path);
-      return file.existsSync();
-    } catch (e) {
-      return false;
-    }
-  }
-
-  static bool _shouldTreatAsLocalFile(String path) {
-    return path.contains('/') || _isValidLocalFile(path);
   }
 
   static Widget _buildNetworkImage(
@@ -90,43 +72,20 @@ class ImageBuilder {
       fit: fit,
       width: width,
       height: height,
-      placeholder: (context, url) => loadingBuilder?.call(colorScheme) ?? 
-                   _defaultLoadingPlaceholder(colorScheme),
-      errorWidget: (context, url, error) => 
-                   _buildErrorWidget(context, colorScheme, errorBuilder),
+      placeholder:
+          (context, url) =>
+              loadingBuilder?.call(colorScheme) ??
+              _defaultLoadingPlaceholder(colorScheme),
+      errorWidget: (context, url, error) {
+        debugPrint('Network image error: $error');
+        if (_isNetworkError(error)) {
+          return _buildNetworkErrorWidget(context, colorScheme, errorBuilder);
+        }
+        return _buildErrorWidget(context, colorScheme, errorBuilder);
+      },
     );
   }
 
-  static Widget _buildLocalFileImage(
-    String imagePath,
-    BoxFit fit,
-    ColorScheme colorScheme,
-    Widget Function(BuildContext, ColorScheme)? errorBuilder,
-    double? width,
-    double? height,
-  ) {
-    try {
-      final file = File(imagePath);
-      if (file.existsSync()) {
-        return Image.file(
-          file,
-          fit: fit,
-          width: width,
-          height: height,
-          errorBuilder: (context, error, stackTrace) => 
-            _buildErrorWidget(context, colorScheme, errorBuilder),
-        );
-      }
-    } catch (e) {
-      // Fall through to error widget
-    }
-    
-    return Builder(
-      builder: (context) => _buildErrorWidget(context, colorScheme, errorBuilder),
-    );
-  }
-
-  /// Default loading placeholder
   static Widget _defaultLoadingPlaceholder(ColorScheme colorScheme) {
     return Container(
       color: colorScheme.surfaceContainerHighest,
@@ -139,7 +98,6 @@ class ImageBuilder {
     );
   }
 
-  /// Default error placeholder to show when an image fails to load
   static Widget _defaultErrorPlaceholder(ColorScheme colorScheme) {
     return Container(
       color: colorScheme.primary.withValues(alpha: 0.05),
@@ -149,12 +107,59 @@ class ImageBuilder {
     );
   }
 
-  static Widget _buildErrorWidget(
-    BuildContext context, 
-    ColorScheme colorScheme, 
-    Widget Function(BuildContext, ColorScheme)? customBuilder
+  static Widget _defaultNetworkErrorPlaceholder(
+    BuildContext context,
+    ColorScheme colorScheme,
   ) {
-    return customBuilder?.call(context, colorScheme) ?? 
-           _defaultErrorPlaceholder(colorScheme);
+    return Container(
+      color: colorScheme.primary.withValues(alpha: 0.05),
+      child: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              Icons.signal_wifi_off,
+              color: colorScheme.onSurfaceVariant,
+              size: 24,
+            ),
+            const SizedBox(height: 4),
+            Text(
+              AppLocalizations.of(context)!.networkError,
+              style: TextStyle(
+                color: colorScheme.onSurfaceVariant,
+                fontSize: 12,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  static Widget _buildErrorWidget(
+    BuildContext context,
+    ColorScheme colorScheme,
+    Widget Function(BuildContext, ColorScheme)? customBuilder,
+  ) {
+    return customBuilder?.call(context, colorScheme) ??
+        _defaultErrorPlaceholder(colorScheme);
+  }
+
+  static Widget _buildNetworkErrorWidget(
+    BuildContext context,
+    ColorScheme colorScheme,
+    Widget Function(BuildContext, ColorScheme)? customBuilder,
+  ) {
+    return customBuilder?.call(context, colorScheme) ??
+        _defaultNetworkErrorPlaceholder(context, colorScheme);
+  }
+
+  static bool _isNetworkError(Object error) {
+    return error is SocketException ||
+        error is HttpException ||
+        error.toString().contains('SocketException') ||
+        error.toString().contains('ClientException') ||
+        error.toString().contains('Failed host lookup') ||
+        error.toString().contains('No address associated with hostname');
   }
 }

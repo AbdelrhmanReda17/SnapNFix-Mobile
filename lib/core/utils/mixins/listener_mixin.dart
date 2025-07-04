@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:snapnfix/core/base_components/base_alert_component/alert_type.dart';
+import 'package:snapnfix/core/utils/helpers/localization_helper.dart';
 
 import '../../base_components/index.dart';
 import '../../infrastructure/index.dart';
-
 
 mixin ListenerMixin {
   void showLoadingDialog(BuildContext context) {
@@ -118,7 +118,10 @@ mixin ListenerMixin {
     baseDialog(
       context: context,
       title: localizations.errorDialogTitle,
-      message: error.fullMessage,
+      message: LocalizationHelper.getLocalizedMessage(
+        context,
+        error.fullMessage,
+      ),
       alertType: AlertType.error,
       confirmText: localizations.gotItConfirmText,
       onConfirm: onConfirm,
