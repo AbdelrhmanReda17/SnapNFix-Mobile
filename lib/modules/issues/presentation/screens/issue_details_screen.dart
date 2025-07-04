@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:snapnfix/core/base_components/base_alert_component/alert_type.dart';
 import 'package:snapnfix/core/index.dart';
 import 'package:snapnfix/modules/issues/index.dart';
 import 'package:snapnfix/modules/reports/presentation/widgets/issue_reports/issue_reports_tabs.dart';
@@ -37,27 +38,34 @@ class IssueDetailsScreen extends StatelessWidget {
           elevation: 0,
         ),
         body: SafeArea(
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                const IssueDetailsBlocListener(),
-                BlocBuilder<IssueDetailsCubit, IssueDetailsState>(
-                  builder: (context, state) {
-                    return state.maybeWhen(
-                      loaded:
-                          (issue) => _buildIssueContent(
-                            issue,
-                            localization,
-                            colorScheme,
-                          ),
-                      loading: () => const LoadingOverlay(),
-                      error: (_) => const LoadingOverlay(),
-                      orElse: () => const LoadingOverlay(),
-                    );
-                  },
-                ),
-              ],
-            ),
+          child: BlocConsumer<IssueDetailsCubit, IssueDetailsState>(
+            listener: (context, state) {
+              state.maybeWhen(
+                error: (error) => _showError(context, error),
+                orElse: () {},
+              );
+            },
+            builder: (context, state) {
+              return state.maybeWhen(
+                loading:
+                    () => const SizedBox.expand(
+                      child: Center(child: LoadingOverlay()),
+                    ),
+                loaded:
+                    (issue) => SingleChildScrollView(
+                      child: _buildIssueContent(
+                        issue,
+                        localization,
+                        colorScheme,
+                      ),
+                    ),
+                error: (error) => const SizedBox.shrink(),
+                orElse:
+                    () => const SizedBox.expand(
+                      child: Center(child: LoadingOverlay()),
+                    ),
+              );
+            },
           ),
         ),
       ),
@@ -81,6 +89,23 @@ class IssueDetailsScreen extends StatelessWidget {
     });
   }
 
+  void _showError(BuildContext context, ApiError error) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final localization = AppLocalizations.of(context)!;
+      if (!context.mounted) return;
+
+      baseDialog(
+        context: context,
+        title: localization.errorFetchingIssue,
+        message: error.message,
+        alertType: AlertType.error,
+        confirmText: localization.ok,
+        onConfirm: () {},
+        showCancelButton: false,
+      );
+    });
+  }
+
   Widget _buildIssueContent(
     Issue issue,
     AppLocalizations localization,
@@ -93,10 +118,7 @@ class IssueDetailsScreen extends StatelessWidget {
         children: [
           IssueImageSlider(images: issue.images),
           IssueDetails(issue: issue),
-          SizedBox(
-            height: 400.h,
-            child: IssueReportsTabs(issueId: issue.id),
-          ),
+          SizedBox(height: 400.h, child: IssueReportsTabs(issueId: issue.id)),
         ],
       ),
     );

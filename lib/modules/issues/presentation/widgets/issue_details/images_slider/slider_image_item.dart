@@ -5,8 +5,9 @@ import 'package:snapnfix/modules/issues/presentation/widgets/issue_details/image
 
 class SliderImageItem extends StatelessWidget {
   final String image;
+  final int index;
 
-  const SliderImageItem({super.key, required this.image});
+  const SliderImageItem({super.key, required this.image, required this.index});
 
   @override
   Widget build(BuildContext context) {
@@ -18,25 +19,22 @@ class SliderImageItem extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: 5.w),
           child: GestureDetector(
             onTap: () => _showFullScreenImage(context, image),
-            child: Hero(
-              tag: 'issue_image_$image',
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(12.r),
-                child: Container(
-                  decoration: BoxDecoration(
-                    boxShadow: [
-                      BoxShadow(
-                        color: colorScheme.primary.withValues(alpha: 0.1),
-                        blurRadius: 8,
-                        offset: const Offset(0, 4),
-                      ),
-                    ],
-                  ),
-                  child: ImageBuilder.buildImage(
-                    imageName: image,
-                    fit: BoxFit.cover,
-                    colorScheme: colorScheme,
-                  ),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(12.r),
+              child: Container(
+                decoration: BoxDecoration(
+                  boxShadow: [
+                    BoxShadow(
+                      color: colorScheme.primary.withValues(alpha: 0.1),
+                      blurRadius: 8,
+                      offset: const Offset(0, 4),
+                    ),
+                  ],
+                ),
+                child: ImageBuilder.buildImage(
+                  imageName: image,
+                  fit: BoxFit.cover,
+                  colorScheme: colorScheme,
                 ),
               ),
             ),
@@ -51,6 +49,7 @@ class SliderImageItem extends StatelessWidget {
       context,
       PageRouteBuilder(
         opaque: false,
+        barrierDismissible: true,
         pageBuilder:
             (context, animation, secondaryAnimation) =>
                 FullScreenImageView(imageUrl: imageUrl),

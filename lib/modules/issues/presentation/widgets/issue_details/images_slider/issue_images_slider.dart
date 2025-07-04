@@ -44,7 +44,14 @@ class _IssueImageSliderState extends State<IssueImageSlider> {
               widget.images.isEmpty
                   ? [_buildErrorImagePlacehoder(context, colorScheme)]
                   : widget.images
-                      .map((url) => SliderImageItem(image: url))
+                      .asMap()
+                      .entries
+                      .map(
+                        (entry) => SliderImageItem(
+                          image: entry.value,
+                          index: entry.key,
+                        ),
+                      )
                       .toList(),
         ),
 
