@@ -35,7 +35,6 @@ class _IssuesMapState extends State<IssuesMap> {
   LatLngBounds? _previousBounds;
   DateTime? _lastBoundsUpdate;
 
-  // Enhanced bounds tracking
   static const Duration _boundsUpdateDelay = Duration(milliseconds: 500);
   static const Duration _minTimeBetweenBoundsUpdates = Duration(
     milliseconds: 800,
@@ -47,7 +46,7 @@ class _IssuesMapState extends State<IssuesMap> {
       child: GoogleMap(
         initialCameraPosition: widget.initialCameraPosition,
         myLocationEnabled: widget.myLocationEnabled,
-        myLocationButtonEnabled: true, // We'll use custom button
+        myLocationButtonEnabled: true,
         zoomControlsEnabled: true,
         mapType: MapType.hybrid,
         markers: widget.markers,
@@ -55,17 +54,15 @@ class _IssuesMapState extends State<IssuesMap> {
         onCameraMove: widget.onCameraMove,
         onCameraIdle: _onCameraIdle,
         compassEnabled: true,
-        // Enforce zoom limits strictly
         minMaxZoomPreference:
             widget.minMaxZoomPreference ??
             const MinMaxZoomPreference(5.0, 12.0),
         cameraTargetBounds:
             widget.cameraTargetBounds ?? CameraTargetBounds.unbounded,
-        // Improved map styling for better performance
         mapToolbarEnabled: false,
         rotateGesturesEnabled: true,
         scrollGesturesEnabled: true,
-        tiltGesturesEnabled: false, // Disable tilt to improve performance
+        tiltGesturesEnabled: false,
         zoomGesturesEnabled: true,
       ),
     );
@@ -75,7 +72,6 @@ class _IssuesMapState extends State<IssuesMap> {
     _controller = controller;
     widget.onMapCreated(controller);
 
-    // Initial bounds update with slight delay to ensure map is ready
     Future.delayed(const Duration(milliseconds: 500), () {
       if (mounted) {
         _scheduleBoundsUpdate();
@@ -90,13 +86,11 @@ class _IssuesMapState extends State<IssuesMap> {
   void _scheduleBoundsUpdate() {
     if (_controller == null || !mounted) return;
 
-    // Cancel any existing timer
     _boundsUpdateTimer?.cancel();
 
     final now = DateTime.now();
     if (_lastBoundsUpdate != null &&
         now.difference(_lastBoundsUpdate!) < _minTimeBetweenBoundsUpdates) {
-      // Schedule for later if too soon
       _boundsUpdateTimer = Timer(_minTimeBetweenBoundsUpdates, () {
         if (mounted) {
           _updateBounds();
@@ -118,7 +112,6 @@ class _IssuesMapState extends State<IssuesMap> {
     try {
       final LatLngBounds bounds = await _controller!.getVisibleRegion();
 
-      // Enhanced bounds change detection
       if (_previousBounds == null ||
           _boundsChangedSignificantly(_previousBounds!, bounds)) {
         _previousBounds = bounds;
@@ -138,7 +131,6 @@ class _IssuesMapState extends State<IssuesMap> {
     LatLngBounds previous,
     LatLngBounds current,
   ) {
-    // Calculate center points
     final prevCenterLat =
         (previous.northeast.latitude + previous.southwest.latitude) / 2;
     final prevCenterLng =
@@ -148,22 +140,18 @@ class _IssuesMapState extends State<IssuesMap> {
     final currCenterLng =
         (current.northeast.longitude + current.southwest.longitude) / 2;
 
-    // Distance-based threshold
     final centerLatDiff = (prevCenterLat - currCenterLat).abs();
     final centerLngDiff = (prevCenterLng - currCenterLng).abs();
 
-    // Dynamic threshold based on current bounds size
     final boundsWidth =
         current.northeast.longitude - current.southwest.longitude;
     final boundsHeight =
         current.northeast.latitude - current.southwest.latitude;
 
-    // Threshold as a percentage of current bounds size (10% minimum movement)
     final dynamicThreshold = 0.1;
     final latThreshold = boundsHeight * dynamicThreshold;
     final lngThreshold = boundsWidth * dynamicThreshold;
 
-    // Also check for zoom-based changes
     final prevBoundsArea =
         (previous.northeast.latitude - previous.southwest.latitude) *
         (previous.northeast.longitude - previous.southwest.longitude);
@@ -174,9 +162,6 @@ class _IssuesMapState extends State<IssuesMap> {
     final areaChangePercent =
         (prevBoundsArea - currBoundsArea).abs() / prevBoundsArea;
 
-    // Trigger update if:
-    // 1. Center moved significantly OR
-    // 2. Bounds area changed by more than 15% (zoom change)
     final centerMoved =
         centerLatDiff > latThreshold || centerLngDiff > lngThreshold;
     final zoomChanged = areaChangePercent > 0.15;
