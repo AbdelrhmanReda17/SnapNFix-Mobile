@@ -98,7 +98,37 @@
   "passwordRequirementsNotMet": "كلمة المرور لا تستوفي جميع المتطلبات",
   "currentPasswordRequired": "كلمة المرور الحالية مطلوبة",
   "newPasswordMustBeDifferent": "يجب أن تكون كلمة المرور الجديدة مختلفة عن كلمة المرور الحالية",
-
+  "successfullySubscribedTo": "تم الاشتراك بنجاح في {areaName}",
+    "@successfullySubscribedTo": {
+      "placeholders": {
+        "areaName": {
+          "type": "String"
+        }
+      }
+    },
+    "successfullyUnsubscribedFrom": "تم إلغاء الاشتراك بنجاح من {areaName}",
+    "@successfullyUnsubscribedFrom": {
+      "placeholders": {
+        "areaName": {
+          "type": "String"
+        }
+      }
+    },
+    "noIssuesFound": "لم يتم العثور على مشاكل",
+    "allIssuesResolvedMessage": "تم حل جميع المشاكل في هذه المنطقة!",
+    "areaHealthStatus": "حالة صحة المنطقة",
+    "healthPercentage": "{percentage}%",
+    "@healthPercentage": {
+      "placeholders": {
+        "percentage": {
+          "type": "int"
+        }
+      }
+    },
+    "openIssues": "المشاكل المفتوحة",
+    "inProgressIssues": "المشاكل قيد التنفيذ",
+    "closedIssues": "المشاكل المغلقة",
+    "retry": "إعادة المحاولة",
   "editProfile": "تعديل الملف الشخصي",
   "name": "الاسم",
   "phone": "رقم الهاتف",

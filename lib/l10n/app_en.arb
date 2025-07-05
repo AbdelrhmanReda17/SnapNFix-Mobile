@@ -342,7 +342,37 @@
   "minute": "minute",
   "minutes": "minutes",
   "ago": "ago",
-
+"successfullySubscribedTo": "Successfully subscribed to {areaName}",
+  "@successfullySubscribedTo": {
+    "placeholders": {
+      "areaName": {
+        "type": "String"
+      }
+    }
+  },
+  "successfullyUnsubscribedFrom": "Successfully unsubscribed from {areaName}",
+  "@successfullyUnsubscribedFrom": {
+    "placeholders": {
+      "areaName": {
+        "type": "String"
+      }
+    }
+  },
+  "noIssuesFound": "No Issues Found",
+  "allIssuesResolvedMessage": "All issues in this area have been resolved!",
+  "areaHealthStatus": "Area Health Status",
+  "healthPercentage": "{percentage}%",
+  "@healthPercentage": {
+    "placeholders": {
+      "percentage": {
+        "type": "int"
+      }
+    }
+  },
+  "openIssues": "Open Issues",
+  "inProgressIssues": "In Progress Issues",
+  "closedIssues": "Closed Issues",
+  "retry": "Retry",
   "mapErrorGeneralTitle": "Something went wrong",
   "mapErrorPermissionTitle": "Location access required",
   "mapErrorGeneralActionText": "Retry",
