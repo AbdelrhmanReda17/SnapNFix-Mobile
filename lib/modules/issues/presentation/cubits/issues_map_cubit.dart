@@ -101,16 +101,12 @@ class IssuesMapCubit extends Cubit<IssuesMapState> {
   Future<void> onBoundsChanged(LatLngBounds bounds) async {
     if (_isClosed) return;
 
-    // Enhanced filtering before debouncing
     if (!_shouldQueryForBounds(bounds)) {
       debugPrint('Skipping bounds query - not significant enough change');
       return;
     }
 
-    // Cancel any existing timer
     _debounceTimer?.cancel();
-
-    // Debounce the API calls to avoid too many requests
     _debounceTimer = Timer(_debounceDelay, () {
       _loadIssuesForViewport(bounds);
     });
@@ -140,7 +136,6 @@ class IssuesMapCubit extends Cubit<IssuesMapState> {
     emit(state.copyWith(showIssueDetail: false, selectedIssueId: null));
   }
 
-  // Enhanced bounds change detection
   bool _shouldQueryForBounds(LatLngBounds bounds) {
     // Time-based throttling
     final now = DateTime.now();
@@ -162,7 +157,6 @@ class IssuesMapCubit extends Cubit<IssuesMapState> {
   }
 
   double _getThresholdForZoom(double zoom) {
-    // Find the closest zoom level threshold
     double closestZoom = _zoomThresholds.keys.first;
     double minDifference = (zoom - closestZoom).abs();
 
@@ -182,7 +176,6 @@ class IssuesMapCubit extends Cubit<IssuesMapState> {
     LatLngBounds bounds2,
     double threshold,
   ) {
-    // Calculate the center points
     final center1Lat =
         (bounds1.northeast.latitude + bounds1.southwest.latitude) / 2;
     final center1Lng =
@@ -192,7 +185,6 @@ class IssuesMapCubit extends Cubit<IssuesMapState> {
     final center2Lng =
         (bounds2.northeast.longitude + bounds2.southwest.longitude) / 2;
 
-    // Check if centers are within threshold
     final centerDistance = math.sqrt(
       math.pow(center1Lat - center2Lat, 2) +
           math.pow(center1Lng - center2Lng, 2),
@@ -202,7 +194,6 @@ class IssuesMapCubit extends Cubit<IssuesMapState> {
       return false;
     }
 
-    // Also check if the bounds size changed significantly
     final bounds1Width =
         bounds1.northeast.longitude - bounds1.southwest.longitude;
     final bounds1Height =
@@ -215,17 +206,14 @@ class IssuesMapCubit extends Cubit<IssuesMapState> {
     final widthDiff = (bounds1Width - bounds2Width).abs();
     final heightDiff = (bounds1Height - bounds2Height).abs();
 
-    // Allow for 20% change in bounds size before triggering new query
     final sizeThreshold = threshold * 0.2;
 
     return widthDiff < sizeThreshold && heightDiff < sizeThreshold;
   }
 
-  // Private methods
   Future<void> _loadIssuesForViewport(LatLngBounds bounds) async {
     if (_isClosed || _mapController == null) return;
 
-    // Double-check before making API call
     if (!_shouldQueryForBounds(bounds)) {
       debugPrint('Skipping viewport query - filtered out at execution time');
       return;
@@ -263,8 +251,6 @@ class IssuesMapCubit extends Cubit<IssuesMapState> {
         },
         failure: (error) {
           debugPrint('Viewport issues loading error: ${error.message}');
-          // Don't emit error state for viewport updates, just log
-          // This prevents the UI from showing error states during normal map navigation
         },
       );
     } catch (e) {
@@ -289,8 +275,6 @@ class IssuesMapCubit extends Cubit<IssuesMapState> {
   }
 
   int _calculateMaxResultsForZoom(double zoom) {
-    // Adjust max results based on zoom level
-    // Higher zoom = more detailed view = more markers allowed
     if (zoom <= 6) return 20; // Very zoomed out - fewer markers
     if (zoom <= 8) return 40; // Zoomed out - moderate markers
     if (zoom <= 10) return 80; // Medium zoom - more markers
