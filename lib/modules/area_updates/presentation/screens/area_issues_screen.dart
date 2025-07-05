@@ -170,6 +170,7 @@ class _AreaIssuesScreenState extends State<AreaIssuesScreen> {
   }
 
   void _toggleSubscription(bool isCurrentlySubscribed) async {
+    final localization = AppLocalizations.of(context)!;
     final result = await _cubit.toggleSubscription(
       areaInfo: widget.areaInfo,
       currentSubscriptionStatus: isCurrentlySubscribed,
@@ -177,10 +178,9 @@ class _AreaIssuesScreenState extends State<AreaIssuesScreen> {
 
     result.when(
       success: (newSubscriptionStatus) {
-        final message =
-            newSubscriptionStatus
-                ? 'Successfully subscribed to ${widget.areaInfo.name}'
-                : 'Successfully unsubscribed from ${widget.areaInfo.name}';
+        final message = newSubscriptionStatus
+            ? localization.successfullySubscribedTo(widget.areaInfo.name)
+            : localization.successfullyUnsubscribedFrom(widget.areaInfo.name);
         _showSuccessSnackBar(message);
       },
       failure: (error) => _showErrorSnackBar(error),
@@ -312,7 +312,7 @@ class _AreaIssuesScreenState extends State<AreaIssuesScreen> {
         Icon(Icons.task_alt_outlined, size: 64.sp, color: colorScheme.outline),
         SizedBox(height: 16.h),
         Text(
-          'No Issues Found',
+          localization.noIssuesFound,
           style: TextStyle(
             fontSize: 18.sp,
             fontWeight: FontWeight.w600,
@@ -321,7 +321,7 @@ class _AreaIssuesScreenState extends State<AreaIssuesScreen> {
         ),
         SizedBox(height: 8.h),
         Text(
-          'All issues in this area have been resolved!',
+          localization.allIssuesResolvedMessage,
           style: TextStyle(
             fontSize: 14.sp,
             color: colorScheme.onSurfaceVariant,
@@ -373,7 +373,7 @@ class _AreaIssuesScreenState extends State<AreaIssuesScreen> {
                   child: Center(
                     child: Text(
                       textAlign: TextAlign.center,
-                      '${(healthScore).toInt()}%',
+                      localization.healthPercentage(healthScore.toInt()),
                       style: TextStyle(
                         fontSize: 14.sp,
                         fontWeight: FontWeight.bold,
@@ -388,7 +388,7 @@ class _AreaIssuesScreenState extends State<AreaIssuesScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Area Health Status',
+                        localization.areaHealthStatus,
                         style: TextStyle(
                           fontSize: 16.sp,
                           fontWeight: FontWeight.bold,
@@ -424,21 +424,21 @@ class _AreaIssuesScreenState extends State<AreaIssuesScreen> {
                   context,
                   Icons.error_outline,
                   '${healthMetrics.pendingIssuesCount}',
-                  'Open Issues',
+                  localization.openIssues,
                   Colors.orange,
                 ),
                 _buildMetricItem(
                   context,
                   Icons.check_circle_outline,
                   '${healthMetrics.inProgressIssuesCount}',
-                  'In Progress Issues',
+                  localization.inProgressIssues,
                   Colors.green,
                 ),
                 _buildMetricItem(
                   context,
                   Icons.timer_outlined,
                   '${healthMetrics.fixedIssuesCount}',
-                  'Closed Issues',
+                  localization.closedIssues,
                   Colors.blue,
                 ),
               ],
