@@ -28,7 +28,7 @@ class LoginScreen extends StatelessWidget {
       onSubmit: () async {
         await context.read<LoginCubit>().login();
       },
-      showSocial: true,
+      showSocial: false,
     );
   }
 }

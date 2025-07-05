@@ -33,7 +33,8 @@ class _IssueReportsTabsState extends State<IssueReportsTabs>
     super.dispose();
   }
 
-  @override  Widget build(BuildContext context) {
+  @override
+  Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
     final localization = AppLocalizations.of(context)!;
