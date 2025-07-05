@@ -6,7 +6,7 @@ import 'package:snapnfix/core/utils/helpers/spacing.dart';
 import 'package:snapnfix/core/base_components/base_icon_button.dart';
 import 'package:snapnfix/modules/authentication/presentation/cubits/login/login_cubit.dart';
 
-class AuthenticationSocial extends StatelessWidget  {
+class AuthenticationSocial extends StatelessWidget {
   const AuthenticationSocial({super.key});
 
   @override
@@ -21,14 +21,13 @@ class AuthenticationSocial extends StatelessWidget  {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            BaseIconButton(
-              assetPath: 'assets/images/facebook_icon.png',
-              backgroundColor: colorScheme.onTertiaryContainer,
-              onPressed:
-                  () async =>
-                      await context.read<LoginCubit>().signInWithFacebook(),
-            ),
-            horizontalSpace(25),
+            // BaseIconButton(
+            //   assetPath: 'assets/images/facebook_icon.png',
+            //   backgroundColor: colorScheme.onTertiaryContainer,
+            //   onPressed:
+            //       () async =>
+            //           await context.read<LoginCubit>().signInWithFacebook(),
+            // ),
             BaseIconButton(
               assetPath: 'assets/images/google_icon.png',
               backgroundColor: colorScheme.tertiaryContainer,
