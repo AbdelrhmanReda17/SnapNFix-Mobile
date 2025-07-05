@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:geocoding/geocoding.dart' as geocoding;
 import 'package:geolocator/geolocator.dart';
 import 'package:injectable/injectable.dart';
@@ -33,6 +35,7 @@ class LocationService {
     double longitude,
   ) async {
     try {
+      geocoding.setLocaleIdentifier("en_US");
       final placemarks = await geocoding.placemarkFromCoordinates(
         latitude,
         longitude,

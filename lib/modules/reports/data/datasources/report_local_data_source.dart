@@ -135,50 +135,40 @@ class ReportLocalDataSource implements BaseReportLocalDataSource {
       // Initialize Hive
       await Hive.initFlutter();
 
-      // Try to delete existing box completely
-      try {
-        await Hive.deleteBoxFromDisk(_boxName);
-        debugPrint('🗑️ Deleted existing Hive box from disk');
-      } catch (e) {
-        debugPrint('⚠️ Could not delete existing box: $e');
-      }
-
       // Register adapter (in case it's not registered)
       if (!Hive.isAdapterRegistered(0)) {
         Hive.registerAdapter(OfflineReportEntityAdapter());
       }
 
-      // Open a fresh box
+      // Open existing box or create new one
       _reportsBox = await Hive.openBox<OfflineReportEntity>(_boxName);
 
-      // Setup and clear images directory
+      // Setup images directory
       final appDir = await getApplicationDocumentsDirectory();
       _imagesDirectory = Directory('${appDir.path}/$_imagesDir');
 
-      // Delete entire images directory if it exists
-      if (await _imagesDirectory!.exists()) {
-        await _imagesDirectory!.delete(recursive: true);
-        debugPrint('🗑️ Deleted existing images directory');
+      // Create images directory if it doesn't exist
+      if (!await _imagesDirectory!.exists()) {
+        await _imagesDirectory!.create(recursive: true);
+        debugPrint('📁 Created images directory');
+      } else {
+        debugPrint('📁 Images directory already exists');
       }
 
-      // Recreate images directory
-      await _imagesDirectory!.create(recursive: true);
-      debugPrint('📁 Created fresh images directory');
-
-      // Clear the box (should be empty but just to be sure)
-      await _reportsBox!.clear();
-
-      // Initialize streams with empty data
+      // Initialize streams with existing data
       await _updateStreams();
 
       debugPrint(
-        '✅ HiveReportLocalDataSource initialized successfully with clean storage',
+        '✅ HiveReportLocalDataSource initialized successfully. Found ${_reportsBox!.length} existing reports',
       );
     } catch (e) {
       debugPrint('❌ Failed to initialize HiveReportLocalDataSource: $e');
       throw Exception('error_initialize_storage_failed');
     }
   }
+
+      // Try to delete existing box completely
+     
 
   @override
   Future<void> markReportAsSynced(String reportId) async {
@@ -301,9 +291,7 @@ class ReportLocalDataSource implements BaseReportLocalDataSource {
 
   void _ensureInitialized() {
     if (_reportsBox == null || _imagesDirectory == null) {
-      throw Exception(
-        'error_storage_not_initialized',
-      );
+      throw Exception('error_storage_not_initialized');
     }
   }
 }
