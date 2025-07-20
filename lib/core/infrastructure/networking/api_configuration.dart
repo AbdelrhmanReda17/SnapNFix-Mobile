@@ -1,6 +1,6 @@
 class ApiEndpoints {
   static const String baseUrl =
-      "https://snapnfix-gcdhftfvccduhahv.uaenorth-01.azurewebsites.net/";
+      "https://snapnfix-d4hhdwgzeraqg2dr.spaincentral-01.azurewebsites.net/";
 
   // Authentication endpoints
   static const String login = "api/auth/login";
